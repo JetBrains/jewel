@@ -3,7 +3,6 @@ package org.jetbrains.jewel.theme.idea
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.runBlocking
 import org.jetbrains.jewel.theme.intellij.IntelliJMetrics
 import org.jetbrains.jewel.theme.intellij.IntelliJPainters
 import org.jetbrains.jewel.theme.intellij.IntelliJPalette
@@ -11,7 +10,7 @@ import org.jetbrains.jewel.theme.intellij.IntelliJThemeDefinition
 import org.jetbrains.jewel.theme.intellij.IntelliJTypography
 
 @Suppress("FunctionName")
-fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
+suspend fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
 
     val buttonPalette = IntelliJPalette.Button(
         background = Brush.verticalGradient(retrieveColorsOrUnspecified("Button.startBackground", "Button.endBackground")),
@@ -138,15 +137,14 @@ fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
         )
     )
 
-    val typography = runBlocking {
-        IntelliJTypography(
-            default = retrieveFont("Panel.font", palette.text),
-            button = retrieveFont("Button.font", palette.button.foreground),
-            checkBox = retrieveFont("CheckBox.font", palette.checkbox.foreground),
-            radioButton = retrieveFont("RadioButton.font", palette.radioButton.foreground),
-            textField = retrieveFont("TextField.font", palette.textField.foreground)
-        )
-    }
+    val typography = IntelliJTypography(
+        default = retrieveFont("Panel.font", palette.text),
+        button = retrieveFont("Button.font", palette.button.foreground),
+        checkBox = retrieveFont("CheckBox.font", palette.checkbox.foreground),
+        radioButton = retrieveFont("RadioButton.font", palette.radioButton.foreground),
+        textField = retrieveFont("TextField.font", palette.textField.foreground)
+    )
+
 
     return IntelliJThemeDefinition(
         palette = palette,

@@ -17,6 +17,7 @@ kotlin {
         all {
             languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             languageSettings.optIn("kotlin.experimental.ExperimentalTypeInference")
+            languageSettings.optIn("androidx.compose.ui.ExperimentalComposeUiApi")
         }
     }
 }
