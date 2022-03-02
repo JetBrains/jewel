@@ -1,63 +1,45 @@
 package org.jetbrains.jewel.theme.idea
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.awt.ComposePanel
-import androidx.compose.ui.res.painterResource
-import com.intellij.openapi.Disposable
+import androidx.compose.ui.res.loadSvgPainter
+import androidx.compose.ui.unit.Density
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import org.jetbrains.jewel.theme.intellij.components.LazyTreeElement
-import org.jetbrains.jewel.theme.intellij.components.LazyTreeView
 import org.jetbrains.jewel.theme.intellij.components.Text
+import org.jetbrains.jewel.theme.intellij.components.TreeView
+import org.jetbrains.jewel.theme.intellij.components.asTree
+import java.io.File
 import java.nio.file.Paths
-
-internal class ProjectLifecycle : Disposable, CoroutineScope {
-
-    override val coroutineContext = SupervisorJob()
-
-    override fun dispose() = cancel()
-}
 
 @ExperimentalCoroutinesApi
 internal class PKGSDemo : ToolWindowFactory, DumbAware {
 
-    @OptIn(ExperimentalComposeUiApi::class)
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         toolWindow.addComposeTab("Packages") {
             IntelliJTheme {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Row {
-                        Column {
-                            LazyTreeView(
-                                data = Paths.get(project.basePath ?: System.getProperty("user.dir")).toFile(),
-                                isOpen = true,
-                                pointer = painterResource("img_206683.png"),
-                                childGenerator = { file ->
-                                    when {
-                                        file.isFile -> emptyList()
-                                        file.isDirectory -> file.listFiles()?.map { LazyTreeElement(it, false) } ?: emptyList()
-                                        else -> emptyList()
-                                    }
-                                },
-                                elementContent = { file ->
-                                    Text(file.name)
-                                }
-                            )
-                        }
-                    }
-                }
+                var tree by remember { mutableStateOf(Paths.get(project.basePath ?: System.getProperty("user.dir")).asTree()) }
+                TreeView(
+                    tree = tree,
+                    onArrowClicked = {
+                        tree = tree.replaceElement(it, it.copy(isOpen = !it.isOpen))
+                    },
+                    arrowPainter = remember {
+                        loadSvgPainter(
+                            File("D:\\projects\\jewel\\themes\\intellij\\idea\\src\\main\\resources\\navigate_next.svg")
+                                .inputStream(), Density(1f)
+                        )
+                    },
+                    nodeContent = { Text("[${it.data.name}]") },
+                    leafContent = { Text(it.data.name) }
+                )
             }
         }
     }
