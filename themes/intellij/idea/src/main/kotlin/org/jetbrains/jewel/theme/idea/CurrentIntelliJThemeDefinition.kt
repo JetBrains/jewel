@@ -3,6 +3,7 @@ package org.jetbrains.jewel.theme.idea
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
+import com.intellij.icons.AllIcons
 import org.jetbrains.jewel.theme.intellij.IntelliJMetrics
 import org.jetbrains.jewel.theme.intellij.IntelliJPainters
 import org.jetbrains.jewel.theme.intellij.IntelliJPalette
@@ -75,6 +76,9 @@ suspend fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
         scrollbar = IntelliJPalette.Scrollbar(
             thumbHoverColor = retrieveColorOrUnspecified("ScrollBar.foreground"),
             thumbIdleColor = retrieveColorOrUnspecified("ScrollBar.thumbHighlight")
+        ),
+        treeView = IntelliJPalette.TreeView(
+            focusedSelectedElementBackground = retrieveColorOrUnspecified("Tree.selectionBackground")
         )
     )
 
@@ -97,30 +101,34 @@ suspend fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
             minSize = 29.dp,
             thickness = 7.dp,
             thumbCornerSize = CornerSize(4.dp)
+        ),
+        treeView = IntelliJMetrics.TreeView(
+            indentWidth = retrieveIntAsDp("Tree.rightChildIndent"),
+            arrowEndPadding = 4.dp
         )
     )
 
     val painters = IntelliJPainters(
         checkbox = IntelliJPainters.CheckboxPainters(
-            unselected = lookupSvgIcon(name = "checkBox", selected = false, focused = false, enabled = true),
-            unselectedDisabled = lookupSvgIcon(name = "checkBox", selected = false, focused = false, enabled = false),
-            unselectedFocused = lookupSvgIcon(name = "checkBox", selected = false, focused = true, enabled = true),
-            selected = lookupSvgIcon(name = "checkBox", selected = true, focused = false, enabled = true),
-            selectedDisabled = lookupSvgIcon(name = "checkBox", selected = true, focused = false, enabled = false),
-            selectedFocused = lookupSvgIcon(name = "checkBox", selected = true, focused = true, enabled = true),
-            indeterminate = lookupSvgIcon(
+            unselected = lookupIJSvgIcon(name = "checkBox", selected = false, focused = false, enabled = true),
+            unselectedDisabled = lookupIJSvgIcon(name = "checkBox", selected = false, focused = false, enabled = false),
+            unselectedFocused = lookupIJSvgIcon(name = "checkBox", selected = false, focused = true, enabled = true),
+            selected = lookupIJSvgIcon(name = "checkBox", selected = true, focused = false, enabled = true),
+            selectedDisabled = lookupIJSvgIcon(name = "checkBox", selected = true, focused = false, enabled = false),
+            selectedFocused = lookupIJSvgIcon(name = "checkBox", selected = true, focused = true, enabled = true),
+            indeterminate = lookupIJSvgIcon(
                 name = "checkBoxIndeterminate",
                 selected = true,
                 focused = false,
                 enabled = true
             ),
-            indeterminateDisabled = lookupSvgIcon(
+            indeterminateDisabled = lookupIJSvgIcon(
                 name = "checkBoxIndeterminate",
                 selected = true,
                 focused = false,
                 enabled = false
             ),
-            indeterminateFocused = lookupSvgIcon(
+            indeterminateFocused = lookupIJSvgIcon(
                 name = "checkBoxIndeterminate",
                 selected = true,
                 focused = true,
@@ -128,15 +136,17 @@ suspend fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
             )
         ),
         radioButton = IntelliJPainters.RadioButtonPainters(
-            unselected = lookupSvgIcon(name = "radio", selected = false, focused = false, enabled = true),
-            unselectedDisabled = lookupSvgIcon(name = "radio", selected = false, focused = false, enabled = false),
-            unselectedFocused = lookupSvgIcon(name = "radio", selected = false, focused = true, enabled = true),
-            selected = lookupSvgIcon(name = "radio", selected = true, focused = false, enabled = true),
-            selectedDisabled = lookupSvgIcon(name = "radio", selected = true, focused = false, enabled = false),
-            selectedFocused = lookupSvgIcon(name = "radio", selected = true, focused = true, enabled = true)
+            unselected = lookupIJSvgIcon(name = "radio", selected = false, focused = false, enabled = true),
+            unselectedDisabled = lookupIJSvgIcon(name = "radio", selected = false, focused = false, enabled = false),
+            unselectedFocused = lookupIJSvgIcon(name = "radio", selected = false, focused = true, enabled = true),
+            selected = lookupIJSvgIcon(name = "radio", selected = true, focused = false, enabled = true),
+            selectedDisabled = lookupIJSvgIcon(name = "radio", selected = true, focused = false, enabled = false),
+            selectedFocused = lookupIJSvgIcon(name = "radio", selected = true, focused = true, enabled = true)
+        ),
+        treeView = IntelliJPainters.TreeViewPainters(
+            arrow = { rememberSvgResource("general/chevron-right.svg", AllIcons::class.java.classLoader) }
         )
     )
-
     val typography = IntelliJTypography(
         default = retrieveFont("Panel.font", palette.text),
         button = retrieveFont("Button.font", palette.button.foreground),

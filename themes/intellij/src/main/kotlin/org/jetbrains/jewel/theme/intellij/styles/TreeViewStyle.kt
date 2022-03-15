@@ -1,14 +1,70 @@
 package org.jetbrains.jewel.theme.intellij.styles
 
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.styles.ControlStyle
+import org.jetbrains.jewel.styles.Styles
+import org.jetbrains.jewel.styles.localNotProvided
+import org.jetbrains.jewel.theme.intellij.IntelliJMetrics
+import org.jetbrains.jewel.theme.intellij.IntelliJPainters
+import org.jetbrains.jewel.theme.intellij.IntelliJPalette
+import org.jetbrains.jewel.theme.intellij.PainterProvider
 
 typealias TreeViewStyle = ControlStyle<TreeViewAppearance, TreeViewState>
 
 enum class TreeViewState {
-    DEFAULT
+    FOCUSED, NOT_FOCUSED;
+
+    companion object {
+
+        fun fromBoolean(hasFocus: Boolean) =
+            if (hasFocus) FOCUSED else NOT_FOCUSED
+    }
 }
 
 data class TreeViewAppearance(
-    val labelsTextStyle: TextStyle
+    val arrowPainter: PainterProvider,
+    val arrowEndPadding: Dp,
+    val indentWidth: Dp,
+    val selectedBackground: Color
 )
+
+val LocalTreeViewStyle = compositionLocalOf<TreeViewStyle> { localNotProvided() }
+
+val Styles.treeView: TreeViewStyle
+    @Composable @ReadOnlyComposable get() = LocalTreeViewStyle.current
+
+class TreeViewAppearanceTransitionState(selectedBackground: State<Color>) {
+
+    val selectedBackground by selectedBackground
+}
+
+@Composable
+fun updateTreeViewAppearanceTransition(appearance: TreeViewAppearance): TreeViewAppearanceTransitionState {
+    val transition = updateTransition(appearance)
+    return TreeViewAppearanceTransitionState(transition.animateColor(label = "TreeSelectedItemBackground") { it.selectedBackground })
+}
+
+fun TreeViewStyle(
+    palette: IntelliJPalette,
+    metrics: IntelliJMetrics,
+    painters: IntelliJPainters
+) = TreeViewStyle {
+    val default = TreeViewAppearance(
+        arrowPainter = painters.treeView.arrow,
+        arrowEndPadding = metrics.treeView.arrowEndPadding,
+        indentWidth = metrics.treeView.indentWidth,
+        selectedBackground = palette.treeView.focusedSelectedElementBackground
+    )
+    default {
+        state(TreeViewState.FOCUSED, default)
+        state(TreeViewState.NOT_FOCUSED, default.copy(selectedBackground = palette.treeView.focusedSelectedElementBackground.copy(alpha = 0.6f)))
+    }
+}

@@ -69,9 +69,9 @@ internal fun retrieveColorsOrUnspecified(vararg keys: String) = keys.map { retri
 
 internal val logger = Logger.getInstance("#org.jetbrains.compose.desktop.ide.theme")
 
-private val dirProvider = DirProvider()
+internal val dirProvider = DirProvider()
 
-internal fun lookupSvgIcon(
+internal fun lookupIJSvgIcon(
     name: String,
     selected: Boolean = false,
     focused: Boolean = false,
