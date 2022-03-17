@@ -25,7 +25,7 @@ val TextStyle.Companion.IntelliJDark
         fontSize = 12.sp,
         fontWeight = FontWeight.Normal,
         fontStyle = FontStyle.Normal,
-        fontFamily = FontFamily(Font(runBlocking { AwtFontManager.DEFAULT.findFontFamilyFile("Segoe UI")!! }))
+        fontFamily = FontFamily(Font(runBlocking { AwtFontManager.DEFAULT.findFontFamilyFile("Menlo")!! }))
     )
 
 val IntelliJTypography.Companion.light

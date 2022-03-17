@@ -15,13 +15,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.window.singleWindowApplication
 import org.jetbrains.jewel.theme.intellij.IntelliJTheme
 import org.jetbrains.jewel.theme.intellij.LocalPalette
 import org.jetbrains.jewel.theme.intellij.components.Checkbox
-import org.jetbrains.jewel.theme.intellij.components.NavigableTreeView
 import org.jetbrains.jewel.theme.intellij.components.Text
 import org.jetbrains.jewel.theme.intellij.components.Tree
+import org.jetbrains.jewel.theme.intellij.components.TreeLayout
 import org.jetbrains.jewel.theme.intellij.components.asTree
 import java.nio.file.Paths
 import kotlin.time.ExperimentalTime
@@ -33,8 +34,7 @@ val LazyListState.visibleItemsRange
 @OptIn(ExperimentalFoundationApi::class)
 fun main() = singleWindowApplication {
     var isDarkTheme by remember { mutableStateOf(true) }
-    val treeMutableState = remember { mutableStateOf(Paths.get(System.getProperty("user.dir")).asTree(true)) }
-    var tree by treeMutableState
+    var tree by remember { mutableStateOf(Paths.get(System.getProperty("user.dir")).asTree(true)) }
     IntelliJTheme(isDarkTheme) {
         Column(Modifier.background(LocalPalette.current.background).fillMaxSize()) {
             Row(Modifier.focusable()) {
@@ -42,8 +42,9 @@ fun main() = singleWindowApplication {
                 Checkbox(checked = isDarkTheme, onCheckedChange = { isDarkTheme = it })
             }
             Row(Modifier.focusable()) {
-                NavigableTreeView(
-                    treeMutableState = treeMutableState,
+                TreeLayout(
+                    tree = tree,
+                    onTreeChanged = { tree = it },
                     onTreeElementDoubleClick = {
                         when (it) {
                             is Tree.Element.Leaf -> println("CIAO ${it.data.absolutePath}")
@@ -52,8 +53,8 @@ fun main() = singleWindowApplication {
                     },
                     content = {
                         when (it) {
-                            is Tree.Element.Leaf -> Text(it.data.name)
-                            is Tree.Element.Node -> Text("[${it.data.name}]")
+                            is Tree.Element.Leaf -> Text(it.data.name, overflow = TextOverflow.Visible, maxLines = 1)
+                            is Tree.Element.Node -> Text("[${it.data.name}]", overflow = TextOverflow.Visible, maxLines = 1)
                         }
                     },
                 )

@@ -1,14 +1,13 @@
 package org.jetbrains.jewel.theme.idea
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.awt.ComposePanel
 import androidx.compose.ui.platform.LocalFocusManager
 import com.intellij.openapi.application.Application
-import kotlinx.coroutines.Job
 import org.jetbrains.jewel.theme.intellij.IntelliJTheme
 import org.jetbrains.jewel.theme.intellij.IntelliJThemeDefinition
 import java.awt.event.FocusEvent
@@ -39,18 +38,19 @@ fun IntelliJTheme(
 
     val fm = LocalFocusManager.current
 
-    LaunchedEffect(composePanel) {
+    DisposableEffect(composePanel) {
         val listener = object : FocusListener {
-            override fun focusGained(p0: FocusEvent?) {
+            override fun focusGained(focusEvent: FocusEvent?) {
                 // no-op
+                println("ciao mamma $focusEvent")
             }
 
-            override fun focusLost(p0: FocusEvent?) = fm.clearFocus()
+            override fun focusLost(focusEvent: FocusEvent?) = fm.clearFocus()
         }
 
         composePanel.addFocusListener(listener)
 
-        coroutineContext[Job]!!.invokeOnCompletion { composePanel.removeFocusListener(listener) }
+        onDispose { composePanel.removeFocusListener(listener) }
     }
 
     IntelliJTheme(app, content)

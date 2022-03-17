@@ -20,7 +20,6 @@ import androidx.compose.foundation.mouseClickable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,10 +40,8 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
-import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.isCtrlPressed
 import androidx.compose.ui.input.pointer.isMetaPressed
-import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import org.jetbrains.jewel.theme.intellij.appendIf
@@ -167,13 +164,14 @@ fun File.asTreeElement(isOpen: Boolean = false): Tree.Element<File> =
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun <T> TreeView(
+fun <T> BaseTreeLayout(
+    tree: Tree<T>,
     modifier: Modifier = Modifier,
     onKeyPressed: (KeyEvent, Int, Tree.ElementWithDepth<T>) -> Boolean = { _, _, _ -> false },
     style: TreeViewStyle = LocalTreeViewStyle.current,
     state: LazyListState = rememberLazyListState(),
     focusedTreeElement: Tree.Element<T>? = null,
-    tree: Tree<T>,
+    onFocusChanged: (Tree.Element<T>) -> Unit,
     onTreeNodeToggle: (Tree.Element.Node<T>) -> Unit,
     onTreeElementClick: MouseClickScope.(Tree.Element<T>) -> Unit,
     onTreeElementDoubleClick: (Tree.Element<T>) -> Unit,
@@ -183,12 +181,9 @@ fun <T> TreeView(
 
     val appearance = style.appearance(isFocused)
     val appearanceTransitionState = updateTreeViewAppearanceTransition(appearance)
-    val columnFocusRequester: FocusRequester = remember { FocusRequester() }
 
     LazyColumn(
         modifier = modifier
-            .focusable()
-            .focusRequester(columnFocusRequester)
             .onFocusChanged { isFocused = TreeViewState.fromBoolean(it.isFocused || it.hasFocus) },
         state = state
     ) {
@@ -202,10 +197,15 @@ fun <T> TreeView(
                     .focusable()
                     .focusRequester(focusRequester)
                     .appendIf(treeElement.isSelected) { background(appearanceTransitionState.selectedBackground) }
-                    .onFocusChanged { isElementSelected = it.isFocused }
-                    .onPointerEvent(PointerEventType.Press) { focusRequester.requestFocus() }
+                    .onFocusChanged {
+                        isElementSelected = it.isFocused || it.hasFocus
+                        if (isElementSelected) onFocusChanged(treeElement)
+                    }
                     .onKeyEvent { onKeyPressed(it, index, treeElementWithDepth) }
-                    .mouseClickable { onTreeElementClick(treeElement) }
+                    .mouseClickable {
+                        onTreeElementClick(treeElement)
+                        focusRequester.requestFocus()
+                    }
                     .appendIf(isElementSelected) { border(2.dp, Color.Red) }
 
 //                    .combinedClickable(
@@ -225,7 +225,10 @@ fun <T> TreeView(
                         Box(
                             modifier = Modifier.rotate(if (treeElement.isOpen) 90f else 0f)
                                 .paint(appearance.arrowPainter())
-                                .mouseClickable { onTreeNodeToggle(treeElement) }
+                                .mouseClickable {
+                                    onTreeNodeToggle(treeElement)
+                                    focusRequester.requestFocus()
+                                }
                         )
                         content(treeElement)
                     }
@@ -274,31 +277,35 @@ fun <T> TreeView(
 // Temporary name, it is a TreeView but with default behaviours for key presses
 // and opening of the nodes
 @Composable
-fun <T> NavigableTreeView(
+fun <T> TreeLayout(
     modifier: Modifier = Modifier,
     onKeyPressed: (KeyEvent, Int, Tree.ElementWithDepth<T>) -> Boolean = { _, _, _ -> false },
     style: TreeViewStyle = LocalTreeViewStyle.current,
     state: LazyListState = rememberLazyListState(),
-    treeMutableState: MutableState<Tree<T>>,
+    tree: Tree<T>,
     onTreeElementDoubleClick: (Tree.Element<T>) -> Unit,
+    onTreeChanged: (Tree<T>) -> Unit,
     content: @Composable RowScope.(Tree.Element<T>) -> Unit
 ) {
     var focusedTreeElement: Tree.Element<T>? by remember { mutableStateOf(null) }
+    val onTreeNodeToggle: (Tree.Element.Node<T>) -> Tree<T> = {
+        val newTree = tree.replaceElement(it, it.copy(isOpen = !it.isOpen))
+        onTreeChanged(newTree)
+        newTree
+    }
 
-    var tree by treeMutableState
-
-    val onTreeNodeToggle: (Tree.Element.Node<T>) -> Unit = { tree = tree.replaceElement(it, it.copy(isOpen = !it.isOpen)) }
-
-    TreeView(
+    BaseTreeLayout(
         modifier = modifier,
+        onFocusChanged = { focusedTreeElement = it },
         onKeyPressed = { keyEvent, index, elementWithDepth ->
             val (element, depth) = elementWithDepth
 
             fun moveFocus(newIndex: Int): Boolean {
-                tree = tree.selectOnly(tree.flattenedTree[newIndex].treeElement)
+                val newTree = tree.selectOnly(tree.flattenedTree[newIndex].treeElement)
+                onTreeChanged(newTree)
 
                 // retrieve the item only after invoking selectOnly(), the item will be different since it's copied
-                focusedTreeElement = tree.flattenedTree[newIndex].treeElement
+                focusedTreeElement = newTree.flattenedTree[newIndex].treeElement
                 return true
             }
 
@@ -312,8 +319,7 @@ fun <T> NavigableTreeView(
                 index < tree.flattenedTree.lastIndex && keyEvent.key == Key.DirectionDown -> moveFocus(index + 1)
                 keyEvent.key == Key.DirectionRight -> when {
                     element is Tree.Element.Node<T> && !element.isOpen -> {
-                        onTreeNodeToggle(element)
-                        focusedTreeElement = tree.flattenedTree[index].treeElement
+                        focusedTreeElement = onTreeNodeToggle(element).flattenedTree[index].treeElement
                         true
                     }
                     index < tree.flattenedTree.lastIndex -> moveFocus(index + 1)
@@ -321,8 +327,7 @@ fun <T> NavigableTreeView(
                 }
                 keyEvent.key == Key.DirectionLeft -> when {
                     element is Tree.Element.Node<T> && element.isOpen -> {
-                        onTreeNodeToggle(element)
-                        focusedTreeElement = tree.flattenedTree[index].treeElement
+                        focusedTreeElement = onTreeNodeToggle(element).flattenedTree[index].treeElement
                         true
                     }
                     index > 0 -> when (element) {
@@ -353,14 +358,14 @@ fun <T> NavigableTreeView(
         state = state,
         focusedTreeElement = focusedTreeElement,
         tree = tree,
-        onTreeNodeToggle = onTreeNodeToggle,
+        onTreeNodeToggle = { onTreeNodeToggle(it) },
         onTreeElementClick = {
             val isMultiSelectionKeyPressed = when {
                 hostOs.isWindows || hostOs.isLinux -> keyboardModifiers.isCtrlPressed
                 hostOs.isMacOS -> keyboardModifiers.isMetaPressed
                 else -> false
             }
-            tree = when {
+            val newTree = when {
                 isMultiSelectionKeyPressed -> {
                     val elements =
                         tree.flattenedTree.filter { it.treeElement.isSelected }.map { it.treeElement }.toSet()
@@ -368,6 +373,7 @@ fun <T> NavigableTreeView(
                 }
                 else -> tree.selectOnly(it)
             }
+            onTreeChanged(newTree)
         },
         onTreeElementDoubleClick = onTreeElementDoubleClick,
         content = content

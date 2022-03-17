@@ -20,9 +20,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.theme.idea.IntelliJTheme
 import org.jetbrains.jewel.theme.idea.addComposePanel
 import org.jetbrains.jewel.theme.intellij.LocalPalette
-import org.jetbrains.jewel.theme.intellij.components.NavigableTreeView
 import org.jetbrains.jewel.theme.intellij.components.Text
 import org.jetbrains.jewel.theme.intellij.components.Tree
+import org.jetbrains.jewel.theme.intellij.components.TreeLayout
 import org.jetbrains.jewel.theme.intellij.components.asTree
 import java.nio.file.Paths
 
@@ -37,11 +37,11 @@ internal class PKGSDemo : ToolWindowFactory, DumbAware {
             IntelliJTheme(this) {
                 Box(modifier = Modifier.background(LocalPalette.current.background).fillMaxSize()) {
 
-                    val treeMutableState = remember { mutableStateOf(Paths.get(project.basePath ?: System.getProperty("user.dir")).asTree(true)) }
-                    var tree by treeMutableState
+                    var tree by remember { mutableStateOf(Paths.get(project.basePath ?: System.getProperty("user.dir")).asTree(true)) }
 
-                    NavigableTreeView(
-                        treeMutableState = treeMutableState,
+                    TreeLayout(
+                        tree = tree,
+                        onTreeChanged = { tree = it },
                         onTreeElementDoubleClick = {
                             when (it) {
                                 is Tree.Element.Leaf -> println("CIAO ${it.data.absolutePath}")
