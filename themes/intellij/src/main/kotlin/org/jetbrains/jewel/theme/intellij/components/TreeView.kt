@@ -177,13 +177,15 @@ fun <T> BaseTreeLayout(
     onTreeElementDoubleClick: (Tree.Element<T>) -> Unit,
     content: @Composable RowScope.(Tree.Element<T>) -> Unit
 ) {
-    var isFocused by remember { mutableStateOf(TreeViewState.NOT_FOCUSED) }
-
+    var isFocused by remember { mutableStateOf(TreeViewState.fromBoolean(false)) }
+    println("$isFocused ${System.currentTimeMillis()}")
     val appearance = style.appearance(isFocused)
     val appearanceTransitionState = updateTreeViewAppearanceTransition(appearance)
 
     LazyColumn(
         modifier = modifier
+            // enabling focus changes will trigger infinite recompositions because the focused element
+            // will change always
             .onFocusChanged { isFocused = TreeViewState.fromBoolean(it.isFocused || it.hasFocus) },
         state = state
     ) {
@@ -202,11 +204,8 @@ fun <T> BaseTreeLayout(
                         if (isElementSelected) onFocusChanged(treeElement)
                     }
                     .onKeyEvent { onKeyPressed(it, index, treeElementWithDepth) }
-                    .mouseClickable {
-                        onTreeElementClick(treeElement)
-                        focusRequester.requestFocus()
-                    }
-                    .appendIf(isElementSelected) { border(2.dp, Color.Red) }
+                    .mouseClickable { onTreeElementClick(treeElement) }
+                    .appendIf(focusedTreeElement == treeElement) { border(2.dp, Color.Red) }
 
 //                    .combinedClickable(
 //                        onClick = { EmptyClickContext.onTreeElementClick(treeElement) },
@@ -300,11 +299,11 @@ fun <T> TreeLayout(
         onKeyPressed = { keyEvent, index, elementWithDepth ->
             val (element, depth) = elementWithDepth
 
-            fun moveFocus(newIndex: Int): Boolean {
+            fun focusAndSelectSingleIndex(newIndex: Int): Boolean {
                 val newTree = tree.selectOnly(tree.flattenedTree[newIndex].treeElement)
                 onTreeChanged(newTree)
 
-                // retrieve the item only after invoking selectOnly(), the item will be different since it's copied
+                // retrieve the item only after invoking selectOnly(), the item will be different since it's copied and modified
                 focusedTreeElement = newTree.flattenedTree[newIndex].treeElement
                 return true
             }
@@ -315,14 +314,14 @@ fun <T> TreeLayout(
                     onTreeElementDoubleClick(element)
                     true
                 }
-                index > 0 && keyEvent.key == Key.DirectionUp -> moveFocus(index - 1)
-                index < tree.flattenedTree.lastIndex && keyEvent.key == Key.DirectionDown -> moveFocus(index + 1)
+                index > 0 && keyEvent.key == Key.DirectionUp -> focusAndSelectSingleIndex(index - 1)
+                index < tree.flattenedTree.lastIndex && keyEvent.key == Key.DirectionDown -> focusAndSelectSingleIndex(index + 1)
                 keyEvent.key == Key.DirectionRight -> when {
                     element is Tree.Element.Node<T> && !element.isOpen -> {
                         focusedTreeElement = onTreeNodeToggle(element).flattenedTree[index].treeElement
                         true
                     }
-                    index < tree.flattenedTree.lastIndex -> moveFocus(index + 1)
+                    index < tree.flattenedTree.lastIndex -> focusAndSelectSingleIndex(index + 1)
                     else -> false
                 }
                 keyEvent.key == Key.DirectionLeft -> when {
@@ -341,16 +340,16 @@ fun <T> TreeLayout(
                                 }
                             }
                             check(currentIndex >= 0) { "Cannot find parent of $element" }
-                            moveFocus(currentIndex)
+                            focusAndSelectSingleIndex(currentIndex)
                         }
-                        else -> moveFocus(0)
+                        else -> focusAndSelectSingleIndex(0)
                     }
                     else -> false
                 }
-                keyEvent.key == Key.Home -> moveFocus(0)
-                keyEvent.key == Key.MoveEnd -> moveFocus(tree.flattenedTree.lastIndex)
-                keyEvent.key == Key.PageDown -> moveFocus(index + state.layoutInfo.visibleItemsInfo.size)
-                keyEvent.key == Key.PageUp -> moveFocus(index - state.layoutInfo.visibleItemsInfo.size)
+                keyEvent.key == Key.Home -> focusAndSelectSingleIndex(0)
+                keyEvent.key == Key.MoveEnd -> focusAndSelectSingleIndex(tree.flattenedTree.lastIndex)
+                keyEvent.key == Key.PageDown -> focusAndSelectSingleIndex(index + state.layoutInfo.visibleItemsInfo.size)
+                keyEvent.key == Key.PageUp -> focusAndSelectSingleIndex(index - state.layoutInfo.visibleItemsInfo.size)
                 else -> onKeyPressed(keyEvent, index, elementWithDepth)
             }
         },
@@ -359,7 +358,7 @@ fun <T> TreeLayout(
         focusedTreeElement = focusedTreeElement,
         tree = tree,
         onTreeNodeToggle = { onTreeNodeToggle(it) },
-        onTreeElementClick = {
+        onTreeElementClick = { treeElement ->
             val isMultiSelectionKeyPressed = when {
                 hostOs.isWindows || hostOs.isLinux -> keyboardModifiers.isCtrlPressed
                 hostOs.isMacOS -> keyboardModifiers.isMetaPressed
@@ -369,11 +368,12 @@ fun <T> TreeLayout(
                 isMultiSelectionKeyPressed -> {
                     val elements =
                         tree.flattenedTree.filter { it.treeElement.isSelected }.map { it.treeElement }.toSet()
-                    tree.selectElements(if (it.isSelected) elements - it else elements + it)
+                    tree.selectElements(if (treeElement.isSelected) elements - treeElement else elements + treeElement)
                 }
-                else -> tree.selectOnly(it)
+                else -> tree.selectOnly(treeElement)
             }
             onTreeChanged(newTree)
+            focusedTreeElement = treeElement.withSelection(true)
         },
         onTreeElementDoubleClick = onTreeElementDoubleClick,
         content = content

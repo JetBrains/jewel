@@ -5,10 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.runBlocking
-import org.jetbrains.skiko.AwtFontManager
 
 val TextStyle.Companion.IntelliJLight
     get() = TextStyle(
@@ -16,7 +13,7 @@ val TextStyle.Companion.IntelliJLight
         fontSize = 12.sp,
         fontWeight = FontWeight.Normal,
         fontStyle = FontStyle.Normal,
-        fontFamily = FontFamily(Font(runBlocking { AwtFontManager.DEFAULT.findFontFamilyFile("Segoe UI")!! }))
+        fontFamily = FontFamily.Default
     )
 
 val TextStyle.Companion.IntelliJDark
@@ -25,7 +22,7 @@ val TextStyle.Companion.IntelliJDark
         fontSize = 12.sp,
         fontWeight = FontWeight.Normal,
         fontStyle = FontStyle.Normal,
-        fontFamily = FontFamily(Font(runBlocking { AwtFontManager.DEFAULT.findFontFamilyFile("Menlo")!! }))
+        fontFamily = FontFamily.Default
     )
 
 val IntelliJTypography.Companion.light
