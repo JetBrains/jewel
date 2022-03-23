@@ -52,7 +52,12 @@ internal val Application.lookAndFeelFlow: Flow<LafManager>
 internal val Application.intellijThemeFlow
     get() = lookAndFeelFlow.map { CurrentIntelliJThemeDefinition() }
 
-internal fun AwtColor.toColor() = Color(red, green, blue, alpha)
+internal fun AwtColor.toColor() = Color(
+    red = red,
+    green = green,
+    blue = blue,
+    alpha = alpha
+)
 
 internal fun retrieveColorOrNull(key: String) =
     UIManager.getColor(key)?.toColor()

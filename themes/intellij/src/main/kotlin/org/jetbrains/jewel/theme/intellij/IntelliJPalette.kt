@@ -29,7 +29,8 @@ data class IntelliJPalette(
 ) {
 
     data class TreeView(
-        val focusedSelectedElementBackground: Color
+        val focusedSelectedElementBackground: Color,
+        val background: Color
     ) {
 
         companion object

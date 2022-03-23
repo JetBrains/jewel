@@ -74,11 +74,12 @@ suspend fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
             background = retrieveColorOrUnspecified("Separator.background")
         ),
         scrollbar = IntelliJPalette.Scrollbar(
-            thumbHoverColor = retrieveColorOrUnspecified("ScrollBar.foreground"),
-            thumbIdleColor = retrieveColorOrUnspecified("ScrollBar.thumbHighlight")
+            thumbHoverColor = retrieveColorOrUnspecified("ScrollBar.track"),
+            thumbIdleColor = retrieveColorOrUnspecified("ScrollBar.foreground").copy(alpha = 0.12f)
         ),
         treeView = IntelliJPalette.TreeView(
-            focusedSelectedElementBackground = retrieveColorOrUnspecified("Tree.selectionBackground")
+            focusedSelectedElementBackground = retrieveColorOrUnspecified("Tree.selectionBackground"),
+            background = retrieveColorOrUnspecified("Tree.background"),
         )
     )
 
@@ -154,7 +155,6 @@ suspend fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
         radioButton = retrieveFont("RadioButton.font", palette.radioButton.foreground),
         textField = retrieveFont("TextField.font", palette.textField.foreground)
     )
-
 
     return IntelliJThemeDefinition(
         palette = palette,

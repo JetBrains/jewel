@@ -183,7 +183,7 @@ fun <T> BaseTreeLayout(
     val appearanceTransitionState = updateTreeViewAppearanceTransition(appearance)
 
     LazyColumn(
-        modifier = modifier
+        modifier = modifier.background(appearanceTransitionState.background)
             // enabling focus changes will trigger infinite recompositions because the focused element
             // will change always
             .onFocusChanged { isFocused = TreeViewState.fromBoolean(it.isFocused || it.hasFocus) },
@@ -223,8 +223,9 @@ fun <T> BaseTreeLayout(
                     is Tree.Element.Node -> {
                         Box(
                             modifier = Modifier.rotate(if (treeElement.isOpen) 90f else 0f)
+                                .alpha(if (treeElement.children.isEmpty()) 0f else 1f)
                                 .paint(appearance.arrowPainter())
-                                .mouseClickable {
+                                .mouseClickable(enabled = treeElement.children.isNotEmpty()) {
                                     onTreeNodeToggle(treeElement)
                                     focusRequester.requestFocus()
                                 }

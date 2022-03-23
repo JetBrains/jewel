@@ -33,7 +33,8 @@ data class TreeViewAppearance(
     val arrowPainter: PainterProvider,
     val arrowEndPadding: Dp,
     val indentWidth: Dp,
-    val selectedBackground: Color
+    val selectedBackground: Color,
+    val background: Color
 )
 
 val LocalTreeViewStyle = compositionLocalOf<TreeViewStyle> { localNotProvided() }
@@ -41,15 +42,19 @@ val LocalTreeViewStyle = compositionLocalOf<TreeViewStyle> { localNotProvided() 
 val Styles.treeView: TreeViewStyle
     @Composable @ReadOnlyComposable get() = LocalTreeViewStyle.current
 
-class TreeViewAppearanceTransitionState(selectedBackground: State<Color>) {
+class TreeViewAppearanceTransitionState(selectedBackground: State<Color>, background: State<Color>) {
 
     val selectedBackground by selectedBackground
+    val background by background
 }
 
 @Composable
 fun updateTreeViewAppearanceTransition(appearance: TreeViewAppearance): TreeViewAppearanceTransitionState {
     val transition = updateTransition(appearance)
-    return TreeViewAppearanceTransitionState(transition.animateColor(label = "TreeSelectedItemBackground") { it.selectedBackground })
+    return TreeViewAppearanceTransitionState(
+        transition.animateColor(label = "TreeSelectedItemBackground") { it.selectedBackground },
+        transition.animateColor(label = "TreeBackground") { it.background },
+    )
 }
 
 fun TreeViewStyle(
@@ -61,7 +66,8 @@ fun TreeViewStyle(
         arrowPainter = painters.treeView.arrow,
         arrowEndPadding = metrics.treeView.arrowEndPadding,
         indentWidth = metrics.treeView.indentWidth,
-        selectedBackground = palette.treeView.focusedSelectedElementBackground
+        selectedBackground = palette.treeView.focusedSelectedElementBackground,
+        background = palette.treeView.background
     )
     default {
         state(TreeViewState.FOCUSED, default)

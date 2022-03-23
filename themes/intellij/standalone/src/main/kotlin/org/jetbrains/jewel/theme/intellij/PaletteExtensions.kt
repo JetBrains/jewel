@@ -165,11 +165,12 @@ val IntelliJPalette.Companion.darcula
 
 val IntelliJPalette.TreeView.Companion.light
     get() = IntelliJPalette.TreeView(
-        focusedSelectedElementBackground = Color.IntelliJLightSelection
+        focusedSelectedElementBackground = Color.IntelliJLightSelection,
+        background = Color.White
     )
 
 val IntelliJPalette.TreeView.Companion.darcula
     get() = IntelliJPalette.TreeView(
-        focusedSelectedElementBackground = Color.IntelliJDarculaSelection
+        focusedSelectedElementBackground = Color.IntelliJDarculaSelection,
+        background = Color.IntelliJGrey
     )
-
