@@ -6,11 +6,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MouseClickScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -31,7 +29,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
@@ -171,11 +171,11 @@ fun <T> BaseTreeLayout(
     style: TreeViewStyle = LocalTreeViewStyle.current,
     state: LazyListState = rememberLazyListState(),
     focusedTreeElement: Tree.Element<T>? = null,
-    onFocusChanged: (Tree.Element<T>) -> Unit,
+    onFocusChanged: (Tree.Element<T>?) -> Unit,
     onTreeNodeToggle: (Tree.Element.Node<T>) -> Unit,
     onTreeElementClick: MouseClickScope.(Tree.Element<T>) -> Unit,
     onTreeElementDoubleClick: (Tree.Element<T>) -> Unit,
-    content: @Composable RowScope.(Tree.Element<T>) -> Unit
+    rowContent: @Composable RowScope.(Tree.Element<T>) -> Unit
 ) {
     var isFocused by remember { mutableStateOf(TreeViewState.fromBoolean(false)) }
     println("$isFocused ${System.currentTimeMillis()}")
@@ -184,9 +184,12 @@ fun <T> BaseTreeLayout(
 
     LazyColumn(
         modifier = modifier.background(appearanceTransitionState.background)
-            // enabling focus changes will trigger infinite recompositions because the focused element
-            // will change always
-            .onFocusChanged { isFocused = TreeViewState.fromBoolean(it.isFocused || it.hasFocus) },
+            .onFocusChanged {
+                isFocused = TreeViewState.fromBoolean(it.hasFocus)
+                if (!it.hasFocus) onFocusChanged(null)
+            }
+            .focusProperties { canFocus = false }
+            .focusTarget(),
         state = state
     ) {
         itemsIndexed(tree.flattenedTree, key = { _, item -> item }) { index, treeElementWithDepth ->
@@ -196,7 +199,6 @@ fun <T> BaseTreeLayout(
 
             Row(
                 modifier = Modifier
-                    .focusable()
                     .focusRequester(focusRequester)
                     .appendIf(treeElement.isSelected) { background(appearanceTransitionState.selectedBackground) }
                     .onFocusChanged {
@@ -205,20 +207,18 @@ fun <T> BaseTreeLayout(
                     }
                     .onKeyEvent { onKeyPressed(it, index, treeElementWithDepth) }
                     .mouseClickable { onTreeElementClick(treeElement) }
-                    .appendIf(focusedTreeElement == treeElement) { border(2.dp, Color.Red) }
-
+                    .appendIf(focusedTreeElement == treeElement) { border(2.dp, Color.Red) },
 //                    .combinedClickable(
 //                        onClick = { EmptyClickContext.onTreeElementClick(treeElement) },
 //                        onDoubleClick = { onTreeElementDoubleClick(treeElement) }
 //                    )
-                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(Modifier.padding(start = depth * appearance.indentWidth, end = appearance.arrowEndPadding))
                 when (treeElement) {
                     is Tree.Element.Leaf -> {
                         Box(modifier = Modifier.alpha(0f).paint(appearance.arrowPainter()))
-                        content(treeElement)
+                        rowContent(treeElement)
                     }
                     is Tree.Element.Node -> {
                         Box(
@@ -227,10 +227,9 @@ fun <T> BaseTreeLayout(
                                 .paint(appearance.arrowPainter())
                                 .mouseClickable(enabled = treeElement.children.isNotEmpty()) {
                                     onTreeNodeToggle(treeElement)
-                                    focusRequester.requestFocus()
                                 }
                         )
-                        content(treeElement)
+                        rowContent(treeElement)
                     }
                 }
             }
@@ -285,7 +284,7 @@ fun <T> TreeLayout(
     tree: Tree<T>,
     onTreeElementDoubleClick: (Tree.Element<T>) -> Unit,
     onTreeChanged: (Tree<T>) -> Unit,
-    content: @Composable RowScope.(Tree.Element<T>) -> Unit
+    rowContent: @Composable RowScope.(Tree.Element<T>) -> Unit
 ) {
     var focusedTreeElement: Tree.Element<T>? by remember { mutableStateOf(null) }
     val onTreeNodeToggle: (Tree.Element.Node<T>) -> Tree<T> = {
@@ -375,8 +374,9 @@ fun <T> TreeLayout(
             }
             onTreeChanged(newTree)
             focusedTreeElement = treeElement.withSelection(true)
+
         },
         onTreeElementDoubleClick = onTreeElementDoubleClick,
-        content = content
+        rowContent = rowContent
     )
 }

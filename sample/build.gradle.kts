@@ -27,6 +27,7 @@ dependencies {
     implementation(projects.library)
     implementation(projects.themes.toolbox)
     implementation(projects.themes.intellij.standalone)
+    api("org.jetbrains.compose.components:components-splitpane:${libs.versions.composeDesktop.get()}")
 }
 
 compose.desktop {
