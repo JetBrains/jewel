@@ -17,7 +17,7 @@ data class IntelliJPalette(
 
     val background: Color, // Panel.background
 
-    val text: Color, // Panel.foreground
+    val text: Color, // Label.foreground
     val textDisabled: Color, // Label.disabledForeground
 
     val controlStroke: Color, // Component.borderColor

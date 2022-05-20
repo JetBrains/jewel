@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,11 +19,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.SwingPanel
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
+import com.intellij.ui.layout.panel
+import com.intellij.util.ui.JBFont
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.Orientation
 import org.jetbrains.jewel.theme.idea.IntelliJTheme
@@ -141,6 +150,80 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                             checked = checked,
                             onCheckedChange = { checked = it }
                         )
+                    }
+                }
+            }
+        }
+
+        toolWindow.addComposePanel("Text rendering comparison") {
+            val panel = this
+            val sampleText = "Lorem ipsum 1234567890"
+
+            Row(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                val colModifiers = Modifier
+                    .padding(20.dp)
+                    .fillMaxHeight()
+                    .weight(1f)
+
+                SwingPanel(
+                    background = Color.Transparent,
+                    modifier = colModifiers,
+                    factory = {
+                        panel {
+                            row("H0")           {  label(sampleText, JBFont.h0().asBold())  }
+                            row("H1")           {  label(sampleText, JBFont.h1().asBold())  }
+                            row("H2")           {  label(sampleText, JBFont.h2())  }
+                            row("H2 Bold")      {  label(sampleText, JBFont.h2().asBold())  }
+                            row("H3")           {  label(sampleText, JBFont.h3())  }
+                            row("H3 Bold")      {  label(sampleText, JBFont.h3().asBold())  }
+                            row("H4")           {  label(sampleText, JBFont.h4().asBold())  }
+                            row("Default")      {  label(sampleText, JBFont.regular())  }
+                            row("Default Bold") {  label(sampleText, JBFont.regular().asBold())  }
+                            row("Medium")       {  label(sampleText, JBFont.medium())  }
+                            row("Medium Bold")  {  label(sampleText, JBFont.medium().asBold())  }
+                            row("Small")        {  label(sampleText, JBFont.small())  }
+                        }
+                    }
+                )
+                IntelliJTheme(panel) {
+                    @Composable
+                    fun TypeRow(label: String, style: TextStyle) {
+                        Row {
+                            Text(
+                                label,
+                                style = IntelliJTheme.typography.default,
+                                modifier = Modifier
+                                    .alignByBaseline()
+                                    .width(92.dp)
+                            )
+                            Text(
+                                sampleText,
+                                style = style,
+                                modifier = Modifier
+                                    .alignByBaseline()
+                                    .weight(1f)
+                            )
+                        }
+                    }
+
+                    Column(
+                        modifier = colModifiers,
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        TypeRow("H0", IntelliJTheme.typography.h0.copy(fontWeight = FontWeight.Bold))
+                        TypeRow("H1", IntelliJTheme.typography.h1.copy(fontWeight = FontWeight.Bold))
+                        TypeRow("H2", IntelliJTheme.typography.h2)
+                        TypeRow("H2 Bold", IntelliJTheme.typography.h2.copy(fontWeight = FontWeight.Bold))
+                        TypeRow("H3", IntelliJTheme.typography.h3)
+                        TypeRow("H3 Bold", IntelliJTheme.typography.h3.copy(fontWeight = FontWeight.Bold))
+                        TypeRow("H4", IntelliJTheme.typography.h4.copy(fontWeight = FontWeight.Bold))
+                        TypeRow("Default", IntelliJTheme.typography.default)
+                        TypeRow("Default Bold", IntelliJTheme.typography.default.copy(fontWeight = FontWeight.Bold))
+                        TypeRow("Medium", IntelliJTheme.typography.medium)
+                        TypeRow("Medium Bold", IntelliJTheme.typography.medium.copy(fontWeight = FontWeight.Bold))
+                        TypeRow("Small", IntelliJTheme.typography.small)
                     }
                 }
             }

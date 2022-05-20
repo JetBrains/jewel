@@ -3,7 +3,9 @@ package org.jetbrains.jewel.theme.idea
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.intellij.icons.AllIcons
 import com.intellij.ui.JBColor
 import org.jetbrains.jewel.theme.intellij.IntelliJMetrics
@@ -51,7 +53,7 @@ suspend fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
         isLight = JBColor.isBright(),
         button = buttonPalette,
         background = retrieveColorOrUnspecified("Panel.background"),
-        text = retrieveColorOrUnspecified("Panel.foreground"),
+        text = retrieveColorOrUnspecified("Label.foreground"),
         textDisabled = retrieveColorOrUnspecified("Label.disabledForeground"),
         controlStroke = retrieveColorOrUnspecified("Component.borderColor"),
         controlStrokeDisabled = retrieveColorOrUnspecified("Component.disabledBorderColor"),
@@ -159,8 +161,24 @@ suspend fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
         )
     )
 
+    val baseTextStyle = retrieveFont("Label.font", palette.text)
+
+    fun TextStyle.scaleFont(amount: Float): TextStyle {
+        val size = this.fontSize.value
+        return this.copy(
+            fontSize = (size + amount).sp
+        )
+    }
+
     val typography = IntelliJTypography(
-        default = retrieveFont("Panel.font", palette.text),
+        h0 = baseTextStyle.scaleFont(12f),
+        h1 = baseTextStyle.scaleFont(9f),
+        h2 = baseTextStyle.scaleFont(5f),
+        h3 = baseTextStyle.scaleFont(3f),
+        h4 = baseTextStyle,
+        default = baseTextStyle,
+        medium = baseTextStyle.scaleFont(-1f),
+        small = baseTextStyle.scaleFont(-2f),
         button = retrieveFont("Button.font", palette.button.foreground),
         checkBox = retrieveFont("CheckBox.font", palette.checkbox.foreground),
         radioButton = retrieveFont("RadioButton.font", palette.radioButton.foreground),
