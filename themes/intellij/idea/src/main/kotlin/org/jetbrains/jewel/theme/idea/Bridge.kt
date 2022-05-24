@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontSynthesis
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.platform.Typeface
 import androidx.compose.ui.unit.TextUnit
@@ -130,7 +131,8 @@ suspend fun retrieveFont(
             fontWeight = FontWeight.Normal,
             fontFamily = FontFamily(Typeface(typeface)),
             // todo textDecoration might be defined in the awt theme
-            lineHeight = lineHeight
+            lineHeight = lineHeight,
+            fontSynthesis = FontSynthesis.None // TODO remove this, for testing only
         )
     }
 }

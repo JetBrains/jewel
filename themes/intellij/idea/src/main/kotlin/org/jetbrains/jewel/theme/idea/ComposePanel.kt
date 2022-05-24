@@ -7,9 +7,15 @@ import com.intellij.openapi.wm.ToolWindow
 fun ToolWindow.addComposePanel(
     displayName: String,
     isLockable: Boolean = true,
+    isCloseable: Boolean = true,
     content: @Composable ComposePanel.() -> Unit
-) = ComposePanel(content = content)
-    .also { contentManager.addContent(contentManager.factory.createContent(it, displayName, isLockable)) }
+): ComposePanel {
+    val composePanel = ComposePanel(content = content)
+    val panel = contentManager.factory.createContent(composePanel, displayName, isLockable)
+    panel.isCloseable = isCloseable
+    contentManager.addContent(panel)
+    return composePanel
+}
 
 internal fun ComposePanel(
     height: Int = 800,

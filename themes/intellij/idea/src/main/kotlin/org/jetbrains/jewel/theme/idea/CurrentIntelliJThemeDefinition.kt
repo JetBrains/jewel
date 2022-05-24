@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.intellij.icons.AllIcons
@@ -161,21 +162,21 @@ suspend fun CurrentIntelliJThemeDefinition(): IntelliJThemeDefinition {
         )
     )
 
-    val baseTextStyle = retrieveFont("Label.font", palette.text)
+    val baseTextStyle = retrieveFont(key = "Label.font", color = palette.text)
 
     fun TextStyle.scaleFont(amount: Float): TextStyle {
-        val size = this.fontSize.value
-        return this.copy(
-            fontSize = (size + amount).sp
-        )
+        val size = fontSize.value
+        return copy(fontSize = (size + amount).sp)
     }
 
+    fun TextStyle.withWeight(weight: FontWeight) = copy(fontWeight = weight)
+
     val typography = IntelliJTypography(
-        h0 = baseTextStyle.scaleFont(12f),
-        h1 = baseTextStyle.scaleFont(9f),
+        h0 = baseTextStyle.scaleFont(12f).withWeight(FontWeight.Bold),
+        h1 = baseTextStyle.scaleFont(9f).withWeight(FontWeight.Bold),
         h2 = baseTextStyle.scaleFont(5f),
         h3 = baseTextStyle.scaleFont(3f),
-        h4 = baseTextStyle,
+        h4 = baseTextStyle.withWeight(FontWeight.Bold),
         default = baseTextStyle,
         medium = baseTextStyle.scaleFont(-1f),
         small = baseTextStyle.scaleFont(-2f),

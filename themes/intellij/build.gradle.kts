@@ -21,12 +21,6 @@ kotlin {
     }
 }
 
-repositories {
-    jetbrainsCompose()
-    maven("https://androidx.dev/storage/compose-compiler/repository/")
-    mavenCentral()
-}
-
 dependencies {
     implementation(compose.desktop.currentOs) {
         exclude(group = "org.jetbrains.compose.material")

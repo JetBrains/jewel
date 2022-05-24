@@ -16,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
@@ -52,9 +51,8 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
         Enabled, Disabled, Automatic, Unavailable
     }
 
-    @OptIn(ExperimentalComposeUiApi::class)
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        toolWindow.addComposePanel("Compose Demo") {
+        toolWindow.addComposePanel("Compose Demo", isCloseable = false) {
             IntelliJTheme(this) {
                 Box(
                     modifier = Modifier
@@ -134,7 +132,7 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                 }
             }
         }
-        toolWindow.addComposePanel("Compose Demo 2") {
+        toolWindow.addComposePanel("Compose Demo 2", isCloseable = false) {
             IntelliJTheme(this) {
                 Box(
                     modifier = Modifier
@@ -157,7 +155,7 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
             }
         }
 
-        toolWindow.addComposePanel("Text rendering comparison") {
+        toolWindow.addComposePanel("Text rendering comparison", isCloseable = false) {
             val sampleText = "Lorem ipsum 1234567890"
             IntelliJTheme(this) {
                 Row(
@@ -214,13 +212,13 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                         modifier = colModifiers,
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        TypeRow("H0", IntelliJTheme.typography.h0.copy(fontWeight = FontWeight.Bold))
-                        TypeRow("H1", IntelliJTheme.typography.h1.copy(fontWeight = FontWeight.Bold))
+                        TypeRow("H0", IntelliJTheme.typography.h0)
+                        TypeRow("H1", IntelliJTheme.typography.h1)
                         TypeRow("H2", IntelliJTheme.typography.h2)
                         TypeRow("H2 Bold", IntelliJTheme.typography.h2.copy(fontWeight = FontWeight.Bold))
                         TypeRow("H3", IntelliJTheme.typography.h3)
                         TypeRow("H3 Bold", IntelliJTheme.typography.h3.copy(fontWeight = FontWeight.Bold))
-                        TypeRow("H4", IntelliJTheme.typography.h4.copy(fontWeight = FontWeight.Bold))
+                        TypeRow("H4", IntelliJTheme.typography.h4)
                         TypeRow("Default", IntelliJTheme.typography.default)
                         TypeRow("Default Bold", IntelliJTheme.typography.default.copy(fontWeight = FontWeight.Bold))
                         TypeRow("Medium", IntelliJTheme.typography.medium)
