@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectableGroup
@@ -100,7 +99,7 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                         }
 
                         val tabState = rememberTabContainerState("1")
-                        TabRow(tabState, ) {
+                        TabRow(tabState) {
                             Section("1", "One")
                             Section("2", "Two")
                             Section("3", "Three")
@@ -138,7 +137,10 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
         toolWindow.addComposePanel("Compose Demo 2") {
             IntelliJTheme(this) {
                 Box(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(IntelliJTheme.palette.background)
+                        .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     var checked by remember { mutableStateOf(true) }
@@ -156,38 +158,38 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
         }
 
         toolWindow.addComposePanel("Text rendering comparison") {
-            val panel = this
             val sampleText = "Lorem ipsum 1234567890"
+            IntelliJTheme(this) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(IntelliJTheme.palette.background)
+                ) {
+                    val colModifiers = Modifier
+                        .padding(20.dp)
+                        .fillMaxHeight()
+                        .weight(1f)
 
-            Row(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                val colModifiers = Modifier
-                    .padding(20.dp)
-                    .fillMaxHeight()
-                    .weight(1f)
-
-                SwingPanel(
-                    background = Color.Transparent,
-                    modifier = colModifiers,
-                    factory = {
-                        panel {
-                            row("H0")           {  label(sampleText, JBFont.h0().asBold())  }
-                            row("H1")           {  label(sampleText, JBFont.h1().asBold())  }
-                            row("H2")           {  label(sampleText, JBFont.h2())  }
-                            row("H2 Bold")      {  label(sampleText, JBFont.h2().asBold())  }
-                            row("H3")           {  label(sampleText, JBFont.h3())  }
-                            row("H3 Bold")      {  label(sampleText, JBFont.h3().asBold())  }
-                            row("H4")           {  label(sampleText, JBFont.h4().asBold())  }
-                            row("Default")      {  label(sampleText, JBFont.regular())  }
-                            row("Default Bold") {  label(sampleText, JBFont.regular().asBold())  }
-                            row("Medium")       {  label(sampleText, JBFont.medium())  }
-                            row("Medium Bold")  {  label(sampleText, JBFont.medium().asBold())  }
-                            row("Small")        {  label(sampleText, JBFont.small())  }
+                    SwingPanel(
+                        background = Color.Unspecified,
+                        modifier = colModifiers,
+                        factory = {
+                            panel {
+                                row("H0") { label(sampleText, JBFont.h0()) }
+                                row("H1") { label(sampleText, JBFont.h1()) }
+                                row("H2") { label(sampleText, JBFont.h2()) }
+                                row("H2 Bold") { label(sampleText, JBFont.h2().asBold()) }
+                                row("H3") { label(sampleText, JBFont.h3()) }
+                                row("H3 Bold") { label(sampleText, JBFont.h3().asBold()) }
+                                row("H4") { label(sampleText, JBFont.h4()) }
+                                row("Default") { label(sampleText, JBFont.regular()) }
+                                row("Default Bold") { label(sampleText, JBFont.regular().asBold()) }
+                                row("Medium") { label(sampleText, JBFont.medium()) }
+                                row("Medium Bold") { label(sampleText, JBFont.medium().asBold()) }
+                                row("Small") { label(sampleText, JBFont.small()) }
+                            }
                         }
-                    }
-                )
-                IntelliJTheme(panel) {
+                    )
                     @Composable
                     fun TypeRow(label: String, style: TextStyle) {
                         Row {
