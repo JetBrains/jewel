@@ -13,5 +13,14 @@
         <toolWindow id="PKGS Demo" anchor="bottom" secondary="false"
                     canCloseContents="true"
                     factoryClass="org.jetbrains.jewel.samples.ideplugin.PKGSDemo"/>
+        <notificationGroup id="plugin.id"
+                           displayType="BALLOON"
+                           bundle="messages.jewelBundle"
+                           key="notification.group.name"/>
     </extensions>
+    <actions>
+        <action id="test.action"
+                class="org.jetbrains.jewel.samples.ideplugin.TestAction">
+        </action>
+    </actions>
 </idea-plugin>

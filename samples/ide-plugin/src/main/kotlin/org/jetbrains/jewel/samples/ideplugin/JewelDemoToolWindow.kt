@@ -1,6 +1,6 @@
 package org.jetbrains.jewel.samples.ideplugin
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.intellij.notification.NotificationGroupManager
+import com.intellij.notification.NotificationType
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.DataKey
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
@@ -28,30 +33,46 @@ import org.jetbrains.jewel.components.Checkbox
 import org.jetbrains.jewel.components.CheckboxRow
 import org.jetbrains.jewel.components.Divider
 import org.jetbrains.jewel.components.RadioButtonRow
+import org.jetbrains.jewel.components.Surface
 import org.jetbrains.jewel.components.Tab
 import org.jetbrains.jewel.components.TabRow
 import org.jetbrains.jewel.components.TabScope
 import org.jetbrains.jewel.components.Text
 import org.jetbrains.jewel.components.TextField
 import org.jetbrains.jewel.components.rememberTabContainerState
+import org.jetbrains.jewel.samples.ideplugin.JewelDemoToolWindow.Companion.MY_DATA_KEY
 import org.jetbrains.jewel.themes.darcula.idebridge.IntelliJTheme
 import org.jetbrains.jewel.themes.darcula.idebridge.addComposePanel
+import org.jetbrains.jewel.themes.darcula.idebridge.providesData
 
 @ExperimentalCoroutinesApi
 internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
+
+    companion object {
+
+        val MY_DATA_KEY = DataKey.create<String>("test.data.key")
+    }
 
     enum class RadioSample {
         Enabled, Disabled, Automatic, Unavailable
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
+        toolWindow.addComposePanel("Action Demo") {
+            var myText by remember { mutableStateOf("") }
+            IntelliJTheme {
+                TextField(
+                    Modifier.providesData(MY_DATA_KEY) { myText },
+                    value = myText,
+                    onValueChange = { myText = it }
+                )
+            }
+        }
         toolWindow.addComposePanel("Compose Demo") {
-            IntelliJTheme(this) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(IntelliJTheme.palette.background),
-                    contentAlignment = Alignment.Center
+            IntelliJTheme {
+                Surface (
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically)) {
                         var clicks by remember { mutableStateOf(0) }
@@ -142,7 +163,7 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
             }
         }
         toolWindow.addComposePanel("Compose Demo 2") {
-            IntelliJTheme(this) {
+            IntelliJTheme {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
@@ -163,9 +184,28 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
     }
 }
 
+class TestAction : AnAction(
+    /* text = */ "Test action for Compose",
+    /* description = */ "Should show \"Providing hello world\"",
+    /* icon = */ null
+) {
+
+    override fun actionPerformed(e: AnActionEvent) {
+        NotificationGroupManager.getInstance()
+            .getNotificationGroup("plugin.id")
+            .createNotification(
+                "The action itself!",
+                e.getData(MY_DATA_KEY) ?: "NO DATA PROVIDED",
+                type = NotificationType.INFORMATION
+            )
+            .notify(e.project)
+    }
+}
+
 @Composable
 private fun TabScope<String>.Section(key: String, caption: String) {
     Tab(key) {
         Text(caption)
     }
 }
+
