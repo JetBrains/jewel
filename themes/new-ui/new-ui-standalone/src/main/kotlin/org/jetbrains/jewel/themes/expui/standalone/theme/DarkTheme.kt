@@ -88,7 +88,7 @@ object DarkTheme : Theme {
     val Blue3 = Color(0xFF35538F)
     val Blue4 = Color(0xFF375FAD)
     val Blue5 = Color(0xFF366ACE)
-    val Blue6 = Color(0xFF3573F0)
+    val Blue6 = Color(0xFF3574F0)
     val Blue7 = Color(0xFF467FF2)
     val Blue8 = Color(0xFF548AF7)
     val Blue9 = Color(0xFF6B9BFA)
