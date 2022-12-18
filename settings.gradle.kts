@@ -35,4 +35,5 @@ include(
     ":themes:new-ui:new-ui-standalone",
     ":themes:new-ui:new-ui-ide",
     ":themes:new-ui:new-ui-desktop",
+    ":themes:new-ui:new-ui-wip",
 )
