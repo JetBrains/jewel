@@ -2,17 +2,20 @@ package org.jetbrains.jewel
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.ResourceLoader
 
 typealias PainterProvider = @Composable () -> Painter
 
-class IntelliJPainters(
+data class IntelliJPainters(
     val checkbox: CheckboxPainters,
     val radioButton: RadioButtonPainters,
-    val treeView: TreeViewPainters
+    val treeView: TreeViewPainters,
+    val painterResourceLoader: ResourceLoader = ResourceLoader.Default
 ) {
 
     data class TreeViewPainters(
-        val arrow: PainterProvider
+        val arrowNodeClosed: PainterProvider,
+        val arrowNodeOpen: PainterProvider
     ) {
 
         companion object

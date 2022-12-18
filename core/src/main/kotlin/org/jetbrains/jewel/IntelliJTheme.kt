@@ -5,6 +5,7 @@ import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import org.jetbrains.jewel.components.LocalThemedIconResourceLoader
 import org.jetbrains.jewel.styles.ButtonStyle
 import org.jetbrains.jewel.styles.CheckboxStyle
 import org.jetbrains.jewel.styles.FrameStyle
@@ -58,6 +59,7 @@ fun IntelliJTheme(
     LocalMetrics provides metrics,
     LocalPainters provides painters,
     LocalPalette provides palette,
+    LocalThemedIconResourceLoader provides painters.painterResourceLoader,
     content = content
 )
 
