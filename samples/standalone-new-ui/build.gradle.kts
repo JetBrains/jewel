@@ -1,34 +1,10 @@
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.archivesName
 
 plugins {
-    alias(libs.plugins.kotlinJvm)
+    id("org.jetbrains.jewel.kotlin")
     alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.detekt)
-}
-
-detekt {
-    config = files(File(rootDir, "detekt.yml"))
-    buildUponDefaultConfig = true
-}
-
-kotlin {
-    target {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
-        }
-    }
-    sourceSets {
-        all {
-            languageSettings {
-                optIn("kotlin.time.ExperimentalTime")
-                optIn("androidx.compose.foundation.ExperimentalFoundationApi")
-            }
-        }
-    }
+    id("org.jetbrains.jewel.detekt")
+    id("org.jetbrains.jewel.ktlint")
 }
 
 dependencies {
@@ -46,12 +22,5 @@ compose.desktop {
             description = "Jewel New UI Sample Application"
             vendor = "JetBrains"
         }
-    }
-}
-
-tasks.named<Detekt>("detekt").configure {
-    reports {
-        sarif.required.set(true)
-        sarif.outputLocation.set(file(File(rootDir, "build/reports/detekt-${project.archivesName}.sarif")))
     }
 }
