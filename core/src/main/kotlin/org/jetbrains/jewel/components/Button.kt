@@ -149,8 +149,7 @@ fun Button(
                 indication = null
             )
             .then(shapeModifier)
-            .then(haloModifier)
-        /*.clip(appearance.shape)*/,
+            .then(haloModifier),
         propagateMinConstraints = true
     ) {
         ButtonContent(appearance, content)
