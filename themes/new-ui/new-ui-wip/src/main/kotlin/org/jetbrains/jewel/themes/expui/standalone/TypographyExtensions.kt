@@ -36,7 +36,7 @@ val IntelliJTypography.Companion.light
         slider = TextStyle.ExpUiLight
     )
 
-val IntelliJTypography.Companion.darcula
+val IntelliJTypography.Companion.dark
     get() = IntelliJTypography(
         default = TextStyle.ExpUiDark,
         button = TextStyle.ExpUiDark,

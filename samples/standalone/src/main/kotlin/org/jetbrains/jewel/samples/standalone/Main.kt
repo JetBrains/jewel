@@ -1,11 +1,14 @@
 package org.jetbrains.jewel.samples.standalone
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,24 +18,87 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
+import org.jetbrains.jewel.IntelliJMetrics
+import org.jetbrains.jewel.IntelliJPainters
+import org.jetbrains.jewel.IntelliJPalette
+import org.jetbrains.jewel.IntelliJTheme
+import org.jetbrains.jewel.IntelliJTypography
 import org.jetbrains.jewel.components.Button
 import org.jetbrains.jewel.components.Checkbox
 import org.jetbrains.jewel.components.CheckboxRow
+import org.jetbrains.jewel.components.Divider
 import org.jetbrains.jewel.components.RadioButtonRow
 import org.jetbrains.jewel.components.Text
 import org.jetbrains.jewel.styles.IntelliJButtonStyleVariations
-import org.jetbrains.jewel.themes.expui.standalone.ExpUiTheme
+import org.jetbrains.jewel.styles.Styles
+import org.jetbrains.jewel.styles.frame
+import org.jetbrains.jewel.themes.darcula.standalone.darcula
+import org.jetbrains.jewel.themes.expui.standalone.dark
+import org.jetbrains.jewel.themes.expui.standalone.default
+import org.jetbrains.jewel.themes.expui.standalone.light
+import org.jetbrains.jewel.themes.darcula.standalone.default as defaultIj
+import org.jetbrains.jewel.themes.darcula.standalone.light as lightIj
+
+@Composable
+fun JBTheme(isNewUi: Boolean, isDark: Boolean, content: @Composable () -> Unit) =
+    IntelliJTheme(
+        JBPalette(isNewUi, isDark),
+        JBMetrics(isNewUi, isDark),
+        JBPainters(isNewUi, isDark),
+        JBTypography(isNewUi, isDark),
+        content
+    )
+
+fun JBPalette(isNewUi: Boolean, isDark: Boolean): IntelliJPalette =
+    when {
+        isNewUi && isDark -> IntelliJPalette.dark
+        isNewUi && !isDark -> IntelliJPalette.light
+        !isNewUi && isDark -> IntelliJPalette.darcula
+        else -> IntelliJPalette.lightIj
+    }
+
+fun JBPainters(isNewUi: Boolean, isDark: Boolean): IntelliJPainters =
+    when {
+        isNewUi && isDark -> IntelliJPainters.dark
+        isNewUi && !isDark -> IntelliJPainters.light
+        !isNewUi && isDark -> IntelliJPainters.darcula
+        else -> IntelliJPainters.lightIj
+    }
+
+fun JBTypography(isNewUi: Boolean, isDark: Boolean): IntelliJTypography =
+    when {
+        isNewUi && isDark -> IntelliJTypography.dark
+        isNewUi && !isDark -> IntelliJTypography.light
+        !isNewUi && isDark -> IntelliJTypography.darcula
+        else -> IntelliJTypography.lightIj
+    }
+
+fun JBMetrics(isNewUi: Boolean, isDark: Boolean): IntelliJMetrics =
+    if (isNewUi) {
+        IntelliJMetrics.default
+    } else {
+        IntelliJMetrics.defaultIj
+    }
 
 fun main() = singleWindowApplication(
     title = "TODO: sample app"
 ) {
-    ExpUiTheme(isDark = false) {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    var isDark by remember { mutableStateOf(false) }
+    var isNewUi by remember { mutableStateOf(true) }
+    JBTheme(isNewUi = isNewUi, isDark = isDark) {
+        Box(Modifier.fillMaxSize().background(Styles.frame.appearance(Unit).backgroundColor), contentAlignment = Alignment.Center) {
             Column(
                 Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox("Dark", isDark, { isDark = !isDark })
+                    Checkbox("New UI", isNewUi, { isNewUi = !isNewUi })
+                }
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -69,6 +135,7 @@ fun main() = singleWindowApplication(
                         Text("OK")
                     }
                 }
+                Divider(Modifier.fillMaxWidth())
                 Row(
                     modifier = Modifier.selectableGroup(),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
