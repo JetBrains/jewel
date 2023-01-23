@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,9 +28,11 @@ import org.jetbrains.jewel.IntelliJTypography
 import org.jetbrains.jewel.components.Button
 import org.jetbrains.jewel.components.Checkbox
 import org.jetbrains.jewel.components.CheckboxRow
-import org.jetbrains.jewel.components.Divider
+import org.jetbrains.jewel.components.GroupHeader
 import org.jetbrains.jewel.components.RadioButtonRow
 import org.jetbrains.jewel.components.Text
+import org.jetbrains.jewel.components.TextField
+import org.jetbrains.jewel.components.rememberTabContainerState
 import org.jetbrains.jewel.styles.IntelliJButtonStyleVariations
 import org.jetbrains.jewel.styles.Styles
 import org.jetbrains.jewel.styles.frame
@@ -88,10 +92,11 @@ fun main() = singleWindowApplication(
     JBTheme(isNewUi = isNewUi, isDark = isDark) {
         Box(Modifier.fillMaxSize().background(Styles.frame.appearance(Unit).backgroundColor), contentAlignment = Alignment.Center) {
             Column(
-                Modifier.fillMaxSize(),
+                Modifier.width(IntrinsicSize.Max),
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                GroupHeader("Theme Switch")
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -99,6 +104,7 @@ fun main() = singleWindowApplication(
                     Checkbox("Dark", isDark, { isDark = !isDark })
                     Checkbox("New UI", isNewUi, { isNewUi = !isNewUi })
                 }
+                GroupHeader("Checkboxes")
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -118,6 +124,7 @@ fun main() = singleWindowApplication(
                     Checkbox("Disabled Off", false, {}, enabled = false)
                     Checkbox("Disabled On", true, {}, enabled = false)
                 }
+                GroupHeader("Buttons")
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -135,7 +142,7 @@ fun main() = singleWindowApplication(
                         Text("OK")
                     }
                 }
-                Divider(Modifier.fillMaxWidth())
+                GroupHeader("RadioButtons")
                 Row(
                     modifier = Modifier.selectableGroup(),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -167,6 +174,8 @@ fun main() = singleWindowApplication(
                         Text("Fourth")
                     }
                 }
+                val tabState = rememberTabContainerState(0)
+                TextField(Modifier.fillMaxWidth(), "Text Field", onValueChange = {})
             }
         }
     }
