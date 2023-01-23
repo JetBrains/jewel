@@ -161,14 +161,8 @@ private fun CacheDrawScope.drawRectBorder(
     drawContent()
     when (alignment) {
         BorderAlignment.INSIDE -> {
-            val cache = borderCacheRef.obtain()
-            val borderPath = cache.obtainPath().apply {
-                reset()
-                fillType = PathFillType.EvenOdd
-                addOutline(outline)
-                addRect(outline.rect.deflate(strokeWidthPx))
-            }
-            drawPath(borderPath, brush)
+            val rect = outline.rect.deflate(strokeWidthPx / 2f)
+            drawRect(brush, rect.topLeft, rect.size, style = Stroke(strokeWidthPx))
         }
 
         BorderAlignment.CENTER -> {
@@ -176,14 +170,8 @@ private fun CacheDrawScope.drawRectBorder(
         }
 
         BorderAlignment.OUTSIDE -> {
-            val cache = borderCacheRef.obtain()
-            val borderPath = cache.obtainPath().apply {
-                reset()
-                fillType = PathFillType.EvenOdd
-                addOutline(outline)
-                addRect(outline.rect.inflate(strokeWidthPx))
-            }
-            drawPath(borderPath, brush)
+            val rect = outline.rect.inflate(strokeWidthPx / 2f)
+            drawRect(brush, rect.topLeft, rect.size, style = Stroke(strokeWidthPx))
         }
     }
 }
@@ -206,10 +194,35 @@ private fun CacheDrawScope.drawRoundedBorder(
                 addRoundRect(outline.roundRect.deflate(strokeWidthPx))
             }
             drawPath(borderPath, brush)
+
+            // This is the option 3 implementation
+//            val rrect = outline.roundRect.deflate(strokeWidthPx / 2f)
+//            val radius = rrect.bottomLeftCornerRadius.x
+//            drawRoundRect(
+//                brush = brush,
+//                topLeft = Offset(rrect.top, rrect.left),
+//                size = Size(rrect.width, rrect.height),
+//                cornerRadius = CornerRadius(radius),
+//                style = Stroke(strokeWidthPx)
+//            )
         }
 
         BorderAlignment.CENTER -> {
-            drawOutline(outline, brush, style = Stroke(strokeWidthPx))
+            val rrect = outline.roundRect
+            val radius = rrect.bottomLeftCornerRadius.x
+
+            if (radius == 0f) {
+                val cache = borderCacheRef.obtain()
+                val borderPath = cache.obtainPath().apply {
+                    reset()
+                    fillType = PathFillType.EvenOdd
+                    addRoundRect(outline.roundRect.deflate(strokeWidthPx / 2f))
+                    addRoundRect(outline.roundRect.inflate(strokeWidthPx / 2f))
+                }
+                drawPath(borderPath, brush)
+            } else {
+                drawOutline(outline, brush, style = Stroke(strokeWidthPx))
+            }
         }
 
         BorderAlignment.OUTSIDE -> {
@@ -221,6 +234,17 @@ private fun CacheDrawScope.drawRoundedBorder(
                 addRoundRect(outline.roundRect.inflate(strokeWidthPx))
             }
             drawPath(borderPath, brush)
+
+            // This is the option 3 implementation
+//            val rrect = outline.roundRect.inflate(strokeWidthPx / 2f)
+//            val radius = rrect.bottomLeftCornerRadius.x
+//            drawRoundRect(
+//                brush = brush,
+//                topLeft = Offset(rrect.top, rrect.left),
+//                size = Size(rrect.width, rrect.height),
+//                cornerRadius = CornerRadius(radius),
+//                style = Stroke(strokeWidthPx)
+//            )
         }
     }
 }
