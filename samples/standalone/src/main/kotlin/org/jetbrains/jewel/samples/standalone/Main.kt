@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.GenericShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +20,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
@@ -25,6 +31,7 @@ import org.jetbrains.jewel.IntelliJPainters
 import org.jetbrains.jewel.IntelliJPalette
 import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.IntelliJTypography
+import org.jetbrains.jewel.LocalPalette
 import org.jetbrains.jewel.components.Button
 import org.jetbrains.jewel.components.Checkbox
 import org.jetbrains.jewel.components.CheckboxRow
@@ -33,6 +40,8 @@ import org.jetbrains.jewel.components.RadioButtonRow
 import org.jetbrains.jewel.components.Text
 import org.jetbrains.jewel.components.TextField
 import org.jetbrains.jewel.components.rememberTabContainerState
+import org.jetbrains.jewel.modifiers.BorderAlignment
+import org.jetbrains.jewel.modifiers.border
 import org.jetbrains.jewel.styles.IntelliJButtonStyleVariations
 import org.jetbrains.jewel.styles.Styles
 import org.jetbrains.jewel.styles.frame
@@ -176,6 +185,47 @@ fun main() = singleWindowApplication(
                 }
                 val tabState = rememberTabContainerState(0)
                 TextField(Modifier.fillMaxWidth(), "Text Field", onValueChange = {})
+                GroupHeader("Borders")
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        Modifier.size(48.dp, 20.dp)
+                            .background(LocalPalette.current.background)
+                            .border(BorderAlignment.CENTER, 2.dp, Color(0xFF343AB1))
+                            .border(BorderAlignment.INSIDE, 2.dp, Color(0xFFDA55B2))
+                            .border(BorderAlignment.OUTSIDE, 2.dp, Color(0xFF56C1EF))
+                    )
+
+                    Box(
+                        Modifier.size(48.dp, 20.dp)
+                            .background(LocalPalette.current.background)
+                            .border(BorderAlignment.CENTER, 2.dp, Color(0xFF343AB1), shape = RoundedCornerShape(4.dp))
+                            .border(BorderAlignment.INSIDE, 2.dp, Color(0xFFDA55B2), shape = RoundedCornerShape(4.dp))
+                            .border(BorderAlignment.OUTSIDE, 2.dp, Color(0xFF56C1EF), shape = RoundedCornerShape(4.dp))
+                    )
+
+                    Box(
+                        Modifier.size(48.dp, 20.dp)
+                            .background(LocalPalette.current.background)
+                            .border(BorderAlignment.CENTER, 2.dp, Color(0xFF343AB1), shape = RoundedCornerShape(0.dp))
+                            .border(BorderAlignment.INSIDE, 2.dp, Color(0xFFDA55B2), shape = RoundedCornerShape(0.dp))
+                            .border(BorderAlignment.OUTSIDE, 2.dp, Color(0xFF56C1EF), shape = RoundedCornerShape(0.dp))
+                    )
+
+                    val arcShape = GenericShape { size, layout ->
+                        addOval(Rect(Offset.Zero, size))
+                    }
+
+                    Box(
+                        Modifier.size(20.dp, 20.dp)
+                            .background(LocalPalette.current.background)
+                            .border(BorderAlignment.CENTER, 2.dp, Color(0xFF343AB1), shape = arcShape)
+                            .border(BorderAlignment.INSIDE, 2.dp, Color(0xFFDA55B2), shape = arcShape)
+                            .border(BorderAlignment.OUTSIDE, 2.dp, Color(0xFF56C1EF), shape = arcShape)
+                    )
+                }
             }
         }
     }
