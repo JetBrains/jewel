@@ -10,7 +10,9 @@ import androidx.compose.ui.draw.CacheDrawScope
 import androidx.compose.ui.draw.DrawResult
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -24,7 +26,6 @@ import androidx.compose.ui.graphics.PathOperation
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.addOutline
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -38,17 +39,13 @@ import androidx.compose.ui.unit.toSize
 import kotlin.math.ceil
 import kotlin.math.min
 
-enum class BorderAlignment {
-    INSIDE, CENTER, OUTSIDE
-}
-
 fun Modifier.border(alignment: BorderAlignment, border: BorderStroke, shape: Shape = RectangleShape) =
     border(alignment = alignment, width = border.width, brush = border.brush, shape = shape)
 
 fun Modifier.border(alignment: BorderAlignment, width: Dp, color: Color, shape: Shape = RectangleShape) =
     border(alignment, width, SolidColor(color), shape)
 
-fun Modifier.border(alignment: BorderAlignment, width: Dp, brush: Brush, shape: Shape): Modifier = if (alignment == BorderAlignment.INSIDE && false) {
+fun Modifier.border(alignment: BorderAlignment, width: Dp, brush: Brush, shape: Shape): Modifier = if (alignment == BorderAlignment.INSIDE) {
     // The default border modifier draws the border inside the shape, so we can just use that
     border(width, brush, shape)
 } else {
@@ -91,6 +88,11 @@ fun Modifier.border(alignment: BorderAlignment, width: Dp, brush: Brush, shape: 
     )
 }
 
+enum class BorderAlignment {
+    INSIDE, CENTER, OUTSIDE
+}
+
+@Suppress("DataClassShouldBeImmutable")
 private data class BorderCache(
     private var imageBitmap: ImageBitmap? = null,
     private var canvas: androidx.compose.ui.graphics.Canvas? = null,
@@ -107,6 +109,7 @@ private data class BorderCache(
         var targetCanvas = canvas
         val compatibleConfig = targetImageBitmap?.config == ImageBitmapConfig.Argb8888 ||
             config == targetImageBitmap?.config
+        @Suppress("ComplexCondition")
         if (targetImageBitmap == null ||
             targetCanvas == null ||
             size.width > targetImageBitmap.width ||
@@ -186,25 +189,15 @@ private fun CacheDrawScope.drawRoundedBorder(
     drawContent()
     when (alignment) {
         BorderAlignment.INSIDE -> {
-            val cache = borderCacheRef.obtain()
-            val borderPath = cache.obtainPath().apply {
-                reset()
-                fillType = PathFillType.EvenOdd
-                addOutline(outline)
-                addRoundRect(outline.roundRect.deflate(strokeWidthPx))
-            }
-            drawPath(borderPath, brush)
-
-            // This is the option 3 implementation
-//            val rrect = outline.roundRect.deflate(strokeWidthPx / 2f)
-//            val radius = rrect.bottomLeftCornerRadius.x
-//            drawRoundRect(
-//                brush = brush,
-//                topLeft = Offset(rrect.top, rrect.left),
-//                size = Size(rrect.width, rrect.height),
-//                cornerRadius = CornerRadius(radius),
-//                style = Stroke(strokeWidthPx)
-//            )
+            val rrect = outline.roundRect.deflate(strokeWidthPx / 2f)
+            val radius = rrect.bottomLeftCornerRadius.x
+            drawRoundRect(
+                brush = brush,
+                topLeft = Offset(rrect.top, rrect.left),
+                size = Size(rrect.width, rrect.height),
+                cornerRadius = CornerRadius(radius),
+                style = Stroke(strokeWidthPx)
+            )
         }
 
         BorderAlignment.CENTER -> {
@@ -226,25 +219,15 @@ private fun CacheDrawScope.drawRoundedBorder(
         }
 
         BorderAlignment.OUTSIDE -> {
-            val cache = borderCacheRef.obtain()
-            val borderPath = cache.obtainPath().apply {
-                reset()
-                fillType = PathFillType.EvenOdd
-                addOutline(outline)
-                addRoundRect(outline.roundRect.inflate(strokeWidthPx))
-            }
-            drawPath(borderPath, brush)
-
-            // This is the option 3 implementation
-//            val rrect = outline.roundRect.inflate(strokeWidthPx / 2f)
-//            val radius = rrect.bottomLeftCornerRadius.x
-//            drawRoundRect(
-//                brush = brush,
-//                topLeft = Offset(rrect.top, rrect.left),
-//                size = Size(rrect.width, rrect.height),
-//                cornerRadius = CornerRadius(radius),
-//                style = Stroke(strokeWidthPx)
-//            )
+            val rrect = outline.roundRect.inflate(strokeWidthPx / 2f)
+            val radius = rrect.bottomLeftCornerRadius.x
+            drawRoundRect(
+                brush = brush,
+                topLeft = Offset(rrect.top, rrect.left),
+                size = Size(rrect.width, rrect.height),
+                cornerRadius = CornerRadius(radius),
+                style = Stroke(strokeWidthPx)
+            )
         }
     }
 }

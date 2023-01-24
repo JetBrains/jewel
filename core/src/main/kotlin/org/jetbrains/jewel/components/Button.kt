@@ -2,6 +2,7 @@
 
 package org.jetbrains.jewel.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
@@ -22,18 +23,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.drawOutline
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.semantics.Role
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.jetbrains.jewel.components.state.ButtonMouseState
 import org.jetbrains.jewel.components.state.ButtonState
+import org.jetbrains.jewel.modifiers.BorderAlignment
 import org.jetbrains.jewel.modifiers.background
+import org.jetbrains.jewel.modifiers.border
 import org.jetbrains.jewel.shape
 import org.jetbrains.jewel.styles.ButtonAppearance
 import org.jetbrains.jewel.styles.ButtonStyle
@@ -114,30 +112,17 @@ fun Button(
 
     val appearance = style.appearance(buttonState, variation)
 
-    val shapeModifier = if (appearance.shapeStroke != null || appearance.background != null) {
-        Modifier.shape(appearance.shape, appearance.shapeStroke, appearance.background)
-    } else {
-        Modifier
-    }
+    val backgroundModifier = appearance.background?.let { background ->
+        Modifier.background(background, appearance.shape)
+    } ?: Modifier
 
-    val haloStroke = appearance.haloStroke
-    val haloModifier = if (haloStroke != null) {
-        Modifier.drawBehind {
-            val stroke = haloStroke.width.toPx() / 2f
-            translate(stroke / -2f, stroke / -2f) {
-                val holoSize = Size(size.width + stroke, size.height + stroke)
-                val outline = appearance.haloShape.createOutline(holoSize, layoutDirection, this)
+    val borderModifier = appearance.shapeStroke?.let {
+        Modifier.border(BorderAlignment.INSIDE, it.width, it.brush, appearance.shape)
+    } ?: Modifier
 
-                drawOutline(
-                    outline = outline,
-                    brush = haloStroke.brush,
-                    style = Stroke(haloStroke.width.toPx())
-                )
-            }
-        }
-    } else {
-        Modifier
-    }
+    val haloModifier = appearance.haloStroke?.let {
+        Modifier.border(BorderAlignment.OUTSIDE, it.width, it.brush, appearance.shape)
+    } ?: Modifier
 
     Box(
         modifier
@@ -148,7 +133,8 @@ fun Button(
                 interactionSource = interactionSource,
                 indication = null
             )
-            .then(shapeModifier)
+            .then(backgroundModifier)
+            .then(borderModifier)
             .then(haloModifier),
         propagateMinConstraints = true
     ) {
