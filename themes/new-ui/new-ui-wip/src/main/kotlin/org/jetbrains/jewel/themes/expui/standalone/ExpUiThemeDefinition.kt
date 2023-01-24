@@ -14,7 +14,7 @@ fun ExpUiTheme(isDark: Boolean, content: @Composable () -> Unit) =
         if (isDark) IntelliJPalette.dark else IntelliJPalette.light,
         IntelliJMetrics.default,
         if (isDark) IntelliJPainters.dark else IntelliJPainters.light,
-        if (isDark) IntelliJTypography.darcula else IntelliJTypography.light,
+        if (isDark) IntelliJTypography.dark else IntelliJTypography.light,
         content
     )
 
@@ -34,6 +34,6 @@ fun ExpUiThemeDark(content: @Composable () -> Unit) =
         IntelliJPalette.dark,
         IntelliJMetrics.default,
         IntelliJPainters.dark,
-        IntelliJTypography.darcula,
+        IntelliJTypography.dark,
         content
     )
