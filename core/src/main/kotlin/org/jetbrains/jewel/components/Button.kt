@@ -2,7 +2,6 @@
 
 package org.jetbrains.jewel.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
@@ -32,7 +31,6 @@ import org.jetbrains.jewel.components.state.ButtonState
 import org.jetbrains.jewel.modifiers.BorderAlignment
 import org.jetbrains.jewel.modifiers.background
 import org.jetbrains.jewel.modifiers.border
-import org.jetbrains.jewel.shape
 import org.jetbrains.jewel.styles.ButtonAppearance
 import org.jetbrains.jewel.styles.ButtonStyle
 import org.jetbrains.jewel.styles.LocalButtonStyle
