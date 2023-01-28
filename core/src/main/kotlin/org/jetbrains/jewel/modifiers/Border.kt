@@ -47,71 +47,72 @@ fun Modifier.border(alignment: BorderAlignment, border: BorderStroke, shape: Sha
 fun Modifier.border(alignment: BorderAlignment, width: Dp, color: Color, shape: Shape = RectangleShape) =
     border(alignment, width, SolidColor(color), shape)
 
-fun Modifier.border(alignment: BorderAlignment, width: Dp, brush: Brush, shape: Shape): Modifier = if (alignment == BorderAlignment.INSIDE && shape !is QuadRoundedCornerShape) {
-    // The default border modifier draws the border inside the shape, so we can just use that
-    border(width, brush, shape)
-} else {
-    composed(
-        factory = {
-            val borderCacheRef = remember { Ref<BorderCache>() }
-            this.then(
-                Modifier.drawWithCache {
-                    val strokeWidthPx = min(
-                        if (width == Dp.Hairline) 1f else ceil(width.toPx()),
-                        ceil(size.minDimension / 2)
-                    )
-                    when (val outline = shape.createOutline(size, layoutDirection, this)) {
-                        is Outline.Rectangle -> {
-                            when (shape) {
-                                is RoundedCornerShape -> drawRoundedBorder(
-                                    borderCacheRef,
-                                    alignment,
-                                    Outline.Rounded(RoundRect(outline.rect)),
-                                    brush,
-                                    strokeWidthPx
-                                )
+fun Modifier.border(alignment: BorderAlignment, width: Dp, brush: Brush, shape: Shape): Modifier =
+    if (alignment == BorderAlignment.Inside && shape !is QuadRoundedCornerShape) {
+        // The default border modifier draws the border inside the shape, so we can just use that
+        border(width, brush, shape)
+    } else {
+        composed(
+            factory = {
+                val borderCacheRef = remember { Ref<BorderCache>() }
+                this.then(
+                    Modifier.drawWithCache {
+                        val strokeWidthPx = min(
+                            if (width == Dp.Hairline) 1f else ceil(width.toPx()),
+                            ceil(size.minDimension / 2)
+                        )
+                        when (val outline = shape.createOutline(size, layoutDirection, this)) {
+                            is Outline.Rectangle -> {
+                                when (shape) {
+                                    is RoundedCornerShape -> drawRoundedBorder(
+                                        borderCacheRef,
+                                        alignment,
+                                        Outline.Rounded(RoundRect(outline.rect)),
+                                        brush,
+                                        strokeWidthPx
+                                    )
 
-                                is QuadRoundedCornerShape -> drawQuadRoundedBorder(
-                                    borderCacheRef,
-                                    alignment,
-                                    Outline.Rounded(RoundRect(outline.rect)),
-                                    brush,
-                                    strokeWidthPx
-                                )
+                                    is QuadRoundedCornerShape -> drawQuadRoundedBorder(
+                                        borderCacheRef,
+                                        alignment,
+                                        Outline.Rounded(RoundRect(outline.rect)),
+                                        brush,
+                                        strokeWidthPx
+                                    )
 
-                                else -> drawRectBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
+                                    else -> drawRectBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
+                                }
                             }
-                        }
 
-                        is Outline.Rounded -> {
-                            when (shape) {
-                                is QuadRoundedCornerShape -> drawQuadRoundedBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
-                                else -> drawRoundedBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
+                            is Outline.Rounded -> {
+                                when (shape) {
+                                    is QuadRoundedCornerShape -> drawQuadRoundedBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
+                                    else -> drawRoundedBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
+                                }
                             }
-                        }
 
-                        is Outline.Generic -> drawGenericBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
+                            is Outline.Generic -> drawGenericBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
+                        }
                     }
+                )
+            },
+            inspectorInfo = debugInspectorInfo {
+                name = "border"
+                properties["alignment"] = alignment
+                properties["width"] = width
+                if (brush is SolidColor) {
+                    properties["color"] = brush.value
+                    value = brush.value
+                } else {
+                    properties["brush"] = brush
                 }
-            )
-        },
-        inspectorInfo = debugInspectorInfo {
-            name = "border"
-            properties["alignment"] = alignment
-            properties["width"] = width
-            if (brush is SolidColor) {
-                properties["color"] = brush.value
-                value = brush.value
-            } else {
-                properties["brush"] = brush
+                properties["shape"] = shape
             }
-            properties["shape"] = shape
-        }
-    )
-}
+        )
+    }
 
 enum class BorderAlignment {
-    INSIDE, CENTER, OUTSIDE
+    Inside, Center, Outside
 }
 
 @Suppress("DataClassShouldBeImmutable")
@@ -185,16 +186,16 @@ private fun CacheDrawScope.drawRectBorder(
 ): DrawResult = onDrawWithContent {
     drawContent()
     when (alignment) {
-        BorderAlignment.INSIDE -> {
+        BorderAlignment.Inside -> {
             val rect = outline.rect.deflate(strokeWidthPx / 2f)
             drawRect(brush, rect.topLeft, rect.size, style = Stroke(strokeWidthPx))
         }
 
-        BorderAlignment.CENTER -> {
+        BorderAlignment.Center -> {
             drawOutline(outline, brush, style = Stroke(strokeWidthPx))
         }
 
-        BorderAlignment.OUTSIDE -> {
+        BorderAlignment.Outside -> {
             val rect = outline.rect.inflate(strokeWidthPx / 2f)
             drawRect(brush, rect.topLeft, rect.size, style = Stroke(strokeWidthPx))
         }
@@ -210,7 +211,7 @@ private fun CacheDrawScope.drawRoundedBorder(
 ): DrawResult = onDrawWithContent {
     drawContent()
     when (alignment) {
-        BorderAlignment.INSIDE -> {
+        BorderAlignment.Inside -> {
             val rrect = outline.roundRect.deflate(strokeWidthPx / 2f)
             val radius = rrect.bottomLeftCornerRadius.x
             drawRoundRect(
@@ -222,7 +223,7 @@ private fun CacheDrawScope.drawRoundedBorder(
             )
         }
 
-        BorderAlignment.CENTER -> {
+        BorderAlignment.Center -> {
             val rrect = outline.roundRect
             val radius = rrect.bottomLeftCornerRadius.x
 
@@ -240,7 +241,7 @@ private fun CacheDrawScope.drawRoundedBorder(
             }
         }
 
-        BorderAlignment.OUTSIDE -> {
+        BorderAlignment.Outside -> {
             val rrect = outline.roundRect.inflate(strokeWidthPx / 2f)
             val radius = rrect.bottomLeftCornerRadius.x
             drawRoundRect(
@@ -263,7 +264,7 @@ private fun CacheDrawScope.drawQuadRoundedBorder(
 ): DrawResult = onDrawWithContent {
     drawContent()
     when (alignment) {
-        BorderAlignment.INSIDE -> {
+        BorderAlignment.Inside -> {
             val cache = borderCacheRef.obtain()
             val borderPath = cache.obtainPath().apply {
                 reset()
@@ -272,7 +273,7 @@ private fun CacheDrawScope.drawQuadRoundedBorder(
             drawPath(borderPath, brush, style = Stroke(strokeWidthPx))
         }
 
-        BorderAlignment.CENTER -> {
+        BorderAlignment.Center -> {
             val rrect = outline.roundRect
             val radius = rrect.bottomLeftCornerRadius.x
             val cache = borderCacheRef.obtain()
@@ -294,7 +295,7 @@ private fun CacheDrawScope.drawQuadRoundedBorder(
             }
         }
 
-        BorderAlignment.OUTSIDE -> {
+        BorderAlignment.Outside -> {
             val cache = borderCacheRef.obtain()
             val borderPath = cache.obtainPath().apply {
                 reset()
@@ -314,7 +315,7 @@ private fun CacheDrawScope.drawGenericBorder(
 ): DrawResult = onDrawWithContent {
     drawContent()
     when (alignment) {
-        BorderAlignment.INSIDE -> {
+        BorderAlignment.Inside -> {
             val config: ImageBitmapConfig
             val colorFilter: ColorFilter?
             if (brush is SolidColor) {
@@ -358,11 +359,11 @@ private fun CacheDrawScope.drawGenericBorder(
             }
         }
 
-        BorderAlignment.CENTER -> {
+        BorderAlignment.Center -> {
             drawOutline(outline, brush, style = Stroke(strokeWidth))
         }
 
-        BorderAlignment.OUTSIDE -> {
+        BorderAlignment.Outside -> {
             val config: ImageBitmapConfig
             val colorFilter: ColorFilter?
             if (brush is SolidColor) {

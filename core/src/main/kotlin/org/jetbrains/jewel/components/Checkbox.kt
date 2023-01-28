@@ -122,11 +122,11 @@ fun CheckboxImpl(
     val backgroundModifier = Modifier.background(appearance.backgroundColor, appearance.shape)
 
     val borderModifier = appearance.shapeStroke?.let {
-        Modifier.border(BorderAlignment.INSIDE, it.width, it.brush, appearance.shape)
+        Modifier.border(BorderAlignment.Inside, it.width, it.brush, appearance.shape)
     } ?: Modifier
 
     val haloModifier = appearance.haloStroke?.let {
-        Modifier.border(BorderAlignment.OUTSIDE, it.width, it.brush, appearance.shape)
+        Modifier.border(BorderAlignment.Outside, it.width, it.brush, appearance.shape)
     } ?: Modifier
 
     val designModifier = Modifier.size(appearance.width, appearance.height)

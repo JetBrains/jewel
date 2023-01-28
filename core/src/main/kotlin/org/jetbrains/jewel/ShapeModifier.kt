@@ -25,7 +25,7 @@ fun Modifier.shape(shape: Shape, shapeStroke: ShapeStroke<*>? = null, fillBrush:
                 this
             }
             if (shapeStroke != null) {
-                backgroundModifier.border(BorderAlignment.INSIDE, shapeStroke.width, shapeStroke.brush, shape)
+                backgroundModifier.border(BorderAlignment.Inside, shapeStroke.width, shapeStroke.brush, shape)
             } else {
                 backgroundModifier
             }
