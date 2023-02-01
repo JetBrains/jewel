@@ -147,7 +147,7 @@ private class Background constructor(
     }
 
     override fun toString(): String =
-        "Background(color=$color, brush=$brush, alpha = $alpha, shape=$shape)"
+        "Background(color=$color, brush=$brush, alpha=$alpha, shape=$shape)"
 }
 
 abstract class CustomBackgroundModifier(
