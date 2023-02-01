@@ -180,36 +180,6 @@ fun Path.addQuadRoundRect(roundRect: RoundRect) {
     close()
 }
 
-fun Path.toData(): String = buildString {
-    var index = 0
-    val path = this@toData.asSkiaPath()
-    path.verbs.forEach {
-        when (it) {
-            PathVerb.MOVE -> append("M ${path.points[index]?.x} ${path.points[index]?.y} ")
-            PathVerb.LINE -> append("L ${path.points[index]?.x} ${path.points[index]?.y} ")
-            PathVerb.QUAD, PathVerb.CONIC -> {
-                append("Q ${path.points[index]?.x} ${path.points[index]?.y} ")
-                index++
-                append(",${path.points[index]?.x} ${path.points[index]?.y} ")
-            }
-            PathVerb.CUBIC -> {
-                append("C ${path.points[index]?.x} ${path.points[index]?.y} ")
-                index++
-                append(",${path.points[index]?.x} ${path.points[index]?.y} ")
-                index++
-                append(",${path.points[index]?.x} ${path.points[index]?.y} ")
-            }
-            PathVerb.CLOSE -> {
-                append("Z")
-                index--
-            }
-            PathVerb.DONE -> TODO()
-            null -> TODO()
-        }
-        index++
-    }
-}
-
 private fun RoundRect.normalized(): RoundRect = copy(
     topRightCornerRadius = topRightCornerRadius.normalized(this),
     topLeftCornerRadius = topLeftCornerRadius.normalized(this),
