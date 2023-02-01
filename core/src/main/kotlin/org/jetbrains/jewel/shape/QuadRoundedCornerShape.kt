@@ -8,11 +8,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.asSkiaPath
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import org.jetbrains.skia.PathVerb
 import kotlin.math.max
 import kotlin.math.min
 
