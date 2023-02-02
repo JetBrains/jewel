@@ -48,7 +48,20 @@ fun Modifier.border(alignment: BorderAlignment, border: BorderStroke, shape: Sha
 fun Modifier.border(alignment: BorderAlignment, width: Dp, color: Color, shape: Shape = RectangleShape) =
     border(alignment, width, SolidColor(color), shape)
 
-fun Modifier.border(alignment: BorderAlignment, width: Dp, brush: Brush, shape: Shape): Modifier = composed(
+fun Modifier.border(alignment: BorderAlignment, width: Dp, brush: Brush, shape: Shape): Modifier =
+    if (alignment == BorderAlignment.Inside && shape !is QuadRoundedCornerShape) {
+        // The compose native border modifier(androidx.compose.foundation.border) draws the border inside the shape,
+        // so we can just use that for getting a more native experience when drawing inside borders
+        border(width, brush, shape)
+    } else {
+        drawBorderWithAlignment(alignment, width, brush, shape)
+    }
+
+enum class BorderAlignment {
+    Inside, Center, Outside
+}
+
+private fun Modifier.drawBorderWithAlignment(alignment: BorderAlignment, width: Dp, brush: Brush, shape: Shape): Modifier = composed(
     factory = {
         val borderCacheRef = remember { Ref<BorderCache>() }
         this.then(
@@ -108,10 +121,6 @@ fun Modifier.border(alignment: BorderAlignment, width: Dp, brush: Brush, shape: 
         properties["shape"] = shape
     }
 )
-
-enum class BorderAlignment {
-    Inside, Center, Outside
-}
 
 private class BorderCache(
     private var imageBitmap: ImageBitmap? = null,
