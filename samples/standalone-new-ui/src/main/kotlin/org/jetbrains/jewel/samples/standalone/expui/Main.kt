@@ -84,7 +84,7 @@ fun main() {
                         ActionButton(
                             {
                                 Desktop.getDesktop()
-                                    .browse(URI.create("https://github.com/ButterCam/compose-jetbrains-theme"))
+                                    .browse(URI.create("https://github.com/JetBrains/jewel"))
                             },
                             Modifier.size(40.dp),
                             shape = RectangleShape
