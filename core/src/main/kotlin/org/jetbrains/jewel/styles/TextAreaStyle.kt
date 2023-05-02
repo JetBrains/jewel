@@ -130,7 +130,7 @@ fun TextAreaStyle(
                 TextAreaState(
                     enabled = enabled,
                     focused = focused,
-                    hovered = hovered,
+                    hovered = hovered
                 ),
                 appearance
             )
