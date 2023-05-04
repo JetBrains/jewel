@@ -8,7 +8,6 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
@@ -123,7 +122,12 @@ fun TextFieldStyle(
 }
 
 private fun ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.allStateCombinations(
-    action: ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.(enabled: Boolean, focused: Boolean, hovered: Boolean, hintState: TextFieldHintState) -> Unit
+    action: ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.(
+        enabled: Boolean,
+        focused: Boolean,
+        hovered: Boolean,
+        hintState: TextFieldHintState
+    ) -> Unit
 ) {
     for (enabled in listOf(false, true)) {
         for (focused in listOf(false, true)) {
