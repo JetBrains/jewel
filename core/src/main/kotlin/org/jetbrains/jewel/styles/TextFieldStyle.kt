@@ -121,6 +121,7 @@ fun TextFieldStyle(
     }
 }
 
+@Suppress("NestedBlockDepth")
 private fun ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.allStateCombinations(
     action: ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.(
         enabled: Boolean,

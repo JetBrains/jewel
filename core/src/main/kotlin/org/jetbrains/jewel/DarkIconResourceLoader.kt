@@ -16,7 +16,7 @@ object DarkIconResourceLoader : ResourceLoader {
         }
         return try {
             ResourceLoader.Default.load(realPath)
-        } catch (ex: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             ResourceLoader.Default.load(resourcePath)
         }
     }
