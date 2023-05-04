@@ -1,6 +1,8 @@
 package org.jetbrains.jewel.styles
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
@@ -13,10 +15,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.jetbrains.jewel.Insets
 import org.jetbrains.jewel.IntelliJMetrics
 import org.jetbrains.jewel.IntelliJPalette
-import org.jetbrains.jewel.ShapeStroke
+import org.jetbrains.jewel.components.TextFieldHintState
 import org.jetbrains.jewel.components.state.TextFieldState
 import org.jetbrains.jewel.toBrush
 
@@ -25,13 +26,13 @@ typealias TextFieldStyle = ControlStyle<TextFieldAppearance, TextFieldState>
 data class TextFieldAppearance(
     val textStyle: TextStyle = TextStyle.Default,
     val backgroundColor: Color,
-    val shapeStroke: ShapeStroke<*>? = null,
+    val borderStroke: BorderStroke? = null,
     val shape: Shape,
 
     val cursorBrush: Brush = SolidColor(Color.Black),
     val contentPadding: PaddingValues,
 
-    val haloStroke: ShapeStroke<*>? = null,
+    val haloStroke: BorderStroke? = null,
 
     val minWidth: Dp = Dp.Unspecified
 )
@@ -54,10 +55,10 @@ fun TextFieldStyle(
             letterSpacing = 0.5.sp
         ),
         backgroundColor = palette.textField.background,
-        shape = RectangleShape,
+        shape = RoundedCornerShape(0.dp),
         contentPadding = PaddingValues(7.dp, 4.dp),
         cursorBrush = palette.text.toBrush(),
-        shapeStroke = ShapeStroke.SolidColor(1.dp, palette.controlStroke, Insets(0.dp)),
+        borderStroke = BorderStroke(1.dp, palette.controlStroke),
         minWidth = 8.dp * 8
     )
 
@@ -67,60 +68,43 @@ fun TextFieldStyle(
     )
 
     val focusedAppearance = defaultAppearance.copy(
-        shapeStroke = ShapeStroke.SolidColor(1.dp, palette.controlStrokeFocused, Insets(0.dp)),
-        haloStroke = ShapeStroke.SolidColor(metrics.controlFocusHaloWidth, palette.controlFocusHalo, Insets((-1).dp))
+        borderStroke = BorderStroke(1.dp, palette.controlStrokeFocused),
+        haloStroke = BorderStroke(metrics.controlFocusHaloWidth, palette.controlFocusHalo)
     )
 
     default {
-        allStateCombinations { enabled, focused, hovered ->
+        allStateCombinations { enabled, focused, hovered, hintState ->
             val appearance = when {
-                enabled -> when {
-                    focused -> focusedAppearance
-                    else -> defaultAppearance
+                enabled -> when (hintState) {
+                    TextFieldHintState.Normal -> when {
+                        focused -> focusedAppearance
+                        else -> defaultAppearance
+                    }
+
+                    TextFieldHintState.Error -> when {
+                        focused -> focusedAppearance.copy(
+                            borderStroke = BorderStroke(1.dp, palette.controlHaloError),
+                            haloStroke = BorderStroke(metrics.controlFocusHaloWidth, palette.controlHaloError)
+                        )
+
+                        else -> focusedAppearance.copy(
+                            borderStroke = BorderStroke(1.dp, palette.controlInactiveHaloError),
+                            haloStroke = BorderStroke(metrics.controlFocusHaloWidth, palette.controlInactiveHaloError)
+                        )
+                    }
+
+                    TextFieldHintState.Warning -> when {
+                        focused -> focusedAppearance.copy(
+                            borderStroke = BorderStroke(1.dp, palette.controlHaloWarning),
+                            haloStroke = BorderStroke(metrics.controlFocusHaloWidth, palette.controlHaloWarning)
+                        )
+
+                        else -> focusedAppearance.copy(
+                            borderStroke = BorderStroke(1.dp, palette.controlInactiveHaloWarning),
+                            haloStroke = BorderStroke(metrics.controlFocusHaloWidth, palette.controlInactiveHaloWarning)
+                        )
+                    }
                 }
-                else -> disabledAppearance
-            }
-
-            state(
-                TextFieldState(
-                    focused = focused,
-                    hovered = hovered,
-                    enabled = enabled
-                ),
-                appearance
-            )
-        }
-    }
-
-    variation(IntelliJTextFieldVariations.Error) {
-        allStateCombinations { enabled, focused, hovered ->
-            val appearance = if (enabled) {
-                defaultAppearance.copy(
-                    shapeStroke = ShapeStroke.SolidColor(1.dp, palette.controlHaloError, Insets(1.dp)),
-                    haloStroke = ShapeStroke.SolidColor(metrics.controlFocusHaloWidth, palette.controlInactiveHaloError, Insets((-1).dp))
-                )
-            } else {
-                disabledAppearance
-            }
-
-            state(
-                TextFieldState(
-                    focused = focused,
-                    hovered = hovered,
-                    enabled = enabled
-                ),
-                appearance
-            )
-        }
-    }
-
-    variation(IntelliJTextFieldVariations.Warning) {
-        allStateCombinations { enabled, focused, hovered ->
-            val appearance = when {
-                enabled -> defaultAppearance.copy(
-                    shapeStroke = ShapeStroke.SolidColor(1.dp, palette.controlHaloWarning, Insets(1.dp)),
-                    haloStroke = ShapeStroke.SolidColor(metrics.controlFocusHaloWidth, palette.controlInactiveHaloWarning, Insets((-1).dp))
-                )
 
                 else -> disabledAppearance
             }
@@ -129,7 +113,8 @@ fun TextFieldStyle(
                 TextFieldState(
                     focused = focused,
                     hovered = hovered,
-                    enabled = enabled
+                    enabled = enabled,
+                    hintState = hintState
                 ),
                 appearance
             )
@@ -138,18 +123,15 @@ fun TextFieldStyle(
 }
 
 private fun ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.allStateCombinations(
-    action: ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.(enabled: Boolean, focused: Boolean, hovered: Boolean) -> Unit
+    action: ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.(enabled: Boolean, focused: Boolean, hovered: Boolean, hintState: TextFieldHintState) -> Unit
 ) {
     for (enabled in listOf(false, true)) {
         for (focused in listOf(false, true)) {
             for (hovered in listOf(false, true)) {
-                action(enabled, focused, hovered)
+                for (hintState in TextFieldHintState.values()) {
+                    action(enabled, focused, hovered, hintState)
+                }
             }
         }
     }
-}
-
-enum class IntelliJTextFieldVariations {
-    Error,
-    Warning
 }
