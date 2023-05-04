@@ -141,7 +141,9 @@ fun TextField(
 
     val backgroundModifier = if (!undecorated) {
         Modifier.background(appearance.backgroundColor, appearance.shape)
-    } else Modifier
+    } else {
+        Modifier
+    }
 
     val borderModifier = appearance.borderStroke?.takeIf { !undecorated }?.let {
         Modifier.border(BorderAlignment.Inside, it.width, it.brush, appearance.shape)

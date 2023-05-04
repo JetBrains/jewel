@@ -146,6 +146,7 @@ fun Icon(
             .then(semantics)
     )
 }
+
 @Composable
 fun painterResource(
     resourcePath: String,
