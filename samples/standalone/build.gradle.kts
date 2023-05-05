@@ -9,7 +9,7 @@ plugins {
 
 dependencies {
     implementation(projects.themes.darcula.darculaStandalone)
-    implementation(projects.themes.newUi.newUiWip)
+    implementation(projects.themes.newUi.newUiStandalone)
     implementation(libs.compose.components.splitpane)
 }
 
