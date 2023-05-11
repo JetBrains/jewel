@@ -13,6 +13,7 @@ import org.jetbrains.jewel.styles.LocalButtonStyle
 import org.jetbrains.jewel.styles.LocalCheckboxStyle
 import org.jetbrains.jewel.styles.LocalFrameStyle
 import org.jetbrains.jewel.styles.LocalIconButtonStyle
+import org.jetbrains.jewel.styles.LocalProgressBarStyle
 import org.jetbrains.jewel.styles.LocalRadioButtonStyle
 import org.jetbrains.jewel.styles.LocalSeparatorStyle
 import org.jetbrains.jewel.styles.LocalSliderStyle
@@ -21,6 +22,7 @@ import org.jetbrains.jewel.styles.LocalTextAreaStyle
 import org.jetbrains.jewel.styles.LocalTextFieldStyle
 import org.jetbrains.jewel.styles.LocalTextStyle
 import org.jetbrains.jewel.styles.LocalTreeViewStyle
+import org.jetbrains.jewel.styles.ProgressBarStyle
 import org.jetbrains.jewel.styles.RadioButtonStyle
 import org.jetbrains.jewel.styles.ScrollbarStyle
 import org.jetbrains.jewel.styles.SeparatorStyle
@@ -58,6 +60,7 @@ fun IntelliJTheme(
     LocalSliderStyle provides SliderStyle(palette, typography),
     LocalIndication provides NoIndication,
     LocalTabStyle provides TabStyle(palette, typography.default),
+    LocalProgressBarStyle provides ProgressBarStyle(palette),
     LocalTypography provides typography,
     LocalMetrics provides metrics,
     LocalPainters provides painters,

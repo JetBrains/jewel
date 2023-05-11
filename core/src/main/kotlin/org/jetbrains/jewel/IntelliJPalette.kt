@@ -30,7 +30,8 @@ data class IntelliJPalette(
     val controlHaloError: Color, // Component.errorFocusColor
     val controlHaloWarning: Color, // Component.warningFocusColor
     val scrollbar: Scrollbar,
-    val tab: Tab
+    val tab: Tab,
+    val progressBar: ProgressBar
 ) {
 
     data class Slider(
@@ -116,6 +117,14 @@ data class IntelliJPalette(
         val underlineColor: Color,
         val hoveredBackgroundColor: Color,
         val tabSelectionHeight: Dp
+    ) {
+
+        companion object
+    }
+
+    data class ProgressBar(
+        val foreground: Color,
+        val background: Color
     ) {
 
         companion object

@@ -16,8 +16,8 @@ val Color.Companion.ExpUiDark
 
 val IntelliJPalette.Checkbox.Companion.light
     get() = IntelliJPalette.Checkbox(
-        background = Color.ExpUiLight.Grey13,
-        foreground = Color.ExpUiLight.Grey13,
+        background = Color.ExpUiLight.Grey14,
+        foreground = Color.ExpUiLight.Grey14,
         foregroundDisabled = Color.ExpUiLight.Grey8
     )
 
@@ -30,8 +30,8 @@ val IntelliJPalette.Checkbox.Companion.dark
 
 val IntelliJPalette.RadioButton.Companion.light
     get() = IntelliJPalette.RadioButton(
-        background = Color.ExpUiLight.Grey13,
-        foreground = Color.ExpUiLight.Grey13,
+        background = Color.ExpUiLight.Grey14,
+        foreground = Color.ExpUiLight.Grey14,
         foregroundDisabled = Color.ExpUiLight.Grey8
     )
 
@@ -44,8 +44,8 @@ val IntelliJPalette.RadioButton.Companion.dark
 
 val IntelliJPalette.TextField.Companion.light
     get() = IntelliJPalette.TextField(
-        background = Color.ExpUiLight.Grey13,
-        backgroundDisabled = Color.ExpUiLight.Grey12,
+        background = Color.ExpUiLight.Grey14,
+        backgroundDisabled = Color.ExpUiLight.Grey13,
         foreground = Color.ExpUiLight.Grey1,
         foregroundDisabled = Color.ExpUiLight.Grey8
     )
@@ -60,17 +60,17 @@ val IntelliJPalette.TextField.Companion.dark
 
 val IntelliJPalette.Button.Companion.light
     get() = IntelliJPalette.Button(
-        background = Color.ExpUiLight.Grey13.toBrush(),
+        background = Color.ExpUiLight.Grey14.toBrush(),
         foreground = Color.ExpUiLight.Grey1,
         foregroundDisabled = Color.ExpUiLight.Grey8,
         shadow = Color.Unspecified,
         stroke = Color.ExpUiLight.Grey8.toBrush(),
-        strokeFocused = Color.ExpUiLight.Grey13,
-        strokeDisabled = Color.ExpUiLight.Grey10,
-        defaultBackground = Color.ExpUiLight.Blue6.toBrush(),
-        defaultForeground = Color.ExpUiLight.Grey13,
-        defaultStroke = Color.ExpUiLight.Blue6.toBrush(),
-        defaultStrokeFocused = Color.ExpUiLight.Grey13,
+        strokeFocused = Color.ExpUiLight.Grey14,
+        strokeDisabled = Color.ExpUiLight.Grey11,
+        defaultBackground = Color.ExpUiLight.Blue4.toBrush(),
+        defaultForeground = Color.ExpUiLight.Grey14,
+        defaultStroke = Color.ExpUiLight.Blue4.toBrush(),
+        defaultStrokeFocused = Color.ExpUiLight.Grey14,
         defaultShadow = Color.Unspecified
     )
 
@@ -92,7 +92,7 @@ val IntelliJPalette.Button.Companion.dark
 
 val IntelliJPalette.Separator.Companion.light
     get() = IntelliJPalette.Separator(
-        color = Color.ExpUiLight.Grey11,
+        color = Color.ExpUiLight.Grey12,
         background = Color.Unspecified
     )
 
@@ -116,8 +116,8 @@ val IntelliJPalette.Scrollbar.Companion.dark
 
 val IntelliJPalette.Tab.Companion.light
     get() = IntelliJPalette.Tab(
-        underlineColor = Color.ExpUiLight.Blue8,
-        hoveredBackgroundColor = Color.ExpUiLight.Grey11,
+        underlineColor = Color.ExpUiLight.Blue6,
+        hoveredBackgroundColor = Color.ExpUiLight.Grey12,
         tabSelectionHeight = 3.dp
     )
 
@@ -135,22 +135,23 @@ val IntelliJPalette.Companion.light
         checkbox = IntelliJPalette.Checkbox.light,
         radioButton = IntelliJPalette.RadioButton.light,
         textField = IntelliJPalette.TextField.light,
-        background = Color.ExpUiLight.Grey12,
+        background = Color.ExpUiLight.Grey13,
         text = Color.ExpUiLight.Grey1,
         textDisabled = Color.ExpUiLight.Grey8,
         controlStroke = Color.ExpUiLight.Grey9,
-        controlStrokeDisabled = Color.ExpUiLight.Grey10,
-        controlStrokeFocused = Color.ExpUiLight.Grey13, // Component.focusedBorderColor
-        controlFocusHalo = Color.ExpUiLight.Blue6,
-        controlInactiveHaloError = Color.ExpUiLight.Red10,
+        controlStrokeDisabled = Color.ExpUiLight.Grey11,
+        controlStrokeFocused = Color.ExpUiLight.Grey14, // Component.focusedBorderColor
+        controlFocusHalo = Color.ExpUiLight.Blue4,
+        controlInactiveHaloError = Color.ExpUiLight.Red9,
         controlInactiveHaloWarning = Color.ExpUiLight.Yellow9,
-        controlHaloError = Color.ExpUiLight.Red7,
+        controlHaloError = Color.ExpUiLight.Red6,
         controlHaloWarning = Color.ExpUiLight.Yellow6,
         separator = IntelliJPalette.Separator.light,
         scrollbar = IntelliJPalette.Scrollbar.light,
         treeView = IntelliJPalette.TreeView.Companion.light,
         slider = IntelliJPalette.Slider.Companion.light,
-        tab = IntelliJPalette.Tab.light
+        tab = IntelliJPalette.Tab.light,
+        progressBar = IntelliJPalette.ProgressBar.light
     )
 
 val IntelliJPalette.Companion.dark
@@ -175,13 +176,14 @@ val IntelliJPalette.Companion.dark
         scrollbar = IntelliJPalette.Scrollbar.dark,
         treeView = IntelliJPalette.TreeView.dark,
         slider = IntelliJPalette.Slider.dark,
-        tab = IntelliJPalette.Tab.dark
+        tab = IntelliJPalette.Tab.dark,
+        progressBar = IntelliJPalette.ProgressBar.dark
     )
 
 val IntelliJPalette.TreeView.Companion.light
     get() = IntelliJPalette.TreeView(
-        focusedSelectedElementBackground = Color.ExpUiLight.Blue13,
-        background = Color.ExpUiLight.Grey13
+        focusedSelectedElementBackground = Color.ExpUiLight.Blue10,
+        background = Color.ExpUiLight.Grey14
     )
 
 val IntelliJPalette.TreeView.Companion.dark
@@ -190,10 +192,22 @@ val IntelliJPalette.TreeView.Companion.dark
         background = Color.ExpUiDark.Grey2
     )
 
+val IntelliJPalette.ProgressBar.Companion.light
+    get() = IntelliJPalette.ProgressBar(
+        foreground = Color.ExpUiLight.Blue4,
+        background = Color.ExpUiLight.Grey11
+    )
+
+val IntelliJPalette.ProgressBar.Companion.dark
+    get() = IntelliJPalette.ProgressBar(
+        foreground = Color.ExpUiDark.Blue6,
+        background = Color.ExpUiDark.Grey4
+    )
+
 val IntelliJPalette.Slider.Companion.light
     get() = IntelliJPalette.Slider(
         foreground = Color.ExpUiLight.Grey1,
-        background = Color.ExpUiLight.Grey12
+        background = Color.ExpUiLight.Grey13
     )
 
 val IntelliJPalette.Slider.Companion.dark

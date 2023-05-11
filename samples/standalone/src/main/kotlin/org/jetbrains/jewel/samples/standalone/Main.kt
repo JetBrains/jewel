@@ -1,5 +1,9 @@
 package org.jetbrains.jewel.samples.standalone
 
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,6 +35,7 @@ import org.jetbrains.jewel.components.Checkbox
 import org.jetbrains.jewel.components.CheckboxRow
 import org.jetbrains.jewel.components.GroupHeader
 import org.jetbrains.jewel.components.Icon
+import org.jetbrains.jewel.components.ProgressBar
 import org.jetbrains.jewel.components.RadioButtonRow
 import org.jetbrains.jewel.components.Text
 import org.jetbrains.jewel.components.TextField
@@ -104,7 +109,7 @@ class NewUiIconResourceLoader(private val delegateLoader: ResourceLoader) : Reso
         }
         return try {
             delegateLoader.load(realPath)
-        } catch (ex: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             delegateLoader.load(resourcePath)
         }
     }
@@ -222,7 +227,9 @@ fun main() = singleWindowApplication(
                 ) {
                     TextField("Disabled", onValueChange = { }, enabled = false)
                     var text1 by remember { mutableStateOf("With Icons") }
-                    TextField(text1, onValueChange = { text1 = it },
+                    TextField(
+                        text1,
+                        onValueChange = { text1 = it },
                         placeholder = {
                             Text("Placeholder")
                         },
@@ -234,7 +241,25 @@ fun main() = singleWindowApplication(
                         }
                     )
                 }
+                GroupHeader("Progress Bar")
+                LoadingProgressBar()
             }
         }
     }
+}
+
+@Composable
+fun LoadingProgressBar() {
+    val transition = rememberInfiniteTransition()
+    val currentOffset by transition.animateFloat(
+        0f,
+        1f,
+        infiniteRepeatable(
+            animation = keyframes {
+                durationMillis = 1000
+            }
+        )
+    )
+
+    ProgressBar(currentOffset)
 }
