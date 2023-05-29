@@ -16,8 +16,9 @@ import org.jetbrains.jewel.IntelliJPainters
 import org.jetbrains.jewel.IntelliJPalette
 import org.jetbrains.jewel.ShapeStroke
 import org.jetbrains.jewel.components.state.CheckboxState
+import org.jetbrains.jewel.styles.state.ButtonMouseState
 
-typealias CheckboxStyle = ControlStyle<CheckboxAppearance, CheckboxState>
+typealias CheckboxStyle = ControlStyle<CheckboxState, CheckboxAppearance>
 
 @Immutable
 data class CheckboxAppearance(
@@ -28,6 +29,7 @@ data class CheckboxAppearance(
     val contentSpacing: Dp = 8.dp,
 
     val backgroundColor: Color = Color.Blue,
+    val foregroundColor: Color = Color.White,
     val shapeStroke: ShapeStroke<*>? = ShapeStroke.SolidColor(1.dp, Color.Blue),
     val shape: Shape = RectangleShape,
 
@@ -77,10 +79,49 @@ fun CheckboxStyle(
                 }
 
                 ButtonMouseState.values().forEach { buttonState ->
+                    when (buttonState) {
+                        ButtonMouseState.None -> {
+                            if (enabled) {
+                                if (focused) {
+                                    painters.checkbox.selectedFocused
+                                } else {
+                                    painters.checkbox.selected
+                                }
+                            } else {
+                                painters.checkbox.unselectedDisabled
+                            }
+                        }
+
+                        ButtonMouseState.Hovered -> {
+                            if (enabled) {
+                                if (focused) {
+                                    painters.checkbox.selectedFocused// .copy(alpha = 0.5f) as ex
+                                } else {
+                                    painters.checkbox.selected // .copy(alpha = 0.5f) as ex
+                                }
+                            } else {
+                                painters.checkbox.unselectedDisabled
+                            }
+                        }
+
+                        ButtonMouseState.Pressed -> {
+                            if (enabled) {
+                                if (focused) {
+                                    painters.checkbox.selectedFocused // .copy(alpha = 0.2f) as ex
+                                } else {
+                                    painters.checkbox.selected // .copy(alpha = 0.2f) as ex
+                                }
+                            } else {
+                                painters.checkbox.unselectedDisabled
+                            }
+                        }
+                    } to controlTextStyle.copy(color = palette.text)
+
                     state(
                         CheckboxState(
                             toggleableState,
-                            buttonState,
+                            mouseClick = buttonState != ButtonMouseState.Pressed,
+                            mouseOver = buttonState == ButtonMouseState.Hovered,
                             enabled = enabled,
                             focused = focused
                         ),
@@ -99,4 +140,5 @@ fun CheckboxStyle(
         }
     }
 }
+
 

@@ -92,6 +92,9 @@ private fun ButtonStyleImpl(
         haloStroke = null,
         haloShape = RoundedCornerShape(metrics.controlFocusHaloArc)
     )
+    build {
+
+    }
     builder(focusHaloStroke, defaultAppearance)//todo here fab
 }
 
@@ -157,7 +160,7 @@ private fun ControlStyle.ControlStyleBuilder<ButtonState, ButtonAppearance>.popu
     palette: IntelliJPalette,
     metrics: IntelliJMetrics
 ) {
-    state(appearance, ButtonState(focused = focused))
+    state(ButtonState(focused = focused), appearance)
     state(appearance, ButtonState(mouseClick = true, focused = focused))
     state(appearance, ButtonState(mouseClick = false, focused = focused))
     state(appearance, ButtonState(mouseOver = true, focused = focused))

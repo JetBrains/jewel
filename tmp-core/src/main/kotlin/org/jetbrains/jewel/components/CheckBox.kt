@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.selection.triStateToggleable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
@@ -30,6 +32,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.components.state.CheckboxState
 import org.jetbrains.jewel.styles.CheckboxAppearance
 import org.jetbrains.jewel.styles.CheckboxStyle
 import org.jetbrains.jewel.styles.LocalCheckboxStyle
@@ -60,7 +63,7 @@ fun Checkbox(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: CheckboxStyle = LocalCheckboxStyle.current,
+    style: CheckboxStyle = LocalCheckboxStyle.current,
     content: @Composable () -> Unit
 ) {
     TriStateCheckbox(
@@ -69,7 +72,7 @@ fun Checkbox(
         interactionSource = interactionSource,
         enabled = enabled,
         modifier = modifier,
-        colors = colors,
+        style = style,
         content = content
     )
 }
@@ -83,12 +86,24 @@ fun TriStateCheckbox(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: CheckboxStyle = LocalCheckboxStyle.current
 ) {
-    val isFocused = remember { mutableStateOf(false) }
+    var isFocused by remember { mutableStateOf(false) }
+    var checkboxState by remember {
+        mutableStateOf(
+            CheckboxState(
+                toggle = state,
+                enabled = enabled,
+                focused = isFocused
+            )
+        )
+    }
     CheckboxImpl(
-        isFocused = isFocused.value,
+        isFocused = isFocused,
         value = state,
         modifier = Modifier.onFocusEvent {
-            isFocused.value = it.isFocused
+            checkboxState = checkboxState.copy(
+                focused = it.isFocused
+            )
+            isFocused = it.isFocused
         }.triStateToggleable(
             state = state,
             onClick = onClick,
@@ -97,7 +112,7 @@ fun TriStateCheckbox(
             interactionSource = interactionSource,
             indication = null
         ),
-        style = style
+        appearance = style.appearance(checkboxState) ?: CheckboxAppearance(),
     )
 }
 
@@ -111,10 +126,22 @@ fun TriStateCheckbox(
     style: CheckboxStyle = LocalCheckboxStyle.current,
     content: @Composable () -> Unit
 ) {
-    val isFocused = remember { mutableStateOf(false) }
+    var isFocused by remember { mutableStateOf(false) }
+    var checkboxState by remember {
+        mutableStateOf(
+            CheckboxState(
+                toggle = state,
+                enabled = enabled,
+                focused = isFocused
+            )
+        )
+    }
     Row(
         modifier.onFocusEvent {
-            isFocused.value = it.isFocused
+            checkboxState = checkboxState.copy(
+                focused = it.isFocused
+            )
+            isFocused = it.isFocused
         }.triStateToggleable(
             state = state,
             onClick = onClick,
@@ -126,7 +153,7 @@ fun TriStateCheckbox(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        CheckboxImpl(isFocused = isFocused.value, value = state, style = style)
+        CheckboxImpl(isFocused = isFocused, value = state, appearance = style.appearance(checkboxState) ?: CheckboxAppearance())
         content()
     }
 }
@@ -198,8 +225,9 @@ private fun CheckboxImpl(
     isFocused: Boolean,
     value: ToggleableState,
     modifier: Modifier = Modifier,
-    style: CheckboxStyle
+    appearance: CheckboxAppearance
 ) {
+
     val icon = when (value) {
         ToggleableState.On -> rememberVectorPainter(Checkmark())
         ToggleableState.Indeterminate -> rememberVectorPainter(CheckmarkIndeterminate())
@@ -209,15 +237,15 @@ private fun CheckboxImpl(
     Canvas(modifier.wrapContentSize(Alignment.Center).requiredSize(14.dp)) {
         if (isFocused) {
             drawRoundRect(
-                style.appearance(CheckboxAppearance(isFocused)).focusColor,
+                appearance.foregroundColor,
                 size = Size(18.dp.toPx(), 18.dp.toPx()),
                 topLeft = Offset(-2.dp.toPx(), -2.dp.toPx()),
                 cornerRadius = CornerRadius(4.dp.toPx())
             )
         }
-        drawRoundRect(colors.startBorderColor, cornerRadius = CornerRadius(2.dp.toPx()))
+        appearance.shapeStroke?.let { drawRoundRect(it.brush, cornerRadius = CornerRadius(2.dp.toPx())) }
         drawRoundRect(
-            colors.startBackground,
+            appearance.backgroundColor,
             size = Size(12.dp.toPx(), 12.dp.toPx()),
             topLeft = Offset(1.dp.toPx(), 1.dp.toPx()),
             cornerRadius = CornerRadius(1.dp.toPx())
@@ -225,7 +253,7 @@ private fun CheckboxImpl(
         if (icon != null) {
             with(icon) {
                 14.dp.toPx()
-                draw(Size(14.dp.toPx(), 14.dp.toPx()), colorFilter = ColorFilter.tint(colors.foreground))
+                draw(Size(14.dp.toPx(), 14.dp.toPx()), colorFilter = ColorFilter.tint(appearance.foregroundColor))
             }
         }
     }

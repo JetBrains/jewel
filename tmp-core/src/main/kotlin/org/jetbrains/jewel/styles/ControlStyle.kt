@@ -1,12 +1,12 @@
 package org.jetbrains.jewel.styles
 
 class ControlStyle<TState, TAppearance>(
-    configure: ControlStyleBuilder<TAppearance, TState>.() -> Unit
-) : Map<TState, TAppearance> by ControlStyleBuilder<TAppearance, TState>().build(configure) {
+    configure: ControlStyleBuilder<TState, TAppearance>.() -> Unit
+) : Map<TState, TAppearance> by ControlStyleBuilder<TState, TAppearance>().build(configure) {
 
     fun appearance(state: TState) = get(state)
 
-    class ControlStyleBuilder<TAppearance, TState> {
+    class ControlStyleBuilder<TState, TAppearance> {
 
         private val states = mutableMapOf<TState, TAppearance>()
 
@@ -15,7 +15,7 @@ class ControlStyle<TState, TAppearance>(
             states[state] = appearance
         }
 
-        fun build(configure: ControlStyleBuilder<TAppearance, TState>.() -> Unit): Map<TState, TAppearance> {
+        fun build(configure: ControlStyleBuilder<TState, TAppearance>.() -> Unit): Map<TState, TAppearance> {
             configure()
             return states
         }
