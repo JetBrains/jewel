@@ -7,7 +7,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.IntelliJPalette
 
-typealias FrameStyle = ControlStyle<FrameAppearance, Unit>
+typealias FrameStyle = ControlStyle<Unit, FrameAppearance>
 
 @Immutable
 data class FrameAppearance(
@@ -21,5 +21,5 @@ val Styles.frame: FrameStyle
     get() = LocalFrameStyle.current
 
 fun FrameStyle(palette: IntelliJPalette) = FrameStyle {
-    state(FrameAppearance(backgroundColor = palette.background), Unit)
+    state(Unit, FrameAppearance(backgroundColor = palette.background))
 }

@@ -1,13 +1,8 @@
 package org.jetbrains.jewel.components.state
 
+import org.jetbrains.jewel.styles.state.ButtonMouseState
+
 data class TextFieldState(
     val enabled: Boolean = true,
-    val hovered: Boolean = false,
-    val focused: Boolean = false
-) {
-
-    companion object {
-
-        val Default = TextFieldState()
-    }
-}
+    val mouseState: ButtonMouseState = ButtonMouseState.None,
+)

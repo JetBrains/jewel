@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
@@ -26,42 +26,23 @@ import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.themes.expui.standalone.style.AreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.AreaProvider
-import org.jetbrains.jewel.themes.expui.standalone.style.DisabledAreaProvider
-import org.jetbrains.jewel.themes.expui.standalone.style.FocusAreaProvider
+import org.jetbrains.jewel.ShapeStroke
 import org.jetbrains.jewel.themes.expui.standalone.style.LocalAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalDisabledAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalFocusAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalNormalAreaColors
 
-class ComboBoxColors(
-    override val normalAreaColors: AreaColors,
-    override val focusAreaColors: AreaColors,
-    override val disabledAreaColors: AreaColors,
-    val dropdownMenuColors: DropdownMenuColors
-) : AreaProvider, FocusAreaProvider, DisabledAreaProvider {
-
-    @Composable
-    fun provideArea(enabled: Boolean, focused: Boolean, content: @Composable () -> Unit) {
-        val currentAreaColor = when {
-            !enabled -> disabledAreaColors
-            focused -> focusAreaColors
-            else -> normalAreaColors
-        }
-
-        CompositionLocalProvider(
-            LocalAreaColors provides currentAreaColor,
-            LocalNormalAreaColors provides normalAreaColors,
-            LocalFocusAreaColors provides focusAreaColors,
-            LocalDisabledAreaColors provides disabledAreaColors,
-            LocalDropdownMenuColors provides dropdownMenuColors,
-            content = content
-        )
-    }
-}
+@Immutable
+data class ComboBoxAppearance(
+    val backgroundColor: Color = Color.Blue,
+    val foregroundColor: Color = Color.White,
+    val shapeStroke: ShapeStroke<*>? = ShapeStroke.SolidColor(1.dp, Color.Blue),
+    val shape: Shape = RectangleShape,
+    val haloStroke: ShapeStroke<*>? = null,
+    val haloShape: Shape = shape
+)
 
 val LocalComboBoxColors = compositionLocalOf<ComboBoxColors> {
     error("No ComboBoxColors provided")

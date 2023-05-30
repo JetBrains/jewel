@@ -14,9 +14,9 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJPainters
 import org.jetbrains.jewel.IntelliJPalette
 import org.jetbrains.jewel.ShapeStroke
-import org.jetbrains.jewel.components.state.ButtonMouseState
+import org.jetbrains.jewel.styles.state.ButtonMouseState
 
-typealias RadioButtonStyle = ControlStyle<RadioButtonAppearance, RadioButtonState>
+typealias RadioButtonStyle = ControlStyle<RadioButtonState, RadioButtonAppearance>
 
 data class RadioButtonState(
     val checked: Boolean,
@@ -56,50 +56,50 @@ fun RadioButtonStyle(
     painters: IntelliJPainters,
     controlTextStyle: TextStyle
 ) = RadioButtonStyle {
-    default {
-        for (enabled in listOf(false, true)) {
-            for (focused in listOf(false, true)) {
-                for (checked in listOf(false, true)) {
-                    val (painter, textStyle) = if (enabled) {
-                        if (focused) {
-                            when (checked) {
-                                true -> painters.radioButton.selectedFocused
-                                false -> painters.radioButton.unselectedFocused
-                            } to controlTextStyle.copy(color = palette.text)
-                        } else {
-                            when (checked) {
-                                true -> painters.radioButton.selected
-                                false -> painters.radioButton.unselected
-                            } to controlTextStyle.copy(color = palette.text)
-                        }
+
+    for (enabled in listOf(false, true)) {
+        for (focused in listOf(false, true)) {
+            for (checked in listOf(false, true)) {
+                val (painter, textStyle) = if (enabled) {
+                    if (focused) {
+                        when (checked) {
+                            true -> painters.radioButton.selectedFocused
+                            false -> painters.radioButton.unselectedFocused
+                        } to controlTextStyle.copy(color = palette.text)
                     } else {
                         when (checked) {
-                            true -> painters.radioButton.selectedDisabled
-                            false -> painters.radioButton.unselectedDisabled
-                        } to controlTextStyle.copy(color = palette.textDisabled)
+                            true -> painters.radioButton.selected
+                            false -> painters.radioButton.unselected
+                        } to controlTextStyle.copy(color = palette.text)
                     }
+                } else {
+                    when (checked) {
+                        true -> painters.radioButton.selectedDisabled
+                        false -> painters.radioButton.unselectedDisabled
+                    } to controlTextStyle.copy(color = palette.textDisabled)
+                }
 
-                    ButtonMouseState.values().forEach { buttonState ->
-                        state(
-                            RadioButtonState(
-                                checked,
-                                buttonState,
-                                enabled = enabled,
-                                focused = focused
-                            ),
-                            RadioButtonAppearance(
-                                textStyle = textStyle,
-                                interiorPainter = painter,
-                                backgroundColor = Color.Transparent,
-                                symbolPadding = 0.dp,
-                                shapeStroke = null,
-                                width = 19.dp,
-                                height = 19.dp
-                            )
+                ButtonMouseState.values().forEach { buttonState ->
+                    state(
+                        RadioButtonState(
+                            checked,
+                            buttonState,
+                            enabled = enabled,
+                            focused = focused
+                        ),
+                        RadioButtonAppearance(
+                            textStyle = textStyle,
+                            interiorPainter = painter,
+                            backgroundColor = Color.Transparent,
+                            symbolPadding = 0.dp,
+                            shapeStroke = null,
+                            width = 19.dp,
+                            height = 19.dp
                         )
-                    }
+                    )
                 }
             }
         }
     }
 }
+

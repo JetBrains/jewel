@@ -14,6 +14,8 @@ data class IntelliJPalette(
     val separator: Separator,
     val treeView: TreeView,
     val slider: Slider,
+    val comboBox: ComboBox,
+    val comboBoxItem: ComboBoxItem,
 
     val background: Color, // Panel.background
 
@@ -32,6 +34,27 @@ data class IntelliJPalette(
     val scrollbar: Scrollbar,
     val tab: Tab
 ) {
+
+    data class ComboBox(
+        val background: Color,
+        val foreground: Color,
+        val disabledBackground: Color,
+        val hoverBackgroundColor: Color,
+    ) {
+
+        companion object
+    }
+
+    data class ComboBoxItem(
+        val background: Color,
+        val foreground: Color,
+        val disabledBackground: Color,
+        val hoverBackgroundColor: Color,
+        val pressedBackgroundColor: Color,
+    ) {
+
+        companion object
+    }
 
     data class Slider(
         val foreground: Color,

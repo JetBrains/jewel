@@ -18,8 +18,9 @@ import org.jetbrains.jewel.IntelliJPalette
 import org.jetbrains.jewel.Orientation
 import org.jetbrains.jewel.ShapeStroke
 import org.jetbrains.jewel.components.state.TabState
+import org.jetbrains.jewel.styles.state.ButtonMouseState
 
-typealias TabStyle = ControlStyle<TabAppearance, TabState>
+typealias TabStyle = ControlStyle<TabState, TabAppearance>
 
 @Immutable
 data class TabAppearance(
@@ -44,75 +45,100 @@ val Styles.tab: TabStyle
     @ReadOnlyComposable
     get() = LocalTabStyle.current
 
-fun TabStyle(palette: IntelliJPalette, typography: TextStyle): TabStyle = TabStyle {
-    variation(Orientation.Horizontal) {
-        state(
-            TabState.Normal,
-            TabAppearance(
-                contentAlignment = Alignment.Bottom,
-                contentArrangement = Arrangement.Center,
-                textStyle = typography.copy(palette.text)
-            )
-        )
-        state(
-            TabState.Hovered,
-            TabAppearance(
-                contentAlignment = Alignment.Bottom,
-                contentArrangement = Arrangement.Center,
-                textStyle = typography.copy(palette.text),
-                backgroundColor = palette.tab.hoveredBackgroundColor
-            )
-        )
-        state(
-            TabState.Selected,
-            TabAppearance(
-                contentAlignment = Alignment.Bottom,
-                contentArrangement = Arrangement.Center,
-                textStyle = typography.copy(palette.text),
-                adornmentShape = BottomLineShape,
-                adornmentStroke = ShapeStroke.SolidColor(3.dp, palette.tab.underlineColor)
-            )
-        )
-        state(
-            TabState.SelectedAndHovered,
-            TabAppearance(
-                contentAlignment = Alignment.Bottom,
-                contentArrangement = Arrangement.Center,
-                textStyle = typography.copy(palette.text),
-                backgroundColor = palette.tab.hoveredBackgroundColor,
-                adornmentShape = BottomLineShape,
-                adornmentStroke = ShapeStroke.SolidColor(3.dp, palette.tab.underlineColor)
-            )
-        )
-    }
+fun TabStyle(
+    palette: IntelliJPalette,
+    typography: TextStyle
+): TabStyle = TabStyle {
 
-    variation(Orientation.Vertical) {
-        state(
-            TabState.Normal,
-            TabAppearance(
-                contentAlignment = Alignment.CenterVertically,
-                contentArrangement = Arrangement.Start,
-                textStyle = typography.copy(palette.text),
-                backgroundColor = palette.background
-            )
-        )
-        state(
-            TabState.Selected,
-            TabAppearance(
-                contentAlignment = Alignment.CenterVertically,
-                contentArrangement = Arrangement.Start,
-                textStyle = typography.copy(palette.text),
-                adornmentStroke = ShapeStroke.SolidColor(1.dp, palette.tab.underlineColor)
-            )
-        )
-        state(
-            TabState.Hovered,
-            TabAppearance(
-                contentAlignment = Alignment.CenterVertically,
-                contentArrangement = Arrangement.Start,
-                textStyle = typography.copy(palette.text),
-                backgroundColor = palette.tab.hoveredBackgroundColor
-            )
-        )
+    Orientation.values().forEach { orientation ->
+        when (orientation) {
+            Orientation.Horizontal -> HorizontalTabStyle(palette, typography)
+            Orientation.Vertical -> VerticalTabStyle(palette, typography)
+        }
     }
+}
+
+private fun HorizontalTabStyle(
+    palette: IntelliJPalette,
+    typography: TextStyle
+) = TabStyle {
+    val defaultState = TabState()
+    for (mouseState in ButtonMouseState.values()) {
+        val appearance = when (mouseState) {
+            ButtonMouseState.None ->
+                TabAppearance(
+                    contentAlignment = Alignment.Bottom,
+                    contentArrangement = Arrangement.Center,
+                    textStyle = typography.copy(palette.text)
+                )
+
+            ButtonMouseState.Hovered, ButtonMouseState.Pressed -> {
+                TabAppearance(
+                    contentAlignment = Alignment.Bottom,
+                    contentArrangement = Arrangement.Center,
+                    textStyle = typography.copy(palette.text),
+                    backgroundColor = palette.tab.hoveredBackgroundColor
+                )
+            }
+        }
+        state(defaultState.copy(mouseState), appearance)
+    }
+    state(
+        defaultState.copy(selected = true), TabAppearance(
+        contentAlignment = Alignment.Bottom,
+        contentArrangement = Arrangement.Center,
+        textStyle = typography.copy(palette.text),
+        adornmentShape = BottomLineShape,
+        adornmentStroke = ShapeStroke.SolidColor(3.dp, palette.tab.underlineColor)
+    )
+    )
+}
+
+private fun VerticalTabStyle(
+    palette: IntelliJPalette,
+    typography: TextStyle
+) = TabStyle {
+    val defaultState = TabState().copy(tabType = Orientation.Vertical)
+    for (mouseState in ButtonMouseState.values()) {
+        val appearance = when (mouseState) {
+            ButtonMouseState.None ->
+                TabAppearance(
+                    contentAlignment = Alignment.CenterVertically,
+                    contentArrangement = Arrangement.Start,
+                    textStyle = typography.copy(palette.text),
+                    backgroundColor = palette.background
+                )
+
+            ButtonMouseState.Hovered, ButtonMouseState.Pressed -> {
+                TabAppearance(
+                    contentAlignment = Alignment.CenterVertically,
+                    contentArrangement = Arrangement.Start,
+                    textStyle = typography.copy(palette.text),
+                    backgroundColor = palette.tab.hoveredBackgroundColor
+                )
+            }
+        }
+        state(defaultState.copy(mouseState), appearance)
+    }
+    state(
+        state = defaultState.copy(selected = true),
+        appearance = TabAppearance(
+            contentAlignment = Alignment.Bottom,
+            contentArrangement = Arrangement.Center,
+            textStyle = typography.copy(palette.text),
+            adornmentShape = BottomLineShape,
+            adornmentStroke = ShapeStroke.SolidColor(3.dp, palette.tab.underlineColor)
+        )
+    )
+
+    state(
+        state = defaultState.copy(selected = true),
+        appearance = TabAppearance(
+            contentAlignment = Alignment.CenterVertically,
+            contentArrangement = Arrangement.Start,
+            textStyle = typography.copy(palette.text),
+            adornmentStroke = ShapeStroke.SolidColor(1.dp, palette.tab.underlineColor)
+        )
+    )
+
 }

@@ -8,11 +8,28 @@ typealias PainterProvider = @Composable () -> Painter
 class IntelliJPainters(
     val checkbox: CheckboxPainters,
     val radioButton: RadioButtonPainters,
+    val comboBox: ComboBoxPainters,
+    val comboBoxItem: ComboBoxIconPainters,
     val treeView: TreeViewPainters
 ) {
 
     data class TreeViewPainters(
         val arrow: PainterProvider
+    ) {
+
+        companion object
+    }
+
+    data class ComboBoxPainters(
+        val arrowClosed: PainterProvider,
+        val arrowOpen: PainterProvider
+    ) {
+
+        companion object
+    }
+
+    data class ComboBoxIconPainters(
+        val icon: PainterProvider,
     ) {
 
         companion object

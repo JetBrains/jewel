@@ -9,7 +9,7 @@ import org.jetbrains.jewel.IntelliJPalette
 import org.jetbrains.jewel.IntelliJTypography
 import org.jetbrains.jewel.Orientation
 
-typealias SliderStyle = ControlStyle<SliderAppearance, SliderState>
+typealias SliderStyle = ControlStyle<SliderState, SliderAppearance>
 
 data class SliderAppearance(
     val labelTextStyle: TextStyle,
@@ -44,20 +44,18 @@ fun SliderStyle(
     majorTickSpacing: Int = 10,
     minorTickSpacing: Int = 1
 ) = SliderStyle {
-    // TODO create variants (with/without ticks?) maybe
-    default {
-        state(
-            SliderState,
-            SliderAppearance(
-                labelTextStyle = typography.slider.copy(color = palette.slider.foreground),
-                background = palette.slider.background,
-                orientation = orientation,
-                paintTrack = paintTrack,
-                paintTicks = paintTicks,
-                inverted = inverted,
-                majorTickSpacing = majorTickSpacing,
-                minorTickSpacing = minorTickSpacing
-            )
+    state(
+        SliderState,
+        SliderAppearance(
+            labelTextStyle = typography.slider.copy(color = palette.slider.foreground),
+            background = palette.slider.background,
+            orientation = orientation,
+            paintTrack = paintTrack,
+            paintTicks = paintTicks,
+            inverted = inverted,
+            majorTickSpacing = majorTickSpacing,
+            minorTickSpacing = minorTickSpacing
         )
-    }
+    )
 }
+

@@ -161,16 +161,16 @@ private fun ControlStyle.ControlStyleBuilder<ButtonState, ButtonAppearance>.popu
     metrics: IntelliJMetrics
 ) {
     state(ButtonState(focused = focused), appearance)
-    state(appearance, ButtonState(mouseClick = true, focused = focused))
-    state(appearance, ButtonState(mouseClick = false, focused = focused))
-    state(appearance, ButtonState(mouseOver = true, focused = focused))
-    state(appearance, ButtonState(mouseOver = false, focused = focused))
+    state(ButtonState(mouseClick = true, focused = focused), appearance)
+    state(ButtonState(mouseClick = false, focused = focused), appearance)
+    state(ButtonState(mouseOver = true, focused = focused), appearance)
+    state(ButtonState(mouseOver = false, focused = focused), appearance)
     state(
+        ButtonState(enabled = false, focused = focused),
         appearance.copy(
             textStyle = controlTextStyle.copy(palette.button.foregroundDisabled),
             background = Color.Transparent.toBrush(),
             shapeStroke = ShapeStroke.SolidColor(metrics.button.strokeWidth, palette.controlStrokeDisabled, Insets(metrics.button.strokeWidth))
-        ),
-        ButtonState(enabled = false, focused = focused)
+        )
     )
 }
