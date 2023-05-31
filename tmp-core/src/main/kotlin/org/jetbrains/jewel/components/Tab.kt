@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,58 +26,49 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.themes.expui.standalone.style.AreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.AreaProvider
-import org.jetbrains.jewel.themes.expui.standalone.style.HoverAreaProvider
-import org.jetbrains.jewel.themes.expui.standalone.style.InactiveSelectionAreaProvider
+import org.jetbrains.jewel.components.state.TabState
+import org.jetbrains.jewel.styles.LocalTabStyle
+import org.jetbrains.jewel.styles.TabStyle
 import org.jetbrains.jewel.themes.expui.standalone.style.LocalAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalHoverAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalInactiveAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalNormalAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalPressedAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalSelectionAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalSelectionInactiveAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.PressedAreaProvider
 import org.jetbrains.jewel.themes.expui.standalone.style.areaBackground
-import org.jetbrains.jewel.themes.expui.standalone.theme.LightTheme
 
-class TabColors(
-    override val normalAreaColors: AreaColors,
-    override val selectionAreaColors: AreaColors,
-    override val hoverAreaColors: AreaColors,
-    override val pressedAreaColors: AreaColors,
-    override val inactiveAreaColors: AreaColors,
-    override val inactiveSelectionAreaColors: AreaColors
-) : AreaProvider, HoverAreaProvider, PressedAreaProvider, InactiveSelectionAreaProvider {
-
-    @Composable
-    fun provideArea(selected: Boolean, content: @Composable () -> Unit) {
-        val activated = LocalContentActivated.current
-        val currentColors = when {
-            selected -> if (activated) selectionAreaColors else inactiveSelectionAreaColors
-            !activated -> inactiveAreaColors
-            else -> normalAreaColors
-        }
-        CompositionLocalProvider(
-            LocalAreaColors provides currentColors,
-            LocalNormalAreaColors provides normalAreaColors,
-            LocalHoverAreaColors provides hoverAreaColors,
-            LocalPressedAreaColors provides pressedAreaColors,
-            LocalSelectionInactiveAreaColors provides inactiveSelectionAreaColors,
-            LocalInactiveAreaColors provides inactiveAreaColors,
-            LocalSelectionAreaColors provides selectionAreaColors,
-            content = content
-        )
-    }
-}
-
-val LocalTabColors = compositionLocalOf {
-    LightTheme.TabColors
-}
-
-val LocalCloseableTabColors = compositionLocalOf {
-    LightTheme.CloseableTabColors
-}
+//class TabColors(
+//    override val normalAreaColors: AreaColors,
+//    override val selectionAreaColors: AreaColors,
+//    override val hoverAreaColors: AreaColors,
+//    override val pressedAreaColors: AreaColors,
+//    override val inactiveAreaColors: AreaColors,
+//    override val inactiveSelectionAreaColors: AreaColors
+//) : AreaProvider, HoverAreaProvider, PressedAreaProvider, InactiveSelectionAreaProvider {
+//
+//    @Composable
+//    fun provideArea(selected: Boolean, content: @Composable () -> Unit) {
+//        val activated = LocalContentActivated.current
+//        val currentColors = when {
+//            selected -> if (activated) selectionAreaColors else inactiveSelectionAreaColors
+//            !activated -> inactiveAreaColors
+//            else -> normalAreaColors
+//        }
+//        CompositionLocalProvider(
+//            LocalAreaColors provides currentColors,
+//            LocalNormalAreaColors provides normalAreaColors,
+//            LocalHoverAreaColors provides hoverAreaColors,
+//            LocalPressedAreaColors provides pressedAreaColors,
+//            LocalSelectionInactiveAreaColors provides inactiveSelectionAreaColors,
+//            LocalInactiveAreaColors provides inactiveAreaColors,
+//            LocalSelectionAreaColors provides selectionAreaColors,
+//            content = content
+//        )
+//    }
+//}
+//
+//val LocalTabColors = compositionLocalOf {
+//    LightTheme.TabColors
+//}
+//
+//val LocalCloseableTabColors = compositionLocalOf {
+//    LightTheme.CloseableTabColors
+//}
 
 @Composable
 fun Tab(
@@ -87,19 +76,21 @@ fun Tab(
     onSelected: () -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: TabColors = LocalTabColors.current,
+    style: TabStyle = LocalTabStyle.current,
     content: @Composable RowScope.() -> Unit
 ) {
-    colors.provideArea(selected) {
-        val currentColors = LocalAreaColors.current
-        Box(
-            modifier.areaBackground().drawWithCache {
-                onDrawWithContent {
-                    drawContent()
-                    if (selected) {
-                        val strokeWidth = 3.dp.toPx()
-                        val start = Offset(strokeWidth / 2f, size.height - strokeWidth / 2f)
-                        val end = start.copy(x = size.width - strokeWidth / 2f)
+    val tabState = remember { mutableStateOf(TabState(selected = selected)) }
+    val currentAppearance = style.appearance(tabState.value)
+
+    val currentColors = LocalAreaColors.current
+    Box(
+        modifier.areaBackground().drawWithCache {
+            onDrawWithContent {
+                drawContent()
+                if (selected) {
+                    val strokeWidth = 3.dp.toPx()
+                    val start = Offset(strokeWidth / 2f, size.height - strokeWidth / 2f)
+                    val end = start.copy(x = size.width - strokeWidth / 2f)
                         drawLine(currentColors.focusColor, start, end, strokeWidth, cap = StrokeCap.Round)
                     }
                 }

@@ -15,8 +15,8 @@ import org.jetbrains.jewel.IntelliJPainters
 import org.jetbrains.jewel.IntelliJPalette
 import org.jetbrains.jewel.ShapeStroke
 import org.jetbrains.jewel.styles.state.ButtonMouseState
-import org.jetbrains.jewel.styles.state.ComboBoxItemState
 import org.jetbrains.jewel.styles.state.ComboBoxState
+import org.jetbrains.jewel.styles.state.DropDownItemState
 
 @Immutable
 data class ComboBoxAppearance(
@@ -48,7 +48,7 @@ data class ComboBoxItemAppearance(
 )
 
 typealias ComboBoxStyle = ControlStyle<ComboBoxState, ComboBoxAppearance>
-typealias ComboBoxItemStyle = ControlStyle<ComboBoxItemState, ComboBoxItemAppearance>
+typealias ComboBoxItemStyle = ControlStyle<DropDownItemState, ComboBoxItemAppearance>
 
 val LocalComboBoxStyle = compositionLocalOf<ComboBoxStyle> { localNotProvided() }
 val LocalComboBoxItemStyle = compositionLocalOf<ComboBoxItemStyle> { localNotProvided() }
@@ -123,7 +123,7 @@ fun ComboBoxStyle(
     }
 }
 
-fun ComboBoxItemStyle(
+fun DropDownItemStyle(
     palette: IntelliJPalette,
     painters: IntelliJPainters,
     controlTextStyle: TextStyle
@@ -136,31 +136,32 @@ fun ComboBoxItemStyle(
         haloStroke = ShapeStroke.SolidColor(1.dp, palette.controlFocusHalo),
         iconPainter = painters.comboBoxItem.icon,
     )
-    for (enable in listOf(true, false)) {
-        if (!enable) {
-            state(
-                ComboBoxItemState().copy(enabled = false),
-                defaultComboBoxItemAppearance.copy(backgroundColor = palette.comboBoxItem.disabledBackground)
-            )
-        } else {
-            for (mouseState in ButtonMouseState.values()) {
+
+    for (mouseState in ButtonMouseState.values()) {
+        for (enable in listOf(true, false)) {
+            if (!enable) {
+                state(
+                    DropDownItemState().copy(enabled = false, mouseState = mouseState),
+                    defaultComboBoxItemAppearance.copy(backgroundColor = palette.comboBoxItem.disabledBackground)
+                )
+            } else {
                 when (mouseState) {
                     ButtonMouseState.Hovered -> state(
-                        ComboBoxItemState(),
+                        DropDownItemState(),
                         defaultComboBoxItemAppearance.copy(
                             backgroundColor = palette.comboBoxItem.hoverBackgroundColor
                         )
                     )
 
                     ButtonMouseState.Pressed -> state(
-                        ComboBoxItemState(),
+                        DropDownItemState(),
                         defaultComboBoxItemAppearance.copy(
                             backgroundColor = palette.comboBoxItem.pressedBackgroundColor
                         )
                     )
 
                     ButtonMouseState.None -> state(
-                        ComboBoxItemState(),
+                        DropDownItemState(),
                         defaultComboBoxItemAppearance.copy(
                             backgroundColor = palette.comboBoxItem.background
                         )

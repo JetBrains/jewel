@@ -9,7 +9,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toolingGraphicsLayer
@@ -22,8 +21,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.theme.LocalIsDarkTheme
 
 @Composable
 fun themedSvgResource(resource: String, isDark: Boolean = LocalIsDarkTheme.current): Painter {
@@ -126,14 +123,15 @@ fun Icon(
     } else {
         Modifier
     }
-    val filter = colorFilter ?: run {
-        val foreground = LocalAreaColors.current.foreground
-        if (foreground.isSpecified) {
-            ColorFilter.tint(foreground)
-        } else {
-            null
-        }
-    }
+    val filter = colorFilter
+//        ?: run {
+//        val foreground = LocalAreaColors.current.foreground
+//        if (foreground.isSpecified) {
+//            ColorFilter.tint(foreground)
+//        } else {
+//            null
+//        }
+//    }
     Box(
         modifier.toolingGraphicsLayer()
             .defaultSizeFor(painter)

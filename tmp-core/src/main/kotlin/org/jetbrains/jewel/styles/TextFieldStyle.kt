@@ -18,9 +18,11 @@ import org.jetbrains.jewel.IntelliJMetrics
 import org.jetbrains.jewel.IntelliJPalette
 import org.jetbrains.jewel.ShapeStroke
 import org.jetbrains.jewel.components.state.TextFieldState
+import org.jetbrains.jewel.components.state.TextFieldValidationState
+import org.jetbrains.jewel.styles.state.ButtonMouseState
 import org.jetbrains.jewel.toBrush
 
-typealias TextFieldStyle = ControlStyle<TextFieldAppearance, TextFieldState>
+typealias TextFieldStyle = ControlStyle<TextFieldState, TextFieldAppearance>
 
 data class TextFieldAppearance(
     val textStyle: TextStyle = TextStyle.Default,
@@ -71,86 +73,110 @@ fun TextFieldStyle(
         haloStroke = ShapeStroke.SolidColor(metrics.controlFocusHaloWidth, palette.controlFocusHalo, Insets((-1).dp))
     )
 
-    default {
-        allStateCombinations { enabled, focused, hovered ->
-            val appearance = when {
-                enabled -> when {
-                    focused -> focusedAppearance
-                    else -> defaultAppearance
-                }
+    state(TextFieldState().copy(enabled = false), disabledAppearance)
 
-                else -> disabledAppearance
+    for (focused in listOf(true, false)) {
+        for (mouseButtonState in ButtonMouseState.values()) {
+            //focussed, and overed
+            val appearance = when (mouseButtonState) {
+                ButtonMouseState.None -> if (focused) focusedAppearance else defaultAppearance
+                ButtonMouseState.Hovered, ButtonMouseState.Pressed -> if (focused) focusedAppearance else defaultAppearance
+
             }
-
-            state(
-                TextFieldState(
-                    focused = focused,
-                    hovered = hovered,
-                    enabled = enabled
-                ),
-                appearance
-            )
+            state(TextFieldState().copy(focused = focused), appearance = appearance)
         }
     }
 
-    variation(IntelliJTextFieldVariations.Error) {
-        allStateCombinations { enabled, focused, hovered ->
-            val appearance = if (enabled) {
-                defaultAppearance.copy(
-                    shapeStroke = ShapeStroke.SolidColor(1.dp, palette.controlHaloError, Insets(1.dp)),
-                    haloStroke = ShapeStroke.SolidColor(metrics.controlFocusHaloWidth, palette.controlInactiveHaloError, Insets((-1).dp))
-                )
-            } else {
-                disabledAppearance
-            }
-
-            state(
-                TextFieldState(
-                    focused = focused,
-                    hovered = hovered,
-                    enabled = enabled
-                ),
-                appearance
-            )
-        }
-    }
-
-    variation(IntelliJTextFieldVariations.Warning) {
-        allStateCombinations { enabled, focused, hovered ->
-            val appearance = when {
-                enabled -> defaultAppearance.copy(
-                    shapeStroke = ShapeStroke.SolidColor(1.dp, palette.controlHaloWarning, Insets(1.dp)),
-                    haloStroke = ShapeStroke.SolidColor(metrics.controlFocusHaloWidth, palette.controlInactiveHaloWarning, Insets((-1).dp))
-                )
-
-                else -> disabledAppearance
-            }
-
-            state(
-                TextFieldState(
-                    focused = focused,
-                    hovered = hovered,
-                    enabled = enabled
-                ),
-                appearance
-            )
-        }
-    }
-}
-
-private fun ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.allStateCombinations(
-    action: ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.(enabled: Boolean, focused: Boolean, hovered: Boolean) -> Unit
-) {
-    for (enabled in listOf(false, true)) {
-        for (focused in listOf(false, true)) {
-            for (hovered in listOf(false, true)) {
-                action(enabled, focused, hovered)
+    for (status in TextFieldValidationState.values().toMutableList().also { it.remove(TextFieldValidationState.Default) }) {
+        for (focused in listOf(true, false)) {
+            for (mouseButtonState in ButtonMouseState.values()) {
+                state(TextFieldState().copy(textFieldValidationState = status), defaultAppearance)
             }
         }
     }
 }
 
-enum class IntelliJTextFieldVariations {
-    Error,
-    Warning
-}
+//
+//    default {
+//        allStateCombinations { enabled, focused, hovered ->
+//            val appearance = when {
+//                enabled -> when {
+//                    focused -> focusedAppearance
+//                    else -> defaultAppearance
+//                }
+//
+//                else -> disabledAppearance
+//            }
+//
+//            state(
+//                TextFieldState(
+//                    focused = focused,
+//                    hovered = hovered,
+//                    enabled = enabled
+//                ),
+//                appearance
+//            )
+//        }
+//    }
+//
+//    variation(IntelliJTextFieldVariations.Error) {
+//        allStateCombinations { enabled, focused, hovered ->
+//            val appearance = if (enabled) {
+//                defaultAppearance.copy(
+//                    shapeStroke = ShapeStroke.SolidColor(1.dp, palette.controlHaloError, Insets(1.dp)),
+//                    haloStroke = ShapeStroke.SolidColor(metrics.controlFocusHaloWidth, palette.controlInactiveHaloError, Insets((-1).dp))
+//                )
+//            } else {
+//                disabledAppearance
+//            }
+//
+//            state(
+//                TextFieldState(
+//                    focused = focused,
+//                    hovered = hovered,
+//                    enabled = enabled
+//                ),
+//                appearance
+//            )
+//        }
+//    }
+//
+//    variation(IntelliJTextFieldVariations.Warning) {
+//        allStateCombinations { enabled, focused, hovered ->
+//            val appearance = when {
+//                enabled -> defaultAppearance.copy(
+//                    shapeStroke = ShapeStroke.SolidColor(1.dp, palette.controlHaloWarning, Insets(1.dp)),
+//                    haloStroke = ShapeStroke.SolidColor(metrics.controlFocusHaloWidth, palette.controlInactiveHaloWarning, Insets((-1).dp))
+//                )
+//
+//                else -> disabledAppearance
+//            }
+//
+//            state(
+//                TextFieldState(
+//                    focused = focused,
+//                    hovered = hovered,
+//                    enabled = enabled
+//                ),
+//                appearance
+//            )
+//        }
+//    }
+
+//
+//private fun ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.allStateCombinations(
+//    action: ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.(enabled: Boolean, focused: Boolean, hovered: Boolean) -> Unit
+//) {
+//    for (enabled in listOf(false, true)) {
+//        for (focused in listOf(false, true)) {
+//            for (hovered in listOf(false, true)) {
+//                action(enabled, focused, hovered)
+//            }
+//        }
+//    }
+//}
+//
+//enum class IntelliJTextFieldVariations {
+//    Error,
+//    Warning
+//}

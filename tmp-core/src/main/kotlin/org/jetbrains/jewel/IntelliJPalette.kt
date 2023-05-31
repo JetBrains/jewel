@@ -21,6 +21,7 @@ data class IntelliJPalette(
 
     val text: Color, // Panel.foreground
     val textDisabled: Color, // Label.disabledForeground
+    val textLink: TextLink, // Hyperlink.foreground??
 
     val controlStroke: Color, // Component.borderColor
     val controlStrokeDisabled: Color, // Component.disabledBorderColor
@@ -34,6 +35,17 @@ data class IntelliJPalette(
     val scrollbar: Scrollbar,
     val tab: Tab
 ) {
+
+    data class TextLink(
+        val background: Color = Color.Unspecified,
+        val foreground: Color,
+        val hoverBackground: Color = background,
+        val hoverForeground: Color,
+        val visitedBackground: Color = background,
+        val visitedForeground: Color,
+        val pressedForeground: Color = foreground,
+        val pressedBackgroundColor: Color = background,
+    )
 
     data class ComboBox(
         val background: Color,

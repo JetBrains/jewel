@@ -6,6 +6,10 @@ class ControlStyle<TState, TAppearance>(
 
     fun appearance(state: TState) = get(state)
 
+    fun defaultAppearance(): TAppearance =
+        values.firstOrNull()
+            ?: throw IllegalStateException("No appearance has been registered for ${this::class.simpleName}")
+
     class ControlStyleBuilder<TState, TAppearance> {
 
         private val states = mutableMapOf<TState, TAppearance>()

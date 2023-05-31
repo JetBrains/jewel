@@ -8,7 +8,7 @@ data class ComboBoxState(
 
     )
 
-data class ComboBoxItemState(
+data class DropDownItemState(
     val mouseState: ButtonMouseState = ButtonMouseState.None,
     val enabled: Boolean = true,
     val focused: Boolean = false,

@@ -16,8 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalDefaultTextStyle
+import org.jetbrains.jewel.styles.LocalTextFieldStyle
 
 @Composable
 fun Label(
@@ -36,13 +35,12 @@ fun Label(
     softWrap: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
     onTextLayout: (TextLayoutResult) -> Unit = {},
-    style: TextStyle = LocalDefaultTextStyle.current
+    style: TextStyle = LocalTextFieldStyle.current.defaultAppearance().textStyle
 ) {
     val textColor = color.takeOrElse {
         style.color
-    }.takeOrElse {
-        LocalAreaColors.current.text
     }
+
     val mergedStyle = style.merge(
         TextStyle(
             color = textColor,
@@ -86,13 +84,12 @@ fun Label(
     maxLines: Int = Int.MAX_VALUE,
     inlineContent: Map<String, InlineTextContent> = mapOf(),
     onTextLayout: (TextLayoutResult) -> Unit = {},
-    style: TextStyle = LocalDefaultTextStyle.current
+    style: TextStyle = LocalTextFieldStyle.current.defaultAppearance().textStyle
 ) {
     val textColor = color.takeOrElse {
         style.color
-    }.takeOrElse {
-        LocalAreaColors.current.text
     }
+
     val mergedStyle = style.merge(
         TextStyle(
             color = textColor,

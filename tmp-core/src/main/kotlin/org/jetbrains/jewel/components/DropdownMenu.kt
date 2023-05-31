@@ -60,6 +60,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.rememberCursorPositionProvider
+import org.jetbrains.jewel.styles.ComboBoxItemStyle
+import org.jetbrains.jewel.styles.LocalComboBoxItemStyle
 import org.jetbrains.jewel.themes.expui.standalone.style.AreaColors
 import org.jetbrains.jewel.themes.expui.standalone.style.AreaProvider
 import org.jetbrains.jewel.themes.expui.standalone.style.FocusAreaProvider
@@ -72,7 +74,6 @@ import org.jetbrains.jewel.themes.expui.standalone.style.LocalPressedAreaColors
 import org.jetbrains.jewel.themes.expui.standalone.style.PressedAreaProvider
 import org.jetbrains.jewel.themes.expui.standalone.style.areaBackground
 import org.jetbrains.jewel.themes.expui.standalone.style.areaBorder
-import org.jetbrains.jewel.themes.expui.standalone.theme.LightTheme
 import java.awt.event.KeyEvent
 import kotlin.math.max
 import kotlin.math.min
@@ -97,8 +98,8 @@ class DropdownMenuColors(
     }
 }
 
-val LocalDropdownMenuColors = compositionLocalOf {
-    LightTheme.DropdownMenuColors
+val LocalDropdownItemStyle = compositionLocalOf {
+    LocalComboBoxItemStyle.current
 }
 
 @Composable
@@ -108,7 +109,7 @@ fun DropdownMenu(
     focusable: Boolean = true,
     modifier: Modifier = Modifier,
     offset: DpOffset = DpOffset(0.dp, 0.dp),
-    colors: DropdownMenuColors = LocalDropdownMenuColors.current,
+    colors: ComboBoxItemStyle = LocalDropdownItemStyle.current,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val expandedStates = remember { MutableTransitionState(false) }

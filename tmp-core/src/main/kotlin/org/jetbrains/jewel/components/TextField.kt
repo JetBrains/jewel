@@ -2,6 +2,8 @@
 
 package org.jetbrains.jewel.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
@@ -11,14 +13,11 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
@@ -30,54 +29,11 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import org.jetbrains.jewel.themes.expui.standalone.style.AreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.AreaProvider
-import org.jetbrains.jewel.themes.expui.standalone.style.DisabledAreaProvider
-import org.jetbrains.jewel.themes.expui.standalone.style.ErrorFocusAreaProvider
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalDefaultTextStyle
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalDisabledAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalErrorAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalFocusAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.LocalNormalAreaColors
-import org.jetbrains.jewel.themes.expui.standalone.style.areaBackground
-import org.jetbrains.jewel.themes.expui.standalone.style.areaBorder
-import org.jetbrains.jewel.themes.expui.standalone.style.areaFocusBorder
-import org.jetbrains.jewel.themes.expui.standalone.theme.LightTheme
+import org.jetbrains.jewel.components.state.TextFieldState
+import org.jetbrains.jewel.styles.LocalTextFieldStyle
+import org.jetbrains.jewel.styles.TextFieldAppearance
+import org.jetbrains.jewel.styles.TextFieldStyle
 import kotlin.math.max
-
-data class TextFieldColors(
-    override val normalAreaColors: AreaColors,
-    override val errorAreaColors: AreaColors,
-    override val disabledAreaColors: AreaColors,
-    override val errorFocusAreaColors: AreaColors,
-    override val focusAreaColors: AreaColors
-) : AreaProvider, DisabledAreaProvider, ErrorFocusAreaProvider {
-
-    @Composable
-    fun provideArea(enabled: Boolean, focused: Boolean, isError: Boolean, content: @Composable () -> Unit) {
-        val currentColors = when {
-            !enabled -> disabledAreaColors
-            isError -> if (focused) errorFocusAreaColors else errorAreaColors
-            focused -> focusAreaColors
-            else -> normalAreaColors
-        }
-
-        CompositionLocalProvider(
-            LocalAreaColors provides currentColors,
-            LocalDisabledAreaColors provides disabledAreaColors,
-            LocalErrorAreaColors provides errorAreaColors,
-            LocalFocusAreaColors provides focusAreaColors,
-            LocalErrorAreaColors provides errorAreaColors,
-            LocalNormalAreaColors provides normalAreaColors,
-            content = content
-        )
-    }
-}
-
-val LocalTextFieldColors = compositionLocalOf<TextFieldColors> {
-    LightTheme.TextFieldColors
-}
 
 @Composable
 fun TextField(
@@ -86,53 +42,50 @@ fun TextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = LocalDefaultTextStyle.current,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
     onTextLayout: (TextLayoutResult) -> Unit = {},
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = RoundedCornerShape(3.dp),
-    colors: TextFieldColors = LocalTextFieldColors.current
+    textFieldStyle: TextFieldStyle = LocalTextFieldStyle.current
 ) {
-    val focused = interactionSource.collectIsFocusedAsState()
-    colors.provideArea(enabled, focused.value, isError) {
-        val currentColors = LocalAreaColors.current
+    val textFieldState = remember { TextFieldState(focused = interactionSource.collectIsFocusedAsState().value) }
 
-        val textColor = textStyle.color.takeOrElse {
-            currentColors.text
-        }
-        val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
+    val currentAppearance = textFieldStyle.appearance(textFieldState)!!
 
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = modifier.defaultMinSize(minWidth = 64.dp),
-            enabled = enabled,
-            readOnly = readOnly,
-            textStyle = mergedTextStyle,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            singleLine = true,
-            maxLines = 1,
-            visualTransformation = visualTransformation,
-            onTextLayout = onTextLayout,
-            interactionSource = interactionSource,
-            cursorBrush = SolidColor(currentColors.text)
-        ) {
-            TextFieldDecorationBox(
-                focused = focused.value,
-                shape = shape,
-                innerTextField = it,
-                placeholder = if (value.isEmpty()) placeholder else null,
-                leadingIcon = leadingIcon,
-                trailingIcon = trailingIcon
-            )
-        }
+    val textColor = currentAppearance.textStyle.color
+
+    val mergedTextStyle = currentAppearance.textStyle.merge(TextStyle(color = textColor))
+
+    BasicTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier.defaultMinSize(minWidth = 64.dp),
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = mergedTextStyle,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        singleLine = true,
+        maxLines = 1,
+        visualTransformation = visualTransformation,
+        onTextLayout = onTextLayout,
+        interactionSource = interactionSource,
+        cursorBrush = SolidColor(textColor)
+    ) {
+        TextFieldDecorationBox(
+            focused = textFieldState.focused,
+            shape = shape,
+            innerTextField = it,
+            placeholder = if (value.isEmpty()) placeholder else null,
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon,
+            currentAppearance
+        )
     }
 }
 
@@ -143,53 +96,48 @@ fun TextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = LocalDefaultTextStyle.current,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
     onTextLayout: (TextLayoutResult) -> Unit = {},
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = RoundedCornerShape(3.dp),
-    colors: TextFieldColors = LocalTextFieldColors.current
+    textFieldStyle: TextFieldStyle = LocalTextFieldStyle.current
 ) {
-    val focused = interactionSource.collectIsFocusedAsState()
-    colors.provideArea(enabled, focused.value, isError) {
-        val currentColors = LocalAreaColors.current
+    val textFieldState = remember { TextFieldState(focused = interactionSource.collectIsFocusedAsState().value) }
+    val currentAppearance = textFieldStyle.appearance(textFieldState)!!
 
-        val textColor = textStyle.color.takeOrElse {
-            currentColors.text
-        }
-        val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
+    val textColor = currentAppearance.textStyle.color
+    val mergedTextStyle = currentAppearance.textStyle.merge(TextStyle(color = textColor))
 
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = modifier.defaultMinSize(minWidth = 64.dp),
-            enabled = enabled,
-            readOnly = readOnly,
-            textStyle = mergedTextStyle,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            singleLine = true,
-            maxLines = 1,
-            visualTransformation = visualTransformation,
-            onTextLayout = onTextLayout,
-            interactionSource = interactionSource,
-            cursorBrush = SolidColor(currentColors.text)
-        ) {
-            TextFieldDecorationBox(
-                focused = focused.value,
-                shape = shape,
-                innerTextField = it,
-                placeholder = if (value.text.isEmpty()) placeholder else null,
-                leadingIcon = leadingIcon,
-                trailingIcon = trailingIcon
-            )
-        }
+    BasicTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier.defaultMinSize(minWidth = 64.dp),
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = mergedTextStyle,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        singleLine = true,
+        maxLines = 1,
+        visualTransformation = visualTransformation,
+        onTextLayout = onTextLayout,
+        interactionSource = interactionSource,
+        cursorBrush = SolidColor(textColor)
+    ) {
+        TextFieldDecorationBox(
+            focused = textFieldState.focused,
+            shape = shape,
+            innerTextField = it,
+            placeholder = if (value.text.isEmpty()) placeholder else null,
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon,
+            currentAppearance = currentAppearance
+        )
     }
 }
 
@@ -200,11 +148,24 @@ private fun TextFieldDecorationBox(
     innerTextField: @Composable () -> Unit,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null
+    trailingIcon: @Composable (() -> Unit)? = null,
+    currentAppearance: TextFieldAppearance
 ) {
     Layout(
-        modifier = Modifier.areaBackground(shape = shape).areaFocusBorder(focused, shape = shape)
-            .areaBorder(shape = shape),
+        modifier = Modifier
+            .background(currentAppearance.backgroundColor)
+            .then(
+                currentAppearance.shapeStroke?.brush?.let {
+                    Modifier.border(2.dp, it, shape)
+                } ?: Modifier
+            ).then(
+                if (focused) {
+                    currentAppearance.haloStroke?.brush?.let {
+                        Modifier.border(1.dp, it, shape)
+                    } ?: Modifier
+                } else Modifier
+            ),
+//            .areaBorder(shape = shape),
         content = {
             if (leadingIcon != null) {
                 Box(modifier = Modifier.layoutId(LEADING_ID), contentAlignment = Alignment.Center) {
