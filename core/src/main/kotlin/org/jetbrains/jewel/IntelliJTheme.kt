@@ -30,7 +30,6 @@ import org.jetbrains.jewel.styles.SliderStyle
 import org.jetbrains.jewel.styles.TabStyle
 import org.jetbrains.jewel.styles.TextAreaStyle
 import org.jetbrains.jewel.styles.TextFieldStyle
-import org.jetbrains.jewel.styles.TreeViewStyle
 import org.jetbrains.jewel.styles.localNotProvided
 
 val LocalTypography = compositionLocalOf<IntelliJTypography> { localNotProvided() }
@@ -56,7 +55,6 @@ fun IntelliJTheme(
     LocalRadioButtonStyle provides RadioButtonStyle(palette, painters, typography.radioButton),
     LocalSeparatorStyle provides SeparatorStyle(palette, metrics),
     LocalScrollbarStyle provides ScrollbarStyle(palette, metrics),
-    LocalTreeViewStyle provides TreeViewStyle(palette, metrics, painters),
     LocalSliderStyle provides SliderStyle(palette, typography),
     LocalIndication provides NoIndication,
     LocalTabStyle provides TabStyle(palette, typography.default),

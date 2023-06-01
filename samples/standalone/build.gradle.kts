@@ -11,6 +11,8 @@ dependencies {
     implementation(projects.themes.darcula.darculaStandalone)
     implementation(projects.themes.newUi.newUiStandalone)
     implementation(libs.compose.components.splitpane)
+    implementation(projects.jewel.themes.newUi.newUiStandalone)
+    implementation(projects.foundation)
 }
 
 compose.desktop {
