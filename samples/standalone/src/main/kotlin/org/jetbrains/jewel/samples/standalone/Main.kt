@@ -44,9 +44,9 @@ import org.jetbrains.jewel.styles.IntelliJButtonStyleVariations
 import org.jetbrains.jewel.styles.Styles
 import org.jetbrains.jewel.styles.frame
 import org.jetbrains.jewel.themes.darcula.standalone.darcula
-import org.jetbrains.jewel.themes.expui.standalone.dark
-import org.jetbrains.jewel.themes.expui.standalone.default
-import org.jetbrains.jewel.themes.expui.standalone.light
+import org.jetbrains.jewel.themes.intui.standalone.dark
+import org.jetbrains.jewel.themes.intui.standalone.default
+import org.jetbrains.jewel.themes.intui.standalone.light
 import java.io.InputStream
 import org.jetbrains.jewel.themes.darcula.standalone.default as defaultIj
 import org.jetbrains.jewel.themes.darcula.standalone.light as lightIj
