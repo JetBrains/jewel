@@ -20,12 +20,11 @@ sealed class Stroke {
     data class Solid internal constructor(
         val width: Dp,
         val color: Color,
-        val shape: Shape,
         val alignment: Alignment
     ) : Stroke() {
 
         override fun toString(): String {
-            return "Stroke(width=$width, color=$color, shape=$shape, alignment=$alignment)"
+            return "Stroke(width=$width, color=$color, alignment=$alignment)"
         }
     }
 
@@ -33,12 +32,11 @@ sealed class Stroke {
     data class Brush internal constructor(
         val width: Dp,
         val brush: androidx.compose.ui.graphics.Brush,
-        val shape: Shape,
         val alignment: Alignment
     ) : Stroke() {
 
         override fun toString(): String {
-            return "Stroke(width=$width, brush=$brush, shape=$shape, alignment=$alignment)"
+            return "Stroke(width=$width, brush=$brush, alignment=$alignment)"
         }
     }
 
@@ -47,24 +45,24 @@ sealed class Stroke {
     }
 }
 
-fun Stroke(width: Dp, color: Color, shape: Shape, alignment: Stroke.Alignment): Stroke {
+fun Stroke(width: Dp, color: Color, alignment: Stroke.Alignment): Stroke {
     if (width.value == 0f) return Stroke.None
     if (color.isUnspecified) return Stroke.None
 
-    return Stroke.Solid(width, color, shape, alignment)
+    return Stroke.Solid(width, color, alignment)
 }
 
-fun Stroke(width: Dp, brush: androidx.compose.ui.graphics.Brush, shape: Shape, alignment: Stroke.Alignment): Stroke {
+fun Stroke(width: Dp, brush: androidx.compose.ui.graphics.Brush, alignment: Stroke.Alignment): Stroke {
     if (width.value == 0f) return Stroke.None
     return when (brush) {
         is SolidColor -> {
             if (brush.value.isUnspecified) {
                 Stroke.None
             } else {
-                Stroke.Solid(width, brush.value, shape, alignment)
+                Stroke.Solid(width, brush.value, alignment)
             }
         }
 
-        else -> Stroke.Brush(width, brush, shape, alignment)
+        else -> Stroke.Brush(width, brush, alignment)
     }
 }

@@ -33,23 +33,23 @@ object IntUiButtonDefaults : ButtonDefaults {
     val Shape = RoundedCornerShape(4.dp)
 
     @Composable
-    override fun shape(): State<RoundedCornerShape> {
-        return remember { mutableStateOf(Shape) }
+    override fun shape(): RoundedCornerShape {
+        return Shape
     }
 
     @Composable
-    override fun contentPadding(): State<PaddingValues> {
-        return remember { mutableStateOf(ContentPadding) }
+    override fun contentPadding(): PaddingValues {
+        return ContentPadding
     }
 
     @Composable
-    override fun minWidth(): State<Dp> {
-        return remember { mutableStateOf(MinWidth) }
+    override fun minWidth(): Dp {
+        return MinWidth
     }
 
     @Composable
-    override fun minHeight(): State<Dp> {
-        return remember { mutableStateOf(MinHeight) }
+    override fun minHeight(): Dp {
+        return MinHeight
     }
 
     @Composable
@@ -81,8 +81,8 @@ object IntUiButtonDefaults : ButtonDefaults {
                     background = palette.blue().buttonDefault(),
                     foreground = palette.grey().textOnDark(),
                 ),
-                focusedStroke = Stroke(1.dp, palette.grey().mainBackground(), RoundedCornerShape(4.dp), Stroke.Alignment.Outside),
-                focusHoloStroke = Stroke(3.dp, palette.blue().buttonDefault(), RoundedCornerShape(4.dp), Stroke.Alignment.Outside),
+                focusedStroke = Stroke(1.dp, palette.grey().mainBackground(), Stroke.Alignment.Outside),
+                focusHoloStroke = Stroke(3.dp, palette.blue().buttonDefault(), Stroke.Alignment.Outside),
             )
         }
     }

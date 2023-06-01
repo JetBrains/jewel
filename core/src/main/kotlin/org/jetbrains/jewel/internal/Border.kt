@@ -39,14 +39,14 @@ import androidx.compose.ui.unit.toSize
 import kotlin.math.ceil
 import kotlin.math.min
 
-fun Modifier.border(stroke: org.jetbrains.jewel.internal.Stroke): Modifier = when (stroke) {
+fun Modifier.border(stroke: org.jetbrains.jewel.internal.Stroke, shape: Shape): Modifier = when (stroke) {
     is org.jetbrains.jewel.internal.Stroke.None -> this
-    is org.jetbrains.jewel.internal.Stroke.Solid -> border(stroke.alignment, stroke.width, stroke.color, stroke.shape)
+    is org.jetbrains.jewel.internal.Stroke.Solid -> border(stroke.alignment, stroke.width, stroke.color, shape)
     is org.jetbrains.jewel.internal.Stroke.Brush -> border(
         alignment = stroke.alignment,
         width = stroke.width,
         brush = stroke.brush,
-        shape = stroke.shape
+        shape = shape
     )
 }
 

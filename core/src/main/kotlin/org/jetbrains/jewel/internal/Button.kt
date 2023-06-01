@@ -41,7 +41,7 @@ fun Button(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     defaults: ButtonDefaults = LocalButtonDefaults.current,
     colors: ButtonColors = defaults.buttonColors(),
-    shape: Shape = defaults.shape().value,
+    shape: Shape = defaults.shape(),
     content: @Composable RowScope.() -> Unit
 ) {
     var buttonState by remember(interactionSource, enabled) {
@@ -69,8 +69,8 @@ fun Button(
 
     Box(
         modifier.background(colors.backgroundBrush(buttonState).value, shape)
-            .border(colors.holoStroke(buttonState).value)
-            .border(colors.borderStroke(buttonState).value)
+            .border(colors.holoStroke(buttonState).value, shape)
+            .border(colors.borderStroke(buttonState).value, shape)
             .clickable(
                 onClick = onClick,
                 enabled = enabled,
@@ -82,8 +82,8 @@ fun Button(
     ) {
         Row(
             Modifier
-                .padding(defaults.contentPadding().value)
-                .defaultMinSize(defaults.minWidth().value, defaults.minHeight().value),
+                .padding(defaults.contentPadding())
+                .defaultMinSize(defaults.minWidth(), defaults.minHeight()),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
             content = content
@@ -111,16 +111,16 @@ interface ButtonColors {
 interface ButtonDefaults {
 
     @Composable
-    fun shape(): State<Shape>
+    fun shape(): Shape
 
     @Composable
-    fun contentPadding(): State<PaddingValues>
+    fun contentPadding(): PaddingValues
 
     @Composable
-    fun minWidth(): State<Dp>
+    fun minWidth(): Dp
 
     @Composable
-    fun minHeight(): State<Dp>
+    fun minHeight(): Dp
 
     @Composable
     fun buttonColors(): ButtonColors
