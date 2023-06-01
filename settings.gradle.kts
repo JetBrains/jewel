@@ -33,7 +33,7 @@ include(
     ":samples:standalone",
     ":themes:darcula:darcula-standalone",
     ":themes:darcula:darcula-ide",
-    ":themes:new-ui:new-ui-standalone",
-    ":themes:new-ui:new-ui-ide",
-    ":themes:new-ui:new-ui-desktop",
+    ":themes:int-ui:int-ui-standalone",
+    ":themes:int-ui:int-ui-ide",
+    ":themes:int-ui:int-ui-desktop",
 )
