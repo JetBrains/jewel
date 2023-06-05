@@ -186,9 +186,9 @@ class SelectableLazyListState(
      * @param changeFocus Whether to change the focus to the selected item.
      * @param skipScroll Whether to skip the scroll to the selected item.
      */
-    suspend fun selectSingleKey(key: SelectableKey, changeFocus: Boolean = true, skipScroll: Boolean = false) {
-        val index = keys.indexOf(key)
-        if (index >= 0 && key.selectable) selectSingleItem(index, changeFocus, skipScroll = skipScroll)
+    suspend fun selectSingleKey(key: Any, changeFocus: Boolean = true, skipScroll: Boolean = false) {
+        val index = keys.indexOfFirst { it.key == key }
+        if (index >= 0 && keys[index].selectable) selectSingleItem(index, changeFocus, skipScroll = skipScroll)
         lastSelectedIndex = index
     }
 
@@ -208,10 +208,10 @@ class SelectableLazyListState(
         }
     }
 
-    suspend fun toggleSelectionKey(key: SelectableKey, skipScroll: Boolean = false) {
+    suspend fun toggleSelectionKey(key: Any, skipScroll: Boolean = false) {
         if (selectionMode == SelectionMode.None) return
-        val index = keys.indexOf(key)
-        if (index > 0 && key.selectable) toggleSelection(index, skipScroll = skipScroll)
+        val index = keys.indexOfFirst { it.key == key }
+        if (index > 0 && keys[index].selectable) toggleSelection(index, skipScroll = skipScroll)
         lastSelectedIndex = index
     }
 
@@ -301,12 +301,12 @@ private suspend fun LazyListState.scrollToItem(index: Int, animate: Boolean, scr
 /**
  * Represents a selectable key used in a selectable lazy list.
  */
-sealed class SelectableKey {
+internal sealed class SelectableKey {
 
     /**
      * The key associated with the item.
      */
-    abstract val key: Any?
+    abstract val key: Any
 
     /**
      * Determines if the item is selectable.
@@ -320,9 +320,9 @@ sealed class SelectableKey {
      * @param key The key associated with the item.
      * @param selectable Whether the item is selectable.
      */
-    class Focusable(
+    internal class Focusable(
         internal val focusRequester: FocusRequester,
-        override val key: Any?,
+        override val key: Any,
         override val selectable: Boolean
     ) : SelectableKey()
 
@@ -332,8 +332,8 @@ sealed class SelectableKey {
      * @param key The key associated with the item.
      * @param selectable Whether the item is selectable.
      */
-    class NotFocusable(
-        override val key: Any?,
+    internal class NotFocusable(
+        override val key: Any,
         override val selectable: Boolean
     ) : SelectableKey()
 
@@ -346,7 +346,7 @@ sealed class SelectableKey {
         return key == other.key
     }
 
-    override fun hashCode(): Int = key?.hashCode() ?: 0
+    override fun hashCode(): Int = key.hashCode()
 }
 
 interface SelectableLazyItemScope : LazyItemScope {

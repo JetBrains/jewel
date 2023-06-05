@@ -94,7 +94,7 @@ internal class SelectableLazyListScopeContainer(
                 }
             }
             .focusable()
-            .pointerInput(Unit) {
+            .pointerInput(isFocused) {
                 awaitPointerEventScope {
                     while (true) {
                         awaitFirstDown(false)
@@ -107,7 +107,7 @@ internal class SelectableLazyListScopeContainer(
     @Composable
     private fun Modifier.selectable(selectableKey: SelectableKey, scope: CoroutineScope = rememberCoroutineScope()) =
         onPointerEvent(PointerEventType.Press) {
-            pointerEventScopedActions.handlePointerEventPress(it, state.keybindings, scope, selectableKey)
+            pointerEventScopedActions.handlePointerEventPress(it, state.keybindings, scope, selectableKey.key)
         }
 
     override fun item(

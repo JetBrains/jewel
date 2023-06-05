@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -74,8 +74,9 @@ fun <T> TreeView(
     arrowContent: @Composable (isOpen: Boolean) -> Unit,
     elementContent: @Composable SelectableLazyItemScope.(Tree.Element<T>) -> Unit
 ) {
-    LaunchedEffect(tree) {
+    DisposableEffect(tree) {
         treeState.attachTree(tree)
+        onDispose { }
     }
 
     Log.w("selected: ${treeState.delegate.selectedItemIndexes}")
@@ -129,7 +130,7 @@ fun <T> TreeView(
                         Box(modifier = Modifier.alpha(0f).width((element.depth * deepIndentDP.value).dp))
                         Box(
                             modifier = Modifier.alpha(if (element.children?.isEmpty() == true) 0f else 1f)
-                                .pointerInput(Unit) {
+                                .pointerInput(element.id) {
                                     while (true) {
                                         awaitPointerEventScope {
                                             awaitFirstDown(false)

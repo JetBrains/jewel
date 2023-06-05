@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -53,8 +53,9 @@ fun SelectableLazyColumn(
     pointerHandlingScopedActions: PointerEventScopedActions = DefaultSelectableLazyColumnPointerEventAction(state),
     content: SelectableLazyListScope.() -> Unit
 ) {
-    LaunchedEffect(keyActions) {
+    DisposableEffect(keyActions) {
         state.attachKeybindings(keyActions)
+        onDispose { }
     }
     BaseSelectableLazyColumn(
         modifier = modifier,

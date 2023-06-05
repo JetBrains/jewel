@@ -13,7 +13,6 @@ import org.jetbrains.jewel.foundation.lazy.DefaultSelectableColumnKeybindings
 import org.jetbrains.jewel.foundation.lazy.DefaultSelectableOnKeyEvent
 import org.jetbrains.jewel.foundation.lazy.SelectableColumnKeybindings
 import org.jetbrains.jewel.foundation.lazy.SelectableColumnOnKeyEvent
-import org.jetbrains.jewel.foundation.lazy.SelectableKey
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListState
 import org.jetbrains.jewel.foundation.utils.Log
 
@@ -31,7 +30,7 @@ interface PointerEventScopedActions {
         pointerEvent: PointerEvent,
         keyBindings: SelectableColumnKeybindings,
         scope: CoroutineScope,
-        selectableKey: SelectableKey
+        key: Any
     )
 }
 
@@ -41,7 +40,7 @@ class DefaultSelectableLazyColumnPointerEventAction(private val state: Selectabl
         pointerEvent: PointerEvent,
         keyBindings: SelectableColumnKeybindings,
         scope: CoroutineScope,
-        selectableKey: SelectableKey
+        key: Any
     ) {
         with(keyBindings) {
             when {
@@ -53,7 +52,7 @@ class DefaultSelectableLazyColumnPointerEventAction(private val state: Selectabl
                 pointerEvent.keyboardModifiers.isKeyboardMultiSelectionKeyPressed -> {
                     Log.i("shift pressed on click")
                     scope.launch {
-                        state.onExtendSelectionToIndex(state.keys.indexOf(selectableKey), skipScroll = true)
+                        state.onExtendSelectionToIndex(state.keys.indexOfFirst { it.key == key }, skipScroll = true)
                     }
                 }
 
@@ -61,14 +60,14 @@ class DefaultSelectableLazyColumnPointerEventAction(private val state: Selectabl
                     Log.i("ctrl pressed on click")
                     state.lastKeyEventUsedMouse = false
                     scope.launch {
-                        state.toggleSelectionKey(selectableKey, skipScroll = true)
+                        state.toggleSelectionKey(key, skipScroll = true)
                     }
                 }
 
                 else -> {
                     Log.i("single click")
                     scope.launch {
-                        state.selectSingleKey(selectableKey, skipScroll = true)
+                        state.selectSingleKey(key, skipScroll = true)
                     }
                 }
             }
@@ -87,7 +86,7 @@ class DefaultTreeViewPointerEventAction<T>(
         pointerEvent: PointerEvent,
         keyBindings: SelectableColumnKeybindings,
         scope: CoroutineScope,
-        selectableKey: SelectableKey
+        key: Any
     ) {
         with(keyBindings) {
             when {
@@ -98,7 +97,7 @@ class DefaultTreeViewPointerEventAction<T>(
                 pointerEvent.keyboardModifiers.isKeyboardMultiSelectionKeyPressed -> {
                     Log.t("ShiftClicked ")
                     scope.launch {
-                        treeState.delegate.onExtendSelectionToIndex(treeState.delegate.keys.indexOf(selectableKey))
+                        treeState.delegate.onExtendSelectionToIndex(treeState.delegate.keys.indexOfFirst { it.key == key })
                     }
                 }
 
@@ -106,12 +105,12 @@ class DefaultTreeViewPointerEventAction<T>(
                     Log.t("control pressed")
                     treeState.lastKeyEventUsedMouse = false
                     scope.launch {
-                        treeState.toggleElementSelection(treeState.delegate.keys.indexOf(selectableKey))
+                        treeState.toggleElementSelection(treeState.delegate.keys.indexOfFirst { it.key == key })
                     }
                 }
 
                 else -> {
-                    val element = treeState.flattenedTree[treeState.delegate.keys.indexOf(selectableKey)]
+                    val element = treeState.flattenedTree[treeState.delegate.keys.indexOfFirst { it.key == key }]
                     Log.e(treeState.toString())
                     @Suppress("UNCHECKED_CAST")
                     notifyItemClicked(
@@ -122,7 +121,7 @@ class DefaultTreeViewPointerEventAction<T>(
                         onElementDoubleClick = onElementDoubleClick
                     )
                     scope.launch {
-                        treeState.delegate.selectSingleKey(selectableKey, skipScroll = true)
+                        treeState.delegate.selectSingleKey(key, skipScroll = true)
                     }
                 }
             }
