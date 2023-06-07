@@ -9,4 +9,3 @@ data class CheckboxState(
     val enabled: Boolean = true,
     val focused: Boolean = false
 )
-

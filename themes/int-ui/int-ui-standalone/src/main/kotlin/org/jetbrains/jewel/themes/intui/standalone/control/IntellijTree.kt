@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.components.Icon
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyItemScope
 import org.jetbrains.jewel.foundation.tree.DefaultTreeViewKeyActions
@@ -30,8 +31,8 @@ fun <T> IntelliJTree(
         onElementClick = onElementClick,
         onElementDoubleClick = onElementDoubleClick,
         keyActions = keyActions,
-        selectionFocusedBackgroundColor = LocalAreaColors.current.focusColor.copy(alpha = .3f),
-        selectionBackgroundColor = LocalAreaColors.current.focusColor,
+        selectionFocusedBackgroundColor = Color.Unspecified.copy(alpha = .3f),
+        selectionBackgroundColor = Color.Unspecified,
         arrowContent = { isOpen ->
             @Suppress("MagicNumber")
             Box(Modifier.rotate(if (isOpen) 0f else 270f)) {

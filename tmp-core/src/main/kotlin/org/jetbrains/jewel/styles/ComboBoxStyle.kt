@@ -29,7 +29,7 @@ data class ComboBoxAppearance(
 
     val iconPainter: (@Composable () -> Painter)? = null,
     val symbolPadding: Dp = 2.dp,
-    val baseLine: Dp = 14.dp,
+    val baseLine: Dp = 14.dp
 )
 
 @Immutable
@@ -44,7 +44,7 @@ data class ComboBoxItemAppearance(
 
     val iconPainter: (@Composable () -> Painter)? = null,
     val symbolPadding: Dp = 2.dp,
-    val baseLine: Dp = 14.dp,
+    val baseLine: Dp = 14.dp
 )
 
 typealias ComboBoxStyle = ControlStyle<ComboBoxState, ComboBoxAppearance>
@@ -63,14 +63,14 @@ val Styles.comboBoxItem: ComboBoxItemStyle
 
 fun ComboBoxStyle(
     palette: IntelliJPalette,
-    painters: IntelliJPainters,
+    painters: IntelliJPainters
 ) = ComboBoxStyle {
     val defaultAppearance = ComboBoxAppearance().copy(
         backgroundColor = palette.comboBox.background,
         foregroundColor = palette.comboBox.foreground,
         shapeStroke = ShapeStroke.SolidColor(1.dp, palette.controlStroke),
         haloStroke = ShapeStroke.SolidColor(1.dp, palette.controlFocusHalo),
-        iconPainter = painters.comboBox.arrowClosed,
+        iconPainter = painters.comboBox.arrowClosed
     )
     for (enabled in listOf(true, false)) {
         if (enabled) {
@@ -115,11 +115,12 @@ fun ComboBoxStyle(
                     }
                 }
             }
-        } else
+        } else {
             state(
                 ComboBoxState().copy(enabled = false),
                 defaultAppearance.copy(backgroundColor = palette.comboBox.disabledBackground)
             )
+        }
     }
 }
 
@@ -134,7 +135,7 @@ fun DropDownItemStyle(
         foregroundColor = palette.comboBoxItem.foreground,
         shapeStroke = ShapeStroke.SolidColor(1.dp, palette.controlStroke),
         haloStroke = ShapeStroke.SolidColor(1.dp, palette.controlFocusHalo),
-        iconPainter = painters.comboBoxItem.icon,
+        iconPainter = painters.comboBoxItem.icon
     )
 
     for (mouseState in ButtonMouseState.values()) {

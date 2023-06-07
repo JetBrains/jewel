@@ -28,6 +28,9 @@ class JewelKtlintPlugin : Plugin<Project> {
 
     private fun Project.configureTasks() {
         tasks.withType<LintTask>().configureEach {
+            exclude {
+                it.file.absolutePath.startsWith(buildDir.absolutePath)
+            }
             reports.set(
                 mapOf(
                     "plain" to rootDir.resolve("build/reports/ktlint-${project.name}.txt"),

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -31,21 +32,70 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
+import org.jetbrains.jewel.foundation.MouseState
+import org.jetbrains.jewel.foundation.Stroke
+import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.styles.localNotProvided
 
 @Composable
-fun Button(
+fun DefaultButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    defaults: ButtonDefaults = LocalButtonDefaults.current,
-    colors: ButtonColors = defaults.buttonColors(),
+    defaults: ButtonDefaults = IntelliJTheme.buttonDefaults,
+    colors: ButtonColors = defaults.primaryButtonColors(),
     shape: Shape = defaults.shape(),
     content: @Composable RowScope.() -> Unit
 ) {
+    ButtonImpl(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        interactionSource = interactionSource,
+        defaults = defaults,
+        colors = colors,
+        shape = shape,
+        content = content
+    )
+}
+
+@Composable
+fun OutlinedButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    defaults: ButtonDefaults = IntelliJTheme.buttonDefaults,
+    colors: ButtonColors = defaults.outlinedButtonColors(),
+    shape: Shape = defaults.shape(),
+    content: @Composable RowScope.() -> Unit
+) {
+    ButtonImpl(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        interactionSource = interactionSource,
+        defaults = defaults,
+        colors = colors,
+        shape = shape,
+        content = content
+    )
+}
+
+@Composable
+private fun ButtonImpl(
+    onClick: () -> Unit,
+    modifier: Modifier,
+    enabled: Boolean,
+    interactionSource: MutableInteractionSource,
+    defaults: ButtonDefaults,
+    colors: ButtonColors,
+    shape: Shape,
+    content: @Composable RowScope.() -> Unit
+) {
     var buttonState by remember(interactionSource, enabled) {
-        mutableStateOf(ButtonState.of(enabled = true))
+        mutableStateOf(ButtonState.of(enabled = enabled))
     }
 
     LaunchedEffect(interactionSource) {
@@ -68,26 +118,29 @@ fun Button(
     }
 
     Box(
-        modifier.background(colors.backgroundBrush(buttonState).value, shape)
-            .border(colors.holoStroke(buttonState).value, shape)
+        modifier.clickable(
+            onClick = onClick,
+            enabled = enabled,
+            role = Role.Button,
+            interactionSource = interactionSource,
+            indication = null
+        ).background(colors.backgroundBrush(buttonState).value, shape)
             .border(colors.borderStroke(buttonState).value, shape)
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = null
-            ),
+            .border(colors.holoStroke(buttonState).value, shape),
         propagateMinConstraints = true
     ) {
-        Row(
-            Modifier
-                .padding(defaults.contentPadding())
-                .defaultMinSize(defaults.minWidth(), defaults.minHeight()),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            content = content
-        )
+        CompositionLocalProvider(
+            LocalTextColor provides colors.contentColor(buttonState).value
+        ) {
+            Row(
+                Modifier
+                    .defaultMinSize(defaults.minWidth(), defaults.minHeight())
+                    .padding(defaults.contentPadding()),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                content = content
+            )
+        }
     }
 }
 
@@ -123,31 +176,10 @@ interface ButtonDefaults {
     fun minHeight(): Dp
 
     @Composable
-    fun buttonColors(): ButtonColors
+    fun primaryButtonColors(): ButtonColors
 
     @Composable
-    fun outlineButtonColors(): ButtonColors
-}
-
-@Immutable
-@JvmInline
-value class MouseState internal constructor(val state: ULong) {
-
-    override fun toString(): String {
-        return when (state) {
-            None.state -> "None"
-            Pressed.state -> "Pressed"
-            Hovered.state -> "Hovered"
-            else -> "Unknown"
-        }
-    }
-
-    companion object {
-
-        val None = MouseState(0UL)
-        val Hovered = MouseState(1UL)
-        val Pressed = MouseState(2UL)
-    }
+    fun outlinedButtonColors(): ButtonColors
 }
 
 @Immutable
@@ -166,19 +198,16 @@ value class ButtonState(val state: ULong) {
     val mouseState: MouseState
         get() = MouseState(state shr mouseStateBitOffset)
 
-    fun copy(enabled: Boolean = isEnabled, focused: Boolean = isFocused, mouseState: MouseState = this.mouseState): ButtonState {
-        return of(enabled, focused, mouseState)
-    }
+    fun copy(enabled: Boolean = isEnabled, focused: Boolean = isFocused, mouseState: MouseState = this.mouseState): ButtonState =
+        of(enabled, focused, mouseState)
 
-    override fun toString(): String {
-        return "ButtonState(enabled=$isEnabled, focused=$isFocused, mouseState=$mouseState)"
-    }
+    override fun toString(): String = "ButtonState(enabled=$isEnabled, focused=$isFocused, mouseState=$mouseState)"
 
     companion object {
 
         private val Enabled = 1UL shl 0
         private val Focused = 1UL shl 1
-        private val mouseStateBitOffset = 60
+        private const val mouseStateBitOffset = 60
 
         fun of(enabled: Boolean = true, focused: Boolean = false, mouseState: MouseState = MouseState.None): ButtonState {
             return ButtonState(
@@ -244,6 +273,7 @@ private data class DefaultButtonColors(
         )
     }
 
+    @Composable
     override fun contentColor(state: ButtonState): State<Color> {
         return rememberUpdatedState(
             when {
@@ -256,6 +286,7 @@ private data class DefaultButtonColors(
         )
     }
 
+    @Composable
     override fun borderStroke(state: ButtonState): State<Stroke> {
         return rememberUpdatedState(
             when {
@@ -268,6 +299,7 @@ private data class DefaultButtonColors(
         )
     }
 
+    @Composable
     override fun holoStroke(state: ButtonState): State<Stroke> {
         return rememberUpdatedState(
             when {

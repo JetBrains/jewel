@@ -65,7 +65,6 @@ private fun ButtonImpl(
     style: ButtonStyle = LocalButtonStyle.current,
     content: @Composable RowScope.() -> Unit
 ) {
-
     var buttonState by remember { mutableStateOf(ButtonState(enabled = enabled)) }
     val appearance by derivedStateOf(policy = structuralEqualityPolicy()) {
         requireNotNull(style[buttonState]) { "no appearance has not been defined for state: $buttonState" }
@@ -82,7 +81,7 @@ private fun ButtonImpl(
                             cornerRadius = CornerRadius(5.dp.toPx())
                         )
                     }
-                    //border if focused
+                    // border if focused
                     appearance.shapeStroke?.let {
                         drawRoundRect(brush = it.brush, cornerRadius = CornerRadius(3.dp.toPx()))
                     }
@@ -116,7 +115,9 @@ private fun ButtonImpl(
                                 }
                             }
                         }
-                } else modifier
+                } else {
+                    modifier
+                }
             ),
         contentAlignment = Alignment.Center
     ) {

@@ -112,7 +112,7 @@ fun TriStateCheckbox(
             interactionSource = interactionSource,
             indication = null
         ),
-        appearance = style.appearance(checkboxState) ?: CheckboxAppearance(),
+        appearance = style.appearance(checkboxState) ?: CheckboxAppearance()
     )
 }
 
@@ -227,7 +227,6 @@ private fun CheckboxImpl(
     modifier: Modifier = Modifier,
     appearance: CheckboxAppearance
 ) {
-
     val icon = when (value) {
         ToggleableState.On -> rememberVectorPainter(Checkmark())
         ToggleableState.Indeterminate -> rememberVectorPainter(CheckmarkIndeterminate())

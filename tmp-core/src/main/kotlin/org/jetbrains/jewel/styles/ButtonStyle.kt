@@ -78,7 +78,10 @@ private fun ButtonStyleImpl(
     contentPadding: PaddingValues = metrics.button.padding,
     shape: Shape = RoundedCornerShape(metrics.button.arc),
     minSize: DpSize = DpSize(72.dp, 16.dp),
-    builder: ControlStyle.ControlStyleBuilder<ButtonState, ButtonAppearance>.(focusHaloStroke: ShapeStroke.SolidColor, defaultAppearance: ButtonAppearance) -> Unit
+    builder: ControlStyle.ControlStyleBuilder<ButtonState, ButtonAppearance>.(
+        focusHaloStroke: ShapeStroke.SolidColor,
+        defaultAppearance: ButtonAppearance
+    ) -> Unit
 ) = ButtonStyle {
     val focusHaloStroke = ShapeStroke.SolidColor(metrics.controlFocusHaloWidth, palette.controlFocusHalo)
     val defaultAppearance = ButtonAppearance(
@@ -93,9 +96,8 @@ private fun ButtonStyleImpl(
         haloShape = RoundedCornerShape(metrics.controlFocusHaloArc)
     )
     build {
-
     }
-    builder(focusHaloStroke, defaultAppearance)//todo here fab
+    builder(focusHaloStroke, defaultAppearance) // todo here fab
 }
 
 fun ButtonStyle(

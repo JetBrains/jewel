@@ -5,9 +5,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isUnspecified
 
-fun backgroundBrush(areaColor: AreaColor): Brush {
-    return backgroundBrush(areaColor.background, areaColor.endBackground)
-}
+fun backgroundBrush(areaColor: AreaColor): Brush = backgroundBrush(areaColor.background, areaColor.endBackground)
 
 fun backgroundBrush(start: Color, end: Color): Brush {
     if (start == end) return SolidColor(start)

@@ -2,7 +2,6 @@ package org.jetbrains.jewel.themes.intui.standalone.control
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
@@ -27,8 +26,8 @@ fun BaseChip(bgColor: Color, content: @Composable () -> Unit) {
             .padding(vertical = 4.dp, horizontal = 4.dp)
             .defaultMinSize(40.dp)
             .clip(RoundedCornerShape(100))
-            .background(if (!hover) bgColor else bgColor.copy(0.8f))
-            .onHover { hover = it },
+            .background(if (!hover) bgColor else bgColor.copy(0.8f)),
+        // .onHover { hover = it },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -36,18 +35,18 @@ fun BaseChip(bgColor: Color, content: @Composable () -> Unit) {
     }
 }
 
-@Composable
-fun Chip(bgColor: Color, toolTipContent: (@Composable () -> Unit)? = null, chipContent: @Composable () -> Unit) {
-    toolTipContent?.let {
-        Tooltip(tooltip = {
-            Box(
-                modifier = Modifier
-                    .padding(vertical = 8.dp, horizontal = 8.dp)
-            ) {
-                toolTipContent()
-            }
-        }) {
-            BaseChip(bgColor, chipContent)
-        }
-    } ?: BaseChip(bgColor, chipContent)
-}
+// @Composable
+// fun Chip(bgColor: Color, toolTipContent: (@Composable () -> Unit)? = null, chipContent: @Composable () -> Unit) {
+//    toolTipContent?.let {
+//        Tooltip(tooltip = {
+//            Box(
+//                modifier = Modifier
+//                    .padding(vertical = 8.dp, horizontal = 8.dp)
+//            ) {
+//                toolTipContent()
+//            }
+//        }) {
+//            BaseChip(bgColor, chipContent)
+//        }
+//    } ?: BaseChip(bgColor, chipContent)
+// }

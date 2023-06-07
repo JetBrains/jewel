@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.internal
+package org.jetbrains.jewel.foundation
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,6 +14,7 @@ import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
@@ -29,7 +30,6 @@ import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.node.Ref
 import androidx.compose.ui.platform.debugInspectorInfo
@@ -39,10 +39,12 @@ import androidx.compose.ui.unit.toSize
 import kotlin.math.ceil
 import kotlin.math.min
 
-fun Modifier.border(stroke: org.jetbrains.jewel.internal.Stroke, shape: Shape): Modifier = when (stroke) {
-    is org.jetbrains.jewel.internal.Stroke.None -> this
-    is org.jetbrains.jewel.internal.Stroke.Solid -> border(stroke.alignment, stroke.width, stroke.color, shape)
-    is org.jetbrains.jewel.internal.Stroke.Brush -> border(
+typealias DrawScopeStroke = androidx.compose.ui.graphics.drawscope.Stroke
+
+fun Modifier.border(stroke: Stroke, shape: Shape): Modifier = when (stroke) {
+    is Stroke.None -> this
+    is Stroke.Solid -> border(stroke.alignment, stroke.width, stroke.color, shape)
+    is Stroke.Brush -> border(
         alignment = stroke.alignment,
         width = stroke.width,
         brush = stroke.brush,
@@ -50,11 +52,11 @@ fun Modifier.border(stroke: org.jetbrains.jewel.internal.Stroke, shape: Shape): 
     )
 }
 
-fun Modifier.border(alignment: org.jetbrains.jewel.internal.Stroke.Alignment, width: Dp, color: Color, shape: Shape = RectangleShape) =
+fun Modifier.border(alignment: Stroke.Alignment, width: Dp, color: Color, shape: Shape = RectangleShape) =
     border(alignment, width, SolidColor(color), shape)
 
-fun Modifier.border(alignment: org.jetbrains.jewel.internal.Stroke.Alignment, width: Dp, brush: Brush, shape: Shape = RectangleShape): Modifier =
-    if (alignment == org.jetbrains.jewel.internal.Stroke.Alignment.Inside) {
+fun Modifier.border(alignment: Stroke.Alignment, width: Dp, brush: Brush, shape: Shape = RectangleShape): Modifier =
+    if (alignment == Stroke.Alignment.Inside) {
         // The compose native border modifier(androidx.compose.foundation.border) draws the border inside the shape,
         // so we can just use that for getting a more native experience when drawing inside borders
         border(width, brush, shape)
@@ -63,7 +65,7 @@ fun Modifier.border(alignment: org.jetbrains.jewel.internal.Stroke.Alignment, wi
     }
 
 private fun Modifier.drawBorderWithAlignment(
-    alignment: org.jetbrains.jewel.internal.Stroke.Alignment,
+    alignment: Stroke.Alignment,
     width: Dp,
     brush: Brush,
     shape: Shape
@@ -117,7 +119,7 @@ private fun Modifier.drawBorderWithAlignment(
 
 private class BorderCache(
     private var imageBitmap: ImageBitmap? = null,
-    private var canvas: androidx.compose.ui.graphics.Canvas? = null,
+    private var canvas: Canvas? = null,
     private var canvasDrawScope: CanvasDrawScope? = null,
     private var borderPath: Path? = null
 ) {
@@ -178,37 +180,37 @@ private fun Ref<BorderCache>.obtain(): BorderCache =
 
 private fun ContentDrawScope.drawRectBorder(
     borderCacheRef: Ref<BorderCache>,
-    alignment: org.jetbrains.jewel.internal.Stroke.Alignment,
+    alignment: Stroke.Alignment,
     outline: Outline.Rectangle,
     brush: Brush,
     strokeWidthPx: Float
 ) {
     when (alignment) {
-        org.jetbrains.jewel.internal.Stroke.Alignment.Inside -> {
+        Stroke.Alignment.Inside -> {
             val rect = outline.rect.deflate(strokeWidthPx / 2f)
-            drawRect(brush, rect.topLeft, rect.size, style = Stroke(strokeWidthPx))
+            drawRect(brush, rect.topLeft, rect.size, style = DrawScopeStroke(strokeWidthPx))
         }
 
-        org.jetbrains.jewel.internal.Stroke.Alignment.Center -> {
-            drawOutline(outline, brush, style = Stroke(strokeWidthPx))
+        Stroke.Alignment.Center -> {
+            drawOutline(outline, brush, style = DrawScopeStroke(strokeWidthPx))
         }
 
-        org.jetbrains.jewel.internal.Stroke.Alignment.Outside -> {
+        Stroke.Alignment.Outside -> {
             val rect = outline.rect.inflate(strokeWidthPx / 2f)
-            drawRect(brush, rect.topLeft, rect.size, style = Stroke(strokeWidthPx))
+            drawRect(brush, rect.topLeft, rect.size, style = DrawScopeStroke(strokeWidthPx))
         }
     }
 }
 
 private fun ContentDrawScope.drawRoundedBorder(
     borderCacheRef: Ref<BorderCache>,
-    alignment: org.jetbrains.jewel.internal.Stroke.Alignment,
+    alignment: Stroke.Alignment,
     outline: Outline.Rounded,
     brush: Brush,
     strokeWidthPx: Float
 ) {
     when (alignment) {
-        org.jetbrains.jewel.internal.Stroke.Alignment.Inside -> {
+        Stroke.Alignment.Inside -> {
             val rrect = outline.roundRect.deflate(strokeWidthPx / 2f)
             val radius = rrect.bottomLeftCornerRadius.x
             drawRoundRect(
@@ -216,11 +218,11 @@ private fun ContentDrawScope.drawRoundedBorder(
                 topLeft = Offset(rrect.top, rrect.left),
                 size = Size(rrect.width, rrect.height),
                 cornerRadius = CornerRadius(radius),
-                style = Stroke(strokeWidthPx)
+                style = DrawScopeStroke(strokeWidthPx)
             )
         }
 
-        org.jetbrains.jewel.internal.Stroke.Alignment.Center -> {
+        Stroke.Alignment.Center -> {
             val rrect = outline.roundRect
             val radius = rrect.bottomLeftCornerRadius.x
 
@@ -234,11 +236,11 @@ private fun ContentDrawScope.drawRoundedBorder(
                 }
                 drawPath(borderPath, brush)
             } else {
-                drawOutline(outline, brush, style = Stroke(strokeWidthPx))
+                drawOutline(outline, brush, style = DrawScopeStroke(strokeWidthPx))
             }
         }
 
-        org.jetbrains.jewel.internal.Stroke.Alignment.Outside -> {
+        Stroke.Alignment.Outside -> {
             val rrect = outline.roundRect.inflate(strokeWidthPx / 2f)
             val radius = rrect.bottomLeftCornerRadius.x
             drawRoundRect(
@@ -246,7 +248,7 @@ private fun ContentDrawScope.drawRoundedBorder(
                 topLeft = Offset(rrect.top, rrect.left),
                 size = Size(rrect.width, rrect.height),
                 cornerRadius = CornerRadius(radius),
-                style = Stroke(strokeWidthPx)
+                style = DrawScopeStroke(strokeWidthPx)
             )
         }
     }
@@ -254,14 +256,14 @@ private fun ContentDrawScope.drawRoundedBorder(
 
 private fun CacheDrawScope.drawGenericBorder(
     borderCacheRef: Ref<BorderCache>,
-    alignment: org.jetbrains.jewel.internal.Stroke.Alignment,
+    alignment: Stroke.Alignment,
     outline: Outline.Generic,
     brush: Brush,
     strokeWidth: Float
 ): DrawResult = onDrawWithContent {
     drawContent()
     when (alignment) {
-        org.jetbrains.jewel.internal.Stroke.Alignment.Inside -> {
+        Stroke.Alignment.Inside -> {
             val config: ImageBitmapConfig
             val colorFilter: ColorFilter?
             if (brush is SolidColor) {
@@ -290,7 +292,7 @@ private fun CacheDrawScope.drawGenericBorder(
                     config
                 ) {
                     translate(-pathBounds.left, -pathBounds.top) {
-                        drawPath(path = outline.path, brush = brush, style = Stroke(strokeWidth * 2))
+                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(strokeWidth * 2))
 
                         drawPath(path = maskPath, brush = brush, blendMode = BlendMode.Clear)
                     }
@@ -305,11 +307,11 @@ private fun CacheDrawScope.drawGenericBorder(
             }
         }
 
-        org.jetbrains.jewel.internal.Stroke.Alignment.Center -> {
-            drawOutline(outline, brush, style = Stroke(strokeWidth))
+        Stroke.Alignment.Center -> {
+            drawOutline(outline, brush, style = DrawScopeStroke(strokeWidth))
         }
 
-        org.jetbrains.jewel.internal.Stroke.Alignment.Outside -> {
+        Stroke.Alignment.Outside -> {
             val config: ImageBitmapConfig
             val colorFilter: ColorFilter?
             if (brush is SolidColor) {
@@ -333,7 +335,7 @@ private fun CacheDrawScope.drawGenericBorder(
                     config
                 ) {
                     translate(-pathBounds.left, -pathBounds.top) {
-                        drawPath(path = outline.path, brush = brush, style = Stroke(strokeWidth * 2))
+                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(strokeWidth * 2))
 
                         drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear)
                     }
@@ -349,25 +351,3 @@ private fun CacheDrawScope.drawGenericBorder(
         }
     }
 }
-
-internal fun RoundRect.inflate(delta: Float) = RoundRect(
-    left = left - delta,
-    top = top - delta,
-    right = right + delta,
-    bottom = bottom + delta,
-    topLeftCornerRadius = CornerRadius(topLeftCornerRadius.x + delta, topLeftCornerRadius.y + delta),
-    topRightCornerRadius = CornerRadius(topRightCornerRadius.x + delta, topRightCornerRadius.y + delta),
-    bottomLeftCornerRadius = CornerRadius(bottomLeftCornerRadius.x + delta, bottomLeftCornerRadius.y + delta),
-    bottomRightCornerRadius = CornerRadius(bottomRightCornerRadius.x + delta, bottomRightCornerRadius.y + delta)
-)
-
-internal fun RoundRect.deflate(delta: Float) = RoundRect(
-    left = left + delta,
-    top = top + delta,
-    right = right - delta,
-    bottom = bottom - delta,
-    topLeftCornerRadius = CornerRadius(topLeftCornerRadius.x - delta, topLeftCornerRadius.y - delta),
-    topRightCornerRadius = CornerRadius(topRightCornerRadius.x - delta, topRightCornerRadius.y - delta),
-    bottomLeftCornerRadius = CornerRadius(bottomLeftCornerRadius.x - delta, bottomLeftCornerRadius.y - delta),
-    bottomRightCornerRadius = CornerRadius(bottomRightCornerRadius.x - delta, bottomRightCornerRadius.y - delta)
-)

@@ -77,11 +77,10 @@ fun TextFieldStyle(
 
     for (focused in listOf(true, false)) {
         for (mouseButtonState in ButtonMouseState.values()) {
-            //focussed, and overed
+            // focussed, and overed
             val appearance = when (mouseButtonState) {
                 ButtonMouseState.None -> if (focused) focusedAppearance else defaultAppearance
                 ButtonMouseState.Hovered, ButtonMouseState.Pressed -> if (focused) focusedAppearance else defaultAppearance
-
             }
             state(TextFieldState().copy(focused = focused), appearance = appearance)
         }
@@ -164,9 +163,9 @@ fun TextFieldStyle(
 //    }
 
 //
-//private fun ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.allStateCombinations(
+// private fun ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.allStateCombinations(
 //    action: ControlStyle.ControlVariationBuilder<TextFieldAppearance, TextFieldState>.(enabled: Boolean, focused: Boolean, hovered: Boolean) -> Unit
-//) {
+// ) {
 //    for (enabled in listOf(false, true)) {
 //        for (focused in listOf(false, true)) {
 //            for (hovered in listOf(false, true)) {
@@ -174,9 +173,9 @@ fun TextFieldStyle(
 //            }
 //        }
 //    }
-//}
+// }
 //
-//enum class IntelliJTextFieldVariations {
+// enum class IntelliJTextFieldVariations {
 //    Error,
 //    Warning
-//}
+// }

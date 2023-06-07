@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "build-logic"
 include(":convention")
 include(":sarif")
+include(":theme-palette-generator")

@@ -1,8 +1,8 @@
-package org.jetbrains.jewel.internal
+package org.jetbrains.jewel.foundation
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.unit.Dp
@@ -11,9 +11,7 @@ sealed class Stroke {
     @Immutable
     object None : Stroke() {
 
-        override fun toString(): String {
-            return "Stroke()"
-        }
+        override fun toString(): String = "None"
     }
 
     @Immutable
@@ -21,24 +19,14 @@ sealed class Stroke {
         val width: Dp,
         val color: Color,
         val alignment: Alignment
-    ) : Stroke() {
-
-        override fun toString(): String {
-            return "Stroke(width=$width, color=$color, alignment=$alignment)"
-        }
-    }
+    ) : Stroke()
 
     @Immutable
     data class Brush internal constructor(
         val width: Dp,
         val brush: androidx.compose.ui.graphics.Brush,
         val alignment: Alignment
-    ) : Stroke() {
-
-        override fun toString(): String {
-            return "Stroke(width=$width, brush=$brush, alignment=$alignment)"
-        }
-    }
+    ) : Stroke()
 
     enum class Alignment {
         Inside, Center, Outside
@@ -52,7 +40,7 @@ fun Stroke(width: Dp, color: Color, alignment: Stroke.Alignment): Stroke {
     return Stroke.Solid(width, color, alignment)
 }
 
-fun Stroke(width: Dp, brush: androidx.compose.ui.graphics.Brush, alignment: Stroke.Alignment): Stroke {
+fun Stroke(width: Dp, brush: Brush, alignment: Stroke.Alignment): Stroke {
     if (width.value == 0f) return Stroke.None
     return when (brush) {
         is SolidColor -> {

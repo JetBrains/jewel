@@ -29,7 +29,7 @@ class IntelliJPainters(
     }
 
     data class ComboBoxIconPainters(
-        val icon: PainterProvider,
+        val icon: PainterProvider
     ) {
 
         companion object

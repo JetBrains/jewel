@@ -52,7 +52,6 @@ fun CheckboxStyle(
     painters: IntelliJPainters,
     controlTextStyle: TextStyle
 ) = CheckboxStyle {
-
     for (enabled in listOf(false, true)) {
         for (focused in listOf(false, true)) {
             for (toggleableState in listOf(ToggleableState.On, ToggleableState.Indeterminate, ToggleableState.Off)) {
@@ -95,7 +94,7 @@ fun CheckboxStyle(
                         ButtonMouseState.Hovered -> {
                             if (enabled) {
                                 if (focused) {
-                                    painters.checkbox.selectedFocused// .copy(alpha = 0.5f) as ex
+                                    painters.checkbox.selectedFocused // .copy(alpha = 0.5f) as ex
                                 } else {
                                     painters.checkbox.selected // .copy(alpha = 0.5f) as ex
                                 }
@@ -140,5 +139,3 @@ fun CheckboxStyle(
         }
     }
 }
-
-
