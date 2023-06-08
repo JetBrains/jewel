@@ -163,7 +163,9 @@ private fun TextFieldDecorationBox(
                     currentAppearance.haloStroke?.brush?.let {
                         Modifier.border(1.dp, it, shape)
                     } ?: Modifier
-                } else Modifier
+                } else {
+                    Modifier
+                }
             ),
 //            .areaBorder(shape = shape),
         content = {

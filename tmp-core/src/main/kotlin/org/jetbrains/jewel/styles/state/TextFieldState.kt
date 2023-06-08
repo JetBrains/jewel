@@ -10,5 +10,5 @@ data class TextFieldState(
     val focused: Boolean = false,
     val enabled: Boolean = true,
     val mouseState: ButtonMouseState = ButtonMouseState.None,
-    val textFieldValidationState: TextFieldValidationState = TextFieldValidationState.Default,
+    val textFieldValidationState: TextFieldValidationState = TextFieldValidationState.Default
 )

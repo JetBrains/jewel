@@ -21,7 +21,6 @@ import org.jetbrains.jewel.styles.LocalTabStyle
 import org.jetbrains.jewel.styles.LocalTextAreaStyle
 import org.jetbrains.jewel.styles.LocalTextFieldStyle
 import org.jetbrains.jewel.styles.LocalTextStyle
-import org.jetbrains.jewel.styles.LocalTreeViewStyle
 import org.jetbrains.jewel.styles.ProgressBarStyle
 import org.jetbrains.jewel.styles.RadioButtonStyle
 import org.jetbrains.jewel.styles.ScrollbarStyle

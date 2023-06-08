@@ -38,12 +38,15 @@ fun TextLinkStyle(
             for (mouseState in ButtonMouseState.values()) {
                 val appearance = when (mouseState) {
                     ButtonMouseState.None -> {
-                        if (visited) defaultAppearance.copy(
-                            textStyle = defaultAppearance.textStyle.copy(
-                                color = palette.textLink.visitedForeground
+                        if (visited) {
+                            defaultAppearance.copy(
+                                textStyle = defaultAppearance.textStyle.copy(
+                                    color = palette.textLink.visitedForeground
+                                )
                             )
-                        )
-                        else defaultAppearance
+                        } else {
+                            defaultAppearance
+                        }
                     }
 
                     ButtonMouseState.Hovered, ButtonMouseState.Pressed ->

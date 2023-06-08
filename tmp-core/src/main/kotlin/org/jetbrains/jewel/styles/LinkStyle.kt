@@ -9,5 +9,3 @@ val LocalTextLinkStyle = compositionLocalOf<TextLinkStyle> { localNotProvided() 
 
 val Styles.textLink: TextLinkStyle
     get() = LocalTextLinkStyle.current
-
-

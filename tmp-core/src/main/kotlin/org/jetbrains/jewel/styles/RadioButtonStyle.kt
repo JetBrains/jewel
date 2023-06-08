@@ -56,7 +56,6 @@ fun RadioButtonStyle(
     painters: IntelliJPainters,
     controlTextStyle: TextStyle
 ) = RadioButtonStyle {
-
     for (enabled in listOf(false, true)) {
         for (focused in listOf(false, true)) {
             for (checked in listOf(false, true)) {
@@ -102,4 +101,3 @@ fun RadioButtonStyle(
         }
     }
 }
-

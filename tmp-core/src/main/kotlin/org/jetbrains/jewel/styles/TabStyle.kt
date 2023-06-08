@@ -49,7 +49,6 @@ fun TabStyle(
     palette: IntelliJPalette,
     typography: TextStyle
 ): TabStyle = TabStyle {
-
     Orientation.values().forEach { orientation ->
         when (orientation) {
             Orientation.Horizontal -> HorizontalTabStyle(palette, typography)
@@ -84,13 +83,14 @@ private fun HorizontalTabStyle(
         state(defaultState.copy(mouseState), appearance)
     }
     state(
-        defaultState.copy(selected = true), TabAppearance(
-        contentAlignment = Alignment.Bottom,
-        contentArrangement = Arrangement.Center,
-        textStyle = typography.copy(palette.text),
-        adornmentShape = BottomLineShape,
-        adornmentStroke = ShapeStroke.SolidColor(3.dp, palette.tab.underlineColor)
-    )
+        defaultState.copy(selected = true),
+        TabAppearance(
+            contentAlignment = Alignment.Bottom,
+            contentArrangement = Arrangement.Center,
+            textStyle = typography.copy(palette.text),
+            adornmentShape = BottomLineShape,
+            adornmentStroke = ShapeStroke.SolidColor(3.dp, palette.tab.underlineColor)
+        )
     )
 }
 
@@ -140,5 +140,4 @@ private fun VerticalTabStyle(
             adornmentStroke = ShapeStroke.SolidColor(1.dp, palette.tab.underlineColor)
         )
     )
-
 }

@@ -5,4 +5,3 @@ data class TextLinkState(
     val focused: Boolean = false,
     val mouseState: ButtonMouseState = ButtonMouseState.None
 )
-

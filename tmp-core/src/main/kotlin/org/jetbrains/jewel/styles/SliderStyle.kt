@@ -58,4 +58,3 @@ fun SliderStyle(
         )
     )
 }
-
