@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.themes.intui.standalone.internal.light
 
 import org.jetbrains.jewel.internal.ButtonDefaults
+import org.jetbrains.jewel.internal.CheckboxDefaults
 import org.jetbrains.jewel.internal.IntellijColors
 import org.jetbrains.jewel.themes.intui.standalone.internal.IntUiTheme
 
@@ -17,5 +18,6 @@ object LightTheme : IntUiTheme(LightPalette) {
     )
 
     override val buttonDefaults: ButtonDefaults = LightButtonDefaults
+    override val checkboxDefaults: CheckboxDefaults = LightCheckboxDefaults
     override val isLight: Boolean = true
 }

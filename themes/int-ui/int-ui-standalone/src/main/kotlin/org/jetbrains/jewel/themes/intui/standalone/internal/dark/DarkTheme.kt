@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.themes.intui.standalone.internal.dark
 
 import org.jetbrains.jewel.internal.ButtonDefaults
+import org.jetbrains.jewel.internal.CheckboxDefaults
 import org.jetbrains.jewel.internal.IntellijColors
 import org.jetbrains.jewel.themes.intui.standalone.internal.IntUiTheme
 
@@ -17,5 +18,6 @@ object DarkTheme : IntUiTheme(DarkPalette) {
     )
 
     override val buttonDefaults: ButtonDefaults = DarkButtonDefaults
+    override val checkboxDefaults: CheckboxDefaults = DarkCheckboxDefaults
     override val isLight: Boolean = false
 }

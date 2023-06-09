@@ -13,6 +13,8 @@ interface IntelliJTheme {
 
     val buttonDefaults: ButtonDefaults
 
+    val checkboxDefaults: CheckboxDefaults
+
     val isLight: Boolean
 
     fun provideCompositionLocalValues(): Array<ProvidedValue<*>>
@@ -23,6 +25,11 @@ interface IntelliJTheme {
             @Composable
             @ReadOnlyComposable
             get() = LocalButtonDefaults.current
+
+        val checkboxDefaults: CheckboxDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalCheckboxDefaults.current
 
         val colors: IntellijColors
             @Composable
@@ -41,6 +48,7 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalIntellijColors provides theme.colors,
         LocalButtonDefaults provides theme.buttonDefaults,
+        LocalCheckboxDefaults provides theme.checkboxDefaults,
         LocalInLightTheme provides theme.isLight,
         *theme.provideCompositionLocalValues(),
         content = content
