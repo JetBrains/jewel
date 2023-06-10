@@ -43,7 +43,7 @@ object DarkButtonDefaults : IntUiButtonDefaults() {
                     foreground = palette.grey(14)
                 ),
                 focusedStroke = Stroke(1.dp, palette.grey(2), Stroke.Alignment.Outside),
-                focusHoloStroke = Stroke(3.dp, palette.blue(6), Stroke.Alignment.Outside)
+                focusHaloStroke = Stroke(3.dp, palette.blue(6), Stroke.Alignment.Outside)
             )
         }
     }
@@ -78,7 +78,7 @@ object DarkButtonDefaults : IntUiButtonDefaults() {
                     foreground = palette.grey(12)
                 ),
                 focusedStroke = Stroke.None,
-                focusHoloStroke = Stroke(2.dp, palette.blue(6), Stroke.Alignment.Center)
+                focusHaloStroke = Stroke(2.dp, palette.blue(6), Stroke.Alignment.Center)
             )
         }
     }

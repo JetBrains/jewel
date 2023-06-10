@@ -5,6 +5,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.styles.localNotProvided
 
 interface IntelliJTheme {
@@ -12,6 +13,14 @@ interface IntelliJTheme {
     val colors: IntellijColors
 
     val buttonDefaults: ButtonDefaults
+
+    val checkboxDefaults: CheckboxDefaults
+
+    val groupHeaderDefaults: GroupHeaderDefaults
+
+    val linkDefaults: LinkDefaults
+
+    val defaultTextStyle: TextStyle
 
     val isLight: Boolean
 
@@ -24,10 +33,30 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalButtonDefaults.current
 
+        val checkboxDefaults: CheckboxDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalCheckboxDefaults.current
+
+        val groupHeaderDefaults: GroupHeaderDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalGroupHeaderDefaults.current
+
+        val linkDefaults: LinkDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalLinkDefaults.current
+
         val colors: IntellijColors
             @Composable
             @ReadOnlyComposable
             get() = LocalIntellijColors.current
+
+        val defaultTextStyle: TextStyle
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalTextStyle.current
 
         val isLight: Boolean
             @Composable
@@ -41,6 +70,11 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalIntellijColors provides theme.colors,
         LocalButtonDefaults provides theme.buttonDefaults,
+        LocalCheckboxDefaults provides theme.checkboxDefaults,
+        LocalGroupHeaderDefaults provides theme.groupHeaderDefaults,
+        LocalLinkDefaults provides theme.linkDefaults,
+        LocalTextStyle provides theme.defaultTextStyle,
+        LocalTextColor provides theme.colors.foreground,
         LocalInLightTheme provides theme.isLight,
         *theme.provideCompositionLocalValues(),
         content = content

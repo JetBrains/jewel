@@ -16,12 +16,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
+import org.jetbrains.jewel.internal.CheckboxRow
 import org.jetbrains.jewel.internal.DefaultButton
+import org.jetbrains.jewel.internal.DropdownLink
+import org.jetbrains.jewel.internal.ExternalLink
+import org.jetbrains.jewel.internal.GroupHeader
 import org.jetbrains.jewel.internal.IntelliJTheme
+import org.jetbrains.jewel.internal.Link
 import org.jetbrains.jewel.internal.OutlinedButton
 import org.jetbrains.jewel.internal.Text
+import org.jetbrains.jewel.internal.TriStateCheckboxRow
 import org.jetbrains.jewel.themes.intui.standalone.internal.dark.DarkTheme
 import org.jetbrains.jewel.themes.intui.standalone.internal.light.LightTheme
 
@@ -44,17 +51,23 @@ fun main() = singleWindowApplication(
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                GroupHeader("Themes")
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CheckboxRow("Dark", isDark, { isDark = it })
+                }
+                GroupHeader("Buttons")
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     OutlinedButton({
-                        isDark = !isDark
                     }) {
                         Text("Cancel")
                     }
                     OutlinedButton({
-                        isDark = !isDark
                     }) {
                         Text("Apply")
                     }
@@ -63,7 +76,6 @@ fun main() = singleWindowApplication(
                     }
                     DefaultButton(
                         {
-                            isDark = !isDark
                         },
                         interactionSource = remember {
                             MutableInteractionSource()
@@ -71,6 +83,49 @@ fun main() = singleWindowApplication(
                     ) {
                         Text("OK")
                     }
+                }
+                GroupHeader("Checkboxes")
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    var checked by remember { mutableStateOf(ToggleableState.On) }
+                    TriStateCheckboxRow("Checkbox", checked, {
+                        checked = when (checked) {
+                            ToggleableState.On -> ToggleableState.Off
+                            ToggleableState.Off -> ToggleableState.Indeterminate
+                            ToggleableState.Indeterminate -> ToggleableState.On
+                        }
+                    })
+                    TriStateCheckboxRow("Error", checked, {
+                        checked = when (checked) {
+                            ToggleableState.On -> ToggleableState.Off
+                            ToggleableState.Off -> ToggleableState.Indeterminate
+                            ToggleableState.Indeterminate -> ToggleableState.On
+                        }
+                    }, isError = true)
+                    TriStateCheckboxRow("Disabled", checked, {}, enabled = false)
+                }
+                GroupHeader("Links")
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Link("Link", {})
+
+                    ExternalLink("ExternalLink", {})
+
+                    DropdownLink("DropdownLink", {})
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Link("Link", {}, enabled = false)
+
+                    ExternalLink("ExternalLink", {}, enabled = false)
+
+                    DropdownLink("DropdownLink", {}, enabled = false)
                 }
             }
         }
