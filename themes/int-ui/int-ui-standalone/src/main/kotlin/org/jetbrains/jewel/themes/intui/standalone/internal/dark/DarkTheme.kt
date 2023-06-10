@@ -2,7 +2,9 @@ package org.jetbrains.jewel.themes.intui.standalone.internal.dark
 
 import org.jetbrains.jewel.internal.ButtonDefaults
 import org.jetbrains.jewel.internal.CheckboxDefaults
+import org.jetbrains.jewel.internal.GroupHeaderDefaults
 import org.jetbrains.jewel.internal.IntellijColors
+import org.jetbrains.jewel.internal.LinkDefaults
 import org.jetbrains.jewel.themes.intui.standalone.internal.IntUiTheme
 
 object DarkTheme : IntUiTheme(DarkPalette) {
@@ -19,5 +21,7 @@ object DarkTheme : IntUiTheme(DarkPalette) {
 
     override val buttonDefaults: ButtonDefaults = DarkButtonDefaults
     override val checkboxDefaults: CheckboxDefaults = DarkCheckboxDefaults
+    override val groupHeaderDefaults: GroupHeaderDefaults = DarkGroupHeaderDefaults
+    override val linkDefaults: LinkDefaults = DarkLinkDefaults
     override val isLight: Boolean = false
 }

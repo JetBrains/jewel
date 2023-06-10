@@ -16,6 +16,10 @@ interface IntelliJTheme {
 
     val checkboxDefaults: CheckboxDefaults
 
+    val groupHeaderDefaults: GroupHeaderDefaults
+
+    val linkDefaults: LinkDefaults
+
     val defaultTextStyle: TextStyle
 
     val isLight: Boolean
@@ -33,6 +37,16 @@ interface IntelliJTheme {
             @Composable
             @ReadOnlyComposable
             get() = LocalCheckboxDefaults.current
+
+        val groupHeaderDefaults: GroupHeaderDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalGroupHeaderDefaults.current
+
+        val linkDefaults: LinkDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalLinkDefaults.current
 
         val colors: IntellijColors
             @Composable
@@ -57,7 +71,10 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
         LocalIntellijColors provides theme.colors,
         LocalButtonDefaults provides theme.buttonDefaults,
         LocalCheckboxDefaults provides theme.checkboxDefaults,
+        LocalGroupHeaderDefaults provides theme.groupHeaderDefaults,
+        LocalLinkDefaults provides theme.linkDefaults,
         LocalTextStyle provides theme.defaultTextStyle,
+        LocalTextColor provides theme.colors.foreground,
         LocalInLightTheme provides theme.isLight,
         *theme.provideCompositionLocalValues(),
         content = content

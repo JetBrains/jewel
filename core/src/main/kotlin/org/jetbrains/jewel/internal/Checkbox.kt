@@ -50,7 +50,7 @@ fun Checkbox(
     enabled: Boolean = true,
     isError: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    defaults: CheckboxDefaults = LocalCheckboxDefaults.current,
+    defaults: CheckboxDefaults = IntelliJTheme.checkboxDefaults,
     colors: CheckboxColors = defaults.colors(),
     shape: Shape = defaults.shape()
 ) = CheckboxImpl(
@@ -75,7 +75,7 @@ fun TriStateCheckbox(
     enabled: Boolean = true,
     isError: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    defaults: CheckboxDefaults = LocalCheckboxDefaults.current,
+    defaults: CheckboxDefaults = IntelliJTheme.checkboxDefaults,
     colors: CheckboxColors = defaults.colors(),
     shape: Shape = defaults.shape()
 ) = CheckboxImpl(
@@ -99,7 +99,7 @@ fun TriStateCheckboxRow(
     enabled: Boolean = true,
     isError: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    defaults: CheckboxDefaults = LocalCheckboxDefaults.current,
+    defaults: CheckboxDefaults = IntelliJTheme.checkboxDefaults,
     colors: CheckboxColors = defaults.colors(),
     shape: Shape = defaults.shape()
 ) = CheckboxImpl(
@@ -125,7 +125,7 @@ fun CheckboxRow(
     enabled: Boolean = true,
     isError: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    defaults: CheckboxDefaults = LocalCheckboxDefaults.current,
+    defaults: CheckboxDefaults = IntelliJTheme.checkboxDefaults,
     colors: CheckboxColors = defaults.colors(),
     shape: Shape = defaults.shape()
 ) = CheckboxImpl(
@@ -152,7 +152,7 @@ fun CheckboxRow(
     enabled: Boolean = true,
     isError: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    defaults: CheckboxDefaults = LocalCheckboxDefaults.current,
+    defaults: CheckboxDefaults = IntelliJTheme.checkboxDefaults,
     colors: CheckboxColors = defaults.colors(),
     shape: Shape = defaults.shape(),
     content: @Composable RowScope.() -> Unit
@@ -179,7 +179,7 @@ fun TriStateCheckboxRow(
     enabled: Boolean = true,
     isError: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    defaults: CheckboxDefaults = LocalCheckboxDefaults.current,
+    defaults: CheckboxDefaults = IntelliJTheme.checkboxDefaults,
     colors: CheckboxColors = defaults.colors(),
     shape: Shape = defaults.shape(),
     content: @Composable RowScope.() -> Unit
@@ -205,7 +205,7 @@ private fun CheckboxImpl(
     enabled: Boolean = true,
     isError: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    defaults: CheckboxDefaults = LocalCheckboxDefaults.current,
+    defaults: CheckboxDefaults = IntelliJTheme.checkboxDefaults,
     colors: CheckboxColors = defaults.colors(),
     shape: Shape = defaults.shape(),
     content: (@Composable RowScope.() -> Unit)? = null
