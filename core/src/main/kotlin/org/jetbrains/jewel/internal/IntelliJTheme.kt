@@ -5,6 +5,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.styles.localNotProvided
 
 interface IntelliJTheme {
@@ -14,6 +15,8 @@ interface IntelliJTheme {
     val buttonDefaults: ButtonDefaults
 
     val checkboxDefaults: CheckboxDefaults
+
+    val defaultTextStyle: TextStyle
 
     val isLight: Boolean
 
@@ -36,6 +39,11 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalIntellijColors.current
 
+        val defaultTextStyle: TextStyle
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalTextStyle.current
+
         val isLight: Boolean
             @Composable
             @ReadOnlyComposable
@@ -49,6 +57,7 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
         LocalIntellijColors provides theme.colors,
         LocalButtonDefaults provides theme.buttonDefaults,
         LocalCheckboxDefaults provides theme.checkboxDefaults,
+        LocalTextStyle provides theme.defaultTextStyle,
         LocalInLightTheme provides theme.isLight,
         *theme.provideCompositionLocalValues(),
         content = content
