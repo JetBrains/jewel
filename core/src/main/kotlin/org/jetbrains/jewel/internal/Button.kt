@@ -126,7 +126,7 @@ private fun ButtonImpl(
             indication = null
         ).background(colors.backgroundBrush(buttonState).value, shape)
             .border(colors.borderStroke(buttonState).value, shape)
-            .border(colors.holoStroke(buttonState).value, shape),
+            .border(colors.haloStroke(buttonState).value, shape),
         propagateMinConstraints = true
     ) {
         CompositionLocalProvider(
@@ -157,7 +157,7 @@ interface ButtonColors {
     fun borderStroke(state: ButtonState): State<Stroke>
 
     @Composable
-    fun holoStroke(state: ButtonState): State<Stroke>
+    fun haloStroke(state: ButtonState): State<Stroke>
 }
 
 @Stable
@@ -230,7 +230,7 @@ fun buttonColors(
     pressedStroke: Stroke,
     focusedArea: AreaColor,
     focusedStroke: Stroke,
-    focusHoloStroke: Stroke
+    focusHaloStroke: Stroke
 ): ButtonColors = DefaultButtonColors(
     normalArea = normalArea,
     normalStroke = normalStroke,
@@ -242,7 +242,7 @@ fun buttonColors(
     pressedStroke = pressedStroke,
     focusedArea = focusedArea,
     focusedStroke = focusedStroke,
-    focusHoloStroke = focusHoloStroke
+    focusHaloStroke = focusHaloStroke
 )
 
 @Immutable
@@ -257,7 +257,7 @@ private data class DefaultButtonColors(
     private val pressedStroke: Stroke,
     private val focusedArea: AreaColor,
     private val focusedStroke: Stroke,
-    private val focusHoloStroke: Stroke
+    private val focusHaloStroke: Stroke
 ) : ButtonColors {
 
     @Composable
@@ -300,11 +300,11 @@ private data class DefaultButtonColors(
     }
 
     @Composable
-    override fun holoStroke(state: ButtonState): State<Stroke> {
+    override fun haloStroke(state: ButtonState): State<Stroke> {
         return rememberUpdatedState(
             when {
                 !state.isEnabled -> Stroke.None
-                state.isFocused -> focusHoloStroke
+                state.isFocused -> focusHaloStroke
                 else -> Stroke.None
             }
         )

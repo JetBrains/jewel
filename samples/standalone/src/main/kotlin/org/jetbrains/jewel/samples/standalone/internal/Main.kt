@@ -24,6 +24,7 @@ import org.jetbrains.jewel.internal.DefaultButton
 import org.jetbrains.jewel.internal.IntelliJTheme
 import org.jetbrains.jewel.internal.OutlinedButton
 import org.jetbrains.jewel.internal.Text
+import org.jetbrains.jewel.internal.TriStateCheckboxRow
 import org.jetbrains.jewel.themes.intui.standalone.internal.dark.DarkTheme
 import org.jetbrains.jewel.themes.intui.standalone.internal.light.LightTheme
 
@@ -50,13 +51,17 @@ fun main() = singleWindowApplication(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    CheckboxRow("Dark", isDark, { isDark = it })
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     OutlinedButton({
-                        isDark = !isDark
                     }) {
                         Text("Cancel")
                     }
                     OutlinedButton({
-                        isDark = !isDark
                     }) {
                         Text("Apply")
                     }
@@ -65,7 +70,6 @@ fun main() = singleWindowApplication(
                     }
                     DefaultButton(
                         {
-                            isDark = !isDark
                         },
                         interactionSource = remember {
                             MutableInteractionSource()
@@ -79,21 +83,21 @@ fun main() = singleWindowApplication(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     var checked by remember { mutableStateOf(ToggleableState.Indeterminate) }
-                    CheckboxRow("Checkbox", checked, {
+                    TriStateCheckboxRow("Checkbox", checked, {
                         checked = when (checked) {
                             ToggleableState.On -> ToggleableState.Off
                             ToggleableState.Off -> ToggleableState.Indeterminate
                             ToggleableState.Indeterminate -> ToggleableState.On
                         }
                     })
-                    CheckboxRow("Error", checked, {
+                    TriStateCheckboxRow("Error", checked, {
                         checked = when (checked) {
                             ToggleableState.On -> ToggleableState.Off
                             ToggleableState.Off -> ToggleableState.Indeterminate
                             ToggleableState.Indeterminate -> ToggleableState.On
                         }
                     }, isError = true)
-                    CheckboxRow("Disabled", checked, {}, enabled = false)
+                    TriStateCheckboxRow("Disabled", checked, {}, enabled = false)
                 }
             }
         }

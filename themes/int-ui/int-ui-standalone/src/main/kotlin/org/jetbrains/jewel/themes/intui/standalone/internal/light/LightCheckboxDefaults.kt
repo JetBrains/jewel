@@ -6,11 +6,11 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.internal.CheckboxColors
 import org.jetbrains.jewel.internal.checkBoxColors
-import org.jetbrains.jewel.themes.intui.standalone.internal.IntUiICheckboxDefaults
+import org.jetbrains.jewel.themes.intui.standalone.internal.IntUiCheckboxDefaults
 import org.jetbrains.jewel.themes.intui.standalone.internal.LocalIntUiPalette
 
 @Suppress("MagicNumber")
-object LightCheckboxDefaults : IntUiICheckboxDefaults() {
+object LightCheckboxDefaults : IntUiCheckboxDefaults() {
 
     @Composable
     override fun colors(): CheckboxColors {

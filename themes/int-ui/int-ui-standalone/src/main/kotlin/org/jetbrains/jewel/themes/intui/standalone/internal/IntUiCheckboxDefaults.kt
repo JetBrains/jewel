@@ -22,7 +22,7 @@ import org.jetbrains.jewel.internal.CheckboxDefaults
 import org.jetbrains.jewel.internal.CheckboxState
 
 @Suppress("VariableNaming")
-abstract class IntUiICheckboxDefaults : CheckboxDefaults {
+abstract class IntUiCheckboxDefaults : CheckboxDefaults {
 
     val CheckboxSize = 16.dp
 

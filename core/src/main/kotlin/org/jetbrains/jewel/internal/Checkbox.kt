@@ -45,7 +45,7 @@ import org.jetbrains.jewel.styles.localNotProvided
 @Composable
 fun Checkbox(
     checked: Boolean,
-    onCheckedChange: ((Boolean) -> Unit)?,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     isError: Boolean = false,
@@ -68,7 +68,7 @@ fun Checkbox(
 )
 
 @Composable
-fun Checkbox(
+fun TriStateCheckbox(
     state: ToggleableState,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -91,7 +91,7 @@ fun Checkbox(
 )
 
 @Composable
-fun CheckboxRow(
+fun TriStateCheckboxRow(
     text: String,
     state: ToggleableState,
     onClick: () -> Unit,
@@ -172,7 +172,7 @@ fun CheckboxRow(
 )
 
 @Composable
-fun CheckboxRow(
+fun TriStateCheckboxRow(
     state: ToggleableState,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -237,7 +237,7 @@ private fun CheckboxImpl(
 
     val wrapperModifier = modifier.triStateToggleable(
         state = state,
-        onClick = { onClick() },
+        onClick = onClick,
         enabled = enabled,
         role = Role.Checkbox,
         interactionSource = interactionSource,
@@ -247,7 +247,7 @@ private fun CheckboxImpl(
     val checkBoxModifier = Modifier.size(defaults.width(), defaults.height())
         .background(colors.boxColor(checkboxState).value, shape)
         .border(colors.borderStroke(checkboxState).value, shape)
-        .border(colors.holoStroke(checkboxState).value, shape)
+        .border(colors.haloStroke(checkboxState).value, shape)
         .composed {
             defaults.checkmark(checkboxState).value?.let {
                 val colorFilter = ColorFilter.tint(colors.checkmarkColor(checkboxState).value)
@@ -352,7 +352,7 @@ interface CheckboxColors {
     fun borderStroke(state: CheckboxState): State<Stroke>
 
     @Composable
-    fun holoStroke(state: CheckboxState): State<Stroke>
+    fun haloStroke(state: CheckboxState): State<Stroke>
 }
 
 @Stable
@@ -496,7 +496,7 @@ private data class DefaultCheckBoxColors(
     }
 
     @Composable
-    override fun holoStroke(state: CheckboxState): State<Stroke> {
+    override fun haloStroke(state: CheckboxState): State<Stroke> {
         return rememberUpdatedState(
             when {
                 !state.isEnabled -> Stroke.None
