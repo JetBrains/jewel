@@ -186,6 +186,7 @@ private class BorderCache(
 private fun Ref<BorderCache>.obtain(): BorderCache =
     this.value ?: BorderCache().also { value = it }
 
+@Suppress("UNUSED_PARAMETER")
 private fun ContentDrawScope.drawRectBorder(
     borderCacheRef: Ref<BorderCache>,
     alignment: Stroke.Alignment,
@@ -271,71 +272,75 @@ private fun CacheDrawScope.drawGenericBorder(
     }
 
     // Nothing need to draw
-    if (outer == inner) {
-        return@onDrawWithContent
-    } else if (outer == -inner) {
-        // Samply draw the outline when abs(outer) and abs(inner) are the same
-        drawOutline(outline, brush, style = DrawScopeStroke(outer * 2f))
-    } else {
-        val config: ImageBitmapConfig
-        val colorFilter: ColorFilter?
-        if (brush is SolidColor) {
-            config = ImageBitmapConfig.Alpha8
-            colorFilter = ColorFilter.tint(brush.value)
-        } else {
-            config = ImageBitmapConfig.Argb8888
-            colorFilter = null
+    when (outer) {
+        inner -> {
+            return@onDrawWithContent
         }
-        val pathBounds = outline.path.getBounds().inflate(outer)
-        val borderCache = borderCacheRef.obtain()
-        val outerMaskPath = borderCache.obtainPath().apply {
-            reset()
-            addRect(pathBounds)
-            op(this, outline.path, PathOperation.Difference)
+        -inner -> {
+            // Samply draw the outline when abs(outer) and abs(inner) are the same
+            drawOutline(outline, brush, style = DrawScopeStroke(outer * 2f))
         }
-        val cacheImageBitmap: ImageBitmap
-        val pathBoundsSize = IntSize(
-            ceil(pathBounds.width).toInt(),
-            ceil(pathBounds.height).toInt()
-        )
+        else -> {
+            val config: ImageBitmapConfig
+            val colorFilter: ColorFilter?
+            if (brush is SolidColor) {
+                config = ImageBitmapConfig.Alpha8
+                colorFilter = ColorFilter.tint(brush.value)
+            } else {
+                config = ImageBitmapConfig.Argb8888
+                colorFilter = null
+            }
+            val pathBounds = outline.path.getBounds().inflate(outer)
+            val borderCache = borderCacheRef.obtain()
+            val outerMaskPath = borderCache.obtainPath().apply {
+                reset()
+                addRect(pathBounds)
+                op(this, outline.path, PathOperation.Difference)
+            }
+            val cacheImageBitmap: ImageBitmap
+            val pathBoundsSize = IntSize(
+                ceil(pathBounds.width).toInt(),
+                ceil(pathBounds.height).toInt()
+            )
 
-        with(borderCache) {
-            cacheImageBitmap = drawBorderCache(
-                pathBoundsSize,
-                config
-            ) {
-                translate(-pathBounds.left, -pathBounds.top) {
-                    if (inner < 0f && outer > 0f) {
-                        TODO("Not implemented for generic border")
-                    }
-
-                    if (outer > 0f && inner >= 0f) {
-                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(outer * 2f))
-
-                        if (inner > 0f) {
-                            drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(inner * 2f))
+            with(borderCache) {
+                cacheImageBitmap = drawBorderCache(
+                    pathBoundsSize,
+                    config
+                ) {
+                    translate(-pathBounds.left, -pathBounds.top) {
+                        if (inner < 0f && outer > 0f) {
+                            TODO("Not implemented for generic border")
                         }
 
-                        drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear)
-                    }
+                        if (outer > 0f && inner >= 0f) {
+                            drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(outer * 2f))
 
-                    if (outer <= 0f && inner < 0f) {
-                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(-inner * 2f))
+                            if (inner > 0f) {
+                                drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(inner * 2f))
+                            }
 
-                        if (outer < 0f) {
-                            drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(-outer * 2f))
+                            drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear)
                         }
 
-                        drawPath(path = outerMaskPath, brush = brush, blendMode = BlendMode.Clear)
+                        if (outer <= 0f && inner < 0f) {
+                            drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(-inner * 2f))
+
+                            if (outer < 0f) {
+                                drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(-outer * 2f))
+                            }
+
+                            drawPath(path = outerMaskPath, brush = brush, blendMode = BlendMode.Clear)
+                        }
                     }
                 }
             }
-        }
 
-        onDrawWithContent {
-            drawContent()
-            translate(pathBounds.left, pathBounds.top) {
-                drawImage(cacheImageBitmap, srcSize = pathBoundsSize, colorFilter = colorFilter)
+            onDrawWithContent {
+                drawContent()
+                translate(pathBounds.left, pathBounds.top) {
+                    drawImage(cacheImageBitmap, srcSize = pathBoundsSize, colorFilter = colorFilter)
+                }
             }
         }
     }
