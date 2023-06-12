@@ -32,7 +32,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import org.jetbrains.jewel.foundation.MouseState
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.styles.localNotProvided
@@ -101,16 +100,10 @@ private fun ButtonImpl(
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
-                is PressInteraction.Press -> buttonState = buttonState.copy(mouseState = MouseState.Pressed)
-                is PressInteraction.Cancel, is PressInteraction.Release -> buttonState = buttonState.copy(mouseState = MouseState.None)
-                is HoverInteraction.Enter -> if (buttonState.mouseState == MouseState.None) {
-                    buttonState = buttonState.copy(mouseState = MouseState.Hovered)
-                }
-
-                is HoverInteraction.Exit -> if (buttonState.mouseState == MouseState.Hovered) {
-                    buttonState = buttonState.copy(mouseState = MouseState.None)
-                }
-
+                is PressInteraction.Press -> buttonState = buttonState.copy(pressed = true)
+                is PressInteraction.Cancel, is PressInteraction.Release -> buttonState = buttonState.copy(pressed = false)
+                is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
+                is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
                 is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
                 is FocusInteraction.Unfocus -> buttonState = buttonState.copy(focused = false)
             }
@@ -195,26 +188,32 @@ value class ButtonState(val state: ULong) {
         get() = state and Focused != 0UL
 
     @Stable
-    val mouseState: MouseState
-        get() = MouseState(state shr mouseStateBitOffset)
+    val isHovered: Boolean
+        get() = state and Hovered != 0UL
 
-    fun copy(enabled: Boolean = isEnabled, focused: Boolean = isFocused, mouseState: MouseState = this.mouseState): ButtonState =
-        of(enabled, focused, mouseState)
+    @Stable
+    val isPressed: Boolean
+        get() = state and Pressed != 0UL
 
-    override fun toString(): String = "ButtonState(enabled=$isEnabled, focused=$isFocused, mouseState=$mouseState)"
+    fun copy(enabled: Boolean = isEnabled, focused: Boolean = isFocused, pressed: Boolean = isPressed, hovered: Boolean = isHovered) =
+        of(enabled, focused, pressed, hovered)
+
+    override fun toString(): String = "ButtonState(enabled=$isEnabled, focused=$isFocused, pressed=$isPressed, hovered=$isHovered)"
 
     companion object {
 
         private val Enabled = 1UL shl 0
         private val Focused = 1UL shl 1
-        private const val mouseStateBitOffset = 60
+        private val Hovered = 1UL shl 2
+        private val Pressed = 1UL shl 3
 
-        fun of(enabled: Boolean = true, focused: Boolean = false, mouseState: MouseState = MouseState.None): ButtonState {
-            return ButtonState(
-                state = (if (enabled) Enabled else 0UL) or
-                    (if (focused) Focused else 0UL) or
-                    (mouseState.state shl mouseStateBitOffset)
-            )
+        fun of(enabled: Boolean = true, focused: Boolean = false, pressed: Boolean = false, hovered: Boolean = false): ButtonState {
+            var state = 0UL
+            if (enabled) state = state or Enabled
+            if (focused) state = state or Focused
+            if (pressed) state = state or Pressed
+            if (hovered) state = state or Hovered
+            return ButtonState(state)
         }
     }
 }
@@ -266,8 +265,8 @@ private data class DefaultButtonColors(
             when {
                 !state.isEnabled -> backgroundBrush(disabledArea)
                 state.isFocused -> backgroundBrush(focusedArea)
-                state.mouseState == MouseState.Pressed -> backgroundBrush(pressedArea)
-                state.mouseState == MouseState.Hovered -> backgroundBrush(hoverArea)
+                state.isPressed -> backgroundBrush(pressedArea)
+                state.isHovered -> backgroundBrush(hoverArea)
                 else -> backgroundBrush(normalArea)
             }
         )
@@ -279,8 +278,8 @@ private data class DefaultButtonColors(
             when {
                 !state.isEnabled -> disabledArea.foreground
                 state.isFocused -> focusedArea.foreground
-                state.mouseState == MouseState.Pressed -> pressedArea.foreground
-                state.mouseState == MouseState.Hovered -> hoverArea.foreground
+                state.isPressed -> pressedArea.foreground
+                state.isHovered -> hoverArea.foreground
                 else -> normalArea.foreground
             }
         )
@@ -292,8 +291,8 @@ private data class DefaultButtonColors(
             when {
                 !state.isEnabled -> disabledStroke
                 state.isFocused -> focusedStroke
-                state.mouseState == MouseState.Pressed -> pressedStroke
-                state.mouseState == MouseState.Hovered -> hoverStroke
+                state.isPressed -> pressedStroke
+                state.isHovered -> hoverStroke
                 else -> normalStroke
             }
         )

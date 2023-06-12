@@ -25,9 +25,12 @@ import org.jetbrains.jewel.internal.DropdownLink
 import org.jetbrains.jewel.internal.ExternalLink
 import org.jetbrains.jewel.internal.GroupHeader
 import org.jetbrains.jewel.internal.IntelliJTheme
+import org.jetbrains.jewel.internal.LabelledTextField
 import org.jetbrains.jewel.internal.Link
 import org.jetbrains.jewel.internal.OutlinedButton
+import org.jetbrains.jewel.internal.RadioButtonRow
 import org.jetbrains.jewel.internal.Text
+import org.jetbrains.jewel.internal.TextField
 import org.jetbrains.jewel.internal.TriStateCheckboxRow
 import org.jetbrains.jewel.themes.intui.standalone.internal.dark.DarkTheme
 import org.jetbrains.jewel.themes.intui.standalone.internal.light.LightTheme
@@ -39,6 +42,7 @@ fun JBTheme(isDark: Boolean, content: @Composable () -> Unit) =
         content
     )
 
+@Suppress("MagicNumber")
 fun main() = singleWindowApplication(
     title = "TODO: sample app"
 ) {
@@ -106,6 +110,38 @@ fun main() = singleWindowApplication(
                     }, isError = true)
                     TriStateCheckboxRow("Disabled", checked, {}, enabled = false)
                 }
+                GroupHeader("RadioButtons")
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    var index by remember { mutableStateOf(0) }
+                    RadioButtonRow(
+                        text = "Default",
+                        selected = index == 0,
+                        onClick = { index = 0 }
+                    )
+
+                    RadioButtonRow(
+                        text = "Error",
+                        selected = index == 1,
+                        onClick = { index = 1 },
+                        isError = true
+                    )
+
+                    RadioButtonRow(
+                        text = "Disabled",
+                        selected = index == 2,
+                        onClick = { index = 2 },
+                        enabled = false
+                    )
+
+                    RadioButtonRow(
+                        text = "Another",
+                        selected = index == 3,
+                        onClick = { index = 3 }
+                    )
+                }
                 GroupHeader("Links")
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -126,6 +162,41 @@ fun main() = singleWindowApplication(
                     ExternalLink("ExternalLink", {}, enabled = false)
 
                     DropdownLink("DropdownLink", {}, enabled = false)
+                }
+                GroupHeader("TextFields")
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    var text1 by remember { mutableStateOf("TextField") }
+                    TextField(text1, { text1 = it })
+
+                    var text2 by remember { mutableStateOf("Error hinted") }
+                    TextField(text2, { text2 = it }, isError = true)
+
+                    var text3 by remember { mutableStateOf("Disabled") }
+                    TextField(text3, { text3 = it }, enabled = false)
+
+                    var text4 by remember { mutableStateOf("") }
+                    TextField(text4, { text4 = it }, placeholder = {
+                        Text("Placeholder")
+                    })
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    var text1 by remember { mutableStateOf("Labelled TextField") }
+                    LabelledTextField({
+                        Text("Label:")
+                    }, text1, { text1 = it })
+
+                    var text2 by remember { mutableStateOf("Labelled TextField with hint") }
+                    LabelledTextField({
+                        Text("Label:")
+                    }, text2, { text2 = it }, hint = {
+                            Text("Attached hint text")
+                        })
                 }
             }
         }

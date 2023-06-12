@@ -36,7 +36,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import org.jetbrains.jewel.foundation.MouseState
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.styles.LocalTextStyle
@@ -219,16 +218,10 @@ private fun CheckboxImpl(
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
-                is PressInteraction.Press -> checkboxState = checkboxState.copy(mouseState = MouseState.Pressed)
-                is PressInteraction.Cancel, is PressInteraction.Release -> checkboxState = checkboxState.copy(mouseState = MouseState.None)
-                is HoverInteraction.Enter -> if (checkboxState.mouseState == MouseState.None) {
-                    checkboxState = checkboxState.copy(mouseState = MouseState.Hovered)
-                }
-
-                is HoverInteraction.Exit -> if (checkboxState.mouseState == MouseState.Hovered) {
-                    checkboxState = checkboxState.copy(mouseState = MouseState.None)
-                }
-
+                is PressInteraction.Press -> checkboxState = checkboxState.copy(pressed = true)
+                is PressInteraction.Cancel, is PressInteraction.Release -> checkboxState = checkboxState.copy(pressed = false)
+                is HoverInteraction.Enter -> checkboxState = checkboxState.copy(hovered = true)
+                is HoverInteraction.Exit -> checkboxState = checkboxState.copy(hovered = true)
                 is FocusInteraction.Focus -> checkboxState = checkboxState.copy(focused = true)
                 is FocusInteraction.Unfocus -> checkboxState = checkboxState.copy(focused = false)
             }
@@ -295,27 +288,40 @@ value class CheckboxState(val state: ULong) {
         get() = state and Error != 0UL
 
     @Stable
-    val mouseState: MouseState
-        get() = MouseState(state shr mouseStateBitOffset)
+    val isHovered: Boolean
+        get() = state and Hovered != 0UL
+
+    @Stable
+    val isPressed: Boolean
+        get() = state and Pressed != 0UL
 
     fun copy(
         toggle: ToggleableState = this.toggle,
         enabled: Boolean = isEnabled,
         focused: Boolean = isFocused,
         error: Boolean = isError,
-        mouseState: MouseState = this.mouseState
-    ): CheckboxState =
-        of(toggle, enabled, focused, error, mouseState)
+        pressed: Boolean = isPressed,
+        hovered: Boolean = isHovered
+    ): CheckboxState = of(
+        toggle = toggle,
+        enabled = enabled,
+        focused = focused,
+        error = error,
+        pressed = pressed,
+        hovered = hovered
+    )
 
-    override fun toString(): String = "CheckboxState(toggle=$toggle, enabled=$isEnabled, focused=$isFocused, error=$isError, mouseState=$mouseState)"
+    override fun toString(): String =
+        "CheckboxState(toggle=$toggle, enabled=$isEnabled, focused=$isFocused, error=$isError, hovered=$isHovered, pressed=$isPressed)"
 
     companion object {
 
         private val Enabled = 1UL shl 0
         private val Focused = 1UL shl 1
         private val Error = 1UL shl 2
-        private const val mouseStateBitOffset = 60
-        private const val toggleStateBitOffset = 56
+        private val Hovered = 1UL shl 3
+        private val Pressed = 1UL shl 4
+        private const val toggleStateBitOffset = 60
         private const val toggleStateMask = 0b11UL
 
         fun of(
@@ -323,13 +329,15 @@ value class CheckboxState(val state: ULong) {
             enabled: Boolean = true,
             focused: Boolean = false,
             error: Boolean = false,
-            mouseState: MouseState = MouseState.None
+            pressed: Boolean = false,
+            hovered: Boolean = false
         ): CheckboxState {
             return CheckboxState(
                 state = (if (enabled) Enabled else 0UL) or
                     (if (focused) Focused else 0UL) or
                     (if (error) Error else 0UL) or
-                    (mouseState.state shl mouseStateBitOffset) or
+                    (if (pressed) Pressed else 0UL) or
+                    (if (hovered) Hovered else 0UL) or
                     (toggle.ordinal.toULong() shl toggleStateBitOffset)
             )
         }
@@ -483,7 +491,7 @@ private data class DefaultCheckBoxColors(
                     checkedFocusedStroke
                 }
 
-                state.mouseState != MouseState.None -> if (state.toggle == ToggleableState.Off) {
+                state.isHovered -> if (state.toggle == ToggleableState.Off) {
                     uncheckedHoveredStroke
                 } else {
                     checkedHoveredStroke
@@ -533,7 +541,7 @@ private data class DefaultCheckBoxColors(
                     checkedBackground
                 }
 
-                state.mouseState != MouseState.None -> if (state.toggle == ToggleableState.Off) {
+                state.isHovered || state.isPressed -> if (state.toggle == ToggleableState.Off) {
                     uncheckedHoveredBackground
                 } else {
                     checkedHoveredBackground

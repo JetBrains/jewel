@@ -24,3 +24,9 @@ internal fun RoundRect.deflate(delta: Float) = RoundRect(
     bottomLeftCornerRadius = CornerRadius(bottomLeftCornerRadius.x - delta, bottomLeftCornerRadius.y - delta),
     bottomRightCornerRadius = CornerRadius(bottomRightCornerRadius.x - delta, bottomRightCornerRadius.y - delta)
 )
+
+internal fun RoundRect.hasRightAngle() =
+    topLeftCornerRadius.x == 0f && topLeftCornerRadius.y == 0f ||
+        topRightCornerRadius.x == 0f && topRightCornerRadius.y == 0f ||
+        bottomLeftCornerRadius.x == 0f && bottomLeftCornerRadius.y == 0f ||
+        bottomRightCornerRadius.x == 0f && bottomRightCornerRadius.y == 0f

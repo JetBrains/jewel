@@ -8,10 +8,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.CacheDrawScope
 import androidx.compose.ui.draw.DrawResult
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.RoundRect
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Canvas
@@ -35,6 +32,8 @@ import androidx.compose.ui.node.Ref
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.isUnspecified
+import androidx.compose.ui.unit.takeOrElse
 import androidx.compose.ui.unit.toSize
 import kotlin.math.ceil
 import kotlin.math.min
@@ -52,23 +51,24 @@ fun Modifier.border(stroke: Stroke, shape: Shape): Modifier = when (stroke) {
     )
 }
 
-fun Modifier.border(alignment: Stroke.Alignment, width: Dp, color: Color, shape: Shape = RectangleShape) =
+fun Modifier.border(alignment: Stroke.Alignment, width: Dp, color: Color, shape: Shape = RectangleShape, expand: Dp = Dp.Unspecified) =
     border(alignment, width, SolidColor(color), shape)
 
-fun Modifier.border(alignment: Stroke.Alignment, width: Dp, brush: Brush, shape: Shape = RectangleShape): Modifier =
-    if (alignment == Stroke.Alignment.Inside) {
+fun Modifier.border(alignment: Stroke.Alignment, width: Dp, brush: Brush, shape: Shape = RectangleShape, expand: Dp = Dp.Unspecified): Modifier =
+    if (alignment == Stroke.Alignment.Inside && expand.isUnspecified) {
         // The compose native border modifier(androidx.compose.foundation.border) draws the border inside the shape,
         // so we can just use that for getting a more native experience when drawing inside borders
         border(width, brush, shape)
     } else {
-        drawBorderWithAlignment(alignment, width, brush, shape)
+        drawBorderWithAlignment(alignment, width, brush, shape, expand)
     }
 
 private fun Modifier.drawBorderWithAlignment(
     alignment: Stroke.Alignment,
     width: Dp,
     brush: Brush,
-    shape: Shape
+    shape: Shape,
+    expand: Dp
 ): Modifier = composed(
     factory = {
         val borderCacheRef = remember { Ref<BorderCache>() }
@@ -80,6 +80,7 @@ private fun Modifier.drawBorderWithAlignment(
                         if (width == Dp.Hairline) 1f else ceil(width.toPx()),
                         ceil(size.minDimension / 2)
                     )
+                    val expandWidthPx = expand.takeOrElse { Dp.Hairline }.toPx()
                     when (val outline = shape.createOutline(size, layoutDirection, this)) {
                         is Outline.Rectangle -> {
                             when (shape) {
@@ -88,16 +89,17 @@ private fun Modifier.drawBorderWithAlignment(
                                     alignment,
                                     Outline.Rounded(RoundRect(outline.rect)),
                                     brush,
-                                    strokeWidthPx
+                                    strokeWidthPx,
+                                    expandWidthPx
                                 )
 
-                                else -> drawRectBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
+                                else -> drawRectBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx, expandWidthPx)
                             }
                         }
 
-                        is Outline.Rounded -> drawRoundedBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
+                        is Outline.Rounded -> drawRoundedBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx, expandWidthPx)
 
-                        is Outline.Generic -> drawGenericBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx)
+                        is Outline.Generic -> drawGenericBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx, expandWidthPx)
                     }
                 }
             }
@@ -114,6 +116,7 @@ private fun Modifier.drawBorderWithAlignment(
             properties["brush"] = brush
         }
         properties["shape"] = shape
+        properties["expand"] = expand
     }
 )
 
@@ -147,7 +150,7 @@ private class BorderCache(
             ).also {
                 imageBitmap = it
             }
-            targetCanvas = androidx.compose.ui.graphics.Canvas(targetImageBitmap).also {
+            targetCanvas = Canvas(targetImageBitmap).also {
                 canvas = it
             }
         }
@@ -183,23 +186,23 @@ private fun ContentDrawScope.drawRectBorder(
     alignment: Stroke.Alignment,
     outline: Outline.Rectangle,
     brush: Brush,
-    strokeWidthPx: Float
+    strokeWidthPx: Float,
+    expandWidthPx: Float
 ) {
-    when (alignment) {
+    val rect = when (alignment) {
         Stroke.Alignment.Inside -> {
-            val rect = outline.rect.deflate(strokeWidthPx / 2f)
-            drawRect(brush, rect.topLeft, rect.size, style = DrawScopeStroke(strokeWidthPx))
+            outline.rect.inflate(expandWidthPx - strokeWidthPx / 2f)
         }
 
         Stroke.Alignment.Center -> {
-            drawOutline(outline, brush, style = DrawScopeStroke(strokeWidthPx))
+            outline.rect.inflate(expandWidthPx)
         }
 
         Stroke.Alignment.Outside -> {
-            val rect = outline.rect.inflate(strokeWidthPx / 2f)
-            drawRect(brush, rect.topLeft, rect.size, style = DrawScopeStroke(strokeWidthPx))
+            outline.rect.inflate(expandWidthPx + strokeWidthPx / 2f)
         }
     }
+    drawRect(brush, rect.topLeft, rect.size, style = DrawScopeStroke(strokeWidthPx))
 }
 
 private fun ContentDrawScope.drawRoundedBorder(
@@ -207,50 +210,30 @@ private fun ContentDrawScope.drawRoundedBorder(
     alignment: Stroke.Alignment,
     outline: Outline.Rounded,
     brush: Brush,
-    strokeWidthPx: Float
+    strokeWidthPx: Float,
+    expandWidthPx: Float
 ) {
-    when (alignment) {
-        Stroke.Alignment.Inside -> {
-            val rrect = outline.roundRect.deflate(strokeWidthPx / 2f)
-            val radius = rrect.bottomLeftCornerRadius.x
-            drawRoundRect(
-                brush = brush,
-                topLeft = Offset(rrect.top, rrect.left),
-                size = Size(rrect.width, rrect.height),
-                cornerRadius = CornerRadius(radius),
-                style = DrawScopeStroke(strokeWidthPx)
-            )
-        }
+    val rrect = when (alignment) {
+        Stroke.Alignment.Inside -> outline.roundRect.inflate(expandWidthPx - strokeWidthPx / 2f)
+        Stroke.Alignment.Center -> outline.roundRect.inflate(expandWidthPx)
+        Stroke.Alignment.Outside -> outline.roundRect.inflate(expandWidthPx + strokeWidthPx / 2f)
+    }
 
-        Stroke.Alignment.Center -> {
-            val rrect = outline.roundRect
-            val radius = rrect.bottomLeftCornerRadius.x
-
-            if (radius == 0f) {
-                val cache = borderCacheRef.obtain()
-                val borderPath = cache.obtainPath().apply {
-                    reset()
-                    fillType = PathFillType.EvenOdd
-                    addRoundRect(outline.roundRect.deflate(strokeWidthPx / 2f))
-                    addRoundRect(outline.roundRect.inflate(strokeWidthPx / 2f))
-                }
-                drawPath(borderPath, brush)
-            } else {
-                drawOutline(outline, brush, style = DrawScopeStroke(strokeWidthPx))
-            }
+    if (rrect.hasRightAngle()) {
+        val cache = borderCacheRef.obtain()
+        val borderPath = cache.obtainPath().apply {
+            reset()
+            fillType = PathFillType.EvenOdd
+            addRoundRect(rrect.deflate(strokeWidthPx / 2f))
+            addRoundRect(rrect.inflate(strokeWidthPx / 2f))
         }
-
-        Stroke.Alignment.Outside -> {
-            val rrect = outline.roundRect.inflate(strokeWidthPx / 2f)
-            val radius = rrect.bottomLeftCornerRadius.x
-            drawRoundRect(
-                brush = brush,
-                topLeft = Offset(rrect.top, rrect.left),
-                size = Size(rrect.width, rrect.height),
-                cornerRadius = CornerRadius(radius),
-                style = DrawScopeStroke(strokeWidthPx)
-            )
-        }
+        drawPath(borderPath, brush)
+    } else {
+        drawOutline(
+            outline = Outline.Rounded(rrect),
+            brush = brush,
+            style = DrawScopeStroke(strokeWidthPx)
+        )
     }
 }
 
@@ -259,94 +242,97 @@ private fun CacheDrawScope.drawGenericBorder(
     alignment: Stroke.Alignment,
     outline: Outline.Generic,
     brush: Brush,
-    strokeWidth: Float
+    strokeWidth: Float,
+    expandWidthPx: Float
 ): DrawResult = onDrawWithContent {
     drawContent()
-    when (alignment) {
+
+    val (outter, inner) = when (alignment) {
         Stroke.Alignment.Inside -> {
-            val config: ImageBitmapConfig
-            val colorFilter: ColorFilter?
-            if (brush is SolidColor) {
-                config = ImageBitmapConfig.Alpha8
-                colorFilter = ColorFilter.tint(brush.value)
-            } else {
-                config = ImageBitmapConfig.Argb8888
-                colorFilter = null
-            }
-            val pathBounds = outline.path.getBounds()
-            val borderCache = borderCacheRef.obtain()
-            val maskPath = borderCache.obtainPath().apply {
-                reset()
-                addRect(pathBounds)
-                op(this, outline.path, PathOperation.Difference)
-            }
-            val cacheImageBitmap: ImageBitmap
-            val pathBoundsSize = IntSize(
-                ceil(pathBounds.width).toInt(),
-                ceil(pathBounds.height).toInt()
-            )
-
-            with(borderCache) {
-                cacheImageBitmap = drawBorderCache(
-                    pathBoundsSize,
-                    config
-                ) {
-                    translate(-pathBounds.left, -pathBounds.top) {
-                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(strokeWidth * 2))
-
-                        drawPath(path = maskPath, brush = brush, blendMode = BlendMode.Clear)
-                    }
-                }
-            }
-
-            onDrawWithContent {
-                drawContent()
-                translate(pathBounds.left, pathBounds.top) {
-                    drawImage(cacheImageBitmap, srcSize = pathBoundsSize, colorFilter = colorFilter)
-                }
-            }
+            0f + expandWidthPx to -strokeWidth + expandWidthPx
         }
 
         Stroke.Alignment.Center -> {
-            drawOutline(outline, brush, style = DrawScopeStroke(strokeWidth))
+            strokeWidth / 2f + expandWidthPx to -strokeWidth / 2f + expandWidthPx
         }
 
         Stroke.Alignment.Outside -> {
-            val config: ImageBitmapConfig
-            val colorFilter: ColorFilter?
-            if (brush is SolidColor) {
-                config = ImageBitmapConfig.Alpha8
-                colorFilter = ColorFilter.tint(brush.value)
-            } else {
-                config = ImageBitmapConfig.Argb8888
-                colorFilter = null
-            }
-            val pathBounds = outline.path.getBounds().inflate(strokeWidth)
-            val borderCache = borderCacheRef.obtain()
-            val cacheImageBitmap: ImageBitmap
-            val pathBoundsSize = IntSize(
-                ceil(pathBounds.width).toInt(),
-                ceil(pathBounds.height).toInt()
-            )
+            strokeWidth + expandWidthPx to 0f + expandWidthPx
+        }
+    }
 
-            with(borderCache) {
-                cacheImageBitmap = drawBorderCache(
-                    pathBoundsSize,
-                    config
-                ) {
-                    translate(-pathBounds.left, -pathBounds.top) {
-                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(strokeWidth * 2))
+    if (outter == inner) {
+        return@onDrawWithContent
+    } else if (outter == -inner) {
+        drawOutline(outline, brush, style = DrawScopeStroke(outter * 2f))
+    } else {
+        val config: ImageBitmapConfig
+        val colorFilter: ColorFilter?
+        if (brush is SolidColor) {
+            config = ImageBitmapConfig.Alpha8
+            colorFilter = ColorFilter.tint(brush.value)
+        } else {
+            config = ImageBitmapConfig.Argb8888
+            colorFilter = null
+        }
+        val pathBounds = outline.path.getBounds().inflate(outter)
+        val borderCache = borderCacheRef.obtain()
+        val outterMaskPath = borderCache.obtainPath().apply {
+            reset()
+            addRect(pathBounds)
+            op(this, outline.path, PathOperation.Difference)
+        }
+        val cacheImageBitmap: ImageBitmap
+        val pathBoundsSize = IntSize(
+            ceil(pathBounds.width).toInt(),
+            ceil(pathBounds.height).toInt()
+        )
+
+        with(borderCache) {
+            cacheImageBitmap = drawBorderCache(
+                pathBoundsSize,
+                config
+            ) {
+                translate(-pathBounds.left, -pathBounds.top) {
+                    if (inner < 0f && outter > 0f) {
+                        TODO("Not implemented for generic border")
+                    }
+
+                    if (inner == 0f) {
+                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(outter * 2f))
 
                         drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear)
                     }
+
+                    if (outter == 0f) {
+                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(-inner * 2f))
+
+                        drawPath(path = outterMaskPath, brush = brush, blendMode = BlendMode.Clear)
+                    }
+
+                    if (outter > 0f && inner > 0f) {
+                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(outter * 2f))
+
+                        drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(inner * 2f))
+
+                        drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear)
+                    }
+
+                    if (outter < 0f && inner < 0f) {
+                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(-inner * 2f))
+
+                        drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(-outter * 2f))
+
+                        drawPath(path = outterMaskPath, brush = brush, blendMode = BlendMode.Clear)
+                    }
                 }
             }
+        }
 
-            onDrawWithContent {
-                drawContent()
-                translate(pathBounds.left, pathBounds.top) {
-                    drawImage(cacheImageBitmap, srcSize = pathBoundsSize, colorFilter = colorFilter)
-                }
+        onDrawWithContent {
+            drawContent()
+            translate(pathBounds.left, pathBounds.top) {
+                drawImage(cacheImageBitmap, srcSize = pathBoundsSize, colorFilter = colorFilter)
             }
         }
     }
