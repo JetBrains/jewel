@@ -36,23 +36,25 @@ import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.unit.takeOrElse
 import androidx.compose.ui.unit.toSize
 import kotlin.math.ceil
+import kotlin.math.max
 import kotlin.math.min
 
 typealias DrawScopeStroke = androidx.compose.ui.graphics.drawscope.Stroke
 
 fun Modifier.border(stroke: Stroke, shape: Shape): Modifier = when (stroke) {
     is Stroke.None -> this
-    is Stroke.Solid -> border(stroke.alignment, stroke.width, stroke.color, shape)
+    is Stroke.Solid -> border(stroke.alignment, stroke.width, stroke.color, shape, stroke.expand)
     is Stroke.Brush -> border(
         alignment = stroke.alignment,
         width = stroke.width,
         brush = stroke.brush,
-        shape = shape
+        shape = shape,
+        expand = stroke.expand
     )
 }
 
 fun Modifier.border(alignment: Stroke.Alignment, width: Dp, color: Color, shape: Shape = RectangleShape, expand: Dp = Dp.Unspecified) =
-    border(alignment, width, SolidColor(color), shape)
+    border(alignment, width, SolidColor(color), shape, expand)
 
 fun Modifier.border(alignment: Stroke.Alignment, width: Dp, brush: Brush, shape: Shape = RectangleShape, expand: Dp = Dp.Unspecified): Modifier =
     if (alignment == Stroke.Alignment.Inside && expand.isUnspecified) {
@@ -76,9 +78,12 @@ private fun Modifier.drawBorderWithAlignment(
             Modifier.drawWithCache {
                 onDrawWithContent {
                     drawContent()
-                    val strokeWidthPx = min(
-                        if (width == Dp.Hairline) 1f else ceil(width.toPx()),
-                        ceil(size.minDimension / 2)
+                    val strokeWidthPx = max(
+                        min(
+                            if (width == Dp.Hairline) 1f else ceil(width.toPx()),
+                            ceil(size.minDimension / 2)
+                        ),
+                        1f
                     )
                     val expandWidthPx = expand.takeOrElse { Dp.Hairline }.toPx()
                     when (val outline = shape.createOutline(size, layoutDirection, this)) {
@@ -247,8 +252,12 @@ private fun CacheDrawScope.drawGenericBorder(
 ): DrawResult = onDrawWithContent {
     drawContent()
 
-    val (outter, inner) = when (alignment) {
+    // Get the outer border and inner border inflate delta,
+    // the part between inner and outer is the border that
+    // needs to be drawn
+    val (outer, inner) = when (alignment) {
         Stroke.Alignment.Inside -> {
+            // Inside border means the outer border inflate delta is 0
             0f + expandWidthPx to -strokeWidth + expandWidthPx
         }
 
@@ -261,10 +270,12 @@ private fun CacheDrawScope.drawGenericBorder(
         }
     }
 
-    if (outter == inner) {
+    // Nothing need to draw
+    if (outer == inner) {
         return@onDrawWithContent
-    } else if (outter == -inner) {
-        drawOutline(outline, brush, style = DrawScopeStroke(outter * 2f))
+    } else if (outer == -inner) {
+        // Samply draw the outline when abs(outer) and abs(inner) are the same
+        drawOutline(outline, brush, style = DrawScopeStroke(outer * 2f))
     } else {
         val config: ImageBitmapConfig
         val colorFilter: ColorFilter?
@@ -275,9 +286,9 @@ private fun CacheDrawScope.drawGenericBorder(
             config = ImageBitmapConfig.Argb8888
             colorFilter = null
         }
-        val pathBounds = outline.path.getBounds().inflate(outter)
+        val pathBounds = outline.path.getBounds().inflate(outer)
         val borderCache = borderCacheRef.obtain()
-        val outterMaskPath = borderCache.obtainPath().apply {
+        val outerMaskPath = borderCache.obtainPath().apply {
             reset()
             addRect(pathBounds)
             op(this, outline.path, PathOperation.Difference)
@@ -294,36 +305,28 @@ private fun CacheDrawScope.drawGenericBorder(
                 config
             ) {
                 translate(-pathBounds.left, -pathBounds.top) {
-                    if (inner < 0f && outter > 0f) {
+                    if (inner < 0f && outer > 0f) {
                         TODO("Not implemented for generic border")
                     }
 
-                    if (inner == 0f) {
-                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(outter * 2f))
+                    if (outer > 0f && inner >= 0f) {
+                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(outer * 2f))
+
+                        if (inner > 0f) {
+                            drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(inner * 2f))
+                        }
 
                         drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear)
                     }
 
-                    if (outter == 0f) {
+                    if (outer <= 0f && inner < 0f) {
                         drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(-inner * 2f))
 
-                        drawPath(path = outterMaskPath, brush = brush, blendMode = BlendMode.Clear)
-                    }
+                        if (outer < 0f) {
+                            drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(-outer * 2f))
+                        }
 
-                    if (outter > 0f && inner > 0f) {
-                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(outter * 2f))
-
-                        drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(inner * 2f))
-
-                        drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear)
-                    }
-
-                    if (outter < 0f && inner < 0f) {
-                        drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(-inner * 2f))
-
-                        drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(-outter * 2f))
-
-                        drawPath(path = outterMaskPath, brush = brush, blendMode = BlendMode.Clear)
+                        drawPath(path = outerMaskPath, brush = brush, blendMode = BlendMode.Clear)
                     }
                 }
             }

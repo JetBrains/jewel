@@ -128,11 +128,11 @@ private fun RadioButtonImpl(
     shape: Shape = defaults.shape(),
     content: (@Composable RowScope.() -> Unit)? = null
 ) {
-    var radioButtonState by remember(interactionSource, enabled) {
+    var radioButtonState by remember(interactionSource) {
         mutableStateOf(RadioButtonState.of(selected = selected, enabled = enabled))
     }
-    remember(selected, isError) {
-        radioButtonState = radioButtonState.copy(selected = selected, error = isError)
+    remember(selected, isError, enabled) {
+        radioButtonState = radioButtonState.copy(selected = selected, error = isError, enabled = enabled)
     }
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->

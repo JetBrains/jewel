@@ -48,11 +48,11 @@ internal fun BaseTextField(
     textStyle: TextStyle,
     decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: TextFieldState) -> Unit
 ) {
-    var inputState by remember(interactionSource, enabled) {
+    var inputState by remember(interactionSource) {
         mutableStateOf(TextFieldState.of(enabled = enabled, error = isError))
     }
-    remember(isError) {
-        inputState = inputState.copy(error = isError)
+    remember(isError, enabled) {
+        inputState = inputState.copy(error = isError, enabled = enabled)
     }
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->

@@ -184,8 +184,11 @@ private fun LinkImpl(
     var skipClickFocus by remember(interactionSource) {
         mutableStateOf(false)
     }
-    var linkState by remember(interactionSource, enabled) {
+    var linkState by remember(interactionSource) {
         mutableStateOf(LinkState.of(enabled = enabled))
+    }
+    remember(enabled) {
+        linkState = linkState.copy(enabled = enabled)
     }
 
     LaunchedEffect(interactionSource) {

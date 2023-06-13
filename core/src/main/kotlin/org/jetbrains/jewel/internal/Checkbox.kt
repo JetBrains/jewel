@@ -209,11 +209,11 @@ private fun CheckboxImpl(
     shape: Shape = defaults.shape(),
     content: (@Composable RowScope.() -> Unit)? = null
 ) {
-    var checkboxState by remember(interactionSource, enabled) {
+    var checkboxState by remember(interactionSource) {
         mutableStateOf(CheckboxState.of(state, enabled = enabled))
     }
-    remember(state, isError) {
-        checkboxState = checkboxState.copy(toggle = state, error = isError)
+    remember(state, isError, enabled) {
+        checkboxState = checkboxState.copy(toggle = state, error = isError, enabled = enabled)
     }
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->

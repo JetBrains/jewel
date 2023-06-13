@@ -93,8 +93,12 @@ private fun ButtonImpl(
     shape: Shape,
     content: @Composable RowScope.() -> Unit
 ) {
-    var buttonState by remember(interactionSource, enabled) {
+    var buttonState by remember(interactionSource) {
         mutableStateOf(ButtonState.of(enabled = enabled))
+    }
+
+    remember(enabled) {
+        buttonState = buttonState.copy(enabled = enabled)
     }
 
     LaunchedEffect(interactionSource) {
@@ -219,43 +223,58 @@ value class ButtonState(val state: ULong) {
 }
 
 fun buttonColors(
-    normalArea: AreaColor,
-    normalStroke: Stroke,
-    disabledArea: AreaColor,
-    disabledStroke: Stroke,
-    hoverArea: AreaColor,
-    hoverStroke: Stroke,
-    pressedArea: AreaColor,
-    pressedStroke: Stroke,
-    focusedArea: AreaColor,
-    focusedStroke: Stroke,
+    backgroundBrush: Brush,
+    contentColor: Color,
+    borderStroke: Stroke,
+    disabledBackgroundBrush: Brush,
+    disabledContentColor: Color,
+    disabledBorderStroke: Stroke,
+    hoveredBackgroundBrush: Brush,
+    hoveredContentColor: Color,
+    hoveredBorderStroke: Stroke,
+    pressedBackgroundBrush: Brush,
+    pressedContentColor: Color,
+    pressedBorderStroke: Stroke,
+    focusedBackgroundBrush: Brush,
+    focusedContentColor: Color,
+    focusedBorderStroke: Stroke,
     focusHaloStroke: Stroke
 ): ButtonColors = DefaultButtonColors(
-    normalArea = normalArea,
-    normalStroke = normalStroke,
-    disabledArea = disabledArea,
-    disabledStroke = disabledStroke,
-    hoverArea = hoverArea,
-    hoverStroke = hoverStroke,
-    pressedArea = pressedArea,
-    pressedStroke = pressedStroke,
-    focusedArea = focusedArea,
-    focusedStroke = focusedStroke,
+    backgroundBrush = backgroundBrush,
+    contentColor = contentColor,
+    borderStroke = borderStroke,
+    disabledBackgroundBrush = disabledBackgroundBrush,
+    disabledContentColor = disabledContentColor,
+    disabledBorderStroke = disabledBorderStroke,
+    hoveredBackgroundBrush = hoveredBackgroundBrush,
+    hoveredContentColor = hoveredContentColor,
+    hoveredBorderStroke = hoveredBorderStroke,
+    pressedBackgroundBrush = pressedBackgroundBrush,
+    pressedContentColor = pressedContentColor,
+    pressedBorderStroke = pressedBorderStroke,
+    focusedBackgroundBrush = focusedBackgroundBrush,
+    focusedContentColor = focusedContentColor,
+    focusedBorderStroke = focusedBorderStroke,
     focusHaloStroke = focusHaloStroke
 )
 
 @Immutable
 private data class DefaultButtonColors(
-    private val normalArea: AreaColor,
-    private val normalStroke: Stroke,
-    private val disabledArea: AreaColor,
-    private val disabledStroke: Stroke,
-    private val hoverArea: AreaColor,
-    private val hoverStroke: Stroke,
-    private val pressedArea: AreaColor,
-    private val pressedStroke: Stroke,
-    private val focusedArea: AreaColor,
-    private val focusedStroke: Stroke,
+    private val backgroundBrush: Brush,
+    private val contentColor: Color,
+    private val borderStroke: Stroke,
+    private val disabledBackgroundBrush: Brush,
+    private val disabledContentColor: Color,
+    private val disabledBorderStroke: Stroke,
+    private val hoveredBackgroundBrush: Brush,
+    private val hoveredContentColor: Color,
+    private val hoveredBorderStroke: Stroke,
+    private val pressedBackgroundBrush: Brush,
+    private val pressedContentColor: Color,
+    private val pressedBorderStroke: Stroke,
+    private val focusedBackgroundBrush: Brush,
+    private val focusedContentColor: Color,
+    private val focusedBorderStroke: Stroke,
     private val focusHaloStroke: Stroke
 ) : ButtonColors {
 
@@ -263,11 +282,11 @@ private data class DefaultButtonColors(
     override fun backgroundBrush(state: ButtonState): State<Brush> {
         return rememberUpdatedState(
             when {
-                !state.isEnabled -> backgroundBrush(disabledArea)
-                state.isFocused -> backgroundBrush(focusedArea)
-                state.isPressed -> backgroundBrush(pressedArea)
-                state.isHovered -> backgroundBrush(hoverArea)
-                else -> backgroundBrush(normalArea)
+                !state.isEnabled -> disabledBackgroundBrush
+                state.isFocused -> focusedBackgroundBrush
+                state.isPressed -> pressedBackgroundBrush
+                state.isHovered -> hoveredBackgroundBrush
+                else -> backgroundBrush
             }
         )
     }
@@ -276,11 +295,11 @@ private data class DefaultButtonColors(
     override fun contentColor(state: ButtonState): State<Color> {
         return rememberUpdatedState(
             when {
-                !state.isEnabled -> disabledArea.foreground
-                state.isFocused -> focusedArea.foreground
-                state.isPressed -> pressedArea.foreground
-                state.isHovered -> hoverArea.foreground
-                else -> normalArea.foreground
+                !state.isEnabled -> disabledContentColor
+                state.isFocused -> focusedContentColor
+                state.isPressed -> pressedContentColor
+                state.isHovered -> hoveredContentColor
+                else -> contentColor
             }
         )
     }
@@ -289,11 +308,11 @@ private data class DefaultButtonColors(
     override fun borderStroke(state: ButtonState): State<Stroke> {
         return rememberUpdatedState(
             when {
-                !state.isEnabled -> disabledStroke
-                state.isFocused -> focusedStroke
-                state.isPressed -> pressedStroke
-                state.isHovered -> hoverStroke
-                else -> normalStroke
+                !state.isEnabled -> disabledBorderStroke
+                state.isFocused -> focusedBorderStroke
+                state.isPressed -> pressedBorderStroke
+                state.isHovered -> hoveredBorderStroke
+                else -> borderStroke
             }
         )
     }
