@@ -52,16 +52,16 @@ import org.jetbrains.jewel.themes.darcula.standalone.default as defaultIj
 import org.jetbrains.jewel.themes.darcula.standalone.light as lightIj
 
 @Composable
-fun JBTheme(isNewUi: Boolean, isDark: Boolean, content: @Composable () -> Unit) =
+fun JetBrainsTheme(isNewUi: Boolean, isDark: Boolean, content: @Composable () -> Unit) =
     IntelliJTheme(
-        JBPalette(isNewUi, isDark),
-        JBMetrics(isNewUi, isDark),
-        JBPainters(isNewUi, isDark),
-        JBTypography(isNewUi, isDark),
+        JetBrainsPalette(isNewUi, isDark),
+        JetBrainsMetrics(isNewUi, isDark),
+        JetBrainsPainters(isNewUi, isDark),
+        JetBrainsTypography(isNewUi, isDark),
         content
     )
 
-fun JBPalette(isNewUi: Boolean, isDark: Boolean): IntelliJPalette =
+fun JetBrainsPalette(isNewUi: Boolean, isDark: Boolean): IntelliJPalette =
     when {
         isNewUi && isDark -> IntelliJPalette.dark
         isNewUi && !isDark -> IntelliJPalette.light
@@ -69,7 +69,7 @@ fun JBPalette(isNewUi: Boolean, isDark: Boolean): IntelliJPalette =
         else -> IntelliJPalette.lightIj
     }
 
-fun JBPainters(isNewUi: Boolean, isDark: Boolean): IntelliJPainters =
+fun JetBrainsPainters(isNewUi: Boolean, isDark: Boolean): IntelliJPainters =
     when {
         isNewUi && isDark -> IntelliJPainters.dark.copy(
             painterResourceLoader = DarkIconResourceLoader.newUiIconLoader()
@@ -81,7 +81,7 @@ fun JBPainters(isNewUi: Boolean, isDark: Boolean): IntelliJPainters =
         else -> IntelliJPainters.lightIj
     }
 
-fun JBTypography(isNewUi: Boolean, isDark: Boolean): IntelliJTypography =
+fun JetBrainsTypography(isNewUi: Boolean, isDark: Boolean): IntelliJTypography =
     when {
         isNewUi && isDark -> IntelliJTypography.dark
         isNewUi && !isDark -> IntelliJTypography.light
@@ -89,7 +89,7 @@ fun JBTypography(isNewUi: Boolean, isDark: Boolean): IntelliJTypography =
         else -> IntelliJTypography.lightIj
     }
 
-fun JBMetrics(isNewUi: Boolean, isDark: Boolean): IntelliJMetrics =
+fun JetBrainsMetrics(isNewUi: Boolean, isDark: Boolean): IntelliJMetrics =
     if (isNewUi) {
         IntelliJMetrics.default
     } else {
@@ -122,7 +122,7 @@ fun main() = singleWindowApplication(
 ) {
     var isDark by remember { mutableStateOf(false) }
     var isNewUi by remember { mutableStateOf(true) }
-    JBTheme(isNewUi = isNewUi, isDark = isDark) {
+    JetBrainsTheme(isNewUi = isNewUi, isDark = isDark) {
         Box(Modifier.fillMaxSize().background(Styles.frame.appearance(Unit).backgroundColor), contentAlignment = Alignment.Center) {
             Column(
                 Modifier.width(IntrinsicSize.Max),

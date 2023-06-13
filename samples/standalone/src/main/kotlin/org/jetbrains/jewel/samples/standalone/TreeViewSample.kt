@@ -18,7 +18,7 @@ import java.nio.file.Paths
 fun main() = singleWindowApplication {
     var isDark by remember { mutableStateOf(false) }
     val tree = Paths.get(System.getProperty("user.dir")).asTree()
-    JBTheme(isNewUi = true, isDark = isDark) {
+    JetBrainsTheme(isNewUi = true, isDark = isDark) {
         val treeState = rememberTreeState()
         Column {
             println(treeState.selectedItemIndexes)
