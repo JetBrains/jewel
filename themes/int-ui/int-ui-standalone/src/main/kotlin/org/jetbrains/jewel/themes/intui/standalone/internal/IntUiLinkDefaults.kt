@@ -10,7 +10,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.foundation.MouseState
 import org.jetbrains.jewel.internal.IntelliJTheme
 import org.jetbrains.jewel.internal.LinkDefaults
 import org.jetbrains.jewel.internal.LinkState
@@ -36,7 +35,7 @@ abstract class IntUiLinkDefaults : LinkDefaults {
         return rememberUpdatedState(
             when {
                 !state.isEnabled -> defaultTextStyle
-                state.mouseState == MouseState.None -> defaultTextStyle
+                !state.isHovered && !state.isPressed -> defaultTextStyle
                 else -> defaultTextStyle.copy(textDecoration = TextDecoration.Underline)
             }
         )

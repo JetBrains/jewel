@@ -24,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -32,7 +34,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import org.jetbrains.jewel.foundation.MouseState
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.styles.localNotProvided
@@ -183,24 +184,20 @@ private fun LinkImpl(
     var skipClickFocus by remember(interactionSource) {
         mutableStateOf(false)
     }
-    var linkState by remember(interactionSource, enabled) {
+    var linkState by remember(interactionSource) {
         mutableStateOf(LinkState.of(enabled = enabled))
+    }
+    remember(enabled) {
+        linkState = linkState.copy(enabled = enabled)
     }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
-                is PressInteraction.Press -> linkState = linkState.copy(mouseState = MouseState.Pressed)
-                is PressInteraction.Cancel -> linkState = linkState.copy(mouseState = MouseState.None)
-                is PressInteraction.Release -> linkState = linkState.copy(mouseState = MouseState.Hovered)
-
-                is HoverInteraction.Enter -> if (linkState.mouseState == MouseState.None) {
-                    linkState = linkState.copy(mouseState = MouseState.Hovered)
-                }
-
-                is HoverInteraction.Exit -> if (linkState.mouseState == MouseState.Hovered) {
-                    linkState = linkState.copy(mouseState = MouseState.None)
-                }
+                is PressInteraction.Press -> linkState = linkState.copy(pressed = true)
+                is PressInteraction.Cancel, is PressInteraction.Release -> linkState = linkState.copy(pressed = false)
+                is HoverInteraction.Enter -> linkState = linkState.copy(hovered = true)
+                is HoverInteraction.Exit -> linkState = linkState.copy(hovered = false)
 
                 is FocusInteraction.Focus -> {
                     if (!skipClickFocus) {
@@ -210,7 +207,7 @@ private fun LinkImpl(
                 }
 
                 is FocusInteraction.Unfocus -> {
-                    linkState = linkState.copy(focused = false)
+                    linkState = linkState.copy(focused = false, pressed = false)
                     skipClickFocus = false
                 }
             }
@@ -234,15 +231,17 @@ private fun LinkImpl(
 
     val clickable = Modifier.clickable(
         onClick = {
-            skipClickFocus = true
-            linkState = linkState.copy(visited = true, focused = false)
+            linkState = linkState.copy(visited = true)
             onClick()
         },
         enabled = enabled,
         role = Role.Button,
         interactionSource = interactionSource,
         indication = indication
-    )
+    ).onPointerEvent(PointerEventType.Press) {
+        skipClickFocus = true
+        linkState = linkState.copy(focused = false)
+    }
 
     if (icon == null) {
         BasicText(
@@ -288,33 +287,51 @@ value class LinkState(val state: ULong) {
         get() = state and Visited != 0UL
 
     @Stable
-    val mouseState: MouseState
-        get() = MouseState(state shr mouseStateBitOffset)
+    val isPressed: Boolean
+        get() = state and Pressed != 0UL
+
+    @Stable
+    val isHovered: Boolean
+        get() = state and Hovered != 0UL
+
+    override fun toString(): String = "LinkState(enabled=$isEnabled, focused=$isFocused, visited=$isVisited, pressed=$isPressed, hovered=$isHovered)"
 
     fun copy(
         enabled: Boolean = isEnabled,
         focused: Boolean = isFocused,
         visited: Boolean = isVisited,
-        mouseState: MouseState = this.mouseState
-    ): LinkState =
-        of(enabled, focused, visited, mouseState)
-
-    override fun toString(): String = "LinkState(enabled=$isEnabled, focused=$isFocused, mouseState=$mouseState)"
+        pressed: Boolean = isPressed,
+        hovered: Boolean = isHovered
+    ) = of(
+        enabled = enabled,
+        focused = focused,
+        visited = visited,
+        pressed = pressed,
+        hovered = hovered
+    )
 
     companion object {
 
         private val Enabled = 1UL shl 0
         private val Focused = 1UL shl 1
         private val Visited = 1UL shl 2
-        private const val mouseStateBitOffset = 60
+        private val Hovered = 1UL shl 3
+        private val Pressed = 1UL shl 4
 
-        fun of(enabled: Boolean = true, focused: Boolean = false, visited: Boolean = false, mouseState: MouseState = MouseState.None): LinkState {
-            return LinkState(
-                state = (if (enabled) Enabled else 0UL) or
-                    (if (focused) Focused else 0UL) or
-                    (if (visited) Visited else 0UL) or
-                    (mouseState.state shl mouseStateBitOffset)
-            )
+        fun of(
+            enabled: Boolean = true,
+            focused: Boolean = false,
+            visited: Boolean = false,
+            hovered: Boolean = false,
+            pressed: Boolean = false
+        ): LinkState {
+            var state = 0UL
+            if (enabled) state = state or Enabled
+            if (focused) state = state or Focused
+            if (visited) state = state or Visited
+            if (hovered) state = state or Hovered
+            if (pressed) state = state or Pressed
+            return LinkState(state)
         }
     }
 }

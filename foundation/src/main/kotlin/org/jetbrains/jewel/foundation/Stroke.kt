@@ -18,14 +18,16 @@ sealed class Stroke {
     data class Solid internal constructor(
         val width: Dp,
         val color: Color,
-        val alignment: Alignment
+        val alignment: Alignment,
+        val expand: Dp
     ) : Stroke()
 
     @Immutable
     data class Brush internal constructor(
         val width: Dp,
         val brush: androidx.compose.ui.graphics.Brush,
-        val alignment: Alignment
+        val alignment: Alignment,
+        val expand: Dp
     ) : Stroke()
 
     enum class Alignment {
@@ -33,24 +35,24 @@ sealed class Stroke {
     }
 }
 
-fun Stroke(width: Dp, color: Color, alignment: Stroke.Alignment): Stroke {
+fun Stroke(width: Dp, color: Color, alignment: Stroke.Alignment, expand: Dp = Dp.Unspecified): Stroke {
     if (width.value == 0f) return Stroke.None
     if (color.isUnspecified) return Stroke.None
 
-    return Stroke.Solid(width, color, alignment)
+    return Stroke.Solid(width, color, alignment, expand)
 }
 
-fun Stroke(width: Dp, brush: Brush, alignment: Stroke.Alignment): Stroke {
+fun Stroke(width: Dp, brush: Brush, alignment: Stroke.Alignment, expand: Dp = Dp.Unspecified): Stroke {
     if (width.value == 0f) return Stroke.None
     return when (brush) {
         is SolidColor -> {
             if (brush.value.isUnspecified) {
                 Stroke.None
             } else {
-                Stroke.Solid(width, brush.value, alignment)
+                Stroke.Solid(width, brush.value, alignment, expand)
             }
         }
 
-        else -> Stroke.Brush(width, brush, alignment)
+        else -> Stroke.Brush(width, brush, alignment, expand)
     }
 }

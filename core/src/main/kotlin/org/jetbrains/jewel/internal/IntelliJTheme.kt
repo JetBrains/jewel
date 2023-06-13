@@ -20,6 +20,12 @@ interface IntelliJTheme {
 
     val linkDefaults: LinkDefaults
 
+    val textFieldDefaults: TextFieldDefaults
+
+    val labelledTextFieldDefaults: LabelledTextFieldDefaults
+
+    val radioButtonDefaults: RadioButtonDefaults
+
     val defaultTextStyle: TextStyle
 
     val isLight: Boolean
@@ -48,6 +54,21 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalLinkDefaults.current
 
+        val textFieldDefaults: TextFieldDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalTextFieldDefaults.current
+
+        val labelledTextFieldDefaults: LabelledTextFieldDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalLabelledTextFieldDefaults.current
+
+        val radioButtonDefaults: RadioButtonDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalRadioButtonDefaults.current
+
         val colors: IntellijColors
             @Composable
             @ReadOnlyComposable
@@ -73,6 +94,9 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
         LocalCheckboxDefaults provides theme.checkboxDefaults,
         LocalGroupHeaderDefaults provides theme.groupHeaderDefaults,
         LocalLinkDefaults provides theme.linkDefaults,
+        LocalTextFieldDefaults provides theme.textFieldDefaults,
+        LocalLabelledTextFieldDefaults provides theme.labelledTextFieldDefaults,
+        LocalRadioButtonDefaults provides theme.radioButtonDefaults,
         LocalTextStyle provides theme.defaultTextStyle,
         LocalTextColor provides theme.colors.foreground,
         LocalInLightTheme provides theme.isLight,
