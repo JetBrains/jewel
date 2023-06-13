@@ -2,12 +2,14 @@ package org.jetbrains.jewel.themes.intui.standalone.internal.dark
 
 import org.jetbrains.jewel.internal.ButtonDefaults
 import org.jetbrains.jewel.internal.CheckboxDefaults
+import org.jetbrains.jewel.internal.ChipDefaults
 import org.jetbrains.jewel.internal.GroupHeaderDefaults
 import org.jetbrains.jewel.internal.IntellijColors
 import org.jetbrains.jewel.internal.LabelledTextFieldDefaults
 import org.jetbrains.jewel.internal.LinkDefaults
 import org.jetbrains.jewel.internal.RadioButtonDefaults
 import org.jetbrains.jewel.internal.TextFieldDefaults
+import org.jetbrains.jewel.internal.TreeDefaults
 import org.jetbrains.jewel.themes.intui.standalone.internal.IntUiTheme
 
 object DarkTheme : IntUiTheme(DarkPalette) {
@@ -29,5 +31,8 @@ object DarkTheme : IntUiTheme(DarkPalette) {
     override val textFieldDefaults: TextFieldDefaults = DarkTextFieldDefaults
     override val labelledTextFieldDefaults: LabelledTextFieldDefaults = DarkLabelledTextFieldDefaults
     override val radioButtonDefaults: RadioButtonDefaults = DarkRadioButtonDefaults
+    override val treeDefaults: TreeDefaults = DarkTreeDefaults
+    override val chipDefaults: ChipDefaults = DarkChipDefaults
+
     override val isLight: Boolean = false
 }

@@ -55,7 +55,7 @@ fun Checkbox(
 ) = CheckboxImpl(
     state = ToggleableState(checked),
     onClick = {
-        onCheckedChange?.invoke(!checked)
+        onCheckedChange.invoke(!checked)
     },
     modifier = modifier,
     enabled = enabled,

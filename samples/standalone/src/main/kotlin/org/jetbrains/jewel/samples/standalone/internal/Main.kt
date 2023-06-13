@@ -43,7 +43,7 @@ import org.jetbrains.jewel.themes.intui.standalone.internal.dark.DarkTheme
 import org.jetbrains.jewel.themes.intui.standalone.internal.light.LightTheme
 
 @Composable
-fun JBTheme(isDark: Boolean, content: @Composable () -> Unit) =
+fun JetBrainsTheme(isDark: Boolean, content: @Composable () -> Unit) =
     IntelliJTheme(
         if (isDark) DarkTheme else LightTheme,
         content
@@ -55,7 +55,7 @@ fun main() = singleWindowApplication(
 ) {
     var isDark by remember { mutableStateOf(false) }
     var isNewUi by remember { mutableStateOf(true) }
-    JBTheme(isDark = isDark) {
+    JetBrainsTheme(isDark = isDark) {
         Box(Modifier.fillMaxSize().background(IntelliJTheme.colors.background), contentAlignment = Alignment.Center) {
             Column(
                 Modifier.width(IntrinsicSize.Max),

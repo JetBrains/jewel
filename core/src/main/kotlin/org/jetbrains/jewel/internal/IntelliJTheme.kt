@@ -28,6 +28,10 @@ interface IntelliJTheme {
 
     val defaultTextStyle: TextStyle
 
+    val treeDefaults: TreeDefaults
+
+    val chipDefaults: ChipDefaults
+
     val isLight: Boolean
 
     fun provideCompositionLocalValues(): Array<ProvidedValue<*>>
@@ -69,6 +73,16 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalRadioButtonDefaults.current
 
+        val treeDefaults: TreeDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalTreeDefaults.current
+
+        val chipDefaults: ChipDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalChipDefaults.current
+
         val colors: IntellijColors
             @Composable
             @ReadOnlyComposable
@@ -97,6 +111,8 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
         LocalTextFieldDefaults provides theme.textFieldDefaults,
         LocalLabelledTextFieldDefaults provides theme.labelledTextFieldDefaults,
         LocalRadioButtonDefaults provides theme.radioButtonDefaults,
+        LocalTreeDefaults provides theme.treeDefaults,
+        LocalChipDefaults provides theme.chipDefaults,
         LocalTextStyle provides theme.defaultTextStyle,
         LocalTextColor provides theme.colors.foreground,
         LocalInLightTheme provides theme.isLight,
