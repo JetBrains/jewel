@@ -18,7 +18,7 @@ abstract class IntUiChipDefaults : ChipDefaults {
     override fun contentPadding(): PaddingValues = PaddingValues(4.dp)
 
     @Composable
-    override fun minWidth(): Dp = 40.dp
+    override fun minWidth(): Dp = 80.dp
 
     @Composable
     override fun minHeight(): Dp = 40.dp

@@ -24,7 +24,7 @@ object DarkChipDefaults : IntUiChipDefaults() {
                 focusedContentColor = palette.grey(12),
                 focusedBorderStroke = Stroke.None,
                 focusedHaloStroke = Stroke(2.dp, palette.blue(6), Stroke.Alignment.Center),
-                hoveredBackground = palette.grey(14).toBrush(),
+                hoveredBackground = palette.grey(2).toBrush(),
                 hoveredContentColor = palette.grey(1),
                 hoveredBorderStroke = Stroke(1.dp, palette.grey(7), Stroke.Alignment.Inside),
                 pressedBackground = palette.grey(2).toBrush(),

@@ -32,6 +32,8 @@ interface IntelliJTheme {
 
     val chipDefaults: ChipDefaults
 
+    val scrollerDefaults: ScrollerDefaults
+
     val isLight: Boolean
 
     fun provideCompositionLocalValues(): Array<ProvidedValue<*>>
@@ -93,6 +95,11 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalTextStyle.current
 
+        val scrollerDefaults: ScrollerDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalScrollerDefault.current
+
         val isLight: Boolean
             @Composable
             @ReadOnlyComposable
@@ -113,6 +120,7 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
         LocalRadioButtonDefaults provides theme.radioButtonDefaults,
         LocalTreeDefaults provides theme.treeDefaults,
         LocalChipDefaults provides theme.chipDefaults,
+        LocalScrollerDefault provides theme.scrollerDefaults,
         LocalTextStyle provides theme.defaultTextStyle,
         LocalTextColor provides theme.colors.foreground,
         LocalInLightTheme provides theme.isLight,
