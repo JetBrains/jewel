@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.internal
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
@@ -40,6 +42,7 @@ fun BaseChip(
     enabled: Boolean = true,
     defaults: ChipDefaults = IntelliJTheme.chipDefaults,
     colors: ChipColors = defaults.chipColors(),
+    onChipClick: () -> Unit = {},
     content: @Composable () -> Unit
 ) {
     var chipState by remember(interactionSource) {
@@ -54,8 +57,8 @@ fun BaseChip(
             when (interaction) {
                 is PressInteraction.Press -> chipState = chipState.copy(pressed = true)
                 is PressInteraction.Cancel, is PressInteraction.Release -> chipState = chipState.copy(pressed = false)
-                is HoverInteraction.Enter -> chipState.copy(hovered = true)
-                is HoverInteraction.Exit -> chipState.copy(hovered = false)
+                is HoverInteraction.Enter -> chipState = chipState.copy(hovered = true)
+                is HoverInteraction.Exit -> chipState = chipState.copy(hovered = false)
                 is FocusInteraction.Focus -> chipState = chipState.copy(focused = true)
                 is FocusInteraction.Unfocus -> chipState = chipState.copy(focused = false)
             }
@@ -64,6 +67,13 @@ fun BaseChip(
     val shape = defaults.shape()
     Row(
         modifier = modifier
+            .clickable(
+                onClick = onChipClick,
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null
+            )
             .padding(defaults.contentPadding())
             .defaultMinSize(defaults.minWidth(), defaults.minHeight())
             .clip(shape)
@@ -147,8 +157,8 @@ value class ChipState(val state: ULong) {
             return ChipState(
                 state = (if (enabled) Enabled else 0UL) or
                     (if (focused) Focused else 0UL) or
-                    (if (hovered) Focused else 0UL) or
-                    if (pressed) Focused else 0UL
+                    (if (hovered) Hovered else 0UL) or
+                    if (pressed) Pressed else 0UL
             )
         }
     }

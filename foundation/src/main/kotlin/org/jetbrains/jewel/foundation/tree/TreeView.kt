@@ -65,12 +65,14 @@ fun <T> TreeView(
     selectionBackgroundColor: Color,
     platformDoubleClickDelay: Long = 500L,
     keyActions: KeyBindingScopedActions = DefaultTreeViewKeyActions(treeState),
-    pointerEventScopedActions: PointerEventScopedActions = DefaultTreeViewPointerEventAction(
-        treeState,
-        platformDoubleClickDelay,
-        onElementClick,
-        onElementDoubleClick
-    ),
+    pointerEventScopedActions: PointerEventScopedActions = remember {
+        DefaultTreeViewPointerEventAction(
+            treeState,
+            platformDoubleClickDelay,
+            onElementClick,
+            onElementDoubleClick
+        )
+    },
     arrowContent: @Composable (isOpen: Boolean) -> Unit,
     elementContent: @Composable SelectableLazyItemScope.(Tree.Element<T>) -> Unit
 ) {
@@ -134,7 +136,7 @@ fun <T> TreeView(
                                         awaitPointerEventScope {
                                             awaitFirstDown(false)
                                             scope.launch {
-                                                treeState.openNode(element)
+                                                treeState.toggleNode(element)
                                                 onElementDoubleClick(element as Tree.Element<T>)
                                             }
                                         }

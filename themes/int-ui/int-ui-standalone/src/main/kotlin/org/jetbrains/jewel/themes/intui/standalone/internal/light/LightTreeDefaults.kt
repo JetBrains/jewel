@@ -18,7 +18,7 @@ object LightTreeDefaults : IntUITreeDefaults() {
                 selectedBackgroundColor = palette.grey(3),
                 focusedBackgroundColor = palette.blue(9),
                 selectedFocusedBackgroundColor = palette.blue(4),
-                nodeIconColor = palette.grey(14),
+                nodeIconColor = palette.grey(1),
                 foregroundColor = palette.grey(1),
                 focusedForegroundColor = palette.grey(1),
                 selectedForegroundColor = palette.grey(1),

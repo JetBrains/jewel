@@ -8,10 +8,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,12 +30,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
+import org.jetbrains.jewel.foundation.tree.buildTree
+import org.jetbrains.jewel.internal.BaseChip
 import org.jetbrains.jewel.internal.CheckboxRow
 import org.jetbrains.jewel.internal.DefaultButton
 import org.jetbrains.jewel.internal.DropdownLink
 import org.jetbrains.jewel.internal.ExternalLink
 import org.jetbrains.jewel.internal.GroupHeader
 import org.jetbrains.jewel.internal.IntelliJTheme
+import org.jetbrains.jewel.internal.IntelliJTree
 import org.jetbrains.jewel.internal.LabelledTextField
 import org.jetbrains.jewel.internal.Link
 import org.jetbrains.jewel.internal.OutlinedButton
@@ -38,6 +46,7 @@ import org.jetbrains.jewel.internal.RadioButtonRow
 import org.jetbrains.jewel.internal.Text
 import org.jetbrains.jewel.internal.TextField
 import org.jetbrains.jewel.internal.TriStateCheckboxRow
+import org.jetbrains.jewel.internal.VerticalScrollbar
 import org.jetbrains.jewel.themes.intui.standalone.internal.IntUiTheme
 import org.jetbrains.jewel.themes.intui.standalone.internal.dark.DarkTheme
 import org.jetbrains.jewel.themes.intui.standalone.internal.light.LightTheme
@@ -55,8 +64,13 @@ fun main() = singleWindowApplication(
 ) {
     var isDark by remember { mutableStateOf(false) }
     var isNewUi by remember { mutableStateOf(true) }
+
+    val verticalScrollState = rememberScrollState(0)
     JetBrainsTheme(isDark = isDark) {
-        Box(Modifier.fillMaxSize().background(IntelliJTheme.colors.background), contentAlignment = Alignment.Center) {
+        Box(
+            Modifier.fillMaxSize().background(IntelliJTheme.colors.background).verticalScroll(verticalScrollState),
+            contentAlignment = Alignment.Center
+        ) {
             Column(
                 Modifier.width(IntrinsicSize.Max),
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
@@ -297,7 +311,70 @@ fun main() = singleWindowApplication(
                         Text("Label:")
                     }, text2, { text2 = it }, hint = { Text("Attached hint text") })
                 }
+                // take this at the end, because it's a bit taller
+                Row {
+                    Column(Modifier.fillMaxWidth().weight(1f)) {
+                        GroupHeader("Chips")
+                        ChipsRow()
+                    }
+                    Column(Modifier.fillMaxWidth().weight(1f)) {
+                        GroupHeader("Tree")
+                        TreeSample()
+                    }
+                }
             }
         }
+        VerticalScrollbar(
+            adapter = rememberScrollbarAdapter(verticalScrollState)
+        )
+    }
+}
+
+@Composable
+fun ChipsRow(modifier: Modifier = Modifier) {
+    Row(modifier) {
+        BaseChip(
+            enabled = true,
+            onChipClick = {}
+        ) {
+            Text("Enabled")
+        }
+        BaseChip(
+            enabled = false,
+            onChipClick = {}
+        ) {
+            Text("Disabled")
+        }
+    }
+}
+
+@Composable
+fun TreeSample(modifier: Modifier = Modifier) {
+    val tree = remember {
+        buildTree {
+            addNode("root 1", false) {
+                addLeaf("leaf 1")
+                addLeaf("leaf 2")
+            }
+            addNode("root 2", false) {
+                addLeaf("leaf 1")
+                addNode("node 1", false) {
+                    addLeaf("leaf 1")
+                    addLeaf("leaf 2")
+                }
+            }
+            addNode("root 3", false) {
+                addLeaf("leaf 1")
+                addLeaf("leaf 2")
+            }
+        }
+    }
+    IntelliJTree(
+        Modifier.size(200.dp, 200.dp).then(modifier),
+        onElementClick = {},
+        onElementDoubleClick = {},
+        tree = tree
+    ) { element ->
+        Text(element.data, modifier.padding(2.dp))
     }
 }
