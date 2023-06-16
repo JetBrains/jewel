@@ -10,7 +10,7 @@ import org.jetbrains.jewel.styles.localNotProvided
 
 interface IntelliJTheme {
 
-    val colors: IntellijColors
+    val colors: IntelliJColors
 
     val buttonDefaults: ButtonDefaults
 
@@ -26,6 +26,10 @@ interface IntelliJTheme {
 
     val radioButtonDefaults: RadioButtonDefaults
 
+    val dropdownDefaults: DropdownDefaults
+
+    val menuDefaults: MenuDefaults
+
     val defaultTextStyle: TextStyle
 
     val treeDefaults: TreeDefaults
@@ -36,7 +40,7 @@ interface IntelliJTheme {
 
     val isLight: Boolean
 
-    fun provideCompositionLocalValues(): Array<ProvidedValue<*>>
+    fun providedCompositionLocalValues(): Array<ProvidedValue<*>>
 
     companion object {
 
@@ -85,10 +89,20 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalChipDefaults.current
 
-        val colors: IntellijColors
+        val dropdownDefaults: DropdownDefaults
             @Composable
             @ReadOnlyComposable
-            get() = LocalIntellijColors.current
+            get() = LocalDropdownDefaults.current
+
+        val menuDefaults: MenuDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalMenuDefaults.current
+
+        val colors: IntelliJColors
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalIntelliJColors.current
 
         val defaultTextStyle: TextStyle
             @Composable
@@ -110,7 +124,7 @@ interface IntelliJTheme {
 @Composable
 fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
     CompositionLocalProvider(
-        LocalIntellijColors provides theme.colors,
+        LocalIntelliJColors provides theme.colors,
         LocalButtonDefaults provides theme.buttonDefaults,
         LocalCheckboxDefaults provides theme.checkboxDefaults,
         LocalGroupHeaderDefaults provides theme.groupHeaderDefaults,
@@ -118,13 +132,14 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
         LocalTextFieldDefaults provides theme.textFieldDefaults,
         LocalLabelledTextFieldDefaults provides theme.labelledTextFieldDefaults,
         LocalRadioButtonDefaults provides theme.radioButtonDefaults,
+        LocalDropdownDefaults provides theme.dropdownDefaults,
         LocalTreeDefaults provides theme.treeDefaults,
         LocalChipDefaults provides theme.chipDefaults,
         LocalScrollerDefault provides theme.scrollerDefaults,
         LocalTextStyle provides theme.defaultTextStyle,
         LocalTextColor provides theme.colors.foreground,
         LocalInLightTheme provides theme.isLight,
-        *theme.provideCompositionLocalValues(),
+        *theme.providedCompositionLocalValues(),
         content = content
     )
 }

@@ -26,7 +26,7 @@ abstract class IntUiLinkDefaults : LinkDefaults {
     override fun externalLinkIconPainter(): Painter = painterResource("intui/externalLink.svg")
 
     @Composable
-    override fun DropdownLinkIconPainter(): Painter = painterResource("intui/dropdownLink.svg")
+    override fun DropdownLinkIconPainter(): Painter = painterResource("intui/chevronBottom.svg")
 
     @Composable
     override fun textStyle(state: LinkState): State<TextStyle> {

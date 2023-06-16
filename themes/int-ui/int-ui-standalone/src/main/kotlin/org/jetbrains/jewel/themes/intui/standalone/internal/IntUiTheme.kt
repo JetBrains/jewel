@@ -15,7 +15,7 @@ abstract class IntUiTheme(
     protected val palette: IntUiColorPalette
 ) : IntelliJTheme {
 
-    override fun provideCompositionLocalValues(): Array<ProvidedValue<*>> = arrayOf(
+    override fun providedCompositionLocalValues(): Array<ProvidedValue<*>> = arrayOf(
         LocalIntUiPalette provides palette
     )
 
