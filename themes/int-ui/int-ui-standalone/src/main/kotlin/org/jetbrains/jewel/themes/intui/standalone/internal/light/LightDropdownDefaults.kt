@@ -2,7 +2,6 @@ package org.jetbrains.jewel.themes.intui.standalone.internal.light
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.internal.DropdownColors
@@ -12,6 +11,7 @@ import org.jetbrains.jewel.internal.dropdownColors
 import org.jetbrains.jewel.themes.intui.standalone.internal.IntUiDropdownDefaults
 import org.jetbrains.jewel.themes.intui.standalone.internal.LocalIntUiPalette
 
+@Suppress("MagicNumber")
 object LightDropdownDefaults : IntUiDropdownDefaults() {
 
     @Composable
@@ -36,44 +36,14 @@ object LightDropdownDefaults : IntUiDropdownDefaults() {
                 disabledForeground = palette.grey(8),
                 disabledBackground = palette.grey(13),
                 disabledBorderStroke = Stroke(1.dp, palette.grey(11), Stroke.Alignment.Inside),
-                disabledIconColor = palette.grey(9),
+                disabledIconColor = palette.grey(9)
             )
         }
     }
 
     @Composable
-    override fun menuColors(): MenuColors {
-        val palette = LocalIntUiPalette.current
-
-        return remember(palette) {
-            org.jetbrains.jewel.internal.menuColors(
-                background = palette.grey(14),
-                borderStroke = Stroke(1.dp, palette.grey(9), Stroke.Alignment.Inside),
-                shadowColor = Color(0x78919191)
-            )
-        }
-    }
+    override fun menuColors(): MenuColors = LightMenuDefaults.menuColors()
 
     @Composable
-    override fun menuItemColors(): MenuItemColors {
-        val palette = LocalIntUiPalette.current
-
-        return remember(palette) {
-            org.jetbrains.jewel.internal.menuItemColors(
-                foreground = palette.grey(1),
-                background = palette.grey(14),
-                borderStroke = Stroke.None,
-                hoveredForeground = palette.grey(1),
-                hoveredBackground = palette.blue(11),
-                hoveredBorderStroke = Stroke.None,
-                focusedForeground = palette.grey(1),
-                focusedBackground = palette.blue(11),
-                focusedBorderStroke = Stroke.None,
-                disabledForeground = palette.grey(8),
-                disabledBackground = palette.grey(14),
-                disabledBorderStroke = Stroke.None,
-                separatorColor = palette.grey(12),
-            )
-        }
-    }
+    override fun menuItemColors(): MenuItemColors = LightMenuDefaults.menuItemColors()
 }

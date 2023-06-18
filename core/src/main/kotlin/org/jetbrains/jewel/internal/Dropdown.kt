@@ -8,7 +8,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -39,24 +38,16 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInputModeManager
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntRect
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupPositionProvider
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.styles.localNotProvided
 
 @Composable
-fun <T> Dropdown(
-    selectedItem: T,
-    items: List<T>,
+fun Dropdown(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     menuModifier: Modifier = Modifier,
@@ -64,8 +55,8 @@ fun <T> Dropdown(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     defaults: DropdownDefaults = IntelliJTheme.dropdownDefaults,
     colors: DropdownColors = defaults.colors(),
-    content: @Composable RowScope.(T) -> Unit,
-    menuContent: @Composable ColumnScope.(T) -> Unit
+    content: @Composable RowScope.() -> Unit,
+    menuContent: MenuScope.() -> Unit
 ) {
     Box {
         var expanded by remember { mutableStateOf(false) }
@@ -94,7 +85,7 @@ fun <T> Dropdown(
         Box(
             modifier.clickable(
                 onClick = {
-                    expanded = !expanded
+                    expanded = true
                 },
                 enabled = enabled,
                 role = Role.Button,
@@ -113,7 +104,7 @@ fun <T> Dropdown(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically,
                     content = {
-                        content(selectedItem)
+                        content()
                     }
                 )
 
@@ -132,14 +123,10 @@ fun <T> Dropdown(
 
         if (expanded) {
             DropdownMenu(
-                onDismissRequest = { expanded = !expanded },
+                onDismissRequest = { expanded = false },
                 modifier = menuModifier,
                 defaults = defaults,
-                content = {
-                    items.forEach {
-                        menuContent(it)
-                    }
-                }
+                content = menuContent
             )
         }
     }
@@ -152,11 +139,11 @@ internal fun DropdownMenu(
     modifier: Modifier = Modifier,
     defaults: DropdownDefaults = IntelliJTheme.dropdownDefaults,
     offset: DpOffset = defaults.menuOffset(),
-    content: MenuScope.() -> Unit,
+    content: MenuScope.() -> Unit
 ) {
     val density = LocalDensity.current
 
-    val popupPositionProvider = DropdownMenuPositionProvider(
+    val popupPositionProvider = AnchorVerticalMenuPositionProvider(
         offset,
         defaults.menuMargin(),
         defaults.menuAlignment(),
@@ -165,21 +152,26 @@ internal fun DropdownMenu(
 
     var focusManager: FocusManager? by mutableStateOf(null)
     var inputModeManager: InputModeManager? by mutableStateOf(null)
+    val menuManager = remember(onDismissRequest) {
+        MenuManager(
+            onDismissRequest = onDismissRequest
+        )
+    }
 
     Popup(
         focusable = focusable,
         onDismissRequest = onDismissRequest,
         popupPositionProvider = popupPositionProvider,
         onKeyEvent = {
-            handlePopupMenuOnKeyEvent(it, onDismissRequest, focusManager!!, inputModeManager!!)
-        },
+            handlePopupMenuOnKeyEvent(it, focusManager!!, inputModeManager!!, menuManager)
+        }
     ) {
         focusManager = LocalFocusManager.current
         inputModeManager = LocalInputModeManager.current
 
         CompositionLocalProvider(
-            LocalPopupDismissRequest provides onDismissRequest,
-            LocalMenuDefaults provides defaults,
+            LocalMenuManager provides menuManager,
+            LocalMenuDefaults provides defaults
         ) {
             MenuContent(
                 modifier = modifier,
@@ -314,7 +306,7 @@ fun dropdownColors(
     disabledForeground: Color,
     disabledBackground: Color,
     disabledBorderStroke: Stroke,
-    disabledIconColor: Color,
+    disabledIconColor: Color
 ): DropdownColors = DefaultDropdownColors(
     foreground = foreground,
     background = background,
@@ -332,7 +324,7 @@ fun dropdownColors(
     disabledForeground = disabledForeground,
     disabledBackground = disabledBackground,
     disabledBorderStroke = disabledBorderStroke,
-    disabledIconColor = disabledIconColor,
+    disabledIconColor = disabledIconColor
 )
 
 private class DefaultDropdownColors(
@@ -352,7 +344,7 @@ private class DefaultDropdownColors(
     private val disabledForeground: Color,
     private val disabledBackground: Color,
     private val disabledBorderStroke: Stroke,
-    private val disabledIconColor: Color,
+    private val disabledIconColor: Color
 ) : DropdownColors {
 
     @Composable
@@ -395,81 +387,6 @@ private class DefaultDropdownColors(
             else -> iconColor
         }
     )
-}
-
-@Immutable
-internal data class DropdownMenuPositionProvider(
-    val contentOffset: DpOffset,
-    val contentMargin: PaddingValues,
-    val horizontalAlignment: Alignment.Horizontal,
-    val density: Density,
-) : PopupPositionProvider {
-
-    override fun calculatePosition(
-        anchorBounds: IntRect,
-        windowSize: IntSize,
-        layoutDirection: LayoutDirection,
-        popupContentSize: IntSize
-    ): IntOffset {
-
-        val topMargin = with(density) { contentMargin.calculateTopPadding().roundToPx() }
-        val bottomMargin = with(density) { contentMargin.calculateBottomPadding().roundToPx() }
-        val leftMargin = with(density) { contentMargin.calculateLeftPadding(layoutDirection).roundToPx() }
-        val rightMargin = with(density) { contentMargin.calculateRightPadding(layoutDirection).roundToPx() }
-
-        val windowSpaceBounds = IntRect(
-            left = leftMargin,
-            top = topMargin,
-            right = windowSize.width - rightMargin,
-            bottom = windowSize.height - bottomMargin
-        )
-
-        // The min margin above and below the menu, relative to the screen.
-        val verticalMargin = with(density) { MenuVerticalMargin.roundToPx() }
-        // The content offset specified using the dropdown offset parameter.
-        val contentOffsetX = with(density) { contentOffset.x.roundToPx() * if (layoutDirection == LayoutDirection.Ltr) 1 else -1 }
-        val contentOffsetY = with(density) { contentOffset.y.roundToPx() }
-
-        // Compute horizontal position.
-        val x = anchorBounds.left + horizontalAlignment.align(popupContentSize.width, anchorBounds.width, layoutDirection) + contentOffsetX
-
-        // Compute vertical position.
-        val aboveSpacing = anchorBounds.top - contentOffsetY - topMargin
-        val belowSpacing = windowSize.height - anchorBounds.bottom - contentOffsetY - bottomMargin
-
-        // When the space below is large enough,
-        // or the space below is larger than the space above,
-        // the dropdown menu is displayed below by default.
-        val y = if (belowSpacing > popupContentSize.height || belowSpacing >= aboveSpacing) {
-            anchorBounds.bottom + contentOffsetY
-        } else {
-            anchorBounds.top - contentOffsetY - popupContentSize.height
-        }
-
-        val popupBounds = IntRect(x, y, x + popupContentSize.width, y + popupContentSize.height)
-            .constrainedIn(windowSpaceBounds)
-
-        return IntOffset(popupBounds.left, popupBounds.top)
-    }
-}
-
-internal fun IntRect.constrainedIn(rect: IntRect): IntRect {
-    var x = left
-    if (right > rect.right) {
-        x = rect.right - width
-    }
-    if (x < rect.left) {
-        x = rect.left
-    }
-
-    var y = top
-    if (bottom > rect.bottom) {
-        y = rect.bottom - height
-    }
-    if (y < rect.top) {
-        y = rect.top
-    }
-    return IntRect(x, y, x + width, y + height)
 }
 
 internal val MenuVerticalMargin = 0.dp

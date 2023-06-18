@@ -113,7 +113,6 @@ fun ExternalLink(
 ) {
     Icon(
         painter = defaults.externalLinkIconPainter(),
-        contentDescription = "External link",
         tint = colors.iconColor(it).value
     )
 }
@@ -156,7 +155,6 @@ fun DropdownLink(
 ) {
     Icon(
         painter = defaults.DropdownLinkIconPainter(),
-        contentDescription = "Dropdown link",
         tint = colors.iconColor(it).value
     )
 }

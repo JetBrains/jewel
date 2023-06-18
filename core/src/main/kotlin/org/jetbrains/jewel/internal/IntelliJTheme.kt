@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.internal
 
+import androidx.compose.foundation.LocalContextMenuRepresentation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
@@ -28,7 +29,7 @@ interface IntelliJTheme {
 
     val dropdownDefaults: DropdownDefaults
 
-    val menuDefaults: MenuDefaults
+    val contextMenuDefaults: MenuDefaults
 
     val defaultTextStyle: TextStyle
 
@@ -94,6 +95,11 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalDropdownDefaults.current
 
+        val contextMenuDefaults: MenuDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalContextMenuDefaults.current
+
         val menuDefaults: MenuDefaults
             @Composable
             @ReadOnlyComposable
@@ -133,12 +139,14 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
         LocalLabelledTextFieldDefaults provides theme.labelledTextFieldDefaults,
         LocalRadioButtonDefaults provides theme.radioButtonDefaults,
         LocalDropdownDefaults provides theme.dropdownDefaults,
+        LocalContextMenuDefaults provides theme.contextMenuDefaults,
         LocalTreeDefaults provides theme.treeDefaults,
         LocalChipDefaults provides theme.chipDefaults,
         LocalScrollerDefault provides theme.scrollerDefaults,
         LocalTextStyle provides theme.defaultTextStyle,
         LocalTextColor provides theme.colors.foreground,
         LocalInLightTheme provides theme.isLight,
+        LocalContextMenuRepresentation provides IntelliJContextMenuRepresentation,
         *theme.providedCompositionLocalValues(),
         content = content
     )

@@ -12,8 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.internal.Dropdown
 import org.jetbrains.jewel.internal.GroupHeader
-import org.jetbrains.jewel.internal.MenuItem
 import org.jetbrains.jewel.internal.Text
+import org.jetbrains.jewel.internal.divider
 
 @Composable
 fun ColumnScope.Dropdowns() {
@@ -26,6 +26,7 @@ fun ColumnScope.Dropdowns() {
             listOf(
                 "Light",
                 "Dark",
+                "---",
                 "High Contrast",
                 "Darcula",
                 "IntelliJ Light"
@@ -33,36 +34,37 @@ fun ColumnScope.Dropdowns() {
         }
         var selected by remember { mutableStateOf(items.first()) }
 
-        Dropdown(selected, items, content = {
-            Text(it)
-        }) {
-            MenuItem(onClick = {
-                selected = it
-                true
-            }) {
-                Text(it)
+        Dropdown(
+            content = {
+                Text(selected)
             }
-        }
-
-        Dropdown(selected, items, error = true, content = {
-            Text(it)
-        }) {
-            MenuItem(onClick = {
-                selected = it
-                true
-            }) {
-                Text(it)
+        ) {
+            items.forEach {
+                if (it == "---") {
+                    divider()
+                } else {
+                    selectableItem(selected == it, {
+                        selected = it
+                    }) {
+                        Text(it)
+                    }
+                }
             }
-        }
-
-        Dropdown(selected, items, enabled = false, content = {
-            Text(it)
-        }) {
-            MenuItem(onClick = {
-                selected = it
-                true
+            divider()
+            submenu(submenu = {
+                items.forEach {
+                    if (it == "---") {
+                        divider()
+                    } else {
+                        selectableItem(selected == it, {
+                            selected = it
+                        }) {
+                            Text(it)
+                        }
+                    }
+                }
             }) {
-                Text(it)
+                Text("Submenu")
             }
         }
     }

@@ -14,6 +14,7 @@ import org.jetbrains.jewel.internal.GroupHeader
 import org.jetbrains.jewel.internal.RadioButtonRow
 
 @Composable
+@Suppress("MagicNumber")
 fun ColumnScope.RadioButtons() {
     GroupHeader("RadioButtons")
     Row(

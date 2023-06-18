@@ -8,6 +8,7 @@ import org.jetbrains.jewel.internal.GroupHeaderDefaults
 import org.jetbrains.jewel.internal.IntelliJColors
 import org.jetbrains.jewel.internal.LabelledTextFieldDefaults
 import org.jetbrains.jewel.internal.LinkDefaults
+import org.jetbrains.jewel.internal.MenuDefaults
 import org.jetbrains.jewel.internal.RadioButtonDefaults
 import org.jetbrains.jewel.internal.ScrollerDefaults
 import org.jetbrains.jewel.internal.TextFieldDefaults
@@ -34,6 +35,7 @@ object LightTheme : IntUiTheme(LightPalette) {
     override val labelledTextFieldDefaults: LabelledTextFieldDefaults = LightLabelledTextFieldDefaults
     override val radioButtonDefaults: RadioButtonDefaults = LightRadioButtonDefaults
     override val dropdownDefaults: DropdownDefaults = LightDropdownDefaults
+    override val contextMenuDefaults: MenuDefaults = LightMenuDefaults
     override val treeDefaults: TreeDefaults = LightTreeDefaults
     override val chipDefaults: ChipDefaults = LightChipDefaults
     override val scrollerDefaults: ScrollerDefaults = LightScrollerDefaults

@@ -8,6 +8,7 @@ import org.jetbrains.jewel.internal.GroupHeaderDefaults
 import org.jetbrains.jewel.internal.IntelliJColors
 import org.jetbrains.jewel.internal.LabelledTextFieldDefaults
 import org.jetbrains.jewel.internal.LinkDefaults
+import org.jetbrains.jewel.internal.MenuDefaults
 import org.jetbrains.jewel.internal.RadioButtonDefaults
 import org.jetbrains.jewel.internal.ScrollerDefaults
 import org.jetbrains.jewel.internal.TextFieldDefaults
@@ -34,6 +35,7 @@ object DarkTheme : IntUiTheme(DarkPalette) {
     override val labelledTextFieldDefaults: LabelledTextFieldDefaults = DarkLabelledTextFieldDefaults
     override val radioButtonDefaults: RadioButtonDefaults = DarkRadioButtonDefaults
     override val dropdownDefaults: DropdownDefaults = DarkDropdownDefaults
+    override val contextMenuDefaults: MenuDefaults = DarkMenuDefaults
     override val treeDefaults: TreeDefaults = DarkTreeDefaults
     override val chipDefaults: ChipDefaults = DarkChipDefaults
     override val scrollerDefaults: ScrollerDefaults = DarkScrollerDefaults

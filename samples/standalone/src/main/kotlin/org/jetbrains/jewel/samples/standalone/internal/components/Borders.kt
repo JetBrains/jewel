@@ -25,6 +25,7 @@ import org.jetbrains.jewel.internal.Text
 import org.jetbrains.jewel.themes.intui.standalone.internal.IntUiTheme
 
 @Composable
+@Suppress("MagicNumber")
 fun ColumnScope.Borders() {
     GroupHeader("Borders")
     var borderAlignment by remember { mutableStateOf(Stroke.Alignment.Center) }
