@@ -76,7 +76,6 @@ internal fun ContextMenu(
         ) {
             MenuContent(
                 modifier = modifier,
-                defaults = defaults,
                 content = content
             )
         }

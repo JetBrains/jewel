@@ -187,7 +187,6 @@ internal fun DropdownMenu(
         ) {
             MenuContent(
                 modifier = modifier,
-                defaults = defaults,
                 content = content
             )
         }
