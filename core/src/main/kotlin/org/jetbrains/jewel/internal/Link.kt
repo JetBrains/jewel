@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.text.BasicText
@@ -120,7 +121,6 @@ fun ExternalLink(
 @Composable
 fun DropdownLink(
     text: String,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     fontSize: TextUnit = TextUnit.Unspecified,
@@ -134,29 +134,48 @@ fun DropdownLink(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     indication: Indication? = null,
     defaults: LinkDefaults = IntelliJTheme.linkDefaults,
-    colors: LinkColors = defaults.colors()
-) = LinkImpl(
-    text = text,
-    onClick = onClick,
-    modifier = modifier,
-    enabled = enabled,
-    fontSize = fontSize,
-    fontStyle = fontStyle,
-    fontWeight = fontWeight,
-    fontFamily = fontFamily,
-    letterSpacing = letterSpacing,
-    textAlign = textAlign,
-    overflow = overflow,
-    lineHeight = lineHeight,
-    interactionSource = interactionSource,
-    indication = indication,
-    defaults = defaults,
-    colors = colors
+    colors: LinkColors = defaults.colors(),
+    menuModifier: Modifier = Modifier,
+    menuDefaults: MenuDefaults = IntelliJTheme.dropdownDefaults,
+    menuContent: MenuScope.() -> Unit
 ) {
-    Icon(
-        painter = defaults.DropdownLinkIconPainter(),
-        tint = colors.iconColor(it).value
-    )
+    var expanded by remember { mutableStateOf(false) }
+    Box {
+        LinkImpl(
+            text = text,
+            onClick = {
+                expanded = true
+            },
+            modifier = modifier,
+            enabled = enabled,
+            fontSize = fontSize,
+            fontStyle = fontStyle,
+            fontWeight = fontWeight,
+            fontFamily = fontFamily,
+            letterSpacing = letterSpacing,
+            textAlign = textAlign,
+            overflow = overflow,
+            lineHeight = lineHeight,
+            interactionSource = interactionSource,
+            indication = indication,
+            defaults = defaults,
+            colors = colors
+        ) {
+            Icon(
+                painter = defaults.DropdownLinkIconPainter(),
+                tint = colors.iconColor(it).value
+            )
+        }
+
+        if (expanded) {
+            DropdownMenu(
+                onDismissRequest = { expanded = false },
+                modifier = menuModifier,
+                defaults = menuDefaults,
+                content = menuContent
+            )
+        }
+    }
 }
 
 @Composable

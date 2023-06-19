@@ -4,12 +4,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.internal.DropdownLink
 import org.jetbrains.jewel.internal.ExternalLink
 import org.jetbrains.jewel.internal.GroupHeader
 import org.jetbrains.jewel.internal.Link
+import org.jetbrains.jewel.internal.Text
+import org.jetbrains.jewel.internal.divider
 
 @Composable
 fun ColumnScope.Links() {
@@ -22,7 +28,30 @@ fun ColumnScope.Links() {
 
         ExternalLink("ExternalLink", {})
 
-        DropdownLink("DropdownLink", {})
+        val items = remember {
+            listOf(
+                "Light",
+                "Dark",
+                "---",
+                "High Contrast",
+                "Darcula",
+                "IntelliJ Light"
+            )
+        }
+        var selected by remember { mutableStateOf(items.first()) }
+        DropdownLink("DropdownLink") {
+            items.forEach {
+                if (it == "---") {
+                    divider()
+                } else {
+                    selectableItem(selected == it, {
+                        selected = it
+                    }) {
+                        Text(it)
+                    }
+                }
+            }
+        }
     }
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -32,6 +61,7 @@ fun ColumnScope.Links() {
 
         ExternalLink("ExternalLink", {}, enabled = false)
 
-        DropdownLink("DropdownLink", {}, enabled = false)
+        DropdownLink("DropdownLink", enabled = false) {
+        }
     }
 }

@@ -137,7 +137,7 @@ internal fun DropdownMenu(
     onDismissRequest: () -> Unit,
     focusable: Boolean = true,
     modifier: Modifier = Modifier,
-    defaults: DropdownDefaults = IntelliJTheme.dropdownDefaults,
+    defaults: MenuDefaults = IntelliJTheme.dropdownDefaults,
     offset: DpOffset = defaults.menuOffset(),
     content: MenuScope.() -> Unit
 ) {
