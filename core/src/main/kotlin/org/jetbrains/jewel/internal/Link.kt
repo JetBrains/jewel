@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
+import org.jetbrains.jewel.foundation.onHover
 import org.jetbrains.jewel.styles.localNotProvided
 
 @Composable
@@ -140,11 +141,17 @@ fun DropdownLink(
     menuContent: MenuScope.() -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    Box {
+    var hovered by remember { mutableStateOf(false) }
+    var skipNextClick by remember { mutableStateOf(false) }
+    Box(Modifier.onHover {
+        hovered = true
+    }) {
         LinkImpl(
             text = text,
             onClick = {
-                expanded = true
+                if (!skipNextClick) {
+                    expanded = !expanded
+                }
             },
             modifier = modifier,
             enabled = enabled,
@@ -171,6 +178,9 @@ fun DropdownLink(
             DropdownMenu(
                 onDismissRequest = {
                     expanded = false
+                    if (it == InputMode.Touch && hovered) {
+                        skipNextClick = true
+                    }
                     true
                 },
                 modifier = menuModifier,
