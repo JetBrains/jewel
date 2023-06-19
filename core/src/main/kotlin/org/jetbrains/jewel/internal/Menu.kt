@@ -413,7 +413,6 @@ fun MenuSubmenuItem(
 @Composable
 internal fun Submenu(
     onDismissRequest: (InputMode) -> Boolean,
-    focusable: Boolean = true,
     modifier: Modifier = Modifier,
     defaults: MenuDefaults = IntelliJTheme.menuDefaults,
     offset: DpOffset = defaults.submenuOffset(),
@@ -436,9 +435,9 @@ internal fun Submenu(
     }
 
     Popup(
-        focusable = focusable,
+        focusable = true,
         onDismissRequest = {
-            menuManager.closeAll(inputModeManager!!.inputMode)
+            menuManager.closeAll(InputMode.Touch)
         },
         popupPositionProvider = popupPositionProvider,
         onKeyEvent = {

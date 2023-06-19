@@ -171,12 +171,13 @@ internal fun DropdownMenu(
 
     Popup(
         onDismissRequest = {
-            onDismissRequest(inputModeManager!!.inputMode)
+            onDismissRequest(InputMode.Touch)
         },
         popupPositionProvider = popupPositionProvider,
         onKeyEvent = {
             handlePopupMenuOnKeyEvent(it, focusManager!!, inputModeManager!!, menuManager)
-        }
+        },
+        focusable = true
     ) {
         focusManager = LocalFocusManager.current
         inputModeManager = LocalInputModeManager.current
