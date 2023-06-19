@@ -25,8 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
+import androidx.compose.ui.input.InputMode
+import androidx.compose.ui.platform.LocalInputModeManager
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -169,7 +169,10 @@ fun DropdownLink(
 
         if (expanded) {
             DropdownMenu(
-                onDismissRequest = { expanded = false },
+                onDismissRequest = {
+                    expanded = false
+                    true
+                },
                 modifier = menuModifier,
                 defaults = menuDefaults,
                 content = menuContent
@@ -198,9 +201,6 @@ private fun LinkImpl(
     colors: LinkColors = defaults.colors(),
     icon: (@Composable RowScope.(state: LinkState) -> Unit)? = null
 ) {
-    var skipClickFocus by remember(interactionSource) {
-        mutableStateOf(false)
-    }
     var linkState by remember(interactionSource) {
         mutableStateOf(LinkState.of(enabled = enabled))
     }
@@ -208,6 +208,7 @@ private fun LinkImpl(
         linkState = linkState.copy(enabled = enabled)
     }
 
+    val inputModeManager = LocalInputModeManager.current
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
@@ -217,15 +218,13 @@ private fun LinkImpl(
                 is HoverInteraction.Exit -> linkState = linkState.copy(hovered = false)
 
                 is FocusInteraction.Focus -> {
-                    if (!skipClickFocus) {
+                    if (inputModeManager.inputMode == InputMode.Keyboard) {
                         linkState = linkState.copy(focused = true)
                     }
-                    skipClickFocus = false
                 }
 
                 is FocusInteraction.Unfocus -> {
                     linkState = linkState.copy(focused = false, pressed = false)
-                    skipClickFocus = false
                 }
             }
         }
@@ -255,10 +254,7 @@ private fun LinkImpl(
         role = Role.Button,
         interactionSource = interactionSource,
         indication = indication
-    ).onPointerEvent(PointerEventType.Press) {
-        skipClickFocus = true
-        linkState = linkState.copy(focused = false)
-    }
+    )
 
     if (icon == null) {
         BasicText(

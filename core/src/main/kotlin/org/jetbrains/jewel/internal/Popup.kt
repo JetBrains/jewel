@@ -41,13 +41,15 @@ internal fun handlePopupMenuOnKeyEvent(
         }
 
         Key.Escape -> {
-            menuManager.closeAll()
+            inputModeManager.requestInputMode(InputMode.Keyboard)
+            menuManager.closeAll(InputMode.Keyboard)
             true
         }
 
         Key.DirectionLeft -> {
             if (menuManager.isSubmenu()) {
-                menuManager.close()
+                inputModeManager.requestInputMode(InputMode.Keyboard)
+                menuManager.close(InputMode.Keyboard)
                 true
             } else {
                 false

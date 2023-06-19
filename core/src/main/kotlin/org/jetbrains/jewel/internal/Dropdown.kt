@@ -32,6 +32,7 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.input.InputModeManager
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
@@ -60,6 +61,7 @@ fun Dropdown(
 ) {
     Box {
         var expanded by remember { mutableStateOf(false) }
+        var skipNextClick by remember { mutableStateOf(false) }
 
         var dropdownState by remember(interactionSource) {
             mutableStateOf(DropdownState.of(enabled = enabled, error = error))
@@ -85,7 +87,11 @@ fun Dropdown(
         Box(
             modifier.clickable(
                 onClick = {
-                    expanded = true
+                    // TODO: Trick to skip click event when close menu by click dropdown
+                    if (!skipNextClick) {
+                        expanded = !expanded
+                    }
+                    skipNextClick = false
                 },
                 enabled = enabled,
                 role = Role.Button,
@@ -123,7 +129,13 @@ fun Dropdown(
 
         if (expanded) {
             DropdownMenu(
-                onDismissRequest = { expanded = false },
+                onDismissRequest = {
+                    expanded = false
+                    if (it == InputMode.Touch && dropdownState.isHovered) {
+                        skipNextClick = true
+                    }
+                    true
+                },
                 modifier = menuModifier,
                 defaults = defaults,
                 content = menuContent
@@ -134,8 +146,7 @@ fun Dropdown(
 
 @Composable
 internal fun DropdownMenu(
-    onDismissRequest: () -> Unit,
-    focusable: Boolean = true,
+    onDismissRequest: (InputMode) -> Boolean,
     modifier: Modifier = Modifier,
     defaults: MenuDefaults = IntelliJTheme.dropdownDefaults,
     offset: DpOffset = defaults.menuOffset(),
@@ -159,8 +170,9 @@ internal fun DropdownMenu(
     }
 
     Popup(
-        focusable = focusable,
-        onDismissRequest = onDismissRequest,
+        onDismissRequest = {
+            onDismissRequest(inputModeManager!!.inputMode)
+        },
         popupPositionProvider = popupPositionProvider,
         onKeyEvent = {
             handlePopupMenuOnKeyEvent(it, focusManager!!, inputModeManager!!, menuManager)

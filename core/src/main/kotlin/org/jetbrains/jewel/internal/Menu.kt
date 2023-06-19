@@ -43,6 +43,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.input.InputModeManager
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -265,6 +266,7 @@ fun MenuSelectableItem(
     }
 
     val menuManager = LocalMenuManager.current
+    val localInputModeManager = LocalInputModeManager.current
 
     Box(
         modifier = modifier
@@ -273,7 +275,7 @@ fun MenuSelectableItem(
                 selected = selected,
                 onClick = {
                     onClick()
-                    menuManager.closeAll()
+                    menuManager.closeAll(localInputModeManager.inputMode)
                 },
                 enabled = enabled,
                 role = Role.Button,
@@ -350,7 +352,7 @@ fun MenuSubmenuItem(
             .focusRequester(focusRequester)
             .clickable(
                 onClick = {
-                    itemState = itemState.copy(selected = true)
+                    itemState = itemState.copy(selected = !itemState.isSelected)
                 },
                 enabled = enabled,
                 role = Role.Button,
@@ -394,7 +396,12 @@ fun MenuSubmenuItem(
         if (itemState.isSelected) {
             Submenu(
                 onDismissRequest = {
-                    itemState = itemState.copy(selected = false)
+                    if (it == InputMode.Touch && itemState.isHovered) {
+                        false
+                    } else {
+                        itemState = itemState.copy(selected = false)
+                        true
+                    }
                 },
                 defaults = defaults,
                 content = submenu
@@ -405,7 +412,7 @@ fun MenuSubmenuItem(
 
 @Composable
 internal fun Submenu(
-    onDismissRequest: () -> Unit,
+    onDismissRequest: (InputMode) -> Boolean,
     focusable: Boolean = true,
     modifier: Modifier = Modifier,
     defaults: MenuDefaults = IntelliJTheme.menuDefaults,
@@ -431,8 +438,7 @@ internal fun Submenu(
     Popup(
         focusable = focusable,
         onDismissRequest = {
-            onDismissRequest()
-            menuManager.closeParents()
+            menuManager.closeAll(inputModeManager!!.inputMode)
         },
         popupPositionProvider = popupPositionProvider,
         onKeyEvent = {
@@ -448,7 +454,6 @@ internal fun Submenu(
         ) {
             MenuContent(
                 modifier = modifier,
-                defaults = defaults,
                 content = content
             )
         }
@@ -694,26 +699,28 @@ private data class DefaultMenuItemColor(
 }
 
 class MenuManager(
-    val onDismissRequest: () -> Unit,
-    val parent: MenuManager? = null
+    val onDismissRequest: (InputMode) -> Boolean,
+    private val parentMenuManager: MenuManager? = null
 ) {
 
-    fun closeAll() {
-        onDismissRequest()
-        parent?.closeAll()
+    fun closeAll(mode: InputMode) {
+        if (onDismissRequest(mode)) {
+            parentMenuManager?.closeAll(mode)
+        }
     }
 
-    fun closeParents() {
-        parent?.closeAll()
+    fun closeParents(mode: InputMode) {
+        parentMenuManager?.closeAll(mode)
     }
 
-    fun close() = onDismissRequest()
+    fun close(mode: InputMode) = onDismissRequest(mode)
 
-    fun isRootMenu(): Boolean = parent == null
+    fun isRootMenu(): Boolean = parentMenuManager == null
 
-    fun isSubmenu(): Boolean = parent != null
+    fun isSubmenu(): Boolean = parentMenuManager != null
 
-    fun submenuManager(onDismissRequest: () -> Unit) = MenuManager(onDismissRequest = onDismissRequest, parent = this)
+    fun submenuManager(onDismissRequest: (InputMode) -> Boolean) =
+        MenuManager(onDismissRequest = onDismissRequest, parentMenuManager = this)
 }
 
 val LocalMenuManager = staticCompositionLocalOf<MenuManager> {

@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.input.InputModeManager
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInputModeManager
@@ -27,7 +28,10 @@ object IntelliJContextMenuRepresentation : ContextMenuRepresentation {
 
         if (isOpen) {
             ContextMenu(
-                onDismissRequest = { state.status = ContextMenuState.Status.Closed },
+                onDismissRequest = {
+                    state.status = ContextMenuState.Status.Closed
+                    true
+                },
                 defaults = IntelliJTheme.contextMenuDefaults
             ) {
                 contextItems(items)
@@ -38,7 +42,7 @@ object IntelliJContextMenuRepresentation : ContextMenuRepresentation {
 
 @Composable
 internal fun ContextMenu(
-    onDismissRequest: () -> Unit,
+    onDismissRequest: (InputMode) -> Boolean,
     focusable: Boolean = true,
     modifier: Modifier = Modifier,
     defaults: MenuDefaults = IntelliJTheme.menuDefaults,
@@ -55,7 +59,9 @@ internal fun ContextMenu(
 
     Popup(
         focusable = focusable,
-        onDismissRequest = onDismissRequest,
+        onDismissRequest = {
+            onDismissRequest(InputMode.Touch)
+        },
         popupPositionProvider = rememberCursorPositionProvider(offset),
         onKeyEvent = {
             handlePopupMenuOnKeyEvent(it, focusManager!!, inputModeManager!!, menuManager)
