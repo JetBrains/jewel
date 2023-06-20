@@ -145,7 +145,7 @@ fun DropdownLink(
     var skipNextClick by remember { mutableStateOf(false) }
     Box(
         Modifier.onHover {
-            hovered = true
+            hovered = it
         }
     ) {
         LinkImpl(
