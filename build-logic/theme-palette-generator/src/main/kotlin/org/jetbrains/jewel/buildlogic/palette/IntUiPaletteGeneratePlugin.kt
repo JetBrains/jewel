@@ -78,7 +78,7 @@ open class IntUiPaletteGenerateTask : BasePaletteGenerateTask() {
             addFileComment("Source: $url")
 
             addType(TypeSpec.objectBuilder(className).apply {
-                addSuperinterface(ClassName.bestGuess("org.jetbrains.jewel.themes.intui.standalone.internal.IntUiColorPalette"))
+                addSuperinterface(ClassName.bestGuess("org.jetbrains.jewel.themes.intui.standalone.IntUiColorPalette"))
 
                 theme.colors.forEach { (name, value) ->
                     generateColor(name, value)
