@@ -27,13 +27,12 @@ dependencyResolutionManagement {
 include(
     ":core",
     ":foundation",
-    //":tmp-core",
     ":compose-utils",
-    ":samples:ide-plugin",
+    //":samples:ide-plugin",
     ":samples:standalone",
-    ":themes:darcula:darcula-standalone",
-    ":themes:darcula:darcula-ide",
+    //":themes:darcula:darcula-standalone",
+    //":themes:darcula:darcula-ide",
     ":themes:int-ui:int-ui-standalone",
-    ":themes:int-ui:int-ui-ide",
-    ":themes:int-ui:int-ui-desktop",
+    //":themes:int-ui:int-ui-ide",
+    //":themes:int-ui:int-ui-desktop",
 )

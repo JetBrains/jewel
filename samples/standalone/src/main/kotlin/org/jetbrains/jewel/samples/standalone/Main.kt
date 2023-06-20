@@ -1,9 +1,5 @@
 package org.jetbrains.jewel.samples.standalone
 
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,8 +7,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,246 +21,129 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.ResourceLoader
-import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
-import org.jetbrains.jewel.DarkIconResourceLoader
-import org.jetbrains.jewel.IntelliJMetrics
-import org.jetbrains.jewel.IntelliJPainters
-import org.jetbrains.jewel.IntelliJPalette
+import org.jetbrains.jewel.BaseChip
+import org.jetbrains.jewel.CheckboxRow
+import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.IntelliJTheme
-import org.jetbrains.jewel.IntelliJTypography
-import org.jetbrains.jewel.components.Button
-import org.jetbrains.jewel.components.Checkbox
-import org.jetbrains.jewel.components.CheckboxRow
-import org.jetbrains.jewel.components.GroupHeader
-import org.jetbrains.jewel.components.Icon
-import org.jetbrains.jewel.components.ProgressBar
-import org.jetbrains.jewel.components.RadioButtonRow
-import org.jetbrains.jewel.components.Text
-import org.jetbrains.jewel.components.TextField
-import org.jetbrains.jewel.components.TextFieldHintState
-import org.jetbrains.jewel.styles.IntelliJButtonStyleVariations
-import org.jetbrains.jewel.styles.Styles
-import org.jetbrains.jewel.styles.frame
-import org.jetbrains.jewel.themes.darcula.standalone.darcula
-import org.jetbrains.jewel.themes.intui.standalone.dark
-import org.jetbrains.jewel.themes.intui.standalone.default
-import org.jetbrains.jewel.themes.intui.standalone.light
-import java.io.InputStream
-import org.jetbrains.jewel.themes.darcula.standalone.default as defaultIj
-import org.jetbrains.jewel.themes.darcula.standalone.light as lightIj
+import org.jetbrains.jewel.IntelliJTree
+import org.jetbrains.jewel.Text
+import org.jetbrains.jewel.VerticalScrollbar
+import org.jetbrains.jewel.foundation.tree.buildTree
+import org.jetbrains.jewel.samples.standalone.components.Borders
+import org.jetbrains.jewel.samples.standalone.components.Buttons
+import org.jetbrains.jewel.samples.standalone.components.Checkboxes
+import org.jetbrains.jewel.samples.standalone.components.Dropdowns
+import org.jetbrains.jewel.samples.standalone.components.Links
+import org.jetbrains.jewel.samples.standalone.components.RadioButtons
+import org.jetbrains.jewel.samples.standalone.components.TextFields
+import org.jetbrains.jewel.themes.intui.standalone.dark.DarkTheme
+import org.jetbrains.jewel.themes.intui.standalone.light.LightTheme
 
 @Composable
-fun JetBrainsTheme(isNewUi: Boolean, isDark: Boolean, content: @Composable () -> Unit) =
+fun JetBrainsTheme(isDark: Boolean, content: @Composable () -> Unit) =
     IntelliJTheme(
-        JetBrainsPalette(isNewUi, isDark),
-        JetBrainsMetrics(isNewUi, isDark),
-        JetBrainsPainters(isNewUi, isDark),
-        JetBrainsTypography(isNewUi, isDark),
+        if (isDark) DarkTheme else LightTheme,
         content
     )
 
-fun JetBrainsPalette(isNewUi: Boolean, isDark: Boolean): IntelliJPalette =
-    when {
-        isNewUi && isDark -> IntelliJPalette.dark
-        isNewUi && !isDark -> IntelliJPalette.light
-        !isNewUi && isDark -> IntelliJPalette.darcula
-        else -> IntelliJPalette.lightIj
-    }
-
-fun JetBrainsPainters(isNewUi: Boolean, isDark: Boolean): IntelliJPainters =
-    when {
-        isNewUi && isDark -> IntelliJPainters.dark.copy(
-            painterResourceLoader = DarkIconResourceLoader.newUiIconLoader()
-        )
-        isNewUi && !isDark -> IntelliJPainters.light.copy(
-            painterResourceLoader = ResourceLoader.Default.newUiIconLoader()
-        )
-        !isNewUi && isDark -> IntelliJPainters.darcula
-        else -> IntelliJPainters.lightIj
-    }
-
-fun JetBrainsTypography(isNewUi: Boolean, isDark: Boolean): IntelliJTypography =
-    when {
-        isNewUi && isDark -> IntelliJTypography.dark
-        isNewUi && !isDark -> IntelliJTypography.light
-        !isNewUi && isDark -> IntelliJTypography.darcula
-        else -> IntelliJTypography.lightIj
-    }
-
-fun JetBrainsMetrics(isNewUi: Boolean, isDark: Boolean): IntelliJMetrics =
-    if (isNewUi) {
-        IntelliJMetrics.default
-    } else {
-        IntelliJMetrics.defaultIj
-    }
-
-class NewUiIconResourceLoader(private val delegateLoader: ResourceLoader) : ResourceLoader {
-
-    override fun load(resourcePath: String): InputStream {
-        val extension = resourcePath.substringAfterLast('.')
-        val name = resourcePath.substringBeforeLast('.')
-
-        val realPath = if (name.startsWith("expui/")) {
-            "$name.$extension"
-        } else {
-            "expui/$name.$extension"
-        }
-        return try {
-            delegateLoader.load(realPath)
-        } catch (_: IllegalArgumentException) {
-            delegateLoader.load(resourcePath)
-        }
-    }
-}
-
-fun ResourceLoader.newUiIconLoader(): ResourceLoader = NewUiIconResourceLoader(this)
-
+@Suppress("MagicNumber")
 fun main() = singleWindowApplication(
     title = "TODO: sample app"
 ) {
     var isDark by remember { mutableStateOf(false) }
     var isNewUi by remember { mutableStateOf(true) }
-    JetBrainsTheme(isNewUi = isNewUi, isDark = isDark) {
-        Box(Modifier.fillMaxSize().background(Styles.frame.appearance(Unit).backgroundColor), contentAlignment = Alignment.Center) {
+
+    val verticalScrollState = rememberScrollState(0)
+    JetBrainsTheme(isDark = isDark) {
+        Box(
+            Modifier.fillMaxSize().background(IntelliJTheme.colors.background).verticalScroll(verticalScrollState),
+            contentAlignment = Alignment.Center
+        ) {
             Column(
                 Modifier.width(IntrinsicSize.Max),
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                GroupHeader("Theme Switch")
+                GroupHeader("Themes")
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Checkbox("Dark", isDark, { isDark = !isDark })
-                    Checkbox("New UI", isNewUi, { isNewUi = !isNewUi })
+                    CheckboxRow("Dark", isDark, { isDark = it })
                 }
-                GroupHeader("Checkboxes")
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    var state by remember { mutableStateOf(ToggleableState.Indeterminate) }
-                    CheckboxRow(state, {
-                        state = when (state) {
-                            ToggleableState.Off -> ToggleableState.On
-                            ToggleableState.On -> ToggleableState.Off
-                            ToggleableState.Indeterminate -> ToggleableState.On
-                        }
-                    }) {
-                        Text("Checkbox")
+                Borders()
+                Buttons()
+                Dropdowns()
+                Checkboxes()
+                RadioButtons()
+                Links()
+                TextFields()
+                // take this at the end, because it's a bit taller
+                Row {
+                    Column(Modifier.fillMaxWidth().weight(1f)) {
+                        GroupHeader("Chips")
+                        ChipsRow()
                     }
-                    Checkbox("Off", false, {})
-                    Checkbox("On", true, {})
-                    Checkbox("Disabled Off", false, {}, enabled = false)
-                    Checkbox("Disabled On", true, {}, enabled = false)
-                }
-                GroupHeader("Buttons")
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Button({}) {
-                        Text("Cancel")
-                    }
-                    Button({}) {
-                        Text("Apply")
-                    }
-                    Button({}, enabled = false) {
-                        Text("Disabled")
-                    }
-                    Button({}, variation = IntelliJButtonStyleVariations.DefaultButton) {
-                        Text("OK")
+                    Column(Modifier.fillMaxWidth().weight(1f)) {
+                        GroupHeader("Tree")
+                        TreeSample()
                     }
                 }
-                GroupHeader("RadioButtons")
-                Row(
-                    modifier = Modifier.selectableGroup(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    var selectedIndex by remember { mutableStateOf(0) }
-                    val firstRadioButtonId = 0
-                    RadioButtonRow(selectedIndex == firstRadioButtonId, {
-                        selectedIndex = firstRadioButtonId
-                    }) {
-                        Text("First")
-                    }
-                    val secondRadioButtonId = 1
-                    RadioButtonRow(selectedIndex == secondRadioButtonId, {
-                        selectedIndex = secondRadioButtonId
-                    }, enabled = false) {
-                        Text("Second")
-                    }
-                    val thirdRadioButtonId = 2
-                    RadioButtonRow(selectedIndex == thirdRadioButtonId, {
-                        selectedIndex = thirdRadioButtonId
-                    }) {
-                        Text("Third")
-                    }
-                    val fourthRadioButtonId = 3
-                    RadioButtonRow(selectedIndex == fourthRadioButtonId, {
-                        selectedIndex = fourthRadioButtonId
-                    }) {
-                        Text("Fourth")
-                    }
-                }
-                GroupHeader("TextFields")
-                Row(
-                    modifier = Modifier.selectableGroup(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    var text1 by remember { mutableStateOf("Text Field") }
-                    TextField(text1, onValueChange = { text1 = it })
-                    var text2 by remember { mutableStateOf("Error Field") }
-                    TextField(text2, onValueChange = { text2 = it }, hintState = TextFieldHintState.Error)
-                    var text3 by remember { mutableStateOf("Warning Field") }
-                    TextField(text3, onValueChange = { text3 = it }, hintState = TextFieldHintState.Warning)
-                }
-                Row(
-                    modifier = Modifier.selectableGroup(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    TextField("Disabled", onValueChange = { }, enabled = false)
-                    var text1 by remember { mutableStateOf("With Icons") }
-                    TextField(
-                        text1,
-                        onValueChange = { text1 = it },
-                        placeholder = {
-                            Text("Placeholder")
-                        },
-                        leadingIcon = {
-                            Icon("icons/search.svg")
-                        },
-                        trailingIcon = {
-                            Icon("icons/close.svg")
-                        }
-                    )
-                }
-                GroupHeader("Progress Bar")
-                LoadingProgressBar()
             }
+        }
+        VerticalScrollbar(
+            adapter = rememberScrollbarAdapter(verticalScrollState)
+        )
+    }
+}
+
+@Composable
+fun ChipsRow(modifier: Modifier = Modifier) {
+    Row(modifier) {
+        BaseChip(
+            enabled = true,
+            onChipClick = {}
+        ) {
+            Text("Enabled")
+        }
+        BaseChip(
+            enabled = false,
+            onChipClick = {}
+        ) {
+            Text("Disabled")
         }
     }
 }
 
 @Composable
-fun LoadingProgressBar() {
-    val transition = rememberInfiniteTransition()
-    val currentOffset by transition.animateFloat(
-        0f,
-        1f,
-        infiniteRepeatable(
-            animation = keyframes {
-                durationMillis = 1000
+fun TreeSample(modifier: Modifier = Modifier) {
+    val tree = remember {
+        buildTree {
+            addNode("root 1", false) {
+                addLeaf("leaf 1")
+                addLeaf("leaf 2")
             }
-        )
-    )
-
-    ProgressBar(currentOffset)
+            addNode("root 2", false) {
+                addLeaf("leaf 1")
+                addNode("node 1", false) {
+                    addLeaf("leaf 1")
+                    addLeaf("leaf 2")
+                }
+            }
+            addNode("root 3", false) {
+                addLeaf("leaf 1")
+                addLeaf("leaf 2")
+            }
+        }
+    }
+    IntelliJTree(
+        Modifier.size(200.dp, 200.dp).then(modifier),
+        onElementClick = {},
+        onElementDoubleClick = {},
+        tree = tree
+    ) { element ->
+        Text(element.data, modifier.padding(2.dp))
+    }
 }
