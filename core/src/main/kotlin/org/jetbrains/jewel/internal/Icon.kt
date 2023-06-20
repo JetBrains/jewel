@@ -122,7 +122,7 @@ fun Icon(
 @Composable
 fun Icon(
     painter: Painter,
-    contentDescription: String?,
+    contentDescription: String? = null,
     modifier: Modifier = Modifier,
     tint: Color = Color.Unspecified
 ) {

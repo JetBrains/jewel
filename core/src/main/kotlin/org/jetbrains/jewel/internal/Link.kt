@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.text.BasicText
@@ -24,8 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
+import androidx.compose.ui.input.InputMode
+import androidx.compose.ui.platform.LocalInputModeManager
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
+import org.jetbrains.jewel.foundation.onHover
 import org.jetbrains.jewel.styles.localNotProvided
 
 @Composable
@@ -113,7 +115,6 @@ fun ExternalLink(
 ) {
     Icon(
         painter = defaults.externalLinkIconPainter(),
-        contentDescription = "External link",
         tint = colors.iconColor(it).value
     )
 }
@@ -121,7 +122,6 @@ fun ExternalLink(
 @Composable
 fun DropdownLink(
     text: String,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     fontSize: TextUnit = TextUnit.Unspecified,
@@ -135,30 +135,63 @@ fun DropdownLink(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     indication: Indication? = null,
     defaults: LinkDefaults = IntelliJTheme.linkDefaults,
-    colors: LinkColors = defaults.colors()
-) = LinkImpl(
-    text = text,
-    onClick = onClick,
-    modifier = modifier,
-    enabled = enabled,
-    fontSize = fontSize,
-    fontStyle = fontStyle,
-    fontWeight = fontWeight,
-    fontFamily = fontFamily,
-    letterSpacing = letterSpacing,
-    textAlign = textAlign,
-    overflow = overflow,
-    lineHeight = lineHeight,
-    interactionSource = interactionSource,
-    indication = indication,
-    defaults = defaults,
-    colors = colors
+    colors: LinkColors = defaults.colors(),
+    menuModifier: Modifier = Modifier,
+    menuDefaults: MenuDefaults = IntelliJTheme.dropdownDefaults,
+    menuContent: MenuScope.() -> Unit
 ) {
-    Icon(
-        painter = defaults.DropdownLinkIconPainter(),
-        contentDescription = "Dropdown link",
-        tint = colors.iconColor(it).value
-    )
+    var expanded by remember { mutableStateOf(false) }
+    var hovered by remember { mutableStateOf(false) }
+    var skipNextClick by remember { mutableStateOf(false) }
+    Box(
+        Modifier.onHover {
+            hovered = it
+        }
+    ) {
+        LinkImpl(
+            text = text,
+            onClick = {
+                if (!skipNextClick) {
+                    expanded = !expanded
+                }
+                skipNextClick = false
+            },
+            modifier = modifier,
+            enabled = enabled,
+            fontSize = fontSize,
+            fontStyle = fontStyle,
+            fontWeight = fontWeight,
+            fontFamily = fontFamily,
+            letterSpacing = letterSpacing,
+            textAlign = textAlign,
+            overflow = overflow,
+            lineHeight = lineHeight,
+            interactionSource = interactionSource,
+            indication = indication,
+            defaults = defaults,
+            colors = colors
+        ) {
+            Icon(
+                painter = defaults.DropdownLinkIconPainter(),
+                tint = colors.iconColor(it).value
+            )
+        }
+
+        if (expanded) {
+            DropdownMenu(
+                onDismissRequest = {
+                    expanded = false
+                    if (it == InputMode.Touch && hovered) {
+                        skipNextClick = true
+                    }
+                    true
+                },
+                modifier = menuModifier,
+                defaults = menuDefaults,
+                content = menuContent
+            )
+        }
+    }
 }
 
 @Composable
@@ -181,9 +214,6 @@ private fun LinkImpl(
     colors: LinkColors = defaults.colors(),
     icon: (@Composable RowScope.(state: LinkState) -> Unit)? = null
 ) {
-    var skipClickFocus by remember(interactionSource) {
-        mutableStateOf(false)
-    }
     var linkState by remember(interactionSource) {
         mutableStateOf(LinkState.of(enabled = enabled))
     }
@@ -191,6 +221,7 @@ private fun LinkImpl(
         linkState = linkState.copy(enabled = enabled)
     }
 
+    val inputModeManager = LocalInputModeManager.current
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
@@ -200,15 +231,13 @@ private fun LinkImpl(
                 is HoverInteraction.Exit -> linkState = linkState.copy(hovered = false)
 
                 is FocusInteraction.Focus -> {
-                    if (!skipClickFocus) {
+                    if (inputModeManager.inputMode == InputMode.Keyboard) {
                         linkState = linkState.copy(focused = true)
                     }
-                    skipClickFocus = false
                 }
 
                 is FocusInteraction.Unfocus -> {
                     linkState = linkState.copy(focused = false, pressed = false)
-                    skipClickFocus = false
                 }
             }
         }
@@ -238,10 +267,7 @@ private fun LinkImpl(
         role = Role.Button,
         interactionSource = interactionSource,
         indication = indication
-    ).onPointerEvent(PointerEventType.Press) {
-        skipClickFocus = true
-        linkState = linkState.copy(focused = false)
-    }
+    )
 
     if (icon == null) {
         BasicText(

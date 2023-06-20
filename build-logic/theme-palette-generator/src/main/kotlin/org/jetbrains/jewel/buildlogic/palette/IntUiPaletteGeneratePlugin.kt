@@ -155,4 +155,3 @@ open class IntUiPaletteGenerateTask : BasePaletteGenerateTask() {
     private val list = ClassName("kotlin.collections", "List")
     private val colorClassName = ClassName("androidx.compose.ui.graphics", "Color")
 }
-

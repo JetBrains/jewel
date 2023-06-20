@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.styles.localNotProvided
 
 @Stable
-class IntellijColors(
+class IntelliJColors(
     foreground: Color,
     background: Color,
     borderColor: Color,
@@ -45,8 +45,8 @@ class IntellijColors(
         disabledForeground: Color = this.disabledForeground,
         disabledBackground: Color = this.disabledBackground,
         disabledBorderColor: Color = this.disabledBorderColor
-    ): IntellijColors {
-        return IntellijColors(
+    ): IntelliJColors {
+        return IntelliJColors(
             foreground = foreground,
             background = background,
             borderColor = borderColor,
@@ -68,6 +68,6 @@ class IntellijColors(
     }
 }
 
-internal val LocalIntellijColors = staticCompositionLocalOf<IntellijColors> {
+internal val LocalIntelliJColors = staticCompositionLocalOf<IntelliJColors> {
     localNotProvided()
 }
