@@ -56,8 +56,8 @@ fun Dropdown(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     defaults: DropdownDefaults = IntelliJTheme.dropdownDefaults,
     colors: DropdownColors = defaults.colors(),
-    content: @Composable RowScope.() -> Unit,
-    menuContent: MenuScope.() -> Unit
+    menuContent: MenuScope.() -> Unit,
+    content: @Composable RowScope.() -> Unit
 ) {
     Box {
         var expanded by remember { mutableStateOf(false) }

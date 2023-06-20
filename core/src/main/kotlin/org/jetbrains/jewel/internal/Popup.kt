@@ -153,7 +153,7 @@ internal data class AnchorHorizontalMenuPositionProvider(
         val x = if (rightSpacing > popupContentSize.width || rightSpacing >= leftSpacing) {
             anchorBounds.right + contentOffsetX
         } else {
-            anchorBounds.left - contentOffsetY - popupContentSize.width
+            anchorBounds.left - contentOffsetX - popupContentSize.width
         }
 
         val popupBounds = IntRect(x, y, x + popupContentSize.width, y + popupContentSize.height)

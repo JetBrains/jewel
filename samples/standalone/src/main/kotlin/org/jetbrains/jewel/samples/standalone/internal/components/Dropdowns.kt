@@ -35,23 +35,15 @@ fun ColumnScope.Dropdowns() {
         var selected by remember { mutableStateOf(items.first()) }
 
         Dropdown(
+            enabled = false,
+            menuContent = {
+            },
             content = {
                 Text(selected)
             }
-        ) {
-            items.forEach {
-                if (it == "---") {
-                    divider()
-                } else {
-                    selectableItem(selected == it, {
-                        selected = it
-                    }) {
-                        Text(it)
-                    }
-                }
-            }
-            divider()
-            submenu(submenu = {
+        )
+        Dropdown(
+            menuContent = {
                 items.forEach {
                     if (it == "---") {
                         divider()
@@ -63,9 +55,61 @@ fun ColumnScope.Dropdowns() {
                         }
                     }
                 }
-            }) {
-                Text("Submenu")
+                divider()
+                submenu(submenu = {
+                    items.forEach {
+                        if (it == "---") {
+                            divider()
+                        } else {
+                            selectableItem(selected == it, {
+                                selected = it
+                            }) {
+                                Text(it)
+                            }
+                        }
+                    }
+                    divider()
+                    submenu(submenu = {
+                        items.forEach {
+                            if (it == "---") {
+                                divider()
+                            } else {
+                                selectableItem(selected == it, {
+                                    selected = it
+                                }) {
+                                    Text(it)
+                                }
+                            }
+                        }
+                    }) {
+                        Text("Submenu2")
+                    }
+                }) {
+                    Text("Submenu")
+                }
+            },
+            content = {
+                Text(selected)
             }
-        }
+        )
+        Dropdown(
+            error = true,
+            menuContent = {
+                items.forEach {
+                    if (it == "---") {
+                        divider()
+                    } else {
+                        selectableItem(selected == it, {
+                            selected = it
+                        }) {
+                            Text(it)
+                        }
+                    }
+                }
+            },
+            content = {
+                Text(selected)
+            }
+        )
     }
 }
