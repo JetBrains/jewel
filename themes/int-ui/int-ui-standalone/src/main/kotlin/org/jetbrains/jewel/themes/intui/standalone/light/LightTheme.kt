@@ -9,6 +9,7 @@ import org.jetbrains.jewel.IntelliJColors
 import org.jetbrains.jewel.LabelledTextFieldDefaults
 import org.jetbrains.jewel.LinkDefaults
 import org.jetbrains.jewel.MenuDefaults
+import org.jetbrains.jewel.internal.ProgressBarDefaults
 import org.jetbrains.jewel.RadioButtonDefaults
 import org.jetbrains.jewel.ScrollerDefaults
 import org.jetbrains.jewel.TextAreaDefaults
@@ -41,6 +42,7 @@ object LightTheme : IntUiTheme(LightPalette) {
     override val treeDefaults: TreeDefaults = LightTreeDefaults
     override val chipDefaults: ChipDefaults = LightChipDefaults
     override val scrollerDefaults: ScrollerDefaults = LightScrollerDefaults
+    override val progressBarDefaults: ProgressBarDefaults = LightProgressBarDefaults
 
     override val isLight: Boolean = true
 }

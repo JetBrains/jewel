@@ -9,6 +9,7 @@ import org.jetbrains.jewel.IntelliJColors
 import org.jetbrains.jewel.LabelledTextFieldDefaults
 import org.jetbrains.jewel.LinkDefaults
 import org.jetbrains.jewel.MenuDefaults
+import org.jetbrains.jewel.internal.ProgressBarDefaults
 import org.jetbrains.jewel.RadioButtonDefaults
 import org.jetbrains.jewel.ScrollerDefaults
 import org.jetbrains.jewel.TextAreaDefaults
@@ -41,6 +42,7 @@ object DarkTheme : IntUiTheme(DarkPalette) {
     override val treeDefaults: TreeDefaults = DarkTreeDefaults
     override val chipDefaults: ChipDefaults = DarkChipDefaults
     override val scrollerDefaults: ScrollerDefaults = DarkScrollerDefaults
+    override val progressBarDefaults: ProgressBarDefaults = DarkProgressBarDefaults
 
     override val isLight: Boolean = false
 }

@@ -27,6 +27,26 @@ import org.jetbrains.jewel.BaseChip
 import org.jetbrains.jewel.CheckboxRow
 import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.IntelliJTheme
+import org.jetbrains.jewel.IntelliJTypography
+import org.jetbrains.jewel.components.Button
+import org.jetbrains.jewel.components.Checkbox
+import org.jetbrains.jewel.components.CheckboxRow
+import org.jetbrains.jewel.components.GroupHeader
+import org.jetbrains.jewel.components.Icon
+import org.jetbrains.jewel.components.RadioButtonRow
+import org.jetbrains.jewel.components.Text
+import org.jetbrains.jewel.components.TextField
+import org.jetbrains.jewel.components.TextFieldHintState
+import org.jetbrains.jewel.styles.IntelliJButtonStyleVariations
+import org.jetbrains.jewel.styles.Styles
+import org.jetbrains.jewel.styles.frame
+import org.jetbrains.jewel.themes.darcula.standalone.darcula
+import org.jetbrains.jewel.themes.intui.standalone.dark
+import org.jetbrains.jewel.themes.intui.standalone.default
+import org.jetbrains.jewel.themes.intui.standalone.light
+import java.io.InputStream
+import org.jetbrains.jewel.themes.darcula.standalone.default as defaultIj
+import org.jetbrains.jewel.themes.darcula.standalone.light as lightIj
 import org.jetbrains.jewel.IntelliJTree
 import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.VerticalScrollbar
@@ -116,6 +136,82 @@ fun ChipsRow(modifier: Modifier = Modifier) {
             onChipClick = {}
         ) {
             Text("Disabled")
+                    Button({}, enabled = false) {
+                        Text("Disabled")
+                    }
+                    Button({}, variation = IntelliJButtonStyleVariations.DefaultButton) {
+                        Text("OK")
+                    }
+                }
+                GroupHeader("RadioButtons")
+                Row(
+                    modifier = Modifier.selectableGroup(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    var selectedIndex by remember { mutableStateOf(0) }
+                    val firstRadioButtonId = 0
+                    RadioButtonRow(selectedIndex == firstRadioButtonId, {
+                        selectedIndex = firstRadioButtonId
+                    }) {
+                        Text("First")
+                    }
+                    val secondRadioButtonId = 1
+                    RadioButtonRow(selectedIndex == secondRadioButtonId, {
+                        selectedIndex = secondRadioButtonId
+                    }, enabled = false) {
+                        Text("Second")
+                    }
+                    val thirdRadioButtonId = 2
+                    RadioButtonRow(selectedIndex == thirdRadioButtonId, {
+                        selectedIndex = thirdRadioButtonId
+                    }) {
+                        Text("Third")
+                    }
+                    val fourthRadioButtonId = 3
+                    RadioButtonRow(selectedIndex == fourthRadioButtonId, {
+                        selectedIndex = fourthRadioButtonId
+                    }) {
+                        Text("Fourth")
+                    }
+                }
+                GroupHeader("TextFields")
+                Row(
+                    modifier = Modifier.selectableGroup(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    var text1 by remember { mutableStateOf("Text Field") }
+                    TextField(text1, onValueChange = { text1 = it })
+                    var text2 by remember { mutableStateOf("Error Field") }
+                    TextField(text2, onValueChange = { text2 = it }, hintState = TextFieldHintState.Error)
+                    var text3 by remember { mutableStateOf("Warning Field") }
+                    TextField(text3, onValueChange = { text3 = it }, hintState = TextFieldHintState.Warning)
+                }
+                Row(
+                    modifier = Modifier.selectableGroup(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextField("Disabled", onValueChange = { }, enabled = false)
+                    var text1 by remember { mutableStateOf("With Icons") }
+                    TextField(
+                        text1,
+                        onValueChange = { text1 = it },
+                        placeholder = {
+                            Text("Placeholder")
+                        },
+                        leadingIcon = {
+                            Icon("icons/search.svg")
+                        },
+                        trailingIcon = {
+                            Icon("icons/close.svg")
+                        }
+                    )
+                }
+                GroupHeader("Progress Bar")
+//                LoadingProgressBar()
+            }
         }
     }
 }
