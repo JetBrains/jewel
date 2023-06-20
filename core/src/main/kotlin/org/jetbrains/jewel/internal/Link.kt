@@ -154,6 +154,7 @@ fun DropdownLink(
                 if (!skipNextClick) {
                     expanded = !expanded
                 }
+                skipNextClick = false
             },
             modifier = modifier,
             enabled = enabled,

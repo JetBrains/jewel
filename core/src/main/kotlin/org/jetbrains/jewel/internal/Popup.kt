@@ -42,7 +42,7 @@ internal fun handlePopupMenuOnKeyEvent(
 
         Key.Escape -> {
             inputModeManager.requestInputMode(InputMode.Keyboard)
-            menuManager.closeAll(InputMode.Keyboard)
+            menuManager.closeAll(InputMode.Keyboard, true)
             true
         }
 

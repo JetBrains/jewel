@@ -61,6 +61,7 @@ import androidx.compose.ui.window.Popup
 import org.jetbrains.jewel.Orientation
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
+import org.jetbrains.jewel.foundation.onHover
 
 @Composable
 internal fun MenuContent(
@@ -75,6 +76,7 @@ internal fun MenuContent(
         }
     }
 
+    val localMenuManager = LocalMenuManager.current
     val scrollState = rememberScrollState()
     Box(
         modifier = modifier.shadow(
@@ -86,6 +88,9 @@ internal fun MenuContent(
             .border(colors.borderStroke(), defaults.menuShape())
             .background(colors.background(), defaults.menuShape())
             .width(IntrinsicSize.Max)
+            .onHover {
+                localMenuManager.onHoveredChange(it)
+            }
     ) {
         Column(
             modifier = Modifier
@@ -275,7 +280,7 @@ fun MenuSelectableItem(
                 selected = selected,
                 onClick = {
                     onClick()
-                    menuManager.closeAll(localInputModeManager.inputMode)
+                    menuManager.closeAll(localInputModeManager.inputMode, true)
                 },
                 enabled = enabled,
                 role = Role.Button,
@@ -437,7 +442,7 @@ internal fun Submenu(
     Popup(
         focusable = true,
         onDismissRequest = {
-            menuManager.closeAll(InputMode.Touch)
+            menuManager.closeAll(InputMode.Touch, false)
         },
         popupPositionProvider = popupPositionProvider,
         onKeyEvent = {
@@ -702,14 +707,32 @@ class MenuManager(
     private val parentMenuManager: MenuManager? = null
 ) {
 
-    fun closeAll(mode: InputMode) {
-        if (onDismissRequest(mode)) {
-            parentMenuManager?.closeAll(mode)
-        }
+    private var hovered: Boolean = false
+
+    /**
+     * Called when the hovered state of the menu changes.
+     * This is used to abort parent menu closing in unforced mode
+     * when submenu closed by click parent menu's item.
+     *
+     * @param hovered true if the menu is hovered, false otherwise.
+     */
+    internal fun onHoveredChange(hovered: Boolean) {
+        this.hovered = hovered
     }
 
-    fun closeParents(mode: InputMode) {
-        parentMenuManager?.closeAll(mode)
+    /**
+     * Close all menus in the hierarchy.
+     *
+     * @param mode the input mode, menus close by pointer or keyboard event.
+     * @param force true to force close all menus ignore parent hover state, false otherwise.
+     */
+    fun closeAll(mode: InputMode, force: Boolean) {
+        // We ignore the pointer event if the menu is hovered in unforced mode.
+        if (!force && mode == InputMode.Touch && hovered) return
+
+        if (onDismissRequest(mode)) {
+            parentMenuManager?.closeAll(mode, force)
+        }
     }
 
     fun close(mode: InputMode) = onDismissRequest(mode)
