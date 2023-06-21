@@ -1,11 +1,13 @@
-package org.jetbrains.jewel.themes.intui.standalone.internal.dark
+@file:Suppress("MagicNumber")
+
+package org.jetbrains.jewel.themes.intui.standalone.dark
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import org.jetbrains.jewel.internal.ProgressBarColors
-import org.jetbrains.jewel.internal.progressBarDefaultsColors
-import org.jetbrains.jewel.themes.intui.standalone.internal.IntUiProgressBarDefaults
-import org.jetbrains.jewel.themes.intui.standalone.internal.LocalIntUiPalette
+import org.jetbrains.jewel.ProgressBarColors
+import org.jetbrains.jewel.progressBarDefaultsColors
+import org.jetbrains.jewel.themes.intui.standalone.IntUiProgressBarDefaults
+import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
 object DarkProgressBarDefaults : IntUiProgressBarDefaults() {
 
@@ -14,8 +16,10 @@ object DarkProgressBarDefaults : IntUiProgressBarDefaults() {
         val palette = LocalIntUiPalette.current
         return remember {
             progressBarDefaultsColors(
-                palette.grey(4),
-                palette.blue(6)
+                indeterminateStartColor = palette.blue(9),
+                indeterminateEndColor = palette.blue(5),
+                determinateProgressColor = palette.blue(7),
+                trackColor = palette.grey(4)
             )
         }
     }

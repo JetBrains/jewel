@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.internal
+package org.jetbrains.jewel
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -23,49 +23,32 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.toBrush
 
 @Composable
 fun AnimatedDefiniteLinearProgressBar(
     modifier: Modifier = Modifier,
     targetProgress: Float, // from 0 to 1
     defaults: ProgressBarDefaults = IntelliJTheme.progressBarDefaults,
-    colors: ProgressBarColors = defaults.colors(),
+    colors: ProgressBarColors = defaults.colors()
 ) {
     val progress by animateFloatAsState(
         targetValue = targetProgress,
-        animationSpec = tween(durationMillis = 100, easing = LinearEasing)
+        animationSpec = tween(durationMillis = 250, easing = LinearEasing)
     )
-    val bgColor by colors.backgroundColor()
-    val highlightColor by colors.highlightColor()
-    val colorsList = listOf(bgColor, highlightColor)
+    val trackColor by colors.trackColor()
+    val progressColor by colors.determinateProgressColor()
+    val colorsList = listOf(progressColor)
 
-    Box(
-        modifier
-            .height(4.dp)
-            .clip(RoundedCornerShape(2.dp))
-            .drawWithContent {
-                drawRect(color = bgColor) // Draw the background
-                val x = size.width * progress
-                // Define the gradient colors
-
-                val brush = Brush.horizontalGradient(
-                    colors = colorsList,
-                    startX = 0f,
-                    endX = x,
-                    tileMode = TileMode.Clamp
-                )
-                // Draw the animated progress
-                val progressWidth = size.width * progress
-                drawRect(
-                    brush = brush,
-                    size = size.copy(width = progressWidth)
-                )
-
-            }
+    LinearProgressBarImpl(
+        modifier,
+        progress,
+        defaults,
+        trackColor,
+        colorsList
     )
 }
 
@@ -74,19 +57,43 @@ fun LinearProgressBar(
     modifier: Modifier = Modifier,
     progress: Float, // from 0 to 1
     defaults: ProgressBarDefaults = IntelliJTheme.progressBarDefaults,
-    colors: ProgressBarColors = defaults.colors(),
+    colors: ProgressBarColors = defaults.colors()
 ) {
+    val trackColor by colors.trackColor()
+    val progressColor by colors.determinateProgressColor()
+    LinearProgressBarImpl(modifier, progress, defaults, trackColor, listOf(progressColor))
+}
 
-    val bgColor by colors.backgroundColor()
-    val highlightColor by colors.highlightColor()
+@Composable
+internal fun LinearProgressBarImpl(
+    modifier: Modifier = Modifier,
+    progress: Float, // from 0 to 1
+    defaults: ProgressBarDefaults,
+    trackColor: Color,
+    brushColorList: List<Color>
+) {
+    val shape = defaults.clipShape()
+    val height = defaults.height()
     Box(
         modifier
-            .height(4.dp)
-            .clip(RoundedCornerShape(2.dp))
+            .height(height)
+            .clip(shape)
             .drawWithContent {
-                drawRect(color = bgColor) // Draw the background
+                drawRect(color = trackColor) // Draw the background
                 val progressWidth = size.width * progress
-                drawRect(brush = highlightColor.toBrush(), size = size.copy(progressWidth))
+                val progressOutline = shape.createOutline(size.copy(progressWidth), layoutDirection, this)
+                val brush = if (brushColorList.size > 1) {
+                    val x = size.width * progress
+                    Brush.horizontalGradient(
+                        colors = brushColorList,
+                        startX = 0f,
+                        endX = x,
+                        tileMode = TileMode.Clamp
+                    )
+                } else {
+                    SolidColor(brushColorList.first())
+                }
+                drawOutline(progressOutline, brush)
             }
     )
 }
@@ -95,11 +102,10 @@ fun LinearProgressBar(
 fun IndeterminateLinearProgressBar(
     modifier: Modifier = Modifier,
     defaults: ProgressBarDefaults = IntelliJTheme.progressBarDefaults,
-    colors: ProgressBarColors = defaults.colors(),
+    colors: ProgressBarColors = defaults.colors()
 ) {
     val infiniteTransition = rememberInfiniteTransition()
-    // startX = Bordo sx + animationIndex * step
-    // endX = startX + gradientWidth
+
     val animatedProgress by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 2f,
@@ -110,9 +116,10 @@ fun IndeterminateLinearProgressBar(
     )
 
     val gradientWidth = defaults.gradientWidth()
-    val bgColor by colors.backgroundColor()
-    val highlightColor by colors.highlightColor()
-    val colorsList = listOf(bgColor, highlightColor)
+    val bgColor by colors.trackColor()
+    val startColor by colors.indeterminateStartColor()
+    val endColor by colors.indeterminateEndColor()
+    val colorsList = listOf(startColor, endColor)
     Box(
         modifier
             .height(defaults.height())
@@ -156,36 +163,53 @@ interface ProgressBarDefaults {
 interface ProgressBarColors {
 
     @Composable
-    fun backgroundColor(): State<Color>
+    fun indeterminateStartColor(): State<Color>
 
     @Composable
-    fun highlightColor(): State<Color>
+    fun indeterminateEndColor(): State<Color>
+
+    @Composable
+    fun determinateProgressColor(): State<Color>
+
+    @Composable
+    fun trackColor(): State<Color>
 }
 
 fun progressBarDefaultsColors(
-    backgroundColor: Color,
-    highlightColor: Color
+    indeterminateStartColor: Color,
+    indeterminateEndColor: Color,
+    determinateProgressColor: Color,
+    trackColor: Color
 ): ProgressBarColors =
     DefaultProgressBarColors(
-        backgroundColor,
-        highlightColor
+        indeterminateStartColor,
+        indeterminateEndColor,
+        determinateProgressColor,
+        trackColor
     )
 
 @Immutable
 private class DefaultProgressBarColors(
-    private val backgroundColor: Color,
-    private val highlightColor: Color
+    private val indeterminateStartColor: Color,
+    private val indeterminateEndColor: Color,
+    private val progressColor: Color,
+    private val trackColor: Color
 ) : ProgressBarColors {
 
     @Composable
-    override fun backgroundColor(): State<Color> = rememberUpdatedState(backgroundColor)
+    override fun indeterminateStartColor(): State<Color> = rememberUpdatedState(indeterminateStartColor)
 
     @Composable
-    override fun highlightColor(): State<Color> = rememberUpdatedState(highlightColor)
+    override fun indeterminateEndColor(): State<Color> = rememberUpdatedState(indeterminateEndColor)
+
+    @Composable
+    override fun determinateProgressColor(): State<Color> = rememberUpdatedState(progressColor)
+
+    @Composable
+    override fun trackColor(): State<Color> = rememberUpdatedState(trackColor)
 }
 
 internal val LocalProgressBarDefaults =
     staticCompositionLocalOf<ProgressBarDefaults> {
         error("No ProgressBarDefaults provided")
     }
-

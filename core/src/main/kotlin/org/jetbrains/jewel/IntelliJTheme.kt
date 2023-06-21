@@ -40,6 +40,8 @@ interface IntelliJTheme {
 
     val scrollerDefaults: ScrollerDefaults
 
+    val progressBarDefaults: ProgressBarDefaults
+
     val isLight: Boolean
 
     fun providedCompositionLocalValues(): Array<ProvidedValue<*>>
@@ -126,6 +128,11 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalScrollerDefault.current
 
+        val progressBarDefaults: ProgressBarDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalProgressBarDefaults.current
+
         val isLight: Boolean
             @Composable
             @ReadOnlyComposable
@@ -150,6 +157,7 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
         LocalTreeDefaults provides theme.treeDefaults,
         LocalChipDefaults provides theme.chipDefaults,
         LocalScrollerDefault provides theme.scrollerDefaults,
+        LocalProgressBarDefaults provides theme.progressBarDefaults,
         LocalTextStyle provides theme.defaultTextStyle,
         LocalTextColor provides theme.colors.foreground,
         LocalInLightTheme provides theme.isLight,

@@ -9,7 +9,7 @@ import org.jetbrains.jewel.IntelliJColors
 import org.jetbrains.jewel.LabelledTextFieldDefaults
 import org.jetbrains.jewel.LinkDefaults
 import org.jetbrains.jewel.MenuDefaults
-import org.jetbrains.jewel.internal.ProgressBarDefaults
+import org.jetbrains.jewel.ProgressBarDefaults
 import org.jetbrains.jewel.RadioButtonDefaults
 import org.jetbrains.jewel.ScrollerDefaults
 import org.jetbrains.jewel.TextAreaDefaults

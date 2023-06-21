@@ -48,7 +48,6 @@ internal class PKGSDemo : ToolWindowFactory, DumbAware {
                             },
                             selectionBackgroundColor = org.jetbrains.jewel.IntelliJTheme.palette.controlStrokeFocused,
                             selectionFocusedBackgroundColor = org.jetbrains.jewel.IntelliJTheme.palette.controlStrokeFocused
-
                         ) {
                             val text: String = when (it) {
                                 is Tree.Element.Leaf<*> -> it.data.name
