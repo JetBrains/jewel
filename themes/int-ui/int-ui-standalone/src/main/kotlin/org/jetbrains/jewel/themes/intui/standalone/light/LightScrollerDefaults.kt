@@ -6,13 +6,11 @@ import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.ScrollerColors
 import org.jetbrains.jewel.scrollerColors
 import org.jetbrains.jewel.themes.intui.standalone.IntUiScrollerDefaults
-import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
 @Suppress("MagicNumber")
 object LightScrollerDefaults : IntUiScrollerDefaults() {
     @Composable
     override fun colors(): ScrollerColors {
-        val palette = LocalIntUiPalette.current
         return remember {
             scrollerColors(
                 Color(0xFFD9D9D9),
