@@ -24,6 +24,8 @@ interface IntelliJTheme {
 
     val labelledTextFieldDefaults: LabelledTextFieldDefaults
 
+    val textAreaDefaults: TextAreaDefaults
+
     val radioButtonDefaults: RadioButtonDefaults
 
     val dropdownDefaults: DropdownDefaults
@@ -73,6 +75,11 @@ interface IntelliJTheme {
             @Composable
             @ReadOnlyComposable
             get() = LocalLabelledTextFieldDefaults.current
+
+        val textAreaDefaults: TextAreaDefaults
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalTextAreaDefaults.current
 
         val radioButtonDefaults: RadioButtonDefaults
             @Composable
@@ -136,6 +143,7 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
         LocalLinkDefaults provides theme.linkDefaults,
         LocalTextFieldDefaults provides theme.textFieldDefaults,
         LocalLabelledTextFieldDefaults provides theme.labelledTextFieldDefaults,
+        LocalTextAreaDefaults provides theme.textAreaDefaults,
         LocalRadioButtonDefaults provides theme.radioButtonDefaults,
         LocalDropdownDefaults provides theme.dropdownDefaults,
         LocalContextMenuDefaults provides theme.contextMenuDefaults,

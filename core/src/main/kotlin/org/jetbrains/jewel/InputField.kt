@@ -30,7 +30,7 @@ import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 
 @Composable
-internal fun BaseTextField(
+internal fun InputField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier,
@@ -41,15 +41,17 @@ internal fun BaseTextField(
     visualTransformation: VisualTransformation,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
+    singleLine: Boolean,
+    maxLines: Int,
     onTextLayout: (TextLayoutResult) -> Unit,
     interactionSource: MutableInteractionSource,
-    defaults: BaseTextFieldDefaults,
-    colors: BaseTextFieldColors,
+    defaults: InputFieldDefaults,
+    colors: InputFieldColors,
     textStyle: TextStyle,
-    decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: TextFieldState) -> Unit
+    decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit
 ) {
     var inputState by remember(interactionSource) {
-        mutableStateOf(TextFieldState.of(enabled = enabled, error = isError))
+        mutableStateOf(InputFieldState.of(enabled = enabled, error = isError))
     }
     remember(isError, enabled) {
         inputState = inputState.copy(error = isError, enabled = enabled)
@@ -84,8 +86,8 @@ internal fun BaseTextField(
         textStyle = defaults.textStyle().merge(textStyle).copy(color = colors.foreground(inputState).value),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
-        singleLine = true,
-        maxLines = 1,
+        singleLine = singleLine,
+        maxLines = maxLines,
         visualTransformation = visualTransformation,
         onTextLayout = onTextLayout,
         interactionSource = interactionSource,
@@ -98,7 +100,7 @@ internal fun BaseTextField(
 
 @Immutable
 @JvmInline
-value class TextFieldState(val state: ULong) {
+value class InputFieldState(val state: ULong) {
 
     @Stable
     val isEnabled: Boolean
@@ -112,10 +114,10 @@ value class TextFieldState(val state: ULong) {
     val isError: Boolean
         get() = state and Error != 0UL
 
-    fun copy(enabled: Boolean = isEnabled, focused: Boolean = isFocused, error: Boolean = isError): TextFieldState =
+    fun copy(enabled: Boolean = isEnabled, focused: Boolean = isFocused, error: Boolean = isError): InputFieldState =
         of(enabled, focused, error)
 
-    override fun toString(): String = "TextFieldState(enabled=$isEnabled, focused=$isFocused, error=$isError)"
+    override fun toString(): String = "InputFieldState(enabled=$isEnabled, focused=$isFocused, error=$isError)"
 
     companion object {
 
@@ -123,37 +125,37 @@ value class TextFieldState(val state: ULong) {
         private val Focused = 1UL shl 1
         private val Error = 1UL shl 2
 
-        fun of(enabled: Boolean, focused: Boolean = false, error: Boolean): TextFieldState {
+        fun of(enabled: Boolean, focused: Boolean = false, error: Boolean): InputFieldState {
             var state = 0UL
             if (enabled) state = state or Enabled
             if (focused) state = state or Focused
             if (error) state = state or Error
-            return TextFieldState(state)
+            return InputFieldState(state)
         }
     }
 }
 
 @Stable
-interface BaseTextFieldColors {
+interface InputFieldColors {
 
     @Composable
-    fun foreground(state: TextFieldState): State<Color>
+    fun foreground(state: InputFieldState): State<Color>
 
     @Composable
-    fun background(state: TextFieldState): State<Color>
+    fun background(state: InputFieldState): State<Color>
 
     @Composable
-    fun borderStroke(state: TextFieldState): State<Stroke>
+    fun borderStroke(state: InputFieldState): State<Stroke>
 
     @Composable
-    fun cursorBrush(state: TextFieldState): State<Brush>
+    fun cursorBrush(state: InputFieldState): State<Brush>
 }
 
 @Stable
-interface BaseTextFieldDefaults {
+interface InputFieldDefaults {
 
     @Composable
-    fun colors(): BaseTextFieldColors
+    fun colors(): InputFieldColors
 
     @Composable
     fun shape(): Shape

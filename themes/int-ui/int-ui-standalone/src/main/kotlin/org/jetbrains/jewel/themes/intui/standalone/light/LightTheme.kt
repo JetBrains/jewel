@@ -11,6 +11,7 @@ import org.jetbrains.jewel.LinkDefaults
 import org.jetbrains.jewel.MenuDefaults
 import org.jetbrains.jewel.RadioButtonDefaults
 import org.jetbrains.jewel.ScrollerDefaults
+import org.jetbrains.jewel.TextAreaDefaults
 import org.jetbrains.jewel.TextFieldDefaults
 import org.jetbrains.jewel.TreeDefaults
 import org.jetbrains.jewel.themes.intui.standalone.IntUiTheme
@@ -33,6 +34,7 @@ object LightTheme : IntUiTheme(LightPalette) {
     override val linkDefaults: LinkDefaults = LightLinkDefaults
     override val textFieldDefaults: TextFieldDefaults = LightTextFieldDefaults
     override val labelledTextFieldDefaults: LabelledTextFieldDefaults = LightLabelledTextFieldDefaults
+    override val textAreaDefaults: TextAreaDefaults = LightTextAreaDefaults
     override val radioButtonDefaults: RadioButtonDefaults = LightRadioButtonDefaults
     override val dropdownDefaults: DropdownDefaults = LightDropdownDefaults
     override val contextMenuDefaults: MenuDefaults = LightMenuDefaults
