@@ -3,9 +3,7 @@ package org.jetbrains.jewel
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
@@ -107,7 +105,7 @@ fun TextField(
     colors: TextFieldColors = defaults.colors(),
     textStyle: TextStyle = defaults.textStyle(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
-) = BaseTextField(
+) = InputField(
     value = value,
     onValueChange = onValueChange,
     modifier = modifier,
@@ -118,6 +116,8 @@ fun TextField(
     visualTransformation = visualTransformation,
     keyboardOptions = keyboardOptions,
     keyboardActions = keyboardActions,
+    singleLine = true,
+    maxLines = 1,
     onTextLayout = onTextLayout,
     defaults = defaults,
     colors = colors,
@@ -133,16 +133,16 @@ fun TextField(
     )
 }
 
-interface TextFieldDefaults : BaseTextFieldDefaults {
+interface TextFieldDefaults : InputFieldDefaults {
 
     @Composable
     override fun colors(): TextFieldColors
 }
 
-interface TextFieldColors : BaseTextFieldColors {
+interface TextFieldColors : InputFieldColors {
 
     @Composable
-    fun placeholderForeground(state: TextFieldState): State<Color>
+    fun placeholderForeground(state: InputFieldState): State<Color>
 }
 
 @Composable
@@ -352,7 +352,7 @@ internal open class DefaultTextFieldColors(
 ) : TextFieldColors {
 
     @Composable
-    override fun foreground(state: TextFieldState): State<Color> = rememberUpdatedState(
+    override fun foreground(state: InputFieldState): State<Color> = rememberUpdatedState(
         when {
             !state.isEnabled -> disabledForeground
             state.isError && state.isFocused -> errorFocusedForeground
@@ -363,7 +363,7 @@ internal open class DefaultTextFieldColors(
     )
 
     @Composable
-    override fun background(state: TextFieldState): State<Color> = rememberUpdatedState(
+    override fun background(state: InputFieldState): State<Color> = rememberUpdatedState(
         when {
             !state.isEnabled -> disabledBackground
             state.isError && state.isFocused -> errorFocusedBackground
@@ -374,7 +374,7 @@ internal open class DefaultTextFieldColors(
     )
 
     @Composable
-    override fun borderStroke(state: TextFieldState): State<Stroke> = rememberUpdatedState(
+    override fun borderStroke(state: InputFieldState): State<Stroke> = rememberUpdatedState(
         when {
             !state.isEnabled -> disabledBorderStroke
             state.isError && state.isFocused -> errorFocusedBorderStroke
@@ -385,7 +385,7 @@ internal open class DefaultTextFieldColors(
     )
 
     @Composable
-    override fun cursorBrush(state: TextFieldState): State<Brush> = rememberUpdatedState(
+    override fun cursorBrush(state: InputFieldState): State<Brush> = rememberUpdatedState(
         when {
             state.isError && state.isFocused -> errorFocusedCursorBrush
             state.isError -> errorCursorBrush
@@ -395,7 +395,7 @@ internal open class DefaultTextFieldColors(
     )
 
     @Composable
-    override fun placeholderForeground(state: TextFieldState): State<Color> = rememberUpdatedState(
+    override fun placeholderForeground(state: InputFieldState): State<Color> = rememberUpdatedState(
         placeholderForeground
     )
 }

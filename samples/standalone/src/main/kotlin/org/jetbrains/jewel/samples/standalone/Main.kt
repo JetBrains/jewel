@@ -37,6 +37,7 @@ import org.jetbrains.jewel.samples.standalone.components.Checkboxes
 import org.jetbrains.jewel.samples.standalone.components.Dropdowns
 import org.jetbrains.jewel.samples.standalone.components.Links
 import org.jetbrains.jewel.samples.standalone.components.RadioButtons
+import org.jetbrains.jewel.samples.standalone.components.TextAreas
 import org.jetbrains.jewel.samples.standalone.components.TextFields
 import org.jetbrains.jewel.themes.intui.standalone.dark.DarkTheme
 import org.jetbrains.jewel.themes.intui.standalone.light.LightTheme
@@ -58,11 +59,11 @@ fun main() = singleWindowApplication(
     val verticalScrollState = rememberScrollState(0)
     JetBrainsTheme(isDark = isDark) {
         Box(
-            Modifier.fillMaxSize().background(IntelliJTheme.colors.background).verticalScroll(verticalScrollState),
+            Modifier.fillMaxSize().background(IntelliJTheme.colors.background),
             contentAlignment = Alignment.Center
         ) {
             Column(
-                Modifier.width(IntrinsicSize.Max),
+                Modifier.width(IntrinsicSize.Max).padding(24.dp).verticalScroll(verticalScrollState),
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -79,6 +80,7 @@ fun main() = singleWindowApplication(
                 Checkboxes()
                 RadioButtons()
                 Links()
+                TextAreas()
                 TextFields()
                 // take this at the end, because it's a bit taller
                 Row {
@@ -92,10 +94,11 @@ fun main() = singleWindowApplication(
                     }
                 }
             }
+            VerticalScrollbar(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                adapter = rememberScrollbarAdapter(verticalScrollState)
+            )
         }
-        VerticalScrollbar(
-            adapter = rememberScrollbarAdapter(verticalScrollState)
-        )
     }
 }
 
