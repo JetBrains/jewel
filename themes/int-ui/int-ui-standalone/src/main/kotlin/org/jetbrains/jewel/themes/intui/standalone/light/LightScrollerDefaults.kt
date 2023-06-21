@@ -2,6 +2,7 @@ package org.jetbrains.jewel.themes.intui.standalone.light
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.ScrollerColors
 import org.jetbrains.jewel.scrollerColors
 import org.jetbrains.jewel.themes.intui.standalone.IntUiScrollerDefaults
@@ -14,8 +15,8 @@ object LightScrollerDefaults : IntUiScrollerDefaults() {
         val palette = LocalIntUiPalette.current
         return remember {
             scrollerColors(
-                palette.grey(8),
-                palette.grey(10)
+                Color(0xFFD9D9D9),
+                Color(0xFF7B7C7D)
             )
         }
     }
