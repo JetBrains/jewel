@@ -37,7 +37,7 @@ fun AnimatedDefiniteLinearProgressBar(
 ) {
     val progress by animateFloatAsState(
         targetValue = targetProgress,
-        animationSpec = tween(durationMillis = 250, easing = LinearEasing)
+        animationSpec = tween(durationMillis = 250)
     )
     val trackColor by colors.trackColor()
     val progressColor by colors.determinateProgressColor()

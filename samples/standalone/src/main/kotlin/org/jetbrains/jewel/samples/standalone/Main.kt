@@ -79,7 +79,6 @@ fun main() = singleWindowApplication(
                 ProgressBar()
                 TextFields()
                 ChipsAndTree()
-                // take this at the end, because it's a bit taller
             }
             VerticalScrollbar(
                 modifier = Modifier.align(Alignment.CenterEnd),
