@@ -162,7 +162,9 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                             onCheckedChange = { checked = it }
                         )
 
-                        // TODO progressbar compose
+                        IndeterminateProgressBar(
+                            modifier = Modifier.width(100.dp)
+                        )
 
                         SwingPanel(factory = {
                             JProgressBar().apply {
