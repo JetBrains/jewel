@@ -117,6 +117,6 @@ private data class DefaultScrollThumbColors(
     override fun hoverColor(): Color = hoverColor
 }
 
-internal val LocalScrollerDefault = staticCompositionLocalOf<ScrollThumbDefaults> {
-    error("No ScrollerDefaults provided")
+internal val LocalScrollThumbDefaults = staticCompositionLocalOf<ScrollThumbDefaults> {
+    error("No ScrollThumbDefaults provided")
 }
