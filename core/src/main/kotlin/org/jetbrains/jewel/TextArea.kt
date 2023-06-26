@@ -412,7 +412,6 @@ private fun TextAreaDecorationBox(
         layout(width, height) {
             place(
                 height,
-                width,
                 contentPadding,
                 hintPlaceable,
                 textFieldPlaceable,
@@ -456,7 +455,6 @@ private fun calculateHeight(
 
 private fun Placeable.PlacementScope.place(
     height: Int,
-    width: Int,
     contentPadding: PaddingValues,
     hintPlaceable: Placeable?,
     textFieldPlaceable: Placeable,
