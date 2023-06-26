@@ -7,8 +7,8 @@ import org.jetbrains.jewel.themes.intui.standalone.IntUITreeDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 import org.jetbrains.jewel.treeColors
 
-@Suppress("MagicNumber")
 object LightTreeDefaults : IntUITreeDefaults() {
+
     @Composable
     override fun colors(): TreeColors {
         val palette = LocalIntUiPalette.current

@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber")
-
 package org.jetbrains.jewel.samples.ideplugin
 
 import androidx.compose.foundation.background

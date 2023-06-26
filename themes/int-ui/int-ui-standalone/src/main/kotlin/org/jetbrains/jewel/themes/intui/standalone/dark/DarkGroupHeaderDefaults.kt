@@ -7,7 +7,6 @@ import org.jetbrains.jewel.groupHeaderColors
 import org.jetbrains.jewel.themes.intui.standalone.IntUiGroupHeaderDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
-@Suppress("MagicNumber")
 object DarkGroupHeaderDefaults : IntUiGroupHeaderDefaults() {
 
     @Composable

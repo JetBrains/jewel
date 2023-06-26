@@ -10,7 +10,6 @@ import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.themes.intui.standalone.IntUiMenuDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
-@Suppress("MagicNumber")
 object DarkMenuDefaults : IntUiMenuDefaults() {
 
     @Composable

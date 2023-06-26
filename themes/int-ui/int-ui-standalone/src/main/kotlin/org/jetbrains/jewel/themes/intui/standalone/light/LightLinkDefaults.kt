@@ -9,7 +9,6 @@ import org.jetbrains.jewel.linkColors
 import org.jetbrains.jewel.themes.intui.standalone.IntUiLinkDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
-@Suppress("MagicNumber")
 object LightLinkDefaults : IntUiLinkDefaults() {
 
     @Composable

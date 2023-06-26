@@ -23,17 +23,17 @@ fun VerticalScrollbar(
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    defaults: ScrollerDefaults = IntelliJTheme.scrollerDefaults,
-    colors: ScrollerColors = defaults.colors()
+    defaults: ScrollThumbDefaults = IntelliJTheme.scrollThumbDefaults,
+    colors: ScrollThumbColors = defaults.colors()
 ) =
     CompositionLocalProvider(
         LocalScrollbarStyle provides ScrollbarStyle(
-            defaults.minHeight(),
-            defaults.thickness(),
-            defaults.shape(),
-            defaults.hoverDurationMillis(),
-            colors.unHoverColor(),
-            colors.hoverColor()
+            minimalHeight = defaults.minHeight(),
+            thickness = defaults.thickness(),
+            shape = defaults.shape(),
+            hoverDurationMillis = defaults.hoverDurationMillis(),
+            unhoverColor = colors.unHoverColor(),
+            hoverColor = colors.hoverColor()
         )
     ) {
         VerticalScrollbar(
@@ -51,8 +51,8 @@ fun HorizontalScrollbar(
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    defaults: ScrollerDefaults = IntelliJTheme.scrollerDefaults,
-    colors: ScrollerColors = defaults.colors()
+    defaults: ScrollThumbDefaults = IntelliJTheme.scrollThumbDefaults,
+    colors: ScrollThumbColors = defaults.colors()
 ) = CompositionLocalProvider(
     LocalScrollbarStyle provides ScrollbarStyle(
         defaults.minHeight(),
@@ -73,7 +73,7 @@ fun HorizontalScrollbar(
 }
 
 @Stable
-interface ScrollerDefaults {
+interface ScrollThumbDefaults {
 
     @Composable
     fun shape(): Shape
@@ -88,11 +88,11 @@ interface ScrollerDefaults {
     fun hoverDurationMillis(): Int
 
     @Composable
-    fun colors(): ScrollerColors
+    fun colors(): ScrollThumbColors
 }
 
 @Stable
-interface ScrollerColors {
+interface ScrollThumbColors {
     @Composable
     fun unHoverColor(): Color
 
@@ -100,16 +100,16 @@ interface ScrollerColors {
     fun hoverColor(): Color
 }
 
-fun scrollerColors(
+fun scrollThumbColors(
     unHoverColor: Color,
     hoverColor: Color
-): ScrollerColors = DefaultScrollerColors(unHoverColor, hoverColor)
+): ScrollThumbColors = DefaultScrollThumbColors(unHoverColor, hoverColor)
 
 @Immutable
-private data class DefaultScrollerColors(
+private data class DefaultScrollThumbColors(
     private val unHoverColor: Color,
     private val hoverColor: Color
-) : ScrollerColors {
+) : ScrollThumbColors {
     @Composable
     override fun unHoverColor(): Color = unHoverColor
 
@@ -117,6 +117,6 @@ private data class DefaultScrollerColors(
     override fun hoverColor(): Color = hoverColor
 }
 
-internal val LocalScrollerDefault = staticCompositionLocalOf<ScrollerDefaults> {
+internal val LocalScrollerDefault = staticCompositionLocalOf<ScrollThumbDefaults> {
     error("No ScrollerDefaults provided")
 }

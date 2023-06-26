@@ -9,7 +9,6 @@ import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.themes.intui.standalone.IntUiChipDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
-@Suppress("MagicNumber")
 object LightChipDefaults : IntUiChipDefaults() {
     @Composable
     override fun chipColors(): ChipColors {

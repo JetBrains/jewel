@@ -7,7 +7,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.TreeDefaults
 
-@Suppress("MagicNumber")
 abstract class IntUITreeDefaults : TreeDefaults {
 
     @Composable

@@ -11,7 +11,6 @@ import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.themes.intui.standalone.IntUiDropdownDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
-@Suppress("MagicNumber")
 object DarkDropdownDefaults : IntUiDropdownDefaults() {
 
     @Composable
