@@ -8,7 +8,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.ChipDefaults
 
-@Suppress("MagicNumber")
 abstract class IntUiChipDefaults : ChipDefaults {
 
     @Composable

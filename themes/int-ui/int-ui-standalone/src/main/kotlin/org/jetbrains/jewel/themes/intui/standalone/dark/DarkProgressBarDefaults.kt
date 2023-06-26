@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber")
-
 package org.jetbrains.jewel.themes.intui.standalone.dark
 
 import androidx.compose.runtime.Composable

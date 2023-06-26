@@ -10,7 +10,6 @@ import org.jetbrains.jewel.textAreaColors
 import org.jetbrains.jewel.themes.intui.standalone.IntUiTextAreaDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
-@Suppress("MagicNumber")
 object LightTextAreaDefaults : IntUiTextAreaDefaults() {
 
     @Composable

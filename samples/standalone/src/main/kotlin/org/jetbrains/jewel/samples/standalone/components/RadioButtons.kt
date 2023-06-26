@@ -1,7 +1,6 @@
 package org.jetbrains.jewel.samples.standalone.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,8 +13,7 @@ import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.RadioButtonRow
 
 @Composable
-@Suppress("MagicNumber")
-fun ColumnScope.RadioButtons() {
+fun RadioButtons() {
     GroupHeader("RadioButtons")
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),

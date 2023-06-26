@@ -10,7 +10,6 @@ import org.jetbrains.jewel.textFieldColors
 import org.jetbrains.jewel.themes.intui.standalone.IntUiTextFieldDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
-@Suppress("MagicNumber")
 object DarkTextFieldDefaults : IntUiTextFieldDefaults() {
 
     @Composable

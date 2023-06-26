@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber")
-
 package org.jetbrains.jewel.samples.standalone.components
 
 import androidx.compose.foundation.layout.Arrangement

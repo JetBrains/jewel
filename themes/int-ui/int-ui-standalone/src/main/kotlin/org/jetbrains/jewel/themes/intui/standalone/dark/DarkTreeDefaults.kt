@@ -7,7 +7,6 @@ import org.jetbrains.jewel.themes.intui.standalone.IntUITreeDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 import org.jetbrains.jewel.treeColors
 
-@Suppress("MagicNumber")
 object DarkTreeDefaults : IntUITreeDefaults() {
 
     @Composable

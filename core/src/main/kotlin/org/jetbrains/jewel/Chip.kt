@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 
-@Suppress("MagicNumber")
 @Composable
 fun BaseChip(
     modifier: Modifier = Modifier,

@@ -11,7 +11,7 @@ import org.jetbrains.jewel.LinkDefaults
 import org.jetbrains.jewel.MenuDefaults
 import org.jetbrains.jewel.ProgressBarDefaults
 import org.jetbrains.jewel.RadioButtonDefaults
-import org.jetbrains.jewel.ScrollerDefaults
+import org.jetbrains.jewel.ScrollThumbDefaults
 import org.jetbrains.jewel.TextAreaDefaults
 import org.jetbrains.jewel.TextFieldDefaults
 import org.jetbrains.jewel.TreeDefaults
@@ -41,7 +41,7 @@ object DarkTheme : IntUiTheme(DarkPalette) {
     override val contextMenuDefaults: MenuDefaults = DarkMenuDefaults
     override val treeDefaults: TreeDefaults = DarkTreeDefaults
     override val chipDefaults: ChipDefaults = DarkChipDefaults
-    override val scrollerDefaults: ScrollerDefaults = DarkScrollerDefaults
+    override val scrollThumbDefaults: ScrollThumbDefaults = DarkScrollThumbDefaults
     override val progressBarDefaults: ProgressBarDefaults = DarkProgressBarDefaults
 
     override val isLight: Boolean = false

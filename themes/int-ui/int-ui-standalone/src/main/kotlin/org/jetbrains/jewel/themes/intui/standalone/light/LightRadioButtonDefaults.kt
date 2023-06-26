@@ -9,7 +9,6 @@ import org.jetbrains.jewel.radioButtonColors
 import org.jetbrains.jewel.themes.intui.standalone.IntUiRadioButtonDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
-@Suppress("MagicNumber")
 object LightRadioButtonDefaults : IntUiRadioButtonDefaults() {
 
     @Composable

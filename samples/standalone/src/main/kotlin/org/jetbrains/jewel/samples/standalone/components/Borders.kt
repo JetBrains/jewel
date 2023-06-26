@@ -2,7 +2,6 @@ package org.jetbrains.jewel.samples.standalone.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -25,8 +24,7 @@ import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.themes.intui.standalone.IntUiTheme
 
 @Composable
-@Suppress("MagicNumber")
-fun ColumnScope.Borders() {
+fun Borders() {
     GroupHeader("Borders")
     var borderAlignment by remember { mutableStateOf(Stroke.Alignment.Center) }
     Row(

@@ -7,7 +7,6 @@ import org.jetbrains.jewel.labelledTextFieldColors
 import org.jetbrains.jewel.themes.intui.standalone.IntUiLabelledTextFieldDefaults
 import org.jetbrains.jewel.themes.intui.standalone.LocalIntUiPalette
 
-@Suppress("MagicNumber")
 object LightLabelledTextFieldDefaults : IntUiLabelledTextFieldDefaults() {
 
     @Composable

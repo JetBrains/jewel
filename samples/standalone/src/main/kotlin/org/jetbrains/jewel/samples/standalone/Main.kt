@@ -45,7 +45,6 @@ fun JetBrainsTheme(isDark: Boolean, content: @Composable () -> Unit) =
         content
     )
 
-@Suppress("MagicNumber")
 fun main() = singleWindowApplication(
     title = "TODO: sample app"
 ) {

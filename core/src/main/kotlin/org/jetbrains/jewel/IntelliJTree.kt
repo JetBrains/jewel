@@ -42,7 +42,6 @@ fun <T> IntelliJTree(
         selectionBackgroundColor = colors.elementBackgroundColor(isFocused = false, isSelected = true).value,
         focusedBackgroundColor = colors.elementBackgroundColor(isFocused = true, isSelected = false).value,
         arrowContent = { isOpen ->
-            @Suppress("MagicNumber")
             Box(Modifier.rotate(if (isOpen) 90f else 0f)) {
                 Icon(
                     painter = defaults.dropDownArrowIconPainter(),

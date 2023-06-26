@@ -38,7 +38,7 @@ interface IntelliJTheme {
 
     val chipDefaults: ChipDefaults
 
-    val scrollerDefaults: ScrollerDefaults
+    val scrollThumbDefaults: ScrollThumbDefaults
 
     val progressBarDefaults: ProgressBarDefaults
 
@@ -123,10 +123,10 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalTextStyle.current
 
-        val scrollerDefaults: ScrollerDefaults
+        val scrollThumbDefaults: ScrollThumbDefaults
             @Composable
             @ReadOnlyComposable
-            get() = LocalScrollerDefault.current
+            get() = LocalScrollThumbDefaults.current
 
         val progressBarDefaults: ProgressBarDefaults
             @Composable
@@ -156,7 +156,7 @@ fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
         LocalContextMenuDefaults provides theme.contextMenuDefaults,
         LocalTreeDefaults provides theme.treeDefaults,
         LocalChipDefaults provides theme.chipDefaults,
-        LocalScrollerDefault provides theme.scrollerDefaults,
+        LocalScrollThumbDefaults provides theme.scrollThumbDefaults,
         LocalProgressBarDefaults provides theme.progressBarDefaults,
         LocalTextStyle provides theme.defaultTextStyle,
         LocalTextColor provides theme.colors.foreground,

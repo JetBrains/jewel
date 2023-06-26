@@ -5,9 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.ScrollerDefaults
+import org.jetbrains.jewel.ScrollThumbDefaults
 
-abstract class IntUiScrollerDefaults : ScrollerDefaults {
+abstract class IntUiScrollThumbDefaults : ScrollThumbDefaults {
     @Composable
     override fun shape(): Shape = RoundedCornerShape(4.dp)
 

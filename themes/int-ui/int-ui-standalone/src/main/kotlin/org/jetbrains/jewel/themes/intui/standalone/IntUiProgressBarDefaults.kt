@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber")
-
 package org.jetbrains.jewel.themes.intui.standalone
 
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,7 +6,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.ProgressBarDefaults
 
-@Suppress("VariableNaming", "MagicNumbers")
+@Suppress("VariableNaming")
 abstract class IntUiProgressBarDefaults : ProgressBarDefaults {
 
     @Composable
