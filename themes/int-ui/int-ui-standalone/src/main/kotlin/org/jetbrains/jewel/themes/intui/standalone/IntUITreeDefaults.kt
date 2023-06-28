@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.TreeDefaults
 
 abstract class IntUITreeDefaults : TreeDefaults {
@@ -19,5 +20,5 @@ abstract class IntUITreeDefaults : TreeDefaults {
     override fun indentPadding(): Dp = 8.dp
 
     @Composable
-    override fun dropDownArrowIconPainter(): Painter = painterResource("intui/chevronRight.svg")
+    override fun dropDownArrowIconPainter(): Painter = painterResource("intui/chevronRight.svg", LocalResourceLoader.current)
 }
