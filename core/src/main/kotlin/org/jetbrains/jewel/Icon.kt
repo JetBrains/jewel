@@ -32,6 +32,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.xml.sax.InputSource
 import java.io.InputStream
+import java.util.jar.JarFile
 
 /**
  * Icon component that draws [imageVector] using [tint], defaulting to
@@ -93,7 +94,7 @@ fun Icon(
 @Composable
 fun Icon(
     resource: String,
-    resourceLoader: ResourceLoader = LocalThemedIconResourceLoader.current,
+    resourceLoader: ResourceLoader = LocalResourceLoader.current,
     contentDescription: String? = null,
     modifier: Modifier = Modifier,
     tint: Color = Color.Unspecified
@@ -201,7 +202,7 @@ private inline fun <T> useResource(
     block: (InputStream) -> T
 ): T = loader.load(resourcePath).use(block)
 
-val LocalThemedIconResourceLoader = staticCompositionLocalOf<ResourceLoader> {
+val LocalResourceLoader = staticCompositionLocalOf<ResourceLoader> {
     ResourceLoader.Default
 }
 
@@ -218,3 +219,35 @@ private fun Size.isInfinite() = width.isInfinite() && height.isInfinite()
 
 // Default icon size, for icons with no intrinsic size information
 private val DefaultIconSizeModifier = Modifier.size(16.dp)
+
+fun getJarPath(klass: Class<*>): String? {
+    val className = klass.name.replace('.', '/') + ".class"
+    val classPath = klass.classLoader.getResource(className)?.toString() ?: return null
+    if (!classPath.startsWith("jar")) {
+        // Class not from a JAR
+        return null
+    }
+    return classPath.substringBefore("!").removePrefix("jar:file:")
+}
+
+fun extractFileFromJar(jarPath: String, filePath: String) =
+    JarFile(jarPath).use { jar ->
+        jar.getEntry(filePath)?.let { entry ->
+            jar.getInputStream(entry).use { it.readBytes().inputStream() }
+        }
+    }
+
+inline fun <reified T> getJarPath(): String? = getJarPath(T::class.java)
+
+class RawJarResourceLoader(private val jars: List<String>) : ResourceLoader {
+
+    override fun load(resourcePath: String): InputStream =
+        jars.mapNotNull { jarPath ->
+            extractFileFromJar(jarPath, resourcePath)
+        }.firstOrNull() ?: error("Resource $resourcePath not found in jars $jars")
+}
+
+
+
+
+
