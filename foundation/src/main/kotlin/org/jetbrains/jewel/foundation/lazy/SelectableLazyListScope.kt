@@ -98,14 +98,14 @@ internal class SelectableLazyListScopeContainer(
                 awaitPointerEventScope {
                     while (true) {
                         awaitFirstDown(false)
-                        if (!isFocused)
+                        if (!isFocused) {
                             key.focusRequester
                                 .runCatching { requestFocus() }.onSuccess {
-                                    println("focus requested with success on single item-> ${state.keys.indexOf(key)}")
+                                    Log.d("focus requested with success on single item-> ${state.keys.indexOf(key)}")
                                 }.onFailure {
-                                    println("focus requested with failure on single item-> ${state.keys.indexOf(key)}")
+                                    Log.d("focus requested with failure on single item-> ${state.keys.indexOf(key)}")
                                 }
-                        Log.d("focus requested on single item-> ${state.keys.indexOf(key)}")
+                        }
                     }
                 }
             }

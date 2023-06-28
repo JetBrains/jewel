@@ -246,8 +246,3 @@ class RawJarResourceLoader(private val jars: List<String>) : ResourceLoader {
             extractFileFromJar(jarPath, resourcePath)
         }.firstOrNull() ?: error("Resource $resourcePath not found in jars $jars")
 }
-
-
-
-
-
