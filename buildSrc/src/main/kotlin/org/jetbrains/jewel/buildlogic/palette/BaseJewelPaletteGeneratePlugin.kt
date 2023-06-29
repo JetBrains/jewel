@@ -1,15 +1,14 @@
 package org.jetbrains.jewel.buildlogic.palette
 
+import java.io.File
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
-import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.property
-import java.io.File
 
 abstract class BaseJewelPaletteGeneratePlugin : Plugin<Project> {
 
