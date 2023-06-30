@@ -8,6 +8,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 
+@ExperimentalJewelApi
 interface IntelliJTheme {
 
     val colors: IntelliJColors
@@ -140,6 +141,7 @@ interface IntelliJTheme {
     }
 }
 
+@ExperimentalJewelApi
 @Composable
 fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
     CompositionLocalProvider(

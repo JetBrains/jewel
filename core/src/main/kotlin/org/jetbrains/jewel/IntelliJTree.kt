@@ -19,6 +19,7 @@ import org.jetbrains.jewel.foundation.tree.TreeState
 import org.jetbrains.jewel.foundation.tree.TreeView
 import org.jetbrains.jewel.foundation.tree.rememberTreeState
 
+@ExperimentalJewelApi
 @Composable
 fun <T> IntelliJTree(
     modifier: Modifier = Modifier,
