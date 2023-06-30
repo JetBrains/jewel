@@ -42,6 +42,10 @@ data class IntUiLazyTreeStyle(
 
 @Immutable
 data class IntUiLazyTreeColors(
+    override val elementForeground: Color,
+    override val elementForegroundFocused: Color,
+    override val elementForegroundSelected: Color,
+    override val elementForegroundSelectedFocused: Color,
     override val elementBackgroundFocused: Color,
     override val elementBackgroundSelected: Color,
     override val elementBackgroundSelectedFocused: Color,
@@ -55,6 +59,10 @@ data class IntUiLazyTreeColors(
 
         @Composable
         fun light(
+            elementForeground: Color = IntUiLightTheme.colors.grey(1),
+            elementForegroundFocused: Color = elementForeground,
+            elementForegroundSelected: Color = elementForeground,
+            elementForegroundSelectedFocused: Color = elementForeground,
             nodeBackgroundFocused: Color = Color.Unspecified,
             nodeBackgroundSelected: Color = IntUiLightTheme.colors.grey(11),
             nodeBackgroundSelectedFocused: Color = IntUiLightTheme.colors.blue(11),
@@ -63,6 +71,10 @@ data class IntUiLazyTreeColors(
             chevronTintFocused: Color = chevronTint,
             chevronTintSelectedFocused: Color = chevronTint,
         ) = IntUiLazyTreeColors(
+            elementForeground,
+            elementForegroundFocused,
+            elementForegroundSelected,
+            elementForegroundSelectedFocused,
             nodeBackgroundFocused,
             nodeBackgroundSelected,
             nodeBackgroundSelectedFocused,
@@ -74,6 +86,10 @@ data class IntUiLazyTreeColors(
 
         @Composable
         fun dark(
+            elementForeground: Color = IntUiDarkTheme.colors.grey(12),
+            elementForegroundFocused: Color = elementForeground,
+            elementForegroundSelected: Color = elementForeground,
+            elementForegroundSelectedFocused: Color = elementForeground,
             nodeBackgroundFocused: Color = Color.Unspecified,
             nodeBackgroundSelected: Color = IntUiDarkTheme.colors.grey(4),
             nodeBackgroundSelectedFocused: Color = IntUiDarkTheme.colors.blue(2),
@@ -82,6 +98,10 @@ data class IntUiLazyTreeColors(
             chevronTintFocused: Color = chevronTint,
             chevronTintSelectedFocused: Color = chevronTint,
         ) = IntUiLazyTreeColors(
+            elementForeground,
+            elementForegroundFocused,
+            elementForegroundSelected,
+            elementForegroundSelectedFocused,
             nodeBackgroundFocused,
             nodeBackgroundSelected,
             nodeBackgroundSelectedFocused,

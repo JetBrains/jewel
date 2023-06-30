@@ -1,8 +1,10 @@
 package org.jetbrains.jewel.samples.standalone.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -80,6 +82,10 @@ fun TreeSample(modifier: Modifier = Modifier) {
         tree = tree,
         resourceLoader = resourceLoader
     ) { element ->
-        Text(element.data, modifier.padding(2.dp))
+        Box(
+            Modifier.defaultMinSize(100.dp)
+        ) {
+            Text(element.data, modifier.padding(2.dp))
+        }
     }
 }

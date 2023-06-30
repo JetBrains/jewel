@@ -28,10 +28,25 @@ interface LazyTreeColors {
     val elementBackgroundSelected: Color
     val elementBackgroundSelectedFocused: Color
 
+    val elementForeground: Color
+    val elementForegroundFocused: Color
+    val elementForegroundSelected: Color
+    val elementForegroundSelectedFocused: Color
+
     val chevronTint: Color
     val chevronTintSelected: Color
     val chevronTintFocused: Color
     val chevronTintSelectedFocused: Color
+
+    @Composable
+    fun elementForegroundFor(state: TreeElementState) = rememberUpdatedState(
+        when {
+            state.isSelected && state.isFocused -> elementForegroundSelectedFocused
+            state.isFocused -> elementForegroundFocused
+            state.isSelected -> elementForegroundSelected
+            else -> elementForeground
+        }
+    )
 
     @Composable
     fun chevronTintFor(state: TreeElementState) = rememberUpdatedState(
@@ -46,6 +61,7 @@ interface LazyTreeColors {
 
 @Stable
 interface LazyTreeMetrics {
+
     val indentSize: Dp
     val elementBackgroundCornerSize: CornerSize
     val elementPadding: PaddingValues
