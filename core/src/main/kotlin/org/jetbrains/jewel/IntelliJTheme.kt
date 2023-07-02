@@ -13,6 +13,8 @@ interface IntelliJTheme {
 
     val colors: IntelliJColors
 
+    val iconColors: IntelliJIconColors
+
     val buttonDefaults: ButtonDefaults
 
     val checkboxDefaults: CheckboxDefaults
@@ -119,6 +121,11 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalIntelliJColors.current
 
+        val iconColors: IntelliJIconColors
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalIntelliJIconColors.current
+
         val defaultTextStyle: TextStyle
             @Composable
             @ReadOnlyComposable
@@ -146,6 +153,7 @@ interface IntelliJTheme {
 fun IntelliJTheme(theme: IntelliJTheme, content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalIntelliJColors provides theme.colors,
+        LocalIntelliJIconColors provides theme.iconColors,
         LocalButtonDefaults provides theme.buttonDefaults,
         LocalCheckboxDefaults provides theme.checkboxDefaults,
         LocalGroupHeaderDefaults provides theme.groupHeaderDefaults,

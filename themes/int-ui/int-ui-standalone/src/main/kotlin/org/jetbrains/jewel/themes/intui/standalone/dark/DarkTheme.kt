@@ -6,6 +6,7 @@ import org.jetbrains.jewel.ChipDefaults
 import org.jetbrains.jewel.DropdownDefaults
 import org.jetbrains.jewel.GroupHeaderDefaults
 import org.jetbrains.jewel.IntelliJColors
+import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.LabelledTextFieldDefaults
 import org.jetbrains.jewel.LinkDefaults
 import org.jetbrains.jewel.MenuDefaults
@@ -27,6 +28,12 @@ object DarkTheme : IntUiTheme(DarkPalette) {
         disabledForeground = palette.grey(5),
         disabledBackground = palette.grey(1),
         disabledBorderColor = palette.grey(3)
+    )
+
+    override val iconColors: IntelliJIconColors = IntelliJIconColors(
+        generalStroke = palette.grey(11),
+        generalFill = palette.grey(4),
+        blueSolid = palette.blue(8),
     )
 
     override val buttonDefaults: ButtonDefaults = DarkButtonDefaults
