@@ -35,4 +35,5 @@ include(
     ":themes:int-ui:int-ui-standalone",
     //":themes:int-ui:int-ui-ide",
     //":themes:int-ui:int-ui-desktop",
+    ":icons"
 )
