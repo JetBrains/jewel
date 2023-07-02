@@ -15,15 +15,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
-import assets.JetnewsAssets
-import assets.jetnewsassets.Actions
-import assets.jetnewsassets.actions.BuildChanges
-import assets.jetnewsassets.actions.Buildautoreloadchanges
-import assets.jetnewsassets.actions.BuildautoreloadchangesDark
-import assets.jetnewsassets.actions.Filterdups
-import assets.jetnewsassets.actions.Newfolder
-import assets.jetnewsassets.actions.Togglevisibility
 import org.jetbrains.jewel.IntelliJTheme
+import org.jetbrains.jewel.icons.allicons.Actions
+import org.jetbrains.jewel.icons.allicons.actions.BuildChanges
+import org.jetbrains.jewel.icons.allicons.actions.Filterdups
+import org.jetbrains.jewel.icons.allicons.actions.Newfolder
+import org.jetbrains.jewel.icons.allicons.actions.Togglevisibility
 import org.jetbrains.jewel.themes.intui.standalone.dark.DarkTheme
 import org.jetbrains.jewel.themes.intui.standalone.light.LightTheme
 
@@ -64,17 +61,17 @@ fun TestView() {
             modifier = Modifier.size(64.dp)
         )
         Icon(
-            imageVector = JetnewsAssets.Actions.Filterdups,
+            imageVector = AllIcons.Actions.Filterdups,
             contentDescription = null,
             modifier = Modifier.size(64.dp)
         )
         Image(
-            imageVector = JetnewsAssets.Actions.Newfolder,
+            imageVector = AllIcons.Actions.Newfolder,
             contentDescription = null,
             modifier = Modifier.size(64.dp)
         )
         Image(
-            imageVector = JetnewsAssets.Actions.Togglevisibility,
+            imageVector = AllIcons.Actions.Togglevisibility,
             contentDescription = null,
             modifier = Modifier.size(64.dp)
         )
