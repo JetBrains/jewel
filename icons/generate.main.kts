@@ -13,10 +13,12 @@ val assetsDir = File("assets")
 val srcDir = File("src/main/kotlin")
 
 Svg2Compose.parse(
-    applicationIconPackage = "assets",
-    accessorName = "JetnewsAssets",
+    applicationIconPackage = "org.jetbrains.jewel.icons",
+    accessorName = "AllIcons",
     outputSourceDirectory = srcDir,
     vectorsDirectory = assetsDir,
+    iconNameTransformer = { name, group ->
+        name.removePrefix(group)
+    },
     type = VectorType.SVG,
-    allAssetsPropertyName = "AllAssets"
 )
