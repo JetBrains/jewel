@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.run
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -44,8 +43,9 @@ private fun ForceStepOverComposable(colorScheme: IntelliJIconColors): ImageVecto
         arcTo(0.5f, 0.5f, 0.0f, false, true, 2.5f, 13.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(13.4804f, 4.7282f)
         curveTo(13.7565f, 4.7271f, 13.9813f, 4.95f, 13.9824f, 5.2262f)
         lineTo(13.9996f, 9.4688f)

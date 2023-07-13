@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.gutter
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _suggestedRefactoring: IntellijIconData? = null
 private fun SuggestedRefactoringComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "SuggestedRefactoring", defaultWidth = 14.0.dp, defaultHeight = 14.0.dp,
         viewportWidth = 14.0f, viewportHeight = 14.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(4.0f, 14.0f)
         verticalLineTo(11.0f)
         lineTo(10.7031f, 4.2969f)

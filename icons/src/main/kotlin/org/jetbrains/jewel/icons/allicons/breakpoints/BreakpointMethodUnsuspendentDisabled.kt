@@ -30,7 +30,7 @@ private var _breakpointMethodUnsuspendentDisabled: IntellijIconData? = null
 private fun BreakpointMethodUnsuspendentDisabledComposable(colorScheme: IntelliJIconColors):
         ImageVector = Builder(name = "BreakpointMethodUnsuspendentDisabled", defaultWidth = 14.0.dp,
         defaultHeight = 14.0.dp, viewportWidth = 14.0f, viewportHeight = 14.0f).apply {
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFFFFAF0F)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.yellowSolid),
             strokeLineWidth = 1.5f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(6.8231f, 1.2374f)

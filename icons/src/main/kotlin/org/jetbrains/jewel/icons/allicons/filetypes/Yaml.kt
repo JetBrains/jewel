@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.filetypes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,7 +28,7 @@ private var _yaml: IntellijIconData? = null
 private fun YamlComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Yaml",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFF7F7)), stroke = SolidColor(Color(0xFFDB3B4B)),
+    path(fill = SolidColor(colorScheme.redFill), stroke = SolidColor(colorScheme.redStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(4.0f, 2.5f)
@@ -43,8 +42,9 @@ private fun YamlComposable(colorScheme: IntelliJIconColors): ImageVector = Build
         arcTo(1.5f, 1.5f, 0.0f, false, true, 4.0f, 2.5f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.5934f, 11.5f)
         horizontalLineTo(7.4494f)
         verticalLineTo(8.845f)

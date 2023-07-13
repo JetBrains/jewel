@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.actions
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -49,8 +48,9 @@ private fun ShowWriteAccessComposable(colorScheme: IntelliJIconColors): ImageVec
         lineTo(5.8535f, 11.3536f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.8569f, 6.2358f)
         lineTo(10.5656f, 3.2522f)
         curveTo(10.7577f, 2.9168f, 11.2412f, 2.9168f, 11.4333f, 3.2522f)

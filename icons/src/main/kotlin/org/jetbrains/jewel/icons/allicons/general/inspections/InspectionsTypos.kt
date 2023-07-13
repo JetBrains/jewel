@@ -30,7 +30,7 @@ private var _inspectionsTypos: IntellijIconData? = null
 private fun InspectionsTyposComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name
         = "InspectionsTypos", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth =
         16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF55A76A)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.greenSolid),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin =
             StrokeJoin.Companion.Round, strokeLineMiter = 4.0f, pathFillType = NonZero) {
         moveTo(2.5f, 14.5001f)
@@ -40,7 +40,7 @@ private fun InspectionsTyposComposable(colorScheme: IntelliJIconColors): ImageVe
         lineTo(11.0f, 14.5001f)
         lineTo(13.0f, 12.5001f)
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF55A76A)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.greenSolid),
             strokeLineWidth = 2.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(3.0f, 7.0f)

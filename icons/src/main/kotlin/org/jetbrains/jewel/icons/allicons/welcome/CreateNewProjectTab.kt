@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.welcome
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _createNewProjectTab: IntellijIconData? = null
 private fun CreateNewProjectTabComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "CreateNewProjectTab", defaultWidth = 20.0.dp, defaultHeight = 20.0.dp,
         viewportWidth = 20.0f, viewportHeight = 20.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(10.0f, 1.0f)
         curveTo(9.5858f, 1.0f, 9.25f, 1.3358f, 9.25f, 1.75f)
         verticalLineTo(9.25f)

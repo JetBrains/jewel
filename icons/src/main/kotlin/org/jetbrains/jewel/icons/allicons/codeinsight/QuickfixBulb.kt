@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.codeinsight
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -49,8 +48,9 @@ private fun QuickfixBulbComposable(colorScheme: IntelliJIconColors): ImageVector
         curveTo(6.4477f, 15.0f, 6.0f, 14.5523f, 6.0f, 14.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(10.8704f, 9.1475f)
         curveTo(12.0417f, 8.2722f, 12.8f, 6.8747f, 12.8f, 5.3f)
         curveTo(12.8f, 2.649f, 10.6509f, 0.5f, 7.9999f, 0.5f)

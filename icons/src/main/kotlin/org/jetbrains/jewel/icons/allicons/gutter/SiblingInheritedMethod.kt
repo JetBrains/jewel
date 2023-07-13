@@ -33,7 +33,7 @@ private fun SiblingInheritedMethodComposable(colorScheme: IntelliJIconColors): I
         Builder(name = "SiblingInheritedMethod", defaultWidth = 14.0.dp, defaultHeight = 14.0.dp,
         viewportWidth = 14.0f, viewportHeight = 14.0f).apply {
     group {
-        path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.greenFill), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 NonZero) {
             moveTo(10.0f, 7.0f)
@@ -43,7 +43,7 @@ private fun SiblingInheritedMethodComposable(colorScheme: IntelliJIconColors): I
             curveTo(7.9853f, 2.5f, 10.0f, 4.5147f, 10.0f, 7.0f)
             close()
         }
-        path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF208A3C)),
+        path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.greenStroke),
                 strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                 strokeLineMiter = 4.0f, pathFillType = NonZero) {
             moveTo(5.5f, 4.0f)
@@ -72,7 +72,7 @@ private fun SiblingInheritedMethodComposable(colorScheme: IntelliJIconColors): I
             curveTo(11.0f, 7.7239f, 11.2239f, 7.5f, 11.5f, 7.5f)
             close()
         }
-        path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 EvenOdd) {
             moveTo(11.5f, 6.5f)
@@ -91,7 +91,7 @@ private fun SiblingInheritedMethodComposable(colorScheme: IntelliJIconColors): I
             curveTo(12.0f, 6.2761f, 11.7761f, 6.5f, 11.5f, 6.5f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 NonZero) {
             moveTo(8.4393f, 3.5607f)

@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.nodes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,7 +28,7 @@ private var _module8x8: IntellijIconData? = null
 private fun Module8x8Composable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Module8x8", defaultWidth = 8.0.dp, defaultHeight = 8.0.dp, viewportWidth = 8.0f,
         viewportHeight = 8.0f).apply {
-    path(fill = SolidColor(Color(0xFFE7EFFD)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(colorScheme.blueFill), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(2.0f, 0.5f)

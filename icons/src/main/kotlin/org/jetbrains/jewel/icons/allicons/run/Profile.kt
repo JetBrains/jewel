@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.run
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -30,8 +29,9 @@ private var _profile: IntellijIconData? = null
 private fun ProfileComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Profile", defaultWidth = 17.0.dp, defaultHeight = 16.0.dp, viewportWidth = 17.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(9.0f, 9.5021f)
         curveTo(9.0f, 8.3244f, 10.2951f, 7.6061f, 11.2942f, 8.2297f)
         lineTo(15.2962f, 10.7275f)
@@ -49,8 +49,9 @@ private fun ProfileComposable(colorScheme: IntelliJIconColors): ImageVector = Bu
         lineTo(10.7647f, 9.078f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.0f, 9.5022f)
         curveTo(10.0f, 9.1096f, 10.4317f, 8.8701f, 10.7647f, 9.078f)
         lineTo(14.7667f, 11.5758f)

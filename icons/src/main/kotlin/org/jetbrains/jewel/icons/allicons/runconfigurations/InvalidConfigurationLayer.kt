@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.runconfigurations
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -30,8 +29,9 @@ private var _invalidConfigurationLayer: IntellijIconData? = null
 private fun InvalidConfigurationLayerComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "InvalidConfigurationLayer", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp,
         viewportWidth = 16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(10.1464f, 0.1464f)
         curveTo(10.3417f, -0.0488f, 10.6583f, -0.0488f, 10.8536f, 0.1464f)
         lineTo(13.0f, 2.2929f)

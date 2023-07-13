@@ -44,8 +44,9 @@ private fun RecursiveMethodComposable(colorScheme: IntelliJIconColors): ImageVec
         curveTo(3.9624f, 12.4003f, 1.5f, 9.9379f, 1.5f, 6.9003f)
         curveTo(1.5f, 4.7629f, 2.7192f, 2.9104f, 4.5f, 2.0f)
     }
-    path(fill = SolidColor(Color(0xFF55A76A)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(7.0f, 7.0f)
         moveToRelative(-2.0f, 0.0f)
         arcToRelative(2.0f, 2.0f, 0.0f, true, true, 4.0f, 0.0f)

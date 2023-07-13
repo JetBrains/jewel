@@ -29,8 +29,9 @@ private var _javaScript: IntellijIconData? = null
 private fun JavaScriptComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "JavaScript", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(14.0f, 4.0f)
         curveTo(14.0f, 2.8954f, 13.1046f, 2.0f, 12.0f, 2.0f)
         horizontalLineTo(4.0f)

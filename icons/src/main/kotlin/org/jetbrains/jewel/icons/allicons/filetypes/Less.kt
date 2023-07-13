@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.filetypes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _less: IntellijIconData? = null
 private fun LessComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Less",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(3.9876f, 9.7775f)
         curveTo(3.9976f, 9.3925f, 3.87f, 9.085f, 3.6051f, 8.855f)
         curveTo(3.34f, 8.625f, 2.9825f, 8.51f, 2.5326f, 8.51f)
@@ -65,8 +65,9 @@ private fun LessComposable(colorScheme: IntelliJIconColors): ImageVector = Build
         lineTo(3.9876f, 9.7775f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(12.0145f, 9.7775f)
         curveTo(12.0045f, 9.3925f, 12.132f, 9.085f, 12.397f, 8.855f)
         curveTo(12.662f, 8.625f, 13.0195f, 8.51f, 13.4695f, 8.51f)

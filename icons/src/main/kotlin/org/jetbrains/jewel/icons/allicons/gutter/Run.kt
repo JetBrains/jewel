@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.gutter
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,7 +28,7 @@ private var _run: IntellijIconData? = null
 private fun RunComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Run",
         defaultWidth = 14.0.dp, defaultHeight = 14.0.dp, viewportWidth = 14.0f, viewportHeight =
         14.0f).apply {
-    path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = SolidColor(Color(0xFF208A3C)),
+    path(fill = SolidColor(colorScheme.greenFill), stroke = SolidColor(colorScheme.greenStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(12.0f, 6.134f)

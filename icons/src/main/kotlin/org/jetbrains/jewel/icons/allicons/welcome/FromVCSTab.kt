@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.welcome
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _fromVCSTab: IntellijIconData? = null
 private fun FromVCSTabComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "FromVCSTab", defaultWidth = 20.0.dp, defaultHeight = 20.0.dp, viewportWidth = 20.0f,
         viewportHeight = 20.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.5f, 4.5f)
         curveTo(7.5f, 5.6046f, 6.6046f, 6.5f, 5.5f, 6.5f)
         curveTo(4.3954f, 6.5f, 3.5f, 5.6046f, 3.5f, 4.5f)

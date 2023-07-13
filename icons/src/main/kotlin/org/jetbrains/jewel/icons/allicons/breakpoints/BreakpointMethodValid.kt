@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.breakpoints
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -46,8 +45,9 @@ private fun BreakpointMethodValidComposable(colorScheme: IntelliJIconColors): Im
         curveTo(13.2128f, -0.0586f, 13.5927f, -0.0586f, 13.827f, 0.1757f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(6.4721f, 3.524f)
         curveTo(5.8472f, 2.8991f, 5.8472f, 1.8861f, 6.4721f, 1.2612f)
         curveTo(6.8359f, 0.8974f, 7.3314f, 0.7454f, 7.8052f, 0.8053f)

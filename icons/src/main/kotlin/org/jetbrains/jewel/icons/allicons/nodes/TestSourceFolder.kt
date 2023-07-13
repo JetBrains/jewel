@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.nodes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -30,8 +29,9 @@ private var _testSourceFolder: IntellijIconData? = null
 private fun TestSourceFolderComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name
         = "TestSourceFolder", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth =
         16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFF55A76A)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.greenSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(15.3798f, 12.7117f)
         curveTo(15.5435f, 12.8691f, 15.5436f, 13.131f, 15.3799f, 13.2884f)
         lineTo(12.6774f, 15.8876f)
@@ -41,8 +41,9 @@ private fun TestSourceFolderComposable(colorScheme: IntelliJIconColors): ImageVe
         lineTo(15.3798f, 12.7117f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.6226f, 13.2883f)
         curveTo(7.4591f, 13.1309f, 7.4592f, 12.8692f, 7.6227f, 12.7119f)
         lineTo(10.3216f, 10.1163f)

@@ -30,8 +30,9 @@ private var _failedInProgress: IntellijIconData? = null
 private fun FailedInProgressComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name
         = "FailedInProgress", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth =
         16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(3.0363f, 4.1284f)
         curveTo(3.3907f, 4.3428f, 3.5043f, 4.8039f, 3.2899f, 5.1583f)
         curveTo(2.7887f, 5.9871f, 2.5f, 6.9587f, 2.5f, 8.0f)
@@ -69,8 +70,9 @@ private fun FailedInProgressComposable(colorScheme: IntelliJIconColors): ImageVe
         curveTo(12.4931f, 4.8005f, 12.6063f, 4.3393f, 12.9606f, 4.1247f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.9998f, 2.5f)
         curveTo(6.9589f, 2.5f, 5.9877f, 2.7884f, 5.1591f, 3.2893f)
         curveTo(4.8046f, 3.5036f, 4.3436f, 3.3899f, 4.1293f, 3.0355f)
@@ -82,8 +84,9 @@ private fun FailedInProgressComposable(colorScheme: IntelliJIconColors): ImageVe
         curveTo(10.0092f, 2.7876f, 9.0392f, 2.5f, 7.9998f, 2.5f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.9001f, 4.5f)
         curveTo(8.9001f, 4.003f, 8.4972f, 3.6f, 8.0001f, 3.6f)
         curveTo(7.503f, 3.6f, 7.1001f, 4.003f, 7.1001f, 4.5f)
@@ -93,8 +96,9 @@ private fun FailedInProgressComposable(colorScheme: IntelliJIconColors): ImageVe
         lineTo(8.9001f, 4.5f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.0004f, 12.2f)
         curveTo(8.6079f, 12.2f, 9.1004f, 11.7075f, 9.1004f, 11.1f)
         curveTo(9.1004f, 10.4925f, 8.6079f, 10.0f, 8.0004f, 10.0f)

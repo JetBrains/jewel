@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.general.inspections
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -30,8 +29,9 @@ private var _inspectionsMixed: IntellijIconData? = null
 private fun InspectionsMixedComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name
         = "InspectionsMixed", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth =
         16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(11.3684f, 2.1776f)
         curveTo(10.9857f, 1.4968f, 10.0058f, 1.4968f, 9.623f, 2.1776f)
         lineTo(7.92f, 5.206f)
@@ -53,7 +53,7 @@ private fun InspectionsMixedComposable(colorScheme: IntelliJIconColors): ImageVe
         curveTo(9.9951f, 3.5492f, 10.2192f, 3.325f, 10.4957f, 3.325f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = SolidColor(Color(0xFFE55765)),
+    path(fill = SolidColor(colorScheme.redSolid), stroke = SolidColor(colorScheme.redSolid),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(3.0f, 10.0f)

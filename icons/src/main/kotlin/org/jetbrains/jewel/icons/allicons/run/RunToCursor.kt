@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.run
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -68,8 +67,9 @@ private fun RunToCursorComposable(colorScheme: IntelliJIconColors): ImageVector 
         curveTo(0.9512f, 2.6583f, 0.9512f, 2.3417f, 1.1465f, 2.1465f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(13.5f, 14.0f)
         lineTo(14.5f, 14.0f)
         arcTo(0.5f, 0.5f, 0.0f, false, true, 15.0f, 14.5f)
@@ -81,8 +81,9 @@ private fun RunToCursorComposable(colorScheme: IntelliJIconColors): ImageVector 
         arcTo(0.5f, 0.5f, 0.0f, false, true, 13.5f, 14.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.5f, 14.0f)
         lineTo(11.5f, 14.0f)
         arcTo(0.5f, 0.5f, 0.0f, false, true, 12.0f, 14.5f)
@@ -94,8 +95,9 @@ private fun RunToCursorComposable(colorScheme: IntelliJIconColors): ImageVector 
         arcTo(0.5f, 0.5f, 0.0f, false, true, 10.5f, 14.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(13.5f, 7.0f)
         lineTo(14.5f, 7.0f)
         arcTo(0.5f, 0.5f, 0.0f, false, true, 15.0f, 7.5f)
@@ -107,8 +109,9 @@ private fun RunToCursorComposable(colorScheme: IntelliJIconColors): ImageVector 
         arcTo(0.5f, 0.5f, 0.0f, false, true, 13.5f, 7.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.5f, 7.0f)
         lineTo(11.5f, 7.0f)
         arcTo(0.5f, 0.5f, 0.0f, false, true, 12.0f, 7.5f)
@@ -120,8 +123,9 @@ private fun RunToCursorComposable(colorScheme: IntelliJIconColors): ImageVector 
         arcTo(0.5f, 0.5f, 0.0f, false, true, 10.5f, 7.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(12.0f, 8.5f)
         curveTo(12.0f, 8.2239f, 12.2239f, 8.0f, 12.5f, 8.0f)
         curveTo(12.7761f, 8.0f, 13.0f, 8.2239f, 13.0f, 8.5f)

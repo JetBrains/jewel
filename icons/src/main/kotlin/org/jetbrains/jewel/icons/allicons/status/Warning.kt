@@ -30,8 +30,9 @@ private var _warning: IntellijIconData? = null
 private fun WarningComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Warning", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(7.134f, 1.5f)
         curveTo(7.5189f, 0.8333f, 8.4811f, 0.8333f, 8.866f, 1.5f)
         lineTo(14.9282f, 12.0f)

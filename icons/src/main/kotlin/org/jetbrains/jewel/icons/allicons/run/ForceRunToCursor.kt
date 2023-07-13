@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.run
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -98,8 +97,9 @@ private fun ForceRunToCursorComposable(colorScheme: IntelliJIconColors): ImageVe
         verticalLineTo(8.5f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(3.1465f, 2.1465f)
         curveTo(3.3417f, 1.9512f, 3.6583f, 1.9512f, 3.8535f, 2.1465f)
         lineTo(7.0f, 5.2929f)

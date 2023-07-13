@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.run
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -32,7 +31,7 @@ private fun RunWithCoverageComposable(colorScheme: IntelliJIconColors): ImageVec
         "RunWithCoverage", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
     group {
-        path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 EvenOdd) {
             moveTo(9.0f, 9.5021f)
@@ -52,7 +51,7 @@ private fun RunWithCoverageComposable(colorScheme: IntelliJIconColors): ImageVec
             lineTo(10.7647f, 9.078f)
             close()
         }
-        path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.greenFill), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 NonZero) {
             moveTo(10.0f, 9.5021f)

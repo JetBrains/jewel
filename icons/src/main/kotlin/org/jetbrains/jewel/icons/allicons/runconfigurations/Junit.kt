@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.runconfigurations
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Round
@@ -29,7 +28,7 @@ private var _junit: IntellijIconData? = null
 private fun JunitComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Junit",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFF7F7)), stroke = SolidColor(Color(0xFFDB3B4B)),
+    path(fill = SolidColor(colorScheme.redFill), stroke = SolidColor(colorScheme.redStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = EvenOdd) {
         moveTo(1.3852f, 8.4191f)
@@ -41,7 +40,7 @@ private fun JunitComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         lineTo(1.3852f, 8.4191f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = SolidColor(Color(0xFF208A3C)),
+    path(fill = SolidColor(colorScheme.greenFill), stroke = SolidColor(colorScheme.greenStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = EvenOdd) {
         moveTo(14.6284f, 7.5946f)

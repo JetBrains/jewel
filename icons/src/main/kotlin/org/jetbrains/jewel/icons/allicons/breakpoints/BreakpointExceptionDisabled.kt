@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.breakpoints
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -30,8 +29,9 @@ private var _breakpointExceptionDisabled: IntellijIconData? = null
 private fun BreakpointExceptionDisabledComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "BreakpointExceptionDisabled", defaultWidth = 14.0.dp, defaultHeight =
         14.0.dp, viewportWidth = 14.0f, viewportHeight = 14.0f).apply {
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.0156f, 7.979f)
         curveTo(7.253f, 8.2542f, 7.3589f, 8.6191f, 7.3057f, 8.9787f)
         lineTo(7.016f, 10.9341f)

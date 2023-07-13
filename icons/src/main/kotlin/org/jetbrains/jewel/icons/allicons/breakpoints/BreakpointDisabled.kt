@@ -29,7 +29,7 @@ private var _breakpointDisabled: IntellijIconData? = null
 private fun BreakpointDisabledComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "BreakpointDisabled", defaultWidth = 14.0.dp, defaultHeight = 14.0.dp,
         viewportWidth = 14.0f, viewportHeight = 14.0f).apply {
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFFE55765)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.redSolid),
             strokeLineWidth = 1.5f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(13.25f, 7.0f)

@@ -30,13 +30,13 @@ private var _inlayRenameInCommentsActive: IntellijIconData? = null
 private fun InlayRenameInCommentsActiveComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "InlayRenameInCommentsActive", defaultWidth = 12.0.dp, defaultHeight =
         12.0.dp, viewportWidth = 12.0f, viewportHeight = 12.0f).apply {
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.5f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(10.3999f, 2.0f)
         lineTo(5.3999f, 10.0f)
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.5f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(6.6001f, 2.0f)

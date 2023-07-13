@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.codeinsight
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -30,8 +29,9 @@ private var _inlayRenameInNoCodeFilesActive: IntellijIconData? = null
 private fun InlayRenameInNoCodeFilesActiveComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "InlayRenameInNoCodeFilesActive", defaultWidth = 12.0.dp, defaultHeight =
         12.0.dp, viewportWidth = 12.0f, viewportHeight = 12.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(1.75f, 5.0f)
         lineTo(10.25f, 5.0f)
         arcTo(0.75f, 0.75f, 0.0f, false, true, 11.0f, 5.75f)
@@ -43,8 +43,9 @@ private fun InlayRenameInNoCodeFilesActiveComposable(colorScheme: IntelliJIconCo
         arcTo(0.75f, 0.75f, 0.0f, false, true, 1.75f, 5.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(1.75f, 9.0f)
         lineTo(6.25f, 9.0f)
         arcTo(0.75f, 0.75f, 0.0f, false, true, 7.0f, 9.75f)
@@ -56,8 +57,9 @@ private fun InlayRenameInNoCodeFilesActiveComposable(colorScheme: IntelliJIconCo
         arcTo(0.75f, 0.75f, 0.0f, false, true, 1.75f, 9.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(1.75f, 1.0f)
         lineTo(10.25f, 1.0f)
         arcTo(0.75f, 0.75f, 0.0f, false, true, 11.0f, 1.75f)

@@ -33,7 +33,7 @@ private fun TestPassedIgnoredComposable(colorScheme: IntelliJIconColors): ImageV
         = "TestPassedIgnored", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth =
         16.0f, viewportHeight = 16.0f).apply {
     group {
-        path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF55A76A)),
+        path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.greenSolid),
                 strokeLineWidth = 2.2f, strokeLineCap = Round, strokeLineJoin = Miter,
                 strokeLineMiter = 4.0f, pathFillType = NonZero) {
             moveTo(2.5f, 7.25f)

@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.breakpoints
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -46,8 +45,9 @@ private fun BreakpointFieldUnsuspendentValidComposable(colorScheme: IntelliJIcon
         curveTo(13.2128f, -0.0586f, 13.5927f, -0.0586f, 13.827f, 0.1757f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(6.0374f, 2.0638f)
         curveTo(3.1001f, 2.4548f, 0.6773f, 4.5873f, 0.0f, 7.0f)
         curveTo(0.75f, 9.6717f, 3.6406f, 12.0f, 7.0f, 12.0f)
@@ -63,8 +63,9 @@ private fun BreakpointFieldUnsuspendentValidComposable(colorScheme: IntelliJIcon
         curveTo(6.0755f, 3.1274f, 5.9307f, 2.5746f, 6.0374f, 2.0638f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(9.0f, 6.9999f)
         curveTo(9.0f, 8.1045f, 8.1046f, 8.9999f, 7.0f, 8.9999f)
         curveTo(5.8954f, 8.9999f, 5.0f, 8.1045f, 5.0f, 6.9999f)

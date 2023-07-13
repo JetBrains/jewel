@@ -29,7 +29,7 @@ private var _parameter: IntellijIconData? = null
 private fun ParameterComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Parameter", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFF4EB)), stroke = SolidColor(Color(0xFFE66D17)),
+    path(fill = SolidColor(colorScheme.orangeFill), stroke = SolidColor(Color(0xFFE66D17)),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(8.0f, 8.0f)

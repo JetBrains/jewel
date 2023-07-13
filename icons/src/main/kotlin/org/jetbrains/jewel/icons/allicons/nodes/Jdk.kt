@@ -78,7 +78,7 @@ private fun JdkComposable(colorScheme: IntelliJIconColors): ImageVector = Builde
         lineTo(7.8026f, 4.7167f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFE7EFFD)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(colorScheme.blueFill), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(6.5f, 10.0f)
@@ -91,7 +91,7 @@ private fun JdkComposable(colorScheme: IntelliJIconColors): ImageVector = Builde
         verticalLineTo(10.0f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(13.0f, 9.5f)

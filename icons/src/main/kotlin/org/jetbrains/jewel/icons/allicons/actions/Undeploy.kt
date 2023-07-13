@@ -29,7 +29,7 @@ private var _undeploy: IntellijIconData? = null
 private fun UndeployComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Undeploy", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFFDB3B4B)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.redStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(14.0f, 8.0f)
@@ -47,7 +47,7 @@ private fun UndeployComposable(colorScheme: IntelliJIconColors): ImageVector = B
         moveTo(11.0f, 14.0f)
         lineTo(8.0f, 11.0f)
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFFDB3B4B)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.redStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(4.6758f, 5.0f)

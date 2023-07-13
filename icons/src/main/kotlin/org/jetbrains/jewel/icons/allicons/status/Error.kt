@@ -30,8 +30,9 @@ private var _error: IntellijIconData? = null
 private fun ErrorComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Error",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.0f, 8.0f)
         moveToRelative(-7.0f, 0.0f)
         arcToRelative(7.0f, 7.0f, 0.0f, true, true, 14.0f, 0.0f)

@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.javaee
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -97,7 +96,7 @@ private fun PersistenceEntityComposable(colorScheme: IntelliJIconColors): ImageV
             curveTo(3.8252f, 2.7604f, 3.484f, 2.9595f, 3.2675f, 3.1552f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 EvenOdd) {
             moveTo(10.0f, 9.0f)

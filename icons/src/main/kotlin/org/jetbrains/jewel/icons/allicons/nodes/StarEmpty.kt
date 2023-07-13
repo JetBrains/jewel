@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.nodes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _starEmpty: IntellijIconData? = null
 private fun StarEmptyComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "StarEmpty", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.9998f, 2.073f)
         curveTo(8.2018f, 2.073f, 8.3839f, 2.1945f, 8.4615f, 2.381f)
         lineTo(9.9312f, 5.9147f)

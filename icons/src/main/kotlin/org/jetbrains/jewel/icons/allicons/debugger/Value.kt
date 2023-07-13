@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.debugger
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,7 +28,7 @@ private var _value: IntellijIconData? = null
 private fun ValueComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Value",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFFAEB)), stroke = SolidColor(Color(0xFFC27D04)),
+    path(fill = SolidColor(colorScheme.yellowFill), stroke = SolidColor(colorScheme.yellowStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(3.5f, 14.0f)
@@ -43,7 +42,7 @@ private fun ValueComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         curveTo(3.7239f, 14.5f, 3.5f, 14.2761f, 3.5f, 14.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFFFFAEB)), stroke = SolidColor(Color(0xFFC27D04)),
+    path(fill = SolidColor(colorScheme.yellowFill), stroke = SolidColor(colorScheme.yellowStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(3.5f, 9.0f)
@@ -57,7 +56,7 @@ private fun ValueComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         curveTo(3.7239f, 9.5f, 3.5f, 9.2761f, 3.5f, 9.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFFFFAEB)), stroke = SolidColor(Color(0xFFC27D04)),
+    path(fill = SolidColor(colorScheme.yellowFill), stroke = SolidColor(colorScheme.yellowStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(3.5f, 4.0f)

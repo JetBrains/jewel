@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.filetypes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _freemaker: IntellijIconData? = null
 private fun FreemakerComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Freemaker", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(11.4235f, 6.753f)
         curveTo(11.4235f, 6.4401f, 11.1699f, 6.1865f, 10.857f, 6.1865f)
         horizontalLineTo(10.3455f)

@@ -30,8 +30,9 @@ private var _errorDialog: IntellijIconData? = null
 private fun ErrorDialogComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "ErrorDialog", defaultWidth = 28.0.dp, defaultHeight = 28.0.dp, viewportWidth = 28.0f,
         viewportHeight = 28.0f).apply {
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(14.0f, 14.0f)
         moveToRelative(-12.5f, 0.0f)
         arcToRelative(12.5f, 12.5f, 0.0f, true, true, 25.0f, 0.0f)

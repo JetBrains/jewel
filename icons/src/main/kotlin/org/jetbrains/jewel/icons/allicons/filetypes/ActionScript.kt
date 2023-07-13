@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.filetypes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _actionScript: IntellijIconData? = null
 private fun ActionScriptComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "ActionScript", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(2.5408f, 13.0f)
         lineTo(4.4608f, 2.5f)
         horizontalLineTo(6.2758f)
@@ -49,8 +49,9 @@ private fun ActionScriptComposable(colorScheme: IntelliJIconColors): ImageVector
         horizontalLineTo(3.6508f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.943f, 13.18f)
         curveTo(10.398f, 13.18f, 9.9455f, 13.065f, 9.5855f, 12.835f)
         curveTo(9.2255f, 12.605f, 8.9555f, 12.2575f, 8.7755f, 11.7925f)

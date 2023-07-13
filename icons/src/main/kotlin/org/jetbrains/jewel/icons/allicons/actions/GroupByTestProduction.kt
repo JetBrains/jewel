@@ -52,8 +52,9 @@ private fun GroupByTestProductionComposable(colorScheme: IntelliJIconColors): Im
         curveTo(14.5f, 2.9477f, 14.0523f, 2.5f, 13.5f, 2.5f)
         horizontalLineTo(12.5f)
     }
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(6.1352f, 11.8473f)
         lineTo(3.261f, 8.6849f)
         curveTo(2.9128f, 8.3018f, 2.913f, 7.7143f, 3.2615f, 7.3315f)
@@ -63,8 +64,9 @@ private fun GroupByTestProductionComposable(colorScheme: IntelliJIconColors): Im
         curveTo(7.0f, 11.9662f, 6.4418f, 12.1846f, 6.1352f, 11.8473f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF55A76A)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.greenSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(9.8648f, 4.1749f)
         lineTo(12.739f, 7.3373f)
         curveTo(13.0872f, 7.7204f, 13.087f, 8.3079f, 12.7384f, 8.6907f)

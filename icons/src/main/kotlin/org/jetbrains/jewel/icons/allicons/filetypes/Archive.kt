@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.filetypes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,7 +28,7 @@ private var _archive: IntellijIconData? = null
 private fun ArchiveComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Archive", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFE7EFFD)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(colorScheme.blueFill), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(4.0f, 2.5f)
@@ -43,8 +42,9 @@ private fun ArchiveComposable(colorScheme: IntelliJIconColors): ImageVector = Bu
         arcTo(1.5f, 1.5f, 0.0f, false, true, 4.0f, 2.5f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(6.5f, 4.0f)
         lineTo(7.5f, 4.0f)
         arcTo(0.5f, 0.5f, 0.0f, false, true, 8.0f, 4.5f)
@@ -56,8 +56,9 @@ private fun ArchiveComposable(colorScheme: IntelliJIconColors): ImageVector = Bu
         arcTo(0.5f, 0.5f, 0.0f, false, true, 6.5f, 4.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(6.5f, 8.0f)
         lineTo(7.5f, 8.0f)
         arcTo(0.5f, 0.5f, 0.0f, false, true, 8.0f, 8.5f)
@@ -69,8 +70,9 @@ private fun ArchiveComposable(colorScheme: IntelliJIconColors): ImageVector = Bu
         arcTo(0.5f, 0.5f, 0.0f, false, true, 6.5f, 8.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.5f, 10.0f)
         lineTo(9.5f, 10.0f)
         arcTo(0.5f, 0.5f, 0.0f, false, true, 10.0f, 10.5f)
@@ -82,8 +84,9 @@ private fun ArchiveComposable(colorScheme: IntelliJIconColors): ImageVector = Bu
         arcTo(0.5f, 0.5f, 0.0f, false, true, 8.5f, 10.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.5f, 6.0f)
         lineTo(9.5f, 6.0f)
         arcTo(0.5f, 0.5f, 0.0f, false, true, 10.0f, 6.5f)

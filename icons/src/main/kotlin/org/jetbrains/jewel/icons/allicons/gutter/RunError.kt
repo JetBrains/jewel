@@ -31,8 +31,9 @@ private var _runError: IntellijIconData? = null
 private fun RunErrorComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "RunError", defaultWidth = 14.0.dp, defaultHeight = 14.0.dp, viewportWidth = 14.0f,
         viewportHeight = 14.0f).apply {
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.9681f, 6.0957f)
         curveTo(10.9892f, 5.9f, 11.0f, 5.7013f, 11.0f, 5.5f)
         curveTo(11.0f, 2.4624f, 8.5376f, 0.0f, 5.5f, 0.0f)
@@ -59,8 +60,9 @@ private fun RunErrorComposable(colorScheme: IntelliJIconColors): ImageVector = B
         curveTo(5.9142f, 7.5f, 6.25f, 7.8358f, 6.25f, 8.25f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.0f, 7.5022f)
         curveTo(7.0f, 6.3244f, 8.2951f, 5.6061f, 9.2942f, 6.2297f)
         lineTo(13.2962f, 8.7275f)
@@ -78,8 +80,9 @@ private fun RunErrorComposable(colorScheme: IntelliJIconColors): ImageVector = B
         lineTo(8.7647f, 7.078f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.0f, 7.5022f)
         curveTo(8.0f, 7.1096f, 8.4317f, 6.8702f, 8.7647f, 7.078f)
         lineTo(12.7667f, 9.5758f)

@@ -29,7 +29,7 @@ private var _image: IntellijIconData? = null
 private fun ImageComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Image",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFFE7EFFD)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(colorScheme.blueFill), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(4.0f, 2.5f)
@@ -43,7 +43,7 @@ private fun ImageComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         arcTo(1.5f, 1.5f, 0.0f, false, true, 4.0f, 2.5f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(2.5f, 9.3357f)
@@ -51,7 +51,7 @@ private fun ImageComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         curveTo(4.5605f, 7.2941f, 5.1663f, 7.2816f, 5.5598f, 7.6404f)
         lineTo(11.9861f, 13.5f)
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(10.0f, 6.0f)

@@ -73,7 +73,7 @@ private fun ChangesComposable(colorScheme: IntelliJIconColors): ImageVector = Bu
         arcTo(0.5f, 0.5f, 0.0f, false, true, 2.5f, 2.0f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin =
             StrokeJoin.Companion.Round, strokeLineMiter = 4.0f, pathFillType = NonZero) {
         moveTo(8.5f, 14.5f)

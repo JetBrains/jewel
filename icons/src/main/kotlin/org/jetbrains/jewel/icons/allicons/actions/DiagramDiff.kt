@@ -32,7 +32,7 @@ private var _diagramDiff: IntellijIconData? = null
 private fun DiagramDiffComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "DiagramDiff", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin =
             StrokeJoin.Companion.Round, strokeLineMiter = 4.0f, pathFillType = NonZero) {
         moveTo(8.5f, 15.5f)

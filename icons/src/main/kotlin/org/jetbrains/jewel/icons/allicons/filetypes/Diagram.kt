@@ -43,8 +43,9 @@ private fun DiagramComposable(colorScheme: IntelliJIconColors): ImageVector = Bu
         moveTo(1.5f, 2.5f)
         horizontalLineTo(14.5f)
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(2.1465f, 6.3535f)
         curveTo(1.9512f, 6.5488f, 1.9512f, 6.8654f, 2.1465f, 7.0607f)
         curveTo(2.3417f, 7.2559f, 2.6583f, 7.2559f, 2.8535f, 7.0607f)
@@ -63,8 +64,9 @@ private fun DiagramComposable(colorScheme: IntelliJIconColors): ImageVector = Bu
         lineTo(2.1465f, 6.3535f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(9.1465f, 6.3535f)
         curveTo(8.9512f, 6.5488f, 8.9512f, 6.8654f, 9.1465f, 7.0607f)
         curveTo(9.3417f, 7.2559f, 9.6583f, 7.2559f, 9.8535f, 7.0607f)

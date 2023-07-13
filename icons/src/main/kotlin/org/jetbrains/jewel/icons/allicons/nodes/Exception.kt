@@ -30,7 +30,7 @@ private var _exception: IntellijIconData? = null
 private fun ExceptionComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Exception", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFE7EFFD)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(colorScheme.blueFill), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(8.0f, 8.0f)
@@ -38,7 +38,7 @@ private fun ExceptionComposable(colorScheme: IntelliJIconColors): ImageVector = 
         arcToRelative(6.5f, 6.5f, 0.0f, true, true, 13.0f, 0.0f)
         arcToRelative(6.5f, 6.5f, 0.0f, true, true, -13.0f, 0.0f)
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(9.0f, 4.5f)

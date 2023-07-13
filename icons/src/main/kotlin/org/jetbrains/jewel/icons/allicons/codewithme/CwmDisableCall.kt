@@ -48,7 +48,7 @@ private fun CwmDisableCallComposable(colorScheme: IntelliJIconColors): ImageVect
         curveTo(13.4132f, 10.2013f, 13.5064f, 10.465f, 13.4997f, 10.7357f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFFDB3B4B)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.redStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(15.5f, 0.5f)

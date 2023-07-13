@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.gutter
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -30,8 +29,9 @@ private var _overridingMethod: IntellijIconData? = null
 private fun OverridingMethodComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name
         = "OverridingMethod", defaultWidth = 14.0.dp, defaultHeight = 14.0.dp, viewportWidth =
         14.0f, viewportHeight = 14.0f).apply {
-    path(fill = SolidColor(Color(0xFFEDF3FF)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.0f, 7.0f)
         curveTo(10.0f, 9.4853f, 7.9853f, 11.5f, 5.5f, 11.5f)
         curveTo(3.0147f, 11.5f, 1.0f, 9.4853f, 1.0f, 7.0f)
@@ -39,8 +39,9 @@ private fun OverridingMethodComposable(colorScheme: IntelliJIconColors): ImageVe
         curveTo(7.9853f, 2.5f, 10.0f, 4.5147f, 10.0f, 7.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(5.4918f, 10.0f)
         curveTo(3.7295f, 10.0f, 2.5f, 8.6492f, 2.5f, 7.0166f)
         verticalLineTo(7.0f)
@@ -58,8 +59,9 @@ private fun OverridingMethodComposable(colorScheme: IntelliJIconColors): ImageVe
         curveTo(3.5574f, 8.1271f, 4.3689f, 9.0553f, 5.5082f, 9.0553f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(11.5f, 8.0f)
         curveTo(11.2239f, 8.0f, 11.0f, 7.7761f, 11.0f, 7.5f)
         lineTo(11.0f, 1.7071f)
@@ -76,8 +78,9 @@ private fun OverridingMethodComposable(colorScheme: IntelliJIconColors): ImageVe
         curveTo(12.0f, 7.7761f, 11.7761f, 8.0f, 11.5f, 8.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.0f, 7.0f)
         curveTo(10.0f, 9.4853f, 7.9853f, 11.5f, 5.5f, 11.5f)
         curveTo(3.0147f, 11.5f, 1.0f, 9.4853f, 1.0f, 7.0f)

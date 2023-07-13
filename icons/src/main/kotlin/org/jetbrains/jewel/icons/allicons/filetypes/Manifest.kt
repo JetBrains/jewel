@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.filetypes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,7 +28,7 @@ private var _manifest: IntellijIconData? = null
 private fun ManifestComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Manifest", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFAF5FF)), stroke = SolidColor(Color(0xFF834DF0)),
+    path(fill = SolidColor(colorScheme.purpleFill), stroke = SolidColor(colorScheme.purpleStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(4.0f, 2.5f)
@@ -43,8 +42,9 @@ private fun ManifestComposable(colorScheme: IntelliJIconColors): ImageVector = B
         arcTo(1.5f, 1.5f, 0.0f, false, true, 4.0f, 2.5f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF834DF0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.purpleStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(5.6449f, 11.0f)
         horizontalLineTo(4.5469f)
         verticalLineTo(4.7f)

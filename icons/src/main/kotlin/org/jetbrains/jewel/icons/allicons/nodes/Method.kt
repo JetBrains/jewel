@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.nodes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,7 +28,7 @@ private var _method: IntellijIconData? = null
 private fun MethodComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Method", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFF7F7)), stroke = SolidColor(Color(0xFFDB3B4B)),
+    path(fill = SolidColor(colorScheme.redFill), stroke = SolidColor(colorScheme.redStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(8.0f, 8.0f)
@@ -37,8 +36,9 @@ private fun MethodComposable(colorScheme: IntelliJIconColors): ImageVector = Bui
         arcToRelative(6.5f, 6.5f, 0.0f, true, true, 13.0f, 0.0f)
         arcToRelative(6.5f, 6.5f, 0.0f, true, true, -13.0f, 0.0f)
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.0657f, 5.2457f)
         curveTo(9.2536f, 5.2457f, 8.636f, 5.6473f, 8.2959f, 6.3154f)
         curveTo(8.0037f, 5.6426f, 7.4055f, 5.2457f, 6.6071f, 5.2457f)

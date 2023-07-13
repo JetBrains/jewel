@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.vcs
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _changesUpdate_12x12: IntellijIconData? = null
 private fun ChangesUpdate_12x12Composable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "ChangesUpdate_12x12", defaultWidth = 12.0.dp, defaultHeight = 12.0.dp,
         viewportWidth = 12.0f, viewportHeight = 12.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(9.2305f, 2.6309f)
         curveTo(8.9281f, 2.3285f, 8.5055f, 2.3368f, 8.1782f, 2.6641f)
         lineTo(4.7642f, 6.0781f)

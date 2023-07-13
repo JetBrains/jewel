@@ -30,8 +30,9 @@ private var _currentBranchLabel: IntellijIconData? = null
 private fun CurrentBranchLabelComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "CurrentBranchLabel", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp,
         viewportWidth = 16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.7071f, 2.2929f)
         lineTo(1.295f, 8.705f)
         curveTo(0.9044f, 9.0955f, 0.9044f, 9.7287f, 1.295f, 10.1192f)
@@ -52,7 +53,7 @@ private fun CurrentBranchLabelComposable(colorScheme: IntelliJIconColors): Image
         lineTo(2.0021f, 9.4121f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFFFFAF0F)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.yellowSolid),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(10.0f, 6.0f)

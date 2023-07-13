@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.runconfigurations
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _junitTestMark: IntellijIconData? = null
 private fun JunitTestMarkComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "JunitTestMark", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFF55A76A)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.greenSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(15.3798f, 2.7117f)
         curveTo(15.5435f, 2.8691f, 15.5436f, 3.131f, 15.3799f, 3.2884f)
         lineTo(12.6774f, 5.8876f)
@@ -40,8 +40,9 @@ private fun JunitTestMarkComposable(colorScheme: IntelliJIconColors): ImageVecto
         lineTo(15.3798f, 2.7117f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.6226f, 3.2883f)
         curveTo(7.4591f, 3.1309f, 7.4592f, 2.8692f, 7.6227f, 2.7119f)
         lineTo(10.3216f, 0.1163f)

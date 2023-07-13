@@ -30,8 +30,9 @@ private var _excludedGenerated: IntellijIconData? = null
 private fun ExcludedGeneratedComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name
         = "ExcludedGenerated", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth =
         16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFF4EB)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.orangeFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(1.0f, 3.8667f)
         curveTo(1.0f, 2.8357f, 1.7835f, 2.0f, 2.75f, 2.0f)
         horizontalLineTo(6.0382f)

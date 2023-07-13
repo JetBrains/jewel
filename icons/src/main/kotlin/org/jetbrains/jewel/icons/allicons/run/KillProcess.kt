@@ -30,7 +30,7 @@ private var _killProcess: IntellijIconData? = null
 private fun KillProcessComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "KillProcess", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFFDB3B4B)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.redStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(11.087f, 1.5f)
@@ -44,8 +44,9 @@ private fun KillProcessComposable(colorScheme: IntelliJIconColors): ImageVector 
         lineTo(11.087f, 1.5f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(5.1717f, 5.1716f)
         curveTo(4.9764f, 5.3668f, 4.9764f, 5.6834f, 5.1717f, 5.8787f)
         lineTo(7.293f, 8.0f)

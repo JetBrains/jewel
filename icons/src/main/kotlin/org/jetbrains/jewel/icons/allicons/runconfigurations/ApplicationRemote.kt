@@ -31,8 +31,9 @@ private var _applicationRemote: IntellijIconData? = null
 private fun ApplicationRemoteComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name
         = "ApplicationRemote", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth =
         16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(11.0f, 10.5f)
         curveTo(11.0f, 10.2239f, 11.2239f, 10.0f, 11.5f, 10.0f)
         horizontalLineTo(15.5f)

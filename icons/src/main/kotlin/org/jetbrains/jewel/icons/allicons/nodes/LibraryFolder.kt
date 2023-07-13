@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.nodes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -80,8 +79,9 @@ private fun LibraryFolderComposable(colorScheme: IntelliJIconColors): ImageVecto
         curveTo(14.0f, 5.4477f, 13.5523f, 5.0f, 13.0f, 5.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFEDF3FF)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(11.0f, 9.0f)
         horizontalLineTo(12.0f)
         verticalLineTo(14.0f)
@@ -89,8 +89,9 @@ private fun LibraryFolderComposable(colorScheme: IntelliJIconColors): ImageVecto
         verticalLineTo(9.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFEDF3FF)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(9.0f, 10.0f)
         horizontalLineTo(10.0f)
         verticalLineTo(14.0f)
@@ -98,8 +99,9 @@ private fun LibraryFolderComposable(colorScheme: IntelliJIconColors): ImageVecto
         verticalLineTo(10.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFEDF3FF)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(14.0f, 11.0f)
         horizontalLineTo(13.0f)
         verticalLineTo(14.0f)
@@ -107,8 +109,9 @@ private fun LibraryFolderComposable(colorScheme: IntelliJIconColors): ImageVecto
         verticalLineTo(11.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(10.0f, 9.0f)
         curveTo(10.0f, 8.4477f, 10.4477f, 8.0f, 11.0f, 8.0f)
         horizontalLineTo(12.0f)

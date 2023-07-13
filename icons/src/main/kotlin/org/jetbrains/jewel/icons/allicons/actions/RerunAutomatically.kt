@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.actions
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -30,8 +29,9 @@ private var _rerunAutomatically: IntellijIconData? = null
 private fun RerunAutomaticallyComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "RerunAutomatically", defaultWidth = 17.0.dp, defaultHeight = 16.0.dp,
         viewportWidth = 17.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(9.0f, 9.5021f)
         curveTo(9.0f, 8.3244f, 10.2951f, 7.6061f, 11.2942f, 8.2297f)
         lineTo(15.2962f, 10.7275f)
@@ -49,8 +49,9 @@ private fun RerunAutomaticallyComposable(colorScheme: IntelliJIconColors): Image
         lineTo(10.7647f, 9.078f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.0f, 9.5023f)
         curveTo(10.0f, 9.1097f, 10.4317f, 8.8702f, 10.7647f, 9.0781f)
         lineTo(14.7667f, 11.5759f)

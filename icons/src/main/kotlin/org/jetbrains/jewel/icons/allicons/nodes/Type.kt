@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.nodes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -30,8 +29,9 @@ private var _type: IntellijIconData? = null
 private fun TypeComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Type",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFFE7EFFD)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(1.0f, 8.0f)
         curveTo(1.0f, 4.134f, 4.134f, 1.0f, 8.0f, 1.0f)
         verticalLineTo(1.0f)
@@ -43,8 +43,9 @@ private fun TypeComposable(colorScheme: IntelliJIconColors): ImageVector = Build
         verticalLineTo(8.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(2.0f, 8.0f)
         curveTo(2.0f, 11.3137f, 4.6863f, 14.0f, 8.0f, 14.0f)
         curveTo(11.3137f, 14.0f, 14.0f, 11.3137f, 14.0f, 8.0f)
@@ -58,8 +59,9 @@ private fun TypeComposable(colorScheme: IntelliJIconColors): ImageVector = Build
         curveTo(15.0f, 4.134f, 11.866f, 1.0f, 8.0f, 1.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.5f, 6.0f)
         horizontalLineTo(5.0f)
         verticalLineTo(5.0f)

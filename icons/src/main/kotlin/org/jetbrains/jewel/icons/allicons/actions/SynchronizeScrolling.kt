@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.actions
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _synchronizeScrolling: IntellijIconData? = null
 private fun SynchronizeScrollingComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "SynchronizeScrolling", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp,
         viewportWidth = 16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.5f, 8.0f)
         curveTo(8.7761f, 8.0f, 9.0f, 8.2239f, 9.0f, 8.5f)
         verticalLineTo(9.326f)
@@ -56,8 +56,9 @@ private fun SynchronizeScrollingComposable(colorScheme: IntelliJIconColors): Ima
         curveTo(8.0f, 8.2239f, 8.2239f, 8.0f, 8.5f, 8.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.4649f, 12.005f)
         curveTo(8.7383f, 11.9659f, 8.9916f, 12.1558f, 9.0307f, 12.4292f)
         curveTo(9.1245f, 13.0851f, 9.4308f, 13.6732f, 9.8789f, 14.1213f)

@@ -29,21 +29,22 @@ private var _systemThemeSelected: IntellijIconData? = null
 private fun SystemThemeSelectedComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "SystemThemeSelected", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp,
         viewportWidth = 16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFEDF3FF)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(1.5f, 8.0f)
         curveTo(1.5f, 11.5899f, 4.4102f, 14.5f, 8.0f, 14.5f)
         verticalLineTo(1.5f)
         curveTo(4.4102f, 1.5f, 1.5f, 4.4102f, 1.5f, 8.0f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(8.0f, 2.0f)
         verticalLineTo(14.0f)
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(8.0f, 8.0f)

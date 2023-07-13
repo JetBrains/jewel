@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.nodes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _testIgnored: IntellijIconData? = null
 private fun TestIgnoredComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "TestIgnored", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFF7F7)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(14.9621f, 8.7327f)
         curveTo(14.9872f, 8.4919f, 15.0f, 8.2474f, 15.0f, 8.0f)
         curveTo(15.0f, 4.134f, 11.866f, 1.0f, 8.0f, 1.0f)
@@ -42,8 +42,9 @@ private fun TestIgnoredComposable(colorScheme: IntelliJIconColors): ImageVector 
         curveTo(13.4088f, 8.0f, 14.2547f, 8.2694f, 14.9621f, 8.7327f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(8.2542f, 13.9947f)
         curveTo(8.1699f, 13.9982f, 8.0852f, 14.0f, 8.0f, 14.0f)
         curveTo(4.6863f, 14.0f, 2.0f, 11.3137f, 2.0f, 8.0f)
@@ -59,8 +60,9 @@ private fun TestIgnoredComposable(colorScheme: IntelliJIconColors): ImageVector 
         curveTo(8.5365f, 14.6626f, 8.3751f, 14.3382f, 8.2542f, 13.9947f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(8.4321f, 10.5733f)
         curveTo(8.1885f, 10.5074f, 8.0202f, 10.2924f, 8.0202f, 10.0214f)
         verticalLineTo(6.8188f)
@@ -79,8 +81,9 @@ private fun TestIgnoredComposable(colorScheme: IntelliJIconColors): ImageVector 
         curveTo(8.1925f, 11.155f, 8.298f, 10.856f, 8.4321f, 10.5733f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(11.1542f, 14.6073f)
         curveTo(11.5427f, 14.8559f, 12.0045f, 15.0f, 12.5f, 15.0f)
         curveTo(13.8807f, 15.0f, 15.0f, 13.8807f, 15.0f, 12.5f)

@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.ide
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _feedbackRatingOn: IntellijIconData? = null
 private fun FeedbackRatingOnComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name
         = "FeedbackRatingOn", defaultWidth = 32.0.dp, defaultHeight = 32.0.dp, viewportWidth =
         32.0f, viewportHeight = 32.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(16.0005f, 3.0f)
         lineTo(19.439f, 11.2673f)
         lineTo(28.3642f, 11.9828f)

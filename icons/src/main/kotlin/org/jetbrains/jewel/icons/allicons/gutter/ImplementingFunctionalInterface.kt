@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.gutter
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -33,7 +32,7 @@ private fun ImplementingFunctionalInterfaceComposable(colorScheme: IntelliJIconC
         = Builder(name = "ImplementingFunctionalInterface", defaultWidth = 14.0.dp, defaultHeight =
         14.0.dp, viewportWidth = 14.0f, viewportHeight = 14.0f).apply {
     group {
-        path(fill = SolidColor(Color(0xFFFFF7F7)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.redFill), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 NonZero) {
             moveTo(10.0f, 7.0f)
@@ -43,7 +42,7 @@ private fun ImplementingFunctionalInterfaceComposable(colorScheme: IntelliJIconC
             curveTo(7.9853f, 2.5f, 10.0f, 4.5147f, 10.0f, 7.0f)
             close()
         }
-        path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 NonZero) {
             moveTo(7.463f, 10.08f)
@@ -85,7 +84,7 @@ private fun ImplementingFunctionalInterfaceComposable(colorScheme: IntelliJIconC
             curveTo(7.6044f, 10.0747f, 7.5324f, 10.08f, 7.463f, 10.08f)
             close()
         }
-        path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 EvenOdd) {
             moveTo(11.5f, 8.0f)
@@ -104,7 +103,7 @@ private fun ImplementingFunctionalInterfaceComposable(colorScheme: IntelliJIconC
             curveTo(12.0f, 7.7761f, 11.7761f, 8.0f, 11.5f, 8.0f)
             close()
         }
-        path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 NonZero) {
             moveTo(10.0f, 7.0f)

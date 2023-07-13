@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.welcome
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,7 +28,7 @@ private var _open: IntellijIconData? = null
 private fun OpenComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Open",
         defaultWidth = 20.0.dp, defaultHeight = 20.0.dp, viewportWidth = 20.0f, viewportHeight =
         20.0f).apply {
-    path(fill = SolidColor(Color(0xFFEDF3FF)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(colorScheme.blueFill), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.5f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(10.5199f, 5.5762f)

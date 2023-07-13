@@ -42,7 +42,7 @@ private fun FeedbackRatingFocusedOnComposable(colorScheme: IntelliJIconColors): 
             curveTo(24.8366f, 0.0f, 32.0f, 7.1634f, 32.0f, 16.0f)
             close()
         }
-        path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 NonZero) {
             moveTo(16.0005f, 3.0f)

@@ -43,7 +43,7 @@ private fun ShowCurrentFrameComposable(colorScheme: IntelliJIconColors): ImageVe
         arcTo(0.5f, 0.5f, 0.0f, false, true, 2.5f, 3.0f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(3.0f, 6.5f)

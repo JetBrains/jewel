@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.profiler
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -30,8 +29,9 @@ private var _rec: IntellijIconData? = null
 private fun RecComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Rec",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.0f, 11.0f)
         curveTo(9.6568f, 11.0f, 11.0f, 9.6568f, 11.0f, 8.0f)
         curveTo(11.0f, 6.3432f, 9.6568f, 5.0f, 8.0f, 5.0f)
@@ -39,8 +39,9 @@ private fun RecComposable(colorScheme: IntelliJIconColors): ImageVector = Builde
         curveTo(5.0f, 9.6568f, 6.3432f, 11.0f, 8.0f, 11.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFE55765)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(15.0f, 8.0f)
         curveTo(15.0f, 11.866f, 11.866f, 15.0f, 8.0f, 15.0f)
         curveTo(4.134f, 15.0f, 1.0f, 11.866f, 1.0f, 8.0f)

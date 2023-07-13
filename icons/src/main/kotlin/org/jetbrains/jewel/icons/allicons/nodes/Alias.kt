@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.nodes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _alias: IntellijIconData? = null
 private fun AliasComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Alias",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFFE7EFFD)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(2.0f, 12.4984f)
         verticalLineTo(3.5016f)
         curveTo(2.0f, 3.0686f, 2.5111f, 2.8398f, 2.8326f, 3.1289f)
@@ -40,8 +40,9 @@ private fun AliasComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         curveTo(2.5111f, 13.1602f, 2.0f, 12.9314f, 2.0f, 12.4984f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFE7EFFD)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(9.0f, 12.4984f)
         verticalLineTo(3.5016f)
         curveTo(9.0f, 3.0686f, 9.5112f, 2.8398f, 9.8326f, 3.1289f)
@@ -51,8 +52,9 @@ private fun AliasComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         curveTo(9.5112f, 13.1602f, 9.0f, 12.9314f, 9.0f, 12.4984f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(2.9985f, 11.3769f)
         lineTo(6.7531f, 8.0f)
         lineTo(2.9985f, 4.6231f)
@@ -67,8 +69,9 @@ private fun AliasComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         curveTo(2.5111f, 13.1602f, 2.0f, 12.9314f, 2.0f, 12.4984f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(9.9985f, 11.3769f)
         lineTo(13.7531f, 8.0f)
         lineTo(9.9985f, 4.6231f)

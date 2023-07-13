@@ -42,7 +42,7 @@ private fun JavaComposable(colorScheme: IntelliJIconColors): ImageVector = Build
         arcTo(0.5f, 0.5f, 0.0f, false, true, 2.5f, 13.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFFFF4EB)), stroke = SolidColor(Color(0xFFE66D17)),
+    path(fill = SolidColor(colorScheme.orangeFill), stroke = SolidColor(Color(0xFFE66D17)),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(2.5f, 3.6f)

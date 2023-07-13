@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.filetypes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,8 +28,9 @@ private var _xhtml: IntellijIconData? = null
 private fun XhtmlComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Xhtml",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(6.3681f, 4.9736f)
         curveTo(6.6297f, 4.7702f, 6.6768f, 4.3932f, 6.4734f, 4.1316f)
         curveTo(6.2699f, 3.8701f, 5.893f, 3.8229f, 5.6314f, 4.0264f)
@@ -42,8 +42,9 @@ private fun XhtmlComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         lineTo(6.3681f, 4.9736f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(9.6314f, 4.9736f)
         curveTo(9.3698f, 4.7702f, 9.3227f, 4.3932f, 9.5261f, 4.1316f)
         curveTo(9.7296f, 3.8701f, 10.1066f, 3.8229f, 10.3681f, 4.0264f)

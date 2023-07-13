@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.gutter
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -80,15 +79,17 @@ private fun DataSchemaComposable(colorScheme: IntelliJIconColors): ImageVector =
         horizontalLineTo(13.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFEDF3FF)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.0f, 10.0f)
         moveToRelative(-2.0f, 0.0f)
         arcToRelative(2.0f, 2.0f, 0.0f, true, true, 4.0f, 0.0f)
         arcToRelative(2.0f, 2.0f, 0.0f, true, true, -4.0f, 0.0f)
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(11.7383f, 12.4454f)
         curveTo(11.2479f, 12.7946f, 10.6479f, 13.0f, 10.0f, 13.0f)
         curveTo(8.3432f, 13.0f, 7.0f, 11.6569f, 7.0f, 10.0f)

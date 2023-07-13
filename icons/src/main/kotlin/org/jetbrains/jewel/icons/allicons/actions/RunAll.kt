@@ -31,8 +31,9 @@ private var _runAll: IntellijIconData? = null
 private fun RunAllComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "RunAll", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(9.3556f, 7.2593f)
         curveTo(9.8164f, 7.6581f, 9.8164f, 8.3728f, 9.3556f, 8.7716f)
         lineTo(4.1568f, 13.2709f)
@@ -42,8 +43,9 @@ private fun RunAllComposable(colorScheme: IntelliJIconColors): ImageVector = Bui
         lineTo(9.3556f, 7.2593f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(9.6828f, 6.8812f)
         curveTo(10.374f, 7.4794f, 10.374f, 8.5514f, 9.6828f, 9.1496f)
         lineTo(4.484f, 13.649f)
@@ -61,7 +63,7 @@ private fun RunAllComposable(colorScheme: IntelliJIconColors): ImageVector = Bui
         lineTo(9.0284f, 8.3935f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF208A3C)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.greenStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(7.8576f, 2.5f)

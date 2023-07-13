@@ -30,7 +30,7 @@ private var _unloadedModule: IntellijIconData? = null
 private fun UnloadedModuleComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "UnloadedModule", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFEDF3FF)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(colorScheme.blueFill), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(11.0f, 9.5f)
@@ -44,8 +44,9 @@ private fun UnloadedModuleComposable(colorScheme: IntelliJIconColors): ImageVect
         arcTo(1.5f, 1.5f, 0.0f, false, true, 11.0f, 9.5f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFFFF4EB)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.orangeFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(1.0f, 3.8667f)
         curveTo(1.0f, 2.8357f, 1.7835f, 2.0f, 2.75f, 2.0f)
         horizontalLineTo(6.0382f)

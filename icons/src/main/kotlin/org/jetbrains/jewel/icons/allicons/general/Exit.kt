@@ -58,7 +58,7 @@ private fun ExitComposable(colorScheme: IntelliJIconColors): ImageVector = Build
         curveTo(5.0f, 2.4477f, 5.4477f, 2.0f, 6.0f, 2.0f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFFDB3B4B)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.redStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin =
             StrokeJoin.Companion.Round, strokeLineMiter = 4.0f, pathFillType = NonZero) {
         moveTo(2.5f, 8.0f)

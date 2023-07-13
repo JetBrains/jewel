@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.run
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -64,8 +63,9 @@ private fun StepOutCodeBlockComposable(colorScheme: IntelliJIconColors): ImageVe
         lineTo(8.8535f, 5.3536f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.5f, 16.0f)
         curveTo(10.7761f, 16.0f, 11.0f, 15.7761f, 11.0f, 15.5f)
         curveTo(11.0f, 15.2239f, 10.7761f, 15.0f, 10.5f, 15.0f)
@@ -87,8 +87,9 @@ private fun StepOutCodeBlockComposable(colorScheme: IntelliJIconColors): ImageVe
         curveTo(9.0f, 15.3284f, 9.6716f, 16.0f, 10.5f, 16.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(12.5f, 8.0f)
         curveTo(12.2239f, 8.0f, 12.0f, 8.2239f, 12.0f, 8.5f)
         curveTo(12.0f, 8.7761f, 12.2239f, 9.0f, 12.5f, 9.0f)

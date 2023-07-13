@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.nodes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,7 +28,7 @@ private var _warningIntroduction: IntellijIconData? = null
 private fun WarningIntroductionComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "WarningIntroduction", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp,
         viewportWidth = 16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFFAEB)), stroke = SolidColor(Color(0xFFC27D04)),
+    path(fill = SolidColor(colorScheme.yellowFill), stroke = SolidColor(colorScheme.yellowStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(7.566f, 1.7675f)
@@ -41,8 +40,9 @@ private fun WarningIntroductionComposable(colorScheme: IntelliJIconColors): Imag
         lineTo(7.566f, 1.7675f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFC27D04)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.yellowStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(7.9999f, 5.0016f)
         curveTo(8.3313f, 5.0016f, 8.5999f, 5.2702f, 8.5999f, 5.6016f)
         lineTo(8.5999f, 9.0f)
@@ -52,8 +52,9 @@ private fun WarningIntroductionComposable(colorScheme: IntelliJIconColors): Imag
         curveTo(7.3999f, 5.2702f, 7.6685f, 5.0016f, 7.9999f, 5.0016f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFC27D04)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.yellowStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.8002f, 11.2f)
         curveTo(8.8002f, 11.6419f, 8.442f, 12.0f, 8.0002f, 12.0f)
         curveTo(7.5584f, 12.0f, 7.2002f, 11.6419f, 7.2002f, 11.2f)

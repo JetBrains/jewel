@@ -50,7 +50,7 @@ private fun GroupByModuleComposable(colorScheme: IntelliJIconColors): ImageVecto
         curveTo(14.5f, 2.9477f, 14.0523f, 2.5f, 13.5f, 2.5f)
         horizontalLineTo(12.5f)
     }
-    path(fill = SolidColor(Color(0xFFEDF3FF)), stroke = SolidColor(Color(0xFF3574F0)),
+    path(fill = SolidColor(colorScheme.blueFill), stroke = SolidColor(colorScheme.blueStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(6.0f, 4.5f)

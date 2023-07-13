@@ -29,7 +29,7 @@ private var _inspectionsOK: IntellijIconData? = null
 private fun InspectionsOKComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "InspectionsOK", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF55A76A)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.greenSolid),
             strokeLineWidth = 2.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(3.0001f, 7.9999f)

@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.general
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -32,7 +31,7 @@ private fun PluginUpdateComposable(colorScheme: IntelliJIconColors): ImageVector
         "PluginUpdate", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
     group {
-        path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 NonZero) {
             moveTo(8.5f, 5.2071f)
@@ -51,7 +50,7 @@ private fun PluginUpdateComposable(colorScheme: IntelliJIconColors): ImageVector
             verticalLineTo(5.2071f)
             close()
         }
-        path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f,
+        path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
                 EvenOdd) {
             moveTo(8.0f, 16.0f)

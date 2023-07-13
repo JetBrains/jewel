@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.vcs
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -30,8 +29,9 @@ private var _currentBranchFavoriteLabel: IntellijIconData? = null
 private fun CurrentBranchFavoriteLabelComposable(colorScheme: IntelliJIconColors): ImageVector =
         Builder(name = "CurrentBranchFavoriteLabel", defaultWidth = 16.0.dp, defaultHeight =
         16.0.dp, viewportWidth = 16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.7071f, 2.2929f)
         lineTo(1.295f, 8.705f)
         curveTo(0.9044f, 9.0955f, 0.9044f, 9.7287f, 1.295f, 10.1192f)

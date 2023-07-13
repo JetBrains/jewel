@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.gutter
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
@@ -29,7 +28,7 @@ private var _mnemonic: IntellijIconData? = null
 private fun MnemonicComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Mnemonic", defaultWidth = 14.0.dp, defaultHeight = 14.0.dp, viewportWidth = 14.0f,
         viewportHeight = 14.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFFAEB)), stroke = SolidColor(Color(0xFFFFAF0F)),
+    path(fill = SolidColor(colorScheme.yellowFill), stroke = SolidColor(colorScheme.yellowSolid),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(0.5f, 12.0f)

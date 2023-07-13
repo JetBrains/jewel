@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.nodes
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -30,8 +29,9 @@ private var _generatedTestRoot: IntellijIconData? = null
 private fun GeneratedTestRootComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name
         = "GeneratedTestRoot", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth =
         16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.greenFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(1.0f, 3.8667f)
         curveTo(1.0f, 2.8357f, 1.7835f, 2.0f, 2.75f, 2.0f)
         horizontalLineTo(6.0382f)
@@ -48,8 +48,9 @@ private fun GeneratedTestRootComposable(colorScheme: IntelliJIconColors): ImageV
         verticalLineTo(3.8667f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.8026f, 4.7167f)
         lineTo(8.0938f, 5.0f)
         horizontalLineTo(8.5f)
@@ -76,8 +77,9 @@ private fun GeneratedTestRootComposable(colorScheme: IntelliJIconColors): ImageV
         lineTo(7.8026f, 4.7167f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(13.5f, 12.5f)
         curveTo(13.5f, 13.0523f, 13.0523f, 13.5f, 12.5f, 13.5f)
         curveTo(11.9477f, 13.5f, 11.5f, 13.0523f, 11.5f, 12.5f)
@@ -85,8 +87,9 @@ private fun GeneratedTestRootComposable(colorScheme: IntelliJIconColors): ImageV
         curveTo(13.0523f, 11.5f, 13.5f, 11.9477f, 13.5f, 12.5f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(12.5f, 9.0f)
         lineTo(12.5f, 9.0f)
         arcTo(0.5f, 0.5f, 0.0f, false, true, 13.0f, 9.5f)
@@ -98,8 +101,9 @@ private fun GeneratedTestRootComposable(colorScheme: IntelliJIconColors): ImageV
         arcTo(0.5f, 0.5f, 0.0f, false, true, 12.5f, 9.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(12.5f, 14.0f)
         lineTo(12.5f, 14.0f)
         arcTo(0.5f, 0.5f, 0.0f, false, true, 13.0f, 14.5f)
@@ -111,8 +115,9 @@ private fun GeneratedTestRootComposable(colorScheme: IntelliJIconColors): ImageV
         arcTo(0.5f, 0.5f, 0.0f, false, true, 12.5f, 14.0f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(9.469f, 10.7501f)
         lineTo(9.469f, 10.7501f)
         arcTo(0.5f, 0.5f, 125.1731f, false, true, 10.152f, 10.5671f)
@@ -124,8 +129,9 @@ private fun GeneratedTestRootComposable(colorScheme: IntelliJIconColors): ImageV
         arcTo(0.5f, 0.5f, 125.1731f, false, true, 9.469f, 10.7501f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(9.469f, 14.2502f)
         lineTo(9.469f, 14.2502f)
         arcTo(0.5f, 0.5f, 64.4534f, false, true, 9.652f, 13.5672f)
@@ -137,8 +143,9 @@ private fun GeneratedTestRootComposable(colorScheme: IntelliJIconColors): ImageV
         arcTo(0.5f, 0.5f, 64.4534f, false, true, 9.469f, 14.2502f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(13.7991f, 13.2501f)
         lineTo(13.7991f, 13.2501f)
         arcTo(0.5f, 0.5f, 61.3888f, false, true, 14.4821f, 13.0671f)
@@ -150,8 +157,9 @@ private fun GeneratedTestRootComposable(colorScheme: IntelliJIconColors): ImageV
         arcTo(0.5f, 0.5f, 61.3888f, false, true, 13.7991f, 13.2501f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(13.7991f, 11.7501f)
         lineTo(13.7991f, 11.7501f)
         arcTo(0.5f, 0.5f, 117.8631f, false, true, 13.9821f, 11.0671f)

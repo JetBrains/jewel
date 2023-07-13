@@ -30,8 +30,9 @@ private var _constant: IntellijIconData? = null
 private fun ConstantComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "Constant", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFF4EB)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.orangeFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(0.5863f, 6.5857f)
         lineTo(6.586f, 0.586f)
         curveTo(7.367f, -0.195f, 8.6334f, -0.195f, 9.4144f, 0.586f)

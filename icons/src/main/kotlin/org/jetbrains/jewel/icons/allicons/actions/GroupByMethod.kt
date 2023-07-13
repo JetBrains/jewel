@@ -30,8 +30,9 @@ private var _groupByMethod: IntellijIconData? = null
 private fun GroupByMethodComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "GroupByMethod", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(10.0735f, 5.1182f)
         curveTo(10.4584f, 5.1182f, 10.7962f, 5.2117f, 11.0866f, 5.3987f)
         curveTo(11.3806f, 5.582f, 11.6063f, 5.8423f, 11.7638f, 6.1797f)

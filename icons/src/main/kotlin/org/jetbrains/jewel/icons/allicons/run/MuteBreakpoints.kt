@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.run
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -30,8 +29,9 @@ private var _muteBreakpoints: IntellijIconData? = null
 private fun MuteBreakpointsComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "MuteBreakpoints", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFF7F7)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(10.403f, 3.0514f)
         curveTo(9.6769f, 2.6982f, 8.8615f, 2.5f, 7.9998f, 2.5f)
         curveTo(4.9623f, 2.5f, 2.4998f, 4.9625f, 2.4998f, 8.0f)
@@ -45,8 +45,9 @@ private fun MuteBreakpointsComposable(colorScheme: IntelliJIconColors): ImageVec
         lineTo(5.5968f, 12.9487f)
         close()
     }
-    path(fill = SolidColor(Color(0xFFDB3B4B)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.redStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(10.403f, 3.0514f)
         curveTo(9.6769f, 2.6982f, 8.8615f, 2.5f, 7.9998f, 2.5f)
         curveTo(4.9623f, 2.5f, 2.4998f, 4.9625f, 2.4998f, 8.0f)

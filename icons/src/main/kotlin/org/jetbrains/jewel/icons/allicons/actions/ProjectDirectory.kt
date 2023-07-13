@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.icons.allicons.actions
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -30,8 +29,9 @@ private var _projectDirectory: IntellijIconData? = null
 private fun ProjectDirectoryComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name
         = "ProjectDirectory", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth =
         16.0f, viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFF3574F0)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.blueStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(12.5f, 9.0f)
         curveTo(12.7761f, 9.0f, 13.0f, 9.2239f, 13.0f, 9.5f)
         verticalLineTo(12.0f)

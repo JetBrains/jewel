@@ -29,7 +29,7 @@ private var _stopColored: IntellijIconData? = null
 private fun StopColoredComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "StopColored", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFF5F5)), stroke = SolidColor(Color(0xFFE35252)),
+    path(fill = SolidColor(colorScheme.redFill), stroke = SolidColor(Color(0xFFE35252)),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(3.0f, 2.5f)

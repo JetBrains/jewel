@@ -30,7 +30,7 @@ private var _csv: IntellijIconData? = null
 private fun CsvComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Csv",
         defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f, viewportHeight =
         16.0f).apply {
-    path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = SolidColor(Color(0xFF208A3C)),
+    path(fill = SolidColor(colorScheme.greenFill), stroke = SolidColor(colorScheme.greenStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(4.0f, 2.0f)
@@ -44,19 +44,19 @@ private fun CsvComposable(colorScheme: IntelliJIconColors): ImageVector = Builde
         arcTo(2.0f, 2.0f, 0.0f, false, true, 4.0f, 2.0f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF208A3C)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.greenStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(5.0f, 5.5f)
         horizontalLineTo(11.0f)
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF208A3C)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.greenStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(5.0f, 8.0f)
         lineTo(11.0f, 8.0f)
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF208A3C)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.greenStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(5.0f, 10.5f)

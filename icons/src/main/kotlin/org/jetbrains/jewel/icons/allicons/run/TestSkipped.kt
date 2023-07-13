@@ -31,8 +31,9 @@ private var _testSkipped: IntellijIconData? = null
 private fun TestSkippedComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "TestSkipped", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFFAF0F)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.yellowSolid), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(7.6464f, 1.9896f)
         lineTo(1.9895f, 7.6465f)
         curveTo(1.7943f, 7.8417f, 1.7943f, 8.1583f, 1.9895f, 8.3535f)
@@ -54,7 +55,7 @@ private fun TestSkippedComposable(colorScheme: IntelliJIconColors): ImageVector 
         lineTo(0.9289f, 6.5858f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFFFFAF0F)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.yellowSolid),
             strokeLineWidth = 1.8f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(5.5f, 8.0f)

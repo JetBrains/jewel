@@ -31,8 +31,9 @@ private var _rerun: IntellijIconData? = null
 private fun RerunComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name = "Rerun",
         defaultWidth = 14.0.dp, defaultHeight = 14.0.dp, viewportWidth = 14.0f, viewportHeight =
         14.0f).apply {
-    path(fill = SolidColor(Color(0xFFF2FCF3)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = NonZero) {
+    path(fill = SolidColor(colorScheme.greenFill), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            NonZero) {
         moveTo(8.3563f, 6.2593f)
         curveTo(8.8171f, 6.6581f, 8.8171f, 7.3728f, 8.3563f, 7.7716f)
         lineTo(3.1575f, 12.2709f)
@@ -42,8 +43,9 @@ private fun RerunComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         lineTo(8.3563f, 6.2593f)
         close()
     }
-    path(fill = SolidColor(Color(0xFF208A3C)), stroke = null, strokeLineWidth = 0.0f, strokeLineCap
-            = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType = EvenOdd) {
+    path(fill = SolidColor(colorScheme.greenStroke), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f, pathFillType =
+            EvenOdd) {
         moveTo(8.6835f, 5.8812f)
         curveTo(9.3747f, 6.4794f, 9.3747f, 7.5515f, 8.6835f, 8.1497f)
         lineTo(3.4848f, 12.649f)
@@ -61,7 +63,7 @@ private fun RerunComposable(colorScheme: IntelliJIconColors): ImageVector = Buil
         lineTo(8.0291f, 7.3935f)
         close()
     }
-    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF208A3C)),
+    path(fill = SolidColor(Color(0x00000000)), stroke = SolidColor(colorScheme.greenStroke),
             strokeLineWidth = 1.0f, strokeLineCap = Round, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(6.8572f, 1.5f)

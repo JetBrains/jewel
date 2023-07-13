@@ -29,7 +29,7 @@ private var _excludeRoot: IntellijIconData? = null
 private fun ExcludeRootComposable(colorScheme: IntelliJIconColors): ImageVector = Builder(name =
         "ExcludeRoot", defaultWidth = 16.0.dp, defaultHeight = 16.0.dp, viewportWidth = 16.0f,
         viewportHeight = 16.0f).apply {
-    path(fill = SolidColor(Color(0xFFFCE9D9)), stroke = SolidColor(Color(0xFFF28C35)),
+    path(fill = SolidColor(colorScheme.orangeFill), stroke = SolidColor(Color(0xFFF28C35)),
             strokeLineWidth = 1.0f, strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter =
             4.0f, pathFillType = NonZero) {
         moveTo(8.1513f, 4.3584f)
