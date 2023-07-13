@@ -34,6 +34,21 @@ object DarkTheme : IntUiTheme(DarkPalette) {
         generalStroke = palette.grey(11),
         generalFill = palette.grey(4),
         blueSolid = palette.blue(8),
+        blueFill = palette.blue(1),
+        blueStroke = palette.blue(8),
+        greenSolid = palette.green(5),
+        greenFill = palette.green(1),
+        greenStroke = palette.green(5),
+        redSolid = palette.red(6),
+        redFill = palette.red(1),
+        redStroke = palette.red(6),
+        yellowSolid = palette.yellow(7),
+        yellowFill = palette.yellow(1),
+        yellowStroke = palette.yellow(6),
+        orangeFill = palette.orange(1),
+        orangeStroke = palette.orange(5),
+        purpleFill = palette.purple(1),
+        purpleStroke = palette.purple(7),
     )
 
     override val buttonDefaults: ButtonDefaults = DarkButtonDefaults

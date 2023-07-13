@@ -34,6 +34,21 @@ object LightTheme : IntUiTheme(LightPalette) {
         generalStroke = palette.grey(6),
         generalFill = palette.grey(12),
         blueSolid = palette.blue(5),
+        blueFill = palette.blue(12),
+        blueStroke = palette.blue(4),
+        greenSolid = palette.green(6),
+        greenFill = palette.green(11),
+        greenStroke = palette.green(4),
+        redSolid = palette.red(5),
+        redFill = palette.red(11),
+        redStroke = palette.red(4),
+        yellowSolid = palette.yellow(4),
+        yellowFill = palette.yellow(10),
+        yellowStroke = palette.yellow(2),
+        orangeFill = palette.orange(9),
+        orangeStroke = palette.orange(4),
+        purpleFill = palette.purple(9),
+        purpleStroke = palette.purple(4),
     )
 
     override val buttonDefaults: ButtonDefaults = LightButtonDefaults
