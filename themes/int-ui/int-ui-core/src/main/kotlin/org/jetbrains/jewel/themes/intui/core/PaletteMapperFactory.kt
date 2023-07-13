@@ -3,7 +3,9 @@ package org.jetbrains.jewel.themes.intui.core
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.PaletteMapper
 
-object PaletteMapperFactory { // Extracted from com.intellij.ide.ui.UITheme#colorPalette
+object PaletteMapperFactory {
+
+    // Extracted from com.intellij.ide.ui.UITheme#colorPalette
     private val colorsToMap = mapOf(
         "Actions.Red" to "#DB5860",
         "Actions.Red.Dark" to "#C75450",
@@ -51,15 +53,15 @@ object PaletteMapperFactory { // Extracted from com.intellij.ide.ui.UITheme#colo
         "Checkbox.Focus.Thin.Selected" to "#ACCFF7",
         "Checkbox.Focus.Thin.Selected.Dark" to "#466D94",
         "Tree.iconColor" to "#808080",
-        "Tree.iconColor.Dark" to "#AFB1B3",
+        "Tree.iconColor.Dark" to "#AFB1B3"
     )
 
     fun create(
         isDark: Boolean,
-        themeOverrides: Map<String, String>,
-        themeColors: Map<String, String>
+        themeIcons: IntelliJThemeIcons,
+        themeColors: IntelliJThemeColorPalette,
     ): PaletteMapper {
-        val overrides = computeOverrides(themeOverrides, isDark, themeColors)
+        val overrides = computeOverrides(isDark, themeIcons.colorPalette, themeColors)
         return PaletteMapper(overrides)
     }
 
@@ -73,29 +75,19 @@ object PaletteMapperFactory { // Extracted from com.intellij.ide.ui.UITheme#colo
     //    * Note down the alpha value, if any is specified (that is, if the value is in the #AARRGGBB format)
     // 6. Write a new entry oldColor -> newColor, bringing over the original alpha into the newColor (if any)
     private fun computeOverrides(
-        iconsColorPalette: Map<String, String>,
         isDark: Boolean,
-        themeColors: Map<String, String>
+        iconsColorPalette: Map<String, String>,
+        themeColors: IntelliJThemeColorPalette,
     ) =
         buildMap {
-            // Note: this code and variables is intentionally kept "bad", to match the
-            // logic in com.intellij.ide.ui.UITheme#loadFromJson more closely, to ease
-            // porting changes
             for (colorOverride in iconsColorPalette) {
                 val key = colorHexForKey(colorOverride.key, isDark)
-                val v = colorOverride.value
-                var value = v
-                val namedColor = themeColors[v]
-                if (namedColor != null) value = namedColor
-                var alpha: String? = null
-                if (value.length == 9) {
-                    alpha = value.substring(7)
-                    value = value.take(7)
-                }
+                val overrideValue = colorOverride.value
+                val newColor = overrideValue.takeIf { it.startsWith("#") }?.toColorOrNull()
+                    ?: themeColors.lookup(overrideValue)
+                    ?: continue
                 val oldColor = key.toColorOrNull() ?: continue
-                val newColor = value.toColorOrNull() ?: continue
-                val newAlpha = (alpha?.toLongOrNull(16) ?: 255L) / 255f
-                put(oldColor, newColor.copy(alpha = newAlpha))
+                put(oldColor, newColor)
             }
         }
 
@@ -103,7 +95,16 @@ object PaletteMapperFactory { // Extracted from com.intellij.ide.ui.UITheme#colo
         lowercase()
             .removePrefix("#")
             .removePrefix("0x")
-            .toLongOrNull(radix = 16)
+            .let {
+                when (it.length) {
+                    3 -> "ff${it[0]}${it[0]}${it[1]}${it[1]}${it[2]}${it[2]}"
+                    4 -> "${it[0]}${it[0]}${it[1]}${it[1]}${it[2]}${it[2]}${it[3]}${it[3]}"
+                    6 -> "ff$it"
+                    8 -> it
+                    else -> null
+                }
+            }
+            ?.toLongOrNull(radix = 16)
             ?.let { Color(it) }
 
     private fun colorHexForKey(key: String, isDark: Boolean): String {
