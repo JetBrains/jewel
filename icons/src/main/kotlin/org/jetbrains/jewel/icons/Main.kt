@@ -1,6 +1,10 @@
 package org.jetbrains.jewel.icons
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -13,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
@@ -32,11 +37,11 @@ fun main() {
             Surface(
                 color = IntelliJTheme.colors.background
             ) {
-                Column {
-                    TestView()
+                Column(Modifier.fillMaxSize()) {
                     Button(onClick = { isDark = !isDark }) {
                         Text("Theme toggle: $isDark")
                     }
+                    TestView()
                 }
             }
         }
@@ -52,17 +57,25 @@ fun JetBrainsTheme(isDark: Boolean, content: @Composable () -> Unit) =
 
 @Composable
 fun TestView() {
-    val actionsIcons = AllIcons.General.AllAssets
+    val actionsIcons = AllIcons.AllAssets
 
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(100.dp),
+        columns = GridCells.Adaptive(64.dp),
+        contentPadding = PaddingValues(8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items(actionsIcons) {
-            IntellijIcon(
-                iconData = it,
-                contentDescription = null,
-                modifier = Modifier.size(64.dp)
-            )
+            Box(
+                modifier = Modifier.size(64.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                IntellijIcon(
+                    iconData = it,
+                    contentDescription = null,
+                    modifier = Modifier.size(32.dp)
+                )
+            }
         }
     }
 }
