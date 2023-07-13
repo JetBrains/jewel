@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -19,7 +20,8 @@ public val RunGroup.DumpThreads: IntellijIconData
         if (_dumpThreads != null) {
             return _dumpThreads!!
         }
-        _dumpThreads = IntellijIconData(imageVector = { DumpThreadsComposable(it) })
+        _dumpThreads = IntellijIconData(name = "DumpThreads",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { DumpThreadsComposable(it) })
         return _dumpThreads!!
     }
 

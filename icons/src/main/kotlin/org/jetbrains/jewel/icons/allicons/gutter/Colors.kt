@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GutterGroup.Colors: IntellijIconData
         if (_colors != null) {
             return _colors!!
         }
-        _colors = IntellijIconData(imageVector = { ColorsComposable(it) })
+        _colors = IntellijIconData(name = "Colors",size = DpSize(height = 14.0.dp, width =
+                14.0.dp),imageVector = { ColorsComposable(it) })
         return _colors!!
     }
 

@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -17,7 +18,8 @@ public val InlineGroup.Regex: IntellijIconData
         if (_regex != null) {
             return _regex!!
         }
-        _regex = IntellijIconData(imageVector = { RegexComposable(it) })
+        _regex = IntellijIconData(name = "Regex",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { RegexComposable(it) })
         return _regex!!
     }
 

@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -20,7 +21,8 @@ public val GutterGroup.SiblingInheritedMethod: IntellijIconData
         if (_siblingInheritedMethod != null) {
             return _siblingInheritedMethod!!
         }
-        _siblingInheritedMethod = IntellijIconData(imageVector = {
+        _siblingInheritedMethod = IntellijIconData(name = "SiblingInheritedMethod",size =
+                DpSize(height = 14.0.dp, width = 14.0.dp),imageVector = {
                 SiblingInheritedMethodComposable(it) })
         return _siblingInheritedMethod!!
     }

@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GutterGroup.JavadocEdit: IntellijIconData
         if (_javadocEdit != null) {
             return _javadocEdit!!
         }
-        _javadocEdit = IntellijIconData(imageVector = { JavadocEditComposable(it) })
+        _javadocEdit = IntellijIconData(name = "JavadocEdit",size = DpSize(height = 14.0.dp, width =
+                14.0.dp),imageVector = { JavadocEditComposable(it) })
         return _javadocEdit!!
     }
 

@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val InspectionsGroup.InspectionsError: IntellijIconData
         if (_inspectionsError != null) {
             return _inspectionsError!!
         }
-        _inspectionsError = IntellijIconData(imageVector = { InspectionsErrorComposable(it) })
+        _inspectionsError = IntellijIconData(name = "InspectionsError",size = DpSize(height =
+                16.0.dp, width = 16.0.dp),imageVector = { InspectionsErrorComposable(it) })
         return _inspectionsError!!
     }
 

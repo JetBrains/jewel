@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GeneralGroup.ChevronUp: IntellijIconData
         if (_chevronUp != null) {
             return _chevronUp!!
         }
-        _chevronUp = IntellijIconData(imageVector = { ChevronUpComposable(it) })
+        _chevronUp = IntellijIconData(name = "ChevronUp",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { ChevronUpComposable(it) })
         return _chevronUp!!
     }
 

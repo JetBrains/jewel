@@ -48,7 +48,7 @@ import org.jetbrains.jewel.icons.allicons.general.ListFiles
 import org.jetbrains.jewel.icons.allicons.general.Locate
 import org.jetbrains.jewel.icons.allicons.general.Locked
 import org.jetbrains.jewel.icons.allicons.general.MoreHorizontal
-import org.jetbrains.jewel.icons.allicons.general.`MoreHorizontal@20x20`
+import org.jetbrains.jewel.icons.allicons.general.MoreHorizontal_20x20
 import org.jetbrains.jewel.icons.allicons.general.MoreVertical
 import org.jetbrains.jewel.icons.allicons.general.MoreVertical_stroke
 import org.jetbrains.jewel.icons.allicons.general.MoveDown
@@ -77,10 +77,10 @@ import org.jetbrains.jewel.icons.allicons.general.Save
 import org.jetbrains.jewel.icons.allicons.general.ScrollDown
 import org.jetbrains.jewel.icons.allicons.general.ScrollUp
 import org.jetbrains.jewel.icons.allicons.general.Search
-import org.jetbrains.jewel.icons.allicons.general.`Search@20x20`
+import org.jetbrains.jewel.icons.allicons.general.Search_20x20
 import org.jetbrains.jewel.icons.allicons.general.SeparatorHorizontal
 import org.jetbrains.jewel.icons.allicons.general.Settings
-import org.jetbrains.jewel.icons.allicons.general.`Settings@20x20`
+import org.jetbrains.jewel.icons.allicons.general.Settings_20x20
 import org.jetbrains.jewel.icons.allicons.general.Show
 import org.jetbrains.jewel.icons.allicons.general.ShowAsTree
 import org.jetbrains.jewel.icons.allicons.general.SoftWrap
@@ -94,7 +94,7 @@ import org.jetbrains.jewel.icons.allicons.general.Upload
 import org.jetbrains.jewel.icons.allicons.general.User
 import org.jetbrains.jewel.icons.allicons.general.Vcs
 import org.jetbrains.jewel.icons.allicons.general.WarningDialog
-import org.jetbrains.jewel.icons.allicons.general.`WindowsMenu@20x20`
+import org.jetbrains.jewel.icons.allicons.general.WindowsMenu_20x20
 import kotlin.collections.List as ____KtList
 
 public object GeneralGroup
@@ -113,12 +113,12 @@ public val GeneralGroup.AllAssets: ____KtList<IntellijIconData>
     __AllAssets= Inspections.AllAssets + listOf(Search, SoftWrap, MoreVertical_stroke,
         InformationDialog, ScrollUp, Reset, ErrorDialog, PreviewVertically, User, CloseSmall,
         PluginUpdate, AutoscrollToSource, Export, Down, ChevronDownLarge, Show, SplitHorizontally,
-        CollapseAll, ChevronDown, MoveUp, `WindowsMenu@20x20`, Up, `Settings@20x20`,
+        CollapseAll, ChevronDown, MoveUp, WindowsMenu_20x20, Up, Settings_20x20,
         PreviewHorizontally, ShowAsTree, ExpandAll, Settings, Download, Pin, Import, MoreVertical,
         ProjectWideAnalysisOff, SuccessDialog, PreviewOnly, ChevronRight, EditorPreview,
-        `Search@20x20`, Add, Close, IdeUpdate, Copy, ProjectStructure, Refresh, Hide,
+        Search_20x20, Add, Close, IdeUpdate, Copy, ProjectStructure, Refresh, Hide,
         OpenInToolWindow, Save, ProjectWideAnalysisOn, Right, EditorOnly, Unlocked, ListFiles, Redo,
-        Groups, Paste, ScrollDown, `MoreHorizontal@20x20`, Edit, AutoscrollFromSource, Locate, Open,
+        Groups, Paste, ScrollDown, MoreHorizontal_20x20, Edit, AutoscrollFromSource, Locate, Open,
         ChevronUpLarge, MoreHorizontal, Exit, Delete, SplitVertically, ChevronDownLargeWhite,
         EditorPreviewVertical, Dropdown, Remove, Undo, Filter, ChevronUp, CloseSmallHovered, Cut,
         RunAnything, Upload, ChevronLeft, DropdownGutter, Help, MoveDown, QuestionDialog,

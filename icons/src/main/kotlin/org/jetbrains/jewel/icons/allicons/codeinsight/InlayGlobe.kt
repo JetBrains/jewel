@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val CodeinsightGroup.InlayGlobe: IntellijIconData
         if (_inlayGlobe != null) {
             return _inlayGlobe!!
         }
-        _inlayGlobe = IntellijIconData(imageVector = { InlayGlobeComposable(it) })
+        _inlayGlobe = IntellijIconData(name = "InlayGlobe",size = DpSize(height = 12.0.dp, width =
+                12.0.dp),imageVector = { InlayGlobeComposable(it) })
         return _inlayGlobe!!
     }
 

@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -19,7 +20,8 @@ public val JavaeeGroup.WebServiceClient: IntellijIconData
         if (_webServiceClient != null) {
             return _webServiceClient!!
         }
-        _webServiceClient = IntellijIconData(imageVector = { WebServiceClientComposable(it) })
+        _webServiceClient = IntellijIconData(name = "WebServiceClient",size = DpSize(height =
+                16.0.dp, width = 16.0.dp),imageVector = { WebServiceClientComposable(it) })
         return _webServiceClient!!
     }
 

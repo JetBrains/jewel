@@ -6,11 +6,11 @@ import org.jetbrains.jewel.icons.IntellijIconData
 import org.jetbrains.jewel.icons.allicons.diff.ApplyNotConflicts
 import org.jetbrains.jewel.icons.allicons.diff.ApplyNotConflictsLeft
 import org.jetbrains.jewel.icons.allicons.diff.ApplyNotConflictsRight
-import org.jetbrains.jewel.icons.allicons.diff.`Arrow@14x14`
-import org.jetbrains.jewel.icons.allicons.diff.`ArrowLeftDown@14x14`
+import org.jetbrains.jewel.icons.allicons.diff.ArrowLeftDown_14x14
 import org.jetbrains.jewel.icons.allicons.diff.ArrowLeftRight
-import org.jetbrains.jewel.icons.allicons.diff.`ArrowRight@14x14`
-import org.jetbrains.jewel.icons.allicons.diff.`ArrowRightDown@14x14`
+import org.jetbrains.jewel.icons.allicons.diff.ArrowRightDown_14x14
+import org.jetbrains.jewel.icons.allicons.diff.ArrowRight_14x14
+import org.jetbrains.jewel.icons.allicons.diff.Arrow_14x14
 import org.jetbrains.jewel.icons.allicons.diff.Compare3LeftMiddle
 import org.jetbrains.jewel.icons.allicons.diff.Compare3LeftRight
 import org.jetbrains.jewel.icons.allicons.diff.Compare3MiddleRight
@@ -21,13 +21,13 @@ import org.jetbrains.jewel.icons.allicons.diff.Compare4MiddleBottom
 import org.jetbrains.jewel.icons.allicons.diff.Compare4MiddleRight
 import org.jetbrains.jewel.icons.allicons.diff.Compare4RightBottom
 import org.jetbrains.jewel.icons.allicons.diff.DisableEditing
-import org.jetbrains.jewel.icons.allicons.diff.`GutterCheckBox@14x14`
-import org.jetbrains.jewel.icons.allicons.diff.`GutterCheckBoxIndeterminate@14x14`
-import org.jetbrains.jewel.icons.allicons.diff.`GutterCheckBoxSelected@14x14`
-import org.jetbrains.jewel.icons.allicons.diff.`MagicResolve@14x14`
+import org.jetbrains.jewel.icons.allicons.diff.GutterCheckBoxIndeterminate_14x14
+import org.jetbrains.jewel.icons.allicons.diff.GutterCheckBoxSelected_14x14
+import org.jetbrains.jewel.icons.allicons.diff.GutterCheckBox_14x14
 import org.jetbrains.jewel.icons.allicons.diff.MagicResolveToolbar
-import org.jetbrains.jewel.icons.allicons.diff.`Remove@14x14`
-import org.jetbrains.jewel.icons.allicons.diff.`Revert@14x14`
+import org.jetbrains.jewel.icons.allicons.diff.MagicResolve_14x14
+import org.jetbrains.jewel.icons.allicons.diff.Remove_14x14
+import org.jetbrains.jewel.icons.allicons.diff.Revert_14x14
 import kotlin.collections.List as ____KtList
 
 public object DiffGroup
@@ -44,11 +44,11 @@ public val DiffGroup.AllAssets: ____KtList<IntellijIconData>
       return __AllAssets!!
     }
     __AllAssets= listOf(ApplyNotConflictsRight, MagicResolveToolbar, Compare3LeftMiddle,
-        Compare4LeftMiddle, Compare4MiddleRight, `GutterCheckBox@14x14`, Compare3MiddleRight,
-        `ArrowLeftDown@14x14`, DisableEditing, Compare4MiddleBottom, Compare4RightBottom,
-        `Revert@14x14`, ApplyNotConflicts, Compare4LeftRight, Compare3LeftRight,
-        `GutterCheckBoxSelected@14x14`, `MagicResolve@14x14`, Compare4LeftBottom, ArrowLeftRight,
-        `ArrowRightDown@14x14`, `Arrow@14x14`, `GutterCheckBoxIndeterminate@14x14`,
-        ApplyNotConflictsLeft, `ArrowRight@14x14`, `Remove@14x14`)
+        Compare4LeftMiddle, Compare4MiddleRight, GutterCheckBox_14x14, Compare3MiddleRight,
+        ArrowLeftDown_14x14, DisableEditing, Compare4MiddleBottom, Compare4RightBottom,
+        Revert_14x14, ApplyNotConflicts, Compare4LeftRight, Compare3LeftRight,
+        GutterCheckBoxSelected_14x14, MagicResolve_14x14, Compare4LeftBottom, ArrowLeftRight,
+        ArrowRightDown_14x14, Arrow_14x14, GutterCheckBoxIndeterminate_14x14, ApplyNotConflictsLeft,
+        ArrowRight_14x14, Remove_14x14)
     return __AllAssets!!
   }

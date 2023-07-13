@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val RunGroup.ShowIgnored: IntellijIconData
         if (_showIgnored != null) {
             return _showIgnored!!
         }
-        _showIgnored = IntellijIconData(imageVector = { ShowIgnoredComposable(it) })
+        _showIgnored = IntellijIconData(name = "ShowIgnored",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { ShowIgnoredComposable(it) })
         return _showIgnored!!
     }
 

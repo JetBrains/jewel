@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -20,7 +21,8 @@ public val IdeGroup.FeedbackRatingFocused: IntellijIconData
         if (_feedbackRatingFocused != null) {
             return _feedbackRatingFocused!!
         }
-        _feedbackRatingFocused = IntellijIconData(imageVector = {
+        _feedbackRatingFocused = IntellijIconData(name = "FeedbackRatingFocused",size =
+                DpSize(height = 32.0.dp, width = 32.0.dp),imageVector = {
                 FeedbackRatingFocusedComposable(it) })
         return _feedbackRatingFocused!!
     }

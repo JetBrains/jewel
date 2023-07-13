@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -20,7 +21,8 @@ public val GeneralGroup.SuccessDialog: IntellijIconData
         if (_successDialog != null) {
             return _successDialog!!
         }
-        _successDialog = IntellijIconData(imageVector = { SuccessDialogComposable(it) })
+        _successDialog = IntellijIconData(name = "SuccessDialog",size = DpSize(height = 28.0.dp,
+                width = 28.0.dp),imageVector = { SuccessDialogComposable(it) })
         return _successDialog!!
     }
 

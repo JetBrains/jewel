@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -20,7 +21,8 @@ public val StatusGroup.WarningOutline: IntellijIconData
         if (_warningOutline != null) {
             return _warningOutline!!
         }
-        _warningOutline = IntellijIconData(imageVector = { WarningOutlineComposable(it) })
+        _warningOutline = IntellijIconData(name = "WarningOutline",size = DpSize(height = 16.0.dp,
+                width = 16.0.dp),imageVector = { WarningOutlineComposable(it) })
         return _warningOutline!!
     }
 

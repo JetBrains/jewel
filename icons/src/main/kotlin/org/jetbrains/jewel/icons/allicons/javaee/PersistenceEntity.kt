@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -19,7 +20,8 @@ public val JavaeeGroup.PersistenceEntity: IntellijIconData
         if (_persistenceEntity != null) {
             return _persistenceEntity!!
         }
-        _persistenceEntity = IntellijIconData(imageVector = { PersistenceEntityComposable(it) })
+        _persistenceEntity = IntellijIconData(name = "PersistenceEntity",size = DpSize(height =
+                16.0.dp, width = 16.0.dp),imageVector = { PersistenceEntityComposable(it) })
         return _persistenceEntity!!
     }
 

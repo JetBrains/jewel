@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,8 +19,9 @@ public val CodeinsightGroup.InlayRenameInNoCodeFilesActive: IntellijIconData
         if (_inlayRenameInNoCodeFilesActive != null) {
             return _inlayRenameInNoCodeFilesActive!!
         }
-        _inlayRenameInNoCodeFilesActive = IntellijIconData(imageVector = {
-                InlayRenameInNoCodeFilesActiveComposable(it) })
+        _inlayRenameInNoCodeFilesActive = IntellijIconData(name =
+                "InlayRenameInNoCodeFilesActive",size = DpSize(height = 12.0.dp, width =
+                12.0.dp),imageVector = { InlayRenameInNoCodeFilesActiveComposable(it) })
         return _inlayRenameInNoCodeFilesActive!!
     }
 

@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -19,7 +20,8 @@ public val BreakpointsGroup.BreakpointMethodDependent: IntellijIconData
         if (_breakpointMethodDependent != null) {
             return _breakpointMethodDependent!!
         }
-        _breakpointMethodDependent = IntellijIconData(imageVector = {
+        _breakpointMethodDependent = IntellijIconData(name = "BreakpointMethodDependent",size =
+                DpSize(height = 14.0.dp, width = 14.0.dp),imageVector = {
                 BreakpointMethodDependentComposable(it) })
         return _breakpointMethodDependent!!
     }

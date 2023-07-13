@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -17,7 +18,8 @@ public val ToolwindowGroup.Coverage: IntellijIconData
         if (_coverage != null) {
             return _coverage!!
         }
-        _coverage = IntellijIconData(imageVector = { CoverageComposable(it) })
+        _coverage = IntellijIconData(name = "Coverage",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { CoverageComposable(it) })
         return _coverage!!
     }
 

@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val BuildGroup.ToggleSkipTestsMode: IntellijIconData
         if (_toggleSkipTestsMode != null) {
             return _toggleSkipTestsMode!!
         }
-        _toggleSkipTestsMode = IntellijIconData(imageVector = { ToggleSkipTestsModeComposable(it) })
+        _toggleSkipTestsMode = IntellijIconData(name = "ToggleSkipTestsMode",size = DpSize(height =
+                16.0.dp, width = 16.0.dp),imageVector = { ToggleSkipTestsModeComposable(it) })
         return _toggleSkipTestsMode!!
     }
 

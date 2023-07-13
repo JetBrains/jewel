@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val CodeinsightGroup.InlayRenameInCommentsActive: IntellijIconData
         if (_inlayRenameInCommentsActive != null) {
             return _inlayRenameInCommentsActive!!
         }
-        _inlayRenameInCommentsActive = IntellijIconData(imageVector = {
+        _inlayRenameInCommentsActive = IntellijIconData(name = "InlayRenameInCommentsActive",size =
+                DpSize(height = 12.0.dp, width = 12.0.dp),imageVector = {
                 InlayRenameInCommentsActiveComposable(it) })
         return _inlayRenameInCommentsActive!!
     }

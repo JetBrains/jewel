@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val CodewithmeGroup.CwmIconModificator: IntellijIconData
         if (_cwmIconModificator != null) {
             return _cwmIconModificator!!
         }
-        _cwmIconModificator = IntellijIconData(imageVector = { CwmIconModificatorComposable(it) })
+        _cwmIconModificator = IntellijIconData(name = "CwmIconModificator",size = DpSize(height =
+                17.0.dp, width = 17.0.dp),imageVector = { CwmIconModificatorComposable(it) })
         return _cwmIconModificator!!
     }
 

@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val ActionsGroup.SwapPanels: IntellijIconData
         if (_swapPanels != null) {
             return _swapPanels!!
         }
-        _swapPanels = IntellijIconData(imageVector = { SwapPanelsComposable(it) })
+        _swapPanels = IntellijIconData(name = "SwapPanels",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { SwapPanelsComposable(it) })
         return _swapPanels!!
     }
 

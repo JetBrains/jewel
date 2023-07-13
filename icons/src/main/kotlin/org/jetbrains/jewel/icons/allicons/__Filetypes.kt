@@ -9,6 +9,8 @@ import org.jetbrains.jewel.icons.allicons.filetypes.AngularJS
 import org.jetbrains.jewel.icons.allicons.filetypes.AnyType
 import org.jetbrains.jewel.icons.allicons.filetypes.Archive
 import org.jetbrains.jewel.icons.allicons.filetypes.AspectJ
+import org.jetbrains.jewel.icons.allicons.filetypes.ChangedFile
+import org.jetbrains.jewel.icons.allicons.filetypes.ChangedFiles
 import org.jetbrains.jewel.icons.allicons.filetypes.Config
 import org.jetbrains.jewel.icons.allicons.filetypes.Css
 import org.jetbrains.jewel.icons.allicons.filetypes.Csv
@@ -52,6 +54,7 @@ import org.jetbrains.jewel.icons.allicons.filetypes.Shell
 import org.jetbrains.jewel.icons.allicons.filetypes.SourceMap
 import org.jetbrains.jewel.icons.allicons.filetypes.Sql
 import org.jetbrains.jewel.icons.allicons.filetypes.Text
+import org.jetbrains.jewel.icons.allicons.filetypes.UiForm
 import org.jetbrains.jewel.icons.allicons.filetypes.Unknown
 import org.jetbrains.jewel.icons.allicons.filetypes.VueJs
 import org.jetbrains.jewel.icons.allicons.filetypes.Wsdl
@@ -75,11 +78,11 @@ public val FiletypesGroup.AllAssets: ____KtList<IntellijIconData>
     if (__AllAssets != null) {
       return __AllAssets!!
     }
-    __AllAssets= listOf(Config, Jspx, Jshint, Protobuf, Manifest, JavaScript, Xml, Jsp, SourceMap,
-        Java, Scratch, Unknown, Sql, Jfr, Properties, Scss, AddAny, Scala, Perl, Shell, Json,
-        Archive, Scratches, Idl, Text, Image, Csv, Yarn, Sbt, Regexp, AspectJ, Freemaker, AngularJS,
-        Eclipse, Diagram, LombokConfig, Css, Jest, Xsd, ActionScript, Cucumber, EditorConfig,
-        Ignored, Yaml, Wsdl, Xhtml, React, Less, Gitignore, VueJs, Html, AnyType, Patch, Modified,
-        Lombok, IdeaModule, Font)
+    __AllAssets= listOf(Config, Jspx, Jshint, Protobuf, Manifest, JavaScript, Xml, Jsp, ChangedFile,
+        SourceMap, Java, Scratch, Unknown, Sql, Jfr, Properties, Scss, AddAny, Scala, Perl, Shell,
+        Json, Archive, ChangedFiles, Scratches, Idl, Text, Image, Csv, Yarn, Sbt, Regexp, AspectJ,
+        Freemaker, AngularJS, Eclipse, Diagram, LombokConfig, Css, Jest, Xsd, ActionScript,
+        Cucumber, EditorConfig, Ignored, Yaml, UiForm, Wsdl, Xhtml, React, Less, Gitignore, VueJs,
+        Html, AnyType, Patch, Modified, Lombok, IdeaModule, Font)
     return __AllAssets!!
   }

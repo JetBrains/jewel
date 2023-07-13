@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val DiffGroup.Compare4RightBottom: IntellijIconData
         if (_compare4RightBottom != null) {
             return _compare4RightBottom!!
         }
-        _compare4RightBottom = IntellijIconData(imageVector = { Compare4RightBottomComposable(it) })
+        _compare4RightBottom = IntellijIconData(name = "Compare4RightBottom",size = DpSize(height =
+                16.0.dp, width = 16.0.dp),imageVector = { Compare4RightBottomComposable(it) })
         return _compare4RightBottom!!
     }
 

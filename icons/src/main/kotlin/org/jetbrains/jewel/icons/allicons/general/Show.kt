@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GeneralGroup.Show: IntellijIconData
         if (_show != null) {
             return _show!!
         }
-        _show = IntellijIconData(imageVector = { ShowComposable(it) })
+        _show = IntellijIconData(name = "Show",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { ShowComposable(it) })
         return _show!!
     }
 

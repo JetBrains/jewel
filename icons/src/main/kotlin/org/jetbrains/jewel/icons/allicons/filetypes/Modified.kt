@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -17,7 +18,8 @@ public val FiletypesGroup.Modified: IntellijIconData
         if (_modified != null) {
             return _modified!!
         }
-        _modified = IntellijIconData(imageVector = { ModifiedComposable(it) })
+        _modified = IntellijIconData(name = "Modified",size = DpSize(height = 13.0.dp, width =
+                13.0.dp),imageVector = { ModifiedComposable(it) })
         return _modified!!
     }
 

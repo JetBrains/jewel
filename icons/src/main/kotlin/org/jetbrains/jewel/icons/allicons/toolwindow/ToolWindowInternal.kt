@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Round
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -19,7 +20,8 @@ public val ToolwindowGroup.ToolWindowInternal: IntellijIconData
         if (_toolWindowInternal != null) {
             return _toolWindowInternal!!
         }
-        _toolWindowInternal = IntellijIconData(imageVector = { ToolWindowInternalComposable(it) })
+        _toolWindowInternal = IntellijIconData(name = "ToolWindowInternal",size = DpSize(height =
+                16.0.dp, width = 16.0.dp),imageVector = { ToolWindowInternalComposable(it) })
         return _toolWindowInternal!!
     }
 

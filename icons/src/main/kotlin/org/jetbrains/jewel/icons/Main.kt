@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.icons
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,8 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import org.jetbrains.jewel.IntelliJTheme
-import org.jetbrains.jewel.icons.allicons.AllAssets
-import org.jetbrains.jewel.icons.allicons.General
 import org.jetbrains.jewel.themes.intui.standalone.dark.DarkTheme
 import org.jetbrains.jewel.themes.intui.standalone.light.LightTheme
 
@@ -70,10 +69,10 @@ fun TestView() {
                 modifier = Modifier.size(64.dp),
                 contentAlignment = Alignment.Center
             ) {
-                IntellijIcon(
-                    iconData = it,
-                    contentDescription = null,
-                    modifier = Modifier.size(32.dp)
+                Image(
+                    imageVector = it.composeImageVector(),
+                    contentDescription = it.name,
+                    modifier = Modifier.size(it.size)
                 )
             }
         }

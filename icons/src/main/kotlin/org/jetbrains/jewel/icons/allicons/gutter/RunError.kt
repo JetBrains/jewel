@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -20,7 +21,8 @@ public val GutterGroup.RunError: IntellijIconData
         if (_runError != null) {
             return _runError!!
         }
-        _runError = IntellijIconData(imageVector = { RunErrorComposable(it) })
+        _runError = IntellijIconData(name = "RunError",size = DpSize(height = 14.0.dp, width =
+                14.0.dp),imageVector = { RunErrorComposable(it) })
         return _runError!!
     }
 

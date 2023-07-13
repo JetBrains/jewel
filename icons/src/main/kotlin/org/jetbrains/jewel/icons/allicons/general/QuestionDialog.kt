@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GeneralGroup.QuestionDialog: IntellijIconData
         if (_questionDialog != null) {
             return _questionDialog!!
         }
-        _questionDialog = IntellijIconData(imageVector = { QuestionDialogComposable(it) })
+        _questionDialog = IntellijIconData(name = "QuestionDialog",size = DpSize(height = 28.0.dp,
+                width = 28.0.dp),imageVector = { QuestionDialogComposable(it) })
         return _questionDialog!!
     }
 

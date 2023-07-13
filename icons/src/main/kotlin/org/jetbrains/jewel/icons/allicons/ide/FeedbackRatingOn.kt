@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val IdeGroup.FeedbackRatingOn: IntellijIconData
         if (_feedbackRatingOn != null) {
             return _feedbackRatingOn!!
         }
-        _feedbackRatingOn = IntellijIconData(imageVector = { FeedbackRatingOnComposable(it) })
+        _feedbackRatingOn = IntellijIconData(name = "FeedbackRatingOn",size = DpSize(height =
+                32.0.dp, width = 32.0.dp),imageVector = { FeedbackRatingOnComposable(it) })
         return _feedbackRatingOn!!
     }
 

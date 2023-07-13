@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val BreakpointsGroup.QuestionBadge: IntellijIconData
         if (_questionBadge != null) {
             return _questionBadge!!
         }
-        _questionBadge = IntellijIconData(imageVector = { QuestionBadgeComposable(it) })
+        _questionBadge = IntellijIconData(name = "QuestionBadge",size = DpSize(height = 10.0.dp,
+                width = 7.0.dp),imageVector = { QuestionBadgeComposable(it) })
         return _questionBadge!!
     }
 

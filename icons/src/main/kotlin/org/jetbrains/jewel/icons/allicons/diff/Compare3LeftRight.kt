@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val DiffGroup.Compare3LeftRight: IntellijIconData
         if (_compare3LeftRight != null) {
             return _compare3LeftRight!!
         }
-        _compare3LeftRight = IntellijIconData(imageVector = { Compare3LeftRightComposable(it) })
+        _compare3LeftRight = IntellijIconData(name = "Compare3LeftRight",size = DpSize(height =
+                16.0.dp, width = 16.0.dp),imageVector = { Compare3LeftRightComposable(it) })
         return _compare3LeftRight!!
     }
 

@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -19,7 +20,8 @@ public val GeneralGroup.WarningDialog: IntellijIconData
         if (_warningDialog != null) {
             return _warningDialog!!
         }
-        _warningDialog = IntellijIconData(imageVector = { WarningDialogComposable(it) })
+        _warningDialog = IntellijIconData(name = "WarningDialog",size = DpSize(height = 28.0.dp,
+                width = 28.0.dp),imageVector = { WarningDialogComposable(it) })
         return _warningDialog!!
     }
 

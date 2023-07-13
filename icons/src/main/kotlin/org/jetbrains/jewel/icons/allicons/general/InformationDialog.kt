@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -19,7 +20,8 @@ public val GeneralGroup.InformationDialog: IntellijIconData
         if (_informationDialog != null) {
             return _informationDialog!!
         }
-        _informationDialog = IntellijIconData(imageVector = { InformationDialogComposable(it) })
+        _informationDialog = IntellijIconData(name = "InformationDialog",size = DpSize(height =
+                28.0.dp, width = 28.0.dp),imageVector = { InformationDialogComposable(it) })
         return _informationDialog!!
     }
 

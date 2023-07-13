@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val BreakpointsGroup.BreakpointFieldDisabled: IntellijIconData
         if (_breakpointFieldDisabled != null) {
             return _breakpointFieldDisabled!!
         }
-        _breakpointFieldDisabled = IntellijIconData(imageVector = {
+        _breakpointFieldDisabled = IntellijIconData(name = "BreakpointFieldDisabled",size =
+                DpSize(height = 14.0.dp, width = 14.0.dp),imageVector = {
                 BreakpointFieldDisabledComposable(it) })
         return _breakpointFieldDisabled!!
     }

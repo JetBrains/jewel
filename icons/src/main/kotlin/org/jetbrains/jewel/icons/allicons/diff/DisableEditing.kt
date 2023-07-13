@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -17,7 +18,8 @@ public val DiffGroup.DisableEditing: IntellijIconData
         if (_disableEditing != null) {
             return _disableEditing!!
         }
-        _disableEditing = IntellijIconData(imageVector = { DisableEditingComposable(it) })
+        _disableEditing = IntellijIconData(name = "DisableEditing",size = DpSize(height = 16.0.dp,
+                width = 16.0.dp),imageVector = { DisableEditingComposable(it) })
         return _disableEditing!!
     }
 

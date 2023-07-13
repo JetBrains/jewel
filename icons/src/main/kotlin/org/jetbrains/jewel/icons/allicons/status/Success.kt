@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -20,7 +21,8 @@ public val StatusGroup.Success: IntellijIconData
         if (_success != null) {
             return _success!!
         }
-        _success = IntellijIconData(imageVector = { SuccessComposable(it) })
+        _success = IntellijIconData(name = "Success",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { SuccessComposable(it) })
         return _success!!
     }
 

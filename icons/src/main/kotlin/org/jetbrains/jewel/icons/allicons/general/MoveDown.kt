@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GeneralGroup.MoveDown: IntellijIconData
         if (_moveDown != null) {
             return _moveDown!!
         }
-        _moveDown = IntellijIconData(imageVector = { MoveDownComposable(it) })
+        _moveDown = IntellijIconData(name = "MoveDown",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { MoveDownComposable(it) })
         return _moveDown!!
     }
 

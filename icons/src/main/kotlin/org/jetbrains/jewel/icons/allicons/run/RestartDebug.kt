@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -20,7 +21,8 @@ public val RunGroup.RestartDebug: IntellijIconData
         if (_restartDebug != null) {
             return _restartDebug!!
         }
-        _restartDebug = IntellijIconData(imageVector = { RestartDebugComposable(it) })
+        _restartDebug = IntellijIconData(name = "RestartDebug",size = DpSize(height = 16.0.dp, width
+                = 16.0.dp),imageVector = { RestartDebugComposable(it) })
         return _restartDebug!!
     }
 

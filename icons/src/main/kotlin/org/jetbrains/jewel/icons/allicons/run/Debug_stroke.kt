@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val RunGroup.Debug_stroke: IntellijIconData
         if (_debug_stroke != null) {
             return _debug_stroke!!
         }
-        _debug_stroke = IntellijIconData(imageVector = { Debug_strokeComposable(it) })
+        _debug_stroke = IntellijIconData(name = "Debug_stroke",size = DpSize(height = 16.0.dp, width
+                = 16.0.dp),imageVector = { Debug_strokeComposable(it) })
         return _debug_stroke!!
     }
 

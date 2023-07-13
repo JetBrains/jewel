@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -17,7 +18,8 @@ public val NodesGroup.Package: IntellijIconData
         if (_package != null) {
             return _package!!
         }
-        _package = IntellijIconData(imageVector = { PackageComposable(it) })
+        _package = IntellijIconData(name = "Package",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { PackageComposable(it) })
         return _package!!
     }
 

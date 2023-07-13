@@ -6,6 +6,7 @@ import org.jetbrains.jewel.icons.IntellijIconData
 import org.jetbrains.jewel.icons.allicons.actions.BuildAutoReloadChanges
 import org.jetbrains.jewel.icons.allicons.actions.ClearCash
 import org.jetbrains.jewel.icons.allicons.actions.Deploy
+import org.jetbrains.jewel.icons.allicons.actions.DiagramDiff
 import org.jetbrains.jewel.icons.allicons.actions.DiffWithClipboard
 import org.jetbrains.jewel.icons.allicons.actions.Filterdups
 import org.jetbrains.jewel.icons.allicons.actions.Generated
@@ -16,6 +17,7 @@ import org.jetbrains.jewel.icons.allicons.actions.GroupByTestProduction
 import org.jetbrains.jewel.icons.allicons.actions.InSelection
 import org.jetbrains.jewel.icons.allicons.actions.Install
 import org.jetbrains.jewel.icons.allicons.actions.Lightning
+import org.jetbrains.jewel.icons.allicons.actions.Minimap
 import org.jetbrains.jewel.icons.allicons.actions.MoveToBottomLeft
 import org.jetbrains.jewel.icons.allicons.actions.MoveToBottomRight
 import org.jetbrains.jewel.icons.allicons.actions.MoveToButton
@@ -30,10 +32,13 @@ import org.jetbrains.jewel.icons.allicons.actions.PlayForward
 import org.jetbrains.jewel.icons.allicons.actions.PlayLast
 import org.jetbrains.jewel.icons.allicons.actions.ProfileCPU
 import org.jetbrains.jewel.icons.allicons.actions.ProjectDirectory
+import org.jetbrains.jewel.icons.allicons.actions.ReformatCode
+import org.jetbrains.jewel.icons.allicons.actions.RerunAutomatically
 import org.jetbrains.jewel.icons.allicons.actions.RunAll
 import org.jetbrains.jewel.icons.allicons.actions.ShowImportStatements
 import org.jetbrains.jewel.icons.allicons.actions.ShowReadAccess
 import org.jetbrains.jewel.icons.allicons.actions.ShowWriteAccess
+import org.jetbrains.jewel.icons.allicons.actions.Split
 import org.jetbrains.jewel.icons.allicons.actions.SwapPanels
 import org.jetbrains.jewel.icons.allicons.actions.SynchronizeScrolling
 import org.jetbrains.jewel.icons.allicons.actions.ToggleVisibility
@@ -54,10 +59,11 @@ public val ActionsGroup.AllAssets: ____KtList<IntellijIconData>
       return __AllAssets!!
     }
     __AllAssets= listOf(Lightning, ShowImportStatements, GroupByPackage, MoveToLeftBottom,
-        ShowWriteAccess, GroupByTestProduction, NewFolder, ShowReadAccess, SynchronizeScrolling,
-        Deploy, Filterdups, RunAll, Undeploy, GroupByModule, Install, MoveToRightTop, PlayFirst,
-        MoveToButton, PlayLast, GroupByMethod, DiffWithClipboard, ProjectDirectory, MoveToLeftTop,
-        SwapPanels, ClearCash, BuildAutoReloadChanges, MoveToBottomRight, MoveToRightBottom,
+        DiagramDiff, ShowWriteAccess, GroupByTestProduction, NewFolder, ShowReadAccess,
+        SynchronizeScrolling, Deploy, Filterdups, Minimap, RunAll, Undeploy, GroupByModule, Install,
+        ReformatCode, MoveToRightTop, PlayFirst, MoveToButton, Split, PlayLast, GroupByMethod,
+        DiffWithClipboard, ProjectDirectory, MoveToLeftTop, SwapPanels, ClearCash,
+        BuildAutoReloadChanges, MoveToBottomRight, RerunAutomatically, MoveToRightBottom,
         ToggleVisibility, MoveToBottomLeft, Generated, PlayForward, InSelection, PlayBack,
         ProfileCPU)
     return __AllAssets!!

@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -17,7 +18,8 @@ public val GutterGroup.ExtAnnotation: IntellijIconData
         if (_extAnnotation != null) {
             return _extAnnotation!!
         }
-        _extAnnotation = IntellijIconData(imageVector = { ExtAnnotationComposable(it) })
+        _extAnnotation = IntellijIconData(name = "ExtAnnotation",size = DpSize(height = 14.0.dp,
+                width = 14.0.dp),imageVector = { ExtAnnotationComposable(it) })
         return _extAnnotation!!
     }
 

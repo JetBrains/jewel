@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val CodeinsightGroup.InlaySecuredShield: IntellijIconData
         if (_inlaySecuredShield != null) {
             return _inlaySecuredShield!!
         }
-        _inlaySecuredShield = IntellijIconData(imageVector = { InlaySecuredShieldComposable(it) })
+        _inlaySecuredShield = IntellijIconData(name = "InlaySecuredShield",size = DpSize(height =
+                12.0.dp, width = 12.0.dp),imageVector = { InlaySecuredShieldComposable(it) })
         return _inlaySecuredShield!!
     }
 

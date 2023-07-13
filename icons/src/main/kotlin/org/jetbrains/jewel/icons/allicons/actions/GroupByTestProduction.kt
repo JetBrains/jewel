@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -20,7 +21,8 @@ public val ActionsGroup.GroupByTestProduction: IntellijIconData
         if (_groupByTestProduction != null) {
             return _groupByTestProduction!!
         }
-        _groupByTestProduction = IntellijIconData(imageVector = {
+        _groupByTestProduction = IntellijIconData(name = "GroupByTestProduction",size =
+                DpSize(height = 16.0.dp, width = 16.0.dp),imageVector = {
                 GroupByTestProductionComposable(it) })
         return _groupByTestProduction!!
     }

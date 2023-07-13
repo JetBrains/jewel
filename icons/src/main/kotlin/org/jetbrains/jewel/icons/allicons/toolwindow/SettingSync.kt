@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val ToolwindowGroup.SettingSync: IntellijIconData
         if (_settingSync != null) {
             return _settingSync!!
         }
-        _settingSync = IntellijIconData(imageVector = { SettingSyncComposable(it) })
+        _settingSync = IntellijIconData(name = "SettingSync",size = DpSize(height = 16.0.dp, width =
+                18.0.dp),imageVector = { SettingSyncComposable(it) })
         return _settingSync!!
     }
 

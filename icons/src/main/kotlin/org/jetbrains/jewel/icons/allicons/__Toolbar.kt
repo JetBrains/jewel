@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import org.jetbrains.jewel.icons.AllIcons
 import org.jetbrains.jewel.icons.IntellijIconData
 import org.jetbrains.jewel.icons.allicons.toolbar.Unknown
-import org.jetbrains.jewel.icons.allicons.toolbar.`Unknown@20x20`
+import org.jetbrains.jewel.icons.allicons.toolbar.Unknown_20x20
 import kotlin.collections.List as ____KtList
 
 public object ToolbarGroup
@@ -20,6 +20,6 @@ public val ToolbarGroup.AllAssets: ____KtList<IntellijIconData>
     if (__AllAssets != null) {
       return __AllAssets!!
     }
-    __AllAssets= listOf(Unknown, `Unknown@20x20`)
+    __AllAssets= listOf(Unknown, Unknown_20x20)
     return __AllAssets!!
   }

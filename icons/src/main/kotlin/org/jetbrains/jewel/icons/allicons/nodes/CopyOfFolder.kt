@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val NodesGroup.CopyOfFolder: IntellijIconData
         if (_copyOfFolder != null) {
             return _copyOfFolder!!
         }
-        _copyOfFolder = IntellijIconData(imageVector = { CopyOfFolderComposable(it) })
+        _copyOfFolder = IntellijIconData(name = "CopyOfFolder",size = DpSize(height = 16.0.dp, width
+                = 16.0.dp),imageVector = { CopyOfFolderComposable(it) })
         return _copyOfFolder!!
     }
 

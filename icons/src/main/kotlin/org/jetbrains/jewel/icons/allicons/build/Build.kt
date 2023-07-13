@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Round
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val BuildGroup.Build: IntellijIconData
         if (_build != null) {
             return _build!!
         }
-        _build = IntellijIconData(imageVector = { BuildComposable(it) })
+        _build = IntellijIconData(name = "Build",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { BuildComposable(it) })
         return _build!!
     }
 

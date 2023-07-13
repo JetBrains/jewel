@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -21,7 +22,8 @@ public val GutterGroup.RunSuccess: IntellijIconData
         if (_runSuccess != null) {
             return _runSuccess!!
         }
-        _runSuccess = IntellijIconData(imageVector = { RunSuccessComposable(it) })
+        _runSuccess = IntellijIconData(name = "RunSuccess",size = DpSize(height = 14.0.dp, width =
+                14.0.dp),imageVector = { RunSuccessComposable(it) })
         return _runSuccess!!
     }
 

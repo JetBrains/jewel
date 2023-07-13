@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import org.jetbrains.jewel.icons.IntellijIconData
 import org.jetbrains.jewel.icons.allicons.PythonGroup
 import org.jetbrains.jewel.icons.allicons.python.toolwindow.PythonConsole
-import org.jetbrains.jewel.icons.allicons.python.toolwindow.`PythonConsole@20x20`
+import org.jetbrains.jewel.icons.allicons.python.toolwindow.PythonConsole_20x20
 import kotlin.collections.List as ____KtList
 
 public object ToolwindowGroup
@@ -20,6 +20,6 @@ public val ToolwindowGroup.AllAssets: ____KtList<IntellijIconData>
     if (__AllAssets != null) {
       return __AllAssets!!
     }
-    __AllAssets= listOf(PythonConsole, `PythonConsole@20x20`)
+    __AllAssets= listOf(PythonConsole, PythonConsole_20x20)
     return __AllAssets!!
   }

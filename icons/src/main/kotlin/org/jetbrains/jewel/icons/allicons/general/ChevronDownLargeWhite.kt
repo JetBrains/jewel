@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GeneralGroup.ChevronDownLargeWhite: IntellijIconData
         if (_chevronDownLargeWhite != null) {
             return _chevronDownLargeWhite!!
         }
-        _chevronDownLargeWhite = IntellijIconData(imageVector = {
+        _chevronDownLargeWhite = IntellijIconData(name = "ChevronDownLargeWhite",size =
+                DpSize(height = 16.0.dp, width = 16.0.dp),imageVector = {
                 ChevronDownLargeWhiteComposable(it) })
         return _chevronDownLargeWhite!!
     }

@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GeneralGroup.CollapseAll: IntellijIconData
         if (_collapseAll != null) {
             return _collapseAll!!
         }
-        _collapseAll = IntellijIconData(imageVector = { CollapseAllComposable(it) })
+        _collapseAll = IntellijIconData(name = "CollapseAll",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { CollapseAllComposable(it) })
         return _collapseAll!!
     }
 

@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -17,7 +18,8 @@ public val ActionsGroup.MoveToLeftBottom: IntellijIconData
         if (_moveToLeftBottom != null) {
             return _moveToLeftBottom!!
         }
-        _moveToLeftBottom = IntellijIconData(imageVector = { MoveToLeftBottomComposable(it) })
+        _moveToLeftBottom = IntellijIconData(name = "MoveToLeftBottom",size = DpSize(height =
+                16.0.dp, width = 16.0.dp),imageVector = { MoveToLeftBottomComposable(it) })
         return _moveToLeftBottom!!
     }
 
@@ -36,8 +38,7 @@ private fun MoveToLeftBottomComposable(colorScheme: IntelliJIconColors): ImageVe
         verticalLineTo(12.0f)
         curveTo(14.0f, 13.1046f, 13.1046f, 14.0f, 12.0f, 14.0f)
         horizontalLineTo(4.0f)
-        curveTo(3.931f, 14.0f, 3.8628f, 13.9965f, 3.7955f, 13.9897f)
-        curveTo(2.787f, 13.8873f, 2.0f, 13.0355f, 2.0f, 12.0f)
+        curveTo(2.8954f, 14.0f, 2.0f, 13.1046f, 2.0f, 12.0f)
         verticalLineTo(4.0f)
         close()
         moveTo(4.0f, 3.0f)
@@ -55,7 +56,8 @@ private fun MoveToLeftBottomComposable(colorScheme: IntelliJIconColors): ImageVe
         moveTo(3.0f, 8.0f)
         verticalLineTo(12.0f)
         curveTo(3.0f, 12.5178f, 3.3935f, 12.9436f, 3.8978f, 12.9948f)
-        curveTo(3.9314f, 12.9983f, 3.9655f, 13.0f, 4.0f, 13.0f)
+        curveTo(3.9293f, 12.998f, 3.9612f, 12.9998f, 3.9935f, 13.0f)
+        curveTo(3.9957f, 13.0f, 3.9978f, 13.0f, 4.0f, 13.0f)
         horizontalLineTo(6.0f)
         verticalLineTo(8.0f)
         horizontalLineTo(3.0f)

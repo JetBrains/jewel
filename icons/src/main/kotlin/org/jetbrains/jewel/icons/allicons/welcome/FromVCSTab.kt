@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val WelcomeGroup.FromVCSTab: IntellijIconData
         if (_fromVCSTab != null) {
             return _fromVCSTab!!
         }
-        _fromVCSTab = IntellijIconData(imageVector = { FromVCSTabComposable(it) })
+        _fromVCSTab = IntellijIconData(name = "FromVCSTab",size = DpSize(height = 20.0.dp, width =
+                20.0.dp),imageVector = { FromVCSTabComposable(it) })
         return _fromVCSTab!!
     }
 

@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -21,8 +22,8 @@ public val ObjectbrowserGroup.CompactEmptyPackages: IntellijIconData
         if (_compactEmptyPackages != null) {
             return _compactEmptyPackages!!
         }
-        _compactEmptyPackages = IntellijIconData(imageVector = { CompactEmptyPackagesComposable(it)
-                })
+        _compactEmptyPackages = IntellijIconData(name = "CompactEmptyPackages",size = DpSize(height
+                = 16.0.dp, width = 16.0.dp),imageVector = { CompactEmptyPackagesComposable(it) })
         return _compactEmptyPackages!!
     }
 

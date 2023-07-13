@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Round
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -19,7 +20,8 @@ public val ToolwindowGroup.Notifications: IntellijIconData
         if (_notifications != null) {
             return _notifications!!
         }
-        _notifications = IntellijIconData(imageVector = { NotificationsComposable(it) })
+        _notifications = IntellijIconData(name = "Notifications",size = DpSize(height = 16.0.dp,
+                width = 16.0.dp),imageVector = { NotificationsComposable(it) })
         return _notifications!!
     }
 

@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GutterGroup.Unfold: IntellijIconData
         if (_unfold != null) {
             return _unfold!!
         }
-        _unfold = IntellijIconData(imageVector = { UnfoldComposable(it) })
+        _unfold = IntellijIconData(name = "Unfold",size = DpSize(height = 9.0.dp, width =
+                9.0.dp),imageVector = { UnfoldComposable(it) })
         return _unfold!!
     }
 

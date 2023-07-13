@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -20,7 +21,8 @@ public val GutterGroup.Rerun: IntellijIconData
         if (_rerun != null) {
             return _rerun!!
         }
-        _rerun = IntellijIconData(imageVector = { RerunComposable(it) })
+        _rerun = IntellijIconData(name = "Rerun",size = DpSize(height = 14.0.dp, width =
+                14.0.dp),imageVector = { RerunComposable(it) })
         return _rerun!!
     }
 

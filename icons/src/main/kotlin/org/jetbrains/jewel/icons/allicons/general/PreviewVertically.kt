@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GeneralGroup.PreviewVertically: IntellijIconData
         if (_previewVertically != null) {
             return _previewVertically!!
         }
-        _previewVertically = IntellijIconData(imageVector = { PreviewVerticallyComposable(it) })
+        _previewVertically = IntellijIconData(name = "PreviewVertically",size = DpSize(height =
+                16.0.dp, width = 16.0.dp),imageVector = { PreviewVerticallyComposable(it) })
         return _previewVertically!!
     }
 

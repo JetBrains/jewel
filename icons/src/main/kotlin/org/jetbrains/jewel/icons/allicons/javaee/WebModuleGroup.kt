@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -19,7 +20,8 @@ public val JavaeeGroup.WebModuleGroup: IntellijIconData
         if (_webModuleGroup != null) {
             return _webModuleGroup!!
         }
-        _webModuleGroup = IntellijIconData(imageVector = { WebModuleGroupComposable(it) })
+        _webModuleGroup = IntellijIconData(name = "WebModuleGroup",size = DpSize(height = 16.0.dp,
+                width = 16.0.dp),imageVector = { WebModuleGroupComposable(it) })
         return _webModuleGroup!!
     }
 

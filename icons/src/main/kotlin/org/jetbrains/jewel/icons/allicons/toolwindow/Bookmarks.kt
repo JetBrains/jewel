@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val ToolwindowGroup.Bookmarks: IntellijIconData
         if (_bookmarks != null) {
             return _bookmarks!!
         }
-        _bookmarks = IntellijIconData(imageVector = { BookmarksComposable(it) })
+        _bookmarks = IntellijIconData(name = "Bookmarks",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { BookmarksComposable(it) })
         return _bookmarks!!
     }
 

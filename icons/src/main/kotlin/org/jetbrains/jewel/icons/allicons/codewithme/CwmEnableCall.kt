@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val CodewithmeGroup.CwmEnableCall: IntellijIconData
         if (_cwmEnableCall != null) {
             return _cwmEnableCall!!
         }
-        _cwmEnableCall = IntellijIconData(imageVector = { CwmEnableCallComposable(it) })
+        _cwmEnableCall = IntellijIconData(name = "CwmEnableCall",size = DpSize(height = 16.0.dp,
+                width = 16.0.dp),imageVector = { CwmEnableCallComposable(it) })
         return _cwmEnableCall!!
     }
 

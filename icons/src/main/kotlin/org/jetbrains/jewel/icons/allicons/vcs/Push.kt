@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -17,7 +18,8 @@ public val VcsGroup.Push: IntellijIconData
         if (_push != null) {
             return _push!!
         }
-        _push = IntellijIconData(imageVector = { PushComposable(it) })
+        _push = IntellijIconData(name = "Push",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { PushComposable(it) })
         return _push!!
     }
 

@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJIconColors
 import org.jetbrains.jewel.icons.IntellijIconData
@@ -18,7 +19,8 @@ public val GeneralGroup.ExpandAll: IntellijIconData
         if (_expandAll != null) {
             return _expandAll!!
         }
-        _expandAll = IntellijIconData(imageVector = { ExpandAllComposable(it) })
+        _expandAll = IntellijIconData(name = "ExpandAll",size = DpSize(height = 16.0.dp, width =
+                16.0.dp),imageVector = { ExpandAllComposable(it) })
         return _expandAll!!
     }
 
