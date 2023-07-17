@@ -3,12 +3,13 @@ package org.jetbrains.jewel.styling
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import org.jetbrains.jewel.StateWithOutline
-import org.jetbrains.jewel.SvgPatcher
+import org.jetbrains.jewel.SvgLoader
 
+@Deprecated("Switch to a ResourcePathPainterProvider")
 @Immutable
 abstract class OutlineResourcePainterProvider<T : StateWithOutline> internal constructor(
-    svgPatcher: SvgPatcher,
-) : BaseResourcePainterProvider<T>(svgPatcher) {
+    svgLoader: SvgLoader,
+) : BaseResourcePainterProvider<T>(svgLoader) {
 
     abstract val warning: String
     abstract val error: String
@@ -28,8 +29,8 @@ abstract class OutlineResourcePainterProvider<T : StateWithOutline> internal con
             hovered: String,
             warning: String,
             error: String,
-            svgPatcher: SvgPatcher,
-        ) = object : OutlineResourcePainterProvider<T>(svgPatcher) {
+            svgLoader: SvgLoader,
+        ) = object : OutlineResourcePainterProvider<T>(svgLoader) {
             override val normal = normal
             override val disabled = disabled
             override val focused = focused

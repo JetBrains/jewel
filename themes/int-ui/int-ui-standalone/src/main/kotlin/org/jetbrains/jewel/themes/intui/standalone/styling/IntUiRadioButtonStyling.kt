@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.RadioButtonState
-import org.jetbrains.jewel.SvgPatcher
+import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.styling.RadioButtonButtonColors
 import org.jetbrains.jewel.styling.RadioButtonColors
 import org.jetbrains.jewel.styling.RadioButtonIcons
@@ -29,18 +29,18 @@ data class IntUiRadioButtonStyle(
 
         @Composable
         fun light(
-            svgPatcher: SvgPatcher,
+            svgLoader: SvgLoader,
             colors: IntUiRadioButtonColors = IntUiRadioButtonColors.light(),
             metrics: IntUiRadioButtonMetrics = IntUiRadioButtonMetrics(),
-            icons: IntUiRadioButtonIcons = intUiRadioButtonIcons(svgPatcher),
+            icons: IntUiRadioButtonIcons = intUiRadioButtonIcons(svgLoader),
         ) = IntUiRadioButtonStyle(colors, metrics, icons)
 
         @Composable
         fun dark(
-            svgPatcher: SvgPatcher,
+            svgLoader: SvgLoader,
             colors: IntUiRadioButtonColors = IntUiRadioButtonColors.dark(),
             metrics: IntUiRadioButtonMetrics = IntUiRadioButtonMetrics(),
-            icons: IntUiRadioButtonIcons = intUiRadioButtonIcons(svgPatcher),
+            icons: IntUiRadioButtonIcons = intUiRadioButtonIcons(svgLoader),
         ) = IntUiRadioButtonStyle(colors, metrics, icons)
     }
 }
@@ -206,14 +206,14 @@ data class IntUiRadioButtonIcons(
 
         @Composable
         fun radioButton(
-            svgPatcher: SvgPatcher,
+            svgLoader: SvgLoader,
             basePath: String = "icons/intui/radio.svg",
-        ) = ResourcePathPainterProvider<RadioButtonState>(basePath, svgPatcher)
+        ) = ResourcePathPainterProvider<RadioButtonState>(basePath, svgLoader)
     }
 }
 
 @Composable
 fun intUiRadioButtonIcons(
-    svgPatcher: SvgPatcher,
-    radioButton: StatefulPainterProvider<RadioButtonState> = IntUiRadioButtonIcons.radioButton(svgPatcher),
+    svgLoader: SvgLoader,
+    radioButton: StatefulPainterProvider<RadioButtonState> = IntUiRadioButtonIcons.radioButton(svgLoader),
 ) = IntUiRadioButtonIcons(radioButton)

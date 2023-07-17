@@ -3,12 +3,13 @@ package org.jetbrains.jewel.styling
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import org.jetbrains.jewel.InteractiveComponentState
-import org.jetbrains.jewel.SvgPatcher
+import org.jetbrains.jewel.SvgLoader
 
+@Deprecated("Switch to a ResourcePathPainterProvider")
 @Immutable
 abstract class ResourcePainterProvider<T : InteractiveComponentState> internal constructor(
-    svgPatcher: SvgPatcher,
-) : BaseResourcePainterProvider<T>(svgPatcher) {
+    svgLoader: SvgLoader,
+) : BaseResourcePainterProvider<T>(svgLoader) {
 
     @Composable
     override fun selectVariant(state: T): String =
@@ -23,8 +24,8 @@ abstract class ResourcePainterProvider<T : InteractiveComponentState> internal c
             focused: String,
             pressed: String,
             hovered: String,
-            svgPatcher: SvgPatcher,
-        ) = object : ResourcePainterProvider<T>(svgPatcher) {
+            svgLoader: SvgLoader,
+        ) = object : ResourcePainterProvider<T>(svgLoader) {
             override val normal = normal
             override val disabled = disabled
             override val focused = focused
