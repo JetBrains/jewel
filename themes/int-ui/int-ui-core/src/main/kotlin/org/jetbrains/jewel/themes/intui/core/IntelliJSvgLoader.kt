@@ -59,21 +59,7 @@ class IntelliJSvgLoader(private val svgPatcher: SvgPatcher) : SvgLoader {
     }
 
     private fun trySimplifyingPath(originalPath: String): String? {
-        // Step 1: attempt to remove dark qualifier
-        val darkIndex = originalPath.lastIndexOf("_dark")
-        if (darkIndex > 0) {
-            return originalPath.removeRange(darkIndex, darkIndex + "_dark".length)
-        }
-
-        // Step 2: attempt to remove density and size qualifiers
-        val retinaIndex = originalPath.lastIndexOf("@2x")
-        if (retinaIndex > 0) {
-            return originalPath.removeRange(retinaIndex, retinaIndex + "@2x".length)
-        }
-
-        // TODO remove size qualifiers (e.g., "@20x20")
-
-        // Step 3: attempt to remove extended state qualifiers (pressed, hovered)
+        // Step 1: attempt to remove extended state qualifiers (pressed, hovered)
         val pressedIndex = originalPath.lastIndexOf("Pressed")
         if (pressedIndex > 0) {
             return originalPath.removeRange(pressedIndex, pressedIndex + "Pressed".length)
@@ -84,7 +70,7 @@ class IntelliJSvgLoader(private val svgPatcher: SvgPatcher) : SvgLoader {
             return originalPath.removeRange(hoveredIndex, hoveredIndex + "Hovered".length)
         }
 
-        // Step 4: attempt to remove state qualifiers (indeterminate, selected, focused, disabled)
+        // Step 2: attempt to remove state qualifiers (indeterminate, selected, focused, disabled)
         val indeterminateIndex = originalPath.lastIndexOf("Indeterminate")
         if (indeterminateIndex > 0) {
             return originalPath.removeRange(indeterminateIndex, indeterminateIndex + "Indeterminate".length)
@@ -104,6 +90,20 @@ class IntelliJSvgLoader(private val svgPatcher: SvgPatcher) : SvgLoader {
         if (disabledIndex > 0) {
             return originalPath.removeRange(disabledIndex, disabledIndex + "Disabled".length)
         }
+
+        // Step 3: attempt to remove density and size qualifiers
+        val retinaIndex = originalPath.lastIndexOf("@2x")
+        if (retinaIndex > 0) {
+            return originalPath.removeRange(retinaIndex, retinaIndex + "@2x".length)
+        }
+
+        // Step 4: attempt to remove dark qualifier
+        val darkIndex = originalPath.lastIndexOf("_dark")
+        if (darkIndex > 0) {
+            return originalPath.removeRange(darkIndex, darkIndex + "_dark".length)
+        }
+
+        // TODO remove size qualifiers (e.g., "@20x20")
 
         return null
     }
