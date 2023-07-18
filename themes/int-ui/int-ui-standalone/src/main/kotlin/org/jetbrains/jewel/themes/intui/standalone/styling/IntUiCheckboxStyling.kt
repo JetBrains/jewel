@@ -14,7 +14,7 @@ import org.jetbrains.jewel.styling.CheckboxColors
 import org.jetbrains.jewel.styling.CheckboxIcons
 import org.jetbrains.jewel.styling.CheckboxMetrics
 import org.jetbrains.jewel.styling.CheckboxStyle
-import org.jetbrains.jewel.styling.ResourcePathPainterProvider
+import org.jetbrains.jewel.styling.ResourcePainterProvider
 import org.jetbrains.jewel.styling.StatefulPainterProvider
 import org.jetbrains.jewel.themes.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.themes.intui.core.theme.IntUiLightTheme
@@ -128,8 +128,8 @@ data class IntUiCheckboxIcons(
         fun checkbox(
             svgLoader: SvgLoader,
             basePath: String = "icons/intui/checkBox.svg",
-        ) =
-            ResourcePathPainterProvider(
+        ): StatefulPainterProvider<CheckboxState> =
+            ResourcePainterProvider(
                 basePath,
                 svgLoader,
                 prefixTokensProvider = { state: CheckboxState ->

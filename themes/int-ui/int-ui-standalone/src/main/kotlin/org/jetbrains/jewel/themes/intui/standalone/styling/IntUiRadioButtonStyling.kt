@@ -13,7 +13,7 @@ import org.jetbrains.jewel.styling.RadioButtonColors
 import org.jetbrains.jewel.styling.RadioButtonIcons
 import org.jetbrains.jewel.styling.RadioButtonMetrics
 import org.jetbrains.jewel.styling.RadioButtonStyle
-import org.jetbrains.jewel.styling.ResourcePathPainterProvider
+import org.jetbrains.jewel.styling.ResourcePainterProvider
 import org.jetbrains.jewel.styling.StatefulPainterProvider
 import org.jetbrains.jewel.themes.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.themes.intui.core.theme.IntUiLightTheme
@@ -208,7 +208,8 @@ data class IntUiRadioButtonIcons(
         fun radioButton(
             svgLoader: SvgLoader,
             basePath: String = "icons/intui/radio.svg",
-        ) = ResourcePathPainterProvider<RadioButtonState>(basePath, svgLoader)
+        ): StatefulPainterProvider<RadioButtonState> =
+            ResourcePainterProvider(basePath, svgLoader)
     }
 }
 
