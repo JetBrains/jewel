@@ -96,7 +96,7 @@ fun main() {
 
 private fun svgResource(
     resourcePath: String,
-    loader: ResourceLoader = ResourceLoader.Default
+    loader: ResourceLoader = ResourceLoader.Default,
 ): Painter =
     loader.load(resourcePath)
         .use { stream: InputStream ->
