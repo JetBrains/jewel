@@ -244,8 +244,8 @@ fun darkComponentStyling(
     textAreaStyle: IntUiTextAreaStyle = IntUiTextAreaStyle.dark(),
     textFieldStyle: TextFieldStyle = IntUiTextFieldStyle.dark(),
     lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.dark(),
-    defaultTabStyle: TabStyle = IntUiTabStyle.Default.dark(),
-    editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(),
+    defaultTabStyle: TabStyle = IntUiTabStyle.Default.dark(svgLoader),
+    editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(svgLoader),
 ) =
     ComponentStyling(
         defaultButtonStyle = defaultButtonStyle,
@@ -285,8 +285,8 @@ fun lightComponentStyling(
     textAreaStyle: IntUiTextAreaStyle = IntUiTextAreaStyle.light(),
     textFieldStyle: TextFieldStyle = IntUiTextFieldStyle.light(),
     lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.light(),
-    defaultTabStyle: TabStyle = IntUiTabStyle.Default.light(),
-    editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(),
+    defaultTabStyle: TabStyle = IntUiTabStyle.Default.light(svgLoader),
+    editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(svgLoader),
 ) =
     ComponentStyling(
         defaultButtonStyle = defaultButtonStyle,

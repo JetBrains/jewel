@@ -7,10 +7,8 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.TabState
-import org.jetbrains.jewel.painterResource
 
 @Stable
 interface TabStyle {
@@ -18,17 +16,16 @@ interface TabStyle {
     val colors: TabColors
     val metrics: TabMetrics
     val icons: TabIcons
+    val contentAlpha: TabContentAlpha
 }
 
 @Immutable
 interface TabIcons {
 
-    val close: String
-
-    @Composable
-    fun closePainter(resourceLoader: ResourceLoader) = painterResource(close, resourceLoader)
+    val close: StatefulPainterProvider<TabState>
 }
 
+@Stable
 interface TabMetrics {
 
     val underlineThickness: Dp
@@ -37,134 +34,89 @@ interface TabMetrics {
     val closeContentGap: Dp
 }
 
+@Immutable
 interface TabColors {
 
-    val tabBackground: Color
-    val tabBackgroundHovered: Color
-    val tabBackgroundHoveredFocused: Color
-    val tabBackgroundHoveredSelected: Color
-    val tabBackgroundHoveredFocusedSelected: Color
-    val tabBackgroundFocused: Color
-    val tabBackgroundFocusedSelected: Color
-    val tabBackgroundSelected: Color
+    val background: Color
+    val backgroundDisabled: Color
+    val backgroundFocused: Color
+    val backgroundPressed: Color
+    val backgroundHovered: Color
+    val backgroundSelected: Color
 
-    val tabForeground: Color
-    val tabForegroundHovered: Color
-    val tabForegroundHoveredFocused: Color
-    val tabForegroundHoveredSelected: Color
-    val tabForegroundHoveredFocusedSelected: Color
-    val tabForegroundFocused: Color
-    val tabForegroundFocusedSelected: Color
-    val tabForegroundSelected: Color
+    val content: Color
+    val contentDisabled: Color
+    val contentFocused: Color
+    val contentPressed: Color
+    val contentHovered: Color
+    val contentSelected: Color
 
-    val tabUnderline: Color
-    val tabUnderlineHovered: Color
-    val tabUnderlineHoveredFocused: Color
-    val tabUnderlineHoveredSelected: Color
-    val tabUnderlineHoveredFocusedSelected: Color
-    val tabUnderlineFocused: Color
-    val tabUnderlineFocusedSelected: Color
-    val tabUnderlineSelected: Color
-
-    val closeTint: Color
-    val closeHoveredTint: Color
-    val closeHoveredFocusedTint: Color
-    val closeHoveredSelectedTint: Color
-    val closeHoveredFocusedSelectedTint: Color
-    val closeFocusedTint: Color
-    val closeFocusedSelectedTint: Color
-    val closeSelectedTint: Color
-
+    val underline: Color
+    val underlineDisabled: Color
+    val underlineFocused: Color
+    val underlinePressed: Color
+    val underlineHovered: Color
+    val underlineSelected: Color
 
     @Composable
-    fun foregroundColorFor(state: TabState) = rememberUpdatedState(
+    fun contentFor(state: TabState) = rememberUpdatedState(
         when {
-            state.isSelected && state.isFocused && state.isHovered -> tabForegroundHoveredFocusedSelected
-            state.isSelected && state.isFocused -> tabForegroundFocusedSelected
-            state.isSelected && state.isHovered -> tabForegroundHoveredSelected
-            state.isFocused && state.isHovered -> tabForegroundHoveredFocused
-            state.isFocused -> tabForegroundFocused
-            state.isHovered -> tabForegroundHovered
-            state.isSelected -> tabForegroundSelected
-            else -> tabForeground
-        }
-    )
-    @Composable
-    fun backGroundColorFor(state: TabState) = rememberUpdatedState(
-        when {
-            state.isSelected && state.isFocused && state.isHovered -> tabBackgroundHoveredFocusedSelected
-            state.isSelected && state.isFocused -> tabBackgroundFocusedSelected
-            state.isSelected && state.isHovered -> tabBackgroundHoveredSelected
-            state.isFocused && state.isHovered -> tabBackgroundHoveredFocused
-            state.isFocused -> tabBackgroundFocused
-            state.isHovered -> tabBackgroundHovered
-            state.isSelected -> tabBackgroundSelected
-            else -> tabBackground
+            state.isSelected -> contentSelected
+            else -> state.chooseValue(
+                normal = content,
+                disabled = contentDisabled,
+                focused = contentFocused,
+                pressed = contentPressed,
+                hovered = contentHovered
+            )
         }
     )
 
     @Composable
-    fun closeTintFor(state: TabState) = rememberUpdatedState(
+    fun backgroundFor(state: TabState) = rememberUpdatedState(
         when {
-            state.isSelected && state.isFocused && state.isHovered -> closeHoveredFocusedSelectedTint
-            state.isSelected && state.isFocused -> closeFocusedSelectedTint
-            state.isSelected && state.isHovered -> closeHoveredSelectedTint
-            state.isFocused && state.isHovered -> closeHoveredFocusedTint
-            state.isFocused -> closeFocusedTint
-            state.isHovered -> closeHoveredTint
-            state.isSelected -> closeSelectedTint
-            else -> closeTint
+            state.isSelected -> backgroundSelected
+            else -> state.chooseValue(
+                normal = background,
+                disabled = backgroundDisabled,
+                focused = backgroundFocused,
+                pressed = backgroundPressed,
+                hovered = backgroundHovered
+            )
         }
     )
 
     @Composable
-    fun underlineTintFor(state: TabState) = rememberUpdatedState(
+    fun underlineFor(state: TabState) = rememberUpdatedState(
         when {
-            state.isSelected && state.isFocused && state.isHovered -> tabUnderlineHoveredFocusedSelected
-            state.isSelected && state.isFocused -> tabUnderlineFocusedSelected
-            state.isSelected && state.isHovered -> tabUnderlineHoveredSelected
-            state.isFocused && state.isHovered -> tabUnderlineHoveredFocused
-            state.isFocused -> tabUnderlineFocused
-            state.isHovered -> tabUnderlineHovered
-            state.isSelected -> tabUnderlineSelected
-            else -> tabUnderline
+            state.isSelected -> underlineSelected
+            else -> state.chooseValue(
+                normal = underline,
+                disabled = underlineDisabled,
+                focused = underlineFocused,
+                pressed = underlinePressed,
+                hovered = underlineHovered
+            )
         }
     )
 }
 
 @Immutable
-@JvmInline
-value class TabState(val state: ULong) {
+interface TabContentAlpha {
+    val normal: Float
+    val disabled: Float
+    val focused: Float
+    val pressed: Float
+    val hovered: Float
+    val selected: Float
 
-    @Stable
-    val isFocused: Boolean
-        get() = state and Focused != 0UL
-
-    @Stable
-    val isHovered: Boolean
-        get() = state and Hovered != 0UL
-
-    @Stable
-    val isSelected: Boolean
-        get() = state and Selected != 0UL
-
-    fun copy(focused: Boolean = isFocused, hovered: Boolean = isHovered, selected: Boolean = isSelected): TabState =
-        of(focused, hovered, selected)
-
-    override fun toString(): String = "TabState(focused=$isFocused, Hovered=$isHovered, pressed=$isSelected)"
-
-    companion object {
-
-        private val Focused = 1UL shl 0
-        private val Hovered = 1UL shl 1
-        private val Selected = 1UL shl 2
-
-        fun of(focused: Boolean = false, hovered: Boolean = false, selected: Boolean = false): TabState {
-            return TabState(
-                state = (if (focused) Focused else 0UL) or (if (hovered) Hovered else 0UL) or if (selected) Selected else 0UL
-            )
+    @Composable
+    fun alphaFor(state: TabState) = rememberUpdatedState(
+        when {
+            state.isSelected -> selected
+            else -> state.chooseValue(normal, disabled, focused, pressed, hovered)
         }
-    }
+    )
 }
 
 val LocalDefaultTabStyle = staticCompositionLocalOf<TabStyle> {
