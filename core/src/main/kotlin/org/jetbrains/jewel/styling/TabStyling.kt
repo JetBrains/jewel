@@ -48,6 +48,15 @@ interface TabColors {
     val tabBackgroundFocusedSelected: Color
     val tabBackgroundSelected: Color
 
+    val tabForeground: Color
+    val tabForegroundHovered: Color
+    val tabForegroundHoveredFocused: Color
+    val tabForegroundHoveredSelected: Color
+    val tabForegroundHoveredFocusedSelected: Color
+    val tabForegroundFocused: Color
+    val tabForegroundFocusedSelected: Color
+    val tabForegroundSelected: Color
+
     val tabUnderline: Color
     val tabUnderlineHovered: Color
     val tabUnderlineHoveredFocused: Color
@@ -66,6 +75,20 @@ interface TabColors {
     val closeFocusedSelectedTint: Color
     val closeSelectedTint: Color
 
+
+    @Composable
+    fun foregroundColorFor(state: TabState) = rememberUpdatedState(
+        when {
+            state.isSelected && state.isFocused && state.isHovered -> tabForegroundHoveredFocusedSelected
+            state.isSelected && state.isFocused -> tabForegroundFocusedSelected
+            state.isSelected && state.isHovered -> tabForegroundHoveredSelected
+            state.isFocused && state.isHovered -> tabForegroundHoveredFocused
+            state.isFocused -> tabForegroundFocused
+            state.isHovered -> tabForegroundHovered
+            state.isSelected -> tabForegroundSelected
+            else -> tabForeground
+        }
+    )
     @Composable
     fun backGroundColorFor(state: TabState) = rememberUpdatedState(
         when {

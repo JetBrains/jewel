@@ -89,6 +89,9 @@ internal fun TabImpl(
     val lineThickness = remember { tabStyle.metrics.underlineThickness }
     val backgroundColor by tabStyle.colors.backGroundColorFor(state = tabState)
     val focusRequester = remember { FocusRequester() }
+    println("\u001B $tabState")
+    println("\u001B background color: $backgroundColor")
+
     Box(
         modifier = Modifier
             .background(backgroundColor)
@@ -131,12 +134,13 @@ internal fun TabImpl(
             tabIconResource?.let { icon ->
                 Icon(icon)
             }
-            Text(text = tabNameString, color = tabStyle.colors.closeTintFor(tabState).value)
+            Text(text = tabNameString, color = tabStyle.colors.foregroundColorFor(tabState).value)
             if (closable) {
                 Icon(
                     modifier = Modifier.clickable { onTabClose() },
                     painter = tabStyle.icons.closePainter(LocalResourceLoader.current),
-                    contentDescription = "Close tab $tabNameString"
+                    contentDescription = "Close tab $tabNameString",
+                    tint = tabStyle.colors.closeTintFor(state = tabState).value
                 )
             }
         }
@@ -162,7 +166,7 @@ value class TabState(val state: ULong) {
     fun copy(focused: Boolean = isFocused, hovered: Boolean = isHovered, selected: Boolean = isSelected): TabState =
         of(focused, hovered, selected)
 
-    override fun toString(): String = "TabState(focused=$isFocused, Hovered=$isHovered, pressed=$isSelected)"
+    override fun toString(): String = "TabState(focused=$isFocused, Hovered=$isHovered, Selected=$isSelected)"
 
     companion object {
 
