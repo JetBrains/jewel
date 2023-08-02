@@ -73,7 +73,7 @@ internal fun TabImpl(
             }
         }
     }
-    var closeButtonState by remember(isActive) { mutableStateOf(TabCloseButtonState.of(active = isActive)) }
+    var closeButtonState by remember(isActive) { mutableStateOf(ButtonState.of(active = isActive)) }
     val closeActionInteractionSource = remember { MutableInteractionSource() }
     LaunchedEffect(closeActionInteractionSource) {
         closeActionInteractionSource.interactions.collect { interaction ->
@@ -169,58 +169,6 @@ private object NoIndication : Indication {
     @Composable
     override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
         return NoIndicationInstance
-    }
-}
-
-@Immutable
-@JvmInline
-value class TabCloseButtonState(val state: ULong) : InteractiveComponentState {
-
-    @Stable
-    override val isActive: Boolean
-        get() = state and Active != 0UL
-
-    @Stable
-    override val isHovered: Boolean
-        get() = state and Hovered != 0UL
-
-    @Stable
-    override val isPressed: Boolean
-        get() = state and Pressed != 0UL
-
-    @Stable
-    override val isEnabled: Boolean
-        get() = state and Pressed != 0UL
-
-    fun copy(
-        enabled: Boolean = isEnabled,
-        pressed: Boolean = isPressed,
-        hovered: Boolean = isHovered,
-        active: Boolean = isActive,
-    ) = of(
-        enabled = enabled,
-        pressed = pressed,
-        hovered = hovered,
-        active = active
-    )
-
-    override fun toString() =
-        "${javaClass.simpleName}(isEnabled=$isEnabled, " +
-            "isHovered=$isHovered, isPressed=$isPressed isActive=$isActive)"
-
-    companion object {
-
-        fun of(
-            enabled: Boolean = true,
-            pressed: Boolean = false,
-            hovered: Boolean = false,
-            active: Boolean = false,
-        ) = TabState(
-            (if (enabled) Enabled else 0UL) or
-                (if (pressed) Pressed else 0UL) or
-                (if (hovered) Hovered else 0UL) or
-                (if (active) Active else 0UL)
-        )
     }
 }
 

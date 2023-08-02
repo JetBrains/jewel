@@ -6,8 +6,8 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.ButtonState
 import org.jetbrains.jewel.SvgLoader
-import org.jetbrains.jewel.TabState
 import org.jetbrains.jewel.styling.ResourcePainterProvider
 import org.jetbrains.jewel.styling.StatefulPainterProvider
 import org.jetbrains.jewel.styling.TabColors
@@ -69,7 +69,7 @@ data class IntUiTabStyle(
 }
 
 data class IntUiTabIcons(
-    override val close: StatefulPainterProvider<TabState>,
+    override val close: StatefulPainterProvider<ButtonState>,
 ) : TabIcons {
 
     companion object {
@@ -78,7 +78,7 @@ data class IntUiTabIcons(
         fun close(
             svgLoader: SvgLoader,
             basePath: String = "icons/intui/closeSmall.svg",
-        ): StatefulPainterProvider<TabState> =
+        ): StatefulPainterProvider<ButtonState> =
             ResourcePainterProvider(basePath, svgLoader)
     }
 }
@@ -86,7 +86,7 @@ data class IntUiTabIcons(
 @Composable
 fun intUiTabIcons(
     svgLoader: SvgLoader,
-    close: StatefulPainterProvider<TabState> = IntUiTabIcons.close(svgLoader),
+    close: StatefulPainterProvider<ButtonState> = IntUiTabIcons.close(svgLoader),
 ) = IntUiTabIcons(close)
 
 @Immutable

@@ -30,5 +30,85 @@ fun Tabs() {
             label = "Editor Tab 2",
             closable = true
         )
+        editorTab(
+            selected = true,
+            label = "Editor Tab 1",
+            closable = true
+        )
+        editorTab(
+            selected = false,
+            label = "Editor Tab 2",
+            closable = true
+        )
+        editorTab(
+            selected = true,
+            label = "Editor Tab 1",
+            closable = true
+        )
+        editorTab(
+            selected = false,
+            label = "Editor Tab 2",
+            closable = true
+        )
+        editorTab(
+            selected = true,
+            label = "Editor Tab 1",
+            closable = true
+        )
+        editorTab(
+            selected = false,
+            label = "Editor Tab 2",
+            closable = true
+        )
+        editorTab(
+            selected = true,
+            label = "Editor Tab 1",
+            closable = true
+        )
+        editorTab(
+            selected = false,
+            label = "Editor Tab 2",
+            closable = true
+        )
+        editorTab(
+            selected = true,
+            label = "Editor Tab 1",
+            closable = true
+        )
+        editorTab(
+            selected = false,
+            label = "Editor Tab 2",
+            closable = true
+        )
+        editorTab(
+            selected = true,
+            label = "Editor Tab 1",
+            closable = true
+        )
+        editorTab(
+            selected = false,
+            label = "Editor Tab 2",
+            closable = true
+        )
+        editorTab(
+            selected = true,
+            label = "Editor Tab 1",
+            closable = true
+        )
+        editorTab(
+            selected = false,
+            label = "Editor Tab 2",
+            closable = true
+        )
+        editorTab(
+            selected = true,
+            label = "Editor Tab 1",
+            closable = true
+        )
+        editorTab(
+            selected = false,
+            label = "Editor Tab 2",
+            closable = true
+        )
     }
 }

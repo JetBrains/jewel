@@ -8,6 +8,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import org.jetbrains.jewel.ButtonState
 import org.jetbrains.jewel.TabState
 
 @Stable
@@ -22,7 +23,7 @@ interface TabStyle {
 @Immutable
 interface TabIcons {
 
-    val close: StatefulPainterProvider<TabState>
+    val close: StatefulPainterProvider<ButtonState>
 }
 
 @Stable
