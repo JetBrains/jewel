@@ -77,11 +77,7 @@ fun TabStrip(
             }
         }
         if (tabStripState.isHovered) {
-            Box(
-                modifier =
-                Modifier
-                    .matchParentSize()
-            ) {
+            Box(modifier = Modifier.matchParentSize()) {
                 HorizontalScrollbar(
                     rememberScrollbarAdapter(scrollState),
                     modifier = Modifier.fillMaxWidth()
@@ -95,82 +91,82 @@ interface TabStripScope {
 
     fun tab(
         selected: Boolean,
-        tabNameString: String,
+        label: String,
         tabIconResource: String? = null,
         closable: Boolean = true,
-        onTabClose: () -> Unit = {},
-        onTabClick: () -> Unit = {},
+        onClose: () -> Unit = {},
+        onClick: () -> Unit = {},
     )
 
     fun tabs(
         tabsCount: Int,
         selected: (Int) -> Boolean,
-        tabNameString: (Int) -> String,
+        label: (Int) -> String,
         tabIconResource: (Int) -> String?,
         closable: (Int) -> Boolean,
-        onTabClose: (Int) -> Unit,
-        onTabClick: (Int) -> Unit,
+        onClose: (Int) -> Unit,
+        onClick: (Int) -> Unit,
     )
 
     fun editorTab(
         selected: Boolean,
-        tabNameString: String,
+        label: String,
         tabIconResource: String? = null,
         closable: Boolean = true,
-        onTabClose: () -> Unit = {},
-        onTabClick: () -> Unit = {},
+        onClose: () -> Unit = {},
+        onClick: () -> Unit = {},
     )
 
     fun editorTabs(
         tabsCount: Int,
         selected: (Int) -> Boolean,
-        tabNameString: (Int) -> String,
+        label: (Int) -> String,
         tabIconResource: (Int) -> String?,
         closable: (Int) -> Boolean,
-        onTabClose: (Int) -> Unit,
-        onTabClick: (Int) -> Unit,
+        onClose: (Int) -> Unit,
+        onClick: (Int) -> Unit,
     )
 }
 
 sealed class TabData(
     val selected: Boolean,
-    val tabNameString: String,
+    val label: String,
     val tabIconResource: String? = null,
     val closable: Boolean = true,
-    val onTabClose: () -> Unit = {},
-    val onTabClick: () -> Unit = {},
+    val onClose: () -> Unit = {},
+    val onClick: () -> Unit = {},
 ) {
 
     class Default(
         selected: Boolean,
-        tabNameString: String,
+        label: String,
         tabIconResource: String? = null,
         closable: Boolean = true,
-        onTabClose: () -> Unit = {},
-        onTabClick: () -> Unit = {},
+        onClose: () -> Unit = {},
+        onClick: () -> Unit = {},
     ) : TabData(
         selected,
-        tabNameString,
+        label,
         tabIconResource,
         closable,
-        onTabClose,
-        onTabClick
+        onClose,
+        onClick
     )
 
     class Editor(
         selected: Boolean,
-        tabNameString: String,
+        label: String,
         tabIconResource: String? = null,
         closable: Boolean = true,
-        onTabClose: () -> Unit = {},
-        onTabClick: () -> Unit = {},
+        onClose: () -> Unit = {},
+        onClick: () -> Unit = {},
     ) : TabData(
         selected,
-        tabNameString,
+        label,
         tabIconResource,
         closable,
-        onTabClose,
-        onTabClick
+        onClose,
+        onClick
     )
 }
 
@@ -179,20 +175,20 @@ private fun (TabStripScope.() -> Unit).asList() = buildList {
         object : TabStripScope {
             override fun tab(
                 selected: Boolean,
-                tabNameString: String,
+                label: String,
                 tabIconResource: String?,
                 closable: Boolean,
-                onTabClose: () -> Unit,
-                onTabClick: () -> Unit,
+                onClose: () -> Unit,
+                onClick: () -> Unit,
             ) {
                 add(
                     TabData.Default(
                         selected = selected,
-                        tabNameString = tabNameString,
+                        label = label,
                         tabIconResource = tabIconResource,
                         closable = closable,
-                        onTabClose = onTabClose,
-                        onTabClick = onTabClick
+                        onClose = onClose,
+                        onClick = onClick
                     )
                 )
             }
@@ -200,40 +196,40 @@ private fun (TabStripScope.() -> Unit).asList() = buildList {
             override fun tabs(
                 tabsCount: Int,
                 selected: (Int) -> Boolean,
-                tabNameString: (Int) -> String,
+                label: (Int) -> String,
                 tabIconResource: (Int) -> String?,
                 closable: (Int) -> Boolean,
-                onTabClose: (Int) -> Unit,
-                onTabClick: (Int) -> Unit,
+                onClose: (Int) -> Unit,
+                onClick: (Int) -> Unit,
             ) {
                 repeat(tabsCount) {
                     tab(
                         selected(it),
-                        tabNameString(it),
+                        label(it),
                         tabIconResource(it),
                         closable(it),
-                        { onTabClose(it) },
-                        { onTabClick(it) }
+                        { onClose(it) },
+                        { onClick(it) }
                     )
                 }
             }
 
             override fun editorTab(
                 selected: Boolean,
-                tabNameString: String,
+                label: String,
                 tabIconResource: String?,
                 closable: Boolean,
-                onTabClose: () -> Unit,
-                onTabClick: () -> Unit,
+                onClose: () -> Unit,
+                onClick: () -> Unit,
             ) {
                 add(
                     TabData.Editor(
                         selected = selected,
-                        tabNameString = tabNameString,
+                        label = label,
                         tabIconResource = tabIconResource,
                         closable = closable,
-                        onTabClose = onTabClose,
-                        onTabClick = onTabClick
+                        onClose = onClose,
+                        onClick = onClick
                     )
                 )
             }
@@ -241,20 +237,20 @@ private fun (TabStripScope.() -> Unit).asList() = buildList {
             override fun editorTabs(
                 tabsCount: Int,
                 selected: (Int) -> Boolean,
-                tabNameString: (Int) -> String,
+                label: (Int) -> String,
                 tabIconResource: (Int) -> String?,
                 closable: (Int) -> Boolean,
-                onTabClose: (Int) -> Unit,
-                onTabClick: (Int) -> Unit,
+                onClose: (Int) -> Unit,
+                onClick: (Int) -> Unit,
             ) {
                 repeat(tabsCount) {
                     editorTab(
                         selected(it),
-                        tabNameString(it),
+                        label(it),
                         tabIconResource(it),
                         closable(it),
-                        { onTabClose(it) },
-                        { onTabClick(it) }
+                        { onClose(it) },
+                        { onClick(it) }
                     )
                 }
             }

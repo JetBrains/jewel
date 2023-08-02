@@ -102,7 +102,7 @@ internal fun TabImpl(
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
-                    onClick = tabData.onTabClick,
+                    onClick = tabData.onClick,
                     role = Role.Tab
                 )
                 .drawBehind {
@@ -132,7 +132,7 @@ internal fun TabImpl(
                     val iconPainter = painterResource(icon, LocalResourceLoader.current)
                     Image(iconPainter, contentDescription = null)
                 }
-                Text(text = tabData.tabNameString, color = tabStyle.colors.contentFor(tabState).value)
+                Text(text = tabData.label, color = tabStyle.colors.contentFor(tabState).value)
                 val showCloseIcon = when (tabData) {
                     is TabData.Default -> tabData.closable
                     is TabData.Editor -> tabData.closable && (tabState.isHovered || tabState.isSelected)
@@ -143,11 +143,11 @@ internal fun TabImpl(
                         modifier = Modifier.clickable(
                             interactionSource = closeActionInteractionSource,
                             indication = null,
-                            onClick = tabData.onTabClose,
+                            onClick = tabData.onClose,
                             role = Role.Button
                         ).size(16.dp),
                         painter = closePainter,
-                        contentDescription = "Close tab ${tabData.tabNameString}"
+                        contentDescription = "Close tab ${tabData.label}"
                     )
                 } else {
                     Box(Modifier.size(16.dp)) {}

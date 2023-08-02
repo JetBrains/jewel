@@ -12,22 +12,22 @@ fun Tabs() {
     TabStrip {
         tab(
             selected = true,
-            tabNameString = "Default Tab 1",
+            label = "Default Tab 1",
             closable = true
         )
         tab(
             selected = false,
-            tabNameString = "Default Tab 2",
+            label = "Default Tab 2",
             closable = true
         )
         editorTab(
             selected = true,
-            tabNameString = "Editor Tab 1",
+            label = "Editor Tab 1",
             closable = true
         )
         editorTab(
             selected = false,
-            tabNameString = "Editor Tab 2",
+            label = "Editor Tab 2",
             closable = true
         )
     }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.res.ResourceLoader
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyItemScope
 import org.jetbrains.jewel.foundation.tree.BasicLazyTree
@@ -62,13 +63,17 @@ fun <T> LazyTree(
         },
         nodeContent = {
             CompositionLocalProvider(
-                LocalContentColor provides style.colors.elementForegroundFor(
-                    TreeElementState.of(
-                        isFocused,
-                        isSelected,
-                        false
+                LocalContentColor provides (
+                    style.colors.elementForegroundFor(
+                        TreeElementState.of(
+                            isFocused,
+                            isSelected,
+                            false
+                        )
+                    ).value
+                        .takeIf { !it.isUnspecified }
+                        ?: LocalContentColor.current
                     )
-                ).value
             ) { nodeContent(it) }
         }
     )

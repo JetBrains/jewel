@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.semantics.Role
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
@@ -78,7 +79,13 @@ fun Chip(
         horizontalArrangement = Arrangement.Center
     ) {
         CompositionLocalProvider(
-            LocalContentColor provides (colors.contentFor(state = chipState)).value
+            LocalContentColor provides (
+                colors
+                    .contentFor(state = chipState)
+                    .value
+                    .takeIf { !it.isUnspecified }
+                    ?: LocalContentColor.current
+                )
         ) {
             content()
         }
