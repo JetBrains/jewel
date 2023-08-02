@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
+import org.jetbrains.jewel.CommonStateBitMask.Active
 import org.jetbrains.jewel.CommonStateBitMask.Enabled
 import org.jetbrains.jewel.CommonStateBitMask.Focused
 import org.jetbrains.jewel.CommonStateBitMask.Hovered
@@ -193,6 +194,10 @@ private fun RadioButtonImage(outerModifier: Modifier, radioButtonPainter: Painte
 value class RadioButtonState(val state: ULong) : SelectableComponentState {
 
     @Stable
+    override val isActive: Boolean
+        get() = state and Active != 0UL
+
+    @Stable
     override val isSelected: Boolean
         get() = state and Selected != 0UL
 
@@ -218,12 +223,14 @@ value class RadioButtonState(val state: ULong) : SelectableComponentState {
         focused: Boolean = isFocused,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
+        active: Boolean = isActive,
     ) = of(
         selected = selected,
         enabled = enabled,
         focused = focused,
         pressed = pressed,
-        hovered = hovered
+        hovered = hovered,
+        active = active
     )
 
     override fun toString() =
@@ -242,12 +249,14 @@ value class RadioButtonState(val state: ULong) : SelectableComponentState {
             focused: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
+            active: Boolean = false,
         ) = RadioButtonState(
             (if (selected) Selected else 0UL) or
                 (if (enabled) Enabled else 0UL) or
                 (if (focused) Focused else 0UL) or
                 (if (pressed) Pressed else 0UL) or
-                (if (hovered) Hovered else 0UL)
+                (if (hovered) Hovered else 0UL) or
+                (if (active) Active else 0UL)
         )
     }
 }

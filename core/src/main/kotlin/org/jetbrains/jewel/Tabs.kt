@@ -6,8 +6,6 @@ import androidx.compose.foundation.IndicationInstance
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -39,96 +37,74 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.styling.TabStyle
-
-@Composable
-fun Tab(
-    selected: Boolean,
-    tabNameString: String,
-    tabIconResource: String? = null,
-    closable: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    tabStyle: TabStyle = IntelliJTheme.defaultTabStyle,
-    onTabClose: () -> Unit = {},
-    onTabClick: () -> Unit = {},
-) = TabImpl(
-    selected = selected,
-    tabNameString = tabNameString,
-    tabIconResource = tabIconResource,
-    closable = closable,
-    interactionSource = interactionSource,
-    tabStyle = tabStyle,
-    onTabClose = onTabClose,
-    onTabClick = onTabClick
-)
-
-@Composable
-fun EditorTab(
-    selected: Boolean,
-    tabNameString: String,
-    tabIconResource: String? = null,
-    closable: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    tabStyle: TabStyle = IntelliJTheme.editorTabStyle,
-    onTabClose: () -> Unit = {},
-    onTabClick: () -> Unit = {},
-) = TabImpl(
-    selected = selected,
-    tabNameString = tabNameString,
-    tabIconResource = tabIconResource,
-    closable = closable,
-    interactionSource = interactionSource,
-    tabStyle = tabStyle,
-    onTabClose = onTabClose,
-    onTabClick = onTabClick
-)
+import org.jetbrains.jewel.CommonStateBitMask.Active
+import org.jetbrains.jewel.CommonStateBitMask.Enabled
+import org.jetbrains.jewel.CommonStateBitMask.Focused
+import org.jetbrains.jewel.CommonStateBitMask.Hovered
+import org.jetbrains.jewel.CommonStateBitMask.Pressed
+import org.jetbrains.jewel.CommonStateBitMask.Selected
 
 @Composable
 internal fun TabImpl(
-    selected: Boolean,
-    tabNameString: String,
-    tabIconResource: String?,
-    closable: Boolean,
-    interactionSource: MutableInteractionSource,
-    tabStyle: TabStyle,
-    onTabClose: () -> Unit,
-    onTabClick: () -> Unit,
+    isActive: Boolean,
+    tabData: TabData,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-    var tabState by remember { mutableStateOf(TabState.of(selected = selected)) }
-    remember(selected) { tabState = tabState.copy(selected = selected) }
+    val tabStyle = when (tabData) {
+        is TabData.Default -> IntelliJTheme.defaultTabStyle
+        is TabData.Editor -> IntelliJTheme.editorTabStyle
+    }
 
-    val lineColor by tabStyle.colors.underlineFor(tabState)
-    val lineThickness = remember { tabStyle.metrics.underlineThickness }
-    val backgroundColor by tabStyle.colors.backgroundFor(state = tabState)
+    var tabState by remember { mutableStateOf(TabState.of(selected = tabData.selected, active = isActive)) }
+    remember(tabData.selected, isActive) {
+        tabState = tabState.copy(selected = tabData.selected, active = isActive)
+    }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
-                is PressInteraction.Press -> {
-                    tabState = tabState.copy(pressed = true)
-                    onTabClick()
-                }
-
-                is PressInteraction.Cancel, is PressInteraction.Release -> {
-                    tabState = tabState.copy(pressed = false)
-                }
+                is PressInteraction.Press -> tabState = tabState.copy(pressed = true)
+                is PressInteraction.Cancel, is PressInteraction.Release ->
+                    tabState =
+                        tabState.copy(pressed = false)
 
                 is HoverInteraction.Enter -> tabState = tabState.copy(hovered = true)
                 is HoverInteraction.Exit -> tabState = tabState.copy(hovered = false)
-                is FocusInteraction.Focus -> tabState = tabState.copy(focused = true)
-                is FocusInteraction.Unfocus -> tabState = tabState.copy(focused = false)
             }
         }
     }
+    var closeButtonState by remember(isActive) { mutableStateOf(TabCloseButtonState.of(active = isActive)) }
+    val closeActionInteractionSource = remember { MutableInteractionSource() }
+    LaunchedEffect(closeActionInteractionSource) {
+        closeActionInteractionSource.interactions.collect { interaction ->
+            when (interaction) {
+                is PressInteraction.Press -> closeButtonState = closeButtonState.copy(pressed = true)
+                is PressInteraction.Cancel, is PressInteraction.Release ->
+                    closeButtonState =
+                        closeButtonState.copy(pressed = false)
+
+                is HoverInteraction.Enter -> closeButtonState = closeButtonState.copy(hovered = true)
+                is HoverInteraction.Exit -> closeButtonState = closeButtonState.copy(hovered = false)
+            }
+        }
+    }
+    val lineColor by tabStyle.colors.underlineFor(tabState)
+    val lineThickness = remember { tabStyle.metrics.underlineThickness }
+    val backgroundColor by tabStyle.colors.backgroundFor(state = tabState)
 
     CompositionLocalProvider(
-        LocalIndication provides NoIndication
+        LocalIndication provides NoIndication,
+        LocalContentColor provides tabStyle.colors.contentFor(tabState).value
     ) {
         Box(
             modifier = Modifier
                 .background(backgroundColor)
-                .focusable(interactionSource = interactionSource)
-                .clickable(onClick = onTabClick, role = Role.Tab)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = tabData.onTabClick,
+                    role = Role.Tab
+                )
                 .drawBehind {
                     val strokeThickness = lineThickness.toPx()
                     val startY = size.height - strokeThickness
@@ -146,27 +122,35 @@ internal fun TabImpl(
             val contentAlpha by tabStyle.contentAlpha.alphaFor(tabState)
 
             Row(
-                Modifier
-                    .padding(tabStyle.metrics.elementContentPadding)
+                Modifier.padding(tabStyle.metrics.elementContentPadding)
                     .defaultMinSize(Dp.Unspecified, tabStyle.metrics.elementMinHeight)
                     .alpha(contentAlpha),
                 horizontalArrangement = Arrangement.spacedBy(tabStyle.metrics.closeContentGap),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                tabIconResource?.let { icon ->
+                tabData.tabIconResource?.let { icon ->
                     val iconPainter = painterResource(icon, LocalResourceLoader.current)
                     Image(iconPainter, contentDescription = null)
                 }
-                Text(text = tabNameString, color = tabStyle.colors.contentFor(tabState).value)
-
-                if (closable) {
-                    val closePainter by tabStyle.icons.close.getPainter(tabState, LocalResourceLoader.current)
+                Text(text = tabData.tabNameString, color = tabStyle.colors.contentFor(tabState).value)
+                val showCloseIcon = when (tabData) {
+                    is TabData.Default -> tabData.closable
+                    is TabData.Editor -> tabData.closable && (tabState.isHovered || tabState.isSelected)
+                }
+                if (showCloseIcon) {
+                    val closePainter by tabStyle.icons.close.getPainter(closeButtonState, LocalResourceLoader.current)
                     Image(
-                        modifier = Modifier.clickable(onClick = onTabClose, role = Role.Button)
-                            .size(16.dp),
+                        modifier = Modifier.clickable(
+                            interactionSource = closeActionInteractionSource,
+                            indication = null,
+                            onClick = tabData.onTabClose,
+                            role = Role.Button
+                        ).size(16.dp),
                         painter = closePainter,
-                        contentDescription = "Close tab $tabNameString"
+                        contentDescription = "Close tab ${tabData.tabNameString}"
                     )
+                } else {
+                    Box(Modifier.size(16.dp)) {}
                 }
             }
         }
@@ -181,6 +165,7 @@ private object NoIndication : Indication {
         }
     }
 
+    @Suppress("ExpressionBodySyntax")
     @Composable
     override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
         return NoIndicationInstance
@@ -189,7 +174,63 @@ private object NoIndication : Indication {
 
 @Immutable
 @JvmInline
+value class TabCloseButtonState(val state: ULong) : InteractiveComponentState {
+
+    @Stable
+    override val isActive: Boolean
+        get() = state and Active != 0UL
+
+    @Stable
+    override val isHovered: Boolean
+        get() = state and Hovered != 0UL
+
+    @Stable
+    override val isPressed: Boolean
+        get() = state and Pressed != 0UL
+
+    @Stable
+    override val isEnabled: Boolean
+        get() = state and Pressed != 0UL
+
+    fun copy(
+        enabled: Boolean = isEnabled,
+        pressed: Boolean = isPressed,
+        hovered: Boolean = isHovered,
+        active: Boolean = isActive,
+    ) = of(
+        enabled = enabled,
+        pressed = pressed,
+        hovered = hovered,
+        active = active
+    )
+
+    override fun toString() =
+        "${javaClass.simpleName}(isEnabled=$isEnabled, " +
+            "isHovered=$isHovered, isPressed=$isPressed isActive=$isActive)"
+
+    companion object {
+
+        fun of(
+            enabled: Boolean = true,
+            pressed: Boolean = false,
+            hovered: Boolean = false,
+            active: Boolean = false,
+        ) = TabState(
+            (if (enabled) Enabled else 0UL) or
+                (if (pressed) Pressed else 0UL) or
+                (if (hovered) Hovered else 0UL) or
+                (if (active) Active else 0UL)
+        )
+    }
+}
+
+@Immutable
+@JvmInline
 value class TabState(val state: ULong) : SelectableComponentState {
+
+    @Stable
+    override val isActive: Boolean
+        get() = state and Active != 0UL
 
     @Stable
     override val isSelected: Boolean
@@ -197,19 +238,19 @@ value class TabState(val state: ULong) : SelectableComponentState {
 
     @Stable
     override val isEnabled: Boolean
-        get() = state and CommonStateBitMask.Enabled != 0UL
+        get() = state and Enabled != 0UL
 
     @Stable
     override val isFocused: Boolean
-        get() = state and CommonStateBitMask.Focused != 0UL
+        get() = state and Focused != 0UL
 
     @Stable
     override val isHovered: Boolean
-        get() = state and CommonStateBitMask.Hovered != 0UL
+        get() = state and Hovered != 0UL
 
     @Stable
     override val isPressed: Boolean
-        get() = state and CommonStateBitMask.Pressed != 0UL
+        get() = state and Pressed != 0UL
 
     fun copy(
         selected: Boolean = isSelected,
@@ -217,23 +258,21 @@ value class TabState(val state: ULong) : SelectableComponentState {
         focused: Boolean = isFocused,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
+        active: Boolean = isActive,
     ) = of(
         selected = selected,
         enabled = enabled,
         focused = focused,
         pressed = pressed,
-        hovered = hovered
+        hovered = hovered,
+        active = active
     )
 
     override fun toString() =
         "${javaClass.simpleName}(isSelected=$isSelected, isEnabled=$isEnabled, isFocused=$isFocused, " +
-            "isHovered=$isHovered, isPressed=$isPressed)"
+            "isHovered=$isHovered, isPressed=$isPressed isActive=$isActive)"
 
     companion object {
-
-        private const val SELECTED_BIT_OFFSET = CommonStateBitMask.FIRST_AVAILABLE_OFFSET
-
-        private val Selected = 1UL shl SELECTED_BIT_OFFSET
 
         fun of(
             selected: Boolean,
@@ -241,12 +280,14 @@ value class TabState(val state: ULong) : SelectableComponentState {
             focused: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
+            active: Boolean = false,
         ) = TabState(
             (if (selected) Selected else 0UL) or
-                (if (enabled) CommonStateBitMask.Enabled else 0UL) or
-                (if (focused) CommonStateBitMask.Focused else 0UL) or
-                (if (pressed) CommonStateBitMask.Pressed else 0UL) or
-                (if (hovered) CommonStateBitMask.Hovered else 0UL)
+                (if (enabled) Enabled else 0UL) or
+                (if (focused) Focused else 0UL) or
+                (if (pressed) Pressed else 0UL) or
+                (if (hovered) Hovered else 0UL) or
+                (if (active) Active else 0UL)
         )
     }
 }

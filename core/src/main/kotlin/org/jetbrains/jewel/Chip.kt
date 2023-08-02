@@ -90,6 +90,10 @@ fun Chip(
 value class ChipState(val state: ULong) : StateWithOutline {
 
     @Stable
+    override val isActive: Boolean
+        get() = state and CommonStateBitMask.Active != 0UL
+
+    @Stable
     override val isEnabled: Boolean
         get() = state and CommonStateBitMask.Enabled != 0UL
 
@@ -120,13 +124,15 @@ value class ChipState(val state: ULong) : StateWithOutline {
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         warning: Boolean = isWarning,
+        active: Boolean = isActive,
     ): ChipState = of(
         enabled = enabled,
         focused = focused,
         error = error,
         pressed = pressed,
         hovered = hovered,
-        warning = warning
+        warning = warning,
+        active = active
     )
 
     override fun toString() =
@@ -142,13 +148,15 @@ value class ChipState(val state: ULong) : StateWithOutline {
             pressed: Boolean = false,
             hovered: Boolean = false,
             warning: Boolean = false,
+            active: Boolean = false,
         ) = ChipState(
             state = (if (enabled) CommonStateBitMask.Enabled else 0UL) or
                 (if (focused) CommonStateBitMask.Focused else 0UL) or
                 (if (error) CommonStateBitMask.Error else 0UL) or
                 (if (hovered) CommonStateBitMask.Hovered else 0UL) or
                 (if (pressed) CommonStateBitMask.Pressed else 0UL) or
-                (if (warning) CommonStateBitMask.Warning else 0UL)
+                (if (warning) CommonStateBitMask.Warning else 0UL) or
+                (if (active) CommonStateBitMask.Active else 0UL)
         )
     }
 }

@@ -47,7 +47,7 @@ class ResourcePainterProvider<T : InteractiveComponentState>(
 
         if (state.isEnabled) {
             when {
-                state.isFocused -> append("Focused")
+                state is SelectableComponentState && state.isFocused -> append("Focused")
                 !IntelliJTheme.isSwingCompatMode && state.isPressed -> append("Pressed")
                 !IntelliJTheme.isSwingCompatMode && state.isHovered -> append("Hovered")
             }

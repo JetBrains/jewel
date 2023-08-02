@@ -67,7 +67,8 @@ interface TabColors {
                 disabled = contentDisabled,
                 focused = contentFocused,
                 pressed = contentPressed,
-                hovered = contentHovered
+                hovered = contentHovered,
+                active = content
             )
         }
     )
@@ -81,7 +82,8 @@ interface TabColors {
                 disabled = backgroundDisabled,
                 focused = backgroundFocused,
                 pressed = backgroundPressed,
-                hovered = backgroundHovered
+                hovered = backgroundHovered,
+                active = background
             )
         }
     )
@@ -95,7 +97,8 @@ interface TabColors {
                 disabled = underlineDisabled,
                 focused = underlineFocused,
                 pressed = underlinePressed,
-                hovered = underlineHovered
+                hovered = underlineHovered,
+                active = underline
             )
         }
     )
@@ -114,7 +117,14 @@ interface TabContentAlpha {
     fun alphaFor(state: TabState) = rememberUpdatedState(
         when {
             state.isSelected -> selected
-            else -> state.chooseValue(normal, disabled, focused, pressed, hovered)
+            else -> state.chooseValue(
+                normal = normal,
+                disabled = disabled,
+                focused = focused,
+                pressed = pressed,
+                hovered = hovered,
+                active = normal
+            )
         }
     )
 }
