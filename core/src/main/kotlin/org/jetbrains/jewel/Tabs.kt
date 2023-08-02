@@ -89,7 +89,7 @@ internal fun TabImpl(
         }
     }
     val lineColor by tabStyle.colors.underlineFor(tabState)
-    val lineThickness = remember { tabStyle.metrics.underlineThickness }
+    val lineThickness = tabStyle.metrics.underlineThickness
     val backgroundColor by tabStyle.colors.backgroundFor(state = tabState)
 
     CompositionLocalProvider(

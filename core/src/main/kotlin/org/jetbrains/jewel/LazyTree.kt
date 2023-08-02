@@ -64,7 +64,7 @@ fun <T> LazyTree(
         nodeContent = {
             CompositionLocalProvider(
                 LocalContentColor provides (
-                    style.colors.elementForegroundFor(
+                    style.colors.contentFor(
                         TreeElementState.of(
                             isFocused,
                             isSelected,
