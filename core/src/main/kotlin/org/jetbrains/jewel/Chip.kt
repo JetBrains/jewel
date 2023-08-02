@@ -24,6 +24,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.semantics.Role
+import org.jetbrains.jewel.CommonStateBitMask.Active
+import org.jetbrains.jewel.CommonStateBitMask.Enabled
+import org.jetbrains.jewel.CommonStateBitMask.Error
+import org.jetbrains.jewel.CommonStateBitMask.Focused
+import org.jetbrains.jewel.CommonStateBitMask.Hovered
+import org.jetbrains.jewel.CommonStateBitMask.Pressed
+import org.jetbrains.jewel.CommonStateBitMask.Warning
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.styling.ChipStyle
@@ -98,31 +105,31 @@ value class ChipState(val state: ULong) : StateWithOutline {
 
     @Stable
     override val isActive: Boolean
-        get() = state and CommonStateBitMask.Active != 0UL
+        get() = state and Active != 0UL
 
     @Stable
     override val isEnabled: Boolean
-        get() = state and CommonStateBitMask.Enabled != 0UL
+        get() = state and Enabled != 0UL
 
     @Stable
     override val isFocused: Boolean
-        get() = state and CommonStateBitMask.Focused != 0UL
+        get() = state and Focused != 0UL
 
     @Stable
     override val isError: Boolean
-        get() = state and CommonStateBitMask.Error != 0UL
+        get() = state and Error != 0UL
 
     @Stable
     override val isWarning: Boolean
-        get() = state and CommonStateBitMask.Warning != 0UL
+        get() = state and Warning != 0UL
 
     @Stable
     override val isHovered: Boolean
-        get() = state and CommonStateBitMask.Hovered != 0UL
+        get() = state and Hovered != 0UL
 
     @Stable
     override val isPressed: Boolean
-        get() = state and CommonStateBitMask.Pressed != 0UL
+        get() = state and Pressed != 0UL
 
     fun copy(
         enabled: Boolean = isEnabled,
@@ -157,13 +164,13 @@ value class ChipState(val state: ULong) : StateWithOutline {
             warning: Boolean = false,
             active: Boolean = false,
         ) = ChipState(
-            state = (if (enabled) CommonStateBitMask.Enabled else 0UL) or
-                (if (focused) CommonStateBitMask.Focused else 0UL) or
-                (if (error) CommonStateBitMask.Error else 0UL) or
-                (if (hovered) CommonStateBitMask.Hovered else 0UL) or
-                (if (pressed) CommonStateBitMask.Pressed else 0UL) or
-                (if (warning) CommonStateBitMask.Warning else 0UL) or
-                (if (active) CommonStateBitMask.Active else 0UL)
+            state = (if (enabled) Enabled else 0UL) or
+                (if (focused) Focused else 0UL) or
+                (if (error) Error else 0UL) or
+                (if (hovered) Hovered else 0UL) or
+                (if (pressed) Pressed else 0UL) or
+                (if (warning) Warning else 0UL) or
+                (if (active) Active else 0UL)
         )
     }
 }
