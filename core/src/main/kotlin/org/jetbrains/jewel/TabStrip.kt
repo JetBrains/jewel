@@ -1,5 +1,10 @@
 package org.jetbrains.jewel
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.ScrollableDefaults
@@ -58,7 +63,23 @@ fun TabStrip(
                 TabImpl(isActive = tabStripState.isActive, tabData = it)
             }
         }
-        if (tabStripState.isHovered) {
+        AnimatedVisibility(
+            visible = tabStripState.isHovered,
+            enter = fadeIn(
+                animationSpec = tween(
+                    durationMillis = 300,
+                    delayMillis = 100,
+                    easing = LinearEasing
+                )
+            ),
+            exit = fadeOut(
+                animationSpec = tween(
+                    durationMillis = 100,
+                    delayMillis = 700,
+                    easing = LinearEasing
+                )
+            )
+        ) {
             TabStripHorizontalScrollbar(
                 adapter = rememberScrollbarAdapter(scrollState),
                 modifier = Modifier.fillMaxWidth()
