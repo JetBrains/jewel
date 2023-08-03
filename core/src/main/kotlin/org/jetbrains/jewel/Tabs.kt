@@ -75,20 +75,6 @@ internal fun TabImpl(
         }
     }
     var closeButtonState by remember(isActive) { mutableStateOf(ButtonState.of(active = isActive)) }
-    val closeActionInteractionSource = remember { MutableInteractionSource() }
-    LaunchedEffect(closeActionInteractionSource) {
-        closeActionInteractionSource.interactions.collect { interaction ->
-            when (interaction) {
-                is PressInteraction.Press -> closeButtonState = closeButtonState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release ->
-                    closeButtonState =
-                        closeButtonState.copy(pressed = false)
-
-                is HoverInteraction.Enter -> closeButtonState = closeButtonState.copy(hovered = true)
-                is HoverInteraction.Exit -> closeButtonState = closeButtonState.copy(hovered = false)
-            }
-        }
-    }
     val lineColor by tabStyle.colors.underlineFor(tabState)
     val lineThickness = tabStyle.metrics.underlineThickness
     val backgroundColor by tabStyle.colors.backgroundFor(state = tabState)
@@ -139,6 +125,20 @@ internal fun TabImpl(
                     is TabData.Editor -> tabData.closable && (tabState.isHovered || tabState.isSelected)
                 }
                 if (showCloseIcon) {
+                    val closeActionInteractionSource = remember { MutableInteractionSource() }
+                    LaunchedEffect(closeActionInteractionSource) {
+                        closeActionInteractionSource.interactions.collect { interaction ->
+                            when (interaction) {
+                                is PressInteraction.Press -> closeButtonState = closeButtonState.copy(pressed = true)
+                                is PressInteraction.Cancel, is PressInteraction.Release ->
+                                    closeButtonState =
+                                        closeButtonState.copy(pressed = false)
+
+                                is HoverInteraction.Enter -> closeButtonState = closeButtonState.copy(hovered = true)
+                                is HoverInteraction.Exit -> closeButtonState = closeButtonState.copy(hovered = false)
+                            }
+                        }
+                    }
                     val closePainter by tabStyle.icons.close.getPainter(closeButtonState, LocalResourceLoader.current)
                     Image(
                         modifier = Modifier.clickable(
