@@ -36,6 +36,7 @@ fun TabStrip(
     remember(enabled) { tabStripState = tabStripState.copy(enabled) }
 
     val scrollState = rememberScrollState()
+    println(tabStripState.toString())
     Box(
         modifier
             .focusable(true, interactionSource)
@@ -58,7 +59,7 @@ fun TabStrip(
                 )
         ) {
             tabsData.forEach {
-                TabImpl(tabStripState.isActive, it, interactionSource)
+                TabImpl(tabStripState.isActive, it)
             }
         }
         if (tabStripState.isHovered) {
