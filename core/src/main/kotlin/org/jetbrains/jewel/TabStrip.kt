@@ -67,14 +67,14 @@ fun TabStrip(
             visible = tabStripState.isHovered,
             enter = fadeIn(
                 animationSpec = tween(
-                    durationMillis = 300,
-                    delayMillis = 100,
+                    durationMillis = 125,
+                    delayMillis = 0,
                     easing = LinearEasing
                 )
             ),
             exit = fadeOut(
                 animationSpec = tween(
-                    durationMillis = 100,
+                    durationMillis = 125,
                     delayMillis = 700,
                     easing = LinearEasing
                 )
