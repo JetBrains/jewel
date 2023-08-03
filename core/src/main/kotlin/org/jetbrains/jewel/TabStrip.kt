@@ -5,8 +5,6 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.interaction.FocusInteraction
-import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -15,7 +13,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
+import org.jetbrains.jewel.foundation.onHover
 
 @Composable
 fun TabStrip(
@@ -37,24 +35,14 @@ fun TabStrip(
 
     remember(enabled) { tabStripState = tabStripState.copy(enabled) }
 
-    LaunchedEffect(interactionSource) {
-        interactionSource.interactions.collect { interaction ->
-            when (interaction) {
-                is HoverInteraction.Enter -> tabStripState = tabStripState.copy(hovered = true)
-                is HoverInteraction.Exit -> tabStripState = tabStripState.copy(hovered = false)
-                is FocusInteraction.Focus -> tabStripState = tabStripState.copy(focused = true, active = true)
-                is FocusInteraction.Unfocus -> tabStripState = tabStripState.copy(focused = false, active = false)
-            }
-        }
-    }
     val scrollState = rememberScrollState()
-
     Box(
-        Modifier
+        modifier
             .focusable(true, interactionSource)
+            .onHover { tabStripState = tabStripState.copy(hovered = it) }
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .horizontalScroll(scrollState)
                 .scrollable(
@@ -70,19 +58,14 @@ fun TabStrip(
                 )
         ) {
             tabsData.forEach {
-                TabImpl(
-                    tabStripState.isActive,
-                    it
-                )
+                TabImpl(tabStripState.isActive, it, interactionSource)
             }
         }
         if (tabStripState.isHovered) {
-            Box(modifier = Modifier.matchParentSize()) {
-                HorizontalScrollbar(
-                    rememberScrollbarAdapter(scrollState),
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+            HorizontalScrollbar(
+                rememberScrollbarAdapter(scrollState),
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
