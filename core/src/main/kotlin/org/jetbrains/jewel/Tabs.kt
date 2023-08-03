@@ -93,7 +93,7 @@ internal fun TabImpl(
                     val strokeThickness = lineThickness.toPx()
                     val startY = size.height - strokeThickness
                     val endX = size.width
-                    val capDxFix = 3f
+                    val capDxFix = strokeThickness / 2f
                     drawLine(
                         brush = SolidColor(lineColor),
                         start = Offset(0 + capDxFix, startY),
@@ -154,7 +154,6 @@ internal fun TabImpl(
         }
     }
 }
-
 
 private object NoIndication : Indication {
     private object NoIndicationInstance : IndicationInstance {
