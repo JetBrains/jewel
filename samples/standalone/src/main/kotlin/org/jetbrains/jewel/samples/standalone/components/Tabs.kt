@@ -12,7 +12,7 @@ import org.jetbrains.jewel.TabStrip
 fun Tabs() {
     GroupHeader("Tabs")
     TabStrip(modifier = Modifier.fillMaxWidth()) {
-        repeat(3){
+        repeat(3) {
             tab(
                 selected = true,
                 label = "Default Tab 1",

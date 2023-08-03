@@ -87,7 +87,7 @@ fun TabStripHorizontalScrollbar(
     reverseLayout: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ScrollbarStyle = IntelliJTheme.scrollbarStyle,
-){
+) {
     val shape by remember { mutableStateOf(RoundedCornerShape(style.metrics.thumbCornerSize)) }
     val hoverDurationMillis by remember { mutableStateOf(style.hoverDuration.toInt(DurationUnit.MILLISECONDS)) }
 
