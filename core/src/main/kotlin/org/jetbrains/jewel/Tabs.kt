@@ -11,10 +11,9 @@ import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -36,7 +35,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.CommonStateBitMask.Active
 import org.jetbrains.jewel.CommonStateBitMask.Enabled
@@ -47,6 +45,7 @@ import org.jetbrains.jewel.CommonStateBitMask.Selected
 
 @Composable
 internal fun TabImpl(
+    modifier: Modifier = Modifier,
     isActive: Boolean,
     tabData: TabData,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -80,8 +79,11 @@ internal fun TabImpl(
         LocalIndication provides NoIndication,
         LocalContentColor provides tabStyle.colors.contentFor(tabState).value
     ) {
-        Box(
-            modifier = Modifier
+        val contentAlpha by tabStyle.contentAlpha.alphaFor(tabState)
+
+        Row(
+            modifier
+                .height(tabStyle.metrics.tabHeight)
                 .background(backgroundColor)
                 .clickable(
                     interactionSource = interactionSource,
@@ -91,7 +93,7 @@ internal fun TabImpl(
                 )
                 .drawBehind {
                     val strokeThickness = lineThickness.toPx()
-                    val startY = size.height - strokeThickness
+                    val startY = size.height - (strokeThickness / 2f)
                     val endX = size.width
                     val capDxFix = strokeThickness / 2f
                     drawLine(
@@ -102,54 +104,51 @@ internal fun TabImpl(
                         cap = StrokeCap.Round
                     )
                 }
+                .padding(tabStyle.metrics.tabPadding),
+            horizontalArrangement = Arrangement.spacedBy(tabStyle.metrics.closeContentGap),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            val contentAlpha by tabStyle.contentAlpha.alphaFor(tabState)
+            tabData.tabIconResource?.let { icon ->
+                val iconPainter = painterResource(icon, LocalResourceLoader.current)
+                Image(modifier = Modifier.alpha(contentAlpha), painter = iconPainter, contentDescription = null)
+            }
+            Text(
+                modifier = Modifier.alpha(contentAlpha),
+                text = tabData.label,
+                color = tabStyle.colors.contentFor(tabState).value
+            )
+            val showCloseIcon = when (tabData) {
+                is TabData.Default -> tabData.closable
+                is TabData.Editor -> tabData.closable && (tabState.isHovered || tabState.isSelected)
+            }
+            if (showCloseIcon) {
+                val closeActionInteractionSource = remember { MutableInteractionSource() }
+                LaunchedEffect(closeActionInteractionSource) {
+                    closeActionInteractionSource.interactions.collect { interaction ->
+                        when (interaction) {
+                            is PressInteraction.Press -> closeButtonState = closeButtonState.copy(pressed = true)
+                            is PressInteraction.Cancel, is PressInteraction.Release ->
+                                closeButtonState =
+                                    closeButtonState.copy(pressed = false)
 
-            Row(
-                Modifier.padding(tabStyle.metrics.elementContentPadding)
-                    .defaultMinSize(Dp.Unspecified, tabStyle.metrics.elementMinHeight)
-                    .alpha(contentAlpha),
-                horizontalArrangement = Arrangement.spacedBy(tabStyle.metrics.closeContentGap),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                tabData.tabIconResource?.let { icon ->
-                    val iconPainter = painterResource(icon, LocalResourceLoader.current)
-                    Image(iconPainter, contentDescription = null)
-                }
-                Text(text = tabData.label, color = tabStyle.colors.contentFor(tabState).value)
-                val showCloseIcon = when (tabData) {
-                    is TabData.Default -> tabData.closable
-                    is TabData.Editor -> tabData.closable && (tabState.isHovered || tabState.isSelected)
-                }
-                if (showCloseIcon) {
-                    val closeActionInteractionSource = remember { MutableInteractionSource() }
-                    LaunchedEffect(closeActionInteractionSource) {
-                        closeActionInteractionSource.interactions.collect { interaction ->
-                            when (interaction) {
-                                is PressInteraction.Press -> closeButtonState = closeButtonState.copy(pressed = true)
-                                is PressInteraction.Cancel, is PressInteraction.Release ->
-                                    closeButtonState =
-                                        closeButtonState.copy(pressed = false)
-
-                                is HoverInteraction.Enter -> closeButtonState = closeButtonState.copy(hovered = true)
-                                is HoverInteraction.Exit -> closeButtonState = closeButtonState.copy(hovered = false)
-                            }
+                            is HoverInteraction.Enter -> closeButtonState = closeButtonState.copy(hovered = true)
+                            is HoverInteraction.Exit -> closeButtonState = closeButtonState.copy(hovered = false)
                         }
                     }
-                    val closePainter by tabStyle.icons.close.getPainter(closeButtonState, LocalResourceLoader.current)
-                    Image(
-                        modifier = Modifier.clickable(
-                            interactionSource = closeActionInteractionSource,
-                            indication = null,
-                            onClick = tabData.onClose,
-                            role = Role.Button
-                        ).size(16.dp),
-                        painter = closePainter,
-                        contentDescription = "Close tab ${tabData.label}"
-                    )
-                } else if (tabData.closable) {
-                    Spacer(Modifier.size(16.dp))
                 }
+                val closePainter by tabStyle.icons.close.getPainter(closeButtonState, LocalResourceLoader.current)
+                Image(
+                    modifier = Modifier.clickable(
+                        interactionSource = closeActionInteractionSource,
+                        indication = null,
+                        onClick = tabData.onClose,
+                        role = Role.Button
+                    ).size(16.dp).alpha(contentAlpha),
+                    painter = closePainter,
+                    contentDescription = "Close tab ${tabData.label}"
+                )
+            } else if (tabData.closable) {
+                Spacer(Modifier.size(16.dp))
             }
         }
     }

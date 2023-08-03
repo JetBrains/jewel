@@ -30,8 +30,8 @@ interface TabIcons {
 interface TabMetrics {
 
     val underlineThickness: Dp
-    val elementContentPadding: PaddingValues
-    val elementMinHeight: Dp
+    val tabPadding: PaddingValues
+    val tabHeight: Dp
     val closeContentGap: Dp
 }
 

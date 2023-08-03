@@ -92,9 +92,9 @@ fun intUiTabIcons(
 @Immutable
 data class IntUiTabMetrics(
     override val underlineThickness: Dp = 3.dp,
-    override val elementContentPadding: PaddingValues = PaddingValues(8.dp),
+    override val tabPadding: PaddingValues = PaddingValues(horizontal = 8.dp),
     override val closeContentGap: Dp = 8.dp,
-    override val elementMinHeight: Dp = 40.dp,
+    override val tabHeight: Dp = 40.dp,
 ) : TabMetrics
 
 @Immutable

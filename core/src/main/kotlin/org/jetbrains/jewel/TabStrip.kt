@@ -26,19 +26,18 @@ import org.jetbrains.jewel.foundation.onHover
 fun TabStrip(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: TabStripScope.() -> Unit,
 ) {
     val tabsData = remember { content.asList() }
 
-    var tabStripState: TabStripState by remember(interactionSource) { mutableStateOf(TabStripState.of(enabled = true)) }
+    var tabStripState: TabStripState by remember { mutableStateOf(TabStripState.of(enabled = true)) }
 
     remember(enabled) { tabStripState = tabStripState.copy(enabled) }
 
     val scrollState = rememberScrollState()
     Box(
         modifier
-            .focusable(true, interactionSource)
+            .focusable(true, remember { MutableInteractionSource() })
             .onHover { tabStripState = tabStripState.copy(hovered = it) }
     ) {
         Row(
@@ -51,18 +50,17 @@ fun TabStrip(
                         Orientation.Vertical,
                         false
                     ),
-                    enabled = tabStripState.isHovered,
                     state = scrollState,
-                    interactionSource = interactionSource
+                    interactionSource = remember { MutableInteractionSource() }
                 )
         ) {
             tabsData.forEach {
-                TabImpl(tabStripState.isActive, it)
+                TabImpl(isActive = tabStripState.isActive, tabData = it)
             }
         }
         if (tabStripState.isHovered) {
-            HorizontalScrollbar(
-                rememberScrollbarAdapter(scrollState),
+            TabStripHorizontalScrollbar(
+                adapter = rememberScrollbarAdapter(scrollState),
                 modifier = Modifier.fillMaxWidth()
             )
         }
