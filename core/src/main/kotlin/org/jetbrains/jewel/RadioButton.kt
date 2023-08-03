@@ -235,7 +235,7 @@ value class RadioButtonState(val state: ULong) : SelectableComponentState {
 
     override fun toString() =
         "${javaClass.simpleName}(isSelected=$isSelected, isEnabled=$isEnabled, isFocused=$isFocused, " +
-            "isHovered=$isHovered, isPressed=$isPressed)"
+            "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     companion object {
 

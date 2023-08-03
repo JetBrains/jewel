@@ -251,7 +251,7 @@ value class DropdownState(val state: ULong) : StateWithOutline {
 
     override fun toString() =
         "${javaClass.simpleName}(isEnabled=$isEnabled, isFocused=$isFocused, isError=$isError, isWarning=$isWarning, " +
-            "isHovered=$isHovered, isPressed=$isPressed)"
+            "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     companion object {
 

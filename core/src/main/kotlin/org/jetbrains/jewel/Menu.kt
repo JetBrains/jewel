@@ -500,7 +500,7 @@ value class MenuItemState(val state: ULong) : SelectableComponentState {
 
     override fun toString() =
         "MenuItemState(state=$state, isSelected=$isSelected, isEnabled=$isEnabled, isFocused=$isFocused, " +
-            "isHovered=$isHovered, isPressed=$isPressed)"
+            "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     companion object {
 
