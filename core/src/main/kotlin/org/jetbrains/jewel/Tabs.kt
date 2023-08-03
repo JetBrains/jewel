@@ -65,10 +65,7 @@ internal fun TabImpl(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> tabState = tabState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release ->
-                    tabState =
-                        tabState.copy(pressed = false)
-
+                is PressInteraction.Cancel, is PressInteraction.Release -> tabState = tabState.copy(pressed = false)
                 is HoverInteraction.Enter -> tabState = tabState.copy(hovered = true)
                 is HoverInteraction.Exit -> tabState = tabState.copy(hovered = false)
             }
@@ -150,13 +147,14 @@ internal fun TabImpl(
                         painter = closePainter,
                         contentDescription = "Close tab ${tabData.label}"
                     )
-                } else {
+                } else if (tabData.closable) {
                     Spacer(Modifier.size(16.dp))
                 }
             }
         }
     }
 }
+
 
 private object NoIndication : Indication {
     private object NoIndicationInstance : IndicationInstance {

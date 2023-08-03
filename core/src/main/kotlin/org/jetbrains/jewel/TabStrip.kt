@@ -36,7 +36,6 @@ fun TabStrip(
     remember(enabled) { tabStripState = tabStripState.copy(enabled) }
 
     val scrollState = rememberScrollState()
-    println(tabStripState.toString())
     Box(
         modifier
             .focusable(true, interactionSource)
@@ -44,7 +43,6 @@ fun TabStrip(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
                 .horizontalScroll(scrollState)
                 .scrollable(
                     orientation = Orientation.Vertical,
