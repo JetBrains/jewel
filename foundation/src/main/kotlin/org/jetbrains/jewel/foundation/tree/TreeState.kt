@@ -26,7 +26,7 @@ class TreeState(
 
     val lastFocusedIndex get() = delegate.lastFocusedIndex
     val selectedItemIndexes get() = delegate.selectedItemIndexes
-    internal val selectedKeys get() = delegate.selectedIdsMap.keys.map { it.key }
+    val selectedKeys get() = delegate.selectedIdsMap.keys.map { it.key }
     internal val allNodes = mutableStateListOf<Any>()
     internal val openNodes = mutableStateListOf<Any>()
 
