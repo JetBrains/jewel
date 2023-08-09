@@ -2,22 +2,10 @@ package org.jetbrains.jewel.foundation.lazy
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.focusable
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
-import androidx.compose.ui.input.pointer.pointerInput
-import kotlinx.coroutines.CoroutineScope
-import org.jetbrains.jewel.foundation.tree.PointerEventScopedActions
-import org.jetbrains.jewel.foundation.utils.Log
+import org.jetbrains.jewel.foundation.lazy.SelectableLazyListKey.NotSelectable
+import org.jetbrains.jewel.foundation.lazy.SelectableLazyListKey.Selectable
 
 /**
  * Interface defining the scope for building a selectable lazy list.
@@ -36,7 +24,6 @@ interface SelectableLazyListScope {
     fun item(
         key: Any,
         contentType: Any? = null,
-        focusable: Boolean = true,
         selectable: Boolean = true,
         content: @Composable SelectableLazyItemScope.() -> Unit,
     )
@@ -55,7 +42,6 @@ interface SelectableLazyListScope {
         count: Int,
         key: (index: Int) -> Any,
         contentType: (index: Int) -> Any? = { null },
-        focusable: (index: Int) -> Boolean = { true },
         selectable: (index: Int) -> Boolean = { true },
         itemContent: @Composable SelectableLazyItemScope.(index: Int) -> Unit,
     )
@@ -72,156 +58,149 @@ interface SelectableLazyListScope {
     fun stickyHeader(
         key: Any,
         contentType: Any? = null,
-        focusable: Boolean = false,
         selectable: Boolean = false,
         content: @Composable SelectableLazyItemScope.() -> Unit,
     )
 }
 
-internal class SelectableLazyListScopeContainer(
-    private val delegate: LazyListScope,
-    private val state: SelectableLazyListState,
-    private val pointerEventScopedActions: PointerEventScopedActions,
-) : SelectableLazyListScope {
+internal class SelectableLazyListScopeContainer : SelectableLazyListScope {
 
-    @Composable
-    private fun Modifier.focusable(key: SelectableKey.Focusable, isFocused: Boolean) =
-        focusRequester(key.focusRequester)
-            .onFocusChanged {
-                if (it.hasFocus) {
-                    state.lastFocusedKeyState.value = SelectableLazyListState.LastFocusedKeyContainer.Set(key)
-                    state.lastFocusedIndexState.value = state.keys.indexOf(key)
-                }
-            }
-            .focusable()
-            .pointerInput(key) {
-                awaitPointerEventScope {
-                    while (true) {
-                        awaitFirstDown(false)
-                        if (!isFocused) {
-                            key.focusRequester
-                                .runCatching { requestFocus() }.onSuccess {
-                                    Log.d("focus requested with success on single item-> ${state.keys.indexOf(key)}")
-                                }.onFailure {
-                                    Log.d("focus requested with failure on single item-> ${state.keys.indexOf(key)}")
-                                }
-                        }
-                    }
-                }
-            }
+    private var entriesCount = 0
 
-    @Composable
-    private fun Modifier.selectable(selectableKey: SelectableKey, scope: CoroutineScope = rememberCoroutineScope()) =
-        onPointerEvent(PointerEventType.Press) {
-            pointerEventScopedActions.handlePointerEventPress(it, state.keybindings, scope, selectableKey.key)
-        }
+    private val keys = mutableListOf<SelectableLazyListKey>()
+    private val entries = mutableListOf<Entry>()
+
+    fun getEntries() = entries.toList()
+    fun getKeys() = keys.toList()
+
+    internal sealed interface Entry {
+        data class Item(
+            val key: Any,
+            val contentType: Any?,
+            val content: @Composable (SelectableLazyItemScope.() -> Unit),
+            val index: Int
+        ) : Entry
+        data class Items(
+            val count: Int,
+            val key: (index: Int) -> Any,
+            val contentType: (index: Int) -> Any?,
+            val itemContent: @Composable (SelectableLazyItemScope.(index: Int) -> Unit),
+            val startIndex: Int
+        ) : Entry
+        data class StickyHeader(
+            val key: Any,
+            val contentType: Any?,
+            val content: @Composable (SelectableLazyItemScope.() -> Unit),
+            val index: Int
+        ) : Entry
+    }
+
+//    @Composable
+//    private fun Modifier.selectable(selectableKey: SelectableLazyListKey, scope: CoroutineScope = rememberCoroutineScope()) =
+//        onPointerEvent(PointerEventType.Press) {
+//            pointerEventScopedActions.handlePointerEventPress(it, state.keybindings, scope, selectableKey.key)
+//        }
 
     override fun item(
         key: Any,
         contentType: Any?,
-        focusable: Boolean,
         selectable: Boolean,
-        content: @Composable SelectableLazyItemScope.() -> Unit,
+        content: @Composable() (SelectableLazyItemScope.() -> Unit),
     ) {
-        val focusRequester = FocusRequester()
-        val selectableKey = if (focusable) {
-            SelectableKey.Focusable(focusRequester, key, selectable)
-        } else {
-            SelectableKey.NotFocusable(key, selectable)
-        }
-        state.attachKey(selectableKey)
-        delegate.item(selectableKey, contentType) {
-            singleItem(selectableKey, key, selectable, focusable, content)
-        }
+        keys.add(if (selectable) Selectable(key) else NotSelectable(key))
+        entries.add(Entry.Item(key, contentType, content, entriesCount))
+        entriesCount++
+//        val selectableKey = if (selectable) {
+//            SelectableLazyListKey.Selectable(key)
+//        } else {
+//            SelectableLazyListKey.NotSelectable(key)
+//        }
+////        state.attachKey(selectableKey)
+//        delegate.item(selectableKey, contentType) {
+//            singleItem(selectableKey, selectable, content)
+//        }
     }
 
-    @Composable
-    private fun LazyItemScope.singleItem(
-        selectableKey: SelectableKey,
-        key: Any,
-        selectable: Boolean,
-        focusable: Boolean,
-        content: @Composable (SelectableLazyItemScope.() -> Unit),
-    ) {
-        val isFocused = state.lastFocusedIndex == state.keys.indexOf(selectableKey)
-        val isSelected = key in state.selectedIdsMap
-        val scope = rememberCoroutineScope()
-        Box(
-            Modifier
-                .then(if (selectable) Modifier.selectable(selectableKey, scope) else Modifier)
-                .then(if (focusable) Modifier.focusable(selectableKey as SelectableKey.Focusable, isFocused) else Modifier),
-        ) {
-            content(SelectableLazyItemScope(isSelected, isFocused))
-        }
-    }
+//    @Composable
+//    private fun LazyItemScope.singleItem(
+//        selectableKey: SelectableLazyListKey,
+//        selectable: Boolean,
+//        content: @Composable (SelectableLazyItemScope.() -> Unit),
+//    ) {
+//        val isActive = state.isSelectableLazyColumnActive.value
+//        val isSelected = selectableKey.key in state.selectedChildren
+//        val scope = rememberCoroutineScope()
+//        Box(
+//            Modifier
+//                .then(if (selectable) Modifier.selectable(selectableKey, scope) else Modifier)
+//        ) {
+//            content(SelectableLazyItemScope(isSelected, isActive))
+//        }
+//    }
 
     override fun items(
         count: Int,
         key: (index: Int) -> Any,
         contentType: (index: Int) -> Any?,
-        focusable: (index: Int) -> Boolean,
         selectable: (index: Int) -> Boolean,
-        itemContent: @Composable SelectableLazyItemScope.(index: Int) -> Unit,
+        itemContent: @Composable() (SelectableLazyItemScope.(index: Int) -> Unit),
     ) {
-        val totalItems = state.keys.size
-        val selectableKeys: List<SelectableKey> = List(count) {
-            if (focusable(it)) {
-                SelectableKey.Focusable(FocusRequester(), key(it), selectable(it))
+        val selectableKeys: List<SelectableLazyListKey> = List(count) {
+            if (selectable(it)) {
+                Selectable(key(it))
             } else {
-                SelectableKey.NotFocusable(
-                    key(it),
-                    selectable(it),
-                )
+                NotSelectable(key(it))
             }
         }
-        state.attachKeys(selectableKeys)
-        Log.w("there are ${state.keys.size} keys")
-        Log.w(state.keys.map { it.key }.joinToString("\n"))
-        delegate.items(
-            count = count,
-            key = { selectableKeys[it] },
-            itemContent = { index ->
-                if (selectableKeys[index] in state.selectedIdsMap) Log.e("i'm the element with index $index and i'm selected! ")
-                val isFocused = state.lastFocusedIndex == totalItems + index
-                val isSelected = selectableKeys[index] in state.selectedIdsMap
-                Box(
-                    Modifier
-                        .then(if (selectable(index)) Modifier.selectable(selectableKeys[index]) else Modifier)
-                        .then(if (focusable(index)) Modifier.focusable(selectableKeys[index] as SelectableKey.Focusable, isFocused) else Modifier),
-                ) {
-                    itemContent(SelectableLazyItemScope(isFocused, isSelected), index)
-                }
-            },
-        )
+        keys.addAll(selectableKeys)
+        entries.add(Entry.Items(count, key, contentType, itemContent, entriesCount))
+        entriesCount = entriesCount + count
+//        state.attachKeys(selectableKeys)
+//        Log.w("there are ${state.keys.size} keys")
+//        Log.w(state.keys.joinToString("\n"))
+//        delegate.items(
+//            count = count,
+//            key = { selectableKeys[it] },
+//            itemContent = { index ->
+//                if (selectableKeys[index] in state.selectedIdsMap) Log.e("i'm the element with index $index and i'm selected! ")
+//                val isActive = state.isSelectableLazyColumnActive.value
+//                val isSelected = selectableKeys[index].key in state.selectedIdsMap
+//                Box(
+//                    Modifier
+//                        .then(if (selectable(index)) Modifier.selectable(selectableKeys[index]) else Modifier)
+//                ) {
+//                    itemContent(SelectableLazyItemScope(isSelected, isActive), index)
+//                }
+//            }
+//        )
     }
 
     @ExperimentalFoundationApi
     override fun stickyHeader(
         key: Any,
         contentType: Any?,
-        focusable: Boolean,
         selectable: Boolean,
-        content: @Composable SelectableLazyItemScope.() -> Unit,
+        content: @Composable() (SelectableLazyItemScope.() -> Unit),
     ) {
-        val focusRequester = FocusRequester()
-        val selectableKey = if (focusable) {
-            SelectableKey.Focusable(focusRequester, key, selectable)
-        } else {
-            SelectableKey.NotFocusable(key, selectable)
-        }
-        state.attachKey(selectableKey)
-        delegate.stickyHeader(selectableKey, contentType) {
-            singleItem(selectableKey, key, selectable, focusable, content)
-        }
+        keys.add(if (selectable) Selectable(key) else NotSelectable(key))
+        entries.add(Entry.StickyHeader(key, contentType, content, entriesCount))
+        entriesCount++
+//        state.attachKey(selectableKey)
+//        delegate.stickyHeader(selectableKey, contentType) {
+//            singleItem(selectableKey, selectable, content)
+//        }
     }
 }
 
 @Composable
-fun LazyItemScope.SelectableLazyItemScope(isFocused: Boolean = false, isSelected: Boolean = false): SelectableLazyItemScope =
-    SelectableLazyItemScopeDelegate(this, isFocused, isSelected)
+fun LazyItemScope.SelectableLazyItemScope(
+    isSelected: Boolean = false,
+    isActive: Boolean = false
+): SelectableLazyItemScope =
+    SelectableLazyItemScopeDelegate(this, isSelected, isActive)
 
 internal class SelectableLazyItemScopeDelegate(
     private val delegate: LazyItemScope,
-    override val isFocused: Boolean,
     override val isSelected: Boolean,
+    override val isActive: Boolean
 ) : SelectableLazyItemScope, LazyItemScope by delegate
