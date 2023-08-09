@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -84,10 +83,11 @@ fun <T> BasicLazyTree(
     chevronContent: @Composable (nodeState: TreeElementState) -> Unit,
     nodeContent: @Composable SelectableLazyItemScope.(Tree.Element<T>) -> Unit,
 ) {
-    val flattenedTree = remember { mutableStateOf(emptyList<Tree.Element<*>>()) }
+    var flattenedTree by remember { mutableStateOf(emptyList<Tree.Element<*>>()) }
 
     LaunchedEffect(tree, treeState.openNodes.size) {
-        refreshFlattenTree(flattenedTree, treeState, tree)
+        // refresh flattenTree
+        flattenedTree = tree.roots.flatMap { flattenTree(it, treeState.openNodes, treeState.allNodes) }
         treeState.delegate.updateKeysIndexes()
     }
 
@@ -102,14 +102,14 @@ fun <T> BasicLazyTree(
         pointerHandlingScopedActions = pointerEventScopedActions
     ) {
         items(
-            count = flattenedTree.value.size,
+            count = flattenedTree.size,
             key = {
-                val idPath = flattenedTree.value[it].idPath()
+                val idPath = flattenedTree[it].idPath()
                 idPath
             },
-            contentType = { flattenedTree.value[it].data }
+            contentType = { flattenedTree[it].data }
         ) { itemIndex ->
-            val element = flattenedTree.value[itemIndex]
+            val element = flattenedTree[itemIndex]
             val elementState = TreeElementState.of(
                 focused = isFocused,
                 selected = isSelected,
@@ -135,7 +135,7 @@ fun <T> BasicLazyTree(
                         indication = null
                     ) {
                         (pointerEventScopedActions as? DefaultTreeViewPointerEventAction)?.notifyItemClicked(
-                            item = flattenedTree.value[itemIndex] as Tree.Element<T>,
+                            item = flattenedTree[itemIndex] as Tree.Element<T>,
                             scope = scope,
                             doubleClickTimeDelayMillis = platformDoubleClickDelay.inWholeMilliseconds,
                             onElementClick = onElementClick,
@@ -222,20 +222,6 @@ value class TreeElementState(val state: ULong) {
                 (if (expanded) Expanded else 0UL)
         )
     }
-}
-
-private suspend fun refreshFlattenTree(
-    flattenedTree: MutableState<List<Tree.Element<*>>>,
-    treeState: TreeState,
-    tree: Tree<*>,
-) {
-    Log.d("-----treeRefreshed----")
-    flattenedTree.value = tree.roots.flatMap { flattenTree(it, treeState.openNodes, treeState.allNodes) }
-    flattenedTree.value.forEach {
-        Log.d(it.idPath().toString())
-    }
-//    delegate.updateKeysIndexes()
-    Log.d("----treeRefreshedPrinted----")
 }
 
 private suspend fun flattenTree(
