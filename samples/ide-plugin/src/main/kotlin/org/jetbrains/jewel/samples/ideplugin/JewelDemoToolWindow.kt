@@ -25,19 +25,8 @@ import com.intellij.util.ui.JBDimension
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.Orientation
-import org.jetbrains.jewel.components.Button
-import org.jetbrains.jewel.components.Checkbox
-import org.jetbrains.jewel.components.CheckboxRow
-import org.jetbrains.jewel.components.Divider
-import org.jetbrains.jewel.components.RadioButtonRow
-import org.jetbrains.jewel.components.Tab
-import org.jetbrains.jewel.components.TabRow
-import org.jetbrains.jewel.components.TabScope
-import org.jetbrains.jewel.components.Text
-import org.jetbrains.jewel.components.TextField
-import org.jetbrains.jewel.components.rememberTabContainerState
-import org.jetbrains.jewel.themes.darcula.idebridge.IntelliJTheme
-import org.jetbrains.jewel.themes.darcula.idebridge.addComposePanel
+import org.jetbrains.jewel.bridge.SwingBridgeTheme
+import org.jetbrains.jewel.bridge.addComposePanel
 import javax.swing.JProgressBar
 
 @ExperimentalCoroutinesApi
@@ -48,13 +37,13 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
     }
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        toolWindow.addComposePanel("Compose Demo") {
-            IntelliJTheme(this) {
+        toolWindow.addComposePanel("Jewel") {
+            SwingBridgeTheme {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(IntelliJTheme.palette.background),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically)) {
                         var clicks by remember { mutableStateOf(0) }
@@ -69,17 +58,17 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                             value = textFieldValue,
                             onValueChange = {
                                 textFieldValue = it
-                            }
+                            },
                         )
 
                         Row(
                             modifier = Modifier.weight(1f),
-                            horizontalArrangement = Arrangement.spacedBy(24.dp)
+                            horizontalArrangement = Arrangement.spacedBy(24.dp),
                         ) {
                             Text("One")
                             Divider(
                                 orientation = Orientation.Vertical,
-                                startIndent = 12.dp
+                                startIndent = 12.dp,
                             )
                             Text("Two")
                             Divider(orientation = Orientation.Vertical)
@@ -90,7 +79,7 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
 
                         CheckboxRow(
                             checked = checked,
-                            onCheckedChange = { checked = it }
+                            onCheckedChange = { checked = it },
                         ) {
                             Text("Hello, I am a themed checkbox")
                         }
@@ -112,30 +101,30 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                         var radioState by remember { mutableStateOf(RadioSample.Automatic) }
                         Column(
                             Modifier.selectableGroup(),
-                            verticalArrangement = Arrangement.spacedBy(IntelliJTheme.metrics.singlePadding)
+                            verticalArrangement = Arrangement.spacedBy(IntelliJTheme.metrics.singlePadding),
                         ) {
                             RadioButtonRow(
                                 selected = radioState == RadioSample.Automatic,
-                                onClick = { radioState = RadioSample.Automatic }
+                                onClick = { radioState = RadioSample.Automatic },
                             ) {
                                 Text("Automatic detection of the property", Modifier.alignByBaseline())
                             }
                             RadioButtonRow(
                                 selected = radioState == RadioSample.Enabled,
-                                onClick = { radioState = RadioSample.Enabled }
+                                onClick = { radioState = RadioSample.Enabled },
                             ) {
                                 Text("Enable the property", Modifier.alignByBaseline())
                             }
                             RadioButtonRow(
                                 selected = radioState == RadioSample.Disabled,
-                                onClick = { radioState = RadioSample.Disabled }
+                                onClick = { radioState = RadioSample.Disabled },
                             ) {
                                 Text("Disable the property", Modifier.alignByBaseline())
                             }
                             RadioButtonRow(
                                 selected = radioState == RadioSample.Unavailable,
                                 onClick = { radioState = RadioSample.Unavailable },
-                                enabled = false
+                                enabled = false,
                             ) {
                                 Text("Unavailable", Modifier.alignByBaseline())
                             }
@@ -148,7 +137,7 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
             IntelliJTheme(this) {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     var checked by remember { mutableStateOf(true) }
                     Column {
@@ -157,11 +146,11 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                         }
                         Checkbox(
                             checked = checked,
-                            onCheckedChange = { checked = it }
+                            onCheckedChange = { checked = it },
                         )
 
                         IndeterminateProgressBar(
-                            modifier = Modifier.width(100.dp)
+                            modifier = Modifier.width(100.dp),
                         )
 
                         SwingPanel(factory = {

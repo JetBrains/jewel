@@ -21,7 +21,7 @@ fun Dropdowns() {
     GroupHeader("Dropdowns")
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         val items = remember {
             listOf(
@@ -30,7 +30,7 @@ fun Dropdowns() {
                 "---",
                 "High Contrast",
                 "Darcula",
-                "IntelliJ Light"
+                "IntelliJ Light",
             )
         }
         var selected by remember { mutableStateOf(items.first()) }
@@ -40,7 +40,7 @@ fun Dropdowns() {
             enabled = false,
             resourceLoader = resourceLoader,
             menuContent = {
-            }
+            },
         ) {
             Text(selected)
         }
@@ -90,7 +90,7 @@ fun Dropdowns() {
                 }) {
                     Text("Submenu")
                 }
-            }
+            },
         ) {
             Text(selected)
         }
@@ -109,7 +109,7 @@ fun Dropdowns() {
                         }
                     }
                 }
-            }
+            },
         ) {
             Text(selected)
         }

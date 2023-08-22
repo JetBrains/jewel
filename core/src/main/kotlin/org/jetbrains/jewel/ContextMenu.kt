@@ -31,7 +31,7 @@ object IntelliJContextMenuRepresentation : ContextMenuRepresentation {
                     state.status = ContextMenuState.Status.Closed
                     true
                 },
-                style = IntelliJTheme.menuStyle
+                style = IntelliJTheme.menuStyle,
             ) {
                 contextItems(items)
             }
@@ -51,7 +51,7 @@ internal fun ContextMenu(
     var inputModeManager: InputModeManager? by mutableStateOf(null)
     val menuManager = remember(onDismissRequest) {
         MenuManager(
-            onDismissRequest = onDismissRequest
+            onDismissRequest = onDismissRequest,
         )
     }
 
@@ -65,17 +65,17 @@ internal fun ContextMenu(
             val currentFocusManager = checkNotNull(focusManager) { "FocusManager must not be null" }
             val currentInputModeManager = checkNotNull(inputModeManager) { "InputModeManager must not be null" }
             handlePopupMenuOnKeyEvent(it, currentFocusManager, currentInputModeManager, menuManager)
-        }
+        },
     ) {
         focusManager = LocalFocusManager.current
         inputModeManager = LocalInputModeManager.current
 
         CompositionLocalProvider(
-            LocalMenuManager provides menuManager
+            LocalMenuManager provides menuManager,
         ) {
             MenuContent(
                 modifier = modifier,
-                content = content
+                content = content,
             )
         }
     }
@@ -99,7 +99,7 @@ private fun MenuScope.contextItems(items: () -> List<ContextMenuItem>) {
             else -> {
                 selectableItem(
                     selected = false,
-                    onClick = item.onClick
+                    onClick = item.onClick,
                 ) {
                     Text(item.label)
                 }

@@ -32,8 +32,8 @@ fun ProgressBar() {
                 durationMillis = 4000
                 0f at 1000
                 1f at 3000
-            }
-        )
+            },
+        ),
     )
     var intermittentProgress by remember { mutableStateOf(0f) }
     LaunchedEffect(Unit) {

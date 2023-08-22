@@ -105,14 +105,14 @@ fun Dropdown(
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = null
+                indication = null,
             ).background(colors.backgroundFor(dropdownState).value, shape)
                 .border(Stroke.Alignment.Center, style.metrics.borderWidth, borderColor, shape)
                 .defaultMinSize(minSize.width, minSize.height),
-            contentAlignment = Alignment.CenterStart
+            contentAlignment = Alignment.CenterStart,
         ) {
             CompositionLocalProvider(
-                LocalContentColor provides colors.contentFor(dropdownState).value
+                LocalContentColor provides colors.contentFor(dropdownState).value,
             ) {
                 Row(
                     Modifier.padding(style.metrics.contentPadding).padding(end = minSize.height),
@@ -120,18 +120,18 @@ fun Dropdown(
                     verticalAlignment = Alignment.CenterVertically,
                     content = {
                         content()
-                    }
+                    },
                 )
 
                 Box(
                     modifier = Modifier.size(minSize.height).align(Alignment.CenterEnd),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     val chevronIcon by style.icons.chevronDown.getPainter(dropdownState, resourceLoader)
                     Icon(
                         painter = chevronIcon,
                         contentDescription = null,
-                        tint = colors.iconTintFor(dropdownState).value
+                        tint = colors.iconTintFor(dropdownState).value,
                     )
                 }
             }
@@ -149,7 +149,7 @@ fun Dropdown(
                 modifier = menuModifier,
                 style = style.menuStyle,
                 horizontalAlignment = Alignment.Start,
-                content = menuContent
+                content = menuContent,
             )
         }
     }
@@ -169,7 +169,7 @@ internal fun DropdownMenu(
         contentOffset = style.metrics.offset,
         contentMargin = style.metrics.margin,
         alignment = horizontalAlignment,
-        density = density
+        density = density,
     )
 
     var focusManager: FocusManager? by mutableStateOf(null)
@@ -186,18 +186,18 @@ internal fun DropdownMenu(
             val currentInputModeManager = checkNotNull(inputModeManager) { "InputModeManager must not be null" }
             handlePopupMenuOnKeyEvent(it, currentFocusManager, currentInputModeManager, menuManager)
         },
-        focusable = true
+        focusable = true,
     ) {
         focusManager = LocalFocusManager.current
         inputModeManager = LocalInputModeManager.current
 
         CompositionLocalProvider(
             LocalMenuManager provides menuManager,
-            LocalMenuStyle provides style
+            LocalMenuStyle provides style,
         ) {
             MenuContent(
                 modifier = modifier,
-                content = content
+                content = content,
             )
         }
     }
@@ -248,7 +248,7 @@ value class DropdownState(val state: ULong) : StateWithOutline {
         pressed = pressed,
         hovered = hovered,
         outline = outline,
-        active = active
+        active = active,
     )
 
     override fun toString() =
@@ -275,7 +275,7 @@ value class DropdownState(val state: ULong) : StateWithOutline {
                     (if (outline == Outline.Error) Error else 0UL) or
                     (if (outline == Outline.Warning) Warning else 0UL) or
                     (if (active) Active else 0UL)
-            }
+            },
         )
     }
 }

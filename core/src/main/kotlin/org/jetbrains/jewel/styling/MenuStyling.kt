@@ -77,8 +77,8 @@ interface MenuItemColors {
             active = background,
             focused = backgroundFocused,
             pressed = backgroundPressed,
-            hovered = backgroundHovered
-        )
+            hovered = backgroundHovered,
+        ),
     )
 
     val content: Color
@@ -95,8 +95,8 @@ interface MenuItemColors {
             focused = contentFocused,
             pressed = contentPressed,
             hovered = contentHovered,
-            active = content
-        )
+            active = content,
+        ),
     )
 
     val iconTint: Color
@@ -113,8 +113,8 @@ interface MenuItemColors {
             focused = iconTintFocused,
             pressed = iconTintPressed,
             hovered = iconTintHovered,
-            active = iconTint
-        )
+            active = iconTint,
+        ),
     )
 
     val separator: Color

@@ -81,7 +81,7 @@ data class IntUiLazyTreeColors(
             chevronTint,
             chevronTintSelected,
             chevronTintFocused,
-            chevronTintSelectedFocused
+            chevronTintSelectedFocused,
         )
 
         @Composable
@@ -108,7 +108,7 @@ data class IntUiLazyTreeColors(
             chevronTint,
             chevronTintSelected,
             chevronTintFocused,
-            chevronTintSelectedFocused
+            chevronTintSelectedFocused,
         )
     }
 }

@@ -108,7 +108,7 @@ data class IntUiButtonColors(
             borderDisabled,
             borderFocused,
             borderPressed,
-            borderHovered
+            borderHovered,
         )
 
         @Composable
@@ -143,7 +143,7 @@ data class IntUiButtonColors(
             borderDisabled,
             borderFocused,
             borderPressed,
-            borderHovered
+            borderHovered,
         )
     }
 
@@ -181,7 +181,7 @@ data class IntUiButtonColors(
             borderDisabled,
             borderFocused,
             borderPressed,
-            borderHovered
+            borderHovered,
         )
 
         @Composable
@@ -216,7 +216,7 @@ data class IntUiButtonColors(
             borderDisabled,
             borderFocused,
             borderPressed,
-            borderHovered
+            borderHovered,
         )
     }
 }

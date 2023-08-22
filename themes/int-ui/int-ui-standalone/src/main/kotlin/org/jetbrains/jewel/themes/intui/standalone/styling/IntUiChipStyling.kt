@@ -92,7 +92,7 @@ data class IntUiChipColors(
             borderDisabled,
             borderFocused,
             borderPressed,
-            borderHovered
+            borderHovered,
         )
 
         @Composable
@@ -127,7 +127,7 @@ data class IntUiChipColors(
             borderDisabled,
             borderFocused,
             borderPressed,
-            borderHovered
+            borderHovered,
         )
     }
 }

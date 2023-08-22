@@ -1,20 +1,22 @@
 package org.jetbrains.jewel.bridge
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.intellij.openapi.diagnostic.Logger
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeColorPalette
 
 private val logger = Logger.getInstance("BridgeThemeColorPalette")
 
+@Immutable
 class BridgeThemeColorPalette(
-    private val grey: List<Color> = readPaletteColors("Grey"),
-    private val blue: List<Color> = readPaletteColors("Blue"),
-    private val green: List<Color> = readPaletteColors("Green"),
-    private val red: List<Color> = readPaletteColors("Red"),
-    private val yellow: List<Color> = readPaletteColors("Yellow"),
-    private val orange: List<Color> = readPaletteColors("Orange"),
-    private val purple: List<Color> = readPaletteColors("Purple"),
-    private val teal: List<Color> = readPaletteColors("Teal"),
+    private val grey: List<Color>,
+    private val blue: List<Color>,
+    private val green: List<Color>,
+    private val red: List<Color>,
+    private val yellow: List<Color>,
+    private val orange: List<Color>,
+    private val purple: List<Color>,
+    private val teal: List<Color>,
 ) : IntUiThemeColorPalette {
 
     override fun grey(): List<Color> = grey
@@ -50,6 +52,17 @@ class BridgeThemeColorPalette(
     override fun teal(index: Int): Color = teal[index]
 
     companion object {
+
+        fun readFromLaF() = BridgeThemeColorPalette(
+            grey = readPaletteColors("Grey"),
+            blue = readPaletteColors("Blue"),
+            green = readPaletteColors("Green"),
+            red = readPaletteColors("Red"),
+            yellow = readPaletteColors("Yellow"),
+            orange = readPaletteColors("Orange"),
+            purple = readPaletteColors("Purple"),
+            teal = readPaletteColors("Teal"),
+        )
 
         private fun readPaletteColors(colorName: String): List<Color> {
             val defaults = uiDefaults

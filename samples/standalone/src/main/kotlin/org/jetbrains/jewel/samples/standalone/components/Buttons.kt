@@ -18,7 +18,7 @@ fun ColumnScope.Buttons() {
     GroupHeader("Buttons")
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         OutlinedButton({
         }) {
@@ -36,7 +36,7 @@ fun ColumnScope.Buttons() {
             },
             interactionSource = remember {
                 MutableInteractionSource()
-            }
+            },
         ) {
             Text("OK")
         }

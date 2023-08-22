@@ -20,7 +20,7 @@ fun rememberSvgResource(resourcePath: String, classLoader: ClassLoader): Painter
 inline fun <T> useResource(
     resourcePath: String,
     classLoader: ClassLoader,
-    block: (InputStream) -> T
+    block: (InputStream) -> T,
 ): T = openResource(resourcePath, classLoader).use(block)
 
 /**

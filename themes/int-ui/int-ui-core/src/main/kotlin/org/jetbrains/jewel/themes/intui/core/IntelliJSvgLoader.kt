@@ -51,7 +51,7 @@ class IntelliJSvgLoader(private val svgPatcher: SvgPatcher) : SvgLoader {
             } else {
                 throw IllegalArgumentException(
                     "Unable to load '$resourcePath' (base: $basePath), no simpler version available",
-                    e
+                    e,
                 )
             }
         }

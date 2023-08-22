@@ -76,7 +76,7 @@ internal fun InputField(
             alignment = Stroke.Alignment.Outside,
             width = style.metrics.borderWidth,
             color = borderColor,
-            shape = shape
+            shape = shape,
         )
     }
 
@@ -102,7 +102,7 @@ internal fun InputField(
         maxLines = maxLines,
         decorationBox = @Composable { innerTextField: @Composable () -> Unit ->
             decorationBox(innerTextField, inputState)
-        }
+        },
     )
 }
 
@@ -153,7 +153,7 @@ value class InputFieldState(val state: ULong) : StateWithOutline {
         pressed = pressed,
         hovered = hovered,
         warning = warning,
-        active = active
+        active = active,
     )
 
     override fun toString() =
@@ -177,7 +177,7 @@ value class InputFieldState(val state: ULong) : StateWithOutline {
                 (if (hovered) CommonStateBitMask.Hovered else 0UL) or
                 (if (pressed) CommonStateBitMask.Pressed else 0UL) or
                 (if (warning) CommonStateBitMask.Warning else 0UL) or
-                (if (active) CommonStateBitMask.Active else 0UL)
+                (if (active) CommonStateBitMask.Active else 0UL),
         )
     }
 }

@@ -57,7 +57,7 @@ fun <T> LazyTree(
                 Icon(
                     painter = painterResource(style.icons.nodeChevron, resourceLoader),
                     contentDescription = "Dropdown link",
-                    tint = colors.chevronTintFor(state).value
+                    tint = colors.chevronTintFor(state).value,
                 )
             }
         },
@@ -68,12 +68,12 @@ fun <T> LazyTree(
                         TreeElementState.of(
                             isFocused,
                             isSelected,
-                            false
-                        )
+                            false,
+                        ),
                     ).value
                         .takeOrElse { LocalContentColor.current }
-                    )
+                    ),
             ) { nodeContent(it) }
-        }
+        },
     )
 }

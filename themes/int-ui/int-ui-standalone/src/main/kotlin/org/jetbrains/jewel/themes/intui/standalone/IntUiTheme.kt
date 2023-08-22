@@ -62,7 +62,7 @@ object IntUiTheme : BaseIntUiTheme {
         fontFamily = FontFamily.Inter,
         fontSize = 13.sp,
         fontWeight = FontWeight.Normal,
-        fontStyle = FontStyle.Normal
+        fontStyle = FontStyle.Normal,
     )
 
     override val defaultLightTextStyle = intUiDefaultTextStyle.copy(color = IntUiLightTheme.colors.grey(1))
@@ -128,7 +128,7 @@ object IntUiTheme : BaseIntUiTheme {
             textFieldStyle = textFieldStyle,
             lazyTreeStyle = lazyTreeStyle,
             defaultTabStyle = defaultTabStyle,
-            editorTabStyle = editorTabStyle
+            editorTabStyle = editorTabStyle,
         )
 
     @Composable
@@ -169,7 +169,7 @@ object IntUiTheme : BaseIntUiTheme {
             textFieldStyle = textFieldStyle,
             lazyTreeStyle = lazyTreeStyle,
             defaultTabStyle = defaultTabStyle,
-            editorTabStyle = editorTabStyle
+            editorTabStyle = editorTabStyle,
         )
 }
 

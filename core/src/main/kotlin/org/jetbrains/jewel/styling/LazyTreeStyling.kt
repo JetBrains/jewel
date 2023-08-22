@@ -45,7 +45,7 @@ interface LazyTreeColors {
             state.isFocused -> contentFocused
             state.isSelected -> contentSelected
             else -> content
-        }
+        },
     )
 
     @Composable
@@ -55,7 +55,7 @@ interface LazyTreeColors {
             state.isFocused -> chevronTintFocused
             state.isSelected -> chevronTintSelected
             else -> chevronTint
-        }
+        },
     )
 }
 

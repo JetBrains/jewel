@@ -44,8 +44,8 @@ interface DropdownColors {
             hovered = backgroundHovered,
             warning = backgroundWarning,
             error = backgroundError,
-            active = background
-        )
+            active = background,
+        ),
     )
 
     val content: Color
@@ -66,8 +66,8 @@ interface DropdownColors {
             hovered = contentHovered,
             warning = contentWarning,
             error = contentError,
-            active = content
-        )
+            active = content,
+        ),
     )
 
     val border: Color
@@ -88,8 +88,8 @@ interface DropdownColors {
             hovered = borderHovered,
             warning = borderWarning,
             error = borderError,
-            active = border
-        )
+            active = border,
+        ),
     )
 
     val iconTint: Color
@@ -110,8 +110,8 @@ interface DropdownColors {
             hovered = iconTintHovered,
             warning = iconTintWarning,
             error = iconTintError,
-            active = iconTint
-        )
+            active = iconTint,
+        ),
     )
 }
 

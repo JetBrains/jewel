@@ -13,8 +13,8 @@ fun rememberTreeState(selectionMode: SelectionMode = SelectionMode.Single) = rem
     TreeState(
         SelectableLazyListState(
             LazyListState(),
-            selectionMode
-        )
+            selectionMode,
+        ),
     )
 }
 

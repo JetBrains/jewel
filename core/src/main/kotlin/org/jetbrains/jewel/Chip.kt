@@ -75,7 +75,7 @@ fun Chip(
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = null
+                indication = null,
             )
             .padding(style.metrics.padding)
             .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
@@ -83,7 +83,7 @@ fun Chip(
             .border(Stroke.Alignment.Center, style.metrics.borderWidth, borderColor, shape)
             .outline(chipState, shape),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         CompositionLocalProvider(
             LocalContentColor provides (
@@ -92,7 +92,7 @@ fun Chip(
                     .value
                     .takeIf { !it.isUnspecified }
                     ?: LocalContentColor.current
-                )
+                ),
         ) {
             content()
         }
@@ -146,7 +146,7 @@ value class ChipState(val state: ULong) : StateWithOutline {
         pressed = pressed,
         hovered = hovered,
         warning = warning,
-        active = active
+        active = active,
     )
 
     override fun toString() =
@@ -170,7 +170,7 @@ value class ChipState(val state: ULong) : StateWithOutline {
                 (if (hovered) Hovered else 0UL) or
                 (if (pressed) Pressed else 0UL) or
                 (if (warning) Warning else 0UL) or
-                (if (active) Active else 0UL)
+                (if (active) Active else 0UL),
         )
     }
 }

@@ -36,7 +36,7 @@ interface RadioButtonColors {
             state.isSelected -> contentSelected
             state.isHovered -> contentHovered
             else -> content
-        }
+        },
     )
 
     val buttonColors: RadioButtonButtonColors
@@ -61,7 +61,7 @@ interface RadioButtonButtonColors {
             state.isSelected -> fillSelected
             state.isHovered -> fillHovered
             else -> fill
-        }
+        },
     )
 
     val border: Color
@@ -80,7 +80,7 @@ interface RadioButtonButtonColors {
             state.isSelected -> borderSelected
             state.isHovered -> borderHovered
             else -> border
-        }
+        },
     )
 
     val markSelected: Color
@@ -94,7 +94,7 @@ interface RadioButtonButtonColors {
             !state.isEnabled -> markSelectedDisabled
             state.isHovered -> markSelectedHovered
             else -> markSelected
-        }
+        },
     )
 }
 

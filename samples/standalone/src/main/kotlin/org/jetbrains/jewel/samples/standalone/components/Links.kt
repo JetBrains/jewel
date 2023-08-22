@@ -24,7 +24,7 @@ fun Links() {
     val resourceLoader = LocalResourceLoader.current
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Link("Link", resourceLoader, {})
 
@@ -37,7 +37,7 @@ fun Links() {
                 "---",
                 "High Contrast",
                 "Darcula",
-                "IntelliJ Light"
+                "IntelliJ Light",
             )
         }
         var selected by remember { mutableStateOf(items.first()) }
@@ -57,7 +57,7 @@ fun Links() {
     }
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Link("Link", resourceLoader, {}, enabled = false)
 

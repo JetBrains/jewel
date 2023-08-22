@@ -81,7 +81,7 @@ data class IntUiCheckboxColors(
             contentSelected,
             checkboxBorder,
             borderDisabled,
-            borderSelected
+            borderSelected,
         )
 
         @Composable
@@ -104,7 +104,7 @@ data class IntUiCheckboxColors(
             contentSelected,
             checkboxBorder,
             borderDisabled,
-            borderSelected
+            borderSelected,
         )
     }
 }
@@ -134,7 +134,7 @@ data class IntUiCheckboxIcons(
                 svgLoader,
                 prefixTokensProvider = { state: CheckboxState ->
                     if (state.toggleableState == ToggleableState.Indeterminate) "Indeterminate" else ""
-                }
+                },
             )
     }
 }

@@ -68,7 +68,7 @@ fun SelectableLazyColumn(
         interactionSource = interactionSource,
         keyActions = keyActions.handleOnKeyEvent(rememberCoroutineScope()),
         pointerHandlingScopedActions = pointerHandlingScopedActions,
-        content = content
+        content = content,
     )
 }
 
@@ -97,7 +97,7 @@ internal fun BaseSelectableLazyColumn(
         reverseLayout = reverseLayout,
         verticalArrangement = verticalArrangement,
         horizontalAlignment = horizontalAlignment,
-        flingBehavior = flingBehavior
+        flingBehavior = flingBehavior,
     ) {
         state.clearKeys()
         SelectableLazyListScopeContainer(state, pointerHandlingScopedActions).apply(content)

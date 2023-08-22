@@ -42,8 +42,8 @@ interface InputFieldColors {
             hovered = backgroundHovered,
             warning = backgroundWarning,
             error = backgroundError,
-            active = background
-        )
+            active = background,
+        ),
     )
 
     val content: Color
@@ -64,8 +64,8 @@ interface InputFieldColors {
             hovered = contentHovered,
             warning = contentWarning,
             error = contentError,
-            active = content
-        )
+            active = content,
+        ),
     )
 
     val border: Color
@@ -86,8 +86,8 @@ interface InputFieldColors {
             hovered = borderHovered,
             warning = borderWarning,
             error = borderError,
-            active = border
-        )
+            active = border,
+        ),
     )
 
     val cursor: Brush
@@ -108,8 +108,8 @@ interface InputFieldColors {
             hovered = cursorHovered,
             warning = cursorWarning,
             error = cursorError,
-            active = cursor
-        )
+            active = cursor,
+        ),
     )
 }
 

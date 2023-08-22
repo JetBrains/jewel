@@ -58,7 +58,7 @@ fun Icon(
         painter = rememberVectorPainter(imageVector),
         contentDescription = contentDescription,
         modifier = modifier,
-        tint = tint
+        tint = tint,
     )
 }
 
@@ -87,7 +87,7 @@ fun Icon(
         painter = painter,
         contentDescription = contentDescription,
         modifier = modifier,
-        tint = tint
+        tint = tint,
     )
 }
 
@@ -103,7 +103,7 @@ fun Icon(
         painter = painterResource(resource, resourceLoader),
         contentDescription = contentDescription,
         modifier = modifier,
-        tint = tint
+        tint = tint,
     )
 }
 
@@ -142,9 +142,9 @@ fun Icon(
             .paint(
                 painter,
                 colorFilter = colorFilter,
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Fit,
             )
-            .then(semantics)
+            .then(semantics),
     )
 }
 
@@ -212,7 +212,7 @@ private fun Modifier.defaultSizeFor(painter: Painter) =
             DefaultIconSizeModifier
         } else {
             Modifier
-        }
+        },
     )
 
 private fun Size.isInfinite() = width.isInfinite() && height.isInfinite()

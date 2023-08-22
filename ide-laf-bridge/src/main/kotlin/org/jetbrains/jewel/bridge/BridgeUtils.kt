@@ -28,7 +28,7 @@ fun java.awt.Color.toComposeColor() = Color(
     red = red,
     green = green,
     blue = blue,
-    alpha = alpha
+    alpha = alpha,
 )
 
 internal fun retrieveColorOrNull(key: String) =
@@ -105,7 +105,7 @@ internal suspend fun retrieveFont(
             fontWeight = FontWeight.Normal,
             fontFamily = FontFamily(Typeface(typeface)),
             // todo textDecoration might be defined in the awt theme
-            lineHeight = lineHeight
+            lineHeight = lineHeight,
         )
     }
 }

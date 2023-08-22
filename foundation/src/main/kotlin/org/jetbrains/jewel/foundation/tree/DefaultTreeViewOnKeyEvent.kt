@@ -56,9 +56,9 @@ open class DefaultTreeViewOnKeyEvent(
                 treeState.addElementsToSelection(
                     listOf(
                         currentIndex,
-                        prevIndex
+                        prevIndex,
                     ),
-                    null
+                    null,
                 )
                 treeState.lastKeyEventUsedMouse = true
             }
@@ -88,9 +88,9 @@ open class DefaultTreeViewOnKeyEvent(
                 treeState.addElementsToSelection(
                     listOf(
                         currentIndex,
-                        nextFlattenIndex
+                        nextFlattenIndex,
                     ),
-                    null
+                    null,
                 )
                 treeState.lastKeyEventUsedMouse = true
             }

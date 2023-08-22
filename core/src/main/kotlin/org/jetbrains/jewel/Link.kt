@@ -85,7 +85,7 @@ fun Link(
         indication = indication,
         style = style,
         resourceLoader = resourceLoader,
-        icon = null
+        icon = null,
     )
 }
 
@@ -125,7 +125,7 @@ fun ExternalLink(
         indication = indication,
         style = style,
         resourceLoader = resourceLoader,
-        icon = style.icons.externalLink
+        icon = style.icons.externalLink,
     )
 }
 
@@ -156,7 +156,7 @@ fun DropdownLink(
     Box(
         Modifier.onHover {
             hovered = it
-        }
+        },
     ) {
         LinkImpl(
             text = text,
@@ -180,7 +180,7 @@ fun DropdownLink(
             indication = indication,
             style = style,
             icon = style.icons.dropdownChevron,
-            resourceLoader = resourceLoader
+            resourceLoader = resourceLoader,
         )
 
         if (expanded) {
@@ -195,7 +195,7 @@ fun DropdownLink(
                 modifier = menuModifier,
                 style = menuStyle,
                 horizontalAlignment = Alignment.Start, // TODO no idea what goes here
-                content = menuContent
+                content = menuContent,
             )
         }
     }
@@ -262,8 +262,8 @@ private fun LinkImpl(
                 lineHeight = lineHeight,
                 fontFamily = fontFamily,
                 fontStyle = fontStyle,
-                letterSpacing = letterSpacing
-            )
+                letterSpacing = letterSpacing,
+            ),
         )
 
     val clickable = Modifier.clickable(
@@ -274,28 +274,28 @@ private fun LinkImpl(
         enabled = enabled,
         role = Role.Button,
         interactionSource = interactionSource,
-        indication = indication
+        indication = indication,
     )
 
     val focusHaloModifier = Modifier.border(
         alignment = Stroke.Alignment.Outside,
         width = LocalGlobalMetrics.current.outlineWidth,
         color = LocalGlobalColors.current.outlines.focused,
-        shape = RoundedCornerShape(style.metrics.focusHaloCornerSize)
+        shape = RoundedCornerShape(style.metrics.focusHaloCornerSize),
     )
 
     Row(
         modifier = modifier.then(clickable)
             .appendIf(linkState.isFocused) { focusHaloModifier },
         horizontalArrangement = Arrangement.spacedBy(style.metrics.textIconGap),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         BasicText(
             text = text,
             style = mergedStyle,
             overflow = overflow,
             softWrap = true,
-            maxLines = 1
+            maxLines = 1,
         )
 
         if (icon != null) {
@@ -304,7 +304,7 @@ private fun LinkImpl(
                 iconPainter,
                 contentDescription = null,
                 modifier = Modifier.size(style.metrics.iconSize),
-                tint = style.colors.iconTint
+                tint = style.colors.iconTint,
             )
         }
     }
@@ -355,7 +355,7 @@ value class LinkState(val state: ULong) : FocusableComponentState {
         visited = visited,
         pressed = pressed,
         hovered = hovered,
-        active = active
+        active = active,
     )
 
     @Composable
@@ -397,7 +397,7 @@ value class LinkState(val state: ULong) : FocusableComponentState {
                 (if (focused) Focused else 0UL) or
                 (if (pressed) Pressed else 0UL) or
                 (if (hovered) Hovered else 0UL) or
-                (if (active) Active else 0UL)
+                (if (active) Active else 0UL),
         )
     }
 }
