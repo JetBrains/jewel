@@ -7,7 +7,6 @@ plugins {
 
 dependencies {
     implementation(projects.themes.intUi.intUiStandalone)
-    implementation(libs.compose.components.splitpane)
     implementation(projects.foundation)
 }
 

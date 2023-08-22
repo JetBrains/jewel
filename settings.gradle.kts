@@ -28,7 +28,7 @@ include(
     ":core",
     ":foundation",
     ":compose-utils",
-//    ":ide-laf-bridge",
+    ":ide-laf-bridge",
     ":samples:standalone",
     ":themes:int-ui:int-ui-core",
     ":themes:int-ui:int-ui-standalone",
