@@ -42,29 +42,41 @@ detekt {
     buildUponDefaultConfig = true
 }
 
-tasks {
-    register<MergeSarifTask>("mergeSarifReports") {
-        dependsOn(check)
-        source = rootProject.fileTree("build/reports") {
-            include("*.sarif")
-            exclude("static-analysis.sarif")
-        }
-        outputs.file(rootProject.file("build/reports/static-analysis.sarif"))
+val sarif by configurations.creating {
+    isCanBeConsumed = true
+    attributes {
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named("sarif"))
     }
+}
+
+tasks {
     withType<Detekt> {
+        val sarifOutputFile = buildDir.resolve("reports/detekt-${project.name}.sarif")
+        exclude { it.file.absolutePath.startsWith(buildDir.absolutePath) }
         reports {
             sarif.required.set(true)
-            sarif.outputLocation.set(file(rootDir.resolve("build/reports/detekt-${project.name}.sarif")))
+            sarif.outputLocation.set(sarifOutputFile)
+        }
+        sarif.outgoing {
+            artifact(sarifOutputFile) {
+                builtBy(this@withType)
+            }
         }
     }
-    tasks.withType<LintTask> {
+    withType<LintTask> {
         exclude { it.file.absolutePath.startsWith(buildDir.absolutePath) }
+        val sarifReport = buildDir.resolve("reports/ktlint-${project.name}.sarif")
         reports.set(
             mapOf(
-                "plain" to rootDir.resolve("build/reports/ktlint-${project.name}.txt"),
-                "html" to rootDir.resolve("build/reports/ktlint-${project.name}.html"),
-                "sarif" to rootDir.resolve("build/reports/ktlint-${project.name}.sarif")
+                "plain" to buildDir.resolve("reports/ktlint-${project.name}.txt"),
+                "html" to buildDir.resolve("reports/ktlint-${project.name}.html"),
+                "sarif" to sarifReport
             )
         )
+        sarif.outgoing {
+            artifact(sarifReport) {
+                builtBy(this@withType)
+            }
+        }
     }
 }
