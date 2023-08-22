@@ -38,13 +38,13 @@ fun ChipsRow(modifier: Modifier = Modifier) {
     Row(modifier) {
         Chip(
             enabled = true,
-            onChipClick = {}
+            onChipClick = {},
         ) {
             Text("Enabled")
         }
         Chip(
             enabled = false,
-            onChipClick = {}
+            onChipClick = {},
         ) {
             Text("Disabled")
         }
@@ -79,7 +79,7 @@ fun TreeSample(modifier: Modifier = Modifier) {
         onElementClick = {},
         onElementDoubleClick = {},
         tree = tree,
-        resourceLoader = resourceLoader
+        resourceLoader = resourceLoader,
     ) { element ->
         Box(Modifier.fillMaxWidth()) {
             Text(element.data, modifier.padding(2.dp))

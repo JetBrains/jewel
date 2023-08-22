@@ -84,7 +84,7 @@ data class IntUiLinkColors(
             contentHovered,
             contentVisited,
             iconTint,
-            iconTintDisabled
+            iconTintDisabled,
         )
 
         @Composable
@@ -105,7 +105,7 @@ data class IntUiLinkColors(
             contentHovered,
             contentVisited,
             iconTint,
-            iconTintDisabled
+            iconTintDisabled,
         )
     }
 }

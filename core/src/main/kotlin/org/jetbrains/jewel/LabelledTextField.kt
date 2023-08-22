@@ -72,7 +72,7 @@ fun LabelledTextField(
         onTextLayout = onTextLayout,
         style = style,
         textStyle = textStyle,
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
     )
 }
 
@@ -104,7 +104,7 @@ fun LabelledTextField(
             CompositionLocalProvider(
                 LocalTextStyle provides style.textStyles.label,
                 LocalContentColor provides style.colors.label,
-                content = label
+                content = label,
             )
         },
         textField = {
@@ -124,7 +124,7 @@ fun LabelledTextField(
                 onTextLayout = onTextLayout,
                 style = style,
                 textStyle = textStyle,
-                interactionSource = interactionSource
+                interactionSource = interactionSource,
             )
         },
         hint = hint?.let {
@@ -132,11 +132,11 @@ fun LabelledTextField(
                 CompositionLocalProvider(
                     LocalTextStyle provides style.textStyles.hint,
                     LocalContentColor provides style.colors.hint,
-                    content = it
+                    content = it,
                 )
             }
         },
-        style = style
+        style = style,
     )
 }
 
@@ -164,7 +164,7 @@ private fun LabelledTextFieldLayout(
                     hint()
                 }
             }
-        }
+        },
     ) { measurables, incomingConstraints ->
         val hintMeasurable = measurables.firstOrNull { it.layoutId == HINT_ID }
 
@@ -173,7 +173,7 @@ private fun LabelledTextFieldLayout(
 
         val constraintsWithoutSpacing = incomingConstraints.offset(
             horizontal = -horizontalSpacing,
-            vertical = -verticalSpacing
+            vertical = -verticalSpacing,
         )
 
         val textFieldPlaceable = measurables.first { it.layoutId == TEXT_FIELD_ID }
@@ -185,7 +185,7 @@ private fun LabelledTextFieldLayout(
         val hintPlaceable = hintMeasurable?.measure(
             constraintsWithoutSpacing
                 .offset(vertical = -textFieldPlaceable.height)
-                .copy(maxWidth = textFieldPlaceable.width)
+                .copy(maxWidth = textFieldPlaceable.width),
         )
 
         val width = labelPlaceable.width + textFieldPlaceable.width + horizontalSpacing
@@ -194,15 +194,15 @@ private fun LabelledTextFieldLayout(
         layout(width, height) {
             labelPlaceable.placeRelative(
                 x = 0,
-                y = Alignment.CenterVertically.align(labelPlaceable.height, textFieldPlaceable.height)
+                y = Alignment.CenterVertically.align(labelPlaceable.height, textFieldPlaceable.height),
             )
             textFieldPlaceable.placeRelative(
                 x = labelPlaceable.width + horizontalSpacing,
-                y = 0
+                y = 0,
             )
             hintPlaceable?.placeRelative(
                 x = labelPlaceable.width + horizontalSpacing,
-                y = textFieldPlaceable.height + verticalSpacing
+                y = textFieldPlaceable.height + verticalSpacing,
             )
         }
     }

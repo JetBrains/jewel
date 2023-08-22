@@ -55,7 +55,7 @@ fun Text(
         maxLines,
         emptyMap(),
         onTextLayout,
-        style
+        style,
     )
 }
 
@@ -97,8 +97,8 @@ fun Text(
             fontFamily = fontFamily,
             textDecoration = textDecoration,
             fontStyle = fontStyle,
-            letterSpacing = letterSpacing
-        )
+            letterSpacing = letterSpacing,
+        ),
     )
     BasicText(text, modifier, mergedStyle, onTextLayout, overflow, softWrap, maxLines, minLines = 1, inlineContent)
 }

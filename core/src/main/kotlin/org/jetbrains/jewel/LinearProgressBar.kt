@@ -48,9 +48,9 @@ fun HorizontalProgressBar(
                     color = colors.progress,
                     topLeft = Offset(progressX, 0f),
                     size = size.copy(width = progressWidth),
-                    cornerRadius = cornerRadius
+                    cornerRadius = cornerRadius,
                 )
-            }
+            },
     )
 }
 
@@ -67,8 +67,8 @@ fun IndeterminateHorizontalProgressBar(
         targetValue = 2f,
         animationSpec = infiniteRepeatable(
             tween(durationMillis = cycleDurationMillis, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        )
+            repeatMode = RepeatMode.Restart,
+        ),
     )
 
     val highlightWidth = style.metrics.indeterminateHighlightWidth
@@ -90,9 +90,9 @@ fun IndeterminateHorizontalProgressBar(
                         colors = colorsList,
                         start = Offset(x, 0f),
                         end = Offset(x + highlightWidth.value, 0f),
-                        TileMode.Mirror
-                    )
+                        TileMode.Mirror,
+                    ),
                 )
-            }
+            },
     )
 }

@@ -1,18 +1,9 @@
 package org.jetbrains.jewel.bridge
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ButtonDefaults.buttonColors
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.TextStyle
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.ui.JBColor
-import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.IntelliJComponentStyling
-import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.themes.intui.core.IntelliJSvgLoader
 import org.jetbrains.jewel.themes.intui.standalone.IntUiTheme
@@ -30,37 +21,19 @@ internal fun createBridgeIntUiDefinition(): IntUiThemeDefinition {
 
     return IntUiThemeDefinition(
         isDark = isDark,
-        globalColors = readGlobalColors(),
-        colorPalette = readIntUiColorPalette(),
-        iconData = readIconData(),
-        metrics = readMetrics(),
+        globalColors = BridgeGlobalColors.readFromLaF(),
+        colorPalette = BridgeThemeColorPalette.readFromLaF(),
+        iconData = BridgeIconData.readFromLaF(),
+        metrics = BridgeGlobalMetrics.readFromLaF(),
         defaultTextStyle = readTextStyle(),
     )
 }
 
-private fun readIntUiColorPalette(isDark: Boolean) =
-    IntUiThColorPalette(
-        isDark = isDark,
-        grey = readPaletteColors("Grey"),
-        blue = readPaletteColors("Blue"),
-        green = readPaletteColors("Green"),
-        red = readPaletteColors("Red"),
-        yellow = readPaletteColors("Yellow"),
-        orange = readPaletteColors("Orange"),
-        purple = readPaletteColors("Purple"),
-        teal = readPaletteColors("Teal"),
-    )
-
-private fun readGlobalColors() = GlobalColors(
-    foreground = retrieveColorOrUnspecified("Label.foreground"),
-    background = retrieveColorOrUnspecified("Panel.background"),
-    borderColor = retrieveColorOrUnspecified("Component.borderColor"),
-    disabledForeground = retrieveColorOrUnspecified("Label.disabledForeground"),
-    disabledBorderColor = retrieveColorOrUnspecified("Component.disabledBorderColor"),
-)
+private fun readTextStyle(): TextStyle {
+}
 
 // Hardcoded values come from DarculaButtonUI (they may be derived from multiple values)
-//private fun readButtonDefaults(): ButtonDefaults {
+// private fun readButtonDefaults(): ButtonDefaults {
 //    val backgroundBrush =
 //        Brush.verticalGradient(retrieveColorsOrUnspecified("Button.startBackground", "Button.endBackground"))
 //    val contentColor = retrieveColorOrUnspecified("Button.foreground")
@@ -149,9 +122,9 @@ private fun readGlobalColors() = GlobalColors(
 //            focusHaloStroke = defaultHaloStroke
 //        ),
 //    )
-//}
+// }
 //
-//private fun readCheckboxDefaults() = androidx.compose.material.CheckboxDefaults(
+// private fun readCheckboxDefaults() = androidx.compose.material.CheckboxDefaults(
 //    colors = checkBoxColors(
 //        checkmarkTintColor = Color.Unspecified, // There is no tint for the checkmark icon
 //        contentColor = retrieveColorOrUnspecified("Checkbox.foreground"),
@@ -184,12 +157,11 @@ private fun readGlobalColors() = GlobalColors(
 //    checkMarkOn =,
 //    checkMarkOff =,
 //    checkMarkIndeterminate =,
-//)
+// )
 
-internal fun createSwingLaFComponentStyling(theme: IntUiThemeDefinition, svgLoader: IntelliJSvgLoader): IntelliJComponentStyling {
+internal fun createSwingLaFComponentStyling(theme: IntUiThemeDefinition, svgLoader: IntelliJSvgLoader): IntelliJComponentStyling =
     if (theme.isDark) {
         IntUiTheme.darkComponentStyling(svgLoader)
     } else {
         IntUiTheme.lightComponentStyling(svgLoader)
     }
-}

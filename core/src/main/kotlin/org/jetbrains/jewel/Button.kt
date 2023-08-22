@@ -55,7 +55,7 @@ fun DefaultButton(
         interactionSource = interactionSource,
         style = style,
         content = content,
-        textStyle = textStyle
+        textStyle = textStyle,
     )
 }
 
@@ -76,7 +76,7 @@ fun OutlinedButton(
         interactionSource = interactionSource,
         style = style,
         content = content,
-        textStyle = textStyle
+        textStyle = textStyle,
     )
 }
 
@@ -124,16 +124,16 @@ private fun ButtonImpl(
             enabled = enabled,
             role = Role.Button,
             interactionSource = interactionSource,
-            indication = null
+            indication = null,
         ).background(colors.backgroundFor(buttonState).value, shape)
             .border(Stroke.Alignment.Center, style.metrics.borderWidth, borderColor, shape)
             .focusOutline(buttonState, shape),
-        propagateMinConstraints = true
+        propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)
         CompositionLocalProvider(
             LocalContentColor provides contentColor.takeOrElse { textStyle.color },
-            LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color })
+            LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
         ) {
             Row(
                 Modifier
@@ -141,7 +141,7 @@ private fun ButtonImpl(
                     .padding(style.metrics.padding),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
-                content = content
+                content = content,
             )
         }
     }
@@ -182,7 +182,7 @@ value class ButtonState(val state: ULong) : FocusableComponentState {
         focused = focused,
         pressed = pressed,
         hovered = hovered,
-        active = active
+        active = active,
     )
 
     override fun toString() =
@@ -206,7 +206,7 @@ value class ButtonState(val state: ULong) : FocusableComponentState {
                 (if (pressed) Pressed else 0UL) or
                 (if (warning) Warning else 0UL) or
                 (if (error) Error else 0UL) or
-                (if (active) Active else 0UL)
+                (if (active) Active else 0UL),
         )
     }
 }

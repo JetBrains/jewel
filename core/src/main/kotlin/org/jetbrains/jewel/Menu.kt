@@ -80,19 +80,19 @@ internal fun MenuContent(
             elevation = style.metrics.shadowSize,
             shape = menuShape,
             ambientColor = colors.shadow,
-            spotColor = colors.shadow
+            spotColor = colors.shadow,
         )
             .border(Stroke.Alignment.Center, style.metrics.borderWidth, colors.border, menuShape)
             .background(colors.background, menuShape)
             .width(IntrinsicSize.Max)
             .onHover {
                 localMenuManager.onHoveredChange(it)
-            }
+            },
     ) {
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)
-                .padding(style.metrics.contentPadding)
+                .padding(style.metrics.contentPadding),
         ) {
             items.forEach {
                 when (it) {
@@ -101,7 +101,7 @@ internal fun MenuContent(
                             selected = it.isSelected,
                             onClick = it.onClick,
                             enabled = it.isEnabled,
-                            content = it.content
+                            content = it.content,
                         )
                     }
 
@@ -109,7 +109,7 @@ internal fun MenuContent(
                         MenuSubmenuItem(
                             enabled = it.isEnabled,
                             submenu = it.submenu,
-                            content = it.content
+                            content = it.content,
                         )
                     }
 
@@ -122,7 +122,7 @@ internal fun MenuContent(
         Box(modifier = Modifier.matchParentSize()) {
             VerticalScrollbar(
                 rememberScrollbarAdapter(scrollState),
-                modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd)
+                modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
             )
         }
     }
@@ -193,7 +193,7 @@ private fun (MenuScope.() -> Unit).asList() = buildList {
             override fun submenu(enabled: Boolean, submenu: MenuScope.() -> Unit, content: @Composable () -> Unit) {
                 add(SubmenuItem(enabled, submenu, content))
             }
-        }
+        },
     )
 }
 
@@ -227,7 +227,7 @@ fun MenuSeparator(
     Divider(
         modifier = modifier.padding(style.metrics.itemMetrics.separatorPadding),
         orientation = Orientation.Horizontal,
-        color = style.colors.itemColors.separator
+        color = style.colors.itemColors.separator,
     )
 }
 
@@ -283,9 +283,9 @@ fun MenuSelectableItem(
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = null
+                indication = null,
             )
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         DisposableEffect(Unit) {
             if (selected) {
@@ -300,7 +300,7 @@ fun MenuSelectableItem(
         val shape = RoundedCornerShape(metrics.itemMetrics.cornerSize)
 
         CompositionLocalProvider(
-            LocalContentColor provides colors.contentFor(itemState).value
+            LocalContentColor provides colors.contentFor(itemState).value,
         ) {
             Row(
                 Modifier
@@ -308,7 +308,7 @@ fun MenuSelectableItem(
                     .background(colors.backgroundFor(itemState).value, shape)
                     .fillMaxWidth()
                     .padding(metrics.itemMetrics.contentPadding),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 content()
             }
@@ -362,7 +362,7 @@ fun MenuSubmenuItem(
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = null
+                indication = null,
             )
             .onKeyEvent {
                 if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionRight) {
@@ -372,14 +372,14 @@ fun MenuSubmenuItem(
                     false
                 }
             }
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         val colors = style.colors.itemColors
         val metrics = style.metrics
         val shape = RoundedCornerShape(metrics.itemMetrics.cornerSize)
 
         CompositionLocalProvider(
-            LocalContentColor provides colors.contentFor(itemState).value
+            LocalContentColor provides colors.contentFor(itemState).value,
         ) {
             Row(
                 Modifier
@@ -387,7 +387,7 @@ fun MenuSubmenuItem(
                     .background(colors.backgroundFor(itemState).value, shape)
                     .fillMaxWidth()
                     .padding(metrics.submenuMetrics.itemPadding),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(Modifier.weight(1f)) {
                     content()
@@ -396,7 +396,7 @@ fun MenuSubmenuItem(
                 Box(Modifier.width(24.dp), contentAlignment = Alignment.Center) {
                     Icon(
                         painter = painterResource(style.icons.submenuChevron),
-                        tint = colors.iconTintFor(itemState).value
+                        tint = colors.iconTintFor(itemState).value,
                     )
                 }
             }
@@ -413,7 +413,7 @@ fun MenuSubmenuItem(
                     }
                 },
                 style = style,
-                content = submenu
+                content = submenu,
             )
         }
     }
@@ -432,7 +432,7 @@ internal fun Submenu(
         contentOffset = style.metrics.submenuMetrics.offset,
         contentMargin = style.metrics.margin,
         alignment = Alignment.Top,
-        density = density
+        density = density,
     )
 
     var focusManager: FocusManager? by mutableStateOf(null)
@@ -452,7 +452,7 @@ internal fun Submenu(
             val currentFocusManager = checkNotNull(focusManager) { "FocusManager must not be null" }
             val currentInputModeManager = checkNotNull(inputModeManager) { "InputModeManager must not be null" }
             handlePopupMenuOnKeyEvent(it, currentFocusManager, currentInputModeManager, menuManager)
-        }
+        },
     ) {
         focusManager = LocalFocusManager.current
         inputModeManager = LocalInputModeManager.current
@@ -460,7 +460,7 @@ internal fun Submenu(
         CompositionLocalProvider(LocalMenuManager provides menuManager) {
             MenuContent(
                 modifier = modifier,
-                content = content
+                content = content,
             )
         }
     }

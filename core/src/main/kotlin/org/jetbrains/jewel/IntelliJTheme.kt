@@ -192,7 +192,7 @@ fun IntelliJTheme(theme: IntelliJThemeDefinition, content: @Composable () -> Uni
         LocalTextStyle provides theme.defaultTextStyle,
         LocalGlobalColors provides theme.globalColors,
         LocalGlobalMetrics provides theme.metrics,
-        content = content
+        content = content,
     )
 }
 

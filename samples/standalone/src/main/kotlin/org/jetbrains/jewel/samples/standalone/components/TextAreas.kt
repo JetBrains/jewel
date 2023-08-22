@@ -23,7 +23,7 @@ fun TextAreas() {
     Row(
         Modifier.height(144.dp).padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         var text1 by remember {
             mutableStateOf(
@@ -37,7 +37,7 @@ fun TextAreas() {
                     "Pellentesque eget enim quis orci porttitor consequat sed sed quam. \n" +
                     "Sed aliquam, nisl et lacinia lacinia, diam nunc laoreet nisi, sit amet consectetur dolor lorem et sem. \n" +
                     "Duis ultricies, mauris in aliquam interdum, orci nulla finibus massa, a tristique urna sapien vel quam. \n" +
-                    "Sed nec sapien nec dui rhoncus bibendum. Sed blandit bibendum libero."
+                    "Sed nec sapien nec dui rhoncus bibendum. Sed blandit bibendum libero.",
             )
         }
         TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight())
@@ -50,7 +50,7 @@ fun TextAreas() {
         TextArea(text4, { text4 = it }, hint = {
             Text("This is hint text")
         }, modifier = Modifier.weight(1f).fillMaxHeight(), placeholder = {
-                Text("Placeholder")
-            })
+            Text("Placeholder")
+        })
     }
 }

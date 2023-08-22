@@ -150,7 +150,7 @@ data class IntUiDropdownColors(
             iconTintPressed,
             iconTintHovered,
             iconTintWarning,
-            iconTintError
+            iconTintError,
         )
 
         @Composable
@@ -211,7 +211,7 @@ data class IntUiDropdownColors(
             iconTintPressed,
             iconTintHovered,
             iconTintWarning,
-            iconTintError
+            iconTintError,
         )
     }
 }

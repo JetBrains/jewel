@@ -49,7 +49,7 @@ class TreeBuilder<T> : TreeGeneratorScope<T> {
                     parent = null,
                     previous = previous,
                     next = null,
-                    id = elementBuilder.id
+                    id = elementBuilder.id,
                 )
 
                 is Element.Node -> Tree.Element.Node(
@@ -60,7 +60,7 @@ class TreeBuilder<T> : TreeGeneratorScope<T> {
                     childrenGenerator = { parent -> generateElements(parent, elementBuilder) },
                     previous = previous,
                     next = null,
-                    id = elementBuilder.id
+                    id = elementBuilder.id,
                 )
             }
             elements.add(current)
@@ -87,7 +87,7 @@ private fun <T> generateElements(
                 parent = parent,
                 previous = previous,
                 next = null,
-                id = elementBuilder.id
+                id = elementBuilder.id,
             )
 
             is TreeBuilder.Element.Node -> Tree.Element.Node(
@@ -98,7 +98,7 @@ private fun <T> generateElements(
                 childrenGenerator = { generateElements(it, elementBuilder) },
                 previous = previous,
                 next = null,
-                id = elementBuilder.id
+                id = elementBuilder.id,
             )
         }
         previous.next = current

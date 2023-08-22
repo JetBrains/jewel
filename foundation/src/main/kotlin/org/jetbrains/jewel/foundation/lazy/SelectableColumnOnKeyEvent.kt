@@ -141,8 +141,8 @@ open class DefaultSelectableOnKeyEvent(
                 selectableState.addElementsToSelection(
                     listOf(
                         currentIndex,
-                        prevIndex
-                    )
+                        prevIndex,
+                    ),
                 )
                 selectableState.lastKeyEventUsedMouse = true
             }
@@ -170,8 +170,8 @@ open class DefaultSelectableOnKeyEvent(
                 selectableState.addElementsToSelection(
                     listOf(
                         currentIndex,
-                        nextSelectableIndex
-                    )
+                        nextSelectableIndex,
+                    ),
                 )
                 selectableState.lastKeyEventUsedMouse = true
             }

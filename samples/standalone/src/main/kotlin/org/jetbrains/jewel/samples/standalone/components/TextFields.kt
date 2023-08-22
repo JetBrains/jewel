@@ -19,7 +19,7 @@ fun TextFields() {
     GroupHeader("TextFields")
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         var text1 by remember { mutableStateOf("TextField") }
         TextField(text1, { text1 = it })
@@ -37,7 +37,7 @@ fun TextFields() {
     }
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         var text1 by remember { mutableStateOf("Labelled TextField") }
         LabelledTextField({

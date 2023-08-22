@@ -9,9 +9,5 @@
         <toolWindow id="JewelDemo" anchor="bottom" secondary="false"
                     canCloseContents="true"
                     factoryClass="org.jetbrains.jewel.samples.ideplugin.JewelDemoToolWindow"/>
-
-        <toolWindow id="PKGS Demo" anchor="bottom" secondary="false"
-                    canCloseContents="true"
-                    factoryClass="org.jetbrains.jewel.samples.ideplugin.PKGSDemo"/>
     </extensions>
 </idea-plugin>

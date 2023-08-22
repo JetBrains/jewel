@@ -139,7 +139,7 @@ data class IntUiTextFieldColors(
             cursorHovered,
             cursorWarning,
             cursorError,
-            placeholder
+            placeholder,
         )
 
         @Composable
@@ -202,7 +202,7 @@ data class IntUiTextFieldColors(
             cursorHovered,
             cursorWarning,
             cursorError,
-            placeholder
+            placeholder,
         )
     }
 }

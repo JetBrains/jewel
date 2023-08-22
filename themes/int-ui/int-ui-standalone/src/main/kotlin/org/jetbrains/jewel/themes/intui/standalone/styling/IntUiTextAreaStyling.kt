@@ -149,7 +149,7 @@ data class IntUiTextAreaColors(
             cursorError,
             placeholder,
             hintContent,
-            hintContentDisabled
+            hintContentDisabled,
         )
 
         @Composable
@@ -216,7 +216,7 @@ data class IntUiTextAreaColors(
             cursorError,
             placeholder,
             hintContent,
-            hintContentDisabled
+            hintContentDisabled,
         )
     }
 }

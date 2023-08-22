@@ -74,7 +74,7 @@ fun TextField(
         keyboardActions = keyboardActions,
         onTextLayout = onTextLayout,
         style = style,
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
     )
 }
 
@@ -113,7 +113,7 @@ fun TextField(
         onTextLayout = onTextLayout,
         style = style,
         textStyle = textStyle,
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
     ) { innerTextField, _ ->
         val minSize = style.metrics.minSize
 
@@ -123,7 +123,7 @@ fun TextField(
             innerTextField = innerTextField,
             placeholderTextColor = style.colors.placeholder,
             placeholder = if (value.text.isEmpty()) placeholder else null,
-            trailingIcon = trailingIcon
+            trailingIcon = trailingIcon,
         )
     }
 }
@@ -148,7 +148,7 @@ private fun TextFieldDecorationBox(
                 Box(modifier = Modifier.layoutId(PLACEHOLDER_ID), contentAlignment = Alignment.Center) {
                     CompositionLocalProvider(
                         LocalContentColor provides placeholderTextColor,
-                        content = placeholder
+                        content = placeholder,
                     )
                 }
             }
@@ -156,7 +156,7 @@ private fun TextFieldDecorationBox(
             Box(modifier = Modifier.layoutId(TEXT_FIELD_ID), propagateMinConstraints = true) {
                 innerTextField()
             }
-        }
+        },
     ) { measurables, incomingConstraints ->
         // used to calculate the constraints for measuring elements that will be placed in a row
         var occupiedSpaceHorizontally = 0
@@ -171,7 +171,7 @@ private fun TextFieldDecorationBox(
         occupiedSpaceHorizontally += trailingPlaceable?.width ?: 0
 
         val textConstraints = constraintsWithoutPadding.offset(
-            horizontal = -occupiedSpaceHorizontally
+            horizontal = -occupiedSpaceHorizontally,
         ).copy(minHeight = 0)
         val textFieldPlaceable = measurables.first { it.layoutId == TEXT_FIELD_ID }.measure(textConstraints)
 
@@ -183,13 +183,13 @@ private fun TextFieldDecorationBox(
             trailingPlaceable,
             textFieldPlaceable,
             placeholderPlaceable,
-            incomingConstraints
+            incomingConstraints,
         )
         val height = calculateHeight(
             trailingPlaceable,
             textFieldPlaceable,
             placeholderPlaceable,
-            incomingConstraints
+            incomingConstraints,
         )
 
         layout(width, height) {
@@ -199,7 +199,7 @@ private fun TextFieldDecorationBox(
                 trailingPlaceable,
                 textFieldPlaceable,
                 placeholderPlaceable,
-                this@Layout
+                this@Layout,
             )
         }
     }
@@ -213,7 +213,7 @@ private fun calculateWidth(
 ): Int {
     val middleSection = maxOf(
         textFieldPlaceable.width,
-        placeholderPlaceable?.width ?: 0
+        placeholderPlaceable?.width ?: 0,
     )
     val wrappedWidth = middleSection + (trailingPlaceable?.width ?: 0)
     return max(wrappedWidth, constraints.minWidth)
@@ -229,7 +229,7 @@ private fun calculateHeight(
         textFieldPlaceable.height,
         placeholderPlaceable?.height ?: 0,
         trailingPlaceable?.height ?: 0,
-        constraints.minHeight
+        constraints.minHeight,
     )
 }
 
@@ -244,21 +244,21 @@ private fun Placeable.PlacementScope.place(
     // placed center vertically and to the end edge horizontally
     trailingPlaceable?.placeRelative(
         width - trailingPlaceable.width,
-        Alignment.CenterVertically.align(trailingPlaceable.height, height)
+        Alignment.CenterVertically.align(trailingPlaceable.height, height),
     )
 
     // placed center vertically and after the leading icon horizontally if single line text field
     // placed to the top with padding for multi line text field
     textFieldPlaceable.placeRelative(
         0,
-        Alignment.CenterVertically.align(textFieldPlaceable.height, height)
+        Alignment.CenterVertically.align(textFieldPlaceable.height, height),
     )
 
     // placed similar to the input text above
     placeholderPlaceable?.let {
         it.placeRelative(
             0,
-            Alignment.CenterVertically.align(it.height, height)
+            Alignment.CenterVertically.align(it.height, height),
         )
     }
 }

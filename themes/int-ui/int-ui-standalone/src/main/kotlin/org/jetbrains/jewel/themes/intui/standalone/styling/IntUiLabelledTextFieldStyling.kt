@@ -150,7 +150,7 @@ data class IntUiLabelledTextFieldColors(
             cursorError,
             placeholder,
             label,
-            hint
+            hint,
         )
 
         @Composable
@@ -217,7 +217,7 @@ data class IntUiLabelledTextFieldColors(
             cursorError,
             placeholder,
             label,
-            hint
+            hint,
         )
     }
 }
@@ -245,7 +245,7 @@ data class IntUiLabelledTextFieldTextStyles(
             label: TextStyle = IntUiTheme.defaultLightTextStyle,
             hint: TextStyle = IntUiTheme.defaultLightTextStyle.copy(
                 fontSize = 12.sp,
-                lineHeight = 16.sp
+                lineHeight = 16.sp,
             ),
         ) = IntUiLabelledTextFieldTextStyles(label, hint)
 
@@ -254,7 +254,7 @@ data class IntUiLabelledTextFieldTextStyles(
             label: TextStyle = IntUiTheme.defaultDarkTextStyle,
             hint: TextStyle = IntUiTheme.defaultDarkTextStyle.copy(
                 fontSize = 12.sp,
-                lineHeight = 16.sp
+                lineHeight = 16.sp,
             ),
         ) = IntUiLabelledTextFieldTextStyles(label, hint)
     }

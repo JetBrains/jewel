@@ -75,7 +75,7 @@ data class IntUiRadioButtonColors(
             contentSelected,
             contentSelectedHovered,
             contentSelectedDisabled,
-            buttonColors
+            buttonColors,
         )
 
         @Composable
@@ -94,7 +94,7 @@ data class IntUiRadioButtonColors(
             contentSelected,
             contentSelectedHovered,
             contentSelectedDisabled,
-            buttonColors
+            buttonColors,
         )
     }
 }
@@ -152,7 +152,7 @@ data class IntUiRadioButtonButtonColors(
             borderSelectedDisabled,
             markSelected,
             markSelectedHovered,
-            markSelectedDisabled
+            markSelectedDisabled,
         )
 
         @Composable
@@ -187,7 +187,7 @@ data class IntUiRadioButtonButtonColors(
             borderSelectedDisabled,
             markSelected,
             markSelectedHovered,
-            markSelectedDisabled
+            markSelectedDisabled,
         )
     }
 }

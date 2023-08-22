@@ -130,7 +130,7 @@ data class IntUiMenuItemColors(
             iconTintFocused,
             iconTintPressed,
             iconTintHovered,
-            separator
+            separator,
         )
 
         @Composable
@@ -167,7 +167,7 @@ data class IntUiMenuItemColors(
             iconTintFocused,
             iconTintPressed,
             iconTintHovered,
-            separator
+            separator,
         )
     }
 }

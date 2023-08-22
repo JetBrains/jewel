@@ -207,7 +207,7 @@ fun BaseIntUiTheme(
         LocalTextAreaStyle provides componentStyling.textAreaStyle,
         LocalTextFieldStyle provides componentStyling.textFieldStyle,
         LocalDefaultTabStyle provides componentStyling.defaultTabStyle,
-        LocalEditorTabStyle provides componentStyling.editorTabStyle
+        LocalEditorTabStyle provides componentStyling.editorTabStyle,
     ) {
         IntelliJTheme(theme, swingCompatMode, content)
     }

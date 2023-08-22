@@ -18,10 +18,10 @@ import kotlinx.coroutines.flow.onEach
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.PaletteMapper
 import org.jetbrains.jewel.SvgLoader
+import org.jetbrains.jewel.themes.PaletteMapperFactory
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.themes.intui.core.IntelliJSvgLoader
 import org.jetbrains.jewel.themes.intui.core.IntelliJSvgPatcher
-import org.jetbrains.jewel.themes.PaletteMapperFactory
 import org.jetbrains.jewel.themes.intui.standalone.IntUiTheme
 
 @Service(Service.Level.APP)
@@ -35,7 +35,7 @@ class SwingBridgeService : Disposable, CoroutineScope {
 
     // TODO we shouldn't assume it's Int UI, but we only have that for now
     private val _themeDefinition = mutableStateOf(
-        if (JBColor.isBright()) IntUiTheme.lightThemeDefinition() else IntUiTheme.darkThemeDefinition()
+        if (JBColor.isBright()) IntUiTheme.lightThemeDefinition() else IntUiTheme.darkThemeDefinition(),
     )
 
     private val _componentStyling = mutableStateOf(
@@ -43,7 +43,7 @@ class SwingBridgeService : Disposable, CoroutineScope {
             IntUiTheme.lightComponentStyling(_svgLoader.value)
         } else {
             IntUiTheme.darkComponentStyling(_svgLoader.value)
-        }
+        },
     )
 
     // TODO this isn't great to depend on at this stage (initial state computation)

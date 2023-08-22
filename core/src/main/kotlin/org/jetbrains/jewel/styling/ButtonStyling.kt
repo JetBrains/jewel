@@ -37,8 +37,8 @@ interface ButtonColors {
             focused = backgroundFocused,
             pressed = backgroundPressed,
             hovered = backgroundHovered,
-            active = background
-        )
+            active = background,
+        ),
     )
 
     val content: Color
@@ -55,8 +55,8 @@ interface ButtonColors {
             focused = contentFocused,
             pressed = contentPressed,
             hovered = contentHovered,
-            active = content
-        )
+            active = content,
+        ),
     )
 
     val border: Color
@@ -73,8 +73,8 @@ interface ButtonColors {
             focused = borderFocused,
             pressed = borderPressed,
             hovered = borderHovered,
-            active = border
-        )
+            active = border,
+        ),
     )
 }
 

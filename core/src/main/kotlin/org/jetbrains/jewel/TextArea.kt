@@ -80,7 +80,7 @@ fun TextArea(
         onTextLayout = onTextLayout,
         style = style,
         textStyle = textStyle,
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
     )
 }
 
@@ -120,7 +120,7 @@ fun TextArea(
         onTextLayout = onTextLayout,
         style = style,
         textStyle = textStyle,
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
     ) { innerTextField, state ->
         val minSize = style.metrics.minSize
 
@@ -133,7 +133,7 @@ fun TextArea(
             placeholder = if (value.text.isEmpty()) placeholder else null,
             hintTextStyle = style.hintTextStyle,
             hintTextColor = style.colors.hintContentFor(state).value,
-            hint = hint
+            hint = hint,
         )
     }
 }
@@ -156,7 +156,7 @@ private fun TextAreaDecorationBox(
                 Box(modifier = Modifier.layoutId(PLACEHOLDER_ID), contentAlignment = Alignment.Center) {
                     CompositionLocalProvider(
                         LocalContentColor provides placeholderTextColor,
-                        content = placeholder
+                        content = placeholder,
                     )
                 }
             }
@@ -170,11 +170,11 @@ private fun TextAreaDecorationBox(
                     CompositionLocalProvider(
                         LocalTextStyle provides hintTextStyle,
                         LocalContentColor provides hintTextColor,
-                        content = hint
+                        content = hint,
                     )
                 }
             }
-        }
+        },
     ) { measurables, incomingConstraints ->
         val horizontalPadding =
             (contentPadding.calculateLeftPadding(layoutDirection) + contentPadding.calculateRightPadding(layoutDirection)).roundToPx()
@@ -188,7 +188,7 @@ private fun TextAreaDecorationBox(
 
         val constraintsWithoutPadding = incomingConstraints.offset(
             -horizontalPadding,
-            -verticalPadding - occupiedSpaceVertically
+            -verticalPadding - occupiedSpaceVertically,
         )
 
         val textConstraints = constraintsWithoutPadding
@@ -203,14 +203,14 @@ private fun TextAreaDecorationBox(
             placeholderPlaceable,
             horizontalPadding,
             hintPlaceable,
-            constraintsWithoutPadding
+            constraintsWithoutPadding,
         )
         val height = calculateHeight(
             textFieldPlaceable,
             placeholderPlaceable,
             verticalPadding,
             hintPlaceable,
-            constraintsWithoutPadding
+            constraintsWithoutPadding,
         )
 
         layout(width, height) {
@@ -221,7 +221,7 @@ private fun TextAreaDecorationBox(
                 textFieldPlaceable,
                 placeholderPlaceable,
                 layoutDirection,
-                this@Layout
+                this@Layout,
             )
         }
     }
@@ -238,7 +238,7 @@ private fun calculateWidth(
         textFieldPlaceable.width + horizontalPadding,
         (placeholderPlaceable?.width ?: 0) + horizontalPadding,
         hintPlaceable?.width ?: 0,
-        constraints.minWidth
+        constraints.minWidth,
     )
 }
 
@@ -251,7 +251,7 @@ private fun calculateHeight(
 ): Int {
     val middleSection = maxOf(
         textFieldPlaceable.height,
-        placeholderPlaceable?.height ?: 0
+        placeholderPlaceable?.height ?: 0,
     ) + verticalPadding
     val wrappedHeight = (hintPlaceable?.height ?: 0) + middleSection
     return max(wrappedHeight, constraints.minHeight)
@@ -268,7 +268,7 @@ private fun Placeable.PlacementScope.place(
 ) = with(density) {
     hintPlaceable?.placeRelative(
         0,
-        height - hintPlaceable.height
+        height - hintPlaceable.height,
     )
 
     val y = contentPadding.calculateTopPadding().roundToPx()

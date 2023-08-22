@@ -30,7 +30,7 @@ private val Inter = FontFamily(
     InterLight,
     InterThin,
     InterExtraLight,
-    InterExtraBold
+    InterExtraBold,
 )
 
 val FontFamily.Companion.Inter

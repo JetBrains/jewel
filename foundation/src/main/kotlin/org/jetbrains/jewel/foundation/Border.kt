@@ -49,7 +49,7 @@ fun Modifier.border(stroke: Stroke, shape: Shape): Modifier = when (stroke) {
         width = stroke.width,
         brush = stroke.brush,
         shape = shape,
-        expand = stroke.expand
+        expand = stroke.expand,
     )
 }
 
@@ -81,9 +81,9 @@ private fun Modifier.drawBorderWithAlignment(
                     val strokeWidthPx = max(
                         min(
                             if (width == Dp.Hairline) 1f else ceil(width.toPx()),
-                            ceil(size.minDimension / 2)
+                            ceil(size.minDimension / 2),
                         ),
-                        1f
+                        1f,
                     )
                     val expandWidthPx = expand.takeOrElse { Dp.Hairline }.toPx()
                     when (val outline = shape.createOutline(size, layoutDirection, this)) {
@@ -95,7 +95,7 @@ private fun Modifier.drawBorderWithAlignment(
                                     Outline.Rounded(RoundRect(outline.rect)),
                                     brush,
                                     strokeWidthPx,
-                                    expandWidthPx
+                                    expandWidthPx,
                                 )
 
                                 else -> drawRectBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx, expandWidthPx)
@@ -107,7 +107,7 @@ private fun Modifier.drawBorderWithAlignment(
                         is Outline.Generic -> drawGenericBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx, expandWidthPx)
                     }
                 }
-            }
+            },
         )
     },
     inspectorInfo = debugInspectorInfo {
@@ -122,7 +122,7 @@ private fun Modifier.drawBorderWithAlignment(
         }
         properties["shape"] = shape
         properties["expand"] = expand
-    }
+    },
 )
 
 private class BorderCache(
@@ -151,7 +151,7 @@ private class BorderCache(
             targetImageBitmap = ImageBitmap(
                 borderSize.width,
                 borderSize.height,
-                config = config
+                config = config,
             ).also {
                 imageBitmap = it
             }
@@ -166,12 +166,12 @@ private class BorderCache(
             this,
             layoutDirection,
             targetCanvas,
-            drawSize
+            drawSize,
         ) {
             drawRect(
                 color = Color.Black,
                 size = drawSize,
-                blendMode = BlendMode.Clear
+                blendMode = BlendMode.Clear,
             )
             block()
         }
@@ -238,7 +238,7 @@ private fun ContentDrawScope.drawRoundedBorder(
         drawOutline(
             outline = Outline.Rounded(rrect),
             brush = brush,
-            style = DrawScopeStroke(strokeWidthPx)
+            style = DrawScopeStroke(strokeWidthPx),
         )
     }
 }
@@ -300,13 +300,13 @@ private fun CacheDrawScope.drawGenericBorder(
             val cacheImageBitmap: ImageBitmap
             val pathBoundsSize = IntSize(
                 ceil(pathBounds.width).toInt(),
-                ceil(pathBounds.height).toInt()
+                ceil(pathBounds.height).toInt(),
             )
 
             with(borderCache) {
                 cacheImageBitmap = drawBorderCache(
                     pathBoundsSize,
-                    config
+                    config,
                 ) {
                     translate(-pathBounds.left, -pathBounds.top) {
                         if (inner < 0f && outer > 0f) {

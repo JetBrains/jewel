@@ -26,7 +26,7 @@ interface TextAreaColors : InputFieldColors {
 
     @Composable
     fun hintContentFor(state: InputFieldState) = rememberUpdatedState(
-        if (state.isEnabled) hintContent else hintContentDisabled
+        if (state.isEnabled) hintContent else hintContentDisabled,
     )
 }
 

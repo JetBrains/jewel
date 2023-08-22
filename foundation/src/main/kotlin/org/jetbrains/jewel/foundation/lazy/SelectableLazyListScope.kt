@@ -149,7 +149,7 @@ internal class SelectableLazyListScopeContainer(
         Box(
             Modifier
                 .then(if (selectable) Modifier.selectable(selectableKey, scope) else Modifier)
-                .then(if (focusable) Modifier.focusable(selectableKey as SelectableKey.Focusable, isFocused) else Modifier)
+                .then(if (focusable) Modifier.focusable(selectableKey as SelectableKey.Focusable, isFocused) else Modifier),
         ) {
             content(SelectableLazyItemScope(isSelected, isFocused))
         }
@@ -170,7 +170,7 @@ internal class SelectableLazyListScopeContainer(
             } else {
                 SelectableKey.NotFocusable(
                     key(it),
-                    selectable(it)
+                    selectable(it),
                 )
             }
         }
@@ -187,11 +187,11 @@ internal class SelectableLazyListScopeContainer(
                 Box(
                     Modifier
                         .then(if (selectable(index)) Modifier.selectable(selectableKeys[index]) else Modifier)
-                        .then(if (focusable(index)) Modifier.focusable(selectableKeys[index] as SelectableKey.Focusable, isFocused) else Modifier)
+                        .then(if (focusable(index)) Modifier.focusable(selectableKeys[index] as SelectableKey.Focusable, isFocused) else Modifier),
                 ) {
                     itemContent(SelectableLazyItemScope(isFocused, isSelected), index)
                 }
-            }
+            },
         )
     }
 
