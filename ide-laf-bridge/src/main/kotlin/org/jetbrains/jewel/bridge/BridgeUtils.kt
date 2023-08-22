@@ -1,3 +1,5 @@
+@file:JvmName("SwingBridgeThemeKt")
+
 package org.jetbrains.jewel.bridge
 
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,26 +14,15 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.ui.NewUI
 import com.intellij.util.ui.DirProvider
-import org.jetbrains.jewel.IntelliJTheme
-import org.jetbrains.skiko.toSkikoTypeface
+import org.jetbrains.skiko.DependsOnJBR
+import org.jetbrains.skiko.awt.font.AwtFontManager
+import org.jetbrains.skiko.toSkikoTypefaceOrNull
 import javax.swing.UIManager
 
 private val logger = Logger.getInstance("JewelBridge")
 
 private val dirProvider = DirProvider()
-
-internal fun ObtainIntelliJTheme(): IntelliJTheme {
-    val isIntUi = NewUI.isEnabled()
-
-    if (!isIntUi) {
-        // TODO return Darcula/IntelliJ Light theme instead
-        logger.warn("Darcula LaF (aka \"old UI\" are not supported yet, falling back to Int UI")
-    }
-
-    return bridgeIntUi()
-}
 
 fun java.awt.Color.toComposeColor() = Color(
     red = red,
@@ -62,7 +53,7 @@ internal fun lookupIJSvgIcon(
     focused: Boolean = false,
     enabled: Boolean = true,
     editable: Boolean = false,
-    pressed: Boolean = false
+    pressed: Boolean = false,
 ): @Composable () -> Painter {
     var key = name
     if (editable) {
@@ -93,14 +84,19 @@ internal fun retrieveInsetsAsPaddingValues(key: String) =
     UIManager.getInsets(key)
         .let { PaddingValues(it.left.dp, it.top.dp, it.right.dp, it.bottom.dp) }
 
+@OptIn(DependsOnJBR::class)
+private val awtFontManager = AwtFontManager()
+
+@OptIn(DependsOnJBR::class)
 internal suspend fun retrieveFont(
     key: String,
     color: Color = Color.Unspecified,
-    lineHeight: TextUnit = TextUnit.Unspecified
+    lineHeight: TextUnit = TextUnit.Unspecified,
 ): TextStyle {
     val font = UIManager.getFont(key) ?: error("Font with key \"$key\" not found, fallback to 'Typeface.makeDefault()'")
+
     return with(font) {
-        val typeface = toSkikoTypeface() ?: org.jetbrains.skia.Typeface.makeDefault().also {
+        val typeface = toSkikoTypefaceOrNull(awtFontManager) ?: org.jetbrains.skia.Typeface.makeDefault().also {
             logger.warn("Unable to convert font ${font.fontName} into a Skiko typeface, fallback to 'Typeface.makeDefault()'")
         }
         TextStyle(
