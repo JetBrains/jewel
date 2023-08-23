@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
-import com.intellij.ui.JBColor
 import com.intellij.ui.NewUI
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -15,14 +14,13 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.jewel.IntelliJComponentStyling
-import org.jetbrains.jewel.PaletteMapper
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.themes.PaletteMapperFactory
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.themes.intui.core.IntelliJSvgLoader
 import org.jetbrains.jewel.themes.intui.core.IntelliJSvgPatcher
-import org.jetbrains.jewel.themes.intui.standalone.IntUiTheme
 
 @Service(Service.Level.APP)
 class SwingBridgeService : Disposable, CoroutineScope {
@@ -31,27 +29,10 @@ class SwingBridgeService : Disposable, CoroutineScope {
 
     override val coroutineContext = SupervisorJob() + CoroutineName("JewelSwingBridge")
 
-    private val _svgLoader = mutableStateOf(createDummySvgLoader())
-
     // TODO we shouldn't assume it's Int UI, but we only have that for now
-    private val _themeDefinition = mutableStateOf(
-        if (JBColor.isBright()) IntUiTheme.lightThemeDefinition() else IntUiTheme.darkThemeDefinition(),
-    )
-
-    private val _componentStyling = mutableStateOf(
-        if (JBColor.isBright()) {
-            IntUiTheme.lightComponentStyling(_svgLoader.value)
-        } else {
-            IntUiTheme.darkComponentStyling(_svgLoader.value)
-        },
-    )
-
-    // TODO this isn't great to depend on at this stage (initial state computation)
-    private fun createDummySvgLoader(): SvgLoader {
-        val paletteMapper = PaletteMapper(emptyMap())
-        val svgPatcher = IntelliJSvgPatcher(paletteMapper)
-        return IntelliJSvgLoader(svgPatcher)
-    }
+    private val _themeDefinition = mutableStateOf(runBlocking { createBridgeIntUiDefinition() })
+    private val _svgLoader = mutableStateOf(createSvgLoader(_themeDefinition.value))
+    private val _componentStyling = mutableStateOf(createSwingIntUiComponentStyling(_themeDefinition.value, _svgLoader.value))
 
     val themeDefinition: State<IntUiThemeDefinition> = _themeDefinition
     val componentStyling: State<IntelliJComponentStyling> = _componentStyling
@@ -72,7 +53,7 @@ class SwingBridgeService : Disposable, CoroutineScope {
 
                 _themeDefinition.value = themeDefinition
                 _svgLoader.value = svgLoader
-                _componentStyling.value = createSwingLaFComponentStyling(themeDefinition, svgLoader)
+                _componentStyling.value = createSwingIntUiComponentStyling(themeDefinition, svgLoader)
             }
             .flowOn(Dispatchers.Default)
             .launchIn(this)

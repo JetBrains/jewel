@@ -287,8 +287,8 @@ private fun CheckboxImpl(
         .outline(
             state = checkboxState,
             outline = outline,
-            alignment = Stroke.Alignment.Center,
             outlineShape = RoundedCornerShape(metrics.checkboxCornerSize),
+            alignment = Stroke.Alignment.Center,
             outlineWidth = metrics.outlineWidth,
         )
 
