@@ -59,11 +59,11 @@ interface ButtonColors {
         ),
     )
 
-    val border: Color
-    val borderDisabled: Color
-    val borderFocused: Color
-    val borderPressed: Color
-    val borderHovered: Color
+    val border: Brush
+    val borderDisabled: Brush
+    val borderFocused: Brush
+    val borderPressed: Brush
+    val borderHovered: Brush
 
     @Composable
     fun borderFor(state: ButtonState) = rememberUpdatedState(

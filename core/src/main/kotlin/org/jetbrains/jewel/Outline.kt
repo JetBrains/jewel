@@ -1,6 +1,5 @@
 package org.jetbrains.jewel
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -29,7 +28,7 @@ enum class Outline {
 @Composable
 fun Modifier.focusOutline(
     state: FocusableComponentState,
-    outlineShape: Shape = RoundedCornerShape(LocalGlobalMetrics.current.outlineCornerSize),
+    outlineShape: Shape,
     outlineWidth: Dp = LocalGlobalMetrics.current.outlineWidth,
 ): Modifier {
     val outlineColors = LocalGlobalColors.current.outlines
@@ -43,7 +42,7 @@ fun Modifier.focusOutline(
 @Composable
 fun Modifier.outline(
     state: StateWithOutline,
-    outlineShape: Shape = RoundedCornerShape(LocalGlobalMetrics.current.outlineCornerSize),
+    outlineShape: Shape,
     outlineWidth: Dp = LocalGlobalMetrics.current.outlineWidth,
 ): Modifier {
     val outlineColors = LocalGlobalColors.current.outlines
@@ -63,8 +62,8 @@ fun Modifier.outline(
 fun Modifier.outline(
     state: FocusableComponentState,
     outline: Outline,
+    outlineShape: Shape,
     alignment: Stroke.Alignment = Stroke.Alignment.Outside,
-    outlineShape: Shape = RoundedCornerShape(LocalGlobalMetrics.current.outlineCornerSize),
     outlineWidth: Dp = LocalGlobalMetrics.current.outlineWidth,
 ): Modifier {
     val outlineColors = LocalGlobalColors.current.outlines

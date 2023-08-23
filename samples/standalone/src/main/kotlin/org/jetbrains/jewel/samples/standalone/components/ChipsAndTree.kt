@@ -38,13 +38,13 @@ fun ChipsRow(modifier: Modifier = Modifier) {
     Row(modifier) {
         Chip(
             enabled = true,
-            onChipClick = {},
+            onClick = {},
         ) {
             Text("Enabled")
         }
         Chip(
             enabled = false,
-            onChipClick = {},
+            onClick = {},
         ) {
             Text("Disabled")
         }
