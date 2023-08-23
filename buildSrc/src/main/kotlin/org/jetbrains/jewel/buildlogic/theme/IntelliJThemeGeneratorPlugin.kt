@@ -33,7 +33,7 @@ abstract class IntelliJThemeGeneratorPlugin : Plugin<Project> {
 
         extension.all {
             val task = tasks.register<IntelliJThemeGeneratorTask>("generate${GUtil.toCamelCase(name)}Theme") {
-                output.set(targetDir.file(this@all.themeClassName.map {
+                outputFile.set(targetDir.file(this@all.themeClassName.map {
                     val className = ClassName.bestGuess(it)
                     className.packageName.replace(".", "/")
                         .plus("/${className.simpleName}.kt")
@@ -71,7 +71,7 @@ class ThemeGeneration(val name: String, project: Project) {
 open class IntelliJThemeGeneratorTask : DefaultTask() {
 
     @get:OutputFile
-    val output = project.objects.fileProperty()
+    val outputFile = project.objects.fileProperty()
 
     @get:Input
     val ideaVersion = project.objects.property<String>()
@@ -86,12 +86,9 @@ open class IntelliJThemeGeneratorTask : DefaultTask() {
         group = "jewel"
     }
 
-    private val json = Json {
-        ignoreUnknownKeys = true
-    }
-
     @TaskAction
     fun generate() {
+        val json = Json { ignoreUnknownKeys = true }
         val url = buildString {
             append("https://raw.githubusercontent.com/JetBrains/intellij-community/")
             append(ideaVersion.get())
@@ -99,14 +96,18 @@ open class IntelliJThemeGeneratorTask : DefaultTask() {
             append(themeFile.get())
         }
 
-        val theme = URL(url).openStream()
+        logger.lifecycle("Fetching theme descriptor from $url...")
+        val themeDescriptor = URL(url).openStream()
             .use { json.decodeFromStream<IntellijThemeDescriptor>(it) }
 
         val className = ClassName.bestGuess(themeClassName.get())
-        val file = ThemeDescriptorReader.readThemeFrom(theme, className, ideaVersion.get(), url)
 
-        output.get().asFile.bufferedWriter()
-            .use { file.writeTo(it) }
+        // TODO handle non-Int UI themes, too
+        val file = IntUiThemeDescriptorReader.readThemeFrom(themeDescriptor, className, ideaVersion.get(), url)
+
+        val outputFile = outputFile.get().asFile
+        logger.lifecycle("Theme descriptor for ${themeDescriptor.name} parsed and code generated into ${outputFile.path}")
+        outputFile.bufferedWriter().use { file.writeTo(it) }
     }
 }
 

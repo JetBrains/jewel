@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 
@@ -15,6 +17,7 @@ version = when {
         gitHubRef.substringAfter("refs/tags/")
             .removePrefix("v")
     }
+
     else -> "1.0.0-SNAPSHOT"
 }
 
@@ -51,11 +54,11 @@ val sarif by configurations.creating {
 
 tasks {
     withType<Detekt> {
-        val sarifOutputFile = buildDir.resolve("reports/detekt-${project.name}.sarif")
-        exclude { it.file.absolutePath.startsWith(buildDir.absolutePath) }
+        val sarifOutputFile = layout.buildDirectory.file("reports/detekt-${project.name}.sarif")
+        exclude { it.file.absolutePath.startsWith(layout.buildDirectory.asFile.get().absolutePath) }
         reports {
-            sarif.required.set(true)
-            sarif.outputLocation.set(sarifOutputFile)
+            sarif.required = true
+            sarif.outputLocation = sarifOutputFile
         }
         sarif.outgoing {
             artifact(sarifOutputFile) {
@@ -64,15 +67,16 @@ tasks {
         }
     }
     withType<LintTask> {
-        exclude { it.file.absolutePath.startsWith(buildDir.absolutePath) }
-        val sarifReport = buildDir.resolve("reports/ktlint-${project.name}.sarif")
-        reports.set(
+        exclude { it.file.absolutePath.startsWith(layout.buildDirectory.asFile.get().absolutePath) }
+        val sarifReport = layout.buildDirectory.file("reports/ktlint-${project.name}.sarif")
+        reports = provider {
             mapOf(
-                "plain" to buildDir.resolve("reports/ktlint-${project.name}.txt"),
-                "html" to buildDir.resolve("reports/ktlint-${project.name}.html"),
-                "sarif" to sarifReport
+                "plain" to layout.buildDirectory.file("reports/ktlint-${project.name}.txt").get().asFile,
+                "html" to layout.buildDirectory.file("reports/ktlint-${project.name}.html").get().asFile,
+                "sarif" to sarifReport.get().asFile
             )
-        )
+        }
+
         sarif.outgoing {
             artifact(sarifReport) {
                 builtBy(this@withType)
