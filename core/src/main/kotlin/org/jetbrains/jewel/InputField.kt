@@ -33,7 +33,7 @@ internal fun InputField(
     modifier: Modifier,
     enabled: Boolean,
     readOnly: Boolean,
-    isError: Boolean,
+    outline: Outline,
     undecorated: Boolean,
     visualTransformation: VisualTransformation,
     keyboardOptions: KeyboardOptions,
@@ -47,10 +47,10 @@ internal fun InputField(
     decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
 ) {
     var inputState by remember(interactionSource) {
-        mutableStateOf(InputFieldState.of(enabled = enabled, error = isError))
+        mutableStateOf(InputFieldState.of(enabled = enabled))
     }
-    remember(isError, enabled) {
-        inputState = inputState.copy(error = isError, enabled = enabled)
+    remember(enabled) {
+        inputState = inputState.copy(enabled = enabled)
     }
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
@@ -87,7 +87,8 @@ internal fun InputField(
     BasicTextField(
         value = value,
         modifier = modifier.then(backgroundModifier)
-            .then(borderModifier),
+            .then(borderModifier)
+            .outline(inputState, outline, shape),
         onValueChange = onValueChange,
         enabled = enabled,
         readOnly = readOnly,
@@ -108,7 +109,7 @@ internal fun InputField(
 
 @Immutable
 @JvmInline
-value class InputFieldState(val state: ULong) : StateWithOutline {
+value class InputFieldState(val state: ULong) : FocusableComponentState {
 
     @Stable
     override val isActive: Boolean
@@ -123,14 +124,6 @@ value class InputFieldState(val state: ULong) : StateWithOutline {
         get() = state and CommonStateBitMask.Focused != 0UL
 
     @Stable
-    override val isError: Boolean
-        get() = state and CommonStateBitMask.Error != 0UL
-
-    @Stable
-    override val isWarning: Boolean
-        get() = state and CommonStateBitMask.Warning != 0UL
-
-    @Stable
     override val isHovered: Boolean
         get() = state and CommonStateBitMask.Hovered != 0UL
 
@@ -141,23 +134,19 @@ value class InputFieldState(val state: ULong) : StateWithOutline {
     fun copy(
         enabled: Boolean = isEnabled,
         focused: Boolean = isFocused,
-        error: Boolean = isError,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
-        warning: Boolean = isWarning,
         active: Boolean = isActive,
     ) = of(
         enabled = enabled,
         focused = focused,
-        error = error,
         pressed = pressed,
         hovered = hovered,
-        warning = warning,
         active = active,
     )
 
     override fun toString() =
-        "${javaClass.simpleName}(isEnabled=$isEnabled, isFocused=$isFocused, isError=$isError, isWarning=$isWarning, " +
+        "${javaClass.simpleName}(isEnabled=$isEnabled, isFocused=$isFocused, " +
             "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     companion object {
@@ -165,18 +154,14 @@ value class InputFieldState(val state: ULong) : StateWithOutline {
         fun of(
             enabled: Boolean = true,
             focused: Boolean = false,
-            error: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
-            warning: Boolean = false,
             active: Boolean = false,
         ) = InputFieldState(
             state = (if (enabled) CommonStateBitMask.Enabled else 0UL) or
                 (if (focused) CommonStateBitMask.Focused else 0UL) or
-                (if (error) CommonStateBitMask.Error else 0UL) or
                 (if (hovered) CommonStateBitMask.Hovered else 0UL) or
                 (if (pressed) CommonStateBitMask.Pressed else 0UL) or
-                (if (warning) CommonStateBitMask.Warning else 0UL) or
                 (if (active) CommonStateBitMask.Active else 0UL),
         )
     }

@@ -29,19 +29,15 @@ interface InputFieldColors {
     val backgroundFocused: Color
     val backgroundPressed: Color
     val backgroundHovered: Color
-    val backgroundWarning: Color
-    val backgroundError: Color
 
     @Composable
     fun backgroundFor(state: InputFieldState) = rememberUpdatedState(
-        state.chooseValueWithOutline(
+        state.chooseValue(
             normal = background,
             disabled = backgroundDisabled,
             focused = backgroundFocused,
             pressed = backgroundPressed,
             hovered = backgroundHovered,
-            warning = backgroundWarning,
-            error = backgroundError,
             active = background,
         ),
     )
@@ -51,19 +47,15 @@ interface InputFieldColors {
     val contentFocused: Color
     val contentPressed: Color
     val contentHovered: Color
-    val contentWarning: Color
-    val contentError: Color
 
     @Composable
     fun contentFor(state: InputFieldState) = rememberUpdatedState(
-        state.chooseValueWithOutline(
+        state.chooseValue(
             normal = content,
             disabled = contentDisabled,
             focused = contentFocused,
             pressed = contentPressed,
             hovered = contentHovered,
-            warning = contentWarning,
-            error = contentError,
             active = content,
         ),
     )
@@ -73,19 +65,15 @@ interface InputFieldColors {
     val borderFocused: Color
     val borderPressed: Color
     val borderHovered: Color
-    val borderWarning: Color
-    val borderError: Color
 
     @Composable
     fun borderFor(state: InputFieldState) = rememberUpdatedState(
-        state.chooseValueWithOutline(
+        state.chooseValue(
             normal = border,
             disabled = borderDisabled,
             focused = borderFocused,
             pressed = borderPressed,
             hovered = borderHovered,
-            warning = borderWarning,
-            error = borderError,
             active = border,
         ),
     )
@@ -95,19 +83,15 @@ interface InputFieldColors {
     val cursorFocused: Brush
     val cursorPressed: Brush
     val cursorHovered: Brush
-    val cursorWarning: Brush
-    val cursorError: Brush
 
     @Composable
     fun cursorFor(state: InputFieldState) = rememberUpdatedState(
-        state.chooseValueWithOutline(
+        state.chooseValue(
             normal = cursor,
             disabled = cursorDisabled,
             focused = cursorFocused,
             pressed = cursorPressed,
             hovered = cursorHovered,
-            warning = cursorWarning,
-            error = cursorError,
             active = cursor,
         ),
     )

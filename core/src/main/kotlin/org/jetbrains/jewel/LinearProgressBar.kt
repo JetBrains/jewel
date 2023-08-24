@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import org.jetbrains.jewel.styling.HorizontalProgressBarStyle
 
+// TODO implement green/red/yellow variants based on com.intellij.openapi.progress.util.ColorProgressBar
+
 @Composable
 fun HorizontalProgressBar(
     progress: Float, // from 0 to 1
@@ -73,7 +75,7 @@ fun IndeterminateHorizontalProgressBar(
 
     val highlightWidth = style.metrics.indeterminateHighlightWidth
     val colors = style.colors
-    val colorsList by remember { mutableStateOf(listOf(colors.progress, colors.indeterminateHighlight)) }
+    val colorsList by remember { mutableStateOf(listOf(colors.indeterminateBase, colors.indeterminateHighlight)) }
     val shape = RoundedCornerShape(style.metrics.cornerSize)
 
     Box(
