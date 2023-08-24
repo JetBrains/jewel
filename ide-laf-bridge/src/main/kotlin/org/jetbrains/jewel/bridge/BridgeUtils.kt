@@ -3,6 +3,7 @@
 package org.jetbrains.jewel.bridge
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -84,8 +85,16 @@ internal fun retrieveInsetsAsPaddingValues(key: String) =
     UIManager.getInsets(key)
         .let { PaddingValues(it.left.dp, it.top.dp, it.right.dp, it.bottom.dp) }
 
+internal fun retrieveArcAsCornerSize(key: String) =
+    CornerSize(retrieveIntAsDp(key) * 2)
+
 @OptIn(DependsOnJBR::class)
 private val awtFontManager = AwtFontManager()
+
+internal suspend fun retrieveTextStyle(fontKey: String, colorKey: String? = null): TextStyle {
+    val baseColor = colorKey?.let { retrieveColorOrUnspecified(colorKey) } ?: Color.Unspecified
+    return retrieveFont(fontKey, color = baseColor)
+}
 
 @OptIn(DependsOnJBR::class)
 internal suspend fun retrieveFont(

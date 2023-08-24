@@ -112,23 +112,23 @@ object IntUiTheme : BaseIntUiTheme {
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(svgLoader),
     ) =
         IntelliJComponentStyling(
-            defaultButtonStyle = defaultButtonStyle,
-            outlinedButtonStyle = outlinedButtonStyle,
             checkboxStyle = checkboxStyle,
             chipStyle = chipStyle,
+            defaultButtonStyle = defaultButtonStyle,
+            defaultTabStyle = defaultTabStyle,
             dropdownStyle = dropdownStyle,
+            editorTabStyle = editorTabStyle,
             groupHeaderStyle = groupHeaderStyle,
+            horizontalProgressBarStyle = horizontalProgressBarStyle,
             labelledTextFieldStyle = labelledTextFieldStyle,
+            lazyTreeStyle = lazyTreeStyle,
             linkStyle = linkStyle,
             menuStyle = menuStyle,
-            horizontalProgressBarStyle = horizontalProgressBarStyle,
+            outlinedButtonStyle = outlinedButtonStyle,
             radioButtonStyle = radioButtonStyle,
             scrollbarStyle = scrollbarStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
-            lazyTreeStyle = lazyTreeStyle,
-            defaultTabStyle = defaultTabStyle,
-            editorTabStyle = editorTabStyle,
         )
 
     @Composable
@@ -153,23 +153,23 @@ object IntUiTheme : BaseIntUiTheme {
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(svgLoader),
     ) =
         IntelliJComponentStyling(
-            defaultButtonStyle = defaultButtonStyle,
-            outlinedButtonStyle = outlinedButtonStyle,
             checkboxStyle = checkboxStyle,
             chipStyle = chipStyle,
+            defaultButtonStyle = defaultButtonStyle,
+            defaultTabStyle = defaultTabStyle,
             dropdownStyle = dropdownStyle,
+            editorTabStyle = editorTabStyle,
             groupHeaderStyle = groupHeaderStyle,
+            horizontalProgressBarStyle = horizontalProgressBarStyle,
             labelledTextFieldStyle = labelledTextFieldStyle,
+            lazyTreeStyle = lazyTreeStyle,
             linkStyle = linkStyle,
             menuStyle = menuStyle,
-            horizontalProgressBarStyle = horizontalProgressBarStyle,
+            outlinedButtonStyle = outlinedButtonStyle,
             radioButtonStyle = radioButtonStyle,
             scrollbarStyle = scrollbarStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
-            lazyTreeStyle = lazyTreeStyle,
-            defaultTabStyle = defaultTabStyle,
-            editorTabStyle = editorTabStyle,
         )
 }
 
