@@ -11,8 +11,7 @@ import org.jetbrains.jewel.foundation.utils.thenIf
 enum class Outline {
     None,
     Warning,
-    Error,
-    ;
+    Error;
 
     companion object {
 
@@ -29,9 +28,9 @@ enum class Outline {
 fun Modifier.focusOutline(
     state: FocusableComponentState,
     outlineShape: Shape,
-    outlineWidth: Dp = LocalGlobalMetrics.current.outlineWidth,
+    outlineWidth: Dp = IntelliJTheme.globalMetrics.outlineWidth,
 ): Modifier {
-    val outlineColors = LocalGlobalColors.current.outlines
+    val outlineColors = IntelliJTheme.globalColors.outlines
 
     return thenIf(state.isFocused) {
         val outlineColor = outlineColors.focused
@@ -41,32 +40,13 @@ fun Modifier.focusOutline(
 
 @Composable
 fun Modifier.outline(
-    state: StateWithOutline,
-    outlineShape: Shape,
-    outlineWidth: Dp = LocalGlobalMetrics.current.outlineWidth,
-): Modifier {
-    val outlineColors = LocalGlobalColors.current.outlines
-
-    return thenIf(state.hasOutline) {
-        val outlineColor = when {
-            state.isError -> outlineColors.focusedError
-            state.isWarning -> outlineColors.focusedWarning
-            state.isFocused -> outlineColors.focused
-            else -> error("State $state says it has an outline, but doesn't really")
-        }
-        border(Stroke.Alignment.Inside, outlineWidth, outlineColor, outlineShape)
-    }
-}
-
-@Composable
-fun Modifier.outline(
     state: FocusableComponentState,
     outline: Outline,
     outlineShape: Shape,
     alignment: Stroke.Alignment = Stroke.Alignment.Outside,
-    outlineWidth: Dp = LocalGlobalMetrics.current.outlineWidth,
+    outlineWidth: Dp = IntelliJTheme.globalMetrics.outlineWidth,
 ): Modifier {
-    val outlineColors = LocalGlobalColors.current.outlines
+    val outlineColors = IntelliJTheme.globalColors.outlines
 
     return thenIf(outline != Outline.None) {
         val outlineColor = when {

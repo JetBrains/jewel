@@ -3,6 +3,7 @@ package org.jetbrains.jewel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 
+@Deprecated("The outline doesn't belong into the state", ReplaceWith("FocusableComponentState"))
 interface StateWithOutline : FocusableComponentState {
 
     @Stable
