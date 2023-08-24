@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,8 +26,11 @@ import com.intellij.util.ui.JBDimension
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.Orientation
+import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.bridge.SwingBridgeTheme
 import org.jetbrains.jewel.bridge.addComposePanel
+import org.jetbrains.jewel.themes.intui.standalone.IntUiTheme
+import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiTabIcons
 import javax.swing.JProgressBar
 
 @ExperimentalCoroutinesApi
@@ -39,10 +43,16 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         toolWindow.addComposePanel("Jewel") {
             SwingBridgeTheme {
+                val bgColor = if (IntUiTheme.isDark) {
+                    IntUiTheme.colorPalette.grey(14)
+                } else {
+                    IntUiTheme.colorPalette.grey(14)
+                }
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(IntelliJTheme.palette.background),
+                        .background(bgColor),
                     contentAlignment = Alignment.Center,
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically)) {

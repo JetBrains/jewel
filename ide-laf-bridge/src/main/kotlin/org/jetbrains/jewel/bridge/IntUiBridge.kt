@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
@@ -84,6 +85,11 @@ internal val uiDefaults
     get() = UIManager.getDefaults()
 
 internal suspend fun createBridgeIntUiDefinition(): IntUiThemeDefinition {
+    val textStyle = retrieveTextStyle("Label.font", "Label.foreground")
+    return createBridgeIntUiDefinition(textStyle)
+}
+
+internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefinition {
     val isDark = !JBColor.isBright()
 
     logger.debug("Obtaining Int UI theme definition from Swing...")
@@ -94,7 +100,7 @@ internal suspend fun createBridgeIntUiDefinition(): IntUiThemeDefinition {
         colorPalette = BridgeThemeColorPalette.readFromLaF(),
         iconData = BridgeIconData.readFromLaF(),
         metrics = BridgeGlobalMetrics.readFromLaF(),
-        defaultTextStyle = retrieveTextStyle("Label.font", "Label.foreground"),
+        defaultTextStyle = textStyle,
     )
 }
 
@@ -702,18 +708,18 @@ private fun readDefaultTabStyle(): IntUiTabStyle {
         ),
         icons = IntUiTabIcons(close =),
         contentAlpha = IntUiTabContentAlpha(
-            iconNormal = ,
-            iconDisabled = ,
-            iconFocused = ,
-            iconPressed = ,
-            iconHovered = ,
-            iconSelected = ,
-            labelNormal = ,
-            labelDisabled = ,
-            labelFocused = ,
-            labelPressed = ,
-            labelHovered = ,
-            labelSelected = ,
+            iconNormal =,
+            iconDisabled =,
+            iconFocused =,
+            iconPressed =,
+            iconHovered =,
+            iconSelected =,
+            labelNormal =,
+            labelDisabled =,
+            labelFocused =,
+            labelPressed =,
+            labelHovered =,
+            labelSelected =,
         ),
     )
 }
@@ -750,18 +756,18 @@ private fun readEditorTabStyle(): IntUiTabStyle {
         ),
         icons = IntUiTabIcons(close =),
         contentAlpha = IntUiTabContentAlpha(
-            iconNormal = ,
-            iconDisabled = ,
-            iconFocused = ,
-            iconPressed = ,
-            iconHovered = ,
-            iconSelected = ,
-            labelNormal = ,
-            labelDisabled = ,
-            labelFocused = ,
-            labelPressed = ,
-            labelHovered = ,
-            labelSelected = ,
+            iconNormal =,
+            iconDisabled =,
+            iconFocused =,
+            iconPressed =,
+            iconHovered =,
+            iconSelected =,
+            labelNormal =,
+            labelDisabled =,
+            labelFocused =,
+            labelPressed =,
+            labelHovered =,
+            labelSelected =,
         ),
     )
 }
