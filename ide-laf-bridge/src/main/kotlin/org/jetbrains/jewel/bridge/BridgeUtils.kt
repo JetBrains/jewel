@@ -93,11 +93,11 @@ private val awtFontManager = AwtFontManager()
 
 internal suspend fun retrieveTextStyle(fontKey: String, colorKey: String? = null): TextStyle {
     val baseColor = colorKey?.let { retrieveColorOrUnspecified(colorKey) } ?: Color.Unspecified
-    return retrieveFont(fontKey, color = baseColor)
+    return retrieveTextStyle(fontKey, color = baseColor)
 }
 
 @OptIn(DependsOnJBR::class)
-internal suspend fun retrieveFont(
+internal suspend fun retrieveTextStyle(
     key: String,
     color: Color = Color.Unspecified,
     lineHeight: TextUnit = TextUnit.Unspecified,

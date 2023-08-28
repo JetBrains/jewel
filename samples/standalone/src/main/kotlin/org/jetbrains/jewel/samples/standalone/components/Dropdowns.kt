@@ -14,7 +14,7 @@ import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.Outline
 import org.jetbrains.jewel.Text
-import org.jetbrains.jewel.divider
+import org.jetbrains.jewel.separator
 
 @Composable
 fun Dropdowns() {
@@ -49,7 +49,7 @@ fun Dropdowns() {
             menuContent = {
                 items.forEach {
                     if (it == "---") {
-                        divider()
+                        separator()
                     } else {
                         selectableItem(selected == it, {
                             selected = it
@@ -58,11 +58,11 @@ fun Dropdowns() {
                         }
                     }
                 }
-                divider()
+                separator()
                 submenu(submenu = {
                     items.forEach {
                         if (it == "---") {
-                            divider()
+                            separator()
                         } else {
                             selectableItem(selected == it, {
                                 selected = it
@@ -71,11 +71,11 @@ fun Dropdowns() {
                             }
                         }
                     }
-                    divider()
+                    separator()
                     submenu(submenu = {
                         items.forEach {
                             if (it == "---") {
-                                divider()
+                                separator()
                             } else {
                                 selectableItem(selected == it, {
                                     selected = it
@@ -100,7 +100,7 @@ fun Dropdowns() {
             menuContent = {
                 items.forEach {
                     if (it == "---") {
-                        divider()
+                        separator()
                     } else {
                         selectableItem(selected == it, {
                             selected = it

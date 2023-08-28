@@ -7,7 +7,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
@@ -24,7 +23,7 @@ interface MenuStyle {
 @Immutable
 interface MenuColors {
 
-    val background: Brush
+    val background: Color
     val border: Color
     val shadow: Color
     val itemColors: MenuItemColors
@@ -34,8 +33,7 @@ interface MenuColors {
 interface MenuMetrics {
 
     val cornerSize: CornerSize
-    val margin: PaddingValues
-    val padding: PaddingValues
+    val menuMargin: PaddingValues
     val contentPadding: PaddingValues
     val offset: DpOffset
     val shadowSize: Dp
@@ -47,17 +45,17 @@ interface MenuMetrics {
 @Stable
 interface MenuItemMetrics {
 
-    val cornerSize: CornerSize
-    val padding: PaddingValues
+    val selectionCornerSize: CornerSize
+    val outerPadding: PaddingValues
     val contentPadding: PaddingValues
     val separatorPadding: PaddingValues
+    val separatorThickness: Dp
 }
 
 @Stable
 interface SubmenuMetrics {
 
     val offset: DpOffset
-    val itemPadding: PaddingValues
 }
 
 @Immutable
@@ -122,7 +120,8 @@ interface MenuItemColors {
 
 @Immutable
 interface MenuIcons {
-    val submenuChevron: String
+
+    val submenuChevron: StatefulPainterProvider<MenuItemState>
 }
 
 val LocalMenuStyle = staticCompositionLocalOf<MenuStyle> {

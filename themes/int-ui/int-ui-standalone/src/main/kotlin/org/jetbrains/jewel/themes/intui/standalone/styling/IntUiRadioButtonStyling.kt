@@ -95,7 +95,7 @@ data class IntUiRadioButtonColors(
 
 @Immutable
 data class IntUiRadioButtonMetrics(
-    override val radioButtonSize: DpSize = DpSize(16.dp, 16.dp),
+    override val radioButtonSize: DpSize = DpSize(19.dp, 19.dp),
     override val iconContentGap: Dp = 8.dp,
 ) : RadioButtonMetrics
 

@@ -185,8 +185,8 @@ data class IntUiLabelledTextFieldColors(
 @Stable
 data class IntUiLabelledTextFieldMetrics(
     override val cornerSize: CornerSize = CornerSize(4.dp),
-    override val contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 9.dp),
-    override val minSize: DpSize = DpSize(144.dp, 28.dp),
+    override val contentPadding: PaddingValues = PaddingValues(horizontal = 9.dp, vertical = 6.dp),
+    override val minSize: DpSize = DpSize(49.dp, 24.dp),
     override val borderWidth: Dp = 1.dp,
     override val labelSpacing: Dp = 6.dp,
     override val hintSpacing: Dp = 6.dp,

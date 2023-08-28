@@ -37,7 +37,7 @@ fun TextArea(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    isError: Boolean = false,
+    outline: Outline = Outline.None,
     placeholder: @Composable (() -> Unit)? = null,
     hint: @Composable (() -> Unit)? = null,
     undecorated: Boolean = false,
@@ -69,7 +69,7 @@ fun TextArea(
         modifier = modifier,
         enabled = enabled,
         readOnly = readOnly,
-        isError = isError,
+        outline = outline,
         placeholder = placeholder,
         hint = hint,
         undecorated = undecorated,
@@ -94,7 +94,7 @@ fun TextArea(
     placeholder: @Composable (() -> Unit)? = null,
     hint: @Composable (() -> Unit)? = null,
     undecorated: Boolean = false,
-    isError: Boolean = false,
+    outline: Outline = Outline.None,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
@@ -110,7 +110,7 @@ fun TextArea(
         modifier = modifier,
         enabled = enabled,
         readOnly = readOnly,
-        isError = isError,
+        outline = outline,
         undecorated = undecorated,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
@@ -187,15 +187,14 @@ private fun TextAreaDecorationBox(
         val occupiedSpaceVertically = hintPlaceable?.height ?: 0
 
         val constraintsWithoutPadding = incomingConstraints.offset(
-            -horizontalPadding,
-            -verticalPadding - occupiedSpaceVertically,
+            horizontal = -horizontalPadding,
+            vertical = -verticalPadding - occupiedSpaceVertically,
         )
 
-        val textConstraints = constraintsWithoutPadding
-        val textFieldPlaceable = measurables.first { it.layoutId == TEXT_FIELD_ID }.measure(textConstraints)
+        val textFieldPlaceable = measurables.first { it.layoutId == TEXT_FIELD_ID }.measure(constraintsWithoutPadding)
 
         // measure placeholder
-        val placeholderConstraints = textConstraints.copy(minWidth = 0, minHeight = 0)
+        val placeholderConstraints = constraintsWithoutPadding.copy(minWidth = 0, minHeight = 0)
         val placeholderPlaceable = measurables.find { it.layoutId == PLACEHOLDER_ID }?.measure(placeholderConstraints)
 
         val width = calculateWidth(
@@ -233,14 +232,12 @@ private fun calculateWidth(
     horizontalPadding: Int,
     hintPlaceable: Placeable?,
     constraints: Constraints,
-): Int {
-    return maxOf(
-        textFieldPlaceable.width + horizontalPadding,
-        (placeholderPlaceable?.width ?: 0) + horizontalPadding,
-        hintPlaceable?.width ?: 0,
-        constraints.minWidth,
-    )
-}
+): Int = maxOf(
+    textFieldPlaceable.width + horizontalPadding,
+    (placeholderPlaceable?.width ?: 0) + horizontalPadding,
+    hintPlaceable?.width ?: 0,
+    constraints.minWidth,
+)
 
 private fun calculateHeight(
     textFieldPlaceable: Placeable,
@@ -266,10 +263,7 @@ private fun Placeable.PlacementScope.place(
     layoutDirection: LayoutDirection,
     density: Density,
 ) = with(density) {
-    hintPlaceable?.placeRelative(
-        0,
-        height - hintPlaceable.height,
-    )
+    hintPlaceable?.placeRelative(x = 0, y = height - hintPlaceable.height)
 
     val y = contentPadding.calculateTopPadding().roundToPx()
     val x = contentPadding.calculateLeftPadding(layoutDirection).roundToPx()

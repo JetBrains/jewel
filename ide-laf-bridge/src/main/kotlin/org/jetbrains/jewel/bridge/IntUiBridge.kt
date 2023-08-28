@@ -5,15 +5,23 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ide.ui.laf.darcula.ui.DarculaCheckBoxUI
+import com.intellij.ide.ui.laf.intellij.IdeaPopupMenuUI
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.util.registry.Registry
 import com.intellij.ui.JBColor
+import com.intellij.ui.components.ScrollBarPainter
 import com.intellij.util.ui.DirProvider
+import com.intellij.util.ui.JBUI
+import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.CheckboxState
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.IntelliJThemeIconData
@@ -57,6 +65,7 @@ import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiLinkTextStyles
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiMenuColors
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiMenuIcons
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiMenuItemColors
+import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiMenuItemMetrics
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiMenuMetrics
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiMenuStyle
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiRadioButtonColors
@@ -66,6 +75,7 @@ import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiRadioButtonStyle
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiScrollbarColors
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiScrollbarMetrics
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiScrollbarStyle
+import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiSubmenuMetrics
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiTabColors
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiTabContentAlpha
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiTabIcons
@@ -107,7 +117,7 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefini
 
 internal suspend fun createSwingIntUiComponentStyling(
     theme: IntUiThemeDefinition,
-    svgLoader: SvgLoader
+    svgLoader: SvgLoader,
 ): IntelliJComponentStyling {
     val menuStyle = readMenuStyle(theme.iconData, svgLoader)
     val textFieldStyle = readTextFieldStyle()
@@ -312,7 +322,7 @@ private fun readChipStyle(): IntUiChipStyle {
 private suspend fun readDropdownStyle(
     iconData: IntelliJThemeIconData,
     svgLoader: SvgLoader,
-    menuStyle: IntUiMenuStyle
+    menuStyle: IntUiMenuStyle,
 ): IntUiDropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
@@ -417,137 +427,187 @@ private suspend fun readLabelledTextFieldStyle(inputFieldStyle: InputFieldStyle)
         cursorFocused = inputFieldStyle.colors.cursorFocused,
         cursorPressed = inputFieldStyle.colors.cursorPressed,
         cursorHovered = inputFieldStyle.colors.cursorHovered,
-        placeholder =,
-        label =,
-        hint =,
+        placeholder = retrieveColorOrUnspecified("Label.infoForeground"),
+        label = retrieveColorOrUnspecified("Label.foreground"),
+        hint = StatusText.DEFAULT_ATTRIBUTES.fgColor.toComposeColor(),
     )
 
+    val labelTextStyle = retrieveTextStyle("Label.font")
     return IntUiLabelledTextFieldStyle(
         colors = colors,
         metrics = IntUiLabelledTextFieldMetrics(
-            cornerSize =,
-            contentPadding =,
-            minSize =,
-            borderWidth =,
-            labelSpacing =,
-            hintSpacing =,
+            cornerSize = inputFieldStyle.metrics.cornerSize,
+            contentPadding = inputFieldStyle.metrics.contentPadding,
+            minSize = inputFieldStyle.metrics.minSize,
+            borderWidth = inputFieldStyle.metrics.borderWidth,
+            labelSpacing = 6.dp,
+            hintSpacing = 6.dp,
         ),
-        textStyle =,
+        textStyle = inputFieldStyle.textStyle,
         textStyles = IntUiLabelledTextFieldTextStyles(
-            label =,
-            hint =,
+            label = labelTextStyle,
+            hint = labelTextStyle.copy(fontSize = labelTextStyle.fontSize - 1f),
         )
     )
 }
 
-private fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader): IntUiLinkStyle {
+private operator fun TextUnit.minus(other: Float) =
+    when {
+        isSp -> TextUnit(value - other, type)
+        isEm -> TextUnit(value - other, type)
+        else -> this
+    }
+
+private suspend fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader): IntUiLinkStyle {
+    val normalContent = retrieveColorOrUnspecified("Link.activeForeground").takeOrElse { retrieveColorOrUnspecified("Link.activeForeground") }
+
     val colors = IntUiLinkColors(
-        content =,
-        contentDisabled =,
-        contentFocused =,
-        contentPressed =,
-        contentHovered =,
-        contentVisited =,
-        iconTint =,
-        iconTintDisabled =,
+        content = normalContent,
+        contentDisabled = retrieveColorOrUnspecified("Link.disabledForeground").takeOrElse { retrieveColorOrUnspecified("Label.disabledForeground") },
+        contentFocused = normalContent,
+        contentPressed = retrieveColorOrUnspecified("Link.pressedForeground").takeOrElse { retrieveColorOrUnspecified("link.pressed.foreground") },
+        contentHovered = retrieveColorOrUnspecified("Link.hoverForeground").takeOrElse { retrieveColorOrUnspecified("link.hover.foreground") },
+        contentVisited = retrieveColorOrUnspecified("Link.visitedForeground").takeOrElse { retrieveColorOrUnspecified("link.visited.foreground") },
     )
+
+    val chevronBaseIconPath = "${iconsBasePath}general/chevron-down.svg"
+    val externalLinkBaseIconPath = "${iconsBasePath}ide/external_link_arrow.svg"
+
+    val textStyle = retrieveTextStyle("Label.font")
 
     return IntUiLinkStyle(
         colors = colors,
         metrics = IntUiLinkMetrics(
-            focusHaloCornerSize =,
-            textIconGap =,
-            iconSize =
+            focusHaloCornerSize = CornerSize(Registry.intValue("ide.link.button.focus.round.arc", 4).dp),
+            textIconGap = 4.dp,
+            iconSize = DpSize.Unspecified
         ),
         icons = IntUiLinkIcons(
-            dropdownChevron =,
-            externalLink =
+            dropdownChevron = ResourcePainterProvider(
+                iconData.iconOverrides[chevronBaseIconPath] ?: chevronBaseIconPath,
+                svgLoader,
+            ),
+            externalLink = ResourcePainterProvider(
+                iconData.iconOverrides[externalLinkBaseIconPath] ?: externalLinkBaseIconPath,
+                svgLoader,
+            ),
         ),
         textStyles = IntUiLinkTextStyles(
-            normal =,
-            disabled =,
-            focused =,
-            pressed =,
-            hovered =,
-            visited =,
+            normal = textStyle,
+            disabled = textStyle,
+            focused = textStyle,
+            pressed = textStyle,
+            hovered = textStyle,
+            visited = textStyle,
         )
     )
 }
 
 private fun readMenuStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader): IntUiMenuStyle {
+    val backgroundSelected = retrieveColorOrUnspecified("MenuItem.selectionBackground")
+    val foregroundSelected = retrieveColorOrUnspecified("MenuItem.selectionForeground")
+
     val colors = IntUiMenuColors(
-        background =,
-        border =,
-        shadow =,
+        background = retrieveColorOrUnspecified("PopupMenu.background"),
+        border = retrieveColorOrUnspecified("Popup.borderColor").takeOrElse { retrieveColorOrUnspecified("Popup.Border.color") },
+        shadow = Color.Black.copy(alpha = .6f),
         itemColors = IntUiMenuItemColors(
-            background =,
-            backgroundDisabled =,
-            backgroundFocused =,
-            backgroundPressed =,
-            backgroundHovered =,
-            content =,
-            contentDisabled =,
-            contentFocused =,
-            contentPressed =,
-            contentHovered =,
-            iconTint =,
-            iconTintDisabled =,
-            iconTintFocused =,
-            iconTintPressed =,
-            iconTintHovered =,
-            separator =,
+            background = retrieveColorOrUnspecified("MenuItem.background"),
+            backgroundDisabled = retrieveColorOrUnspecified("MenuItem.disabledBackground"),
+            backgroundFocused = backgroundSelected,
+            backgroundPressed = backgroundSelected,
+            backgroundHovered = backgroundSelected,
+            content = retrieveColorOrUnspecified("PopupMenu.foreground"),
+            contentDisabled = retrieveColorOrUnspecified("PopupMenu.disabledForeground"),
+            contentFocused = foregroundSelected,
+            contentPressed = foregroundSelected,
+            contentHovered = foregroundSelected,
+            iconTint = Color.Unspecified,
+            iconTintDisabled = Color.Unspecified,
+            iconTintFocused = Color.Unspecified,
+            iconTintPressed = Color.Unspecified,
+            iconTintHovered = Color.Unspecified,
+            separator = retrieveColorOrUnspecified("Menu.separatorColor"),
         )
     )
 
+    val chevronBaseIconPath = "${iconsBasePath}general/chevron-down.svg"
     return IntUiMenuStyle(
         colors = colors,
         metrics = IntUiMenuMetrics(
-            cornerSize =,
-            margin =,
-            padding =,
-            contentPadding =,
-            offset =,
-            shadowSize =,
-            borderWidth =,
-            itemMetrics =,
-            submenuMetrics =,
+            cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.unscaled.dp),
+            menuMargin = PaddingValues(0.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 12.dp),
+            offset = DpOffset(0.dp, 2.dp),
+            shadowSize = 12.dp,
+            borderWidth = retrieveIntAsDp("Popup.borderWidth"),
+            itemMetrics = IntUiMenuItemMetrics(
+                selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.unscaled.dp),
+                outerPadding = PaddingValues(horizontal = 6.dp),
+                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 1.dp),
+                separatorPadding = PaddingValues(
+                    horizontal = retrieveIntAsDp("PopupMenuSeparator.withToEdge"),
+                    vertical = retrieveIntAsDp("PopupMenuSeparator.stripeIndent"),
+                ),
+                separatorThickness = retrieveIntAsDp("PopupMenuSeparator.stripeWidth")
+            ),
+            submenuMetrics = IntUiSubmenuMetrics(
+                offset = DpOffset(0.dp, (-8).dp),
+            ),
         ),
-        icons = IntUiMenuIcons(submenuChevron =)
+        icons = IntUiMenuIcons(
+            submenuChevron = ResourcePainterProvider(
+                iconData.iconOverrides[chevronBaseIconPath] ?: chevronBaseIconPath,
+                svgLoader,
+            )
+        )
     )
 }
 
 private fun readRadioButtonStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader): IntUiRadioButtonStyle {
+    val normalContent = retrieveColorOrUnspecified("RadioButton.foreground")
+    val disabledContent = retrieveColorOrUnspecified("RadioButton.disabledText")
     val colors = IntUiRadioButtonColors(
-        content =,
-        contentHovered =,
-        contentDisabled =,
-        contentSelected =,
-        contentSelectedHovered =,
-        contentSelectedDisabled =,
+        content = normalContent,
+        contentHovered = normalContent,
+        contentDisabled = disabledContent,
+        contentSelected = normalContent,
+        contentSelectedHovered = normalContent,
+        contentSelectedDisabled = disabledContent,
     )
 
+    val baseIconPath = "${iconsBasePath}darcula/radio.svg"
     return IntUiRadioButtonStyle(
         colors = colors,
         metrics = IntUiRadioButtonMetrics(
-            radioButtonSize =,
-            iconContentGap =,
+            radioButtonSize = DpSize(19.dp, 19.dp),
+            iconContentGap = retrieveIntAsDp("RadioButton.textIconGap"),
         ),
-        icons = IntUiRadioButtonIcons(radioButton =)
+        icons = IntUiRadioButtonIcons(
+            radioButton = ResourcePainterProvider(
+                iconData.iconOverrides[baseIconPath] ?: baseIconPath,
+                svgLoader,
+            )
+        )
     )
 }
 
-private fun readScrollbarStyle() = IntUiScrollbarStyle(
+private fun readScrollbarStyle(isDark: Boolean) = IntUiScrollbarStyle(
     colors = IntUiScrollbarColors(
-        thumbBackground =,
-        thumbBackgroundHovered =,
+        // See ScrollBarPainter.THUMB_BACKGROUND
+        thumbBackground = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbColor")
+            .takeOrElse { if (isDark) Color(0x00000000) else Color(0x00808080) },
+        // See ScrollBarPainter.THUMB_HOVERED_BACKGROUND
+        thumbBackgroundHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
+            .takeOrElse { if (isDark) Color(0x00000000) else Color(0x00808080) },
     ),
     metrics = IntUiScrollbarMetrics(
-        thumbCornerSize =,
-        thumbThickness =,
-        minThumbLength =,
-        trackPadding =,
+        thumbCornerSize = CornerSize(100),
+        thumbThickness = 8.dp,
+        minThumbLength = 16.dp,
+        trackPadding = PaddingValues(start = 7.dp, end = 3.dp),
     ),
-    hoverDuration =,
+    hoverDuration = 300.milliseconds,
 )
 
 private fun readTextAreaStyle(inputFieldStyle: InputFieldStyle): IntUiTextAreaStyle {
@@ -618,10 +678,10 @@ private suspend fun readTextFieldStyle(): IntUiTextFieldStyle {
     return IntUiTextFieldStyle(
         colors = colors,
         metrics = IntUiTextFieldMetrics(
-            cornerSize =,
-            contentPadding =,
-            minSize =,
-            borderWidth =,
+            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.unscaled.dp),
+            contentPadding = PaddingValues(horizontal = 9.dp, vertical = 6.dp),
+            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.unscaled.dp, DarculaUIUtil.MINIMUM_HEIGHT.unscaled.dp),
+            borderWidth = DarculaUIUtil.BW.unscaled.dp,
         ),
         textStyle =,
     )

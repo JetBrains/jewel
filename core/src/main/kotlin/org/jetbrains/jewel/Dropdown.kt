@@ -154,6 +154,7 @@ fun Dropdown(
                 style = style.menuStyle,
                 horizontalAlignment = Alignment.Start,
                 content = menuContent,
+                resourceLoader = resourceLoader,
             )
         }
     }
@@ -163,6 +164,7 @@ fun Dropdown(
 internal fun DropdownMenu(
     onDismissRequest: (InputMode) -> Boolean,
     horizontalAlignment: Alignment.Horizontal,
+    resourceLoader: ResourceLoader,
     modifier: Modifier = Modifier,
     style: MenuStyle,
     content: MenuScope.() -> Unit,
@@ -171,7 +173,7 @@ internal fun DropdownMenu(
 
     val popupPositionProvider = AnchorVerticalMenuPositionProvider(
         contentOffset = style.metrics.offset,
-        contentMargin = style.metrics.margin,
+        contentMargin = style.metrics.menuMargin,
         alignment = horizontalAlignment,
         density = density,
     )
@@ -191,7 +193,7 @@ internal fun DropdownMenu(
             val currentFocusManager = checkNotNull(focusManager) { "FocusManager must not be null" }
             val currentInputModeManager = checkNotNull(inputModeManager) { "InputModeManager must not be null" }
             handlePopupMenuOnKeyEvent(it, currentFocusManager, currentInputModeManager, menuManager)
-        }
+        },
     ) {
         focusManager = LocalFocusManager.current
         inputModeManager = LocalInputModeManager.current
@@ -203,6 +205,7 @@ internal fun DropdownMenu(
             MenuContent(
                 modifier = modifier,
                 content = content,
+                resourceLoader = resourceLoader,
             )
         }
     }

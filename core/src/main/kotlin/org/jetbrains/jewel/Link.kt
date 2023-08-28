@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.platform.LocalInputModeManager
 import androidx.compose.ui.res.ResourceLoader
@@ -196,6 +197,7 @@ fun DropdownLink(
                 style = menuStyle,
                 horizontalAlignment = Alignment.Start, // TODO no idea what goes here
                 content = menuContent,
+                resourceLoader = resourceLoader,
             )
         }
     }
@@ -304,7 +306,7 @@ private fun LinkImpl(
                 iconPainter,
                 contentDescription = null,
                 modifier = Modifier.size(style.metrics.iconSize),
-                tint = style.colors.iconTint,
+                colorFilter = if (!linkState.isEnabled) ColorFilter.disabled() else null,
             )
         }
     }
