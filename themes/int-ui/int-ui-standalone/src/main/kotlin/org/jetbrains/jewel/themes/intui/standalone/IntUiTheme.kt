@@ -14,6 +14,7 @@ import org.jetbrains.jewel.ExperimentalJewelApi
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJComponentStyling
+import org.jetbrains.jewel.IntelliJSvgLoader
 import org.jetbrains.jewel.IntelliJThemeIconData
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.SvgLoader
@@ -35,7 +36,6 @@ import org.jetbrains.jewel.themes.PaletteMapperFactory
 import org.jetbrains.jewel.themes.intui.core.BaseIntUiTheme
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeColorPalette
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.themes.intui.core.IntelliJSvgLoader
 import org.jetbrains.jewel.themes.intui.core.IntelliJSvgPatcher
 import org.jetbrains.jewel.themes.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.themes.intui.core.theme.IntUiLightTheme
@@ -101,7 +101,7 @@ object IntUiTheme : BaseIntUiTheme {
         groupHeaderStyle: GroupHeaderStyle = IntUiGroupHeaderStyle.dark(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.dark(),
         linkStyle: LinkStyle = IntUiLinkStyle.dark(svgLoader),
-        menuStyle: MenuStyle = IntUiMenuStyle.dark(),
+        menuStyle: MenuStyle = IntUiMenuStyle.dark(svgLoader),
         horizontalProgressBarStyle: HorizontalProgressBarStyle = IntUiHorizontalProgressBarStyle.dark(),
         radioButtonStyle: RadioButtonStyle = IntUiRadioButtonStyle.dark(svgLoader),
         scrollbarStyle: ScrollbarStyle = IntUiScrollbarStyle.dark(),
@@ -142,7 +142,7 @@ object IntUiTheme : BaseIntUiTheme {
         groupHeaderStyle: GroupHeaderStyle = IntUiGroupHeaderStyle.light(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.light(),
         linkStyle: LinkStyle = IntUiLinkStyle.light(svgLoader),
-        menuStyle: MenuStyle = IntUiMenuStyle.light(),
+        menuStyle: MenuStyle = IntUiMenuStyle.light(svgLoader),
         horizontalProgressBarStyle: HorizontalProgressBarStyle = IntUiHorizontalProgressBarStyle.light(),
         radioButtonStyle: RadioButtonStyle = IntUiRadioButtonStyle.light(svgLoader),
         scrollbarStyle: ScrollbarStyle = IntUiScrollbarStyle.light(),

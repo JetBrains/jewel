@@ -35,7 +35,7 @@ fun TextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    isError: Boolean = false,
+    outline: Outline = Outline.None,
     placeholder: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     undecorated: Boolean = false,
@@ -65,7 +65,7 @@ fun TextField(
         modifier = modifier,
         enabled = enabled,
         readOnly = readOnly,
-        isError = isError,
+        outline = outline,
         placeholder = placeholder,
         trailingIcon = trailingIcon,
         undecorated = undecorated,
@@ -85,7 +85,7 @@ fun TextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    isError: Boolean = false,
+    outline: Outline = Outline.None,
     placeholder: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     undecorated: Boolean = false,
@@ -103,7 +103,7 @@ fun TextField(
         modifier = modifier,
         enabled = enabled,
         readOnly = readOnly,
-        isError = isError,
+        outline = outline,
         undecorated = undecorated,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
@@ -247,8 +247,7 @@ private fun Placeable.PlacementScope.place(
         Alignment.CenterVertically.align(trailingPlaceable.height, height),
     )
 
-    // placed center vertically and after the leading icon horizontally if single line text field
-    // placed to the top with padding for multi line text field
+    // placed center vertically
     textFieldPlaceable.placeRelative(
         0,
         Alignment.CenterVertically.align(textFieldPlaceable.height, height),

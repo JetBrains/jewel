@@ -16,10 +16,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.jetbrains.jewel.IntelliJComponentStyling
+import org.jetbrains.jewel.IntelliJSvgLoader
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.themes.PaletteMapperFactory
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.themes.intui.core.IntelliJSvgLoader
 import org.jetbrains.jewel.themes.intui.core.IntelliJSvgPatcher
 
 @Service(Service.Level.APP)

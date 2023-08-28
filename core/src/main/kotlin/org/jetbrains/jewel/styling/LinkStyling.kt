@@ -42,9 +42,6 @@ interface LinkColors {
             active = content,
         ),
     )
-
-    val iconTint: Color
-    val iconTintDisabled: Color
 }
 
 @Immutable

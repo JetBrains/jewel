@@ -41,7 +41,7 @@ data class IntUiDropdownStyle(
             metrics: IntUiDropdownMetrics = IntUiDropdownMetrics(),
             icons: IntUiDropdownIcons = intUiDropdownIcons(svgLoader),
             textStyle: TextStyle = IntUiTheme.defaultLightTextStyle,
-            menuStyle: MenuStyle = IntUiMenuStyle.light(),
+            menuStyle: MenuStyle = IntUiMenuStyle.light(svgLoader),
         ) = IntUiDropdownStyle(colors, metrics, icons, textStyle, menuStyle)
 
         @Composable
@@ -51,7 +51,7 @@ data class IntUiDropdownStyle(
             metrics: IntUiDropdownMetrics = IntUiDropdownMetrics(),
             icons: IntUiDropdownIcons = intUiDropdownIcons(svgLoader),
             textStyle: TextStyle = IntUiTheme.defaultDarkTextStyle,
-            menuStyle: MenuStyle = IntUiMenuStyle.dark(),
+            menuStyle: MenuStyle = IntUiMenuStyle.dark(svgLoader),
         ) = IntUiDropdownStyle(colors, metrics, icons, textStyle, menuStyle)
     }
 }

@@ -10,10 +10,12 @@ import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
@@ -31,13 +33,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.input.InputModeManager
 import androidx.compose.ui.input.key.Key
@@ -48,18 +54,24 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInputModeManager
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import org.jetbrains.jewel.CommonStateBitMask.Active
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.foundation.onHover
+import org.jetbrains.jewel.styling.MenuItemColors
+import org.jetbrains.jewel.styling.MenuItemMetrics
 import org.jetbrains.jewel.styling.MenuStyle
 
 @Composable
 internal fun MenuContent(
+    resourceLoader: ResourceLoader,
     modifier: Modifier = Modifier,
     style: MenuStyle = IntelliJTheme.menuStyle,
     content: MenuScope.() -> Unit,
@@ -97,7 +109,7 @@ internal fun MenuContent(
             items.forEach {
                 when (it) {
                     is MenuSelectableItem -> {
-                        MenuSelectableItem(
+                        MenuItem(
                             selected = it.isSelected,
                             onClick = it.onClick,
                             enabled = it.isEnabled,
@@ -110,6 +122,7 @@ internal fun MenuContent(
                             enabled = it.isEnabled,
                             submenu = it.submenu,
                             content = it.content,
+                            resourceLoader = resourceLoader,
                         )
                     }
 
@@ -146,7 +159,7 @@ interface MenuScope {
     fun passiveItem(content: @Composable () -> Unit)
 }
 
-fun MenuScope.divider() {
+fun MenuScope.separator() {
     passiveItem {
         MenuSeparator()
     }
@@ -222,17 +235,19 @@ private data class SubmenuItem(
 @Composable
 fun MenuSeparator(
     modifier: Modifier = Modifier,
-    style: MenuStyle = IntelliJTheme.menuStyle,
+    metrics: MenuItemMetrics = IntelliJTheme.menuStyle.metrics.itemMetrics,
+    colors: MenuItemColors = IntelliJTheme.menuStyle.colors.itemColors,
 ) {
     Divider(
-        modifier = modifier.padding(style.metrics.itemMetrics.separatorPadding),
+        modifier = modifier.padding(metrics.separatorPadding),
+        thickness = metrics.separatorThickness,
         orientation = Orientation.Horizontal,
-        color = style.colors.itemColors.separator,
+        color = colors.separator,
     )
 }
 
 @Composable
-fun MenuSelectableItem(
+fun MenuItem(
     selected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -295,20 +310,19 @@ fun MenuSelectableItem(
             onDispose { }
         }
 
-        val colors = style.colors.itemColors
-        val metrics = style.metrics
-        val shape = RoundedCornerShape(metrics.itemMetrics.cornerSize)
+        val itemColors = style.colors.itemColors
+        val itemMetrics = style.metrics.itemMetrics
 
         CompositionLocalProvider(
-            LocalContentColor provides colors.contentFor(itemState).value,
+            LocalContentColor provides itemColors.contentFor(itemState).value,
         ) {
-            Row(
+            val backgroundColor by itemColors.backgroundFor(itemState)
+
+            Box(
                 Modifier
-                    .padding(metrics.itemMetrics.padding)
-                    .background(colors.backgroundFor(itemState).value, shape)
                     .fillMaxWidth()
-                    .padding(metrics.itemMetrics.contentPadding),
-                verticalAlignment = Alignment.CenterVertically,
+                    .drawItemBackground(itemMetrics, backgroundColor)
+                    .padding(itemMetrics.contentPadding),
             ) {
                 content()
             }
@@ -318,6 +332,7 @@ fun MenuSelectableItem(
 
 @Composable
 fun MenuSubmenuItem(
+    resourceLoader: ResourceLoader,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -352,8 +367,14 @@ fun MenuSubmenuItem(
         }
     }
 
+    val itemColors = style.colors.itemColors
+    val menuMetrics = style.metrics
+
+    val backgroundColor by itemColors.backgroundFor(itemState)
     Box(
         modifier = modifier
+            .fillMaxWidth()
+            .drawItemBackground(menuMetrics.itemMetrics, backgroundColor)
             .focusRequester(focusRequester)
             .clickable(
                 onClick = {
@@ -371,34 +392,27 @@ fun MenuSubmenuItem(
                 } else {
                     false
                 }
-            }
-            .fillMaxWidth(),
+            },
     ) {
-        val colors = style.colors.itemColors
-        val metrics = style.metrics
-        val shape = RoundedCornerShape(metrics.itemMetrics.cornerSize)
-
         CompositionLocalProvider(
-            LocalContentColor provides colors.contentFor(itemState).value,
+            LocalContentColor provides itemColors.contentFor(itemState).value,
         ) {
             Row(
-                Modifier
-                    .padding(metrics.itemMetrics.padding)
-                    .background(colors.backgroundFor(itemState).value, shape)
-                    .fillMaxWidth()
-                    .padding(metrics.submenuMetrics.itemPadding),
+                Modifier.fillMaxWidth()
+                    .padding(menuMetrics.itemMetrics.contentPadding),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(Modifier.weight(1f)) {
                     content()
                 }
 
-                Box(Modifier.width(24.dp), contentAlignment = Alignment.Center) {
-                    Icon(
-                        painter = painterResource(style.icons.submenuChevron),
-                        tint = colors.iconTintFor(itemState).value,
-                    )
-                }
+                val chevronPainter by style.icons.submenuChevron.getPainter(itemState, resourceLoader)
+                Icon(
+                    painter = chevronPainter,
+                    tint = itemColors.iconTintFor(itemState).value,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                )
             }
         }
 
@@ -414,13 +428,41 @@ fun MenuSubmenuItem(
                 },
                 style = style,
                 content = submenu,
+                resourceLoader = resourceLoader,
             )
         }
     }
 }
 
+private fun Modifier.drawItemBackground(itemMetrics: MenuItemMetrics, backgroundColor: Color) =
+    drawBehind {
+        val cornerSizePx = itemMetrics.selectionCornerSize.toPx(size, density = this)
+        val cornerRadius = CornerRadius(cornerSizePx, cornerSizePx)
+
+        val outerPadding = itemMetrics.outerPadding
+        val offset = Offset(
+            x = outerPadding.calculateLeftPadding(layoutDirection).toPx(),
+            y = outerPadding.calculateTopPadding().toPx(),
+        )
+        drawRoundRect(
+            color = backgroundColor,
+            cornerRadius = cornerRadius,
+            topLeft = offset,
+            size = size.subtract(outerPadding, density = this, layoutDirection),
+        )
+    }
+
+private fun Size.subtract(paddingValues: PaddingValues, density: Density, layoutDirection: LayoutDirection): Size =
+    with(density) {
+        Size(
+            width - paddingValues.calculateLeftPadding(layoutDirection).toPx() - paddingValues.calculateRightPadding(layoutDirection).toPx(),
+            height - paddingValues.calculateTopPadding().toPx() - paddingValues.calculateBottomPadding().toPx(),
+        )
+    }
+
 @Composable
 internal fun Submenu(
+    resourceLoader: ResourceLoader,
     onDismissRequest: (InputMode) -> Boolean,
     modifier: Modifier = Modifier,
     style: MenuStyle = IntelliJTheme.menuStyle,
@@ -430,7 +472,7 @@ internal fun Submenu(
 
     val popupPositionProvider = AnchorHorizontalMenuPositionProvider(
         contentOffset = style.metrics.submenuMetrics.offset,
-        contentMargin = style.metrics.margin,
+        contentMargin = style.metrics.menuMargin,
         alignment = Alignment.Top,
         density = density,
     )
@@ -443,11 +485,12 @@ internal fun Submenu(
     }
 
     Popup(
-        focusable = true,
+        popupPositionProvider = popupPositionProvider,
         onDismissRequest = {
             menuManager.closeAll(InputMode.Touch, false)
         },
-        popupPositionProvider = popupPositionProvider,
+        properties = PopupProperties(focusable = true),
+        onPreviewKeyEvent = { false },
         onKeyEvent = {
             val currentFocusManager = checkNotNull(focusManager) { "FocusManager must not be null" }
             val currentInputModeManager = checkNotNull(inputModeManager) { "InputModeManager must not be null" }
@@ -461,6 +504,7 @@ internal fun Submenu(
             MenuContent(
                 modifier = modifier,
                 content = content,
+                resourceLoader = resourceLoader,
             )
         }
     }
@@ -534,51 +578,4 @@ value class MenuItemState(val state: ULong) : SelectableComponentState {
             return MenuItemState(state)
         }
     }
-}
-
-class MenuManager(
-    val onDismissRequest: (InputMode) -> Boolean,
-    private val parentMenuManager: MenuManager? = null,
-) {
-
-    private var isHovered: Boolean = false
-
-    /**
-     * Called when the hovered state of the menu changes.
-     * This is used to abort parent menu closing in unforced mode
-     * when submenu closed by click parent menu's item.
-     *
-     * @param hovered true if the menu is hovered, false otherwise.
-     */
-    internal fun onHoveredChange(hovered: Boolean) {
-        isHovered = hovered
-    }
-
-    /**
-     * Close all menus in the hierarchy.
-     *
-     * @param mode the input mode, menus close by pointer or keyboard event.
-     * @param force true to force close all menus ignore parent hover state, false otherwise.
-     */
-    fun closeAll(mode: InputMode, force: Boolean) {
-        // We ignore the pointer event if the menu is hovered in unforced mode.
-        if (!force && mode == InputMode.Touch && isHovered) return
-
-        if (onDismissRequest(mode)) {
-            parentMenuManager?.closeAll(mode, force)
-        }
-    }
-
-    fun close(mode: InputMode) = onDismissRequest(mode)
-
-    fun isRootMenu(): Boolean = parentMenuManager == null
-
-    fun isSubmenu(): Boolean = parentMenuManager != null
-
-    fun submenuManager(onDismissRequest: (InputMode) -> Boolean) =
-        MenuManager(onDismissRequest = onDismissRequest, parentMenuManager = this)
-}
-
-val LocalMenuManager = staticCompositionLocalOf<MenuManager> {
-    error("No MenuManager provided")
 }

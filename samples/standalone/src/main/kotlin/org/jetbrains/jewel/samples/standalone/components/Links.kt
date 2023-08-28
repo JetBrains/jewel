@@ -15,7 +15,7 @@ import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.Link
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.Text
-import org.jetbrains.jewel.divider
+import org.jetbrains.jewel.separator
 
 @Composable
 fun Links() {
@@ -44,7 +44,7 @@ fun Links() {
         DropdownLink("DropdownLink", resourceLoader) {
             items.forEach {
                 if (it == "---") {
-                    divider()
+                    separator()
                 } else {
                     selectableItem(selected == it, {
                         selected = it

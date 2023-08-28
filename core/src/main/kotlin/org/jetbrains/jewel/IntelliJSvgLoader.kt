@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.themes.intui.core
+package org.jetbrains.jewel
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -7,8 +7,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.res.loadSvgPainter
-import org.jetbrains.jewel.SvgLoader
-import org.jetbrains.jewel.SvgPatcher
 import java.io.InputStream
 import java.util.concurrent.ConcurrentHashMap
 
@@ -39,22 +37,23 @@ class IntelliJSvgLoader(private val svgPatcher: SvgPatcher) : SvgLoader {
     ): Painter {
         val density = LocalDensity.current
 
-        val painter = try {
-            useResource(resourcePath, loader) {
-                loadSvgPainter(it.patchColors(), density)
+        val painter =
+            try {
+                useResource(resourcePath, loader) {
+                    loadSvgPainter(it.patchColors(), density)
+                }
+            } catch (e: IllegalArgumentException) {
+                val simplerPath = trySimplifyingPath(resourcePath)
+                if (simplerPath != null) {
+                    System.err.println("Unable to load '$resourcePath' (base: $basePath), trying simpler version: $simplerPath")
+                    return rememberPatchedSvgResource(basePath, simplerPath, loader)
+                } else {
+                    throw IllegalArgumentException(
+                        "Unable to load '$resourcePath' (base: $basePath), no simpler version available",
+                        e,
+                    )
+                }
             }
-        } catch (e: IllegalArgumentException) {
-            val simplerPath = trySimplifyingPath(resourcePath)
-            if (simplerPath != null) {
-                System.err.println("Unable to load '$resourcePath' (base: $basePath), trying simpler version: $simplerPath")
-                rememberPatchedSvgResource(basePath, simplerPath, loader)
-            } else {
-                throw IllegalArgumentException(
-                    "Unable to load '$resourcePath' (base: $basePath), no simpler version available",
-                    e,
-                )
-            }
-        }
         return remember(resourcePath, density, loader) { painter }
     }
 

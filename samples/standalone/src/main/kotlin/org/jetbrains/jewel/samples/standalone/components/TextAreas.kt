@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GroupHeader
+import org.jetbrains.jewel.Outline
 import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.TextArea
 
@@ -42,7 +43,9 @@ fun TextAreas() {
         }
         TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight())
 
-        TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight(), isError = true)
+        TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight(), outline = Outline.Error)
+        
+        TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight(), outline = Outline.Warning)
 
         TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight(), enabled = false)
 
