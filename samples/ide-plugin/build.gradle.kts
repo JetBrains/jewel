@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.projects
-
 plugins {
     jewel
     alias(libs.plugins.composeDesktop)
@@ -7,9 +5,9 @@ plugins {
 }
 
 intellij {
-    pluginName.set("Jewel")
+    pluginName.set("Jewel Demo")
     plugins.set(listOf("org.jetbrains.kotlin"))
-    version.set("2023.2")
+    version.set("2023.2.1")
 }
 
 // TODO remove this once the IJ Gradle plugin fixes their repositories bug
@@ -26,5 +24,4 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(projects.themes.intUi.intUiStandalone)
     implementation(projects.ideLafBridge)
-    implementation(projects.foundation)
 }

@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
@@ -78,21 +77,21 @@ interface InputFieldColors {
         ),
     )
 
-    val cursor: Brush
-    val cursorDisabled: Brush
-    val cursorFocused: Brush
-    val cursorPressed: Brush
-    val cursorHovered: Brush
+    val caret: Color
+    val caretDisabled: Color
+    val caretFocused: Color
+    val caretPressed: Color
+    val caretHovered: Color
 
     @Composable
-    fun cursorFor(state: InputFieldState) = rememberUpdatedState(
+    fun caretFor(state: InputFieldState) = rememberUpdatedState(
         state.chooseValue(
-            normal = cursor,
-            disabled = cursorDisabled,
-            focused = cursorFocused,
-            pressed = cursorPressed,
-            hovered = cursorHovered,
-            active = cursor,
+            normal = caret,
+            disabled = caretDisabled,
+            focused = caretFocused,
+            pressed = caretPressed,
+            hovered = caretHovered,
+            active = caret,
         ),
     )
 }

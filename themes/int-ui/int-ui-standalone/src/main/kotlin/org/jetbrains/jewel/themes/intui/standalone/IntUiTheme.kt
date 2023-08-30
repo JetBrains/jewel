@@ -107,7 +107,7 @@ object IntUiTheme : BaseIntUiTheme {
         scrollbarStyle: ScrollbarStyle = IntUiScrollbarStyle.dark(),
         textAreaStyle: IntUiTextAreaStyle = IntUiTextAreaStyle.dark(),
         textFieldStyle: TextFieldStyle = IntUiTextFieldStyle.dark(),
-        lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.dark(),
+        lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.dark(svgLoader),
         defaultTabStyle: TabStyle = IntUiTabStyle.Default.dark(svgLoader),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(svgLoader),
     ) =
@@ -148,7 +148,7 @@ object IntUiTheme : BaseIntUiTheme {
         scrollbarStyle: ScrollbarStyle = IntUiScrollbarStyle.light(),
         textAreaStyle: IntUiTextAreaStyle = IntUiTextAreaStyle.light(),
         textFieldStyle: TextFieldStyle = IntUiTextFieldStyle.light(),
-        lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.light(),
+        lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.light(svgLoader),
         defaultTabStyle: TabStyle = IntUiTabStyle.Default.light(svgLoader),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(svgLoader),
     ) =

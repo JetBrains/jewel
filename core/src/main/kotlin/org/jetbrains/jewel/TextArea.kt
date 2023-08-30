@@ -30,6 +30,12 @@ import androidx.compose.ui.unit.offset
 import org.jetbrains.jewel.styling.TextAreaStyle
 import kotlin.math.max
 
+/**
+ * @param placeholder the optional placeholder to be displayed over the component when
+ * the [value] is empty.
+ * @param hint the optional hint to be displayed underneath the component. By default it
+ * will have a greyed out appearance and smaller text.
+ */
 @Composable
 fun TextArea(
     value: String,
@@ -84,6 +90,12 @@ fun TextArea(
     )
 }
 
+/**
+ * @param placeholder the optional placeholder to be displayed over the component when
+ * the [value] is empty.
+ * @param hint the optional hint to be displayed underneath the component. By default it
+ * will have a greyed out appearance and smaller text.
+ */
 @Composable
 fun TextArea(
     value: TextFieldValue,

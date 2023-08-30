@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
@@ -82,7 +83,7 @@ internal fun InputField(
 
     val contentColor by colors.contentFor(inputState)
     val mergedTextStyle = style.textStyle.merge(textStyle).copy(color = contentColor)
-    val cursorBrush by colors.cursorFor(inputState)
+    val caretColor by colors.caretFor(inputState)
 
     BasicTextField(
         value = value,
@@ -93,7 +94,7 @@ internal fun InputField(
         enabled = enabled,
         readOnly = readOnly,
         textStyle = mergedTextStyle,
-        cursorBrush = cursorBrush,
+        cursorBrush = SolidColor(caretColor),
         visualTransformation = visualTransformation,
         onTextLayout = onTextLayout,
         keyboardOptions = keyboardOptions,

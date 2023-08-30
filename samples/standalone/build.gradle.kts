@@ -9,7 +9,6 @@ plugins {
 
 dependencies {
     implementation(projects.themes.intUi.intUiStandalone)
-    implementation(projects.foundation)
 }
 
 compose.desktop {

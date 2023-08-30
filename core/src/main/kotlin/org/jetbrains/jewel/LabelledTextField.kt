@@ -21,11 +21,18 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.offset
 import org.jetbrains.jewel.styling.LabelledTextFieldStyle
 
+/**
+ * @param placeholder the optional placeholder to be displayed over the component when
+ * the [value] is empty.
+ * @param hint the optional hint to be displayed underneath the component. By default it
+ * will have a greyed out appearance and smaller text.
+ * @param label the label to display above the component.
+ */
 @Composable
 fun LabelledTextField(
-    label: @Composable () -> Unit,
     value: String,
     onValueChange: (String) -> Unit,
+    label: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     textFieldModifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -76,6 +83,13 @@ fun LabelledTextField(
     )
 }
 
+/**
+ * @param placeholder the optional placeholder to be displayed over the component when
+ * the [value] is empty.
+ * @param hint the optional hint to be displayed underneath the component. By default it
+ * will have a greyed out appearance and smaller text.
+ * @param label the label to display above the component.
+ */
 @Composable
 fun LabelledTextField(
     label: @Composable () -> Unit,

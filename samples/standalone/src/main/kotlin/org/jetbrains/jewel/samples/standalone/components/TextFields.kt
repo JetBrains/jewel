@@ -44,13 +44,13 @@ fun TextFields() {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         var text1 by remember { mutableStateOf("Labelled TextField") }
-        LabelledTextField({
+        LabelledTextField(text1, { text1 = it }, {
             Text("Label:")
-        }, text1, { text1 = it })
+        })
 
         var text2 by remember { mutableStateOf("Labelled TextField with hint") }
-        LabelledTextField({
+        LabelledTextField(text2, { text2 = it }, {
             Text("Label:")
-        }, text2, { text2 = it }, hint = { Text("Attached hint text") })
+        }, hint = { Text("Attached hint text") })
     }
 }

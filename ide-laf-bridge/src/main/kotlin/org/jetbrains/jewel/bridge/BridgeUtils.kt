@@ -1,5 +1,3 @@
-@file:JvmName("SwingBridgeThemeKt")
-
 package org.jetbrains.jewel.bridge
 
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.util.ui.DirProvider
+import com.intellij.util.ui.JBValue
 import org.jetbrains.skiko.DependsOnJBR
 import org.jetbrains.skiko.awt.font.AwtFontManager
 import org.jetbrains.skiko.toSkikoTypefaceOrNull
@@ -31,6 +30,8 @@ fun java.awt.Color.toComposeColor() = Color(
     blue = blue,
     alpha = alpha,
 )
+
+fun java.awt.Color?.toComposeColorOrUnspecified() = this?.toComposeColor() ?: Color.Unspecified
 
 internal fun retrieveColorOrNull(key: String) =
     UIManager.getColor(key)?.toComposeColor()
@@ -118,3 +119,18 @@ internal suspend fun retrieveTextStyle(
         )
     }
 }
+
+internal val JBValue.dp
+    get() = unscaled.dp
+
+internal fun TextStyle.derive(sizeDelta: Float, weight: FontWeight? = fontWeight, color: Color = toSpanStyle().color) =
+    copy(fontSize = fontSize - sizeDelta, fontWeight = weight, color = color)
+
+internal operator fun TextUnit.minus(delta: Float) = plus(-delta)
+
+internal operator fun TextUnit.plus(delta: Float) =
+    when {
+        isSp -> TextUnit(value + delta, type)
+        isEm -> TextUnit(value + delta, type)
+        else -> this
+    }

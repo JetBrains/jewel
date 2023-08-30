@@ -10,17 +10,18 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ide.ui.laf.darcula.ui.DarculaCheckBoxUI
 import com.intellij.ide.ui.laf.intellij.IdeaPopupMenuUI
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.util.registry.Registry
 import com.intellij.ui.JBColor
-import com.intellij.ui.components.ScrollBarPainter
 import com.intellij.util.ui.DirProvider
+import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
+import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.CheckboxState
 import org.jetbrains.jewel.IntelliJComponentStyling
@@ -126,9 +127,9 @@ internal suspend fun createSwingIntUiComponentStyling(
         checkboxStyle = readCheckboxStyle(theme.iconData, svgLoader),
         chipStyle = readChipStyle(),
         defaultButtonStyle = readDefaultButtonStyle(),
-        defaultTabStyle = readDefaultTabStyle(),
+        defaultTabStyle = readDefaultTabStyle(theme.iconData, svgLoader),
         dropdownStyle = readDropdownStyle(theme.iconData, svgLoader, menuStyle),
-        editorTabStyle = readEditorTabStyle(),
+        editorTabStyle = readEditorTabStyle(theme.iconData, svgLoader),
         groupHeaderStyle = readGroupHeaderStyle(),
         horizontalProgressBarStyle = readHorizontalProgressBarStyle(),
         labelledTextFieldStyle = readLabelledTextFieldStyle(textFieldStyle),
@@ -137,7 +138,7 @@ internal suspend fun createSwingIntUiComponentStyling(
         menuStyle = menuStyle,
         outlinedButtonStyle = readOutlinedButtonStyle(),
         radioButtonStyle = readRadioButtonStyle(theme.iconData, svgLoader),
-        scrollbarStyle = readScrollbarStyle(),
+        scrollbarStyle = readScrollbarStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textFieldStyle),
         textFieldStyle = textFieldStyle,
     )
@@ -183,7 +184,7 @@ private fun readDefaultButtonStyle(): IntUiButtonStyle {
         metrics = IntUiButtonMetrics(
             cornerSize = retrieveArcAsCornerSize("Button.default.arc"),
             padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
-            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.unscaled.dp, DarculaUIUtil.MINIMUM_HEIGHT.unscaled.dp),
+            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
             borderWidth = 1.dp,
         ),
     )
@@ -219,7 +220,7 @@ private fun readOutlinedButtonStyle(): IntUiButtonStyle {
         metrics = IntUiButtonMetrics(
             cornerSize = retrieveArcAsCornerSize("Button.arc"),
             padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
-            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.unscaled.dp, DarculaUIUtil.MINIMUM_HEIGHT.unscaled.dp),
+            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
             borderWidth = 1.dp,
         ),
     )
@@ -353,24 +354,24 @@ private suspend fun readDropdownStyle(
     )
 
     val baseIconPath = "${iconsBasePath}general/chevron-down.svg"
-    val arrowWidth = DarculaUIUtil.ARROW_BUTTON_WIDTH.unscaled.dp
+    val arrowWidth = DarculaUIUtil.ARROW_BUTTON_WIDTH.dp
     return IntUiDropdownStyle(
         colors = colors,
         metrics = IntUiDropdownMetrics(
-            arrowMinSize = DpSize(arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.unscaled.dp),
+            arrowMinSize = DpSize(arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
             minSize = DpSize(
-                DarculaUIUtil.MINIMUM_WIDTH.unscaled.dp + arrowWidth,
-                DarculaUIUtil.MINIMUM_HEIGHT.unscaled.dp
+                DarculaUIUtil.MINIMUM_WIDTH.dp + arrowWidth,
+                DarculaUIUtil.MINIMUM_HEIGHT.dp,
             ),
-            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.unscaled.dp),
+            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp),
             contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
-            borderWidth = DarculaUIUtil.BW.unscaled.dp,
+            borderWidth = DarculaUIUtil.BW.dp,
         ),
         icons = IntUiDropdownIcons(
             chevronDown = ResourcePainterProvider(
                 iconData.iconOverrides[baseIconPath] ?: baseIconPath,
                 svgLoader,
-            )
+            ),
         ),
         textStyle = retrieveTextStyle("ComboBox.font"),
         menuStyle = menuStyle,
@@ -385,7 +386,7 @@ private fun readGroupHeaderStyle() = IntUiGroupHeaderStyle(
     metrics = IntUiGroupHeaderMetrics(
         dividerThickness = 1.dp, // see DarculaSeparatorUI
         indent = 1.dp, // see DarculaSeparatorUI
-    )
+    ),
 )
 
 private fun readHorizontalProgressBarStyle() = IntUiHorizontalProgressBarStyle(
@@ -422,11 +423,11 @@ private suspend fun readLabelledTextFieldStyle(inputFieldStyle: InputFieldStyle)
         borderFocused = inputFieldStyle.colors.borderFocused,
         borderPressed = inputFieldStyle.colors.borderPressed,
         borderHovered = inputFieldStyle.colors.borderHovered,
-        cursor = inputFieldStyle.colors.cursor,
-        cursorDisabled = inputFieldStyle.colors.cursorDisabled,
-        cursorFocused = inputFieldStyle.colors.cursorFocused,
-        cursorPressed = inputFieldStyle.colors.cursorPressed,
-        cursorHovered = inputFieldStyle.colors.cursorHovered,
+        caret = inputFieldStyle.colors.caret,
+        caretDisabled = inputFieldStyle.colors.caretDisabled,
+        caretFocused = inputFieldStyle.colors.caretFocused,
+        caretPressed = inputFieldStyle.colors.caretPressed,
+        caretHovered = inputFieldStyle.colors.caretHovered,
         placeholder = retrieveColorOrUnspecified("Label.infoForeground"),
         label = retrieveColorOrUnspecified("Label.foreground"),
         hint = StatusText.DEFAULT_ATTRIBUTES.fgColor.toComposeColor(),
@@ -447,23 +448,21 @@ private suspend fun readLabelledTextFieldStyle(inputFieldStyle: InputFieldStyle)
         textStyles = IntUiLabelledTextFieldTextStyles(
             label = labelTextStyle,
             hint = labelTextStyle.copy(fontSize = labelTextStyle.fontSize - 1f),
-        )
+        ),
     )
 }
 
-private operator fun TextUnit.minus(other: Float) =
-    when {
-        isSp -> TextUnit(value - other, type)
-        isEm -> TextUnit(value - other, type)
-        else -> this
-    }
-
 private suspend fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader): IntUiLinkStyle {
-    val normalContent = retrieveColorOrUnspecified("Link.activeForeground").takeOrElse { retrieveColorOrUnspecified("Link.activeForeground") }
+    val normalContent =
+        retrieveColorOrUnspecified("Link.activeForeground").takeOrElse { retrieveColorOrUnspecified("Link.activeForeground") }
 
     val colors = IntUiLinkColors(
         content = normalContent,
-        contentDisabled = retrieveColorOrUnspecified("Link.disabledForeground").takeOrElse { retrieveColorOrUnspecified("Label.disabledForeground") },
+        contentDisabled = retrieveColorOrUnspecified("Link.disabledForeground").takeOrElse {
+            retrieveColorOrUnspecified(
+                "Label.disabledForeground",
+            )
+        },
         contentFocused = normalContent,
         contentPressed = retrieveColorOrUnspecified("Link.pressedForeground").takeOrElse { retrieveColorOrUnspecified("link.pressed.foreground") },
         contentHovered = retrieveColorOrUnspecified("Link.hoverForeground").takeOrElse { retrieveColorOrUnspecified("link.hover.foreground") },
@@ -480,7 +479,7 @@ private suspend fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: Sv
         metrics = IntUiLinkMetrics(
             focusHaloCornerSize = CornerSize(Registry.intValue("ide.link.button.focus.round.arc", 4).dp),
             textIconGap = 4.dp,
-            iconSize = DpSize.Unspecified
+            iconSize = DpSize.Unspecified,
         ),
         icons = IntUiLinkIcons(
             dropdownChevron = ResourcePainterProvider(
@@ -499,7 +498,7 @@ private suspend fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: Sv
             pressed = textStyle,
             hovered = textStyle,
             visited = textStyle,
-        )
+        ),
     )
 }
 
@@ -528,28 +527,28 @@ private fun readMenuStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader)
             iconTintPressed = Color.Unspecified,
             iconTintHovered = Color.Unspecified,
             separator = retrieveColorOrUnspecified("Menu.separatorColor"),
-        )
+        ),
     )
 
     val chevronBaseIconPath = "${iconsBasePath}general/chevron-down.svg"
     return IntUiMenuStyle(
         colors = colors,
         metrics = IntUiMenuMetrics(
-            cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.unscaled.dp),
+            cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
             menuMargin = PaddingValues(0.dp),
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 12.dp),
             offset = DpOffset(0.dp, 2.dp),
             shadowSize = 12.dp,
             borderWidth = retrieveIntAsDp("Popup.borderWidth"),
             itemMetrics = IntUiMenuItemMetrics(
-                selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.unscaled.dp),
+                selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp),
                 outerPadding = PaddingValues(horizontal = 6.dp),
                 contentPadding = PaddingValues(horizontal = 10.dp, vertical = 1.dp),
                 separatorPadding = PaddingValues(
                     horizontal = retrieveIntAsDp("PopupMenuSeparator.withToEdge"),
                     vertical = retrieveIntAsDp("PopupMenuSeparator.stripeIndent"),
                 ),
-                separatorThickness = retrieveIntAsDp("PopupMenuSeparator.stripeWidth")
+                separatorThickness = retrieveIntAsDp("PopupMenuSeparator.stripeWidth"),
             ),
             submenuMetrics = IntUiSubmenuMetrics(
                 offset = DpOffset(0.dp, (-8).dp),
@@ -559,8 +558,8 @@ private fun readMenuStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader)
             submenuChevron = ResourcePainterProvider(
                 iconData.iconOverrides[chevronBaseIconPath] ?: chevronBaseIconPath,
                 svgLoader,
-            )
-        )
+            ),
+        ),
     )
 }
 
@@ -587,8 +586,8 @@ private fun readRadioButtonStyle(iconData: IntelliJThemeIconData, svgLoader: Svg
             radioButton = ResourcePainterProvider(
                 iconData.iconOverrides[baseIconPath] ?: baseIconPath,
                 svgLoader,
-            )
-        )
+            ),
+        ),
     )
 }
 
@@ -611,6 +610,8 @@ private fun readScrollbarStyle(isDark: Boolean) = IntUiScrollbarStyle(
 )
 
 private fun readTextAreaStyle(inputFieldStyle: InputFieldStyle): IntUiTextAreaStyle {
+    val hintColor = JBUI.CurrentTheme.ContextHelp.FOREGROUND.toComposeColor()
+
     val colors = IntUiTextAreaColors(
         background = inputFieldStyle.colors.background,
         backgroundDisabled = inputFieldStyle.colors.backgroundDisabled,
@@ -627,187 +628,222 @@ private fun readTextAreaStyle(inputFieldStyle: InputFieldStyle): IntUiTextAreaSt
         borderFocused = inputFieldStyle.colors.borderFocused,
         borderPressed = inputFieldStyle.colors.borderPressed,
         borderHovered = inputFieldStyle.colors.borderHovered,
-        cursor = inputFieldStyle.colors.cursor,
-        cursorDisabled = inputFieldStyle.colors.cursorDisabled,
-        cursorFocused = inputFieldStyle.colors.cursorFocused,
-        cursorPressed = inputFieldStyle.colors.cursorPressed,
-        cursorHovered = inputFieldStyle.colors.cursorHovered,
-        placeholder =,
-        hintContent =,
-        hintContentDisabled =,
+        caret = inputFieldStyle.colors.caret,
+        caretDisabled = inputFieldStyle.colors.caretDisabled,
+        caretFocused = inputFieldStyle.colors.caretFocused,
+        caretPressed = inputFieldStyle.colors.caretPressed,
+        caretHovered = inputFieldStyle.colors.caretHovered,
+        placeholder = NamedColorUtil.getInactiveTextColor().toComposeColor(),
+        hintContent = hintColor,
+        hintContentDisabled = hintColor,
     )
 
     return IntUiTextAreaStyle(
         colors = colors,
         metrics = IntUiTextAreaMetrics(
-            cornerSize =,
-            contentPadding =,
-            minSize =,
-            borderWidth =,
+            cornerSize = CornerSize(0),
+            contentPadding = PaddingValues(3.dp),
+            minSize = DpSize.Unspecified,
+            borderWidth = DarculaUIUtil.LW.dp,
         ),
-        textStyle =,
-        hintTextStyle =,
+        textStyle = inputFieldStyle.textStyle,
+        hintTextStyle = inputFieldStyle.textStyle.copy(fontSize = JBFont.medium().size2D.sp),
     )
 }
 
 private suspend fun readTextFieldStyle(): IntUiTextFieldStyle {
+    val normalBackground = retrieveColorOrUnspecified("TextField.background")
+    val normalContent = retrieveColorOrUnspecified("TextField.foreground")
+    val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
+    val focusedBorder = DarculaUIUtil.getOutlineColor(true, true).toComposeColor()
+    val normalCaret = retrieveColorOrUnspecified("TextField.caretForeground")
+
     val colors = IntUiTextFieldColors(
-        background =,
-        backgroundDisabled =,
-        backgroundFocused =,
-        backgroundPressed =,
-        backgroundHovered =,
-        content =,
-        contentDisabled =,
-        contentFocused =,
-        contentPressed =,
-        contentHovered =,
-        border =,
-        borderDisabled =,
-        borderFocused =,
-        borderPressed =,
-        borderHovered =,
-        cursor =,
-        cursorDisabled =,
-        cursorFocused =,
-        cursorPressed =,
-        cursorHovered =,
-        placeholder =,
+        background = normalBackground,
+        backgroundDisabled = retrieveColorOrUnspecified("TextField.disabledBackground"),
+        backgroundFocused = normalBackground,
+        backgroundPressed = normalBackground,
+        backgroundHovered = normalBackground,
+        content = normalContent,
+        contentDisabled = retrieveColorOrUnspecified("TextField.disable"),
+        contentFocused = normalContent,
+        contentPressed = normalContent,
+        contentHovered = normalContent,
+        border = normalBorder,
+        borderDisabled = DarculaUIUtil.getOutlineColor(false, false).toComposeColor(),
+        borderFocused = focusedBorder,
+        borderPressed = focusedBorder,
+        borderHovered = normalBorder,
+        caret = normalCaret,
+        caretDisabled = normalCaret,
+        caretFocused = normalCaret,
+        caretPressed = normalCaret,
+        caretHovered = normalCaret,
+        placeholder = NamedColorUtil.getInactiveTextColor().toComposeColor(),
     )
 
     return IntUiTextFieldStyle(
         colors = colors,
         metrics = IntUiTextFieldMetrics(
-            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.unscaled.dp),
+            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp),
             contentPadding = PaddingValues(horizontal = 9.dp, vertical = 6.dp),
-            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.unscaled.dp, DarculaUIUtil.MINIMUM_HEIGHT.unscaled.dp),
-            borderWidth = DarculaUIUtil.BW.unscaled.dp,
+            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
+            borderWidth = DarculaUIUtil.LW.dp,
         ),
-        textStyle =,
+        textStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
     )
 }
 
 private fun readLazyTreeStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader): IntUiLazyTreeStyle {
+    val normalContent = retrieveColorOrUnspecified("Tree.foreground")
+    val selectedContent = retrieveColorOrUnspecified("Tree.selectionForeground")
+    val selectedElementBackground = retrieveColorOrUnspecified("Tree.selectionBackground")
+
     val colors = IntUiLazyTreeColors(
-        content =,
-        contentFocused =,
-        contentSelected =,
-        contentSelectedFocused =,
-        elementBackgroundFocused =,
-        elementBackgroundSelected =,
-        elementBackgroundSelectedFocused =,
-        chevronTint =,
-        chevronTintSelected =,
-        chevronTintFocused =,
-        chevronTintSelectedFocused =,
+        content = normalContent,
+        contentFocused = normalContent,
+        contentSelected = selectedContent,
+        contentSelectedFocused = selectedContent,
+        elementBackgroundFocused = Color.Transparent,
+        elementBackgroundSelected = selectedElementBackground,
+        elementBackgroundSelectedFocused = selectedElementBackground,
     )
 
+    val baseIconPath = "${iconsBasePath}general/chevron-right.svg"
     return IntUiLazyTreeStyle(
         colors = colors,
         metrics = IntUiLazyTreeMetrics(
-            indentSize =,
-            elementBackgroundCornerSize =,
-            elementPadding =,
-            elementContentPadding =,
-            elementMinHeight =,
-            chevronContentGap =,
+            indentSize = retrieveIntAsDp("Tree.leftChildIndent") + retrieveIntAsDp("Tree.rightChildIndent"), // Accounting for chevron width
+            elementBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp),
+            elementPadding = PaddingValues(horizontal = 12.dp),
+            elementContentPadding = PaddingValues(4.dp),
+            elementMinHeight = retrieveIntAsDp("Tree.rowHeight"),
+            chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
         ),
-        icons = IntUiLazyTreeIcons(nodeChevron =),
-    )
-}
-
-private fun readDefaultTabStyle(): IntUiTabStyle {
-    val colors = IntUiTabColors(
-        background =,
-        backgroundDisabled =,
-        backgroundFocused =,
-        backgroundPressed =,
-        backgroundHovered =,
-        backgroundSelected =,
-        content =,
-        contentDisabled =,
-        contentFocused =,
-        contentPressed =,
-        contentHovered =,
-        contentSelected =,
-        underline =,
-        underlineDisabled =,
-        underlineFocused =,
-        underlinePressed =,
-        underlineHovered =,
-        underlineSelected =,
-    )
-
-    return IntUiTabStyle(
-        colors = colors,
-        metrics = IntUiTabMetrics(
-            underlineThickness =,
-            tabPadding =,
-            closeContentGap =,
-            tabHeight =
-        ),
-        icons = IntUiTabIcons(close =),
-        contentAlpha = IntUiTabContentAlpha(
-            iconNormal =,
-            iconDisabled =,
-            iconFocused =,
-            iconPressed =,
-            iconHovered =,
-            iconSelected =,
-            labelNormal =,
-            labelDisabled =,
-            labelFocused =,
-            labelPressed =,
-            labelHovered =,
-            labelSelected =,
+        icons = IntUiLazyTreeIcons(
+            nodeChevron = ResourcePainterProvider(
+                iconData.iconOverrides[baseIconPath] ?: baseIconPath,
+                svgLoader,
+            ),
         ),
     )
 }
 
-private fun readEditorTabStyle(): IntUiTabStyle {
+// See com.intellij.ui.tabs.impl.themes.DefaultTabTheme
+private fun readDefaultTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader): IntUiTabStyle {
+    val normalBackground = JBUI.CurrentTheme.DefaultTabs.background().toComposeColor()
+    val selectedBackground = JBUI.CurrentTheme.DefaultTabs.underlinedTabBackground().toComposeColorOrUnspecified()
+    val normalContent = retrieveColorOrUnspecified("TabbedPane.foreground")
+    val selectedUnderline = retrieveColorOrUnspecified("TabbedPane.underlineColor")
+
     val colors = IntUiTabColors(
-        background =,
-        backgroundDisabled =,
-        backgroundFocused =,
-        backgroundPressed =,
-        backgroundHovered =,
-        backgroundSelected =,
-        content =,
-        contentDisabled =,
-        contentFocused =,
-        contentPressed =,
-        contentHovered =,
-        contentSelected =,
-        underline =,
-        underlineDisabled =,
-        underlineFocused =,
-        underlinePressed =,
-        underlineHovered =,
-        underlineSelected =,
+        background = normalBackground,
+        backgroundDisabled = normalBackground,
+        backgroundFocused = normalBackground,
+        backgroundPressed = selectedBackground,
+        backgroundHovered = JBUI.CurrentTheme.DefaultTabs.hoverBackground().toComposeColor(),
+        backgroundSelected = selectedBackground,
+        content = normalContent,
+        contentDisabled = retrieveColorOrUnspecified("TabbedPane.disabledForeground"),
+        contentFocused = normalContent,
+        contentPressed = normalContent,
+        contentHovered = normalContent,
+        contentSelected = normalContent,
+        underline = Color.Transparent,
+        underlineDisabled = retrieveColorOrUnspecified("TabbedPane.disabledUnderlineColor"),
+        underlineFocused = Color.Transparent,
+        underlinePressed = selectedUnderline,
+        underlineHovered = Color.Transparent,
+        underlineSelected = selectedUnderline,
     )
 
+    val baseIconPath = "${iconsBasePath}expui/general/closeSmall.svg"
     return IntUiTabStyle(
         colors = colors,
         metrics = IntUiTabMetrics(
-            underlineThickness =,
-            tabPadding =,
-            closeContentGap =,
-            tabHeight =
+            underlineThickness = retrieveIntAsDp("TabbedPane.tabSelectionHeight"),
+            tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
+            closeContentGap = 4.dp,
+            tabHeight = retrieveIntAsDp("TabbedPane.tabHeight"),
         ),
-        icons = IntUiTabIcons(close =),
+        icons = IntUiTabIcons(
+            close = ResourcePainterProvider(
+                iconData.iconOverrides[baseIconPath] ?: baseIconPath,
+                svgLoader,
+            ),
+        ),
         contentAlpha = IntUiTabContentAlpha(
-            iconNormal =,
-            iconDisabled =,
-            iconFocused =,
-            iconPressed =,
-            iconHovered =,
-            iconSelected =,
-            labelNormal =,
-            labelDisabled =,
-            labelFocused =,
-            labelPressed =,
-            labelHovered =,
-            labelSelected =,
+            iconNormal = 1f,
+            iconDisabled = 1f,
+            iconFocused = 1f,
+            iconPressed = 1f,
+            iconHovered = 1f,
+            iconSelected = 1f,
+            labelNormal = 1f,
+            labelDisabled = 1f,
+            labelFocused = 1f,
+            labelPressed = 1f,
+            labelHovered = 1f,
+            labelSelected = 1f,
+        ),
+    )
+}
+
+private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader): IntUiTabStyle {
+    val normalBackground = JBUI.CurrentTheme.EditorTabs.background().toComposeColor()
+    val selectedBackground = JBUI.CurrentTheme.EditorTabs.underlinedTabBackground().toComposeColorOrUnspecified()
+    val normalContent = retrieveColorOrUnspecified("TabbedPane.foreground")
+    val selectedUnderline = retrieveColorOrUnspecified("TabbedPane.underlineColor")
+
+    val colors = IntUiTabColors(
+        background = normalBackground,
+        backgroundDisabled = normalBackground,
+        backgroundFocused = normalBackground,
+        backgroundPressed = selectedBackground,
+        backgroundHovered = JBUI.CurrentTheme.EditorTabs.hoverBackground().toComposeColor(),
+        backgroundSelected = selectedBackground,
+        content = normalContent,
+        contentDisabled = retrieveColorOrUnspecified("TabbedPane.disabledForeground"),
+        contentFocused = normalContent,
+        contentPressed = normalContent,
+        contentHovered = normalContent,
+        contentSelected = normalContent,
+        underline = Color.Transparent,
+        underlineDisabled = retrieveColorOrUnspecified("TabbedPane.disabledUnderlineColor"),
+        underlineFocused = Color.Transparent,
+        underlinePressed = selectedUnderline,
+        underlineHovered = Color.Transparent,
+        underlineSelected = selectedUnderline,
+    )
+
+    val baseIconPath = "${iconsBasePath}expui/general/closeSmall.svg"
+    return IntUiTabStyle(
+        colors = colors,
+        metrics = IntUiTabMetrics(
+            underlineThickness = retrieveIntAsDp("TabbedPane.tabSelectionHeight"),
+            tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
+            closeContentGap = 4.dp,
+            tabHeight = retrieveIntAsDp("TabbedPane.tabHeight"),
+        ),
+        icons = IntUiTabIcons(
+            close = ResourcePainterProvider(
+                iconData.iconOverrides[baseIconPath] ?: baseIconPath,
+                svgLoader,
+            ),
+        ),
+        contentAlpha = IntUiTabContentAlpha(
+            iconNormal = .7f,
+            iconDisabled = .7f,
+            iconFocused = .7f,
+            iconPressed = 1f,
+            iconHovered = 1f,
+            iconSelected = 1f,
+            labelNormal = .7f,
+            labelDisabled = .7f,
+            labelFocused = .7f,
+            labelPressed = 1f,
+            labelHovered = 1f,
+            labelSelected = 1f,
         ),
     )
 }
