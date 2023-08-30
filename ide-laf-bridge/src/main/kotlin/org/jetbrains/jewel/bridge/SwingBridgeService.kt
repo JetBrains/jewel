@@ -15,6 +15,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.IntelliJSvgLoader
 import org.jetbrains.jewel.SvgLoader
@@ -33,8 +34,10 @@ class SwingBridgeService : Disposable, CoroutineScope {
     // TODO we shouldn't assume it's Int UI, but we only have that for now
     private val _themeDefinition = mutableStateOf(createBridgeIntUiDefinition(TextStyle.Default))
     private val _svgLoader = mutableStateOf(createSvgLoader(_themeDefinition.value))
+
+    // TODO @lamberto fix this crap thx
     private val _componentStyling =
-        mutableStateOf(createSwingIntUiComponentStyling(_themeDefinition.value, _svgLoader.value))
+        mutableStateOf(runBlocking { createSwingIntUiComponentStyling(_themeDefinition.value, _svgLoader.value) })
 
     val themeDefinition: State<IntUiThemeDefinition> = _themeDefinition
     val componentStyling: State<IntelliJComponentStyling> = _componentStyling

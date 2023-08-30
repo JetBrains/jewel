@@ -4,6 +4,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -52,12 +53,12 @@ fun <T> LazyTree(
         onElementDoubleClick = onElementDoubleClick,
         interactionSource = interactionSource,
         keyActions = keyActions,
-        chevronContent = { state ->
-            Box(Modifier.rotate(if (state.isExpanded) 90f else 0f)) {
+        chevronContent = { elementState ->
+            Box(Modifier.rotate(if (elementState.isExpanded) 90f else 0f)) {
+                val painter by style.icons.nodeChevron.getPainter(elementState, resourceLoader)
                 Icon(
-                    painter = painterResource(style.icons.nodeChevron, resourceLoader),
+                    painter = painter,
                     contentDescription = "Dropdown link",
-                    tint = colors.chevronTintFor(state).value,
                 )
             }
         },

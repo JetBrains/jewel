@@ -44,7 +44,7 @@ fun TextAreas() {
         TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight())
 
         TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight(), outline = Outline.Error)
-        
+
         TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight(), outline = Outline.Warning)
 
         TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight(), enabled = false)

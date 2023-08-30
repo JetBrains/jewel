@@ -29,6 +29,15 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.CommonStateBitMask
+import org.jetbrains.jewel.CommonStateBitMask.Active
+import org.jetbrains.jewel.CommonStateBitMask.Enabled
+import org.jetbrains.jewel.CommonStateBitMask.Focused
+import org.jetbrains.jewel.CommonStateBitMask.Hovered
+import org.jetbrains.jewel.CommonStateBitMask.Pressed
+import org.jetbrains.jewel.CommonStateBitMask.Selected
+import org.jetbrains.jewel.InteractiveComponentState
+import org.jetbrains.jewel.SelectableComponentState
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyItemScope
 import org.jetbrains.jewel.foundation.utils.Log
@@ -182,49 +191,85 @@ private fun Modifier.elementBackground(
 
 @Immutable
 @JvmInline
-value class TreeElementState(val state: ULong) {
+value class TreeElementState(val state: ULong) : InteractiveComponentState, SelectableComponentState {
 
     @Stable
-    val isFocused: Boolean
+    override val isActive: Boolean
+        get() = state and Active != 0UL
+
+    @Stable
+    override val isEnabled: Boolean
+        get() = state and Enabled != 0UL
+
+    @Stable
+    override val isFocused: Boolean
         get() = state and Focused != 0UL
 
     @Stable
-    val isSelected: Boolean
+    override val isPressed: Boolean
+        get() = state and Pressed != 0UL
+
+    @Stable
+    override val isHovered: Boolean
+        get() = state and Hovered != 0UL
+
+    @Stable
+    override val isSelected: Boolean
         get() = state and Selected != 0UL
 
     @Stable
     val isExpanded: Boolean
         get() = state and Expanded != 0UL
 
-    fun copy(
-        focused: Boolean = isFocused,
-        selected: Boolean = isSelected,
-        expanded: Boolean = isExpanded,
-    ) = of(focused, selected, expanded)
+    override fun toString(): String =
+        "${javaClass.simpleName}(enabled=$isEnabled, focused=$isFocused, expanded=$isExpanded, " +
+            "pressed=$isPressed, hovered=$isHovered, active=$isActive, selected=$isSelected)"
 
-    override fun toString() =
-        "${javaClass.simpleName}(isFocused=$isFocused, isSelected=$isSelected, isExpanded=$isExpanded)"
+    fun copy(
+        enabled: Boolean = isEnabled,
+        focused: Boolean = isFocused,
+        expanded: Boolean = isExpanded,
+        pressed: Boolean = isPressed,
+        hovered: Boolean = isHovered,
+        active: Boolean = isActive,
+        selected: Boolean = isSelected,
+    ) = of(
+        enabled = enabled,
+        focused = focused,
+        expanded = expanded,
+        pressed = pressed,
+        hovered = hovered,
+        active = active,
+        selected = selected,
+    )
 
     companion object {
 
-        private val Focused = 1UL shl 0
-        private val Hovered = 1UL shl 1
-        private val Selected = 1UL shl 2
-        private val Expanded = 1UL shl 3
+        private const val EXPANDED_BIT_OFFSET = CommonStateBitMask.FIRST_AVAILABLE_OFFSET
+
+        private val Expanded = 1UL shl EXPANDED_BIT_OFFSET
 
         fun of(
-            focused: Boolean,
-            selected: Boolean,
-            expanded: Boolean,
+            enabled: Boolean = true,
+            focused: Boolean = false,
+            expanded: Boolean = false,
+            hovered: Boolean = false,
+            pressed: Boolean = false,
+            active: Boolean = false,
+            selected: Boolean = false,
         ) = TreeElementState(
-            (if (focused) Focused else 0UL) or
+            (if (expanded) Expanded else 0UL) or
+                (if (enabled) Enabled else 0UL) or
+                (if (focused) Focused else 0UL) or
+                (if (pressed) Pressed else 0UL) or
+                (if (hovered) Hovered else 0UL) or
                 (if (selected) Selected else 0UL) or
-                (if (expanded) Expanded else 0UL),
+                (if (active) Active else 0UL),
         )
     }
 }
 
-private suspend fun flattenTree(
+private fun flattenTree(
     element: Tree.Element<*>,
     openNodes: SnapshotStateList<Any>,
     allNodes: SnapshotStateList<Any>,

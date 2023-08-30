@@ -5,9 +5,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
@@ -61,11 +59,11 @@ data class IntUiTextFieldColors(
     override val borderFocused: Color,
     override val borderPressed: Color,
     override val borderHovered: Color,
-    override val cursor: Brush,
-    override val cursorDisabled: Brush,
-    override val cursorFocused: Brush,
-    override val cursorPressed: Brush,
-    override val cursorHovered: Brush,
+    override val caret: Color,
+    override val caretDisabled: Color,
+    override val caretFocused: Color,
+    override val caretPressed: Color,
+    override val caretHovered: Color,
     override val placeholder: Color,
 ) : TextFieldColors {
 
@@ -88,11 +86,11 @@ data class IntUiTextFieldColors(
             borderFocused: Color = IntUiLightTheme.colors.blue(4),
             borderPressed: Color = border,
             borderHovered: Color = border,
-            cursor: Brush = SolidColor(IntUiLightTheme.colors.grey(1)),
-            cursorDisabled: Brush = cursor,
-            cursorFocused: Brush = cursor,
-            cursorPressed: Brush = cursor,
-            cursorHovered: Brush = cursor,
+            caret: Color = IntUiLightTheme.colors.grey(1),
+            caretDisabled: Color = caret,
+            caretFocused: Color = caret,
+            caretPressed: Color = caret,
+            caretHovered: Color = caret,
             placeholder: Color = IntUiLightTheme.colors.grey(8),
         ) = IntUiTextFieldColors(
             background,
@@ -110,11 +108,11 @@ data class IntUiTextFieldColors(
             borderFocused,
             borderPressed,
             borderHovered,
-            cursor,
-            cursorDisabled,
-            cursorFocused,
-            cursorPressed,
-            cursorHovered,
+            caret,
+            caretDisabled,
+            caretFocused,
+            caretPressed,
+            caretHovered,
             placeholder,
         )
 
@@ -135,11 +133,11 @@ data class IntUiTextFieldColors(
             borderFocused: Color = IntUiDarkTheme.colors.blue(6),
             borderPressed: Color = border,
             borderHovered: Color = border,
-            cursor: Brush = SolidColor(IntUiDarkTheme.colors.grey(12)),
-            cursorDisabled: Brush = cursor,
-            cursorFocused: Brush = cursor,
-            cursorPressed: Brush = cursor,
-            cursorHovered: Brush = cursor,
+            caret: Color = IntUiDarkTheme.colors.grey(12),
+            caretDisabled: Color = caret,
+            caretFocused: Color = caret,
+            caretPressed: Color = caret,
+            caretHovered: Color = caret,
             placeholder: Color = IntUiDarkTheme.colors.grey(7),
         ) = IntUiTextFieldColors(
             background,
@@ -157,11 +155,11 @@ data class IntUiTextFieldColors(
             borderFocused,
             borderPressed,
             borderHovered,
-            cursor,
-            cursorDisabled,
-            cursorFocused,
-            cursorPressed,
-            cursorHovered,
+            caret,
+            caretDisabled,
+            caretFocused,
+            caretPressed,
+            caretHovered,
             placeholder,
         )
     }

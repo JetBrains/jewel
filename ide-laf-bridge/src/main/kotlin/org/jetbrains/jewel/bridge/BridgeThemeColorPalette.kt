@@ -21,35 +21,35 @@ class BridgeThemeColorPalette(
 
     override fun grey(): List<Color> = grey
 
-    override fun grey(index: Int): Color = grey[index]
+    override fun grey(index: Int): Color = grey[index - 1]
 
     override fun blue(): List<Color> = blue
 
-    override fun blue(index: Int): Color = blue[index]
+    override fun blue(index: Int): Color = blue[index - 1]
 
     override fun green(): List<Color> = green
 
-    override fun green(index: Int): Color = green[index]
+    override fun green(index: Int): Color = green[index - 1]
 
     override fun red(): List<Color> = red
 
-    override fun red(index: Int): Color = red[index]
+    override fun red(index: Int): Color = red[index - 1]
 
     override fun yellow(): List<Color> = yellow
 
-    override fun yellow(index: Int): Color = yellow[index]
+    override fun yellow(index: Int): Color = yellow[index - 1]
 
     override fun orange(): List<Color> = orange
 
-    override fun orange(index: Int): Color = orange[index]
+    override fun orange(index: Int): Color = orange[index - 1]
 
     override fun purple(): List<Color> = purple
 
-    override fun purple(index: Int): Color = purple[index]
+    override fun purple(index: Int): Color = purple[index - 1]
 
     override fun teal(): List<Color> = teal
 
-    override fun teal(index: Int): Color = teal[index]
+    override fun teal(index: Int): Color = teal[index - 1]
 
     companion object {
 
@@ -67,22 +67,23 @@ class BridgeThemeColorPalette(
         private fun readPaletteColors(colorName: String): List<Color> {
             val defaults = uiDefaults
             val allKeys = defaults.keys
-            val colorNameLength = colorName.length
+            val colorNameKeyPrefix = "ColorPalette.$colorName"
+            val colorNameKeyPrefixLength = colorNameKeyPrefix.length
 
             val lastColorIndex = allKeys.asSequence()
                 .filterIsInstance(String::class.java)
-                .filter { it.startsWith(colorName) }
+                .filter { it.startsWith(colorNameKeyPrefix) }
                 .mapNotNull {
-                    val afterName = it.substring(colorNameLength)
+                    val afterName = it.substring(colorNameKeyPrefixLength)
                     afterName.toIntOrNull()
                 }
                 .max()
 
             return buildList {
                 for (i in 1..lastColorIndex) {
-                    val value = defaults["$colorName$i"] as? java.awt.Color
+                    val value = defaults["$colorNameKeyPrefix$i"] as? java.awt.Color
                     if (value == null) {
-                        logger.error("Unable to find color value for palette key '$colorName$i'")
+                        logger.error("Unable to find color value for palette key '$colorNameKeyPrefix$i'")
                         continue
                     }
 

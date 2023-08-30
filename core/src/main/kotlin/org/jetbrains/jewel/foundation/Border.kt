@@ -276,10 +276,12 @@ private fun CacheDrawScope.drawGenericBorder(
         inner -> {
             return@onDrawWithContent
         }
+
         -inner -> {
             // Samply draw the outline when abs(outer) and abs(inner) are the same
             drawOutline(outline, brush, style = DrawScopeStroke(outer * 2f))
         }
+
         else -> {
             val config: ImageBitmapConfig
             val colorFilter: ColorFilter?

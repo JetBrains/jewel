@@ -28,6 +28,10 @@ import androidx.compose.ui.unit.offset
 import org.jetbrains.jewel.styling.TextFieldStyle
 import kotlin.math.max
 
+/**
+ * @param placeholder the optional placeholder to be displayed over the component when
+ * the [value] is empty.
+ */
 @Composable
 fun TextField(
     value: String,
@@ -78,6 +82,10 @@ fun TextField(
     )
 }
 
+/**
+ * @param placeholder the optional placeholder to be displayed over the component when
+ * the [value] is empty.
+ */
 @Composable
 fun TextField(
     value: TextFieldValue,

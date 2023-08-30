@@ -116,6 +116,7 @@ private fun <T> evaluatePrevious(element: Tree.Element<T>): Tree.Element<T> = wh
 }
 
 interface TreeGeneratorScope<T> {
+
     fun addNode(
         data: T,
         id: Any = data.hashCode(),

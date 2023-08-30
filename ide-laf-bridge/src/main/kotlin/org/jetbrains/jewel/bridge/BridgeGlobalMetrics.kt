@@ -2,7 +2,6 @@ package org.jetbrains.jewel.bridge
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import org.jetbrains.jewel.GlobalMetrics
 
@@ -30,7 +29,7 @@ internal class BridgeGlobalMetrics(
     companion object {
 
         fun readFromLaF() = BridgeGlobalMetrics(
-            outlineWidth = DarculaUIUtil.BW.unscaled.dp,
+            outlineWidth = DarculaUIUtil.BW.dp,
         )
     }
 }
