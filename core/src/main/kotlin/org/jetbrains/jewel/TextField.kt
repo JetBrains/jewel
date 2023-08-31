@@ -23,14 +23,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.offset
 import org.jetbrains.jewel.styling.TextFieldStyle
 import kotlin.math.max
 
 /**
- * @param placeholder the optional placeholder to be displayed over the component when
- * the [value] is empty.
+ * @param placeholder the optional placeholder to be displayed over the
+ *     component when the [value] is empty.
  */
 @Composable
 fun TextField(
@@ -83,8 +82,8 @@ fun TextField(
 }
 
 /**
- * @param placeholder the optional placeholder to be displayed over the component when
- * the [value] is empty.
+ * @param placeholder the optional placeholder to be displayed over the
+ *     component when the [value] is empty.
  */
 @Composable
 fun TextField(
@@ -126,7 +125,7 @@ fun TextField(
         val minSize = style.metrics.minSize
 
         TextFieldDecorationBox(
-            modifier = Modifier.defaultMinSize(minHeight = minSize.width, minWidth = minSize.height)
+            modifier = Modifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height)
                 .padding(style.metrics.contentPadding),
             innerTextField = innerTextField,
             placeholderTextColor = style.colors.placeholder,
@@ -207,7 +206,6 @@ private fun TextFieldDecorationBox(
                 trailingPlaceable,
                 textFieldPlaceable,
                 placeholderPlaceable,
-                this@Layout,
             )
         }
     }
@@ -232,14 +230,12 @@ private fun calculateHeight(
     textFieldPlaceable: Placeable,
     placeholderPlaceable: Placeable?,
     constraints: Constraints,
-): Int {
-    return maxOf(
-        textFieldPlaceable.height,
-        placeholderPlaceable?.height ?: 0,
-        trailingPlaceable?.height ?: 0,
-        constraints.minHeight,
-    )
-}
+): Int = maxOf(
+    textFieldPlaceable.height,
+    placeholderPlaceable?.height ?: 0,
+    trailingPlaceable?.height ?: 0,
+    constraints.minHeight,
+)
 
 private fun Placeable.PlacementScope.place(
     height: Int,
@@ -247,8 +243,7 @@ private fun Placeable.PlacementScope.place(
     trailingPlaceable: Placeable?,
     textFieldPlaceable: Placeable,
     placeholderPlaceable: Placeable?,
-    density: Density,
-) = with(density) {
+): Unit? {
     // placed center vertically and to the end edge horizontally
     trailingPlaceable?.placeRelative(
         width - trailingPlaceable.width,
@@ -262,7 +257,7 @@ private fun Placeable.PlacementScope.place(
     )
 
     // placed similar to the input text above
-    placeholderPlaceable?.let {
+    return placeholderPlaceable?.let {
         it.placeRelative(
             0,
             Alignment.CenterVertically.align(it.height, height),

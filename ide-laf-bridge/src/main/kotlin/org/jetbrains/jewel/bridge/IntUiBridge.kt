@@ -639,10 +639,10 @@ private fun readTextAreaStyle(inputFieldStyle: InputFieldStyle): IntUiTextAreaSt
     return IntUiTextAreaStyle(
         colors = colors,
         metrics = IntUiTextAreaMetrics(
-            cornerSize = CornerSize(0),
-            contentPadding = PaddingValues(3.dp),
-            minSize = DpSize.Unspecified,
-            borderWidth = DarculaUIUtil.LW.dp,
+            cornerSize = inputFieldStyle.metrics.cornerSize,
+            contentPadding = inputFieldStyle.metrics.contentPadding,
+            minSize = inputFieldStyle.metrics.minSize,
+            borderWidth = inputFieldStyle.metrics.borderWidth,
         ),
         textStyle = inputFieldStyle.textStyle,
         hintTextStyle = inputFieldStyle.textStyle.copy(fontSize = JBFont.medium().size2D.sp),
@@ -663,7 +663,7 @@ private suspend fun readTextFieldStyle(): IntUiTextFieldStyle {
         backgroundPressed = normalBackground,
         backgroundHovered = normalBackground,
         content = normalContent,
-        contentDisabled = retrieveColorOrUnspecified("TextField.disable"),
+        contentDisabled = retrieveColorOrUnspecified("TextField.inactiveForeground"),
         contentFocused = normalContent,
         contentPressed = normalContent,
         contentHovered = normalContent,
@@ -684,7 +684,7 @@ private suspend fun readTextFieldStyle(): IntUiTextFieldStyle {
         colors = colors,
         metrics = IntUiTextFieldMetrics(
             cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp),
-            contentPadding = PaddingValues(horizontal = 9.dp, vertical = 6.dp),
+            contentPadding = PaddingValues(horizontal = 9.dp, vertical = 2.dp),
             minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
             borderWidth = DarculaUIUtil.LW.dp,
         ),

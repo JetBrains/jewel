@@ -57,7 +57,6 @@ internal fun InputField(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is FocusInteraction.Focus -> inputState = inputState.copy(focused = true)
-
                 is FocusInteraction.Unfocus -> inputState = inputState.copy(focused = false)
             }
         }
@@ -74,7 +73,7 @@ internal fun InputField(
     val borderColor by style.colors.borderFor(inputState)
     val borderModifier = Modifier.appendIf(!undecorated && borderColor.isSpecified) {
         Modifier.border(
-            alignment = Stroke.Alignment.Outside,
+            alignment = Stroke.Alignment.Center,
             width = style.metrics.borderWidth,
             color = borderColor,
             shape = shape,
@@ -89,6 +88,7 @@ internal fun InputField(
         value = value,
         modifier = modifier.then(backgroundModifier)
             .then(borderModifier)
+            .focusOutline(inputState, shape)
             .outline(inputState, outline, shape),
         onValueChange = onValueChange,
         enabled = enabled,
