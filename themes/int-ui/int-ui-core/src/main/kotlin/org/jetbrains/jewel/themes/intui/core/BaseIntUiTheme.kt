@@ -179,7 +179,6 @@ interface BaseIntUiTheme : IntelliJTheme {
         get() = IntelliJTheme.editorTabStyle
 }
 
-@OptIn(ExperimentalJewelApi::class)
 @Composable
 fun BaseIntUiTheme(
     theme: IntUiThemeDefinition,

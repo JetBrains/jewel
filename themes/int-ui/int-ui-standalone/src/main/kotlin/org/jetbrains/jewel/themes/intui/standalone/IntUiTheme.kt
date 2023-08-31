@@ -173,7 +173,6 @@ object IntUiTheme : BaseIntUiTheme {
         )
 }
 
-@OptIn(ExperimentalJewelApi::class)
 @Composable
 fun IntUiTheme(theme: IntUiThemeDefinition, swingCompatMode: Boolean = false, content: @Composable () -> Unit) {
     val svgLoader by remember(theme.isDark, theme.iconData, theme.colorPalette) {
