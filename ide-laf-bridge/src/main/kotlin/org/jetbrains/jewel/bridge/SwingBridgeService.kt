@@ -21,9 +21,7 @@ import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.themes.intui.core.IntelliJSvgPatcher
 
 @Service(Level.APP)
-class SwingBridgeService @JvmOverloads constructor(
-    private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + CoroutineName("JewelSwingBridge")),
-) : Disposable {
+class SwingBridgeService : Disposable {
 
     data class Components(
         val themeDefinition: IntUiThemeDefinition,
@@ -54,6 +52,9 @@ class SwingBridgeService @JvmOverloads constructor(
 
     private val logger = thisLogger()
 
+    // TODO use constructor injection when min IJ is 232+
+    private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + CoroutineName("JewelSwingBridge")),
+
     // TODO we shouldn't assume it's Int UI, but we only have that for now
     val components: StateFlow<Components> = IntelliJApplication.lookAndFeelStateFlow(coroutineScope)
         .map { (_, isIntUi) ->
@@ -73,7 +74,6 @@ class SwingBridgeService @JvmOverloads constructor(
         }
         .stateIn(coroutineScope, SharingStarted.Eagerly, Components.DEFAULT)
 
-    // TODO remove when min IJ is 232+
     override fun dispose() = coroutineScope.cancel("Disposing Application...")
 }
 
