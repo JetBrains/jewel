@@ -32,6 +32,7 @@ import androidx.compose.ui.node.Ref
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.unit.takeOrElse
 import androidx.compose.ui.unit.toSize
@@ -53,10 +54,22 @@ fun Modifier.border(stroke: Stroke, shape: Shape): Modifier = when (stroke) {
     )
 }
 
-fun Modifier.border(alignment: Stroke.Alignment, width: Dp, color: Color, shape: Shape = RectangleShape, expand: Dp = Dp.Unspecified) =
+fun Modifier.border(
+    alignment: Stroke.Alignment,
+    width: Dp,
+    color: Color,
+    shape: Shape = RectangleShape,
+    expand: Dp = Dp.Unspecified,
+) =
     border(alignment, width, SolidColor(color), shape, expand)
 
-fun Modifier.border(alignment: Stroke.Alignment, width: Dp, brush: Brush, shape: Shape = RectangleShape, expand: Dp = Dp.Unspecified): Modifier =
+fun Modifier.border(
+    alignment: Stroke.Alignment,
+    width: Dp,
+    brush: Brush,
+    shape: Shape = RectangleShape,
+    expand: Dp = Dp.Unspecified,
+): Modifier =
     if (alignment == Stroke.Alignment.Inside && expand.isUnspecified) {
         // The compose native border modifier(androidx.compose.foundation.border) draws the border inside the shape,
         // so we can just use that for getting a more native experience when drawing inside borders
@@ -85,7 +98,9 @@ private fun Modifier.drawBorderWithAlignment(
                         ),
                         1f,
                     )
-                    val expandWidthPx = expand.takeOrElse { Dp.Hairline }.toPx()
+
+                    val expandWidthPx = expand.takeOrElse { 0.dp }.toPx()
+
                     when (val outline = shape.createOutline(size, layoutDirection, this)) {
                         is Outline.Rectangle -> {
                             when (shape) {
@@ -98,13 +113,34 @@ private fun Modifier.drawBorderWithAlignment(
                                     expandWidthPx,
                                 )
 
-                                else -> drawRectBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx, expandWidthPx)
+                                else -> drawRectBorder(
+                                    borderCacheRef,
+                                    alignment,
+                                    outline,
+                                    brush,
+                                    strokeWidthPx,
+                                    expandWidthPx,
+                                )
                             }
                         }
 
-                        is Outline.Rounded -> drawRoundedBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx, expandWidthPx)
+                        is Outline.Rounded -> drawRoundedBorder(
+                            borderCacheRef,
+                            alignment,
+                            outline,
+                            brush,
+                            strokeWidthPx,
+                            expandWidthPx,
+                        )
 
-                        is Outline.Generic -> drawGenericBorder(borderCacheRef, alignment, outline, brush, strokeWidthPx, expandWidthPx)
+                        is Outline.Generic -> drawGenericBorder(
+                            borderCacheRef,
+                            alignment,
+                            outline,
+                            brush,
+                            strokeWidthPx,
+                            expandWidthPx,
+                        )
                     }
                 }
             },
@@ -219,24 +255,25 @@ private fun ContentDrawScope.drawRoundedBorder(
     strokeWidthPx: Float,
     expandWidthPx: Float,
 ) {
-    val rrect = when (alignment) {
+    val roundRect = when (alignment) {
         Stroke.Alignment.Inside -> outline.roundRect.inflate(expandWidthPx - strokeWidthPx / 2f)
         Stroke.Alignment.Center -> outline.roundRect.inflate(expandWidthPx)
         Stroke.Alignment.Outside -> outline.roundRect.inflate(expandWidthPx + strokeWidthPx / 2f)
     }
 
-    if (rrect.hasRightAngle()) {
+    if (roundRect.hasAtLeastOneNonRoundedCorner()) {
+        // Note: why do we need this? The Outline API can handle it just fine
         val cache = borderCacheRef.obtain()
         val borderPath = cache.obtainPath().apply {
             reset()
             fillType = PathFillType.EvenOdd
-            addRoundRect(rrect.deflate(strokeWidthPx / 2f))
-            addRoundRect(rrect.inflate(strokeWidthPx / 2f))
+            addRoundRect(roundRect.deflate(strokeWidthPx / 2f))
+            addRoundRect(roundRect.inflate(strokeWidthPx / 2f))
         }
         drawPath(borderPath, brush)
     } else {
         drawOutline(
-            outline = Outline.Rounded(rrect),
+            outline = Outline.Rounded(roundRect),
             brush = brush,
             style = DrawScopeStroke(strokeWidthPx),
         )
@@ -319,7 +356,12 @@ private fun CacheDrawScope.drawGenericBorder(
                             drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(outer * 2f))
 
                             if (inner > 0f) {
-                                drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(inner * 2f))
+                                drawPath(
+                                    path = outline.path,
+                                    brush = brush,
+                                    blendMode = BlendMode.Clear,
+                                    style = DrawScopeStroke(inner * 2f),
+                                )
                             }
 
                             drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear)
@@ -329,7 +371,12 @@ private fun CacheDrawScope.drawGenericBorder(
                             drawPath(path = outline.path, brush = brush, style = DrawScopeStroke(-inner * 2f))
 
                             if (outer < 0f) {
-                                drawPath(path = outline.path, brush = brush, blendMode = BlendMode.Clear, style = DrawScopeStroke(-outer * 2f))
+                                drawPath(
+                                    path = outline.path,
+                                    brush = brush,
+                                    blendMode = BlendMode.Clear,
+                                    style = DrawScopeStroke(-outer * 2f),
+                                )
                             }
 
                             drawPath(path = outerMaskPath, brush = brush, blendMode = BlendMode.Clear)

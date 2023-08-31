@@ -2,7 +2,6 @@ package org.jetbrains.jewel.bridge
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
@@ -12,6 +11,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.takeOrElse
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ide.ui.laf.darcula.ui.DarculaCheckBoxUI
 import com.intellij.ide.ui.laf.intellij.IdeaPopupMenuUI
@@ -146,20 +146,14 @@ internal suspend fun createSwingIntUiComponentStyling(
 
 private fun readDefaultButtonStyle(): IntUiButtonStyle {
     val normalBackground =
-        Brush.verticalGradient(
-            retrieveColorsOrUnspecified(
-                "Button.default.startBackground",
-                "Button.default.endBackground",
-            ),
-        )
+        retrieveColorsOrUnspecified(
+            "Button.default.startBackground",
+            "Button.default.endBackground",
+        ).createVerticalBrush()
     val normalContent = retrieveColorOrUnspecified("Button.default.foreground")
     val normalBorder =
-        Brush.verticalGradient(
-            retrieveColorsOrUnspecified(
-                "Button.default.startBorderColor",
-                "Button.default.endBorderColor",
-            ),
-        )
+        retrieveColorsOrUnspecified("Button.default.startBorderColor", "Button.default.endBorderColor")
+            .createVerticalBrush()
 
     val colors = IntUiButtonColors(
         background = normalBackground,
@@ -182,20 +176,22 @@ private fun readDefaultButtonStyle(): IntUiButtonStyle {
     return IntUiButtonStyle(
         colors = colors,
         metrics = IntUiButtonMetrics(
-            cornerSize = retrieveArcAsCornerSize("Button.default.arc"),
+            cornerSize = retrieveArcAsCornerSizeWithFallbacks("Button.default.arc", "Button.arc"),
             padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
             minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
-            borderWidth = 1.dp,
+            borderWidth = DarculaUIUtil.LW.dp,
         ),
     )
 }
 
 private fun readOutlinedButtonStyle(): IntUiButtonStyle {
     val normalBackground =
-        Brush.verticalGradient(retrieveColorsOrUnspecified("Button.startBackground", "Button.endBackground"))
+        retrieveColorsOrUnspecified("Button.startBackground", "Button.endBackground")
+            .createVerticalBrush()
     val normalContent = retrieveColorOrUnspecified("Button.foreground")
     val normalBorder =
-        Brush.verticalGradient(retrieveColorsOrUnspecified("Button.startBorderColor", "Button.endBorderColor"))
+        retrieveColorsOrUnspecified("Button.startBorderColor", "Button.endBorderColor")
+            .createVerticalBrush()
 
     val colors = IntUiButtonColors(
         background = normalBackground,
@@ -218,10 +214,10 @@ private fun readOutlinedButtonStyle(): IntUiButtonStyle {
     return IntUiButtonStyle(
         colors = colors,
         metrics = IntUiButtonMetrics(
-            cornerSize = retrieveArcAsCornerSize("Button.arc"),
+            cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
             padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
             minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
-            borderWidth = 1.dp,
+            borderWidth = DarculaUIUtil.LW.dp,
         ),
     )
 }
@@ -270,10 +266,12 @@ private fun readCheckboxStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
 //  3. We also have a toggleable version because why not
 private fun readChipStyle(): IntUiChipStyle {
     val normalBackground =
-        Brush.verticalGradient(retrieveColorsOrUnspecified("Button.startBackground", "Button.endBackground"))
+        retrieveColorsOrUnspecified("Button.startBackground", "Button.endBackground")
+            .createVerticalBrush()
     val normalContent = retrieveColorOrUnspecified("Label.foreground")
     val normalBorder =
-        Brush.verticalGradient(retrieveColorsOrUnspecified("Button.startBorderColor", "Button.endBorderColor"))
+        retrieveColorsOrUnspecified("Button.startBorderColor", "Button.endBorderColor")
+            .createVerticalBrush()
     val disabledBorder = SolidColor(retrieveColorOrUnspecified("Button.disabledBorderColor"))
     val selectedBorder = SolidColor(retrieveColorOrUnspecified("Component.focusColor"))
 
@@ -539,16 +537,16 @@ private fun readMenuStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader)
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 12.dp),
             offset = DpOffset(0.dp, 2.dp),
             shadowSize = 12.dp,
-            borderWidth = retrieveIntAsDp("Popup.borderWidth"),
+            borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
             itemMetrics = IntUiMenuItemMetrics(
                 selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp),
                 outerPadding = PaddingValues(horizontal = 6.dp),
                 contentPadding = PaddingValues(horizontal = 10.dp, vertical = 1.dp),
                 separatorPadding = PaddingValues(
-                    horizontal = retrieveIntAsDp("PopupMenuSeparator.withToEdge"),
-                    vertical = retrieveIntAsDp("PopupMenuSeparator.stripeIndent"),
+                    horizontal = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.withToEdge").takeOrElse { 0.dp },
+                    vertical = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeIndent").takeOrElse { 0.dp },
                 ),
-                separatorThickness = retrieveIntAsDp("PopupMenuSeparator.stripeWidth"),
+                separatorThickness = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeWidth").takeOrElse { 0.dp },
             ),
             submenuMetrics = IntUiSubmenuMetrics(
                 offset = DpOffset(0.dp, (-8).dp),
@@ -580,7 +578,7 @@ private fun readRadioButtonStyle(iconData: IntelliJThemeIconData, svgLoader: Svg
         colors = colors,
         metrics = IntUiRadioButtonMetrics(
             radioButtonSize = DpSize(19.dp, 19.dp),
-            iconContentGap = retrieveIntAsDp("RadioButton.textIconGap"),
+            iconContentGap = retrieveIntAsDpOrUnspecified("RadioButton.textIconGap").takeOrElse { 4.dp },
         ),
         icons = IntUiRadioButtonIcons(
             radioButton = ResourcePainterProvider(
@@ -713,11 +711,12 @@ private fun readLazyTreeStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
     return IntUiLazyTreeStyle(
         colors = colors,
         metrics = IntUiLazyTreeMetrics(
-            indentSize = retrieveIntAsDp("Tree.leftChildIndent") + retrieveIntAsDp("Tree.rightChildIndent"), // Accounting for chevron width
+            indentSize = retrieveIntAsDpOrUnspecified("Tree.leftChildIndent").takeOrElse { 7.dp } +
+                retrieveIntAsDpOrUnspecified("Tree.rightChildIndent").takeOrElse { 11.dp },
             elementBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp),
             elementPadding = PaddingValues(horizontal = 12.dp),
             elementContentPadding = PaddingValues(4.dp),
-            elementMinHeight = retrieveIntAsDp("Tree.rowHeight"),
+            elementMinHeight = retrieveIntAsDpOrUnspecified("Tree.rowHeight").takeOrElse { 24.dp },
             chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
         ),
         icons = IntUiLazyTreeIcons(
@@ -761,10 +760,10 @@ private fun readDefaultTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgL
     return IntUiTabStyle(
         colors = colors,
         metrics = IntUiTabMetrics(
-            underlineThickness = retrieveIntAsDp("TabbedPane.tabSelectionHeight"),
+            underlineThickness = retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight").takeOrElse { 2.dp },
             tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
             closeContentGap = 4.dp,
-            tabHeight = retrieveIntAsDp("TabbedPane.tabHeight"),
+            tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
         ),
         icons = IntUiTabIcons(
             close = ResourcePainterProvider(
@@ -820,10 +819,10 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
     return IntUiTabStyle(
         colors = colors,
         metrics = IntUiTabMetrics(
-            underlineThickness = retrieveIntAsDp("TabbedPane.tabSelectionHeight"),
+            underlineThickness = retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight").takeOrElse { 2.dp },
             tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
             closeContentGap = 4.dp,
-            tabHeight = retrieveIntAsDp("TabbedPane.tabHeight"),
+            tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
         ),
         icons = IntUiTabIcons(
             close = ResourcePainterProvider(

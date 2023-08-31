@@ -2,10 +2,13 @@ package org.jetbrains.jewel.samples.ideplugin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,9 +22,8 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.CheckboxRow
-import org.jetbrains.jewel.Divider
+import org.jetbrains.jewel.DefaultButton
 import org.jetbrains.jewel.LocalResourceLoader
-import org.jetbrains.jewel.Orientation
 import org.jetbrains.jewel.OutlinedButton
 import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.TextField
@@ -42,51 +44,53 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                     IntUiTheme.colorPalette.grey(14)
                 }
 
-                Box(
+                val scrollState = rememberScrollState()
+                Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(bgColor),
-                    contentAlignment = Alignment.Center,
+                        .background(bgColor)
+                        .verticalScroll(scrollState)
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically)) {
-                        var clicks by remember { mutableStateOf(0) }
-                        OutlinedButton({ clicks++ }) {
-                            Text("Hello world, $clicks")
+                    Text("Here is a selection of our finest components:")
+
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        var clicks1 by remember { mutableStateOf(0) }
+                        OutlinedButton({ clicks1++ }) {
+                            Text("Outlined: $clicks1")
+                        }
+                        OutlinedButton({ }, enabled = false) {
+                            Text("Outlined")
                         }
 
-                        var checked by remember { mutableStateOf(false) }
-
-                        var textFieldValue by remember { mutableStateOf("") }
-                        TextField(
-                            value = textFieldValue,
-                            onValueChange = {
-                                textFieldValue = it
-                            },
-                        )
-
-                        Row(
-                            modifier = Modifier.weight(1f),
-                            horizontalArrangement = Arrangement.spacedBy(24.dp),
-                        ) {
-                            Text("One")
-                            Divider(
-                                orientation = Orientation.Vertical,
-                                startIndent = 12.dp,
-                            )
-                            Text("Two")
-                            Divider(orientation = Orientation.Vertical)
-                            Text("Three")
-                            Divider(orientation = Orientation.Vertical)
-                            Text("Four")
+                        var clicks2 by remember { mutableStateOf(0) }
+                        DefaultButton({ clicks2++ }) {
+                            Text("Default: $clicks2")
                         }
-
-                        CheckboxRow(
-                            checked = checked,
-                            onCheckedChange = { checked = it },
-                            resourceLoader = resourceLoader,
-                        ) {
-                            Text("Hello, I am a themed checkbox")
+                        DefaultButton({ }, enabled = false) {
+                            Text("Default")
                         }
+                    }
+
+                    var textFieldValue by remember { mutableStateOf("") }
+                    TextField(
+                        value = textFieldValue,
+                        onValueChange = { textFieldValue = it },
+                        placeholder = { Text("Write something...") },
+                        modifier = Modifier.width(200.dp),
+                    )
+
+                    var checked by remember { mutableStateOf(false) }
+                    CheckboxRow(
+                        checked = checked,
+                        onCheckedChange = { checked = it },
+                        resourceLoader = resourceLoader,
+                    ) {
+                        Text("Hello, I am a themed checkbox")
                     }
                 }
             }
