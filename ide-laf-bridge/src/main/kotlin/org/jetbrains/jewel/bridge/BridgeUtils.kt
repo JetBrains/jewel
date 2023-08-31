@@ -2,12 +2,10 @@ package org.jetbrains.jewel.bridge
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -66,40 +64,6 @@ internal fun List<Color>.createVerticalBrush(
     if (all { it == first() }) SolidColor(first())
 
     return Brush.verticalGradient(this, startY, endY, tileMode)
-}
-
-// Based on LafIconLookup#findIcon
-// TODO inject additional logic from ImageLoader#addFileNameVariant to support loading the right icon
-//  variants ([_dark], [@2x], [_stroke])
-internal fun lookupIJSvgIcon(
-    name: String,
-    selected: Boolean = false,
-    focused: Boolean = false,
-    enabled: Boolean = true,
-    editable: Boolean = false,
-    pressed: Boolean = false,
-): @Composable () -> Painter {
-    var key = name
-    if (editable) {
-        key += "Editable"
-    }
-    if (selected) {
-        key += "Selected"
-    }
-
-    when {
-        pressed -> key += "Pressed"
-        focused -> key += "Focused"
-        !enabled -> key += "Disabled"
-    }
-
-    // for Mac blue theme and other LAFs use default directory icons
-    val dir = dirProvider.dir()
-    val path = "$dir$key.svg"
-
-    return {
-        rememberSvgResource(path.removePrefix("/"), dirProvider.javaClass.classLoader)
-    }
 }
 
 internal fun retrieveIntAsDp(key: String): Dp {
