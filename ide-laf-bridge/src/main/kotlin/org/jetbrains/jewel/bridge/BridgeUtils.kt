@@ -12,6 +12,7 @@ import androidx.compose.ui.text.platform.Typeface
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.intellij.ide.ui.LafManager
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBValue
@@ -134,3 +135,16 @@ internal operator fun TextUnit.plus(delta: Float) =
         isEm -> TextUnit(value + delta, type)
         else -> this
     }
+
+internal fun isLightTheme(): Boolean {
+    LafManager.getInstance().currentLookAndFeel
+    val brightness = UIManager.getLookAndFeelDefaults()
+        .getColor("ToolWindow.background")
+        ?.toComposeColor()
+        ?.brightness
+        ?: 200f
+    return brightness < 128
+}
+
+internal val Color.brightness
+    get() = (red * 299 + green * 587 + blue * 114) / 1000

@@ -5,6 +5,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.loadSvgPainter
+import org.jetbrains.jewel.IntelliJSvgLoader
+import org.jetbrains.jewel.themes.PaletteMapperFactory
+import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
+import org.jetbrains.jewel.themes.intui.core.IntelliJSvgPatcher
 import java.io.InputStream
 
 @Composable
@@ -33,4 +37,10 @@ internal fun openResource(resourcePath: String, classLoader: ClassLoader): Input
     return requireNotNull(classLoader.getResourceAsStream(resourcePath)) {
         "Resource $resourcePath not found"
     }
+}
+
+internal fun createSvgLoader(theme: IntUiThemeDefinition): IntelliJSvgLoader {
+    val paletteMapper = PaletteMapperFactory.create(theme.isDark, theme.iconData, theme.colorPalette)
+    val svgPatcher = IntelliJSvgPatcher(paletteMapper)
+    return IntelliJSvgLoader(svgPatcher)
 }
