@@ -45,24 +45,26 @@ class SwingBridgeService : Disposable, CoroutineScope {
 
     init {
         IntelliJApplication.lookAndFeelFlow
-            .onEach {
-                val isIntUi = NewUI.isEnabled()
-                logger.info("Updating Jewel theme (is New UI: $isIntUi) after LaF change")
-
-                if (!isIntUi) {
-                    // TODO return Darcula/IntelliJ Light theme instead
-                    logger.warn("Darcula LaFs (aka \"old UI\") are not supported yet, falling back to Int UI")
-                }
-
-                val themeDefinition = createBridgeIntUiDefinition()
-                val svgLoader = createSvgLoader(themeDefinition)
-
-                _themeDefinition.value = themeDefinition
-                _svgLoader.value = svgLoader
-                _componentStyling.value = createSwingIntUiComponentStyling(themeDefinition, svgLoader)
-            }
+            .onEach { updateBridge() }
             .flowOn(Dispatchers.Default)
             .launchIn(this)
+    }
+
+    private suspend fun updateBridge() {
+        val isIntUi = NewUI.isEnabled()
+        logger.info("Updating Jewel theme (is New UI: $isIntUi) after LaF change")
+
+        if (!isIntUi) {
+            // TODO return Darcula/IntelliJ Light theme instead
+            logger.warn("Darcula LaFs (aka \"old UI\") are not supported yet, falling back to Int UI")
+        }
+
+        val themeDefinition = createBridgeIntUiDefinition()
+        val svgLoader = createSvgLoader(themeDefinition)
+
+        _themeDefinition.value = themeDefinition
+        _svgLoader.value = svgLoader
+        _componentStyling.value = createSwingIntUiComponentStyling(themeDefinition, svgLoader)
     }
 
     private fun createSvgLoader(theme: IntUiThemeDefinition): SvgLoader {

@@ -119,6 +119,8 @@ internal suspend fun createSwingIntUiComponentStyling(
     theme: IntUiThemeDefinition,
     svgLoader: SvgLoader,
 ): IntelliJComponentStyling {
+    logger.debug("Obtaining Int UI component styling from Swing...")
+
     val menuStyle = readMenuStyle(theme.iconData, svgLoader)
     val textFieldStyle = readTextFieldStyle()
 
@@ -367,7 +369,7 @@ private suspend fun readDropdownStyle(
             chevronDown = retrieveIcon(
                 baseIconPath = "${iconsBasePath}general/chevron-down.svg",
                 iconData = iconData,
-                svgLoader = svgLoader
+                svgLoader = svgLoader,
             ),
         ),
         textStyle = retrieveTextStyle("ComboBox.font"),
@@ -479,12 +481,12 @@ private suspend fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: Sv
             dropdownChevron = retrieveIcon(
                 baseIconPath = "${iconsBasePath}general/chevron-down.svg",
                 iconData = iconData,
-                svgLoader = svgLoader
+                svgLoader = svgLoader,
             ),
             externalLink = retrieveIcon(
                 baseIconPath = "${iconsBasePath}ide/external_link_arrow.svg",
                 iconData = iconData,
-                svgLoader = svgLoader
+                svgLoader = svgLoader,
             ),
         ),
         textStyles = IntUiLinkTextStyles(
@@ -553,8 +555,8 @@ private fun readMenuStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader)
             submenuChevron = retrieveIcon(
                 baseIconPath = "${iconsBasePath}general/chevron-down.svg",
                 iconData = iconData,
-                svgLoader = svgLoader
-            )
+                svgLoader = svgLoader,
+            ),
         ),
     )
 }
@@ -581,8 +583,8 @@ private fun readRadioButtonStyle(iconData: IntelliJThemeIconData, svgLoader: Svg
             radioButton = retrieveIcon(
                 baseIconPath = "${iconsBasePath}darcula/radio.svg",
                 iconData = iconData,
-                svgLoader = svgLoader
-            )
+                svgLoader = svgLoader,
+            ),
         ),
     )
 }
@@ -720,8 +722,8 @@ private fun readLazyTreeStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
             nodeChevron = retrieveIcon(
                 baseIconPath = "${iconsBasePath}general/chevron-right.svg",
                 iconData = iconData,
-                svgLoader = svgLoader
-            )
+                svgLoader = svgLoader,
+            ),
         ),
     )
 }
@@ -766,7 +768,7 @@ private fun readDefaultTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgL
             close = retrieveIcon(
                 baseIconPath = "${iconsBasePath}expui/general/closeSmall.svg",
                 iconData = iconData,
-                svgLoader = svgLoader
+                svgLoader = svgLoader,
             ),
         ),
         contentAlpha = IntUiTabContentAlpha(
@@ -825,7 +827,7 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
             close = retrieveIcon(
                 baseIconPath = "${iconsBasePath}expui/general/closeSmall.svg",
                 iconData = iconData,
-                svgLoader = svgLoader
+                svgLoader = svgLoader,
             ),
         ),
         contentAlpha = IntUiTabContentAlpha(

@@ -34,7 +34,7 @@ class IntelliJResourcePainterProvider<T : InteractiveComponentState>(
         if (searchClasses == null) {
             logger.warn(
                 "Tried loading a resource but the provided ResourceLoader is now a JewelResourceLoader; " +
-                    "this is probably a bug. Make sure you always use JewelResourceLoaders."
+                    "this is probably a bug. Make sure you always use JewelResourceLoaders.",
             )
             return originalPath
         }

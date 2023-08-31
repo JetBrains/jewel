@@ -165,5 +165,5 @@ internal fun <T : InteractiveComponentState> retrieveIcon(
     basePath = iconData.iconOverrides[baseIconPath] ?: baseIconPath,
     svgLoader,
     prefixTokensProvider,
-    suffixTokensProvider
+    suffixTokensProvider,
 )

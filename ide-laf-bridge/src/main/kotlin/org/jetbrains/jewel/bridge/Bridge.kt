@@ -2,7 +2,6 @@
 
 package org.jetbrains.jewel.bridge
 
-import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.LafManagerListener
 import com.intellij.openapi.application.Application
 import com.intellij.openapi.application.ApplicationManager
@@ -12,13 +11,14 @@ import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlin.random.Random
 
 internal val IntelliJApplication: Application
     get() = ApplicationManager.getApplication()
 
-internal val Application.lookAndFeelFlow: Flow<LafManager>
-    get() = messageBusFlow(LafManagerListener.TOPIC, { LafManager.getInstance()!! }) {
-        LafManagerListener { trySend(it) }
+internal val Application.lookAndFeelFlow: Flow<Int>
+    get() = messageBusFlow(LafManagerListener.TOPIC, { 0 }) {
+        LafManagerListener { trySend(Random.nextInt()) }
     }
 
 internal fun <L : Any, K> Application.messageBusFlow(
