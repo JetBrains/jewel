@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.intellij.openapi.components.service
 import org.jetbrains.jewel.ExperimentalJewelApi
-import org.jetbrains.jewel.themes.intui.core.BaseIntUiTheme
+import org.jetbrains.jewel.themes.intui.standalone.IntUiTheme
 
 private val bridgeService = service<SwingBridgeService>()
 
@@ -15,5 +15,5 @@ fun SwingBridgeTheme(content: @Composable () -> Unit) {
     val componentStyling by bridgeService.componentStyling
 
     // TODO handle non-Int UI themes, too
-    BaseIntUiTheme(themeDefinition, componentStyling, swingCompatMode = true, content)
+    IntUiTheme(themeDefinition, componentStyling, swingCompatMode = true, content)
 }

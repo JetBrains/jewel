@@ -47,6 +47,7 @@ class SwingBridgeService : Disposable, CoroutineScope {
         IntelliJApplication.lookAndFeelFlow
             .onEach {
                 val isIntUi = NewUI.isEnabled()
+                logger.info("Updating Jewel theme (is New UI: $isIntUi) after LaF change")
 
                 if (!isIntUi) {
                     // TODO return Darcula/IntelliJ Light theme instead
@@ -64,7 +65,7 @@ class SwingBridgeService : Disposable, CoroutineScope {
             .launchIn(this)
     }
 
-    private fun createSvgLoader(theme: IntUiThemeDefinition): IntelliJSvgLoader {
+    private fun createSvgLoader(theme: IntUiThemeDefinition): SvgLoader {
         val paletteMapper = PaletteMapperFactory.create(theme.isDark, theme.iconData, theme.colorPalette)
         val svgPatcher = IntelliJSvgPatcher(paletteMapper)
         return IntelliJSvgLoader(svgPatcher)

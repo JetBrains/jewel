@@ -28,7 +28,6 @@ import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.IntelliJThemeIconData
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.styling.InputFieldStyle
-import org.jetbrains.jewel.styling.ResourcePainterProvider
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiButtonColors
 import org.jetbrains.jewel.themes.intui.standalone.styling.IntUiButtonMetrics
@@ -237,7 +236,6 @@ private fun readCheckboxStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
         contentSelected = textColor,
     )
 
-    val baseIconPath = "${iconsBasePath}checkBox.svg"
     return IntUiCheckboxStyle(
         colors = colors,
         metrics = IntUiCheckboxMetrics(
@@ -247,9 +245,10 @@ private fun readCheckboxStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
             iconContentGap = 5.dp, // See DarculaCheckBoxUI#textIconGap
         ),
         icons = IntUiCheckboxIcons(
-            checkbox = ResourcePainterProvider(
-                iconData.iconOverrides[baseIconPath] ?: baseIconPath,
-                svgLoader,
+            checkbox = retrieveIcon(
+                baseIconPath = "${iconsBasePath}checkBox.svg",
+                iconData = iconData,
+                svgLoader = svgLoader,
                 prefixTokensProvider = { state: CheckboxState ->
                     if (state.toggleableState == ToggleableState.Indeterminate) "Indeterminate" else ""
                 },
@@ -351,7 +350,6 @@ private suspend fun readDropdownStyle(
         iconTintHovered = Color.Unspecified,
     )
 
-    val baseIconPath = "${iconsBasePath}general/chevron-down.svg"
     val arrowWidth = DarculaUIUtil.ARROW_BUTTON_WIDTH.dp
     return IntUiDropdownStyle(
         colors = colors,
@@ -366,9 +364,10 @@ private suspend fun readDropdownStyle(
             borderWidth = DarculaUIUtil.BW.dp,
         ),
         icons = IntUiDropdownIcons(
-            chevronDown = ResourcePainterProvider(
-                iconData.iconOverrides[baseIconPath] ?: baseIconPath,
-                svgLoader,
+            chevronDown = retrieveIcon(
+                baseIconPath = "${iconsBasePath}general/chevron-down.svg",
+                iconData = iconData,
+                svgLoader = svgLoader
             ),
         ),
         textStyle = retrieveTextStyle("ComboBox.font"),
@@ -467,9 +466,6 @@ private suspend fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: Sv
         contentVisited = retrieveColorOrUnspecified("Link.visitedForeground").takeOrElse { retrieveColorOrUnspecified("link.visited.foreground") },
     )
 
-    val chevronBaseIconPath = "${iconsBasePath}general/chevron-down.svg"
-    val externalLinkBaseIconPath = "${iconsBasePath}ide/external_link_arrow.svg"
-
     val textStyle = retrieveTextStyle("Label.font")
 
     return IntUiLinkStyle(
@@ -480,13 +476,15 @@ private suspend fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: Sv
             iconSize = DpSize.Unspecified,
         ),
         icons = IntUiLinkIcons(
-            dropdownChevron = ResourcePainterProvider(
-                iconData.iconOverrides[chevronBaseIconPath] ?: chevronBaseIconPath,
-                svgLoader,
+            dropdownChevron = retrieveIcon(
+                baseIconPath = "${iconsBasePath}general/chevron-down.svg",
+                iconData = iconData,
+                svgLoader = svgLoader
             ),
-            externalLink = ResourcePainterProvider(
-                iconData.iconOverrides[externalLinkBaseIconPath] ?: externalLinkBaseIconPath,
-                svgLoader,
+            externalLink = retrieveIcon(
+                baseIconPath = "${iconsBasePath}ide/external_link_arrow.svg",
+                iconData = iconData,
+                svgLoader = svgLoader
             ),
         ),
         textStyles = IntUiLinkTextStyles(
@@ -528,7 +526,6 @@ private fun readMenuStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader)
         ),
     )
 
-    val chevronBaseIconPath = "${iconsBasePath}general/chevron-down.svg"
     return IntUiMenuStyle(
         colors = colors,
         metrics = IntUiMenuMetrics(
@@ -553,10 +550,11 @@ private fun readMenuStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader)
             ),
         ),
         icons = IntUiMenuIcons(
-            submenuChevron = ResourcePainterProvider(
-                iconData.iconOverrides[chevronBaseIconPath] ?: chevronBaseIconPath,
-                svgLoader,
-            ),
+            submenuChevron = retrieveIcon(
+                baseIconPath = "${iconsBasePath}general/chevron-down.svg",
+                iconData = iconData,
+                svgLoader = svgLoader
+            )
         ),
     )
 }
@@ -573,7 +571,6 @@ private fun readRadioButtonStyle(iconData: IntelliJThemeIconData, svgLoader: Svg
         contentSelectedDisabled = disabledContent,
     )
 
-    val baseIconPath = "${iconsBasePath}darcula/radio.svg"
     return IntUiRadioButtonStyle(
         colors = colors,
         metrics = IntUiRadioButtonMetrics(
@@ -581,10 +578,11 @@ private fun readRadioButtonStyle(iconData: IntelliJThemeIconData, svgLoader: Svg
             iconContentGap = retrieveIntAsDpOrUnspecified("RadioButton.textIconGap").takeOrElse { 4.dp },
         ),
         icons = IntUiRadioButtonIcons(
-            radioButton = ResourcePainterProvider(
-                iconData.iconOverrides[baseIconPath] ?: baseIconPath,
-                svgLoader,
-            ),
+            radioButton = retrieveIcon(
+                baseIconPath = "${iconsBasePath}darcula/radio.svg",
+                iconData = iconData,
+                svgLoader = svgLoader
+            )
         ),
     )
 }
@@ -707,7 +705,6 @@ private fun readLazyTreeStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
         elementBackgroundSelectedFocused = selectedElementBackground,
     )
 
-    val baseIconPath = "${iconsBasePath}general/chevron-right.svg"
     return IntUiLazyTreeStyle(
         colors = colors,
         metrics = IntUiLazyTreeMetrics(
@@ -720,10 +717,11 @@ private fun readLazyTreeStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
             chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
         ),
         icons = IntUiLazyTreeIcons(
-            nodeChevron = ResourcePainterProvider(
-                iconData.iconOverrides[baseIconPath] ?: baseIconPath,
-                svgLoader,
-            ),
+            nodeChevron = retrieveIcon(
+                baseIconPath = "${iconsBasePath}general/chevron-right.svg",
+                iconData = iconData,
+                svgLoader = svgLoader
+            )
         ),
     )
 }
@@ -756,7 +754,6 @@ private fun readDefaultTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgL
         underlineSelected = selectedUnderline,
     )
 
-    val baseIconPath = "${iconsBasePath}expui/general/closeSmall.svg"
     return IntUiTabStyle(
         colors = colors,
         metrics = IntUiTabMetrics(
@@ -766,9 +763,10 @@ private fun readDefaultTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgL
             tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
         ),
         icons = IntUiTabIcons(
-            close = ResourcePainterProvider(
-                iconData.iconOverrides[baseIconPath] ?: baseIconPath,
-                svgLoader,
+            close = retrieveIcon(
+                baseIconPath = "${iconsBasePath}expui/general/closeSmall.svg",
+                iconData = iconData,
+                svgLoader = svgLoader
             ),
         ),
         contentAlpha = IntUiTabContentAlpha(
@@ -815,7 +813,6 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
         underlineSelected = selectedUnderline,
     )
 
-    val baseIconPath = "${iconsBasePath}expui/general/closeSmall.svg"
     return IntUiTabStyle(
         colors = colors,
         metrics = IntUiTabMetrics(
@@ -825,9 +822,10 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
             tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
         ),
         icons = IntUiTabIcons(
-            close = ResourcePainterProvider(
-                iconData.iconOverrides[baseIconPath] ?: baseIconPath,
-                svgLoader,
+            close = retrieveIcon(
+                baseIconPath = "${iconsBasePath}expui/general/closeSmall.svg",
+                iconData = iconData,
+                svgLoader = svgLoader
             ),
         ),
         contentAlpha = IntUiTabContentAlpha(

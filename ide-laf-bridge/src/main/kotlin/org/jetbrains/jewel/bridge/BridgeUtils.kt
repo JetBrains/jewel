@@ -16,16 +16,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.ui.JBColor
-import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBValue
+import org.jetbrains.jewel.IntelliJThemeIconData
+import org.jetbrains.jewel.InteractiveComponentState
+import org.jetbrains.jewel.SvgLoader
+import org.jetbrains.jewel.styling.StatefulPainterProvider
 import org.jetbrains.skiko.DependsOnJBR
 import org.jetbrains.skiko.awt.font.AwtFontManager
 import org.jetbrains.skiko.toSkikoTypefaceOrNull
 import javax.swing.UIManager
 
 private val logger = Logger.getInstance("JewelBridge")
-
-private val dirProvider = DirProvider()
 
 fun java.awt.Color.toComposeColor() = Color(
     red = red,
@@ -153,3 +154,16 @@ internal operator fun TextUnit.plus(delta: Float) =
         isEm -> TextUnit(value + delta, type)
         else -> this
     }
+
+internal fun <T : InteractiveComponentState> retrieveIcon(
+    baseIconPath: String,
+    iconData: IntelliJThemeIconData,
+    svgLoader: SvgLoader,
+    prefixTokensProvider: (state: T) -> String = { "" },
+    suffixTokensProvider: (state: T) -> String = { "" },
+): StatefulPainterProvider<T> = IntelliJResourcePainterProvider(
+    basePath = iconData.iconOverrides[baseIconPath] ?: baseIconPath,
+    svgLoader,
+    prefixTokensProvider,
+    suffixTokensProvider
+)
