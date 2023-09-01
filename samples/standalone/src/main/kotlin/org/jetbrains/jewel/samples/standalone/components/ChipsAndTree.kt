@@ -166,12 +166,14 @@ fun TreeSample(modifier: Modifier = Modifier) {
     }
     val resourceLoader = LocalResourceLoader.current
     LazyTree(
+        tree = tree,
+        InitialNodeStatus.Open,
+        resourceLoader = resourceLoader,
         modifier = Modifier.size(200.dp, 200.dp).then(modifier),
         onElementClick = {},
         onElementDoubleClick = {},
-        tree = tree,
         resourceLoader = resourceLoader,
-    ) { element ->
+        ) { element ->
         Box(Modifier.fillMaxWidth()) {
             Text(element.data, modifier.padding(2.dp))
         }

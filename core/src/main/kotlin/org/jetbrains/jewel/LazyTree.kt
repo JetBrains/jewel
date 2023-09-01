@@ -15,6 +15,7 @@ import org.jetbrains.jewel.styling.LazyTreeStyle
 @Composable
 fun <T> LazyTree(
     tree: Tree<T>,
+    initialNodeStatus: InitialNodeStatus = InitialNodeStatus.Close(),
     resourceLoader: ResourceLoader,
     modifier: Modifier = Modifier,
     onElementClick: (Tree.Element<T>) -> Unit,
@@ -23,12 +24,13 @@ fun <T> LazyTree(
     onSelectionChange: (List<Tree.Element<T>>) -> Unit = {},
     keyActions: KeyBindingActions = DefaultTreeViewKeyActions(treeState),
     style: LazyTreeStyle = IntelliJTheme.treeStyle,
-    nodeContent: @Composable SelectableLazyItemScope.(Tree.Element<T>) -> Unit,
+    nodeContent: @Composable() (SelectableLazyItemScope.(Tree.Element<T>) -> Unit),
 ) {
     val colors = style.colors
     val metrics = style.metrics
     BasicLazyTree(
         tree = tree,
+        initialNodeStatus = initialNodeStatus,
         onElementClick = onElementClick,
         elementBackgroundFocused = colors.elementBackgroundFocused,
         elementBackgroundSelectedFocused = colors.elementBackgroundSelectedFocused,
@@ -52,20 +54,19 @@ fun <T> LazyTree(
                     tint = colors.chevronTintFor(state).value
                 )
             }
-        },
-        nodeContent = {
-            CompositionLocalProvider(
-                LocalContentColor provides (
-                    style.colors.contentFor(
-                        TreeElementState.of(
-                            isActive,
-                            isSelected,
-                            false
-                        )
-                    ).value
-                        .takeOrElse { LocalContentColor.current }
-                    )
-            ) { nodeContent(it) }
         }
-    )
+    ) {
+        CompositionLocalProvider(
+            LocalContentColor provides (
+                style.colors.contentFor(
+                    TreeElementState.of(
+                        isActive,
+                        isSelected,
+                        false
+                    )
+                ).value
+                    .takeOrElse { LocalContentColor.current }
+                )
+        ) { nodeContent(it) }
+    }
 }

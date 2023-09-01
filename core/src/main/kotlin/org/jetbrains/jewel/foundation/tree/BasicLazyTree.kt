@@ -67,6 +67,7 @@ import kotlin.time.Duration.Companion.milliseconds
 @Composable
 fun <T> BasicLazyTree(
     tree: Tree<T>,
+    initialNodeStatus: InitialNodeStatus,
     selectionMode: SelectionMode = SelectionMode.Multiple,
     onElementClick: (Tree.Element<T>) -> Unit,
     elementBackgroundFocused: Color,
@@ -88,7 +89,7 @@ fun <T> BasicLazyTree(
         DefaultTreeViewPointerEventAction(treeState)
     },
     chevronContent: @Composable (nodeState: TreeElementState) -> Unit,
-    nodeContent: @Composable SelectableLazyItemScope.(Tree.Element<T>) -> Unit,
+    nodeContent: @Composable() (SelectableLazyItemScope.(Tree.Element<T>) -> Unit),
 ) {
     val scope = rememberCoroutineScope()
 
@@ -103,6 +104,14 @@ fun <T> BasicLazyTree(
         }.let {
             onSelectionChange(it.map { it as Tree.Element<T> })
         }
+    }
+
+    remember(tree) {
+        if (initialNodeStatus is InitialNodeStatus.Open) {
+            treeState.openNodes.clear()
+            treeState.openNodes.addAll(treeState.allNodes.map { it.first })
+        }
+
     }
 
     SelectableLazyColumn(
@@ -320,4 +329,14 @@ private infix fun MutableList<Any>.getAllSubNodes(node: Tree.Element.Node<*>) {
             add(it.idPath())
             this@getAllSubNodes getAllSubNodes (it)
         }
+}
+
+
+sealed class InitialNodeStatus {
+    @Stable
+    object Open : InitialNodeStatus()
+
+    @Stable
+    class Close : InitialNodeStatus()
+
 }
