@@ -5,6 +5,7 @@ import com.intellij.openapi.Disposable
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.Service.Level
 import com.intellij.openapi.diagnostic.thisLogger
+import com.intellij.ui.NewUI
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -23,7 +24,37 @@ import org.jetbrains.jewel.themes.intui.core.IntelliJSvgPatcher
 @Service(Level.APP)
 class SwingBridgeService : Disposable {
 
-    data class Components(
+    private val logger = thisLogger()
+
+    // TODO use constructor injection when min IJ is 232+
+    private val coroutineScope: CoroutineScope =
+        CoroutineScope(SupervisorJob() + CoroutineName("JewelSwingBridge"))
+
+    // TODO we shouldn't assume it's Int UI, but we only have that for now
+    internal val currentBridgeThemeData: StateFlow<BridgeThemeData> =
+        IntelliJApplication.lookAndFeelChangedFlow(coroutineScope)
+            .map { readThemeData() }
+            .stateIn(coroutineScope, SharingStarted.Eagerly, BridgeThemeData.DEFAULT)
+
+    private suspend fun readThemeData(): BridgeThemeData {
+        val isIntUi = NewUI.isEnabled()
+        if (!isIntUi) {
+            // TODO return Darcula/IntelliJ Light theme instead
+            logger.warn("Darcula LaFs (aka \"old UI\") are not supported yet, falling back to Int UI")
+        }
+
+        val themeDefinition = createBridgeIntUiDefinition()
+        val svgLoader = createSvgLoader(themeDefinition)
+        return BridgeThemeData(
+            themeDefinition = createBridgeIntUiDefinition(),
+            svgLoader = svgLoader,
+            componentStyling = createSwingIntUiComponentStyling(themeDefinition, svgLoader),
+        )
+    }
+
+    override fun dispose() = coroutineScope.cancel("Disposing Application...")
+
+    internal data class BridgeThemeData(
         val themeDefinition: IntUiThemeDefinition,
         val svgLoader: SvgLoader,
         val componentStyling: IntelliJComponentStyling,
@@ -34,7 +65,7 @@ class SwingBridgeService : Disposable {
             val DEFAULT = run {
                 val themeDefinition = createBridgeIntUiDefinition(TextStyle.Default)
                 val svgLoader = createSvgLoader(themeDefinition)
-                Components(
+                BridgeThemeData(
                     themeDefinition = createBridgeIntUiDefinition(TextStyle.Default),
                     svgLoader = createSvgLoader(themeDefinition),
                     componentStyling = createSwingIntUiComponentStyling(
@@ -49,32 +80,6 @@ class SwingBridgeService : Disposable {
             }
         }
     }
-
-    private val logger = thisLogger()
-
-    // TODO use constructor injection when min IJ is 232+
-    private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + CoroutineName("JewelSwingBridge")),
-
-    // TODO we shouldn't assume it's Int UI, but we only have that for now
-    val components: StateFlow<Components> = IntelliJApplication.lookAndFeelStateFlow(coroutineScope)
-        .map { (_, isIntUi) ->
-
-            if (!isIntUi) {
-                // TODO return Darcula/IntelliJ Light theme instead
-                logger.warn("Darcula LaFs (aka \"old UI\") are not supported yet, falling back to Int UI")
-            }
-
-            val themeDefinition = createBridgeIntUiDefinition()
-            val svgLoader = createSvgLoader(themeDefinition)
-            Components(
-                themeDefinition = createBridgeIntUiDefinition(),
-                svgLoader = svgLoader,
-                componentStyling = createSwingIntUiComponentStyling(themeDefinition, svgLoader),
-            )
-        }
-        .stateIn(coroutineScope, SharingStarted.Eagerly, Components.DEFAULT)
-
-    override fun dispose() = coroutineScope.cancel("Disposing Application...")
 }
 
 private fun createSvgLoader(theme: IntUiThemeDefinition): SvgLoader {
