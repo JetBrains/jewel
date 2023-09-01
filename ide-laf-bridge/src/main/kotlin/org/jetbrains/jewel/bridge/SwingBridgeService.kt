@@ -52,7 +52,9 @@ class SwingBridgeService : Disposable {
         )
     }
 
-    override fun dispose() = coroutineScope.cancel("Disposing Application...")
+    override fun dispose() {
+        coroutineScope.cancel("Disposing Application...")
+    }
 
     internal data class BridgeThemeData(
         val themeDefinition: IntUiThemeDefinition,
@@ -71,7 +73,7 @@ class SwingBridgeService : Disposable {
                     componentStyling = createSwingIntUiComponentStyling(
                         theme = themeDefinition,
                         svgLoader = svgLoader,
-                        textFieldStyle = TextStyle.Default,
+                        textFieldTextStyle = TextStyle.Default,
                         dropdownTextStyle = TextStyle.Default,
                         labelTextStyle = TextStyle.Default,
                         linkTextStyle = TextStyle.Default,

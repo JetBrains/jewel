@@ -118,14 +118,14 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefini
 internal fun createSwingIntUiComponentStyling(
     theme: IntUiThemeDefinition,
     svgLoader: SvgLoader,
-    textFieldStyle: TextStyle,
+    textFieldTextStyle: TextStyle,
     dropdownTextStyle: TextStyle,
     labelTextStyle: TextStyle,
     linkTextStyle: TextStyle,
 ): IntelliJComponentStyling {
     logger.debug("Obtaining Int UI component styling from Swing...")
 
-    val textFieldStyle = readTextFieldStyle(textFieldStyle)
+    val textFieldStyle = readTextFieldStyle(textFieldTextStyle)
     val menuStyle = readMenuStyle(theme.iconData, svgLoader)
 
     return IntelliJComponentStyling(
@@ -155,7 +155,7 @@ internal suspend fun createSwingIntUiComponentStyling(
 ): IntelliJComponentStyling = createSwingIntUiComponentStyling(
     theme = theme,
     svgLoader = svgLoader,
-    textFieldStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
+    textFieldTextStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
     dropdownTextStyle = retrieveTextStyle("ComboBox.font"),
     labelTextStyle = retrieveTextStyle("Label.font"),
     linkTextStyle = retrieveTextStyle("Label.font"),
@@ -422,7 +422,10 @@ private fun readHorizontalProgressBarStyle() = IntUiHorizontalProgressBarStyle(
     indeterminateCycleDuration = 800.milliseconds, // See DarculaProgressBarUI.CYCLE_TIME_DEFAULT
 )
 
-private fun readLabelledTextFieldStyle(inputFieldStyle: InputFieldStyle, labelTextStyle: TextStyle): IntUiLabelledTextFieldStyle {
+private fun readLabelledTextFieldStyle(
+    inputFieldStyle: InputFieldStyle,
+    labelTextStyle: TextStyle,
+): IntUiLabelledTextFieldStyle {
     val colors = IntUiLabelledTextFieldColors(
         background = inputFieldStyle.colors.background,
         backgroundDisabled = inputFieldStyle.colors.backgroundDisabled,
@@ -467,7 +470,11 @@ private fun readLabelledTextFieldStyle(inputFieldStyle: InputFieldStyle, labelTe
     )
 }
 
-private fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader, linkTextStyle: TextStyle): IntUiLinkStyle {
+private fun readLinkStyle(
+    iconData: IntelliJThemeIconData,
+    svgLoader: SvgLoader,
+    linkTextStyle: TextStyle,
+): IntUiLinkStyle {
     val normalContent =
         retrieveColorOrUnspecified("Link.activeForeground").takeOrElse { retrieveColorOrUnspecified("Link.activeForeground") }
 
