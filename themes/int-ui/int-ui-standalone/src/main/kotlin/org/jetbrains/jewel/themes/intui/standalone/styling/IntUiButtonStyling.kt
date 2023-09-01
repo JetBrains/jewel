@@ -90,7 +90,7 @@ data class IntUiButtonColors(
             contentHovered: Color = IntUiLightTheme.colors.grey(14),
             border: Brush = SolidColor(IntUiLightTheme.colors.blue(4)),
             borderDisabled: Brush = SolidColor(IntUiLightTheme.colors.grey(11)),
-            borderFocused: Brush = SolidColor(IntUiLightTheme.colors.grey(14)),
+            borderFocused: Brush = SolidColor(IntUiLightTheme.colors.blue(4)),
             borderPressed: Brush = border,
             borderHovered: Brush = border,
         ) = IntUiButtonColors(
@@ -151,11 +151,11 @@ data class IntUiButtonColors(
 
         @Composable
         fun light(
-            background: Brush = SolidColor(Color.Unspecified),
+            background: Brush = SolidColor(Color.Transparent),
             backgroundDisabled: Brush = SolidColor(IntUiTheme.colorPalette.grey(12)),
-            backgroundFocused: Brush = SolidColor(Color.Unspecified),
+            backgroundFocused: Brush = SolidColor(Color.Transparent),
             backgroundPressed: Brush = SolidColor(IntUiTheme.colorPalette.grey(13)),
-            backgroundHovered: Brush = SolidColor(Color.Unspecified),
+            backgroundHovered: Brush = SolidColor(Color.Transparent),
             content: Color = IntUiTheme.colorPalette.grey(1),
             contentDisabled: Color = IntUiTheme.colorPalette.grey(8),
             contentFocused: Color = IntUiTheme.colorPalette.grey(1),
@@ -163,7 +163,7 @@ data class IntUiButtonColors(
             contentHovered: Color = IntUiTheme.colorPalette.grey(1),
             border: Brush = SolidColor(IntUiTheme.colorPalette.grey(9)),
             borderDisabled: Brush = SolidColor(IntUiTheme.colorPalette.blue(11)),
-            borderFocused: Brush = SolidColor(IntUiTheme.colorPalette.blue(14)),
+            borderFocused: Brush = SolidColor(IntUiTheme.colorPalette.blue(4)),
             borderPressed: Brush = SolidColor(IntUiTheme.colorPalette.grey(7)),
             borderHovered: Brush = SolidColor(IntUiTheme.colorPalette.grey(8)),
         ) = IntUiButtonColors(
@@ -186,7 +186,7 @@ data class IntUiButtonColors(
 
         @Composable
         fun dark(
-            background: Brush = SolidColor(Color.Unspecified),
+            background: Brush = SolidColor(Color.Transparent),
             backgroundDisabled: Brush = SolidColor(IntUiTheme.colorPalette.grey(5)),
             backgroundFocused: Brush = SolidColor(IntUiTheme.colorPalette.grey(6)),
             backgroundPressed: Brush = SolidColor(IntUiTheme.colorPalette.grey(2)),

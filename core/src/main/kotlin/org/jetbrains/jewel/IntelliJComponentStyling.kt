@@ -85,4 +85,13 @@ class IntelliJComponentStyling(
         result = 31 * result + editorTabStyle.hashCode()
         return result
     }
+
+    override fun toString(): String =
+        "IntelliJComponentStyling(checkboxStyle=$checkboxStyle, chipStyle=$chipStyle, " +
+            "defaultButtonStyle=$defaultButtonStyle, defaultTabStyle=$defaultTabStyle, dropdownStyle=$dropdownStyle, " +
+            "editorTabStyle=$editorTabStyle, groupHeaderStyle=$groupHeaderStyle, " +
+            "horizontalProgressBarStyle=$horizontalProgressBarStyle, labelledTextFieldStyle=$labelledTextFieldStyle, " +
+            "lazyTreeStyle=$lazyTreeStyle, linkStyle=$linkStyle, menuStyle=$menuStyle, " +
+            "outlinedButtonStyle=$outlinedButtonStyle, radioButtonStyle=$radioButtonStyle, " +
+            "scrollbarStyle=$scrollbarStyle, textAreaStyle=$textAreaStyle, textFieldStyle=$textFieldStyle)"
 }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
@@ -19,22 +18,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.offset
 import org.jetbrains.jewel.styling.TextAreaStyle
 
 /**
  * @param placeholder the optional placeholder to be displayed over the
  *     component when the [value] is empty.
- * @param hint the optional hint to be displayed underneath the component.
- *     By default it will have a greyed out appearance and smaller text.
  */
 @Composable
 fun TextArea(
@@ -45,7 +39,6 @@ fun TextArea(
     readOnly: Boolean = false,
     outline: Outline = Outline.None,
     placeholder: @Composable (() -> Unit)? = null,
-    hint: @Composable (() -> Unit)? = null,
     undecorated: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -77,7 +70,6 @@ fun TextArea(
         readOnly = readOnly,
         outline = outline,
         placeholder = placeholder,
-        hint = hint,
         undecorated = undecorated,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
@@ -93,8 +85,6 @@ fun TextArea(
 /**
  * @param placeholder the optional placeholder to be displayed over the
  *     component when the [value] is empty.
- * @param hint the optional hint to be displayed underneath the component.
- *     By default it will have a greyed out appearance and smaller text.
  */
 @Composable
 fun TextArea(
@@ -104,7 +94,6 @@ fun TextArea(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     placeholder: @Composable (() -> Unit)? = null,
-    hint: @Composable (() -> Unit)? = null,
     undecorated: Boolean = false,
     outline: Outline = Outline.None,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -141,9 +130,7 @@ fun TextArea(
             contentPadding = style.metrics.contentPadding,
             placeholderTextColor = style.colors.placeholder,
             placeholder = if (value.text.isEmpty()) placeholder else null,
-            hintTextStyle = style.hintTextStyle,
-            hintContentColor = style.colors.hintContentFor(state).value,
-            hint = hint,
+            textStyle = textStyle,
         )
     }
 }
@@ -152,88 +139,73 @@ fun TextArea(
 private fun TextAreaDecorationBox(
     innerTextField: @Composable () -> Unit,
     contentPadding: PaddingValues,
+    textStyle: TextStyle,
     placeholderTextColor: Color,
     placeholder: @Composable (() -> Unit)?,
-    hintTextStyle: TextStyle,
-    hintContentColor: Color,
-    hint: @Composable (() -> Unit)?,
 ) {
-    val layoutDirection = LocalLayoutDirection.current
     Layout(
         content = {
             if (placeholder != null) {
                 Box(
                     modifier = Modifier.layoutId(PLACEHOLDER_ID),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.CenterStart,
                 ) {
                     CompositionLocalProvider(
+                        LocalTextStyle provides textStyle.copy(color = placeholderTextColor),
                         LocalContentColor provides placeholderTextColor,
                         content = placeholder,
                     )
                 }
             }
 
-            Box(modifier = Modifier.layoutId(TEXT_AREA_ID), propagateMinConstraints = true) {
+            Box(
+                modifier = Modifier.layoutId(TEXT_AREA_ID),
+                contentAlignment = Alignment.CenterStart,
+                propagateMinConstraints = true,
+            ) {
                 innerTextField()
-            }
-
-            if (hint != null) {
-                Box(Modifier.layoutId(HINT_ID).fillMaxWidth()) {
-                    CompositionLocalProvider(
-                        LocalTextStyle provides hintTextStyle,
-                        LocalContentColor provides hintContentColor,
-                        content = hint,
-                    )
-                }
             }
         },
     ) { measurables, incomingConstraints ->
         val horizontalPadding =
-            (contentPadding.calculateLeftPadding(layoutDirection) +
-                contentPadding.calculateRightPadding(layoutDirection)).roundToPx()
+            (
+                contentPadding.calculateLeftPadding(layoutDirection) +
+                    contentPadding.calculateRightPadding(layoutDirection)
+                ).roundToPx()
         val verticalPadding =
-            (contentPadding.calculateTopPadding() +
-                contentPadding.calculateBottomPadding()).roundToPx()
-
-        // measure hint
-        val hintConstraints = incomingConstraints.copy(minHeight = 0)
-        val hintPlaceable = measurables.find { it.layoutId == HINT_ID }?.measure(hintConstraints)
-        val hintHeight = hintPlaceable?.height ?: 0
+            (
+                contentPadding.calculateTopPadding() +
+                    contentPadding.calculateBottomPadding()
+                ).roundToPx()
 
         val textAreaConstraints = incomingConstraints.offset(
             horizontal = -horizontalPadding,
-            vertical = -verticalPadding - hintHeight,
-        )
+            vertical = -verticalPadding,
+        ).copy(minHeight = 0)
 
         val textAreaPlaceable = measurables.first { it.layoutId == TEXT_AREA_ID }.measure(textAreaConstraints)
 
-        // measure placeholder
+        // Measure placeholder
         val placeholderConstraints = textAreaConstraints.copy(minWidth = 0, minHeight = 0)
         val placeholderPlaceable = measurables.find { it.layoutId == PLACEHOLDER_ID }?.measure(placeholderConstraints)
 
         val width = calculateWidth(
             textAreaPlaceable,
             placeholderPlaceable,
-            hintPlaceable,
             textAreaConstraints,
         )
         val height = calculateHeight(
             textAreaPlaceable,
             placeholderPlaceable,
             verticalPadding,
-            hintPlaceable,
             textAreaConstraints,
         )
 
         layout(width, height) {
             place(
                 height,
-                contentPadding,
-                hintPlaceable,
                 textAreaPlaceable,
                 placeholderPlaceable,
-                layoutDirection,
-                this@Layout,
             )
         }
     }
@@ -242,13 +214,11 @@ private fun TextAreaDecorationBox(
 private fun calculateWidth(
     textFieldPlaceable: Placeable,
     placeholderPlaceable: Placeable?,
-    hintPlaceable: Placeable?,
     constraints: Constraints,
 ): Int =
     maxOf(
         textFieldPlaceable.width,
         placeholderPlaceable?.width ?: 0,
-        hintPlaceable?.width ?: 0
     )
         .coerceAtLeast(constraints.minWidth)
 
@@ -256,36 +226,32 @@ private fun calculateHeight(
     textFieldPlaceable: Placeable,
     placeholderPlaceable: Placeable?,
     verticalPadding: Int,
-    hintPlaceable: Placeable?,
     constraints: Constraints,
 ): Int {
     val textAreaHeight = maxOf(
         textFieldPlaceable.height,
         placeholderPlaceable?.height ?: 0,
     )
-    val totalHeight = textAreaHeight + (hintPlaceable?.height ?: 0)
-    return (totalHeight + verticalPadding).coerceAtLeast(constraints.minHeight)
+    return (textAreaHeight + verticalPadding).coerceAtLeast(constraints.minHeight)
 }
 
 private fun Placeable.PlacementScope.place(
     height: Int,
-    contentPadding: PaddingValues,
-    hintPlaceable: Placeable?,
-    textFieldPlaceable: Placeable,
+    textAreaPlaceable: Placeable,
     placeholderPlaceable: Placeable?,
-    layoutDirection: LayoutDirection,
-    density: Density,
-) = with(density) {
-    val top = contentPadding.calculateTopPadding().roundToPx()
-    val left = contentPadding.calculateLeftPadding(layoutDirection).roundToPx()
+) {
+    // placed center vertically
+    textAreaPlaceable.placeRelative(
+        0,
+        Alignment.CenterVertically.align(textAreaPlaceable.height, height),
+    )
 
-    textFieldPlaceable.placeRelative(0, 0)
-    placeholderPlaceable?.placeRelative(left, top)
-
-    val bottom = contentPadding.calculateBottomPadding().roundToPx()
-    hintPlaceable?.placeRelative(x = left, y = height - hintPlaceable.height - bottom)
+    // placed similar to the input text above
+    placeholderPlaceable?.placeRelative(
+        0,
+        Alignment.CenterVertically.align(placeholderPlaceable.height, height),
+    )
 }
 
 private const val PLACEHOLDER_ID = "Placeholder"
 private const val TEXT_AREA_ID = "TextField"
-private const val HINT_ID = "Hint"

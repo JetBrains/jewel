@@ -25,19 +25,17 @@ fun TextFields() {
         var text1 by remember { mutableStateOf("TextField") }
         TextField(text1, { text1 = it })
 
-        var text2 by remember { mutableStateOf("Error hinted") }
-        TextField(text2, { text2 = it }, outline = Outline.Error)
+        var text2 by remember { mutableStateOf("") }
+        TextField(text2, { text2 = it }, placeholder = { Text("Placeholder") })
 
-        var text3 by remember { mutableStateOf("Warning hinted") }
-        TextField(text3, { text3 = it }, outline = Outline.Warning)
+        var text3 by remember { mutableStateOf("") }
+        TextField(text3, { text3 = it }, outline = Outline.Error, placeholder = { Text("Error outline") })
 
-        var text4 by remember { mutableStateOf("Disabled") }
-        TextField(text4, { text4 = it }, enabled = false)
+        var text4 by remember { mutableStateOf("") }
+        TextField(text4, { text4 = it }, outline = Outline.Warning, placeholder = { Text("Warning outline") })
 
-        var text5 by remember { mutableStateOf("") }
-        TextField(text5, { text5 = it }, placeholder = {
-            Text("Placeholder")
-        })
+        var text5 by remember { mutableStateOf("Disabled") }
+        TextField(text5, { text5 = it }, enabled = false)
     }
 
     Row(
@@ -49,7 +47,7 @@ fun TextFields() {
             value = text1,
             onValueChange = { text1 = it },
             label = { Text("Label:") },
-            placeholder = { Text("Labelled TextField") }
+            placeholder = { Text("Labelled TextField") },
         )
 
         var text2 by remember { mutableStateOf("") }
@@ -58,7 +56,7 @@ fun TextFields() {
             onValueChange = { text2 = it },
             label = { Text("Label:") },
             hint = { Text("Attached hint text") },
-            placeholder = { Text("Labelled TextField with hint") }
+            placeholder = { Text("Labelled TextField with hint") },
         )
     }
 }

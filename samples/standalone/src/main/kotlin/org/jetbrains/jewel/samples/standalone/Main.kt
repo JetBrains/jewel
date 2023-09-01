@@ -100,11 +100,11 @@ private fun ComponentShowcase() {
             Checkboxes()
             RadioButtons()
             Links()
+            TextFields()
             TextAreas()
             ProgressBar()
-            TextFields()
-            Tabs()
             ChipsAndTree()
+            Tabs()
         }
 
         VerticalScrollbar(

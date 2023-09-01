@@ -110,7 +110,7 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefini
         globalColors = BridgeGlobalColors.readFromLaF(),
         colorPalette = BridgeThemeColorPalette.readFromLaF(),
         iconData = BridgeIconData.readFromLaF(),
-        metrics = BridgeGlobalMetrics.readFromLaF(),
+        globalMetrics = BridgeGlobalMetrics.readFromLaF(),
         defaultTextStyle = textStyle,
     )
 }

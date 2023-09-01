@@ -178,7 +178,6 @@ interface IntelliJTheme {
     }
 }
 
-@ExperimentalJewelApi
 @Composable
 fun IntelliJTheme(
     theme: IntelliJThemeDefinition,
@@ -199,7 +198,7 @@ fun IntelliJTheme(theme: IntelliJThemeDefinition, content: @Composable () -> Uni
         LocalContentColor provides defaultTextStyle.color,
         LocalTextStyle provides defaultTextStyle,
         LocalGlobalColors provides theme.globalColors,
-        LocalGlobalMetrics provides theme.metrics,
+        LocalGlobalMetrics provides theme.globalMetrics,
         content = content,
     )
 }

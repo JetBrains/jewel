@@ -13,7 +13,7 @@ class IntUiThemeDefinition(
     override val globalColors: GlobalColors,
     override val colorPalette: IntUiThemeColorPalette,
     override val iconData: IntelliJThemeIconData,
-    override val metrics: GlobalMetrics,
+    override val globalMetrics: GlobalMetrics,
     override val defaultTextStyle: TextStyle,
 ) : IntelliJThemeDefinition {
 
@@ -27,7 +27,7 @@ class IntUiThemeDefinition(
         if (globalColors != other.globalColors) return false
         if (colorPalette != other.colorPalette) return false
         if (iconData != other.iconData) return false
-        if (metrics != other.metrics) return false
+        if (globalMetrics != other.globalMetrics) return false
         if (defaultTextStyle != other.defaultTextStyle) return false
 
         return true
@@ -38,12 +38,12 @@ class IntUiThemeDefinition(
         result = 31 * result + globalColors.hashCode()
         result = 31 * result + colorPalette.hashCode()
         result = 31 * result + iconData.hashCode()
-        result = 31 * result + metrics.hashCode()
+        result = 31 * result + globalMetrics.hashCode()
         result = 31 * result + defaultTextStyle.hashCode()
         return result
     }
 
     override fun toString(): String =
         "IntUiThemeDefinition(isDark=$isDark, globalColors=$globalColors, colorPalette=$colorPalette, " +
-            "iconData=$iconData, metrics=$metrics, defaultTextStyle=$defaultTextStyle)"
+            "iconData=$iconData, metrics=$globalMetrics, defaultTextStyle=$defaultTextStyle)"
 }

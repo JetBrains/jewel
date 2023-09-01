@@ -128,6 +128,7 @@ fun TextField(
             modifier = Modifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height)
                 .padding(style.metrics.contentPadding),
             innerTextField = innerTextField,
+            textStyle = textStyle,
             placeholderTextColor = style.colors.placeholder,
             placeholder = if (value.text.isEmpty()) placeholder else null,
             trailingIcon = trailingIcon,
@@ -139,6 +140,7 @@ fun TextField(
 private fun TextFieldDecorationBox(
     modifier: Modifier = Modifier,
     innerTextField: @Composable () -> Unit,
+    textStyle: TextStyle,
     placeholderTextColor: Color,
     placeholder: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -154,6 +156,7 @@ private fun TextFieldDecorationBox(
             if (placeholder != null) {
                 Box(modifier = Modifier.layoutId(PLACEHOLDER_ID), contentAlignment = Alignment.Center) {
                     CompositionLocalProvider(
+                        LocalTextStyle provides textStyle.copy(color = placeholderTextColor),
                         LocalContentColor provides placeholderTextColor,
                         content = placeholder,
                     )
@@ -167,23 +170,20 @@ private fun TextFieldDecorationBox(
     ) { measurables, incomingConstraints ->
         // used to calculate the constraints for measuring elements that will be placed in a row
         var occupiedSpaceHorizontally = 0
-
-        val constraintsWithoutPadding = incomingConstraints
-
-        val iconsConstraints = constraintsWithoutPadding.copy(minWidth = 0, minHeight = 0)
+        val iconConstraints = incomingConstraints.copy(minWidth = 0, minHeight = 0)
 
         // measure trailing icon
         val trailingPlaceable = measurables.find { it.layoutId == TRAILING_ID }
-            ?.measure(iconsConstraints)
+            ?.measure(iconConstraints)
         occupiedSpaceHorizontally += trailingPlaceable?.width ?: 0
 
-        val textConstraints = constraintsWithoutPadding.offset(
+        val textFieldConstraints = incomingConstraints.offset(
             horizontal = -occupiedSpaceHorizontally,
         ).copy(minHeight = 0)
-        val textFieldPlaceable = measurables.first { it.layoutId == TEXT_FIELD_ID }.measure(textConstraints)
+        val textFieldPlaceable = measurables.first { it.layoutId == TEXT_FIELD_ID }.measure(textFieldConstraints)
 
         // measure placeholder
-        val placeholderConstraints = textConstraints.copy(minWidth = 0)
+        val placeholderConstraints = textFieldConstraints.copy(minWidth = 0)
         val placeholderPlaceable = measurables.find { it.layoutId == PLACEHOLDER_ID }?.measure(placeholderConstraints)
 
         val width = calculateWidth(
@@ -243,7 +243,7 @@ private fun Placeable.PlacementScope.place(
     trailingPlaceable: Placeable?,
     textFieldPlaceable: Placeable,
     placeholderPlaceable: Placeable?,
-): Unit? {
+) {
     // placed center vertically and to the end edge horizontally
     trailingPlaceable?.placeRelative(
         width - trailingPlaceable.width,
@@ -257,12 +257,10 @@ private fun Placeable.PlacementScope.place(
     )
 
     // placed similar to the input text above
-    return placeholderPlaceable?.let {
-        it.placeRelative(
-            0,
-            Alignment.CenterVertically.align(it.height, height),
-        )
-    }
+    placeholderPlaceable?.placeRelative(
+        0,
+        Alignment.CenterVertically.align(placeholderPlaceable.height, height),
+    )
 }
 
 private const val PLACEHOLDER_ID = "Placeholder"

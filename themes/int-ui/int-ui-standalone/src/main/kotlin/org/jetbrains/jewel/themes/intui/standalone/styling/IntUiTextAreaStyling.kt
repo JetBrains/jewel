@@ -10,7 +10,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import org.jetbrains.jewel.styling.InputFieldMetrics
 import org.jetbrains.jewel.styling.TextAreaColors
 import org.jetbrains.jewel.styling.TextAreaStyle
@@ -23,7 +22,6 @@ data class IntUiTextAreaStyle(
     override val colors: IntUiTextAreaColors,
     override val metrics: IntUiTextAreaMetrics,
     override val textStyle: TextStyle,
-    override val hintTextStyle: TextStyle,
 ) : TextAreaStyle {
 
     companion object {
@@ -33,16 +31,14 @@ data class IntUiTextAreaStyle(
             colors: IntUiTextAreaColors = IntUiTextAreaColors.light(),
             metrics: IntUiTextAreaMetrics = IntUiTextAreaMetrics(),
             textStyle: TextStyle = IntUiTheme.defaultLightTextStyle,
-            hintTextStyle: TextStyle = IntUiTheme.defaultLightTextStyle.copy(fontSize = 12.sp, lineHeight = 16.sp),
-        ) = IntUiTextAreaStyle(colors, metrics, textStyle, hintTextStyle)
+        ) = IntUiTextAreaStyle(colors, metrics, textStyle)
 
         @Composable
         fun dark(
             colors: IntUiTextAreaColors = IntUiTextAreaColors.dark(),
             metrics: IntUiTextAreaMetrics = IntUiTextAreaMetrics(),
             textStyle: TextStyle = IntUiTheme.defaultDarkTextStyle,
-            hintTextStyle: TextStyle = IntUiTheme.defaultDarkTextStyle.copy(fontSize = 12.sp, lineHeight = 16.sp),
-        ) = IntUiTextAreaStyle(colors, metrics, textStyle, hintTextStyle)
+        ) = IntUiTextAreaStyle(colors, metrics, textStyle)
     }
 }
 
@@ -69,8 +65,6 @@ data class IntUiTextAreaColors(
     override val caretPressed: Color,
     override val caretHovered: Color,
     override val placeholder: Color,
-    override val hintContent: Color,
-    override val hintContentDisabled: Color,
 ) : TextAreaColors {
 
     companion object {
@@ -98,8 +92,6 @@ data class IntUiTextAreaColors(
             caretPressed: Color = caret,
             caretHovered: Color = caret,
             placeholder: Color = IntUiLightTheme.colors.grey(8),
-            hintContent: Color = IntUiLightTheme.colors.grey(7),
-            hintContentDisabled: Color = hintContent,
         ) = IntUiTextAreaColors(
             background,
             backgroundDisabled,
@@ -122,8 +114,6 @@ data class IntUiTextAreaColors(
             caretPressed,
             caretHovered,
             placeholder,
-            hintContent,
-            hintContentDisabled,
         )
 
         @Composable
@@ -149,8 +139,6 @@ data class IntUiTextAreaColors(
             caretPressed: Color = caret,
             caretHovered: Color = caret,
             placeholder: Color = IntUiDarkTheme.colors.grey(7),
-            hintContent: Color = IntUiDarkTheme.colors.grey(8),
-            hintContentDisabled: Color = hintContent,
         ) = IntUiTextAreaColors(
             background,
             backgroundDisabled,
@@ -173,8 +161,6 @@ data class IntUiTextAreaColors(
             caretPressed,
             caretHovered,
             placeholder,
-            hintContent,
-            hintContentDisabled,
         )
     }
 }
@@ -182,7 +168,7 @@ data class IntUiTextAreaColors(
 @Stable
 data class IntUiTextAreaMetrics(
     override val cornerSize: CornerSize = CornerSize(4.dp),
-    override val contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 0.dp),
+    override val contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
     override val minSize: DpSize = DpSize(144.dp, 28.dp),
     override val borderWidth: Dp = 1.dp,
 ) : InputFieldMetrics

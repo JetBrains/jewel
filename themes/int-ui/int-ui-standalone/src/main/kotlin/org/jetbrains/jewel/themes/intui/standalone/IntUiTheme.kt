@@ -10,13 +10,18 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import org.jetbrains.jewel.ExperimentalJewelApi
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.IntelliJSvgLoader
 import org.jetbrains.jewel.IntelliJThemeIconData
+import org.jetbrains.jewel.LocalColorPalette
+import org.jetbrains.jewel.LocalContentColor
+import org.jetbrains.jewel.LocalGlobalColors
+import org.jetbrains.jewel.LocalGlobalMetrics
+import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.LocalResourceLoader
+import org.jetbrains.jewel.LocalTextStyle
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.CheckboxStyle
@@ -87,8 +92,20 @@ object IntUiTheme : BaseIntUiTheme {
     ) = IntUiThemeDefinition(isDark = true, colors, palette, icons, metrics, defaultTextStyle)
 
     @Composable
-    fun defaultComponentStyling(isDark: Boolean, svgLoader: SvgLoader) =
-        if (isDark) darkComponentStyling(svgLoader) else lightComponentStyling(svgLoader)
+    fun defaultComponentStyling(theme: IntUiThemeDefinition, svgLoader: SvgLoader): IntelliJComponentStyling {
+        lateinit var styling: IntelliJComponentStyling
+        CompositionLocalProvider(
+            LocalColorPalette provides theme.colorPalette,
+            LocalTextStyle provides theme.defaultTextStyle,
+            LocalContentColor provides theme.defaultTextStyle.color,
+            LocalIconData provides theme.iconData,
+            LocalGlobalColors provides theme.globalColors,
+            LocalGlobalMetrics provides theme.globalMetrics,
+        ) {
+            styling = if (theme.isDark) darkComponentStyling(svgLoader) else lightComponentStyling(svgLoader)
+        }
+        return styling
+    }
 
     @Composable
     fun darkComponentStyling(
@@ -174,18 +191,22 @@ object IntUiTheme : BaseIntUiTheme {
 }
 
 @Composable
-fun IntUiTheme(theme: IntUiThemeDefinition, swingCompatMode: Boolean = false, content: @Composable () -> Unit) {
-    val svgLoader by remember(theme.isDark, theme.iconData, theme.colorPalette) {
-        val paletteMapper = PaletteMapperFactory.create(theme.isDark, theme.iconData, theme.colorPalette)
+fun IntUiTheme(
+    themeDefinition: IntUiThemeDefinition,
+    swingCompatMode: Boolean = false,
+    content: @Composable () -> Unit,
+) {
+    val svgLoader by remember(themeDefinition.isDark, themeDefinition.iconData, themeDefinition.colorPalette) {
+        val paletteMapper =
+            PaletteMapperFactory.create(themeDefinition.isDark, themeDefinition.iconData, themeDefinition.colorPalette)
         val svgPatcher = IntelliJSvgPatcher(paletteMapper)
         mutableStateOf(IntelliJSvgLoader(svgPatcher))
     }
 
-    val componentStyling = defaultComponentStyling(theme.isDark, svgLoader)
-    IntUiTheme(theme, componentStyling, swingCompatMode, content)
+    val componentStyling = defaultComponentStyling(themeDefinition, svgLoader)
+    IntUiTheme(themeDefinition, componentStyling, swingCompatMode, content)
 }
 
-@ExperimentalJewelApi
 @Composable
 fun IntUiTheme(
     theme: IntUiThemeDefinition,

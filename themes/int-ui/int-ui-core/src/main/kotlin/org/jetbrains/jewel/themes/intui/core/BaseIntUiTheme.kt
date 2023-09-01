@@ -6,7 +6,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import org.jetbrains.jewel.ExperimentalJewelApi
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJComponentStyling
@@ -188,7 +187,6 @@ fun BaseIntUiTheme(
     BaseIntUiTheme(theme, componentStyling, swingCompatMode = false, content)
 }
 
-@ExperimentalJewelApi
 @Composable
 fun BaseIntUiTheme(
     theme: IntUiThemeDefinition,

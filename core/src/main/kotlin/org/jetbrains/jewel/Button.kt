@@ -115,20 +115,24 @@ private fun ButtonImpl(
     val shape = RoundedCornerShape(style.metrics.cornerSize)
     val colors = style.colors
     val borderColor by colors.borderFor(buttonState)
+    println("state: $buttonState ($enabled) -> $borderColor")
 
     Box(
-        modifier.clickable(
-            onClick = onClick,
-            enabled = enabled,
-            role = Role.Button,
-            interactionSource = interactionSource,
-            indication = null,
-        ).background(colors.backgroundFor(buttonState).value, shape)
+        modifier = modifier
+            .clickable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            )
+            .background(colors.backgroundFor(buttonState).value, shape)
             .border(Stroke.Alignment.Center, style.metrics.borderWidth, borderColor, shape)
             .focusOutline(buttonState, shape),
         propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)
+
         CompositionLocalProvider(
             LocalContentColor provides contentColor.takeOrElse { textStyle.color },
             LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
