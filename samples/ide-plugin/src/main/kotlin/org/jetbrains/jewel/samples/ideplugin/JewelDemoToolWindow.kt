@@ -20,22 +20,22 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
-import com.intellij.util.ui.JBUI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.CheckboxRow
 import org.jetbrains.jewel.DefaultButton
+import org.jetbrains.jewel.ExperimentalJewelApi
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.OutlinedButton
 import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.TextField
 import org.jetbrains.jewel.bridge.SwingBridgeTheme
 import org.jetbrains.jewel.bridge.addComposePanel
-import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.themes.intui.standalone.IntUiTheme
 
 @ExperimentalCoroutinesApi
 internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
 
+    @OptIn(ExperimentalJewelApi::class)
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         toolWindow.addComposePanel("Jewel") {
             SwingBridgeTheme {
@@ -55,10 +55,7 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                         .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    Text(
-                        "Here is a selection of our finest components:",
-                        color = JBUI.CurrentTheme.Label.foreground().toComposeColor(),
-                    )
+                    Text("Here is a selection of our finest components:")
 
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),

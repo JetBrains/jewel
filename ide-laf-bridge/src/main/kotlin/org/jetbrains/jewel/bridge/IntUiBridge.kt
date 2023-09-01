@@ -115,27 +115,31 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefini
     )
 }
 
-internal suspend fun createSwingIntUiComponentStyling(
+internal fun createSwingIntUiComponentStyling(
     theme: IntUiThemeDefinition,
     svgLoader: SvgLoader,
+    textFieldTextStyle: TextStyle,
+    dropdownTextStyle: TextStyle,
+    labelTextStyle: TextStyle,
+    linkTextStyle: TextStyle,
 ): IntelliJComponentStyling {
     logger.debug("Obtaining Int UI component styling from Swing...")
 
+    val textFieldStyle = readTextFieldStyle(textFieldTextStyle)
     val menuStyle = readMenuStyle(theme.iconData, svgLoader)
-    val textFieldStyle = readTextFieldStyle()
 
     return IntelliJComponentStyling(
         checkboxStyle = readCheckboxStyle(theme.iconData, svgLoader),
         chipStyle = readChipStyle(),
         defaultButtonStyle = readDefaultButtonStyle(),
         defaultTabStyle = readDefaultTabStyle(theme.iconData, svgLoader),
-        dropdownStyle = readDropdownStyle(theme.iconData, svgLoader, menuStyle),
+        dropdownStyle = readDropdownStyle(theme.iconData, svgLoader, menuStyle, dropdownTextStyle),
         editorTabStyle = readEditorTabStyle(theme.iconData, svgLoader),
         groupHeaderStyle = readGroupHeaderStyle(),
         horizontalProgressBarStyle = readHorizontalProgressBarStyle(),
-        labelledTextFieldStyle = readLabelledTextFieldStyle(textFieldStyle),
+        labelledTextFieldStyle = readLabelledTextFieldStyle(textFieldStyle, labelTextStyle),
         lazyTreeStyle = readLazyTreeStyle(theme.iconData, svgLoader),
-        linkStyle = readLinkStyle(theme.iconData, svgLoader),
+        linkStyle = readLinkStyle(theme.iconData, svgLoader, linkTextStyle),
         menuStyle = menuStyle,
         outlinedButtonStyle = readOutlinedButtonStyle(),
         radioButtonStyle = readRadioButtonStyle(theme.iconData, svgLoader),
@@ -144,6 +148,18 @@ internal suspend fun createSwingIntUiComponentStyling(
         textFieldStyle = textFieldStyle,
     )
 }
+
+internal suspend fun createSwingIntUiComponentStyling(
+    theme: IntUiThemeDefinition,
+    svgLoader: SvgLoader,
+): IntelliJComponentStyling = createSwingIntUiComponentStyling(
+    theme = theme,
+    svgLoader = svgLoader,
+    textFieldTextStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
+    dropdownTextStyle = retrieveTextStyle("ComboBox.font"),
+    labelTextStyle = retrieveTextStyle("Label.font"),
+    linkTextStyle = retrieveTextStyle("Label.font"),
+)
 
 private fun readDefaultButtonStyle(): IntUiButtonStyle {
     val normalBackground =
@@ -319,10 +335,11 @@ private fun readChipStyle(): IntUiChipStyle {
     )
 }
 
-private suspend fun readDropdownStyle(
+private fun readDropdownStyle(
     iconData: IntelliJThemeIconData,
     svgLoader: SvgLoader,
     menuStyle: IntUiMenuStyle,
+    dropdownTextStyle: TextStyle,
 ): IntUiDropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
@@ -372,7 +389,7 @@ private suspend fun readDropdownStyle(
                 svgLoader = svgLoader,
             ),
         ),
-        textStyle = retrieveTextStyle("ComboBox.font"),
+        textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
     )
 }
@@ -405,7 +422,10 @@ private fun readHorizontalProgressBarStyle() = IntUiHorizontalProgressBarStyle(
     indeterminateCycleDuration = 800.milliseconds, // See DarculaProgressBarUI.CYCLE_TIME_DEFAULT
 )
 
-private suspend fun readLabelledTextFieldStyle(inputFieldStyle: InputFieldStyle): IntUiLabelledTextFieldStyle {
+private fun readLabelledTextFieldStyle(
+    inputFieldStyle: InputFieldStyle,
+    labelTextStyle: TextStyle,
+): IntUiLabelledTextFieldStyle {
     val colors = IntUiLabelledTextFieldColors(
         background = inputFieldStyle.colors.background,
         backgroundDisabled = inputFieldStyle.colors.backgroundDisabled,
@@ -432,7 +452,6 @@ private suspend fun readLabelledTextFieldStyle(inputFieldStyle: InputFieldStyle)
         hint = StatusText.DEFAULT_ATTRIBUTES.fgColor.toComposeColor(),
     )
 
-    val labelTextStyle = retrieveTextStyle("Label.font")
     return IntUiLabelledTextFieldStyle(
         colors = colors,
         metrics = IntUiLabelledTextFieldMetrics(
@@ -451,7 +470,11 @@ private suspend fun readLabelledTextFieldStyle(inputFieldStyle: InputFieldStyle)
     )
 }
 
-private suspend fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader): IntUiLinkStyle {
+private fun readLinkStyle(
+    iconData: IntelliJThemeIconData,
+    svgLoader: SvgLoader,
+    linkTextStyle: TextStyle,
+): IntUiLinkStyle {
     val normalContent =
         retrieveColorOrUnspecified("Link.activeForeground").takeOrElse { retrieveColorOrUnspecified("Link.activeForeground") }
 
@@ -467,8 +490,6 @@ private suspend fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: Sv
         contentHovered = retrieveColorOrUnspecified("Link.hoverForeground").takeOrElse { retrieveColorOrUnspecified("link.hover.foreground") },
         contentVisited = retrieveColorOrUnspecified("Link.visitedForeground").takeOrElse { retrieveColorOrUnspecified("link.visited.foreground") },
     )
-
-    val textStyle = retrieveTextStyle("Label.font")
 
     return IntUiLinkStyle(
         colors = colors,
@@ -490,12 +511,12 @@ private suspend fun readLinkStyle(iconData: IntelliJThemeIconData, svgLoader: Sv
             ),
         ),
         textStyles = IntUiLinkTextStyles(
-            normal = textStyle,
-            disabled = textStyle,
-            focused = textStyle,
-            pressed = textStyle,
-            hovered = textStyle,
-            visited = textStyle,
+            normal = linkTextStyle,
+            disabled = linkTextStyle,
+            focused = linkTextStyle,
+            pressed = linkTextStyle,
+            hovered = linkTextStyle,
+            visited = linkTextStyle,
         ),
     )
 }
@@ -649,7 +670,7 @@ private fun readTextAreaStyle(inputFieldStyle: InputFieldStyle): IntUiTextAreaSt
     )
 }
 
-private suspend fun readTextFieldStyle(): IntUiTextFieldStyle {
+private fun readTextFieldStyle(textFieldStyle: TextStyle): IntUiTextFieldStyle {
     val normalBackground = retrieveColorOrUnspecified("TextField.background")
     val normalContent = retrieveColorOrUnspecified("TextField.foreground")
     val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
@@ -688,7 +709,7 @@ private suspend fun readTextFieldStyle(): IntUiTextFieldStyle {
             minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
             borderWidth = DarculaUIUtil.LW.dp,
         ),
-        textStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
+        textStyle = textFieldStyle,
     )
 }
 
