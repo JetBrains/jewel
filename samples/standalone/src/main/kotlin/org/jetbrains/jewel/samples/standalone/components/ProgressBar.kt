@@ -17,12 +17,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.HorizontalProgressBar
 import org.jetbrains.jewel.IndeterminateHorizontalProgressBar
 import org.jetbrains.jewel.Text
 
 @Composable
 fun ProgressBar() {
+    GroupHeader("Progress bars")
     val transition = rememberInfiniteTransition()
     val currentOffset by transition.animateFloat(
         initialValue = 0f,

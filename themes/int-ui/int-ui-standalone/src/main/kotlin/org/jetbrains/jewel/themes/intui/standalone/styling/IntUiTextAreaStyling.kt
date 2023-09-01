@@ -182,7 +182,7 @@ data class IntUiTextAreaColors(
 @Stable
 data class IntUiTextAreaMetrics(
     override val cornerSize: CornerSize = CornerSize(4.dp),
-    override val contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 9.dp),
+    override val contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 0.dp),
     override val minSize: DpSize = DpSize(144.dp, 28.dp),
     override val borderWidth: Dp = 1.dp,
 ) : InputFieldMetrics

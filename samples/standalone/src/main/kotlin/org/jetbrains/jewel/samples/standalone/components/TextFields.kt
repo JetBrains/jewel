@@ -39,18 +39,26 @@ fun TextFields() {
             Text("Placeholder")
         })
     }
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        var text1 by remember { mutableStateOf("Labelled TextField") }
-        LabelledTextField(text1, { text1 = it }, {
-            Text("Label:")
-        })
 
-        var text2 by remember { mutableStateOf("Labelled TextField with hint") }
-        LabelledTextField(text2, { text2 = it }, {
-            Text("Label:")
-        }, hint = { Text("Attached hint text") })
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.Top,
+    ) {
+        var text1 by remember { mutableStateOf("") }
+        LabelledTextField(
+            value = text1,
+            onValueChange = { text1 = it },
+            label = { Text("Label:") },
+            placeholder = { Text("Labelled TextField") }
+        )
+
+        var text2 by remember { mutableStateOf("") }
+        LabelledTextField(
+            value = text2,
+            onValueChange = { text2 = it },
+            label = { Text("Label:") },
+            hint = { Text("Attached hint text") },
+            placeholder = { Text("Labelled TextField with hint") }
+        )
     }
 }
