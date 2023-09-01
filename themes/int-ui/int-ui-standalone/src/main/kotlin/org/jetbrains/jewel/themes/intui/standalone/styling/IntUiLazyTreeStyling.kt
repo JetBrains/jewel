@@ -111,13 +111,21 @@ data class IntUiLazyTreeMetrics(
 
 @Immutable
 data class IntUiLazyTreeIcons(
-    override val nodeChevron: StatefulPainterProvider<TreeElementState>,
+    override val nodeChevronCollapsed: StatefulPainterProvider<TreeElementState>,
+    override val nodeChevronExpanded: StatefulPainterProvider<TreeElementState>,
 ) : LazyTreeIcons {
 
     companion object {
 
         @Composable
-        fun nodeChevron(
+        fun nodeChevronCollapsed(
+            svgLoader: SvgLoader,
+            basePath: String = "icons/intui/chevronRight.svg",
+        ): StatefulPainterProvider<TreeElementState> =
+            ResourcePainterProvider(basePath, svgLoader)
+
+        @Composable
+        fun nodeChevronExpanded(
             svgLoader: SvgLoader,
             basePath: String = "icons/intui/chevronDown.svg",
         ): StatefulPainterProvider<TreeElementState> =
@@ -128,5 +136,8 @@ data class IntUiLazyTreeIcons(
 @Composable
 fun intUiLazyTreeIcons(
     svgLoader: SvgLoader,
-    nodeChevron: StatefulPainterProvider<TreeElementState> = IntUiLazyTreeIcons.nodeChevron(svgLoader),
-) = IntUiLazyTreeIcons(nodeChevron)
+    nodeChevronCollapsed: StatefulPainterProvider<TreeElementState> =
+        IntUiLazyTreeIcons.nodeChevronCollapsed(svgLoader),
+    nodeChevronExpanded: StatefulPainterProvider<TreeElementState> =
+        IntUiLazyTreeIcons.nodeChevronExpanded(svgLoader),
+) = IntUiLazyTreeIcons(nodeChevronCollapsed, nodeChevronExpanded)

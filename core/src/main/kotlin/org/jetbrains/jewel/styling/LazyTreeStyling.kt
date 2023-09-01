@@ -56,7 +56,12 @@ interface LazyTreeMetrics {
 @Immutable
 interface LazyTreeIcons {
 
-    val nodeChevron: StatefulPainterProvider<TreeElementState>
+    val nodeChevronCollapsed: StatefulPainterProvider<TreeElementState>
+    val nodeChevronExpanded: StatefulPainterProvider<TreeElementState>
+
+    @Composable
+    fun nodeChevron(isExpanded: Boolean) =
+        if (isExpanded) nodeChevronExpanded else nodeChevronCollapsed
 }
 
 val LocalLazyTreeStyle = staticCompositionLocalOf<LazyTreeStyle> {

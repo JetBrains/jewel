@@ -29,11 +29,9 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.CommonStateBitMask.Active
 import org.jetbrains.jewel.CommonStateBitMask.Enabled
-import org.jetbrains.jewel.CommonStateBitMask.Error
 import org.jetbrains.jewel.CommonStateBitMask.Focused
 import org.jetbrains.jewel.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.CommonStateBitMask.Pressed
-import org.jetbrains.jewel.CommonStateBitMask.Warning
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.styling.ButtonStyle
@@ -194,18 +192,14 @@ value class ButtonState(val state: ULong) : FocusableComponentState {
         fun of(
             enabled: Boolean = true,
             focused: Boolean = false,
-            error: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
-            warning: Boolean = false,
             active: Boolean = true,
         ) = ButtonState(
             state = (if (enabled) Enabled else 0UL) or
                 (if (focused) Focused else 0UL) or
                 (if (hovered) Hovered else 0UL) or
                 (if (pressed) Pressed else 0UL) or
-                (if (warning) Warning else 0UL) or
-                (if (error) Error else 0UL) or
                 (if (active) Active else 0UL),
         )
     }

@@ -115,10 +115,24 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefini
     )
 }
 
+internal suspend fun createSwingIntUiComponentStyling(
+    theme: IntUiThemeDefinition,
+    svgLoader: SvgLoader,
+): IntelliJComponentStyling = createSwingIntUiComponentStyling(
+    theme = theme,
+    svgLoader = svgLoader,
+    textAreaTextStyle = retrieveTextStyle("TextArea.font", "TextArea.foreground"),
+    textFieldTextStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
+    dropdownTextStyle = retrieveTextStyle("ComboBox.font"),
+    labelTextStyle = retrieveTextStyle("Label.font"),
+    linkTextStyle = retrieveTextStyle("Label.font"),
+)
+
 internal fun createSwingIntUiComponentStyling(
     theme: IntUiThemeDefinition,
     svgLoader: SvgLoader,
     textFieldTextStyle: TextStyle,
+    textAreaTextStyle: TextStyle,
     dropdownTextStyle: TextStyle,
     labelTextStyle: TextStyle,
     linkTextStyle: TextStyle,
@@ -144,22 +158,10 @@ internal fun createSwingIntUiComponentStyling(
         outlinedButtonStyle = readOutlinedButtonStyle(),
         radioButtonStyle = readRadioButtonStyle(theme.iconData, svgLoader),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
-        textAreaStyle = readTextAreaStyle(textFieldStyle),
+        textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
     )
 }
-
-internal suspend fun createSwingIntUiComponentStyling(
-    theme: IntUiThemeDefinition,
-    svgLoader: SvgLoader,
-): IntelliJComponentStyling = createSwingIntUiComponentStyling(
-    theme = theme,
-    svgLoader = svgLoader,
-    textFieldTextStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
-    dropdownTextStyle = retrieveTextStyle("ComboBox.font"),
-    labelTextStyle = retrieveTextStyle("Label.font"),
-    linkTextStyle = retrieveTextStyle("Label.font"),
-)
 
 private fun readDefaultButtonStyle(): IntUiButtonStyle {
     val normalBackground =
@@ -286,11 +288,9 @@ private fun readChipStyle(): IntUiChipStyle {
         retrieveColorsOrUnspecified("Button.startBackground", "Button.endBackground")
             .createVerticalBrush()
     val normalContent = retrieveColorOrUnspecified("Label.foreground")
-    val normalBorder =
-        retrieveColorsOrUnspecified("Button.startBorderColor", "Button.endBorderColor")
-            .createVerticalBrush()
-    val disabledBorder = SolidColor(retrieveColorOrUnspecified("Button.disabledBorderColor"))
-    val selectedBorder = SolidColor(retrieveColorOrUnspecified("Component.focusColor"))
+    val normalBorder = retrieveColorOrUnspecified("Button.startBorderColor")
+    val disabledBorder = retrieveColorOrUnspecified("Button.disabledBorderColor")
+    val selectedBorder = retrieveColorOrUnspecified("Component.focusColor")
 
     val colors = IntUiChipColors(
         background = normalBackground,
@@ -628,30 +628,35 @@ private fun readScrollbarStyle(isDark: Boolean) = IntUiScrollbarStyle(
     hoverDuration = 300.milliseconds,
 )
 
-private fun readTextAreaStyle(inputFieldStyle: InputFieldStyle): IntUiTextAreaStyle {
+private fun readTextAreaStyle(textStyle: TextStyle, metrics: IntUiTextFieldMetrics): IntUiTextAreaStyle {
+    val normalBackground = retrieveColorOrUnspecified("TextArea.background")
+    val normalContent = retrieveColorOrUnspecified("TextArea.foreground")
+    val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
+    val focusedBorder = DarculaUIUtil.getOutlineColor(true, true).toComposeColor()
+    val normalCaret = retrieveColorOrUnspecified("TextArea.caretForeground")
     val hintColor = JBUI.CurrentTheme.ContextHelp.FOREGROUND.toComposeColor()
 
     val colors = IntUiTextAreaColors(
-        background = inputFieldStyle.colors.background,
-        backgroundDisabled = inputFieldStyle.colors.backgroundDisabled,
-        backgroundFocused = inputFieldStyle.colors.backgroundFocused,
-        backgroundPressed = inputFieldStyle.colors.backgroundPressed,
-        backgroundHovered = inputFieldStyle.colors.backgroundHovered,
-        content = inputFieldStyle.colors.content,
-        contentDisabled = inputFieldStyle.colors.contentDisabled,
-        contentFocused = inputFieldStyle.colors.contentFocused,
-        contentPressed = inputFieldStyle.colors.contentPressed,
-        contentHovered = inputFieldStyle.colors.contentHovered,
-        border = inputFieldStyle.colors.border,
-        borderDisabled = inputFieldStyle.colors.borderDisabled,
-        borderFocused = inputFieldStyle.colors.borderFocused,
-        borderPressed = inputFieldStyle.colors.borderPressed,
-        borderHovered = inputFieldStyle.colors.borderHovered,
-        caret = inputFieldStyle.colors.caret,
-        caretDisabled = inputFieldStyle.colors.caretDisabled,
-        caretFocused = inputFieldStyle.colors.caretFocused,
-        caretPressed = inputFieldStyle.colors.caretPressed,
-        caretHovered = inputFieldStyle.colors.caretHovered,
+        background = normalBackground,
+        backgroundDisabled = retrieveColorOrUnspecified("TextArea.disabledBackground"),
+        backgroundFocused = normalBackground,
+        backgroundPressed = normalBackground,
+        backgroundHovered = normalBackground,
+        content = normalContent,
+        contentDisabled = retrieveColorOrUnspecified("TextArea.inactiveForeground"),
+        contentFocused = normalContent,
+        contentPressed = normalContent,
+        contentHovered = normalContent,
+        border = normalBorder,
+        borderDisabled = DarculaUIUtil.getOutlineColor(false, false).toComposeColor(),
+        borderFocused = focusedBorder,
+        borderPressed = focusedBorder,
+        borderHovered = normalBorder,
+        caret = normalCaret,
+        caretDisabled = normalCaret,
+        caretFocused = normalCaret,
+        caretPressed = normalCaret,
+        caretHovered = normalCaret,
         placeholder = NamedColorUtil.getInactiveTextColor().toComposeColor(),
         hintContent = hintColor,
         hintContentDisabled = hintColor,
@@ -660,13 +665,13 @@ private fun readTextAreaStyle(inputFieldStyle: InputFieldStyle): IntUiTextAreaSt
     return IntUiTextAreaStyle(
         colors = colors,
         metrics = IntUiTextAreaMetrics(
-            cornerSize = inputFieldStyle.metrics.cornerSize,
-            contentPadding = inputFieldStyle.metrics.contentPadding,
-            minSize = inputFieldStyle.metrics.minSize,
-            borderWidth = inputFieldStyle.metrics.borderWidth,
+            cornerSize = metrics.cornerSize,
+            contentPadding = metrics.contentPadding,
+            minSize = metrics.minSize,
+            borderWidth = metrics.borderWidth,
         ),
-        textStyle = inputFieldStyle.textStyle,
-        hintTextStyle = inputFieldStyle.textStyle.copy(fontSize = JBFont.medium().size2D.sp),
+        textStyle = textStyle,
+        hintTextStyle = textStyle.copy(fontSize = JBFont.medium().size2D.sp),
     )
 }
 
@@ -740,8 +745,13 @@ private fun readLazyTreeStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
             chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
         ),
         icons = IntUiLazyTreeIcons(
-            nodeChevron = retrieveIcon(
+            nodeChevronCollapsed = retrieveIcon(
                 baseIconPath = "${iconsBasePath}general/chevron-right.svg",
+                iconData = iconData,
+                svgLoader = svgLoader,
+            ),
+            nodeChevronExpanded = retrieveIcon(
+                baseIconPath = "${iconsBasePath}general/chevron-down.svg",
                 iconData = iconData,
                 svgLoader = svgLoader,
             ),

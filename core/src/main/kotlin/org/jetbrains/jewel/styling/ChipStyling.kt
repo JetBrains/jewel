@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.ChipState
+import org.jetbrains.jewel.IntelliJTheme
 
 @Stable
 interface ChipStyle {
@@ -86,33 +87,33 @@ interface ChipColors {
         },
     )
 
-    val border: Brush
-    val borderDisabled: Brush
-    val borderFocused: Brush
-    val borderPressed: Brush
-    val borderHovered: Brush
-    val borderSelected: Brush
-    val borderSelectedDisabled: Brush
-    val borderSelectedPressed: Brush
-    val borderSelectedFocused: Brush
-    val borderSelectedHovered: Brush
+    val border: Color
+    val borderDisabled: Color
+    val borderFocused: Color
+    val borderPressed: Color
+    val borderHovered: Color
+    val borderSelected: Color
+    val borderSelectedDisabled: Color
+    val borderSelectedPressed: Color
+    val borderSelectedFocused: Color
+    val borderSelectedHovered: Color
 
     @Composable
     fun borderFor(state: ChipState) = rememberUpdatedState(
         if (state.isSelected) {
             when {
                 !state.isEnabled -> borderSelectedDisabled
-                state.isPressed -> borderSelectedPressed
+                state.isPressed && !IntelliJTheme.isSwingCompatMode -> borderSelectedPressed
                 state.isFocused -> borderSelectedFocused
-                state.isHovered -> borderSelectedHovered
+                state.isHovered && !IntelliJTheme.isSwingCompatMode -> borderSelectedHovered
                 else -> borderSelected
             }
         } else {
             when {
                 !state.isEnabled -> borderDisabled
-                state.isPressed -> borderPressed
+                state.isPressed && !IntelliJTheme.isSwingCompatMode -> borderPressed
                 state.isFocused -> borderFocused
-                state.isHovered -> borderHovered
+                state.isHovered && !IntelliJTheme.isSwingCompatMode -> borderHovered
                 else -> border
             }
         },

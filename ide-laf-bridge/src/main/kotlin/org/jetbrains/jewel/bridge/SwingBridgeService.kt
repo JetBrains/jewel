@@ -73,6 +73,7 @@ class SwingBridgeService : Disposable {
                     componentStyling = createSwingIntUiComponentStyling(
                         theme = themeDefinition,
                         svgLoader = svgLoader,
+                        textAreaTextStyle = TextStyle.Default,
                         textFieldTextStyle = TextStyle.Default,
                         dropdownTextStyle = TextStyle.Default,
                         labelTextStyle = TextStyle.Default,

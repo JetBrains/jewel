@@ -64,7 +64,7 @@ fun Chip(
 @Composable
 fun ToggleableChip(
     checked: Boolean,
-    onValueChange: (Boolean) -> Unit,
+    onClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     enabled: Boolean = true,
@@ -77,7 +77,7 @@ fun ToggleableChip(
         selected = checked,
         style = style,
         modifier = modifier.toggleable(
-            onValueChange = onValueChange,
+            onValueChange = onClick,
             enabled = enabled,
             role = Role.Checkbox,
             interactionSource = interactionSource,
@@ -90,12 +90,12 @@ fun ToggleableChip(
 
 @Composable
 fun RadioButtonChip(
+    selected: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     enabled: Boolean = true,
-    selected: Boolean = false,
     style: ChipStyle = IntelliJTheme.chipStyle,
-    onClick: () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     ChipImpl(
@@ -127,7 +127,7 @@ private fun ChipImpl(
     var chipState by remember(interactionSource) {
         mutableStateOf(ChipState.of(enabled = enabled, selected = selected))
     }
-    remember(enabled) {
+    remember(enabled, selected) {
         chipState = chipState.copy(enabled = enabled, selected = selected)
     }
 
@@ -150,10 +150,10 @@ private fun ChipImpl(
 
     Row(
         modifier = modifier
-            .padding(style.metrics.padding)
             .background(colors.backgroundFor(chipState).value, shape)
             .border(Stroke.Alignment.Center, style.metrics.borderWidth, borderColor, shape)
-            .focusOutline(chipState, shape),
+            .focusOutline(chipState, shape)
+            .padding(style.metrics.padding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
