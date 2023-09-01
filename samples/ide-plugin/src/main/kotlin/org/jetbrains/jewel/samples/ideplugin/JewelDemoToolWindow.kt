@@ -20,6 +20,7 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
+import com.intellij.ui.JBColor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.CheckboxRow
 import org.jetbrains.jewel.DefaultButton
@@ -30,6 +31,7 @@ import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.TextField
 import org.jetbrains.jewel.bridge.SwingBridgeTheme
 import org.jetbrains.jewel.bridge.addComposePanel
+import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.themes.intui.standalone.IntUiTheme
 
 @ExperimentalCoroutinesApi
@@ -40,11 +42,7 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
         toolWindow.addComposePanel("Jewel") {
             SwingBridgeTheme {
                 val resourceLoader = LocalResourceLoader.current
-                val bgColor = if (IntUiTheme.isDark) {
-                    IntUiTheme.colorPalette.grey(2)
-                } else {
-                    IntUiTheme.colorPalette.grey(14)
-                }
+                val bgColor by remember(IntUiTheme.isDark) { mutableStateOf(JBColor.PanelBackground.toComposeColor()) }
 
                 val scrollState = rememberScrollState()
                 Column(

@@ -10,7 +10,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.takeOrElse
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ide.ui.laf.darcula.ui.DarculaCheckBoxUI
@@ -19,7 +18,6 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.util.registry.Registry
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
-import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
@@ -634,7 +632,6 @@ private fun readTextAreaStyle(textStyle: TextStyle, metrics: IntUiTextFieldMetri
     val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
     val focusedBorder = DarculaUIUtil.getOutlineColor(true, true).toComposeColor()
     val normalCaret = retrieveColorOrUnspecified("TextArea.caretForeground")
-    val hintColor = JBUI.CurrentTheme.ContextHelp.FOREGROUND.toComposeColor()
 
     val colors = IntUiTextAreaColors(
         background = normalBackground,
@@ -658,8 +655,6 @@ private fun readTextAreaStyle(textStyle: TextStyle, metrics: IntUiTextFieldMetri
         caretPressed = normalCaret,
         caretHovered = normalCaret,
         placeholder = NamedColorUtil.getInactiveTextColor().toComposeColor(),
-        hintContent = hintColor,
-        hintContentDisabled = hintColor,
     )
 
     return IntUiTextAreaStyle(
@@ -671,7 +666,6 @@ private fun readTextAreaStyle(textStyle: TextStyle, metrics: IntUiTextFieldMetri
             borderWidth = metrics.borderWidth,
         ),
         textStyle = textStyle,
-        hintTextStyle = textStyle.copy(fontSize = JBFont.medium().size2D.sp),
     )
 }
 

@@ -77,7 +77,7 @@ class BridgeThemeColorPalette(
                     val afterName = it.substring(colorNameKeyPrefixLength)
                     afterName.toIntOrNull()
                 }
-                .max()
+                .maxOrNull() ?: return emptyList()
 
             return buildList {
                 for (i in 1..lastColorIndex) {
