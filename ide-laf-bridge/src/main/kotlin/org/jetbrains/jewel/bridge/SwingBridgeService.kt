@@ -23,6 +23,7 @@ import org.jetbrains.jewel.themes.PaletteMapperFactory
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.themes.intui.core.IntelliJSvgPatcher
 
+@Suppress("InjectDispatcher") // We can't inject dispatchers in a Service
 @Service(Service.Level.APP)
 class SwingBridgeService : Disposable, CoroutineScope {
 
