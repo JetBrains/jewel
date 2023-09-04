@@ -16,7 +16,7 @@ class TreeState(
     internal val delegate: SelectableLazyListState,
 ) {
 
-    internal val allNodes = mutableStateListOf<Pair<Any,Int>>()
+    internal val allNodes = mutableStateListOf<Pair<Any, Int>>()
     internal val openNodes = mutableStateListOf<Any>()
 
     fun toggleNode(nodeId: Any) {

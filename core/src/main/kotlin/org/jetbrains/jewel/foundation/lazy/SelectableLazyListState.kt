@@ -22,10 +22,9 @@ val SelectableLazyListState.visibleItemsRange
  * State object for a selectable lazy list, which extends [ScrollableState].
  *
  * @param lazyListState The state object for the underlying lazy list.
- * @param selectionMode The selection mode for the list.
  */
 class SelectableLazyListState(
-    val lazyListState: LazyListState
+    val lazyListState: LazyListState,
 ) : ScrollableState by lazyListState {
 
     internal var lastKeyEventUsedMouse: Boolean = false
@@ -44,7 +43,7 @@ class SelectableLazyListState(
         itemIndex: Int,
         animateScroll: Boolean = false,
         scrollOffset: Int = 0,
-        skipScroll: Boolean = false
+        skipScroll: Boolean = false,
     ) {
         val visibleRange = visibleItemsRange.drop(2).dropLast(4)
         if (!skipScroll && itemIndex !in visibleRange && visibleRange.isNotEmpty()) {
@@ -52,7 +51,7 @@ class SelectableLazyListState(
                 itemIndex < visibleRange.first() -> lazyListState.scrollToItem(
                     max(0, itemIndex - 2),
                     animateScroll,
-                    scrollOffset
+                    scrollOffset,
                 )
 
                 itemIndex > visibleRange.last() -> {
@@ -62,7 +61,6 @@ class SelectableLazyListState(
         }
         lastActiveItemIndex = itemIndex
     }
-
 
     val layoutInfo
         get() = lazyListState.layoutInfo
@@ -253,21 +251,18 @@ sealed class SelectableLazyListKey {
     abstract val key: Any
 
     /**
-     * Represents a focusable item key.
+     * Represents a selectable item key.
      *
-     * @param focusRequester The focus requester for the item.
      * @param key The key associated with the item.
-     * @param selectable Whether the item is selectable.
      */
     class Selectable(
         override val key: Any,
     ) : SelectableLazyListKey()
 
     /**
-     * Represents a non-focusable item key.
+     * Represents a non-selectable item key.
      *
      * @param key The key associated with the item.
-     * @param selectable Whether the item is selectable.
      */
     class NotSelectable(
         override val key: Any,
@@ -318,11 +313,17 @@ enum class SelectionMode {
  *
  * @param firstVisibleItemIndex The index of the first visible item.
  * @param firstVisibleItemScrollOffset The scroll offset of the first visible item.
- * @param selectionMode The selection mode for the list.
  * @return The remembered state of the selectable lazy list.
  */
 @Composable
 fun rememberSelectableLazyListState(
     firstVisibleItemIndex: Int = 0,
-    firstVisibleItemScrollOffset: Int = 0
-) = remember { SelectableLazyListState(LazyListState(firstVisibleItemIndex, firstVisibleItemScrollOffset)) }
+    firstVisibleItemScrollOffset: Int = 0,
+) = remember {
+    SelectableLazyListState(
+        LazyListState(
+            firstVisibleItemIndex,
+            firstVisibleItemScrollOffset,
+        ),
+    )
+}

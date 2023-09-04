@@ -2,7 +2,6 @@ package org.jetbrains.jewel.foundation.tree
 
 class Tree<T> internal constructor(internal val roots: List<Element<T>>) {
 
-
     sealed interface Element<T> {
 
         val data: T

@@ -35,7 +35,12 @@ interface SelectableColumnOnKeyEvent {
                         }
                     }
                 }
-                if (list.isNotEmpty()) state.selectedKeys = state.selectedKeys.toMutableList().also { it.addAll(list) }
+                if (list.isNotEmpty()) {
+                    state.selectedKeys =
+                        state.selectedKeys
+                            .toMutableList()
+                            .also { selectionList -> selectionList.addAll(list) }
+                }
             }
     }
 
@@ -132,7 +137,6 @@ interface SelectableColumnOnKeyEvent {
             keys
                 .withIndex()
                 .dropWhile { it.index <= lastActiveIndex }
-                //.forEach { if isAlreadySelected -> deselect else select }
                 .firstOrNull { it.value is Selectable }
                 ?.let { (index, selectableKey) ->
                     state.selectedKeys = state.selectedKeys + selectableKey.key
@@ -162,7 +166,7 @@ interface SelectableColumnOnKeyEvent {
                 .withIndex()
                 .filter { it.value is Selectable }
                 .let {
-                    state.selectedKeys + it.map { it.value.key }
+                    state.selectedKeys + it.map { selectableKey -> selectableKey.value.key }
                 }
         state.selectedKeys = newSelectionList
         state.lastActiveItemIndex = targetIndex
@@ -188,7 +192,7 @@ interface SelectableColumnOnKeyEvent {
             keys.subList(state.lastActiveItemIndex ?: 0, targetIndex)
                 .filter { it is Selectable }
                 .let {
-                    state.selectedKeys + it.map { it.key }
+                    state.selectedKeys + it.map { selectableKey -> selectableKey.key }
                 }
         state.selectedKeys = newSelectionList
         state.lastActiveItemIndex = targetIndex

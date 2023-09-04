@@ -71,7 +71,7 @@ fun SelectableLazyColumn(
                 isActive = it.hasFocus
             }
             .onPreviewKeyEvent { event ->
-                state.lastActiveItemIndex?.let { lastActiveItemIndex ->
+                state.lastActiveItemIndex?.let { _ ->
                     keyActions.handleOnKeyEvent(event, keys, state, selectionMode).invoke(event)
                     scope.launch { state.lastActiveItemIndex?.let { state.scrollToItem(it) } }
                 } ?: run {
@@ -88,7 +88,7 @@ fun SelectableLazyColumn(
         reverseLayout = reverseLayout,
         verticalArrangement = verticalArrangement,
         horizontalAlignment = horizontalAlignment,
-        flingBehavior = flingBehavior
+        flingBehavior = flingBehavior,
     ) {
         container.getEntries().forEach { entry ->
             when (entry) {
@@ -102,11 +102,11 @@ fun SelectableLazyColumn(
                                 selectableState = state,
                                 allKeys = keys,
                                 itemKey = entry.key,
-                            )
+                            ),
                         ) {
                             SelectableLazyItemScope(
                                 isSelected = entry.key in state.selectedKeys,
-                                isActive = isActive
+                                isActive = isActive,
                             ).apply {
                                 entry.content.invoke(this)
                             }
@@ -132,7 +132,7 @@ fun SelectableLazyColumn(
                                 selectableState = state,
                                 allKeys = keys,
                                 itemKey = entry.key(index),
-                            )
+                            ),
                         ) {
                             SelectableLazyItemScope(entry.key(index) in state.selectedKeys, isActive).apply {
                                 entry.itemContent.invoke(this, index)
@@ -155,7 +155,7 @@ fun SelectableLazyColumn(
                                 selectableState = state,
                                 allKeys = keys,
                                 itemKey = entry.key,
-                            )
+                            ),
                         ) {
                             SelectableLazyItemScope(entry.key in state.selectedKeys, isActive).apply {
                                 entry.content.invoke(this)
@@ -190,10 +190,9 @@ private fun Modifier.selectable(
                     selectableState,
                     selectionMode,
                     allKeys,
-                    itemKey
+                    itemKey,
                 )
             }
         }
     }
 }
-

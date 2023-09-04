@@ -30,7 +30,7 @@ fun <T> LazyTree(
     onSelectionChange: (List<Tree.Element<T>>) -> Unit = {},
     keyActions: KeyBindingActions = DefaultTreeViewKeyActions(treeState),
     style: LazyTreeStyle = IntelliJTheme.treeStyle,
-    nodeContent: @Composable() (SelectableLazyItemScope.(Tree.Element<T>) -> Unit),
+    nodeContent: @Composable (SelectableLazyItemScope.(Tree.Element<T>) -> Unit),
 ) {
     val colors = style.colors
     val metrics = style.metrics
@@ -56,7 +56,7 @@ fun <T> LazyTree(
             val painterProvider = style.icons.nodeChevron(elementState.isExpanded)
             val painter by painterProvider.getPainter(elementState, resourceLoader)
             Icon(painter = painter, contentDescription = null)
-        }
+        },
     ) {
         CompositionLocalProvider(
             LocalContentColor provides (
@@ -64,8 +64,8 @@ fun <T> LazyTree(
                     TreeElementState.of(
                         focused = isActive,
                         selected = isSelected,
-                        expanded = false
-                    )
+                        expanded = false,
+                    ),
                 ).value
                     .takeOrElse { LocalContentColor.current }
                 ),

@@ -64,7 +64,6 @@ interface PointerEventActions {
                     selectableLazyListState.lastActiveItemIndex = allKeys.indexOfFirst { it.key == key }
                 }
             }
-
         }
     }
 
@@ -74,9 +73,11 @@ interface PointerEventActions {
         selectableLazyListState: SelectableLazyListState,
     ) {
         if (selectableLazyListState.selectedKeys.contains(key)) {
-            selectableLazyListState.selectedKeys = selectableLazyListState.selectedKeys.toMutableList().also { it.remove(key) }
+            selectableLazyListState.selectedKeys =
+                selectableLazyListState.selectedKeys.toMutableList().also { it.remove(key) }
         } else {
-            selectableLazyListState.selectedKeys = selectableLazyListState.selectedKeys.toMutableList().also { it.add(key) }
+            selectableLazyListState.selectedKeys =
+                selectableLazyListState.selectedKeys.toMutableList().also { it.add(key) }
         }
         selectableLazyListState.lastActiveItemIndex = allKeys.indexOfFirst { it == key }
     }
@@ -87,7 +88,6 @@ interface PointerEventActions {
         state: SelectableLazyListState,
         selectionMode: SelectionMode,
     ) {
-
         if (selectionMode == SelectionMode.None) return
         if (selectionMode == SelectionMode.Single) {
             state.selectedKeys = listOf(key)
@@ -102,8 +102,9 @@ interface PointerEventActions {
             val keys = buildList {
                 for (i in indexInterval) {
                     val currentKey = allKeys[i]
-                    if (currentKey is SelectableLazyListKey.Selectable &&
-                        !state.selectedKeys.contains(allKeys[i].key)) add(currentKey.key)
+                    if (currentKey is SelectableLazyListKey.Selectable && !state.selectedKeys.contains(allKeys[i].key)) {
+                        add(currentKey.key)
+                    }
                 }
             }
             state.selectedKeys = state.selectedKeys.toMutableList().also { it.addAll(keys) }
@@ -112,7 +113,7 @@ interface PointerEventActions {
     }
 }
 
-class DefaultSelectableLazyColumnEventAction : PointerEventActions {}
+class DefaultSelectableLazyColumnEventAction : PointerEventActions
 
 class DefaultTreeViewPointerEventAction(
     private val treeState: TreeState,
@@ -197,10 +198,10 @@ class DefaultTreeViewKeyActions(treeState: TreeState) : DefaultSelectableLazyCol
         with(keybindings) {
             with(actions) {
                 Log.d(keyEvent.key.keyCode.toString())
-                if (selectionMode==SelectionMode.None) return@lambda false
+                if (selectionMode == SelectionMode.None) return@lambda false
                 when {
-                    selectParent() ?: false -> onSelectParent(keys,state)
-                    selectChild() ?: false -> onSelectChild(keys,state)
+                    selectParent() ?: false -> onSelectParent(keys, state)
+                    selectChild() ?: false -> onSelectChild(keys, state)
                     super.handleOnKeyEvent(event, keys, state, selectionMode)
                         .invoke(keyEvent) -> return@lambda true
 

@@ -65,7 +65,7 @@ fun SelectableLazyColumnSample() {
         content = {
             items(
                 count = listOfItems.size,
-                key = { index -> listOfItems[index] }
+                key = { index -> listOfItems[index] },
             ) { index ->
                 Text(
                     text = listOfItems[index],
@@ -75,10 +75,10 @@ fun SelectableLazyColumnSample() {
                             isSelected && isActive -> Modifier.background(Color.Blue)
                             isSelected && !isActive -> Modifier.background(Color.Gray)
                             else -> Modifier
-                        }
+                        },
                     ).clickable {
                         println("click on $index")
-                    }
+                    },
                 )
             }
         },
@@ -143,7 +143,6 @@ fun ChipsRow(modifier: Modifier = Modifier) {
     }
 }
 
-@Suppress("OPT_IN_USAGE")
 @Composable
 fun TreeSample(modifier: Modifier = Modifier) {
     val tree = remember {
@@ -173,7 +172,7 @@ fun TreeSample(modifier: Modifier = Modifier) {
         modifier = Modifier.size(200.dp, 200.dp).then(modifier),
         onElementClick = {},
         onElementDoubleClick = {},
-        ) { element ->
+    ) { element ->
         Box(Modifier.fillMaxWidth()) {
             Text(element.data, modifier.padding(2.dp))
         }
