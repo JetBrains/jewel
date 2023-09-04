@@ -9,7 +9,13 @@ import androidx.compose.ui.input.pointer.isCtrlPressed
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.jetbrains.jewel.foundation.lazy.*
+import org.jetbrains.jewel.foundation.lazy.DefaultSelectableColumnKeybindings
+import org.jetbrains.jewel.foundation.lazy.DefaultSelectableOnKeyEvent
+import org.jetbrains.jewel.foundation.lazy.SelectableColumnKeybindings
+import org.jetbrains.jewel.foundation.lazy.SelectableColumnOnKeyEvent
+import org.jetbrains.jewel.foundation.lazy.SelectableLazyListKey
+import org.jetbrains.jewel.foundation.lazy.SelectableLazyListState
+import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.utils.Log
 
 interface KeyBindingActions {

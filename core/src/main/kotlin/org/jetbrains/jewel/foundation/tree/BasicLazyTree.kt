@@ -145,11 +145,11 @@ fun <T> BasicLazyTree(
                     modifier = Modifier.defaultMinSize(minHeight = elementMinHeight)
                         .padding(elementPadding)
                         .elementBackground(
-                            elementState,
-                            elementBackgroundSelectedFocused,
-                            elementBackgroundFocused,
-                            elementBackgroundSelected,
-                            backgroundShape
+                            state = elementState,
+                            selectedFocused = elementBackgroundSelectedFocused,
+                            focused = elementBackgroundFocused,
+                            selected = elementBackgroundSelected,
+                            backgroundShape = backgroundShape
                         )
                         .padding(elementContentPadding)
                         .padding(start = (element.depth * indentSize.value).dp)
@@ -198,9 +198,9 @@ private fun Modifier.elementBackground(
 ) =
     background(
         color = when {
-            state.isFocused && state.isSelected -> selectedFocused
-            state.isFocused && !state.isSelected -> focused
-            state.isSelected && !state.isFocused -> selected
+            state.isActive && state.isSelected -> selectedFocused
+            state.isActive && !state.isSelected -> focused
+            state.isSelected && !state.isActive -> selected
             else -> Color.Unspecified
         },
         shape = backgroundShape,
@@ -286,7 +286,7 @@ value class TreeElementState(val state: ULong) : InteractiveComponentState, Sele
     }
 }
 
-private suspend fun flattenTree(
+private fun flattenTree(
     element: Tree.Element<*>,
     openNodes: SnapshotStateList<Any>,
     allNodes: SnapshotStateList<Pair<Any, Int>>,

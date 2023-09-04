@@ -28,6 +28,7 @@ import org.jetbrains.jewel.RadioButtonChip
 import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.ToggleableChip
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
+import org.jetbrains.jewel.foundation.tree.InitialNodeStatus
 import org.jetbrains.jewel.foundation.tree.buildTree
 
 @Composable
@@ -167,12 +168,11 @@ fun TreeSample(modifier: Modifier = Modifier) {
     val resourceLoader = LocalResourceLoader.current
     LazyTree(
         tree = tree,
-        InitialNodeStatus.Open,
+        initialNodeStatus = InitialNodeStatus.Open,
         resourceLoader = resourceLoader,
         modifier = Modifier.size(200.dp, 200.dp).then(modifier),
         onElementClick = {},
         onElementDoubleClick = {},
-        resourceLoader = resourceLoader,
         ) { element ->
         Box(Modifier.fillMaxWidth()) {
             Text(element.data, modifier.padding(2.dp))
