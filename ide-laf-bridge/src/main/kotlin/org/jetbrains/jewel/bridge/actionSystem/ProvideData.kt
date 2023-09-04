@@ -27,7 +27,7 @@ import javax.swing.JComponent
 fun ComponentDataProviderBridge(
     component: JComponent,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val rootDataProviderModifier = remember { RootDataProviderModifier() }
 
@@ -59,7 +59,7 @@ fun ComponentDataProviderBridge(
  */
 @Suppress("unused")
 fun Modifier.provideData(dataProvider: (dataId: String) -> Any?) = this.then(
-    DataProviderElement(dataProvider)
+    DataProviderElement(dataProvider),
 )
 
 @VisibleForTesting

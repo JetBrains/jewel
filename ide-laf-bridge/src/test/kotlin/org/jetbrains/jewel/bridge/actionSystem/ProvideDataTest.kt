@@ -37,7 +37,7 @@ class ProvideDataTest {
                             else -> null
                         }
                     }
-                    .focusable()
+                    .focusable(),
             )
         }
         rule.awaitIdle()
@@ -66,18 +66,18 @@ class ProvideDataTest {
                             else -> null
                         }
                     }
-                    .focusable()
+                    .focusable(),
             ) {
                 Box(modifier = Modifier.testTag("non_data_provider").focusable()) {
-                    Box(modifier = Modifier
-                        .testTag("data_provider_item")
-                        .provideData {
-                            when (it) {
-                                "data" -> "ok"
-                                else -> null
-                            }
-                        }
-                        .focusable()
+                    Box(
+                        modifier = Modifier
+                            .testTag("data_provider_item")
+                            .provideData {
+                                when (it) {
+                                    "data" -> "ok"
+                                    else -> null
+                                }
+                            }.focusable(),
                     )
                 }
             }
@@ -90,7 +90,6 @@ class ProvideDataTest {
         rule.onNodeWithTag("root_provider").assertIsFocused()
         assertEquals("yes", rootDataProviderModifier.dataProvider("isRoot"))
         assertEquals(null, rootDataProviderModifier.dataProvider("data"))
-
 
         focusManager!!.moveFocus(FocusDirection.Next)
         rule.awaitIdle()
