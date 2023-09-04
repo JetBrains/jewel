@@ -50,7 +50,7 @@ fun ComponentDataProviderBridge(
  * Use this modifier to provide context related data that can be used by
  * IntelliJ Actions functionality such as Search Everywhere, Action Popups etc.
  *
- * Important note: modifiers order is important, so be careful with order of [Modifier.focusable] and [provideData]
+ * Important note: modifiers order is important, so be careful with order of [focusable] and [provideData]
  * (see [FocusEventModifierNode]).
  *
  * @see DataProvider
@@ -73,7 +73,9 @@ internal class RootDataProviderModifier : ModifierNodeElement<DataProviderNode>(
 
     override fun create() = rootNode
 
-    override fun update(node: DataProviderNode) {}
+    override fun update(node: DataProviderNode) {
+        // do nothing
+    }
 
     override fun hashCode(): Int = rootNode.hashCode()
 

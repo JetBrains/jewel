@@ -4,9 +4,7 @@ import androidx.compose.ui.node.ModifierNodeElement
 
 internal class DataProviderElement(val dataProvider: (dataId: String) -> Any?) : ModifierNodeElement<DataProviderNode>() {
 
-    override fun create(): DataProviderNode {
-        return DataProviderNode(dataProvider)
-    }
+    override fun create(): DataProviderNode = DataProviderNode(dataProvider)
 
     override fun update(node: DataProviderNode) {
         node.dataProvider = dataProvider
@@ -22,7 +20,5 @@ internal class DataProviderElement(val dataProvider: (dataId: String) -> Any?) :
         return dataProvider == other.dataProvider
     }
 
-    override fun hashCode(): Int {
-        return dataProvider.hashCode()
-    }
+    override fun hashCode(): Int = dataProvider.hashCode()
 }

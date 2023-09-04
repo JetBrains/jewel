@@ -22,7 +22,7 @@ class ProvideDataTest {
     val rule = createComposeRule()
 
     @Test
-    fun `one component`(): Unit = runBlocking {
+    fun `one component`() = runBlocking {
         val rootDataProviderModifier = RootDataProviderModifier()
         var focusManager: FocusManager? = null
         rule.setContent {
@@ -51,7 +51,7 @@ class ProvideDataTest {
     }
 
     @Test
-    fun `component hierarchy`(): Unit = runBlocking {
+    fun `component hierarchy`() = runBlocking {
         val rootDataProviderModifier = RootDataProviderModifier()
         var focusManager: FocusManager? = null
         rule.setContent {
