@@ -93,6 +93,10 @@ fun SelectableLazyColumn(
         container.getEntries().forEach { entry ->
             when (entry) {
                 is Entry.Item -> item(entry.key, entry.contentType) {
+                    val itemScope = SelectableLazyItemScope(
+                        isSelected = entry.key in state.selectedKeys,
+                        isActive = isActive,
+                    )
                     if (keys.any { it.key == entry.key && it is SelectableLazyListKey.Selectable }) {
                         Box(
                             modifier = Modifier.selectable(
@@ -104,17 +108,10 @@ fun SelectableLazyColumn(
                                 itemKey = entry.key,
                             ),
                         ) {
-                            SelectableLazyItemScope(
-                                isSelected = entry.key in state.selectedKeys,
-                                isActive = isActive,
-                            ).apply {
-                                entry.content.invoke(this)
-                            }
+                            entry.content.invoke(itemScope)
                         }
                     } else {
-                        SelectableLazyItemScope(entry.key in state.selectedKeys, isActive).apply {
-                            entry.content.invoke(this)
-                        }
+                        entry.content.invoke(itemScope)
                     }
                 }
 
@@ -123,6 +120,7 @@ fun SelectableLazyColumn(
                     { entry.key(it) },
                     { entry.contentType(it) },
                 ) { index ->
+                    val itemScope = SelectableLazyItemScope(entry.key(index) in state.selectedKeys, isActive)
                     if (keys.any { it.key == entry.key(index) && it is SelectableLazyListKey.Selectable }) {
                         Box(
                             modifier = Modifier.selectable(
@@ -134,18 +132,15 @@ fun SelectableLazyColumn(
                                 itemKey = entry.key(index),
                             ),
                         ) {
-                            SelectableLazyItemScope(entry.key(index) in state.selectedKeys, isActive).apply {
-                                entry.itemContent.invoke(this, index)
-                            }
+                            entry.itemContent.invoke(itemScope, index)
                         }
                     } else {
-                        SelectableLazyItemScope(entry.key(index) in state.selectedKeys, isActive).apply {
-                            entry.itemContent.invoke(this, index)
-                        }
+                        entry.itemContent.invoke(itemScope, index)
                     }
                 }
 
                 is Entry.StickyHeader -> stickyHeader(entry.key, entry.contentType) {
+                    val itemScope = SelectableLazyItemScope(entry.key in state.selectedKeys, isActive)
                     if (keys.any { it.key == entry.key && it is SelectableLazyListKey.Selectable }) {
                         Box(
                             modifier = Modifier.selectable(
@@ -157,13 +152,11 @@ fun SelectableLazyColumn(
                                 itemKey = entry.key,
                             ),
                         ) {
-                            SelectableLazyItemScope(entry.key in state.selectedKeys, isActive).apply {
-                                entry.content.invoke(this)
-                            }
+                            entry.content.invoke(itemScope)
                         }
                     } else {
                         SelectableLazyItemScope(entry.key in state.selectedKeys, isActive).apply {
-                            entry.content.invoke(this)
+                            entry.content.invoke(itemScope)
                         }
                     }
                 }
