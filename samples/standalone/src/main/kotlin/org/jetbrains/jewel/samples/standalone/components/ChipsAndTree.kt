@@ -53,7 +53,7 @@ fun ChipsAndTree() {
 @Composable
 fun SelectableLazyColumnSample() {
     val listOfItems = remember {
-        (4..20).random().let { size ->
+        (5000..10000).random().let { size ->
             List(size) { "Item $it" }
         }
     }
