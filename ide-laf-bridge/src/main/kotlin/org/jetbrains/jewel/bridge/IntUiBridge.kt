@@ -600,7 +600,7 @@ private fun readRadioButtonStyle(iconData: IntelliJThemeIconData, svgLoader: Svg
         ),
         icons = IntUiRadioButtonIcons(
             radioButton = retrieveIcon(
-                baseIconPath = "${iconsBasePath}darcula/radio.svg",
+                baseIconPath = "${iconsBasePath}radio.svg",
                 iconData = iconData,
                 svgLoader = svgLoader,
             ),

@@ -174,7 +174,7 @@ fun TreeSample(modifier: Modifier = Modifier) {
         onElementDoubleClick = {},
     ) { element ->
         Box(Modifier.fillMaxWidth()) {
-            Text(element.data, modifier.padding(2.dp))
+            Text(element.data, Modifier.padding(2.dp))
         }
     }
 }
