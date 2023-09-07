@@ -61,7 +61,7 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                         .background(bgColor)
                         .verticalScroll(scrollState)
                         .padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     ColumnOne(resourceLoader)
                     ColumnTwo(resourceLoader)
