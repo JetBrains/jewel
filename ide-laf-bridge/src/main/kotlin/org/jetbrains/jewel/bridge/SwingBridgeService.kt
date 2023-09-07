@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import org.jetbrains.jewel.IntelliJComponentStyling
-import org.jetbrains.jewel.IntelliJSvgLoader
+import org.jetbrains.jewel.JewelSvgLoader
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.themes.PaletteMapperFactory
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
@@ -88,5 +88,5 @@ class SwingBridgeService : Disposable {
 private fun createSvgLoader(theme: IntUiThemeDefinition): SvgLoader {
     val paletteMapper = PaletteMapperFactory.create(theme.isDark, theme.iconData, theme.colorPalette)
     val svgPatcher = IntelliJSvgPatcher(paletteMapper)
-    return IntelliJSvgLoader(svgPatcher)
+    return JewelSvgLoader(svgPatcher)
 }

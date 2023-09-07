@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJComponentStyling
-import org.jetbrains.jewel.IntelliJSvgLoader
 import org.jetbrains.jewel.IntelliJThemeIconData
+import org.jetbrains.jewel.JewelSvgLoader
 import org.jetbrains.jewel.LocalColorPalette
 import org.jetbrains.jewel.LocalContentColor
 import org.jetbrains.jewel.LocalGlobalColors
@@ -22,6 +22,7 @@ import org.jetbrains.jewel.LocalGlobalMetrics
 import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.LocalTextStyle
+import org.jetbrains.jewel.SimpleResourceLoader
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.CheckboxStyle
@@ -200,7 +201,7 @@ fun IntUiTheme(
         val paletteMapper =
             PaletteMapperFactory.create(themeDefinition.isDark, themeDefinition.iconData, themeDefinition.colorPalette)
         val svgPatcher = IntelliJSvgPatcher(paletteMapper)
-        mutableStateOf(IntelliJSvgLoader(svgPatcher))
+        mutableStateOf(JewelSvgLoader(svgPatcher))
     }
 
     val componentStyling = defaultComponentStyling(themeDefinition, svgLoader)
@@ -215,7 +216,7 @@ fun IntUiTheme(
     content: @Composable () -> Unit,
 ) {
     BaseIntUiTheme(theme, componentStyling, swingCompatMode) {
-        CompositionLocalProvider(LocalResourceLoader provides IntUiDefaultResourceLoader) {
+        CompositionLocalProvider(LocalResourceLoader provides SimpleResourceLoader(IntUiTheme.javaClass.classLoader)) {
             content()
         }
     }

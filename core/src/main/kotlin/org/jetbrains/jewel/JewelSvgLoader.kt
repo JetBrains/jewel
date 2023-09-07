@@ -11,7 +11,7 @@ import java.io.InputStream
 import java.util.concurrent.ConcurrentHashMap
 
 @Immutable
-class IntelliJSvgLoader(private val svgPatcher: SvgPatcher) : SvgLoader {
+class JewelSvgLoader(private val svgPatcher: SvgPatcher) : SvgLoader {
 
     private val cache = ConcurrentHashMap<String, Painter>()
 

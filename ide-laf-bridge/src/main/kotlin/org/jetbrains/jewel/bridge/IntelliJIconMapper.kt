@@ -2,8 +2,7 @@ package org.jetbrains.jewel.bridge
 
 import androidx.compose.ui.res.ResourceLoader
 import com.intellij.openapi.diagnostic.thisLogger
-import com.intellij.util.ui.DirProvider
-import org.jetbrains.jewel.JewelResourceLoader
+import org.jetbrains.jewel.ClassLoaderProvider
 
 object IntelliJIconMapper : IconMapper {
 
@@ -14,8 +13,8 @@ object IntelliJIconMapper : IconMapper {
         val patchIconPath = clazz.getMethod("patchIconPath", String::class.java, ClassLoader::class.java)
         patchIconPath.isAccessible = true
 
-        val searchClasses = (resourceLoader as? JewelResourceLoader)?.searchClasses
-        if (searchClasses == null) {
+        val classLoaders = (resourceLoader as? ClassLoaderProvider)?.classLoaders
+        if (classLoaders == null) {
             logger.warn(
                 "Tried loading a resource but the provided ResourceLoader is now a JewelResourceLoader; " +
                     "this is probably a bug. Make sure you always use JewelResourceLoaders.",
@@ -23,10 +22,8 @@ object IntelliJIconMapper : IconMapper {
             return originalPath
         }
 
-        return (searchClasses + DirProvider::class.java)
-            .map { it.classLoader }
-            .firstNotNullOfOrNull { classLoader ->
-                patchIconPath.invoke(null, originalPath.removePrefix("/"), classLoader) as? Pair<String, ClassLoader>
-            }?.first ?: originalPath
+        return classLoaders.firstNotNullOfOrNull { classLoader ->
+            patchIconPath.invoke(null, originalPath.removePrefix("/"), classLoader) as? Pair<String, ClassLoader>
+        }?.first ?: originalPath
     }
 }
