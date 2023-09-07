@@ -27,7 +27,7 @@ class IntelliJResourcePainterProvider<T> @InternalJewelApi constructor(
     companion object {
 
         fun stateless(basePath: String, svgLoader: SvgLoader) =
-            IntelliJResourcePainterProvider<Unit>(basePath, svgLoader, SimpleResourcePathPatcher(), IntelliJIconMapper)
+            IntelliJResourcePainterProvider<Unit>(basePath, svgLoader, SimpleResourcePathPatcher(), BridgeIconMapper)
 
         fun <T : InteractiveComponentState> stateful(
             basePath: String,
@@ -39,6 +39,6 @@ class IntelliJResourcePainterProvider<T> @InternalJewelApi constructor(
                 suffixTokensProvider,
             ),
         ) =
-            IntelliJResourcePainterProvider(basePath, svgLoader, pathPatcher, IntelliJIconMapper)
+            IntelliJResourcePainterProvider(basePath, svgLoader, pathPatcher, BridgeIconMapper)
     }
 }
