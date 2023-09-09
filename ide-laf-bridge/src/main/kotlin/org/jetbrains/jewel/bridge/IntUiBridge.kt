@@ -716,6 +716,7 @@ private fun readLazyTreeStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
     val normalContent = retrieveColorOrUnspecified("Tree.foreground")
     val selectedContent = retrieveColorOrUnspecified("Tree.selectionForeground")
     val selectedElementBackground = retrieveColorOrUnspecified("Tree.selectionBackground")
+    val inactiveSelectedElementBackground = retrieveColorOrUnspecified("Tree.selectionInactiveBackground")
 
     val colors = IntUiLazyTreeColors(
         content = normalContent,
@@ -723,7 +724,7 @@ private fun readLazyTreeStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
         contentSelected = selectedContent,
         contentSelectedFocused = selectedContent,
         elementBackgroundFocused = Color.Transparent,
-        elementBackgroundSelected = selectedElementBackground,
+        elementBackgroundSelected = inactiveSelectedElementBackground,
         elementBackgroundSelectedFocused = selectedElementBackground,
     )
 
