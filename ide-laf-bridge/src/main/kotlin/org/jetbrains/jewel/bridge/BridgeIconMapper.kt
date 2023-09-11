@@ -25,16 +25,24 @@ internal object BridgeIconMapper : IconMapper {
         val patchIconPath = clazz.getMethod("patchIconPath", String::class.java, ClassLoader::class.java)
         patchIconPath.isAccessible = true
 
+        // For all provided classloaders, we try to get the patched path, both using
+        // the original path, and an "abridged" path that has gotten the icon path prefix
+        // removed (the classloader is set up differently in prod IDEs and when running
+        // from Gradle, and the icon could be in either place depending on the environment)
         val fallbackPath = originalPath.removePrefix(dirProvider.dir())
         val patchedPath = classLoaders.firstNotNullOfOrNull { classLoader ->
-            (patchIconPath.invoke(null, originalPath.removePrefix("/"), classLoader)
-                ?: patchIconPath.invoke(null, fallbackPath, classLoader)) as? Pair<*, *>
+            val patchedPathAndClassLoader =
+                patchIconPath.invoke(null, originalPath.removePrefix("/"), classLoader)
+                    ?: patchIconPath.invoke(null, fallbackPath, classLoader)
+            patchedPathAndClassLoader as? Pair<*, *>
         }?.first as? String
 
         if (patchedPath != null) {
             logger.info("Found icon mapping: '$originalPath' -> '$patchedPath'")
+            return patchedPath
         }
 
-        return patchedPath ?: originalPath
+        logger.debug("Icon '$originalPath' has no available mapping")
+        return originalPath
     }
 }
