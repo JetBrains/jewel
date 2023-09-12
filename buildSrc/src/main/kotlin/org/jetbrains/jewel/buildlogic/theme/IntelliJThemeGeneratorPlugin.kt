@@ -60,6 +60,7 @@ abstract class IntelliJThemeGeneratorPlugin : Plugin<Project> {
 class ThemeGeneratorContainer(container: NamedDomainObjectContainer<ThemeGeneration>) : NamedDomainObjectContainer<ThemeGeneration> by container
 
 class ThemeGeneration(val name: String, project: Project) {
+
     val targetDir: DirectoryProperty = project.objects.directoryProperty()
         .convention(project.layout.buildDirectory.dir("generated/theme"))
     val ideaVersion = project.objects.property<String>()
@@ -120,4 +121,5 @@ data class IntellijThemeDescriptor(
     val colors: Map<String, String> = emptyMap(),
     val ui: Map<String, JsonElement> = emptyMap(),
     val icons: Map<String, JsonElement> = emptyMap(),
+    val iconColorsOnSelection: Map<String, String> = emptyMap(),
 )

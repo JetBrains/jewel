@@ -64,7 +64,15 @@ object PaletteMapperFactory {
         colorPalette: IntelliJThemeColorPalette,
     ): PaletteMapper {
         val overrides = computeOverrides(isDark, iconData.colorPalette, colorPalette)
-        return PaletteMapper(overrides)
+        val selectionOverrides = iconData.selectionColorPalette
+            .mapNotNull { (key, value) ->
+                val keyColor = key.toColorOrNull() ?: return@mapNotNull null
+                val valueColor = value.toColorOrNull() ?: return@mapNotNull null
+                keyColor to valueColor
+            }
+            .toMap()
+
+        return PaletteMapper(overrides, selectionOverrides)
     }
 
     // 1. Load the icons.ColorPalette map from the theme JSON, if it exists, and for each key:
