@@ -7,6 +7,5 @@ plugins {
 dependencies {
     api(projects.intUi.intUiStandalone)
     compileOnly(libs.bundles.idea)
-
     testImplementation(compose.desktop.uiTestJUnit4)
 }

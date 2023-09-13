@@ -1,6 +1,7 @@
 package org.jetbrains.jewel
 
 import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import kotlinx.coroutines.delay
 import org.jetbrains.jewel.styling.CircularProgressStyle
 
+@Composable
 fun CircularProgress(
     modifier: Modifier,
     style: CircularProgressStyle = IntelliJTheme.circularProgressStyle,
