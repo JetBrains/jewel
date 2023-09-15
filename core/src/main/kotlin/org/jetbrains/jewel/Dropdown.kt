@@ -132,11 +132,13 @@ fun Dropdown(
                     contentAlignment = Alignment.Center,
                 ) {
                     val chevronIcon by style.icons.chevronDown.getPainter(resourceLoader, dropdownState)
-                    Icon(
-                        painter = chevronIcon,
-                        contentDescription = null,
-                        tint = colors.iconTintFor(dropdownState).value,
-                    )
+                    if (enabled) {
+                        Icon(
+                            painter = chevronIcon,
+                            contentDescription = null,
+                            tint = colors.iconTintFor(dropdownState).value,
+                        )
+                    }
                 }
             }
         }
