@@ -3,42 +3,48 @@ package org.jetbrains.jewel
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
+// Replicates com.intellij.ide.ui.UITheme.PaletteScopeManager's functionality
+// (note that in Swing, there is also a RadioButtons scope, but while it gets
+// written to, it never gets accessed by the actual color patching, so we ignore
+// writing any Radio button-related entries and read the CheckBox values for them)
 @Immutable
 class PaletteMapper(
-    private val colorOverrides: Map<Color, Color>,
-    private val selectedColorOverrides: Map<Color, Color>,
+    private val ui: Scope,
+    private val checkBoxes: Scope,
+    private val trees: Scope,
 ) {
 
-    fun mapColorOrNull(originalColor: Color): Color? {
-        if (colorOverrides.isEmpty()) return null
+    fun getScopeForPath(path: String?): Scope? {
+        if (path == null) return ui
+        if (!path.contains("com/intellij/ide/ui/laf/icons/")) return ui
 
-        return colorOverrides[originalColor]
+        val file = path.substringAfterLast('/')
+        return when {
+            file == "treeCollapsed.svg" || file == "treeExpanded.svg" -> trees
+            // ⚠️ This next line is not a copy-paste error — the code in UITheme.PaletteScopeManager.getScopeByPath()
+            // says they share the same colors
+            file.startsWith("check") || file.startsWith("radio") -> checkBoxes
+            else -> null
+        }
     }
 
-    fun mapSelectedColorOrNull(originalColor: Color): Color? {
-        if (selectedColorOverrides.isEmpty()) return null
+    companion object {
 
-        return selectedColorOverrides[originalColor]
+        val Empty = PaletteMapper(Scope.Empty, Scope.Empty, Scope.Empty)
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+    @Immutable
+    @JvmInline
+    value class Scope(val colorOverrides: Map<Color, Color>) {
 
-        other as PaletteMapper
+        fun mapColorOrNull(originalColor: Color): Color? =
+            colorOverrides[originalColor]
 
-        if (colorOverrides != other.colorOverrides) return false
-        if (selectedColorOverrides != other.selectedColorOverrides) return false
+        override fun toString(): String = "PaletteMapper.Scope(colorOverrides=$colorOverrides)"
 
-        return true
+        companion object {
+
+            val Empty = Scope(emptyMap())
+        }
     }
-
-    override fun hashCode(): Int {
-        var result = colorOverrides.hashCode()
-        result = 31 * result + selectedColorOverrides.hashCode()
-        return result
-    }
-
-    override fun toString(): String =
-        "PaletteMapper(colorOverrides=$colorOverrides, selectedColorOverrides=$selectedColorOverrides)"
 }

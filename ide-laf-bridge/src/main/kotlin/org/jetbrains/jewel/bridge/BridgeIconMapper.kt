@@ -4,6 +4,7 @@ import androidx.compose.ui.res.ResourceLoader
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.util.ui.DirProvider
 import org.jetbrains.jewel.ClassLoaderProvider
+import org.jetbrains.jewel.IntelliJThemeIconData
 
 internal object BridgeIconMapper : IconMapper {
 
@@ -11,7 +12,11 @@ internal object BridgeIconMapper : IconMapper {
 
     private val dirProvider = DirProvider()
 
-    override fun mapPath(originalPath: String, resourceLoader: ResourceLoader): String {
+    override fun mapPath(
+        originalPath: String,
+        iconData: IntelliJThemeIconData,
+        resourceLoader: ResourceLoader,
+    ): String {
         val classLoaders = (resourceLoader as? ClassLoaderProvider)?.classLoaders
         if (classLoaders == null) {
             logger.warn(
@@ -37,12 +42,19 @@ internal object BridgeIconMapper : IconMapper {
             patchedPathAndClassLoader as? Pair<*, *>
         }?.first as? String
 
-        if (patchedPath != null) {
+        val path = if (patchedPath != null) {
             logger.info("Found icon mapping: '$originalPath' -> '$patchedPath'")
-            return patchedPath
+            patchedPath
+        } else {
+            logger.debug("Icon '$originalPath' has no available mapping")
+            originalPath
         }
 
-        logger.debug("Icon '$originalPath' has no available mapping")
-        return originalPath
+        val overriddenPath = iconData.iconOverrides[path] ?: path
+        if (overriddenPath != path) {
+            logger.info("Found theme icon override: '$path' -> '$overriddenPath'")
+        }
+
+        return overriddenPath
     }
 }

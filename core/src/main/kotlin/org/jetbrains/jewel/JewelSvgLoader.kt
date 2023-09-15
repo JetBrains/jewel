@@ -37,13 +37,13 @@ class JewelSvgLoader(private val svgPatcher: SvgPatcher) : SvgLoader {
         val density = LocalDensity.current
 
         val painter = useResource(resourcePath, loader) {
-            loadSvgPainter(it.patchColors(), density)
+            loadSvgPainter(it.patchColors(resourcePath), density)
         }
         return remember(resourcePath, density, loader) { painter }
     }
 
-    private fun InputStream.patchColors(): InputStream =
-        svgPatcher.patchSvg(this).byteInputStream()
+    private fun InputStream.patchColors(resourcePath: String): InputStream =
+        svgPatcher.patchSvg(this, resourcePath).byteInputStream()
 
     // Copied from androidx.compose.ui.res.Resources
     private inline fun <T> useResource(

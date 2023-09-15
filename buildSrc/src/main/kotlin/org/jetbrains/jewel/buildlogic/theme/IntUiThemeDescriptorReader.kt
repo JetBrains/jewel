@@ -77,6 +77,23 @@ internal object IntUiThemeDescriptorReader {
             }.forEach { (group, colors) ->
                 readColorGroup(className, group, colors)
             }
+
+            val rawMapProperty = PropertySpec
+                .builder(
+                    "rawMap",
+                    Map::class.asClassName().parameterizedBy(String::class.asClassName(), colorClassName),
+                    KModifier.OVERRIDE
+                )
+                .initializer(
+                    colors
+                        .map { (key, value) ->
+                            val colorHexString = value.replace("#", "0xFF")
+                            CodeBlock.of("%S to Color(%L)", key, colorHexString)
+                        }
+                        .joinToCode(prefix = "mapOf(", separator = ",\n", suffix = ")")
+                )
+                .build()
+            addProperty(rawMapProperty)
         }.build())
 
         addProperty(

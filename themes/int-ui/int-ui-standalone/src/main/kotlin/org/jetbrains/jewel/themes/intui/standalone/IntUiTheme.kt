@@ -38,7 +38,7 @@ import org.jetbrains.jewel.styling.RadioButtonStyle
 import org.jetbrains.jewel.styling.ScrollbarStyle
 import org.jetbrains.jewel.styling.TabStyle
 import org.jetbrains.jewel.styling.TextFieldStyle
-import org.jetbrains.jewel.themes.PaletteMapperFactory
+import org.jetbrains.jewel.themes.StandalonePaletteMapperFactory
 import org.jetbrains.jewel.themes.intui.core.BaseIntUiTheme
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeColorPalette
 import org.jetbrains.jewel.themes.intui.core.IntUiThemeDefinition
@@ -199,7 +199,11 @@ fun IntUiTheme(
 ) {
     val svgLoader by remember(themeDefinition.isDark, themeDefinition.iconData, themeDefinition.colorPalette) {
         val paletteMapper =
-            PaletteMapperFactory.create(themeDefinition.isDark, themeDefinition.iconData, themeDefinition.colorPalette)
+            StandalonePaletteMapperFactory.create(
+                themeDefinition.isDark,
+                themeDefinition.iconData,
+                themeDefinition.colorPalette,
+            )
         val svgPatcher = IntelliJSvgPatcher(paletteMapper)
         mutableStateOf(JewelSvgLoader(svgPatcher))
     }
