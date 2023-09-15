@@ -162,13 +162,15 @@ fun <T : Any> SelectableLazyListScope.itemsIndexed(
     contentType: (index: Int, item: T) -> Any? = { _, item -> item },
     selectable: (index: Int, item: T) -> Boolean = { _, _ -> true },
     itemContent: @Composable SelectableLazyItemScope.(index: Int, item: T) -> Unit,
-) = items(
-    count = items.size,
-    key = { key(it, items[it]) },
-    contentType = { contentType(it, items[it]) },
-    selectable = { selectable(it, items[it]) },
-    itemContent = { itemContent(it, items[it]) }
-)
+) {
+    items(
+        count = items.size,
+        key = { key(it, items[it]) },
+        contentType = { contentType(it, items[it]) },
+        selectable = { selectable(it, items[it]) },
+        itemContent = { itemContent(it, items[it]) },
+    )
+}
 
 @Composable
 fun LazyItemScope.SelectableLazyItemScope(

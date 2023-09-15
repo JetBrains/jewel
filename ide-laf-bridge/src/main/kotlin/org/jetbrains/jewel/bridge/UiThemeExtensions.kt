@@ -20,7 +20,7 @@ internal val UITheme.icons: Map<String, String>
 
 internal val UITheme.iconColorPalette: Map<String, String>
     get() = readMapField<Map<String, String>>(classUITheme.getDeclaredField("icons"))
-        .get("ColorPalette") ?: emptyMap()
+        .get("ColorPalette").orEmpty()
 
 internal val UITheme.selectedIconColorPalette: Map<String, String>
     get() = readMapField(classUITheme.getDeclaredField("iconColorsOnSelection"))
@@ -32,7 +32,7 @@ private fun <T> UITheme.readMapField(field: Field): Map<String, T> {
 
     return try {
         @Suppress("UNCHECKED_CAST")
-        field.get(this) as? Map<String, T> ?: emptyMap()
+        (field.get(this) as? Map<String, T>).orEmpty()
     } catch (e: IllegalAccessException) {
         logger.warn("Error while retrieving LaF", e)
         emptyMap()

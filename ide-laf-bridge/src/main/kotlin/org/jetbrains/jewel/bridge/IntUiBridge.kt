@@ -728,11 +728,22 @@ private fun readLazyTreeStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
         elementBackgroundSelectedFocused = selectedElementBackground,
     )
 
+    val chevronCollapsed = retrieveStatelessIcon(
+        iconPath = "${iconsBasePath}general/chevron-right.svg",
+        iconData = iconData,
+        svgLoader = svgLoader,
+    )
+    val chevronExpanded = retrieveStatelessIcon(
+        iconPath = "${iconsBasePath}general/chevron-down.svg",
+        iconData = iconData,
+        svgLoader = svgLoader,
+    )
+
     return IntUiLazyTreeStyle(
         colors = colors,
         metrics = IntUiLazyTreeMetrics(
             indentSize = retrieveIntAsDpOrUnspecified("Tree.leftChildIndent").takeOrElse { 7.dp } +
-                    retrieveIntAsDpOrUnspecified("Tree.rightChildIndent").takeOrElse { 11.dp },
+                retrieveIntAsDpOrUnspecified("Tree.rightChildIndent").takeOrElse { 11.dp },
             elementBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
             elementPadding = PaddingValues(horizontal = 12.dp),
             elementContentPadding = PaddingValues(4.dp),
@@ -740,16 +751,10 @@ private fun readLazyTreeStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoa
             chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
         ),
         icons = IntUiLazyTreeIcons(
-            nodeChevronCollapsed = retrieveStatefulIcon(
-                iconPath = "${iconsBasePath}general/chevron-right.svg",
-                iconData = iconData,
-                svgLoader = svgLoader,
-            ),
-            nodeChevronExpanded = retrieveStatefulIcon(
-                iconPath = "${iconsBasePath}general/chevron-down.svg",
-                iconData = iconData,
-                svgLoader = svgLoader,
-            ),
+            chevronCollapsed = chevronCollapsed,
+            chevronExpanded = chevronExpanded,
+            chevronSelectedCollapsed = chevronCollapsed,
+            chevronSelectedExpanded = chevronExpanded,
         ),
     )
 }

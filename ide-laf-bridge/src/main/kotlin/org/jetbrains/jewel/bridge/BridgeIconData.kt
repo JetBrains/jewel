@@ -39,8 +39,8 @@ internal class BridgeIconData(
 
         fun readFromLaF(): BridgeIconData {
             val uiTheme = currentUiThemeOrNull()
-            val iconMap = uiTheme?.icons ?: emptyMap()
-            val selectedIconColorPalette = uiTheme?.selectedIconColorPalette ?: emptyMap()
+            val iconMap = uiTheme?.icons.orEmpty()
+            val selectedIconColorPalette = uiTheme?.selectedIconColorPalette.orEmpty()
 
             val colorPalette = UITheme.getColorPalette()
             return BridgeIconData(iconMap, colorPalette, selectedIconColorPalette)

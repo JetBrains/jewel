@@ -40,7 +40,6 @@ import org.jetbrains.jewel.TextField
 import org.jetbrains.jewel.bridge.SwingBridgeTheme
 import org.jetbrains.jewel.bridge.addComposeTab
 import org.jetbrains.jewel.bridge.toComposeColor
-import org.jetbrains.jewel.foundation.tree.InitialNodeStatus
 import org.jetbrains.jewel.foundation.tree.buildTree
 import org.jetbrains.jewel.themes.intui.standalone.IntUiTheme
 
@@ -212,7 +211,6 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
             }
             LazyTree(
                 tree = tree,
-                initialNodeStatus = InitialNodeStatus.Open,
                 resourceLoader = resourceLoader,
                 modifier = Modifier.height(200.dp).fillMaxWidth(),
                 onElementClick = {},

@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,8 +29,8 @@ import org.jetbrains.jewel.foundation.tree.KeyBindingActions
 import org.jetbrains.jewel.foundation.tree.PointerEventActions
 
 /**
- * A composable that displays a scrollable and selectable list of items in a column arrangement.
- *
+ * A composable that displays a scrollable and selectable list of items in
+ * a column arrangement.
  */
 @Composable
 fun SelectableLazyColumn(
@@ -49,8 +48,6 @@ fun SelectableLazyColumn(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: SelectableLazyListScope.() -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-
     val container = remember(content) {
         SelectableLazyListScopeContainer().apply(content)
     }
@@ -77,7 +74,7 @@ fun SelectableLazyColumn(
             .focusRequester(focusRequester)
             .focusable(interactionSource = interactionSource)
             .onPreviewKeyEvent { event ->
-                state.lastActiveItemIndex?.let { _ ->
+                if (state.lastActiveItemIndex != null) {
                     keyActions.handleOnKeyEvent(event, keys, state, selectionMode).invoke(event)
                 }
                 true
