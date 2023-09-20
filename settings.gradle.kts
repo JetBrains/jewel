@@ -26,7 +26,6 @@ dependencyResolutionManagement {
 
 include(
     ":core",
-    ":compose-utils",
     ":ide-laf-bridge",
     ":samples:standalone",
     ":samples:ide-plugin",

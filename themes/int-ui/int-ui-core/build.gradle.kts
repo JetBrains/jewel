@@ -8,7 +8,6 @@ plugins {
 
 dependencies {
     api(projects.core)
-    api(projects.composeUtils)
 }
 
 intelliJThemeGenerator {
@@ -35,4 +34,3 @@ tasks {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 }
-

@@ -11,7 +11,6 @@ val sarif: Configuration by configurations.creating {
 
 dependencies {
     sarif(projects.core)
-    sarif(projects.composeUtils)
     sarif(projects.samples.standalone)
     sarif(projects.themes.intUi.intUiStandalone)
     sarif(projects.themes.intUi.intUiCore)
