@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    api(projects.themes.intUi.intUiCore)
+    api(projects.intUi.intUiCore)
 }

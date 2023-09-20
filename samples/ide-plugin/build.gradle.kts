@@ -22,6 +22,5 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation(projects.themes.intUi.intUiStandalone)
     implementation(projects.ideLafBridge)
 }

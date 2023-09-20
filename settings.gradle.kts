@@ -29,6 +29,6 @@ include(
     ":ide-laf-bridge",
     ":samples:standalone",
     ":samples:ide-plugin",
-    ":themes:int-ui:int-ui-core",
-    ":themes:int-ui:int-ui-standalone",
+    ":int-ui:int-ui-core",
+    ":int-ui:int-ui-standalone",
 )
