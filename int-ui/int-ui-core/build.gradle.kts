@@ -1,6 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
+    jewel
     `jewel-publish`
     alias(libs.plugins.composeDesktop)
     `intellij-theme-generator`
