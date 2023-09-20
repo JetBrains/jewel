@@ -6,5 +6,5 @@ plugins {
 }
 
 dependencies {
-    api(compose.desktop.common)
+    api(compose.desktop.currentOs)
 }

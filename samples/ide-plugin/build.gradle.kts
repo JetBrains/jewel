@@ -21,6 +21,5 @@ repositories {
 }
 
 dependencies {
-    implementation(compose.desktop.currentOs)
     implementation(projects.ideLafBridge)
 }
