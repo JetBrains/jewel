@@ -259,18 +259,20 @@ private fun LinkImpl(
     val pointerChangeModifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
 
     Row(
-        modifier = modifier.clickable(
-            onClick = {
-                linkState = linkState.copy(visited = true)
-                onClick()
-            },
-            enabled = enabled,
-            role = Role.Button,
-            interactionSource = interactionSource,
-            indication = null,
-        )
-            .focusOutline(linkState, RoundedCornerShape(style.metrics.focusHaloCornerSize))
-            .appendIf(linkState.isEnabled) { pointerChangeModifier },
+        modifier = modifier
+            .appendIf(linkState.isEnabled) { pointerChangeModifier }
+            .clickable(
+                onClick = {
+                    linkState = linkState.copy(visited = true)
+                    println("clicked Link")
+                    onClick()
+                },
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            )
+            .focusOutline(linkState, RoundedCornerShape(style.metrics.focusHaloCornerSize)),
         horizontalArrangement = Arrangement.spacedBy(style.metrics.textIconGap),
         verticalAlignment = Alignment.CenterVertically,
     ) {
