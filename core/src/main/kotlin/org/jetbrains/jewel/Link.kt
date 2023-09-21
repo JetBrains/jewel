@@ -1,6 +1,5 @@
 package org.jetbrains.jewel
 
-import androidx.compose.foundation.Indication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
@@ -67,7 +66,6 @@ fun Link(
     overflow: TextOverflow = TextOverflow.Clip,
     lineHeight: TextUnit = TextUnit.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    indication: Indication? = null,
     style: LinkStyle = LocalLinkStyle.current,
 ) {
     LinkImpl(
@@ -84,7 +82,6 @@ fun Link(
         overflow = overflow,
         lineHeight = lineHeight,
         interactionSource = interactionSource,
-        indication = indication,
         style = style,
         resourceLoader = resourceLoader,
         icon = null,
@@ -107,7 +104,6 @@ fun ExternalLink(
     overflow: TextOverflow = TextOverflow.Clip,
     lineHeight: TextUnit = TextUnit.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    indication: Indication? = null,
     style: LinkStyle = LocalLinkStyle.current,
 ) {
     LinkImpl(
@@ -124,7 +120,6 @@ fun ExternalLink(
         overflow = overflow,
         lineHeight = lineHeight,
         interactionSource = interactionSource,
-        indication = indication,
         style = style,
         resourceLoader = resourceLoader,
         icon = style.icons.externalLink,
@@ -146,7 +141,6 @@ fun DropdownLink(
     overflow: TextOverflow = TextOverflow.Clip,
     lineHeight: TextUnit = TextUnit.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    indication: Indication? = null,
     style: LinkStyle = LocalLinkStyle.current,
     menuModifier: Modifier = Modifier,
     menuStyle: MenuStyle = LocalMenuStyle.current,
@@ -176,7 +170,6 @@ fun DropdownLink(
             overflow = overflow,
             lineHeight = lineHeight,
             interactionSource = interactionSource,
-            indication = indication,
             style = style,
             icon = style.icons.dropdownChevron,
             resourceLoader = resourceLoader,
@@ -218,7 +211,6 @@ private fun LinkImpl(
     overflow: TextOverflow,
     lineHeight: TextUnit,
     interactionSource: MutableInteractionSource,
-    indication: Indication?,
     icon: PainterProvider<LinkState>?,
 ) {
     var linkState by remember(interactionSource, enabled) {
@@ -275,7 +267,7 @@ private fun LinkImpl(
             enabled = enabled,
             role = Role.Button,
             interactionSource = interactionSource,
-            indication = indication,
+            indication = null,
         )
             .focusOutline(linkState, RoundedCornerShape(style.metrics.focusHaloCornerSize))
             .appendIf(linkState.isEnabled) { pointerChangeModifier },
