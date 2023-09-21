@@ -93,7 +93,7 @@ internal fun InputField(
         value = value,
         modifier = modifier.then(backgroundModifier)
             .then(borderModifier)
-            .focusOutline(inputState, shape)
+            .appendIf(!undecorated) { focusOutline(inputState, shape) }
             .outline(inputState, outline, shape),
         onValueChange = onValueChange,
         enabled = enabled,
