@@ -42,8 +42,6 @@ import org.jetbrains.jewel.CommonStateBitMask.Focused
 import org.jetbrains.jewel.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.IntelliJTheme.Companion.isSwingCompatMode
-import org.jetbrains.jewel.foundation.Stroke
-import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.foundation.onHover
 import org.jetbrains.jewel.styling.LinkStyle
 import org.jetbrains.jewel.styling.LocalLinkStyle
@@ -157,11 +155,8 @@ fun DropdownLink(
     var expanded by remember { mutableStateOf(false) }
     var hovered by remember { mutableStateOf(false) }
     var skipNextClick by remember { mutableStateOf(false) }
-    Box(
-        Modifier.onHover {
-            hovered = it
-        },
-    ) {
+
+    Box(Modifier.onHover { hovered = it }) {
         LinkImpl(
             text = text,
             onClick = {
@@ -198,7 +193,7 @@ fun DropdownLink(
                 },
                 modifier = menuModifier,
                 style = menuStyle,
-                horizontalAlignment = Alignment.Start, // TODO no idea what goes here
+                horizontalAlignment = Alignment.Start,
                 content = menuContent,
                 resourceLoader = resourceLoader,
             )
@@ -226,7 +221,7 @@ private fun LinkImpl(
     indication: Indication?,
     icon: PainterProvider<LinkState>?,
 ) {
-    var linkState by remember(interactionSource) {
+    var linkState by remember(interactionSource, enabled) {
         mutableStateOf(LinkState.of(enabled = enabled))
     }
     remember(enabled) {
@@ -248,9 +243,7 @@ private fun LinkImpl(
                     }
                 }
 
-                is FocusInteraction.Unfocus -> {
-                    linkState = linkState.copy(focused = false, pressed = false)
-                }
+                is FocusInteraction.Unfocus -> linkState = linkState.copy(focused = false, pressed = false)
             }
         }
     }
@@ -271,29 +264,20 @@ private fun LinkImpl(
             ),
         )
 
-    val clickable = Modifier.clickable(
-        onClick = {
-            linkState = linkState.copy(visited = true)
-            onClick()
-        },
-        enabled = enabled,
-        role = Role.Button,
-        interactionSource = interactionSource,
-        indication = indication,
-    )
-
-    val focusHaloModifier = Modifier.border(
-        alignment = Stroke.Alignment.Outside,
-        width = LocalGlobalMetrics.current.outlineWidth,
-        color = LocalGlobalColors.current.outlines.focused,
-        shape = RoundedCornerShape(style.metrics.focusHaloCornerSize),
-    )
-
     val pointerChangeModifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
 
     Row(
-        modifier = modifier.then(clickable)
-            .appendIf(linkState.isFocused) { focusHaloModifier }
+        modifier = modifier.clickable(
+            onClick = {
+                linkState = linkState.copy(visited = true)
+                onClick()
+            },
+            enabled = enabled,
+            role = Role.Button,
+            interactionSource = interactionSource,
+            indication = indication,
+        )
+            .focusOutline(linkState, RoundedCornerShape(style.metrics.focusHaloCornerSize))
             .appendIf(linkState.isEnabled) { pointerChangeModifier },
         horizontalArrangement = Arrangement.spacedBy(style.metrics.textIconGap),
         verticalAlignment = Alignment.CenterVertically,
