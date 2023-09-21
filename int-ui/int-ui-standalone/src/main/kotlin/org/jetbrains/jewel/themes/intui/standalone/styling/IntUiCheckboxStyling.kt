@@ -102,7 +102,7 @@ data class IntUiCheckboxMetrics(
     override val checkboxCornerSize: CornerSize = CornerSize(3.dp),
     override val outlineSize: DpSize = DpSize(15.dp, 15.dp),
     override val outlineOffset: DpOffset = DpOffset(2.5.dp, 1.5.dp),
-    override val iconContentGap: Dp = 4.dp,
+    override val iconContentGap: Dp = 5.dp,
 ) : CheckboxMetrics
 
 @Immutable
