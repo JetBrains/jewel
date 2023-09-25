@@ -81,8 +81,9 @@ you, but if you want to also enable it in other scenarios and in standalone appl
 `enableNewSwingCompositing()` function in your Compose entry points (that is, right before creating a `ComposePanel`).
 
 > [!NOTE]
-> The new Swing rendering pipeline is experimental and may have performance repercussions, especially on Windows, where
-> HW acceleration is not yet available.
+> The new Swing rendering pipeline is experimental and may have performance repercussions when using infinitely
+> repeating animations. This is a known issue by the Compose Multiplatform team, that requires changes in the Java
+> runtime to fix. Once the required changes are made in the JetBrains Runtime, we'll remove this notice.
 
 ## Need help?
 

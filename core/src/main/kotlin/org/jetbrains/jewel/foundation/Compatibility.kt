@@ -5,8 +5,7 @@ import org.jetbrains.jewel.ExperimentalJewelApi
 /**
  * Enables the new compositing strategy for rendering directly into Swing
  * Graphics. This fixes z-order problems and artifacts on resizing, but
- * has a performance penalty on Windows (as of 1.5.1) because there is no
- * DirectX HW acceleration. Linux and macOS have HW acceleration though.
+ * has a performance penalty when using infinitely repeating animations.
  *
  * We assume the majority of our users will want this flag to be on, so
  * this convenience function is provided to that end. Make sure you call
