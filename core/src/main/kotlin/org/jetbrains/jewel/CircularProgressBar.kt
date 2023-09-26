@@ -8,29 +8,34 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.jetbrains.jewel.styling.CircularProgressStyle
 
 @Composable
 fun CircularProgress(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     style: CircularProgressStyle = IntelliJTheme.circularProgressStyle,
 ) {
-    var currentFrame by remember { mutableStateOf(0) }
+    var currentFrame by remember { mutableStateOf(style.frameIcons.frames.first()) }
 
     Icon(
-        painter = style.frameIcons.frames.value[currentFrame],
+        modifier = modifier,
+        painter = currentFrame.getPainter(LocalResourceLoader.current).value,
         contentDescription = null,
-        modifier = modifier.size(style.metrics.size)
     )
 
     LaunchedEffect(Unit) {
-        delay(style.metrics.animationDelay.toMillis())
         while (true) {
-            for (i in 0 until style.frameIcons.frames.value.size) {
-                currentFrame = i
-                delay(style.metrics.frameTime.toMillis())
+            for (i in 0 until style.frameIcons.frames.size) {
+                currentFrame = style.frameIcons.frames[i]
+                delay(style.frameTime.inWholeMilliseconds)
             }
         }
     }
+}
+
+@Composable
+fun CircularProgressBig() {
+    CircularProgress(modifier = Modifier.size(32.dp), style = IntelliJTheme.circularProgressBigStyle)
 }

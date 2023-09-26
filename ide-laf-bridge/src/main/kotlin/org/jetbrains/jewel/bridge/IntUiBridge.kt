@@ -36,6 +36,8 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressIcons
+import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownIcons
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownMetrics
@@ -160,7 +162,8 @@ internal fun createSwingIntUiComponentStyling(
         radioButtonStyle = readRadioButtonStyle(theme.iconData, svgLoader),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
-        circularProgressStyle = readCircularProgressStyle(theme.isDark, svgLoader),
+        circularProgressStyle = readCircularProgressStyle(svgLoader, theme.iconData),
+        circularProgressBigStyle = readCircularProgressBigStyle(svgLoader, theme.iconData),
         textFieldStyle = textFieldStyle,
     )
 }
@@ -883,4 +886,42 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
     )
 }
 
-private fun readCircularProgressStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLoader): IntUiCircula
+private fun readCircularProgressStyle(
+    svgLoader: SvgLoader,
+    iconData: IntelliJThemeIconData,
+): IntUiCircularProgressStyle =
+    IntUiCircularProgressStyle(
+        frameTime = 125.milliseconds,
+        frameIcons = IntUiCircularProgressIcons(
+            listOf(
+                retrieveStatelessIcon("process/step_1.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/step_2.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/step_3.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/step_4.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/step_5.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/step_6.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/step_7.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/step_8.svg", svgLoader = svgLoader, iconData = iconData),
+            ),
+        ),
+    )
+
+private fun readCircularProgressBigStyle(
+    svgLoader: SvgLoader,
+    iconData: IntelliJThemeIconData,
+): IntUiCircularProgressStyle =
+    IntUiCircularProgressStyle(
+        frameTime = 125.milliseconds,
+        frameIcons = IntUiCircularProgressIcons(
+            listOf(
+                retrieveStatelessIcon("process/big/step_1.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/big/step_2.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/big/step_3.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/big/step_4.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/big/step_5.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/big/step_6.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/big/step_7.svg", svgLoader = svgLoader, iconData = iconData),
+                retrieveStatelessIcon("process/big/step_8.svg", svgLoader = svgLoader, iconData = iconData),
+            ),
+        ),
+    )

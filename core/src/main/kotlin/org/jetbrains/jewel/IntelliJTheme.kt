@@ -182,6 +182,11 @@ interface IntelliJTheme {
             @Composable
             @ReadOnlyComposable
             get() = LocalCircularProgressStyle.current
+
+        val circularProgressBigStyle: CircularProgressStyle
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalCircularProgressStyle.current
     }
 }
 

@@ -38,6 +38,7 @@ class IntelliJComponentStyling(
     val textAreaStyle: TextAreaStyle,
     val textFieldStyle: TextFieldStyle,
     val circularProgressStyle: CircularProgressStyle,
+    val circularProgressBigStyle: CircularProgressStyle,
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -64,6 +65,7 @@ class IntelliJComponentStyling(
         if (defaultTabStyle != other.defaultTabStyle) return false
         if (editorTabStyle != other.editorTabStyle) return false
         if (circularProgressStyle != other.circularProgressStyle) return false
+        if (circularProgressBigStyle != other.circularProgressBigStyle) return false
 
         return true
     }
@@ -87,6 +89,7 @@ class IntelliJComponentStyling(
         result = 31 * result + defaultTabStyle.hashCode()
         result = 31 * result + editorTabStyle.hashCode()
         result = 31 * result + circularProgressStyle.hashCode()
+        result = 31 * result + circularProgressBigStyle.hashCode()
         return result
     }
 
@@ -98,5 +101,5 @@ class IntelliJComponentStyling(
             "lazyTreeStyle=$lazyTreeStyle, linkStyle=$linkStyle, menuStyle=$menuStyle, " +
             "outlinedButtonStyle=$outlinedButtonStyle, radioButtonStyle=$radioButtonStyle, " +
             "scrollbarStyle=$scrollbarStyle, textAreaStyle=$textAreaStyle, textFieldStyle=$textFieldStyle" +
-            "circularProgressStyle=$circularProgressStyle)"
+            "circularProgressStyle=$circularProgressStyle), circularProgressBigStyle=$circularProgressBigStyle)"
 }

@@ -32,6 +32,8 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.JBColor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.CheckboxRow
+import org.jetbrains.jewel.CircularProgress
+import org.jetbrains.jewel.CircularProgressBig
 import org.jetbrains.jewel.DefaultButton
 import org.jetbrains.jewel.ExperimentalJewelApi
 import org.jetbrains.jewel.Icon
@@ -136,6 +138,15 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                 val painterProvider = retrieveStatelessIcon("actions/close.svg", svgLoader, IntUiTheme.iconData)
                 val painter by painterProvider.getPainter(resourceLoader)
                 Icon(painter = painter, modifier = Modifier.border(1.dp, Color.Magenta), contentDescription = "An icon")
+            }
+
+            Row {
+                Text("Circular progress small: ")
+                CircularProgress()
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("Circular progress big: ")
+                CircularProgressBig()
             }
         }
     }
