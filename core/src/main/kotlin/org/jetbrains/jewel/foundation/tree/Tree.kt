@@ -21,9 +21,9 @@ class Tree<T> internal constructor(val roots: List<Element<T>>) {
             if (next is Node) {
                 next.open()
                 if (breathFirst) {
-                    queue.addAll(next.children ?: emptyList())
+                    queue.addAll(next.children.orEmpty())
                 } else {
-                    queue.addAll(0, next.children ?: emptyList())
+                    queue.addAll(0, next.children.orEmpty())
                 }
             }
         }
