@@ -64,8 +64,8 @@ data class IntUiCircularProgressIcons(
         @Composable
         fun getFrames(
             svgLoader: SvgLoader,
-            iconsPaths: List<String>,
-        ): List<PainterProvider<Unit>> = iconsPaths.map {
+            iconPaths: List<String>,
+        ): List<PainterProvider<Unit>> = iconPaths.map {
             ResourcePainterProvider.stateless(basePath = it, svgLoader = svgLoader)
         }
     }
@@ -75,7 +75,7 @@ data class IntUiCircularProgressIcons(
 fun intUiCircularProgressIcons(
     svgLoader: SvgLoader,
     iconPrefix: String = "icons/intui/animated/smallSpinner/",
-    iconsNames: List<String> = listOf(
+    iconNames: List<String> = listOf(
         "spinner1.svg",
         "spinner2.svg",
         "spinner3.svg",
@@ -88,7 +88,7 @@ fun intUiCircularProgressIcons(
 ) = IntUiCircularProgressIcons(
     IntUiCircularProgressIcons.getFrames(
         svgLoader,
-        iconsNames.map { iconPrefix + it },
+        iconNames.map { iconPrefix + it },
     ),
 )
 

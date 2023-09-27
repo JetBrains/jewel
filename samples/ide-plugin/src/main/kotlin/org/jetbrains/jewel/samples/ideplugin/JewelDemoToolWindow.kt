@@ -32,8 +32,8 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.JBColor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.CheckboxRow
-import org.jetbrains.jewel.CircularProgress
-import org.jetbrains.jewel.CircularProgressBig
+import org.jetbrains.jewel.CircularProgressIndicator
+import org.jetbrains.jewel.CircularProgressIndicatorBig
 import org.jetbrains.jewel.DefaultButton
 import org.jetbrains.jewel.ExperimentalJewelApi
 import org.jetbrains.jewel.Icon
@@ -142,11 +142,11 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
 
             Row {
                 Text("Circular progress small: ")
-                CircularProgress()
+                CircularProgressIndicator()
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Circular progress big: ")
-                CircularProgressBig()
+                CircularProgressIndicatorBig()
             }
         }
     }

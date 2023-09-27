@@ -13,7 +13,7 @@ import kotlinx.coroutines.delay
 import org.jetbrains.jewel.styling.CircularProgressStyle
 
 @Composable
-fun CircularProgress(
+fun CircularProgressIndicator(
     modifier: Modifier = Modifier,
     style: CircularProgressStyle = IntelliJTheme.circularProgressStyle,
 ) {
@@ -36,6 +36,6 @@ fun CircularProgress(
 }
 
 @Composable
-fun CircularProgressBig() {
-    CircularProgress(modifier = Modifier.size(32.dp), style = IntelliJTheme.circularProgressBigStyle)
+fun CircularProgressIndicatorBig() {
+    CircularProgressIndicator(modifier = Modifier.size(32.dp), style = IntelliJTheme.circularProgressBigStyle)
 }

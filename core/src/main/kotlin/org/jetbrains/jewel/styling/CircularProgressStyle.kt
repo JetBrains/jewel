@@ -17,9 +17,9 @@ interface CircularProgressIcons {
 }
 
 val LocalCircularProgressStyle = staticCompositionLocalOf<CircularProgressStyle> {
-    error("No CircularProgressStyle provided")
+    error("No CircularProgressIndicatorStyle provided")
 }
 
 val LocalCircularProgressBigStyle = staticCompositionLocalOf<CircularProgressStyle> {
-    error("No CircularProgressStyle provided")
+    error("No CircularProgressIndicatorBigStyle provided")
 }

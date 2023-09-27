@@ -909,7 +909,7 @@ private fun readCircularProgressStyle(
 private fun readCircularProgressBigStyle(
     svgLoader: SvgLoader,
     iconData: IntelliJThemeIconData,
-): IntUiCircularProgressStyle =
+) =
     IntUiCircularProgressStyle(
         frameTime = 125.milliseconds,
         frameIcons = IntUiCircularProgressIcons(
