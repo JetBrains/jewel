@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
@@ -30,15 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import org.jetbrains.jewel.CheckboxRow
 import org.jetbrains.jewel.Divider
-import org.jetbrains.jewel.Icon
-import org.jetbrains.jewel.LocalContentColor
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.VerticalScrollbar
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.ToolWindow
-import org.jetbrains.jewel.intui.standalone.ToolWindowButton
 import org.jetbrains.jewel.intui.standalone.styling.IntUiToolWindowButtonStyle
-import org.jetbrains.jewel.intui.standalone.styling.ToolWindowButtonStyle
 import org.jetbrains.jewel.samples.standalone.components.Borders
 import org.jetbrains.jewel.samples.standalone.components.Buttons
 import org.jetbrains.jewel.samples.standalone.components.Checkboxes
@@ -50,6 +45,7 @@ import org.jetbrains.jewel.samples.standalone.components.RadioButtons
 import org.jetbrains.jewel.samples.standalone.components.Tabs
 import org.jetbrains.jewel.samples.standalone.components.TextAreas
 import org.jetbrains.jewel.samples.standalone.components.TextFields
+import org.jetbrains.jewel.samples.standalone.components.ToolWindowStrip
 import java.io.InputStream
 
 fun main() {
@@ -128,42 +124,7 @@ private fun ComponentShowcase() {
     }
 }
 
-@Composable
-private fun ToolWindowStrip(
-    style: ToolWindowButtonStyle,
-    activeToolWindow: ToolWindow,
-    onButtonClick: (ToolWindow) -> Unit
-) {
-
-    Column {
-        ToolWindowButton(
-            style = style,
-            active = activeToolWindow == ToolWindow.Project,
-            onClick = { onButtonClick(ToolWindow.Project) }
-        ) {
-            Icon(
-                painter = svgResource("expui/icons/toolwindow/project@20x20.svg"),
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-                tint = LocalContentColor.current
-            )
-        }
-        ToolWindowButton(
-            style = style,
-            active = activeToolWindow == ToolWindow.Vcs,
-            onClick = { onButtonClick(ToolWindow.Vcs) }
-        ) {
-            Icon(
-                painter = svgResource("expui/icons/toolwindow/vcs@20x20.svg"),
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-                tint = LocalContentColor.current
-            )
-        }
-    }
-}
-
-private fun svgResource(
+fun svgResource(
     resourcePath: String,
     loader: ResourceLoader = ResourceLoader.Default,
 ): Painter =
