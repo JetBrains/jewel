@@ -20,10 +20,11 @@ class Tree<T> internal constructor(val roots: List<Element<T>>) {
             yield(next)
             if (next is Node) {
                 next.open()
-                if (breathFirst)
+                if (breathFirst) {
                     queue.addAll(next.children ?: emptyList())
-                else
+                } else {
                     queue.addAll(0, next.children ?: emptyList())
+                }
             }
         }
     }
