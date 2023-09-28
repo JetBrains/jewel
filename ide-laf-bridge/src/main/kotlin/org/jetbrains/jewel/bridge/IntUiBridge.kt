@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
@@ -36,7 +37,6 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipStyle
-import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressIcons
 import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownIcons
@@ -86,7 +86,10 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
+import org.jetbrains.jewel.intui.standalone.styling.intUiCircularProgressIcons
 import org.jetbrains.jewel.styling.InputFieldStyle
+import org.jetbrains.jewel.util.SpinnerProgressIconGenerator
+import org.jetbrains.jewel.util.toHex
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
@@ -162,8 +165,8 @@ internal fun createSwingIntUiComponentStyling(
         radioButtonStyle = readRadioButtonStyle(theme.iconData, svgLoader),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
-        circularProgressStyle = readCircularProgressStyle(svgLoader, theme.iconData),
-        circularProgressBigStyle = readCircularProgressBigStyle(svgLoader, theme.iconData),
+        circularProgressStyle = readCircularProgressStyle(svgLoader, theme.isDark),
+        circularProgressBigStyle = readCircularProgressBigStyle(svgLoader, theme.isDark),
         textFieldStyle = textFieldStyle,
     )
 }
@@ -888,40 +891,38 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
 
 private fun readCircularProgressStyle(
     svgLoader: SvgLoader,
-    iconData: IntelliJThemeIconData,
+    isDark: Boolean,
 ): IntUiCircularProgressStyle =
     IntUiCircularProgressStyle(
         frameTime = 125.milliseconds,
-        frameIcons = IntUiCircularProgressIcons(
-            listOf(
-                retrieveStatelessIcon("process/step_1.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/step_2.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/step_3.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/step_4.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/step_5.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/step_6.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/step_7.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/step_8.svg", svgLoader = svgLoader, iconData = iconData),
-            ),
+        frameIcons =
+        intUiCircularProgressIcons(
+            svgLoader,
+            SpinnerProgressIconGenerator.Small
+                .generateRawSvg(
+                    retrieveColorOrUnspecified("ProgressIcon.color")
+                        .takeIf { it.isSpecified }
+                        ?.toHex()
+                        ?: if (isDark) "#6F737A" else "#A8ADBD"
+                ),
         ),
     )
 
 private fun readCircularProgressBigStyle(
     svgLoader: SvgLoader,
-    iconData: IntelliJThemeIconData,
+    isDark: Boolean,
 ) =
     IntUiCircularProgressStyle(
         frameTime = 125.milliseconds,
-        frameIcons = IntUiCircularProgressIcons(
-            listOf(
-                retrieveStatelessIcon("process/big/step_1.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/big/step_2.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/big/step_3.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/big/step_4.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/big/step_5.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/big/step_6.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/big/step_7.svg", svgLoader = svgLoader, iconData = iconData),
-                retrieveStatelessIcon("process/big/step_8.svg", svgLoader = svgLoader, iconData = iconData),
-            ),
+        frameIcons =
+        intUiCircularProgressIcons(
+            svgLoader,
+            SpinnerProgressIconGenerator.Big
+                .generateRawSvg(
+                    retrieveColorOrUnspecified("ProgressIcon.color")
+                        .takeIf { it.isSpecified }
+                        ?.toHex()
+                        ?: if (isDark) "#6F737A" else "#A8ADBD"
+                ),
         ),
     )

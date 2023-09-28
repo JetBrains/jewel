@@ -2,11 +2,11 @@ package org.jetbrains.jewel.intui.standalone.styling
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.painter.Painter
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.styling.CircularProgressIcons
 import org.jetbrains.jewel.styling.CircularProgressStyle
-import org.jetbrains.jewel.styling.PainterProvider
-import org.jetbrains.jewel.styling.ResourcePainterProvider
+import org.jetbrains.jewel.util.SpinnerProgressIconGenerator
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -22,7 +22,10 @@ data class IntUiCircularProgressStyle(
         fun dark(
             svgLoader: SvgLoader,
             frameTime: Duration = 125.milliseconds,
-            frameIcons: IntUiCircularProgressIcons = intUiCircularProgressIcons(svgLoader),
+            frameIcons: IntUiCircularProgressIcons = intUiCircularProgressIcons(
+                svgLoader,
+                SpinnerProgressIconGenerator.Small.generateRawSvg("#6F737A"),
+            ),
         ) =
             IntUiCircularProgressStyle(frameIcons, frameTime)
 
@@ -30,7 +33,10 @@ data class IntUiCircularProgressStyle(
         fun light(
             svgLoader: SvgLoader,
             frameTime: Duration = 125.milliseconds,
-            frameIcons: IntUiCircularProgressIcons = intUiCircularProgressIcons(svgLoader),
+            frameIcons: IntUiCircularProgressIcons = intUiCircularProgressIcons(
+                svgLoader,
+                SpinnerProgressIconGenerator.Small.generateRawSvg("#A8ADBD"),
+            ),
         ) =
             IntUiCircularProgressStyle(frameIcons, frameTime)
     }
@@ -41,57 +47,32 @@ data class IntUiCircularProgressStyle(
         fun dark(
             svgLoader: SvgLoader,
             frameTime: Duration = 125.milliseconds,
-            frameIcons: IntUiCircularProgressIcons = intUiCircularProgressBigIcons(svgLoader),
-        ) =
-            IntUiCircularProgressStyle(frameIcons, frameTime)
+            frameIcons: IntUiCircularProgressIcons = intUiCircularProgressIcons(
+                svgLoader,
+                SpinnerProgressIconGenerator.Big.generateRawSvg("#6F737A"),
+            ),
+        ) = IntUiCircularProgressStyle(frameIcons, frameTime)
 
         @Composable
         fun light(
             svgLoader: SvgLoader,
             frameTime: Duration = 125.milliseconds,
-            frameIcons: IntUiCircularProgressIcons = intUiCircularProgressBigIcons(svgLoader),
+            frameIcons: IntUiCircularProgressIcons = intUiCircularProgressIcons(
+                svgLoader,
+                SpinnerProgressIconGenerator.Big.generateRawSvg("#A8ADBD"),
+            ),
         ) =
             IntUiCircularProgressStyle(frameIcons, frameTime)
     }
 }
 
 data class IntUiCircularProgressIcons(
-    override val frames: List<PainterProvider<Unit>>,
-) : CircularProgressIcons {
+    override val frames: List<Painter>,
+) : CircularProgressIcons
 
-    companion object {
-
-        @Composable
-        fun getFrames(
-            svgLoader: SvgLoader,
-            iconPaths: List<String>,
-        ): List<PainterProvider<Unit>> = iconPaths.map {
-            ResourcePainterProvider.stateless(basePath = it, svgLoader = svgLoader)
-        }
-    }
-}
-
-@Composable
 fun intUiCircularProgressIcons(
     svgLoader: SvgLoader,
-    iconPrefix: String = "icons/intui/animated/smallSpinner/",
-    iconNames: List<String> = listOf(
-        "spinner1.svg",
-        "spinner2.svg",
-        "spinner3.svg",
-        "spinner4.svg",
-        "spinner5.svg",
-        "spinner6.svg",
-        "spinner7.svg",
-        "spinner8.svg",
-    ),
+    rawSVGIcons: List<String>,
 ) = IntUiCircularProgressIcons(
-    IntUiCircularProgressIcons.getFrames(
-        svgLoader,
-        iconNames.map { iconPrefix + it },
-    ),
+    rawSVGIcons.map { svgLoader.loadRawSvg(it, it.hashCode().toString()) }
 )
-
-@Composable
-fun intUiCircularProgressBigIcons(svgLoader: SvgLoader) =
-    intUiCircularProgressIcons(svgLoader = svgLoader, iconPrefix = "icons/intui/animated/bigSpinner/")

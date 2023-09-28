@@ -21,7 +21,7 @@ fun CircularProgressIndicator(
 
     Icon(
         modifier = modifier,
-        painter = currentFrame.getPainter(LocalResourceLoader.current).value,
+        painter = currentFrame,
         contentDescription = null,
     )
 

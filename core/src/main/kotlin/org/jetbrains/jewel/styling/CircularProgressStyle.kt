@@ -2,6 +2,7 @@ package org.jetbrains.jewel.styling
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.painter.Painter
 import kotlin.time.Duration
 
 interface CircularProgressStyle {
@@ -13,7 +14,7 @@ interface CircularProgressStyle {
 @Immutable
 interface CircularProgressIcons {
 
-    val frames: List<PainterProvider<Unit>>
+    val frames: List<Painter>
 }
 
 val LocalCircularProgressStyle = staticCompositionLocalOf<CircularProgressStyle> {
