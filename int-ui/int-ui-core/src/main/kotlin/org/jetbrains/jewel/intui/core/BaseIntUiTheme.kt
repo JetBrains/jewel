@@ -28,7 +28,6 @@ import org.jetbrains.jewel.styling.LazyTreeStyle
 import org.jetbrains.jewel.styling.LinkStyle
 import org.jetbrains.jewel.styling.LocalCheckboxStyle
 import org.jetbrains.jewel.styling.LocalChipStyle
-import org.jetbrains.jewel.styling.LocalCircularProgressBigStyle
 import org.jetbrains.jewel.styling.LocalCircularProgressStyle
 import org.jetbrains.jewel.styling.LocalDefaultButtonStyle
 import org.jetbrains.jewel.styling.LocalDefaultTabStyle
@@ -227,7 +226,6 @@ fun BaseIntUiTheme(
         LocalEditorTabStyle provides componentStyling.editorTabStyle,
         LocalIndication provides NoIndication,
         LocalCircularProgressStyle provides componentStyling.circularProgressStyle,
-        LocalCircularProgressBigStyle provides componentStyling.circularProgressBigStyle,
     ) {
         IntelliJTheme(theme, swingCompatMode, content)
     }

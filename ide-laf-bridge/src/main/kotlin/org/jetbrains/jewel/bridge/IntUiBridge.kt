@@ -86,10 +86,7 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
-import org.jetbrains.jewel.intui.standalone.styling.intUiCircularProgressIcons
 import org.jetbrains.jewel.styling.InputFieldStyle
-import org.jetbrains.jewel.util.SpinnerProgressIconGenerator
-import org.jetbrains.jewel.util.toHex
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
@@ -165,8 +162,7 @@ internal fun createSwingIntUiComponentStyling(
         radioButtonStyle = readRadioButtonStyle(theme.iconData, svgLoader),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
-        circularProgressStyle = readCircularProgressStyle(svgLoader, theme.isDark),
-        circularProgressBigStyle = readCircularProgressBigStyle(svgLoader, theme.isDark),
+        circularProgressStyle = readCircularProgressStyle(theme.isDark),
         textFieldStyle = textFieldStyle,
     )
 }
@@ -890,39 +886,11 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
 }
 
 private fun readCircularProgressStyle(
-    svgLoader: SvgLoader,
     isDark: Boolean,
 ): IntUiCircularProgressStyle =
     IntUiCircularProgressStyle(
         frameTime = 125.milliseconds,
-        frameIcons =
-        intUiCircularProgressIcons(
-            svgLoader,
-            SpinnerProgressIconGenerator.Small
-                .generateRawSvg(
-                    retrieveColorOrUnspecified("ProgressIcon.color")
-                        .takeIf { it.isSpecified }
-                        ?.toHex()
-                        ?: if (isDark) "#6F737A" else "#A8ADBD"
-                ),
-        ),
-    )
-
-private fun readCircularProgressBigStyle(
-    svgLoader: SvgLoader,
-    isDark: Boolean,
-) =
-    IntUiCircularProgressStyle(
-        frameTime = 125.milliseconds,
-        frameIcons =
-        intUiCircularProgressIcons(
-            svgLoader,
-            SpinnerProgressIconGenerator.Big
-                .generateRawSvg(
-                    retrieveColorOrUnspecified("ProgressIcon.color")
-                        .takeIf { it.isSpecified }
-                        ?.toHex()
-                        ?: if (isDark) "#6F737A" else "#A8ADBD"
-                ),
-        ),
+        color = retrieveColorOrUnspecified("ProgressIcon.color")
+            .takeIf { it.isSpecified }
+            ?: if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD),
     )

@@ -83,6 +83,8 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
             Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            val svgLoader = service<SwingBridgeService>().svgLoader
+
             Text("Here is a selection of our finest components:")
 
             Row(
@@ -134,7 +136,6 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
             }
 
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                val svgLoader = service<SwingBridgeService>().svgLoader
                 val painterProvider = retrieveStatelessIcon("actions/close.svg", svgLoader, IntUiTheme.iconData)
                 val painter by painterProvider.getPainter(resourceLoader)
                 Icon(painter = painter, modifier = Modifier.border(1.dp, Color.Magenta), contentDescription = "An icon")
@@ -142,11 +143,11 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
 
             Row {
                 Text("Circular progress small: ")
-                CircularProgressIndicator()
+                CircularProgressIndicator(svgLoader = svgLoader)
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Circular progress big: ")
-                CircularProgressIndicatorBig()
+                CircularProgressIndicatorBig(svgLoader = svgLoader)
             }
         }
     }
