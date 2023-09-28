@@ -71,11 +71,11 @@ object SpinnerProgressIconGenerator {
     }
 
     internal fun getPlainTextSvgList(colorHex: String, size: Int) = buildList {
+        val scaleFactor = size / 16f
         for (index in 0..opacityList.lastIndex) {
             if (size == 16) {
                 add(getSvgPlainTextIcon(index, points, colorHex))
             } else {
-                val scaleFactor = size / 16f
                 add(
                     getSvgPlainTextIcon(
                         index,
