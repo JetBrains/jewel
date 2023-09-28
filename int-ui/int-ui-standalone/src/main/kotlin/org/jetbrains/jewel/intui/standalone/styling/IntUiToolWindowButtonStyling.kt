@@ -202,6 +202,6 @@ interface ToolWindowButtonMetrics {
     val minSize: DpSize
 }
 
-val LocalDefaultToolWindowButtonStyle = staticCompositionLocalOf<ToolWindowButtonStyle> {
-    error("No default ToolWindowButtonStyle provided")
+val LocalToolWindowButtonStyle = staticCompositionLocalOf<ToolWindowButtonStyle> {
+    error("No ToolWindowButtonStyle provided")
 }

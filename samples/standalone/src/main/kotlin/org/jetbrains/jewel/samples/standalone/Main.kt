@@ -30,9 +30,11 @@ import androidx.compose.ui.window.singleWindowApplication
 import org.jetbrains.jewel.CheckboxRow
 import org.jetbrains.jewel.Divider
 import org.jetbrains.jewel.LocalResourceLoader
+import org.jetbrains.jewel.Orientation
 import org.jetbrains.jewel.VerticalScrollbar
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.ToolWindow
+import org.jetbrains.jewel.intui.standalone.ToolWindowButtonData
 import org.jetbrains.jewel.intui.standalone.styling.IntUiToolWindowButtonStyle
 import org.jetbrains.jewel.samples.standalone.components.Borders
 import org.jetbrains.jewel.samples.standalone.components.Buttons
@@ -69,24 +71,66 @@ fun main() {
 
             var activeToolWindow by remember { mutableStateOf(ToolWindow.Project) }
 
-            Column(Modifier.fillMaxSize().background(windowBackground)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    CheckboxRow("Dark", isDark, resourceLoader, { isDark = it })
-                    CheckboxRow("Swing compat", swingCompat, resourceLoader, { swingCompat = it })
-                }
-
-                Divider(Modifier.fillMaxWidth())
+            Row(
+                Modifier
+                    .fillMaxSize()
+                    .background(windowBackground)
+            ) {
+                val firstToolWindowGroup = listOf(
+                    ToolWindowButtonData.Default(
+                        label = "Project",
+                        iconResource = "expui/icons/toolwindow/project@20x20.svg"
+                    ),
+                    ToolWindowButtonData.Default(
+                        label = "Commit",
+                        iconResource = "expui/icons/toolwindow/commit@20x20.svg"
+                    ),
+                    ToolWindowButtonData.Default(
+                        label = "Structure",
+                        iconResource = "expui/icons/toolwindow/structure@20x20.svg"
+                    ),
+                )
+                val secondToolWindowGroup = listOf(
+                    ToolWindowButtonData.Default(
+                        label = "Build",
+                        iconResource = "expui/icons/toolwindow/build@20x20.svg"
+                    ),
+                    ToolWindowButtonData.Default(
+                        label = "Problems",
+                        iconResource = "expui/icons/toolwindow/problems@20x20.svg"
+                    ),
+                    ToolWindowButtonData.Default(
+                        label = "Version Control",
+                        iconResource = "expui/icons/toolwindow/vcs@20x20.svg"
+                    ),
+                )
 
                 ToolWindowStrip(
                     style = if (isDark) IntUiToolWindowButtonStyle.Default.dark() else IntUiToolWindowButtonStyle.Default.light(),
+                    firstGroup = firstToolWindowGroup,
+                    secondGroup = secondToolWindowGroup,
                     activeToolWindow = activeToolWindow,
-                    onButtonClick = { activeToolWindow = it }
+                    onButtonClick = { activeToolWindow = it },
                 )
-                ComponentShowcase()
+                Divider(
+                    thickness = 1.dp,
+                    orientation = Orientation.Vertical,
+                    modifier = Modifier.fillMaxHeight()
+                )
+                Column(Modifier.weight(1f)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        CheckboxRow("Dark", isDark, resourceLoader, { isDark = it })
+                        CheckboxRow("Swing compat", swingCompat, resourceLoader, { swingCompat = it })
+                    }
+
+                    Divider(Modifier.fillMaxWidth())
+
+                    ComponentShowcase()
+                }
             }
         }
     }

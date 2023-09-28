@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -84,6 +85,46 @@ fun ToolWindowButton(
             LocalContentColor provides contentColor.takeOrElse { colors.content },
         ) {
             content()
+        }
+    }
+}
+
+@Immutable
+sealed class ToolWindowButtonData {
+
+    abstract val selected: Boolean
+    abstract val label: String
+    abstract val iconResource: String // TODO use painters instead
+    abstract val onClick: () -> Unit
+
+    @Immutable
+    class Default(
+        override val selected: Boolean = false,
+        override val label: String,
+        override val iconResource: String,
+        override val onClick: () -> Unit = {},
+    ) : ToolWindowButtonData() {
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Default
+
+            if (selected != other.selected) return false
+            if (label != other.label) return false
+            if (iconResource != other.iconResource) return false
+            if (onClick != other.onClick) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = selected.hashCode()
+            result = 31 * result + label.hashCode()
+            result = 31 * result + (iconResource.hashCode() ?: 0)
+            result = 31 * result + onClick.hashCode()
+            return result
         }
     }
 }
