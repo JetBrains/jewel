@@ -1,7 +1,5 @@
 package org.jetbrains.jewel.util
 
-import androidx.compose.ui.graphics.Color
-
 object SpinnerProgressIconGenerator {
 
     private val opacityList = listOf(1.0f, 0.93f, 0.78f, 0.69f, 0.62f, 0.48f, 0.38f, 0.0f)
@@ -22,7 +20,8 @@ object SpinnerProgressIconGenerator {
 
     private fun StringBuilder.closeTag() = append("</svg>")
     private fun StringBuilder.openTag(sizePx: Int) = append(
-        "<svg width=\"$sizePx\" height=\"$sizePx\" viewBox=\"0 0 $sizePx $sizePx\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+        "<svg width=\"$sizePx\" height=\"$sizePx\" viewBox=\"0 0 $sizePx $sizePx\" fill=\"none\" " +
+            "xmlns=\"http://www.w3.org/2000/svg\">",
     )
 
     private fun getSvgPlainTextIcon(
@@ -84,7 +83,7 @@ object SpinnerProgressIconGenerator {
                         thickness = (2 * scaleFactor).toInt().coerceAtLeast(1),
                         length = (4 * scaleFactor).toInt().coerceAtLeast(1),
                         cornerRadius = (2 * scaleFactor).toInt().coerceAtLeast(1),
-                    )
+                    ),
                 )
             }
         }
@@ -100,11 +99,4 @@ object SpinnerProgressIconGenerator {
         fun generateRawSvg(colorHex: String) =
             getPlainTextSvgList(colorHex = colorHex, size = 32)
     }
-}
-
-fun Color.toHex(): String {
-    val red = (this.red * 255).toInt()
-    val green = (this.green * 255).toInt()
-    val blue = (this.blue * 255).toInt()
-    return String.format("#%02X%02X%02X", red, green, blue)
 }

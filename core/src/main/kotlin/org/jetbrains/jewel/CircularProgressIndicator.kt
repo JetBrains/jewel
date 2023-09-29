@@ -28,7 +28,7 @@ fun CircularProgressIndicator(
         svgLoader = svgLoader,
         iconSize = DpSize(16.dp, 16.dp),
         style = style,
-        frameRetriever = { color -> SpinnerProgressIconGenerator.Small.generateSvgFrames(color.toHexString()) }
+        frameRetriever = { color -> SpinnerProgressIconGenerator.Small.generateSvgFrames(color.toHexString()) },
     )
 }
 
@@ -43,7 +43,7 @@ fun CircularProgressIndicatorBig(
         svgLoader = svgLoader,
         iconSize = DpSize(32.dp, 32.dp),
         style = style,
-        frameRetriever = { color -> SpinnerProgressIconGenerator.Big.generateSvgFrames(color.toHexString()) }
+        frameRetriever = { color -> SpinnerProgressIconGenerator.Big.generateSvgFrames(color.toHexString()) },
     )
 }
 
@@ -66,7 +66,7 @@ private fun CircularProgressIndicatorImpl(
             modifier = modifier.size(iconSize),
             painter = svgLoader.loadRawSvg(
                 currentFrame.first,
-                "circularProgressIndicator_frame_${currentFrame.second}"
+                "circularProgressIndicator_frame_${currentFrame.second}",
             ),
             contentDescription = null,
         )
@@ -90,7 +90,8 @@ object SpinnerProgressIconGenerator {
 
     private fun StringBuilder.closeRoot() = append("</svg>")
     private fun StringBuilder.openRoot(sizePx: Int) = append(
-        "<svg width=\"$sizePx\" height=\"$sizePx\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+        "<svg width=\"$sizePx\" height=\"$sizePx\" viewBox=\"0 0 16 16\" fill=\"none\" " +
+            "xmlns=\"http://www.w3.org/2000/svg\">",
     )
 
     private fun generateSvgIcon(
@@ -124,7 +125,7 @@ object SpinnerProgressIconGenerator {
                 "          transform=\"rotate(-45 9.41016 10.8242)\"/>\n" +
                 "    <rect fill=\"$colorHex\" opacity=\"${opacityList[6]}\" x=\"11\" y=\"7\" width=\"4\" height=\"2\" rx=\"1\"/>\n" +
                 "    <rect fill=\"$colorHex\" opacity=\"${opacityList[7]}\" x=\"12.2383\" y=\"2.3501\" width=\"2\" height=\"4\" rx=\"1\"\n" +
-                "          transform=\"rotate(45 12.2383 2.3501)\"/>\n"
+                "          transform=\"rotate(45 12.2383 2.3501)\"/>\n",
         )
     }
 
@@ -137,8 +138,8 @@ object SpinnerProgressIconGenerator {
                     generateSvgIcon(
                         size = 16,
                         colorHex = colorHex,
-                        opacityListShifted = opacityListShifted
-                    )
+                        opacityListShifted = opacityListShifted,
+                    ),
                 )
                 opacityListShifted.shtr()
             }
@@ -154,8 +155,8 @@ object SpinnerProgressIconGenerator {
                     generateSvgIcon(
                         size = 32,
                         colorHex = colorHex,
-                        opacityListShifted = opacityListShifted
-                    )
+                        opacityListShifted = opacityListShifted,
+                    ),
                 )
                 opacityListShifted.shtr()
             }
