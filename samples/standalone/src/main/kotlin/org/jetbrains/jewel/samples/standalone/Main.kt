@@ -89,7 +89,7 @@ fun main() {
 @Composable
 private fun ComponentShowcase(svgLoader: JewelSvgLoader, resourceLoader: ResourceLoader) {
     val verticalScrollState = rememberScrollState()
-
+    val svgLoader by rememberSvgLoader()
     Box(Modifier.fillMaxSize()) {
         Column(
             Modifier.width(IntrinsicSize.Max)
@@ -106,7 +106,7 @@ private fun ComponentShowcase(svgLoader: JewelSvgLoader, resourceLoader: Resourc
             Links()
             TextFields()
             TextAreas()
-            ProgressBar()
+            ProgressBar(svgLoader)
             ChipsAndTree()
             Tabs(svgLoader, resourceLoader)
             Icons(svgLoader, resourceLoader)

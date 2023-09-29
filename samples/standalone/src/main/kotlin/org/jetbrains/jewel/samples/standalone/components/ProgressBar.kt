@@ -23,10 +23,11 @@ import org.jetbrains.jewel.CircularProgressIndicatorBig
 import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.HorizontalProgressBar
 import org.jetbrains.jewel.IndeterminateHorizontalProgressBar
+import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.Text
 
 @Composable
-fun ProgressBar() {
+fun ProgressBar(svgLoader: SvgLoader) {
     GroupHeader("Progress bars")
     val transition = rememberInfiniteTransition()
     val currentOffset by transition.animateFloat(
@@ -103,7 +104,7 @@ fun ProgressBar() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text("CircularProgress (16x16)")
-            CircularProgressIndicator()
+            CircularProgressIndicator(svgLoader)
         }
         Row(
             Modifier.width(600.dp),
@@ -111,7 +112,7 @@ fun ProgressBar() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text("CircularProgressBig (32x32) - Big")
-            CircularProgressIndicatorBig()
+            CircularProgressIndicatorBig(svgLoader)
         }
     }
 }
