@@ -162,7 +162,7 @@ internal fun createSwingIntUiComponentStyling(
         radioButtonStyle = readRadioButtonStyle(theme.iconData, svgLoader),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
-        circularProgressStyle = readCircularProgressStyle(theme.isDark),
+        circularProgressStyle = readCircularProgressStyle(svgLoader, theme.isDark),
         textFieldStyle = textFieldStyle,
     )
 }
@@ -886,11 +886,13 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
 }
 
 private fun readCircularProgressStyle(
+    svgLoader: SvgLoader,
     isDark: Boolean,
 ): IntUiCircularProgressStyle =
     IntUiCircularProgressStyle(
+        svgLoader = svgLoader,
         frameTime = 125.milliseconds,
         color = retrieveColorOrUnspecified("ProgressIcon.color")
-            .takeIf { it.isSpecified }
+            .takeIf { it.isSpecified && it.alpha > 0f }
             ?: if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD),
     )

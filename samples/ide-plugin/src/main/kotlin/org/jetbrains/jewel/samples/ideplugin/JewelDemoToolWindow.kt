@@ -143,11 +143,11 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
 
             Row {
                 Text("Circular progress small: ")
-                CircularProgressIndicator(svgLoader = svgLoader)
+                CircularProgressIndicator()
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Circular progress big: ")
-                CircularProgressIndicatorBig(svgLoader = svgLoader)
+                CircularProgressIndicatorBig()
             }
         }
     }

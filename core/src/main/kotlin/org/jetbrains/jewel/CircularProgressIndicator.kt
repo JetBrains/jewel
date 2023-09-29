@@ -20,12 +20,10 @@ import org.jetbrains.jewel.util.toHexString
 @Composable
 fun CircularProgressIndicator(
     modifier: Modifier = Modifier,
-    svgLoader: SvgLoader,
     style: CircularProgressStyle = IntelliJTheme.circularProgressStyle,
 ) {
     CircularProgressIndicatorImpl(
         modifier = modifier,
-        svgLoader = svgLoader,
         style = style,
         iconSize = DpSize(16.dp, 16.dp),
         frameRetriever = { color -> SpinnerProgressIconGenerator.Small.generateSvgFrames(color.toHexString()) }
@@ -35,12 +33,10 @@ fun CircularProgressIndicator(
 @Composable
 fun CircularProgressIndicatorBig(
     modifier: Modifier = Modifier,
-    svgLoader: SvgLoader,
     style: CircularProgressStyle = IntelliJTheme.circularProgressStyle,
 ) {
     CircularProgressIndicatorImpl(
         modifier = modifier,
-        svgLoader = svgLoader,
         style = style,
         iconSize = DpSize(32.dp, 32.dp),
         frameRetriever = { color -> SpinnerProgressIconGenerator.Big.generateSvgFrames(color.toHexString()) }
@@ -50,7 +46,6 @@ fun CircularProgressIndicatorBig(
 @Composable
 private fun CircularProgressIndicatorImpl(
     modifier: Modifier = Modifier,
-    svgLoader: SvgLoader,
     iconSize: DpSize,
     style: CircularProgressStyle,
     frameRetriever: (Color) -> List<String>,
@@ -64,7 +59,7 @@ private fun CircularProgressIndicatorImpl(
     } else {
         Icon(
             modifier = modifier.size(iconSize),
-            painter = svgLoader.loadRawSvg(
+            painter = style.svgLoader.loadRawSvg(
                 currentFrame.first,
                 "circularProgressIndicator_frame_${currentFrame.second}"
             ),
@@ -88,82 +83,59 @@ object SpinnerProgressIconGenerator {
 
     private val opacityList = listOf(1.0f, 0.93f, 0.78f, 0.69f, 0.62f, 0.48f, 0.38f, 0.0f)
 
-    private val rotations = listOf(0, -45, 0, 45, 0, -45, 0, 45)
-
-    // for a 16x16 icon
-    private val points = listOf(
-        7f to 1f,
-        2.34961f to 3.76416f,
-        1f to 7f,
-        5.17871f to 9.40991f,
-        7f to 11f,
-        9.41016f to 10.8242f,
-        11f to 7f,
-        12.2383f to 2.34961f,
-    )
-
     private fun StringBuilder.closeRoot() = append("</svg>")
     private fun StringBuilder.openRoot(sizePx: Int) = append(
-        "<svg width=\"$sizePx\" height=\"$sizePx\" viewBox=\"0 0 $sizePx $sizePx\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+        "<svg width=\"$sizePx\" height=\"$sizePx\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
     )
 
     private fun generateSvgIcon(
-        step: Int,
-        pointList: List<Pair<Float, Float>>,
+        size: Int,
+        opacityListShifted: List<Float>,
         colorHex: String,
-        thickness: Int,
-        length: Int,
-        cornerRadius: Int,
     ) =
         buildString {
-            openRoot(16)
-            for (index in 0..opacityList.lastIndex) {
-                val currentIndex = (index + step + 1) % opacityList.size
-                val currentOpacity = opacityList[currentIndex]
-                if (currentOpacity == 0.0f) continue
-                element(
-                    colorHex = colorHex,
-                    opacity = currentOpacity,
-                    x = pointList[index].first,
-                    y = pointList[index].second,
-                    width = thickness,
-                    height = length,
-                    rx = cornerRadius,
-                    rotation = rotations[index],
-                )
-            }
+            openRoot(size)
+            elements(
+                colorHex = colorHex,
+                opacityList = opacityListShifted,
+            )
             closeRoot()
         }
 
-    private fun StringBuilder.element(
+    private fun StringBuilder.elements(
         colorHex: String,
-        opacity: Float,
-        x: Float,
-        y: Float,
-        width: Int,
-        height: Int,
-        rx: Int,
-        rotation: Int,
+        opacityList: List<Float>,
     ) {
-        append("<rect fill=\"${colorHex}\" opacity=\"$opacity\" x=\"$x\" y=\"$y\" width=\"$width\" height=\"$height\" rx=\"$rx\"")
-        if (rotation != 0) append(" transform=\"rotate($rotation $x $y)\"")
-        append("/>\n")
+        append(
+            "\n" +
+                "    <rect fill=\"$colorHex\" opacity=\"${opacityList[0]}\" x=\"7\" y=\"1\" width=\"2\" height=\"4\" rx=\"1\"/>\n" +
+                "    <rect fill=\"$colorHex\" opacity=\"${opacityList[1]}\" x=\"2.34961\" y=\"3.76416\" width=\"2\" height=\"4\" rx=\"1\"\n" +
+                "          transform=\"rotate(-45 2.34961 3.76416)\"/>\n" +
+                "    <rect fill=\"$colorHex\" opacity=\"${opacityList[2]}\" x=\"1\" y=\"7\" width=\"4\" height=\"2\" rx=\"1\"/>\n" +
+                "    <rect fill=\"$colorHex\" opacity=\"${opacityList[3]}\" x=\"5.17871\" y=\"9.40991\" width=\"2\" height=\"4\" rx=\"1\"\n" +
+                "          transform=\"rotate(45 5.17871 9.40991)\"/>\n" +
+                "    <rect fill=\"$colorHex\" opacity=\"${opacityList[4]}\" x=\"7\" y=\"11\" width=\"2\" height=\"4\" rx=\"1\"/>\n" +
+                "    <rect fill=\"$colorHex\" opacity=\"${opacityList[5]}\" x=\"9.41016\" y=\"10.8242\" width=\"2\" height=\"4\" rx=\"1\"\n" +
+                "          transform=\"rotate(-45 9.41016 10.8242)\"/>\n" +
+                "    <rect fill=\"$colorHex\" opacity=\"${opacityList[6]}\" x=\"11\" y=\"7\" width=\"4\" height=\"2\" rx=\"1\"/>\n" +
+                "    <rect fill=\"$colorHex\" opacity=\"${opacityList[7]}\" x=\"12.2383\" y=\"2.3501\" width=\"2\" height=\"4\" rx=\"1\"\n" +
+                "          transform=\"rotate(45 12.2383 2.3501)\"/>\n"
+        )
     }
 
     object Small {
 
         fun generateSvgFrames(colorHex: String) = buildList {
-            for (index in 0..opacityList.lastIndex) {
+            val opacityListShifted = opacityList.toMutableList()
+            repeat(opacityList.count()) {
                 add(
                     generateSvgIcon(
-                        step = index,
-                        pointList = points,
+                        size = 16,
                         colorHex = colorHex,
-                        thickness = 2,
-                        length = 4,
-                        cornerRadius = 1
+                        opacityListShifted = opacityListShifted
                     )
                 )
+                opacityListShifted.shtr()
             }
         }
     }
@@ -171,18 +143,22 @@ object SpinnerProgressIconGenerator {
     object Big {
 
         fun generateSvgFrames(colorHex: String) = buildList {
-            for (index in 0..opacityList.lastIndex) {
+            val opacityListShifted = opacityList.toMutableList()
+            repeat(opacityList.count()) {
                 add(
                     generateSvgIcon(
-                        step = index,
-                        pointList = points.map { it.first * 2f to it.second * 2f },
+                        size = 32,
                         colorHex = colorHex,
-                        thickness = 4,
-                        length = 8,
-                        cornerRadius = 2,
+                        opacityListShifted = opacityListShifted
                     )
                 )
+                opacityListShifted.shtr()
             }
         }
+    }
+
+    private fun <T> MutableList<T>.shtr() {
+        add(first())
+        removeFirst()
     }
 }
