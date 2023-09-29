@@ -130,7 +130,7 @@ object IntUiTheme : BaseIntUiTheme {
         lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.dark(svgLoader),
         defaultTabStyle: TabStyle = IntUiTabStyle.Default.dark(svgLoader),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(svgLoader),
-        circularProgressStyle: CircularProgressStyle = IntUiCircularProgressStyle.dark(svgLoader),
+        circularProgressStyle: CircularProgressStyle = IntUiCircularProgressStyle.dark(),
     ) =
         IntelliJComponentStyling(
             checkboxStyle = checkboxStyle,
@@ -173,7 +173,7 @@ object IntUiTheme : BaseIntUiTheme {
         lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.light(svgLoader),
         defaultTabStyle: TabStyle = IntUiTabStyle.Default.light(svgLoader),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(svgLoader),
-        circularProgressStyle: CircularProgressStyle = IntUiCircularProgressStyle.light(svgLoader),
+        circularProgressStyle: CircularProgressStyle = IntUiCircularProgressStyle.light(),
     ) = IntelliJComponentStyling(
         checkboxStyle = checkboxStyle,
         chipStyle = chipStyle,
