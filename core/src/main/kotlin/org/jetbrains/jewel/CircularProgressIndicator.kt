@@ -19,26 +19,30 @@ import org.jetbrains.jewel.util.toHexString
 
 @Composable
 fun CircularProgressIndicator(
+    svgLoader: SvgLoader,
     modifier: Modifier = Modifier,
     style: CircularProgressStyle = IntelliJTheme.circularProgressStyle,
 ) {
     CircularProgressIndicatorImpl(
         modifier = modifier,
-        style = style,
+        svgLoader = svgLoader,
         iconSize = DpSize(16.dp, 16.dp),
+        style = style,
         frameRetriever = { color -> SpinnerProgressIconGenerator.Small.generateSvgFrames(color.toHexString()) }
     )
 }
 
 @Composable
 fun CircularProgressIndicatorBig(
+    svgLoader: SvgLoader,
     modifier: Modifier = Modifier,
     style: CircularProgressStyle = IntelliJTheme.circularProgressStyle,
 ) {
     CircularProgressIndicatorImpl(
         modifier = modifier,
-        style = style,
+        svgLoader = svgLoader,
         iconSize = DpSize(32.dp, 32.dp),
+        style = style,
         frameRetriever = { color -> SpinnerProgressIconGenerator.Big.generateSvgFrames(color.toHexString()) }
     )
 }
@@ -46,6 +50,7 @@ fun CircularProgressIndicatorBig(
 @Composable
 private fun CircularProgressIndicatorImpl(
     modifier: Modifier = Modifier,
+    svgLoader: SvgLoader,
     iconSize: DpSize,
     style: CircularProgressStyle,
     frameRetriever: (Color) -> List<String>,
@@ -59,7 +64,7 @@ private fun CircularProgressIndicatorImpl(
     } else {
         Icon(
             modifier = modifier.size(iconSize),
-            painter = style.svgLoader.loadRawSvg(
+            painter = svgLoader.loadRawSvg(
                 currentFrame.first,
                 "circularProgressIndicator_frame_${currentFrame.second}"
             ),
