@@ -8,7 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.bridge.addComposeTab
 
 @ExperimentalCoroutinesApi
-internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
+internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         toolWindow.addComposeTab("Components") {
