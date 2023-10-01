@@ -20,16 +20,17 @@ sealed class ContentItem {
         val platformVersion: String,
         val channel: ReleaseChannel,
         override val releaseDate: LocalDate?,
-        override val key: Any = displayText,
+        override val key: Any = build,
     ) : ContentItem()
 
     data class AndroidRelease(
         @Nls override val displayText: String,
         override val imagePath: String?,
         override val versionName: String,
+        val codename: String?,
         val apiLevel: Int,
         override val releaseDate: LocalDate?,
-        override val key: Any = displayText,
+        override val key: Any = apiLevel,
     ) : ContentItem()
 }
 
