@@ -2,6 +2,7 @@ plugins {
     jewel
     alias(libs.plugins.composeDesktop)
     alias(libs.plugins.ideaGradlePlugin)
+    `android-studio-releases-generator`
 }
 
 intellij {

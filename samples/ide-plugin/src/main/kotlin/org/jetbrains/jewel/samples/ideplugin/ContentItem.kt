@@ -15,8 +15,10 @@ sealed class ContentItem {
         @Nls override val displayText: String,
         override val imagePath: String?,
         override val versionName: String,
-        val versionNumber: String,
+        val build: String,
+        val platformBuild: String,
         val platformVersion: String,
+        val channel: ReleaseChannel,
         override val releaseDate: LocalDate?,
         override val key: Any = displayText,
     ) : ContentItem()
@@ -29,4 +31,8 @@ sealed class ContentItem {
         override val releaseDate: LocalDate?,
         override val key: Any = displayText,
     ) : ContentItem()
+}
+
+enum class ReleaseChannel {
+    Stable, Beta, Canary, Other
 }
