@@ -7,7 +7,7 @@ sealed class ContentSource<T : ContentItem> {
     abstract val items: List<T>
 }
 
-class AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
+object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
 
     override val items = listOf(
         ContentItem.AndroidRelease(

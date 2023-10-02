@@ -12,6 +12,7 @@ import com.intellij.openapi.observable.util.whenKeyTyped
 import com.intellij.openapi.project.DumbAware
 import com.intellij.ui.OnePixelSplitter
 import com.intellij.ui.SearchTextField
+import com.intellij.ui.SimpleColoredRenderer
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
 import com.intellij.util.ui.JBUI
@@ -21,7 +22,7 @@ class SwingDemoPanel(parentDisposable: Disposable) : BorderLayoutPanel() {
 
     private val sidePanel = BorderLayoutPanel().apply { }
 
-    private var currentContentSource = ContentSource.AndroidStudio
+    private var currentContentSource: ContentSource<*> = AndroidStudioReleases
 
     private val filterTextField = SearchTextField(false).apply {
         whenKeyTyped(parentDisposable) {
@@ -33,10 +34,10 @@ class SwingDemoPanel(parentDisposable: Disposable) : BorderLayoutPanel() {
         object : CheckboxAction("Android Studio releases"), DumbAware {
 
             override fun isSelected(e: AnActionEvent): Boolean =
-                currentContentSource == ContentSource.AndroidStudio
+                currentContentSource == AndroidStudioReleases
 
             override fun setSelected(e: AnActionEvent, state: Boolean) {
-                setContentSource(ContentSource.AndroidStudio)
+                setContentSource(AndroidStudioReleases)
             }
 
             override fun getActionUpdateThread() = ActionUpdateThread.BGT
@@ -44,10 +45,10 @@ class SwingDemoPanel(parentDisposable: Disposable) : BorderLayoutPanel() {
         object : CheckboxAction("Android desserts"), DumbAware {
 
             override fun isSelected(e: AnActionEvent): Boolean =
-                currentContentSource == ContentSource.AndroidDesserts
+                currentContentSource == AndroidReleases
 
             override fun setSelected(e: AnActionEvent, state: Boolean) {
-                setContentSource(ContentSource.AndroidDesserts)
+                setContentSource(AndroidReleases)
             }
 
             override fun getActionUpdateThread() = ActionUpdateThread.BGT
@@ -85,13 +86,21 @@ class SwingDemoPanel(parentDisposable: Disposable) : BorderLayoutPanel() {
         splitter.secondComponent = sidePanel
         splitter.foreground
         addToCenter(splitter)
+
+        list.installCellRenderer {
+            SimpleColoredRenderer().apply {
+                appendWithClipping(it.displayText, null)
+            }
+        }
     }
 
-    private fun setContentSource(contentSource: ContentSource) {
+    private fun setContentSource(contentSource: ContentSource<*>) {
         currentContentSource = contentSource
-        // TODO update content in the list/details
+
+        list.model = JBList.createDefaultListModel(contentSource.items)
     }
 
     private fun filterContent(text: String) {
+        // TODO
     }
 }
