@@ -130,7 +130,7 @@ internal object AndroidStudioReleasesReader {
 
     private fun readChannel(rawChannel: String) =
         when (rawChannel.lowercase().trim()) {
-            "stable" -> "ReleaseChannel.Stable"
+            "stable", "patch", "release" -> "ReleaseChannel.Stable"
             "beta" -> "ReleaseChannel.Beta"
             "canary" -> "ReleaseChannel.Canary"
             else -> "ReleaseChannel.Other"

@@ -12,11 +12,14 @@ import com.intellij.openapi.observable.util.whenKeyTyped
 import com.intellij.openapi.project.DumbAware
 import com.intellij.ui.OnePixelSplitter
 import com.intellij.ui.SearchTextField
-import com.intellij.ui.SimpleColoredRenderer
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
+import com.intellij.ui.components.JBScrollPane
+import com.intellij.ui.scale.JBUIScale.scale
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
+import javax.swing.BoxLayout
+import javax.swing.JPanel
 
 class SwingDemoPanel(parentDisposable: Disposable) : BorderLayoutPanel() {
 
@@ -73,11 +76,17 @@ class SwingDemoPanel(parentDisposable: Disposable) : BorderLayoutPanel() {
         border = JBUI.Borders.empty(4)
     }
 
-    private val list = JBList<ContentItem>()
+    private val contentList = JBList<ContentItem>()
 
     private val mainPanel = BorderLayoutPanel().apply {
         addToTop(topBar)
-        addToCenter(list)
+
+        val scrollPane = JBScrollPane(contentList).apply {
+            setBorder(JBUI.Borders.empty())
+            setViewportBorder(JBUI.Borders.empty())
+        }
+
+        addToCenter(scrollPane)
     }
 
     init {
@@ -87,17 +96,35 @@ class SwingDemoPanel(parentDisposable: Disposable) : BorderLayoutPanel() {
         splitter.foreground
         addToCenter(splitter)
 
-        list.installCellRenderer {
-            SimpleColoredRenderer().apply {
-                appendWithClipping(it.displayText, null)
+        contentList.installCellRenderer {
+            BorderLayoutPanel(scale(4), 0).apply {
+                border = JBUI.Borders.empty(0, 4)
+
+                addToCenter(JBLabel(it.displayText))
+
+                if (it is ContentItem.AndroidStudio) {
+                    addToRight(JPanel().apply {
+                        layout = BoxLayout(this, BoxLayout.LINE_AXIS)
+                        isOpaque = false
+                        add(ChannelIndication(it.channel))
+                    })
+                } else if (it is ContentItem.AndroidRelease) {
+                    addToRight(JPanel().apply {
+                        layout = BoxLayout(this, BoxLayout.LINE_AXIS)
+                        isOpaque = false
+                        add(ApiLevelIndication(it.apiLevel))
+                    })
+                }
             }
         }
+
+        setContentSource(AndroidStudioReleases)
     }
 
     private fun setContentSource(contentSource: ContentSource<*>) {
         currentContentSource = contentSource
 
-        list.model = JBList.createDefaultListModel(contentSource.items)
+        contentList.model = JBList.createDefaultListModel(contentSource.items)
     }
 
     private fun filterContent(text: String) {
