@@ -183,7 +183,7 @@ private fun RadioButtonImpl(
             val contentColor by colors.contentFor(radioButtonState)
             CompositionLocalProvider(
                 LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
-                LocalContentColor provides contentColor.takeOrElse { textStyle.color },
+                LocalContentColor provides contentColor.takeOrElse { textStyle.color.takeOrElse { LocalContentColor.current } },
             ) {
                 content()
             }

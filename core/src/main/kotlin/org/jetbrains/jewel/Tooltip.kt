@@ -11,18 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.styling.TooltipStyle
 
 @Composable
 fun Tooltip(
-    tooltip: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    delayMillis: Int = 500,
-    tooltipPlacement: TooltipPlacement = TooltipPlacement.CursorPoint(offset = DpOffset(0.dp, 16.dp)),
+    tooltipPlacement: TooltipPlacement = TooltipPlacement.CursorPoint(offset = DpOffset(16.dp, 16.dp)),
     style: TooltipStyle = IntelliJTheme.tooltipStyle,
+    tooltip: @Composable () -> Unit,
     content: @Composable () -> Unit
 ) {
     TooltipArea(
@@ -32,11 +30,11 @@ fun Tooltip(
             ) {
                 Box(
                     modifier = Modifier
-                        .background(style.colors.backgroundColor)
                         .clip(
-                            RoundedCornerShape(8.dp)
+                            RoundedCornerShape(4.dp)
                         )
-                        .border(1.dp, Color.Red)
+                        .background(style.colors.backgroundColor)
+                        .border(1.dp, style.colors.borderColor)
                         .padding(style.metrics.paddingValues)
                 ) {
                     tooltip()
@@ -44,7 +42,7 @@ fun Tooltip(
             }
         },
         modifier = modifier,
-        delayMillis = delayMillis,
+        delayMillis = style.metrics.showDelay.inWholeMilliseconds.toInt(),
         tooltipPlacement = tooltipPlacement,
         content = content
     )

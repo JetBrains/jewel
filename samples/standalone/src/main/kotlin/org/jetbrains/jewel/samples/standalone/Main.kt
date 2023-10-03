@@ -28,13 +28,9 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import org.jetbrains.jewel.CheckboxRow
-import org.jetbrains.jewel.Chip
 import org.jetbrains.jewel.Divider
 import org.jetbrains.jewel.JewelSvgLoader
-import org.jetbrains.jewel.Link
 import org.jetbrains.jewel.LocalResourceLoader
-import org.jetbrains.jewel.Text
-import org.jetbrains.jewel.Tooltip
 import org.jetbrains.jewel.VerticalScrollbar
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.rememberSvgLoader
@@ -50,6 +46,7 @@ import org.jetbrains.jewel.samples.standalone.components.RadioButtons
 import org.jetbrains.jewel.samples.standalone.components.Tabs
 import org.jetbrains.jewel.samples.standalone.components.TextAreas
 import org.jetbrains.jewel.samples.standalone.components.TextFields
+import org.jetbrains.jewel.samples.standalone.components.Tooltips
 import java.io.InputStream
 
 fun main() {
@@ -106,33 +103,14 @@ private fun ComponentShowcase(svgLoader: JewelSvgLoader, resourceLoader: Resourc
             Dropdowns()
             Checkboxes()
             RadioButtons()
-            Tooltip(tooltip = {
-                Column {
-                    Text("Ciao")
-                    Link("vao", LocalResourceLoader.current, onClick = {})
-                    Chip {
-                        Text("Ciao")
-                    }
-                    Checkboxes()
-                    TextFields()
-                    TextFields()
-                    TextAreas()
-                    ProgressBar(svgLoader)
-                    ChipsAndTree()
-                    Tabs(svgLoader, resourceLoader)
-                    Icons(svgLoader, resourceLoader)
-                }
-            }) {
-                Links()
-
-            }
+            Links()
+            Tooltips()
             TextFields(svgLoader, resourceLoader)
             TextAreas()
             ProgressBar(svgLoader)
             ChipsAndTree()
             Tabs(svgLoader, resourceLoader)
             Icons(svgLoader, resourceLoader)
-
         }
 
         VerticalScrollbar(

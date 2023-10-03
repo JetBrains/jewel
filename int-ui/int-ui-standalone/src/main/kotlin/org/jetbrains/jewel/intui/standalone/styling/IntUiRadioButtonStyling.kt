@@ -58,12 +58,12 @@ data class IntUiRadioButtonColors(
 
         @Composable
         fun light(
-            content: Color = IntUiLightTheme.colors.grey(1),
-            contentHovered: Color = IntUiLightTheme.colors.grey(8),
-            contentDisabled: Color = content,
+            content: Color = Color.Unspecified,
+            contentHovered: Color = content,
+            contentDisabled: Color = IntUiLightTheme.colors.grey(8),
             contentSelected: Color = content,
             contentSelectedHovered: Color = content,
-            contentSelectedDisabled: Color = content,
+            contentSelectedDisabled: Color = contentDisabled,
         ) = IntUiRadioButtonColors(
             content,
             contentHovered,
@@ -75,12 +75,12 @@ data class IntUiRadioButtonColors(
 
         @Composable
         fun dark(
-            content: Color = IntUiDarkTheme.colors.grey(12),
-            contentHovered: Color = IntUiDarkTheme.colors.grey(8),
-            contentDisabled: Color = content,
+            content: Color = Color.Unspecified,
+            contentHovered: Color = content,
+            contentDisabled: Color = IntUiDarkTheme.colors.grey(8),
             contentSelected: Color = content,
             contentSelectedHovered: Color = content,
-            contentSelectedDisabled: Color = content,
+            contentSelectedDisabled: Color = contentDisabled,
         ) = IntUiRadioButtonColors(
             content,
             contentHovered,
