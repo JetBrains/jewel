@@ -6,6 +6,7 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.jewel.bridge.addComposeTab
+import org.jetbrains.jewel.samples.ideplugin.swingsample.SwingDemoPanel
 
 @ExperimentalCoroutinesApi
 internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {

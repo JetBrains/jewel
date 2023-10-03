@@ -1,10 +1,11 @@
-package org.jetbrains.jewel.samples.ideplugin
+package org.jetbrains.jewel.samples.ideplugin.swingsample
 
 import com.intellij.openapi.ui.GraphicsConfig
 import com.intellij.ui.paint.RectanglePainter
-import com.intellij.ui.scale.JBUIScale.scale
+import com.intellij.ui.scale.JBUIScale
 import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
+import org.jetbrains.jewel.samples.ideplugin.ReleaseChannel
 import java.awt.Graphics
 import java.awt.Graphics2D
 import javax.swing.JLabel
@@ -23,7 +24,7 @@ internal class ChannelIndication(private val channel: ReleaseChannel) : JLabel(c
             val graphicsConfig = GraphicsConfig(this)
             graphicsConfig.setupRoundedBorderAntialiasing()
 
-            RectanglePainter.paint(this, x, y, width, height - y, scale(8), channel.background, null)
+            RectanglePainter.paint(this, x, y, width, height - y, JBUIScale.scale(8), channel.background, null)
 
             graphicsConfig.restore()
         }

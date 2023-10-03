@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.ideplugin
+package org.jetbrains.jewel.samples.ideplugin.swingsample
 
 import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.openapi.actionSystem.ActionUpdateThread
@@ -13,9 +13,13 @@ import com.intellij.ui.SearchTextField
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBScrollPane
-import com.intellij.ui.scale.JBUIScale.scale
+import com.intellij.ui.scale.JBUIScale
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
+import org.jetbrains.jewel.samples.ideplugin.AndroidReleases
+import org.jetbrains.jewel.samples.ideplugin.AndroidStudioReleases
+import org.jetbrains.jewel.samples.ideplugin.ContentItem
+import org.jetbrains.jewel.samples.ideplugin.ContentSource
 import javax.swing.BoxLayout
 import javax.swing.DefaultListModel
 import javax.swing.JPanel
@@ -109,7 +113,7 @@ class SwingDemoPanel : BorderLayoutPanel() {
         addToCenter(splitter)
 
         contentList.installCellRenderer {
-            BorderLayoutPanel(scale(4), 0).apply {
+            BorderLayoutPanel(JBUIScale.scale(4), 0).apply {
                 border = JBUI.Borders.empty(0, 4)
 
                 addToCenter(JBLabel(it.displayText))
