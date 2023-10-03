@@ -114,6 +114,7 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefini
         iconData = BridgeIconData.readFromLaF(),
         globalMetrics = BridgeGlobalMetrics.readFromLaF(),
         defaultTextStyle = textStyle,
+        contentColor = JBColor.foreground().toComposeColor(),
     )
 }
 

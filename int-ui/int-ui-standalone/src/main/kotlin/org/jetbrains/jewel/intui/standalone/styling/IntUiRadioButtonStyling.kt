@@ -10,7 +10,6 @@ import org.jetbrains.jewel.RadioButtonState
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.styling.PainterProvider
 import org.jetbrains.jewel.styling.RadioButtonColors
 import org.jetbrains.jewel.styling.RadioButtonIcons
@@ -59,7 +58,7 @@ data class IntUiRadioButtonColors(
 
         @Composable
         fun light(
-            content: Color = IntUiTheme.defaultLightTextStyle.color,
+            content: Color = IntUiLightTheme.colors.grey(1),
             contentHovered: Color = IntUiLightTheme.colors.grey(8),
             contentDisabled: Color = content,
             contentSelected: Color = content,
@@ -76,7 +75,7 @@ data class IntUiRadioButtonColors(
 
         @Composable
         fun dark(
-            content: Color = IntUiTheme.defaultDarkTextStyle.color,
+            content: Color = IntUiDarkTheme.colors.grey(12),
             contentHovered: Color = IntUiDarkTheme.colors.grey(8),
             contentDisabled: Color = content,
             contentSelected: Color = content,
