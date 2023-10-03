@@ -69,6 +69,6 @@ data class IntUiTooltipColors(
 
 @Stable
 data class IntUiTooltipMetrics(
-    override val paddingValues: PaddingValues = PaddingValues(vertical = 4.dp, horizontal = 8.dp),
+    override val paddingValues: PaddingValues = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
     override val showDelay: Duration = 500.milliseconds,
 ) : TooltipMetrics

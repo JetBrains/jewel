@@ -30,9 +30,7 @@ fun Tooltip(
             ) {
                 Box(
                     modifier = Modifier
-                        .clip(
-                            RoundedCornerShape(4.dp)
-                        )
+                        .clip(RoundedCornerShape(8.dp))
                         .background(style.colors.backgroundColor)
                         .border(1.dp, style.colors.borderColor)
                         .padding(style.metrics.paddingValues)
