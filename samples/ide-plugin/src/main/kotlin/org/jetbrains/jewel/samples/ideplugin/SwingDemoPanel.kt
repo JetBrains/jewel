@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.samples.ideplugin
 
-import com.intellij.openapi.Disposable
 import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
@@ -8,7 +7,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.ex.CheckboxAction
 import com.intellij.openapi.actionSystem.impl.ActionButton
 import com.intellij.openapi.actionSystem.impl.MoreActionGroup
-import com.intellij.openapi.observable.util.whenKeyTyped
 import com.intellij.openapi.project.DumbAware
 import com.intellij.ui.OnePixelSplitter
 import com.intellij.ui.SearchTextField
@@ -19,18 +17,31 @@ import com.intellij.ui.scale.JBUIScale.scale
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import javax.swing.BoxLayout
+import javax.swing.DefaultListModel
 import javax.swing.JPanel
+import javax.swing.event.DocumentEvent
+import javax.swing.event.DocumentListener
 
-class SwingDemoPanel(parentDisposable: Disposable) : BorderLayoutPanel() {
+class SwingDemoPanel : BorderLayoutPanel() {
 
     private val sidePanel = BorderLayoutPanel().apply { }
 
     private var currentContentSource: ContentSource<*> = AndroidStudioReleases
 
     private val filterTextField = SearchTextField(false).apply {
-        whenKeyTyped(parentDisposable) {
-            filterContent(text)
-        }
+        addDocumentListener(object : DocumentListener {
+            override fun insertUpdate(e: DocumentEvent) {
+                filterContent(text)
+            }
+
+            override fun removeUpdate(e: DocumentEvent) {
+                filterContent(text)
+            }
+
+            override fun changedUpdate(e: DocumentEvent) {
+                filterContent(text)
+            }
+        })
     }
 
     private val actions: List<AnAction> = listOf(
@@ -84,13 +95,14 @@ class SwingDemoPanel(parentDisposable: Disposable) : BorderLayoutPanel() {
         val scrollPane = JBScrollPane(contentList).apply {
             setBorder(JBUI.Borders.empty())
             setViewportBorder(JBUI.Borders.empty())
+            horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         }
 
         addToCenter(scrollPane)
     }
 
     init {
-        val splitter = OnePixelSplitter(false, .7f, .3f, 1f)
+        val splitter = OnePixelSplitter(false, .7f, .25f, .75f)
         splitter.firstComponent = mainPanel
         splitter.secondComponent = sidePanel
         splitter.foreground
@@ -128,6 +140,30 @@ class SwingDemoPanel(parentDisposable: Disposable) : BorderLayoutPanel() {
     }
 
     private fun filterContent(text: String) {
-        // TODO
+        val model = contentList.model as DefaultListModel<ContentItem>
+
+        model.clear()
+        model.addAll(currentContentSource.items.filter { it.matches(text) })
     }
+}
+
+private fun ContentItem.matches(text: String): Boolean {
+    if (displayText.contains(text, ignoreCase = true)) return true
+    if (versionName.contains(text, ignoreCase = true)) return true
+
+    when (this) {
+        is ContentItem.AndroidStudio -> {
+            if (build.contains(text, ignoreCase = true)) return true
+            if (channel.name.contains(text, ignoreCase = true)) return true
+            if (platformBuild.contains(text, ignoreCase = true)) return true
+            if (platformVersion.contains(text, ignoreCase = true)) return true
+        }
+
+        is ContentItem.AndroidRelease -> {
+            if (codename?.contains(text, ignoreCase = true) == true) return true
+            if (this.apiLevel.toString().contains(text, ignoreCase = true)) return true
+        }
+    }
+
+    return false
 }

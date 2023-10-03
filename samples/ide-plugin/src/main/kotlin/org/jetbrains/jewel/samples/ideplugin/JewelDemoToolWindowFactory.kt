@@ -24,7 +24,7 @@ internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
 
     private fun addSwingTab(toolWindow: ToolWindow) {
         val manager = toolWindow.contentManager
-        val tabContent = manager.factory.createContent(SwingDemoPanel(toolWindow.disposable), "Swing Sample", true)
+        val tabContent = manager.factory.createContent(SwingDemoPanel(), "Swing Sample", true)
         tabContent.isCloseable = false
         manager.addContent(tabContent)
     }
