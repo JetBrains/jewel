@@ -85,11 +85,18 @@ internal object AndroidStudioReleasesReader {
 
         // We only have stable and canary splash screens. Betas use the stable ones.
         val channel = release.channel.lowercase()
-            .takeIf { it in listOf("stable", "beta", "canary") }
-            ?.let { if (it == "beta") "stable" else it }
-            ?: return null
+            .let {
+                when (it) {
+                    "release", "rc", "stable", "beta", "patch" -> "stable"
+                    "canary", "preview", "alpha" -> "canary"
+                    else -> {
+                        println("  Note: channel '${it}' isn't supported for splash screens")
+                        null
+                    }
+                }
+            } ?: return null
 
-        val splashPath = "studio-splash-screens/$releaseAnimal-$channel.png"
+        val splashPath = "/studio-splash-screens/$releaseAnimal-$channel.png"
         val splashFiles = resourceDirs.map { dir -> File(dir, splashPath) }
         if (splashFiles.none { it.isFile }) {
             println("  Note: expected splash screen file doesn't exist: '${splashPath}'")
