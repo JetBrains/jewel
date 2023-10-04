@@ -16,6 +16,7 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.scale.JBUIScale
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
+import kotlinx.coroutines.CoroutineScope
 import org.jetbrains.jewel.samples.ideplugin.AndroidReleases
 import org.jetbrains.jewel.samples.ideplugin.AndroidStudioReleases
 import org.jetbrains.jewel.samples.ideplugin.ContentItem
@@ -26,9 +27,9 @@ import javax.swing.JPanel
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 
-class SwingDemoPanel : BorderLayoutPanel() {
+class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
 
-    private val sidePanel = BorderLayoutPanel().apply { }
+    private val sidePanel = DetailsPanel(scope)
 
     private var currentContentSource: ContentSource<*> = AndroidStudioReleases
 
@@ -79,7 +80,7 @@ class SwingDemoPanel : BorderLayoutPanel() {
     private val overflowActionButton: ActionButton =
         ActionButton(
             overflowAction,
-            overflowAction.templatePresentation,
+            overflowAction.templatePresentation.clone(),
             "JewelSwingDemoTopBar",
             ActionToolbar.DEFAULT_MINIMUM_BUTTON_SIZE
         )
@@ -91,7 +92,11 @@ class SwingDemoPanel : BorderLayoutPanel() {
         border = JBUI.Borders.empty(4)
     }
 
-    private val contentList = JBList<ContentItem>()
+    private val contentList = JBList<ContentItem>().apply {
+        addListSelectionListener {
+            onListSelectionChanged()
+        }
+    }
 
     private val mainPanel = BorderLayoutPanel().apply {
         addToTop(topBar)
@@ -148,6 +153,11 @@ class SwingDemoPanel : BorderLayoutPanel() {
 
         model.clear()
         model.addAll(currentContentSource.items.filter { it.matches(text) })
+    }
+
+    private fun onListSelectionChanged() {
+        val selection = contentList.selectedValue
+        sidePanel.display(selection)
     }
 }
 

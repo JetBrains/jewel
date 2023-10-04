@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import com.intellij.openapi.components.service
 import com.intellij.ui.JBColor
 import org.jetbrains.jewel.CheckboxRow
+import org.jetbrains.jewel.CircularProgressIndicator
+import org.jetbrains.jewel.CircularProgressIndicatorBig
 import org.jetbrains.jewel.DefaultButton
 import org.jetbrains.jewel.Icon
 import org.jetbrains.jewel.LazyTree
@@ -124,6 +126,9 @@ private fun RowScope.ColumnOne(resourceLoader: ResourceLoader) {
             val painterProvider = retrieveStatelessIcon("actions/close.svg", svgLoader, IntUiTheme.iconData)
             val painter by painterProvider.getPainter(resourceLoader)
             Icon(painter = painter, modifier = Modifier.border(1.dp, Color.Magenta), contentDescription = "An icon")
+
+            CircularProgressIndicator(svgLoader)
+            CircularProgressIndicatorBig(svgLoader)
         }
     }
 }

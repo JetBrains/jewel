@@ -1,10 +1,16 @@
 package org.jetbrains.jewel.samples.ideplugin
 
+import com.intellij.openapi.Disposable
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import org.jetbrains.jewel.bridge.addComposeTab
 import org.jetbrains.jewel.samples.ideplugin.swingsample.SwingDemoPanel
 
@@ -25,8 +31,20 @@ internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
 
     private fun addSwingTab(toolWindow: ToolWindow) {
         val manager = toolWindow.contentManager
-        val tabContent = manager.factory.createContent(SwingDemoPanel(), "Swing Sample", true)
+        val tabContent =
+            manager.factory.createContent(
+                /* component = */ SwingDemoPanel(toolWindow.disposable.createCoroutineScope()),
+                /* displayName = */ "Swing Sample",
+                /* isLockable = */ true
+            )
         tabContent.isCloseable = false
         manager.addContent(tabContent)
     }
+}
+
+private fun Disposable.createCoroutineScope(): CoroutineScope {
+    val job = SupervisorJob()
+    val scopeDisposable = Disposable { job.cancel("Disposing") }
+    Disposer.register(this, scopeDisposable)
+    return CoroutineScope(job + Dispatchers.Default)
 }
