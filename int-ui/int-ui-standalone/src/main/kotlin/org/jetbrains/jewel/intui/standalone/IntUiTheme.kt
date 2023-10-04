@@ -153,7 +153,7 @@ object IntUiTheme : BaseIntUiTheme {
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
             circularProgressStyle = circularProgressStyle,
-            tooltipStyle = tooltipStyle
+            tooltipStyle = tooltipStyle,
         )
 
     @Composable
@@ -178,8 +178,7 @@ object IntUiTheme : BaseIntUiTheme {
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(svgLoader),
         circularProgressStyle: CircularProgressStyle = IntUiCircularProgressStyle.light(),
         tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.light(),
-
-        ) = IntelliJComponentStyling(
+    ) = IntelliJComponentStyling(
         checkboxStyle = checkboxStyle,
         chipStyle = chipStyle,
         defaultButtonStyle = defaultButtonStyle,
@@ -198,7 +197,7 @@ object IntUiTheme : BaseIntUiTheme {
         textAreaStyle = textAreaStyle,
         textFieldStyle = textFieldStyle,
         circularProgressStyle = circularProgressStyle,
-        tooltipStyle = tooltipStyle
+        tooltipStyle = tooltipStyle,
     )
 }
 

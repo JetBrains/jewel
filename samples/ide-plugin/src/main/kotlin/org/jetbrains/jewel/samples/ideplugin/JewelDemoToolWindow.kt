@@ -156,7 +156,7 @@ internal class JewelDemoToolWindow : ToolWindowFactory, DumbAware {
                 }) {
                     Text(
                         modifier = Modifier.border(1.dp, IntUiTheme.globalColors.borders.normal).padding(4.dp),
-                        text = "Hover Me!"
+                        text = "Hover Me!",
                     )
                 }
             }

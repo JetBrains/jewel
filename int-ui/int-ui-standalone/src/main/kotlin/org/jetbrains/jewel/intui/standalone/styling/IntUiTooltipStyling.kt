@@ -17,7 +17,7 @@ import kotlin.time.Duration.Companion.milliseconds
 @Stable
 data class IntUiTooltipStyle(
     override val colors: IntUiTooltipColors,
-    override val metrics: IntUiTooltipMetrics
+    override val metrics: IntUiTooltipMetrics,
 ) : TooltipStyle {
 
     companion object {
@@ -28,7 +28,7 @@ data class IntUiTooltipStyle(
             intUiTooltipMetrics: IntUiTooltipMetrics = IntUiTooltipMetrics(),
         ): IntUiTooltipStyle = IntUiTooltipStyle(
             colors = intUiTooltipColors,
-            metrics = intUiTooltipMetrics
+            metrics = intUiTooltipMetrics,
         )
 
         @Composable
@@ -37,7 +37,7 @@ data class IntUiTooltipStyle(
             intUiTooltipMetrics: IntUiTooltipMetrics = IntUiTooltipMetrics(),
         ): IntUiTooltipStyle = IntUiTooltipStyle(
             colors = intUiTooltipColors,
-            metrics = intUiTooltipMetrics
+            metrics = intUiTooltipMetrics,
         )
     }
 }
@@ -55,14 +55,14 @@ data class IntUiTooltipColors(
         fun light(
             contentColor: Color = IntUiLightTheme.colors.grey(12),
             backgroundColor: Color = IntUiLightTheme.colors.grey(2),
-            borderColor: Color = IntelliJTheme.globalColors.borders.normal
+            borderColor: Color = IntelliJTheme.globalColors.borders.normal,
         ) = IntUiTooltipColors(contentColor, backgroundColor, borderColor)
 
         @Composable
         fun dark(
             contentColor: Color = IntUiDarkTheme.colors.grey(12),
             backgroundColor: Color = IntUiDarkTheme.colors.grey(2),
-            borderColor: Color = IntelliJTheme.globalColors.borders.normal
+            borderColor: Color = IntelliJTheme.globalColors.borders.normal,
         ) = IntUiTooltipColors(contentColor, backgroundColor, borderColor)
     }
 }

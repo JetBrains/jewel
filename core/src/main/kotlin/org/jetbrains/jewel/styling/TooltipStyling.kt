@@ -19,7 +19,6 @@ interface TooltipColors {
     val backgroundColor: Color
     val contentColor: Color
     val borderColor: Color
-
 }
 
 @Stable

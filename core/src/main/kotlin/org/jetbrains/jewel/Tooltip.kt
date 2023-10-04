@@ -22,11 +22,11 @@ fun Tooltip(
     tooltipPlacement: TooltipPlacement = TooltipPlacement.ComponentRect(
         alignment = Alignment.CenterEnd,
         anchor = Alignment.BottomEnd,
-        offset = DpOffset(4.dp, 4.dp)
+        offset = DpOffset(4.dp, 4.dp),
     ),
     style: TooltipStyle = IntelliJTheme.tooltipStyle,
     tooltip: @Composable () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     TooltipArea(
         tooltip = {
@@ -38,7 +38,7 @@ fun Tooltip(
                         .clip(RoundedCornerShape(8.dp))
                         .background(style.colors.backgroundColor)
                         .border(1.dp, style.colors.borderColor)
-                        .padding(style.metrics.paddingValues)
+                        .padding(style.metrics.paddingValues),
                 ) {
                     tooltip()
                 }
@@ -47,6 +47,6 @@ fun Tooltip(
         modifier = modifier,
         delayMillis = style.metrics.showDelay.inWholeMilliseconds.toInt(),
         tooltipPlacement = tooltipPlacement,
-        content = content
+        content = content,
     )
 }

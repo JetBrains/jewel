@@ -912,6 +912,6 @@ private fun readTooltipStyle(
             contentColor = retrieveColorOrUnspecified(content),
             backgroundColor = retrieveColorOrUnspecified(background),
             borderColor = retrieveColorOrUnspecified("Tooltip.borderColor"),
-        )
+        ),
     )
 }
