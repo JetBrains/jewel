@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.DpOffset
@@ -18,7 +19,11 @@ import org.jetbrains.jewel.styling.TooltipStyle
 @Composable
 fun Tooltip(
     modifier: Modifier = Modifier,
-    tooltipPlacement: TooltipPlacement = TooltipPlacement.CursorPoint(offset = DpOffset(16.dp, 16.dp)),
+    tooltipPlacement: TooltipPlacement = TooltipPlacement.ComponentRect(
+        alignment = Alignment.CenterEnd,
+        anchor = Alignment.BottomEnd,
+        offset = DpOffset(4.dp, 4.dp)
+    ),
     style: TooltipStyle = IntelliJTheme.tooltipStyle,
     tooltip: @Composable () -> Unit,
     content: @Composable () -> Unit

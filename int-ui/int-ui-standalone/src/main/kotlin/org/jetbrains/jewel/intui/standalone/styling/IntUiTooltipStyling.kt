@@ -53,15 +53,15 @@ data class IntUiTooltipColors(
 
         @Composable
         fun light(
-            contentColor: Color = IntUiLightTheme.colors.grey(1),
-            backgroundColor: Color = IntUiLightTheme.colors.grey(12),
+            contentColor: Color = IntUiLightTheme.colors.grey(12),
+            backgroundColor: Color = IntUiLightTheme.colors.grey(2),
             borderColor: Color = IntelliJTheme.globalColors.borders.normal
         ) = IntUiTooltipColors(contentColor, backgroundColor, borderColor)
 
         @Composable
         fun dark(
-            contentColor: Color = IntUiDarkTheme.colors.grey(1),
-            backgroundColor: Color = IntUiDarkTheme.colors.grey(12),
+            contentColor: Color = IntUiDarkTheme.colors.grey(12),
+            backgroundColor: Color = IntUiDarkTheme.colors.grey(2),
             borderColor: Color = IntelliJTheme.globalColors.borders.normal
         ) = IntUiTooltipColors(contentColor, backgroundColor, borderColor)
     }
@@ -70,5 +70,5 @@ data class IntUiTooltipColors(
 @Stable
 data class IntUiTooltipMetrics(
     override val paddingValues: PaddingValues = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
-    override val showDelay: Duration = 500.milliseconds,
+    override val showDelay: Duration = 0.milliseconds,
 ) : TooltipMetrics
