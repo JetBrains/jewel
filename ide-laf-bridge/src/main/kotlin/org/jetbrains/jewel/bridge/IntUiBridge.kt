@@ -909,9 +909,9 @@ private fun readTooltipStyle(
     return IntUiTooltipStyle(
         metrics = IntUiTooltipMetrics(),
         colors = IntUiTooltipColors(
-            contentColor = retrieveColorOrUnspecified(content),
-            backgroundColor = retrieveColorOrUnspecified(background),
-            borderColor = retrieveColorOrUnspecified("Tooltip.borderColor"),
+            content = retrieveColorOrUnspecified(content),
+            background = retrieveColorOrUnspecified(background),
+            border = retrieveColorOrUnspecified("Tooltip.borderColor"),
         ),
     )
 }

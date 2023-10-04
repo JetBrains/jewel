@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.styling.TooltipStyle
 
-@Composable
-fun Tooltip(
+@Composable fun Tooltip(
+    tooltip: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     tooltipPlacement: TooltipPlacement = TooltipPlacement.ComponentRect(
         alignment = Alignment.CenterEnd,
@@ -24,19 +24,22 @@ fun Tooltip(
         offset = DpOffset(4.dp, 4.dp),
     ),
     style: TooltipStyle = IntelliJTheme.tooltipStyle,
-    tooltip: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
     TooltipArea(
         tooltip = {
             CompositionLocalProvider(
-                LocalContentColor provides style.colors.contentColor,
+                LocalContentColor provides style.colors.content,
             ) {
                 Box(
-                    modifier = Modifier
-                        .background(style.colors.backgroundColor, RoundedCornerShape(8.dp))
-                        .border(1.dp, style.colors.borderColor, shape = RoundedCornerShape(8.dp))
-                        .padding(style.metrics.paddingValues),
+                    modifier = Modifier.background(
+                        color = style.colors.background,
+                        shape = RoundedCornerShape(style.metrics.cornerSize),
+                    ).border(
+                        width = style.metrics.borderWidth,
+                        color = style.colors.border,
+                        shape = RoundedCornerShape(style.metrics.cornerSize),
+                    ).padding(style.metrics.contentPadding),
                 ) {
                     tooltip()
                 }

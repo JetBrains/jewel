@@ -1,9 +1,11 @@
 package org.jetbrains.jewel.styling
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import kotlin.time.Duration
 
 @Stable
@@ -16,16 +18,18 @@ interface TooltipStyle {
 @Stable
 interface TooltipColors {
 
-    val backgroundColor: Color
-    val contentColor: Color
-    val borderColor: Color
+    val background: Color
+    val content: Color
+    val border: Color
 }
 
 @Stable
 interface TooltipMetrics {
 
-    val paddingValues: PaddingValues
+    val contentPadding: PaddingValues
     val showDelay: Duration
+    val cornerSize: CornerSize
+    val borderWidth: Dp
 }
 
 val LocalTooltipStyle = staticCompositionLocalOf<TooltipStyle> {

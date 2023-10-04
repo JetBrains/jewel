@@ -1,9 +1,11 @@
 package org.jetbrains.jewel.intui.standalone.styling
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
@@ -44,9 +46,9 @@ data class IntUiTooltipStyle(
 
 @Stable
 data class IntUiTooltipColors(
-    override val contentColor: Color,
-    override val backgroundColor: Color,
-    override val borderColor: Color,
+    override val content: Color,
+    override val background: Color,
+    override val border: Color,
 ) : TooltipColors {
 
     companion object {
@@ -69,6 +71,8 @@ data class IntUiTooltipColors(
 
 @Stable
 data class IntUiTooltipMetrics(
-    override val paddingValues: PaddingValues = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
+    override val contentPadding: PaddingValues = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
     override val showDelay: Duration = 0.milliseconds,
+    override val cornerSize: CornerSize = CornerSize(8.dp),
+    override val borderWidth: Dp = 1.dp,
 ) : TooltipMetrics
