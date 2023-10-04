@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.styling.TooltipStyle
@@ -35,9 +34,8 @@ fun Tooltip(
             ) {
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(style.colors.backgroundColor)
-                        .border(1.dp, style.colors.borderColor)
+                        .background(style.colors.backgroundColor, RoundedCornerShape(8.dp))
+                        .border(1.dp, style.colors.borderColor, shape = RoundedCornerShape(8.dp))
                         .padding(style.metrics.paddingValues),
                 ) {
                     tooltip()
