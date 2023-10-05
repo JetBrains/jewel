@@ -37,6 +37,7 @@ import org.jetbrains.jewel.OutlinedButton
 import org.jetbrains.jewel.RadioButtonRow
 import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.TextField
+import org.jetbrains.jewel.Tooltip
 import org.jetbrains.jewel.bridge.SwingBridgeService
 import org.jetbrains.jewel.bridge.SwingBridgeTheme
 import org.jetbrains.jewel.bridge.retrieveStatelessIcon
@@ -121,14 +122,40 @@ private fun RowScope.ColumnOne(resourceLoader: ResourceLoader) {
             }
         }
 
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            val svgLoader = service<SwingBridgeService>().svgLoader
+        val svgLoader = service<SwingBridgeService>().svgLoader
+        Row {
             val painterProvider = retrieveStatelessIcon("actions/close.svg", svgLoader, IntUiTheme.iconData)
             val painter by painterProvider.getPainter(resourceLoader)
             Icon(painter = painter, modifier = Modifier.border(1.dp, Color.Magenta), contentDescription = "An icon")
+        }
 
+        Row {
+            Text("Circular progress small: ")
             CircularProgressIndicator(svgLoader)
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text("Circular progress big: ")
             CircularProgressIndicatorBig(svgLoader)
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Tooltip(tooltip = {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    val painterProvider =
+                        retrieveStatelessIcon("general/showInfos.svg", svgLoader, IntUiTheme.iconData)
+                    val painter by painterProvider.getPainter(resourceLoader)
+                    Icon(painter = painter, contentDescription = null)
+
+                    Text("This is a tooltip")
+                }
+            }) {
+                Text(
+                    modifier = Modifier.border(1.dp, IntUiTheme.globalColors.borders.normal)
+                        .padding(12.dp, 8.dp),
+                    text = "Hover Me!",
+                )
+            }
         }
     }
 }
