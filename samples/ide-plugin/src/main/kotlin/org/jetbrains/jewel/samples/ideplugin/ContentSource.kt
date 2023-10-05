@@ -28,7 +28,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Cupcake",
-            imagePath = "android-releases/cupcake.png",
+            imagePath = "/android-releases/cupcake.png",
             versionName = "1.5",
             codename = "Cupcake",
             apiLevel = 3,
@@ -36,7 +36,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Donut",
-            imagePath = "android-releases/donut.png",
+            imagePath = "/android-releases/donut.png",
             versionName = "1.6",
             codename = "Donut",
             apiLevel = 4,
@@ -44,7 +44,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Eclair (2.0)",
-            imagePath = "android-releases/eclair.png",
+            imagePath = "/android-releases/eclair.png",
             versionName = "2.0",
             codename = "Eclair",
             apiLevel = 5,
@@ -52,7 +52,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Eclair (2.0.1)",
-            imagePath = "android-releases/eclair.png",
+            imagePath = "/android-releases/eclair.png",
             versionName = "2.0.1",
             codename = "Eclair",
             apiLevel = 6,
@@ -60,7 +60,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Eclair (2.1)",
-            imagePath = "android-releases/eclair.png",
+            imagePath = "/android-releases/eclair.png",
             versionName = "2.1",
             codename = "Eclair",
             apiLevel = 7,
@@ -68,7 +68,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Froyo",
-            imagePath = "android-releases/froyo.png",
+            imagePath = "/android-releases/froyo.png",
             versionName = "2.2 – 2.2.3",
             codename = "Froyo",
             apiLevel = 8,
@@ -76,7 +76,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Gingerbread (2.3 – 2.3.2)",
-            imagePath = "android-releases/gingerbread.png",
+            imagePath = "/android-releases/gingerbread.png",
             versionName = "2.3 – 2.3.2",
             codename = "Gingerbread",
             apiLevel = 9,
@@ -84,7 +84,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Gingerbread (2.3.3 – 2.3.7)",
-            imagePath = "android-releases/gingerbread.png",
+            imagePath = "/android-releases/gingerbread.png",
             versionName = "2.3.3 – 2.3.7",
             codename = "Gingerbread",
             apiLevel = 10,
@@ -92,7 +92,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Honeycomb (3.0)",
-            imagePath = "android-releases/honeycomb.svg",
+            imagePath = "/android-releases/honeycomb.svg",
             versionName = "3.0",
             codename = "Honeycomb",
             apiLevel = 11,
@@ -100,7 +100,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Honeycomb (3.1)",
-            imagePath = "android-releases/honeycomb.svg",
+            imagePath = "/android-releases/honeycomb.svg",
             versionName = "3.1",
             codename = "Honeycomb",
             apiLevel = 12,
@@ -108,7 +108,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Honeycomb (3.2 – 3.2.6)",
-            imagePath = "android-releases/honeycomb.svg",
+            imagePath = "/android-releases/honeycomb.svg",
             versionName = "3.2 – 3.2.6",
             codename = "Honeycomb",
             apiLevel = 13,
@@ -116,7 +116,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Ice Cream Sandwich (4.0 – 4.0.2)",
-            imagePath = "android-releases/ice-cream-sandwich.svg",
+            imagePath = "/android-releases/ice-cream-sandwich.svg",
             versionName = "4.0 – 4.0.2",
             codename = "Ice Cream Sandwich",
             apiLevel = 14,
@@ -124,7 +124,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Ice Cream Sandwich (4.0.3 – 4.0.4)",
-            imagePath = "android-releases/ice-cream-sandwich.svg",
+            imagePath = "/android-releases/ice-cream-sandwich.svg",
             versionName = "4.0.3 – 4.0.4",
             codename = "Ice Cream Sandwich",
             apiLevel = 15,
@@ -132,7 +132,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Jelly Bean (4.1 – 4.1.2)",
-            imagePath = "android-releases/jelly-bean.svg",
+            imagePath = "/android-releases/jelly-bean.svg",
             versionName = "4.1 – 4.1.2",
             codename = "Jelly Bean",
             apiLevel = 16,
@@ -140,7 +140,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Jelly Bean (4.2 – 4.2.2)",
-            imagePath = "android-releases/jelly-bean.svg",
+            imagePath = "/android-releases/jelly-bean.svg",
             versionName = "4.2 – 4.2.2",
             codename = "Jelly Bean",
             apiLevel = 17,
@@ -148,7 +148,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Jelly Bean (4.3 – 4.3.1)",
-            imagePath = "android-releases/jelly-bean.svg",
+            imagePath = "/android-releases/jelly-bean.svg",
             versionName = "4.3 – 4.3.1",
             codename = "Jelly Bean",
             apiLevel = 18,
@@ -156,7 +156,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android KitKat (4.4 – 4.4.4)",
-            imagePath = "android-releases/kitkat.svg",
+            imagePath = "/android-releases/kitkat.svg",
             versionName = "4.4 – 4.4.4",
             codename = "Key Lime Pie",
             apiLevel = 19,
@@ -164,7 +164,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android KitKat (4.4W – 4.4W.2)",
-            imagePath = "android-releases/kitkat.svg",
+            imagePath = "/android-releases/kitkat.svg",
             versionName = "4.4W – 4.4W.2",
             codename = "Key Lime Pie",
             apiLevel = 20,
@@ -172,7 +172,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Lollipop (5.0 – 5.0.2)",
-            imagePath = "android-releases/lollipop.svg",
+            imagePath = "/android-releases/lollipop.svg",
             versionName = "5.0 – 5.0.2",
             codename = "Lemon Meringue Pie",
             apiLevel = 21,
@@ -180,7 +180,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Lollipop (5.1 – 5.1.1)",
-            imagePath = "android-releases/lollipop.svg",
+            imagePath = "/android-releases/lollipop.svg",
             versionName = "5.1 – 5.1.1",
             codename = "Lemon Meringue Pie",
             apiLevel = 22,
@@ -188,7 +188,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Marshmallow",
-            imagePath = "android-releases/marshmallow.svg",
+            imagePath = "/android-releases/marshmallow.svg",
             versionName = "6.0 – 6.0.1",
             codename = "Macadamia Nut Cookie",
             apiLevel = 23,
@@ -196,7 +196,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Nougat (7.0)",
-            imagePath = "android-releases/nougat.svg",
+            imagePath = "/android-releases/nougat.svg",
             versionName = "7.0",
             codename = "New York Cheesecake",
             apiLevel = 24,
@@ -204,7 +204,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Nougat (7.1 – 7.1.2)",
-            imagePath = "android-releases/nougat.svg",
+            imagePath = "/android-releases/nougat.svg",
             versionName = "7.1 – 7.1.2",
             codename = "New York Cheesecake",
             apiLevel = 25,
@@ -212,7 +212,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Oreo (8.0)",
-            imagePath = "android-releases/oreo.svg",
+            imagePath = "/android-releases/oreo.svg",
             versionName = "8.0",
             codename = "Oatmeal Cookie",
             apiLevel = 26,
@@ -220,7 +220,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Oreo (8.1)",
-            imagePath = "android-releases/oreo.svg",
+            imagePath = "/android-releases/oreo.svg",
             versionName = "8.1",
             codename = "Oatmeal Cookie",
             apiLevel = 27,
@@ -228,7 +228,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android Pie",
-            imagePath = "android-releases/pie.svg",
+            imagePath = "/android-releases/pie.svg",
             versionName = "9",
             codename = "Pistachio Ice Cream",
             apiLevel = 28,
@@ -236,7 +236,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android 10",
-            imagePath = "android-releases/10.svg",
+            imagePath = "/android-releases/10.svg",
             versionName = "10",
             codename = "Quince Tart",
             apiLevel = 29,
@@ -244,7 +244,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android 11",
-            imagePath = "android-releases/11.svg",
+            imagePath = "/android-releases/11.svg",
             versionName = "11",
             codename = "Red Velvet Cake",
             apiLevel = 30,
@@ -252,7 +252,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android 12",
-            imagePath = "android-releases/12.svg",
+            imagePath = "/android-releases/12.svg",
             versionName = "12",
             codename = "Snow Cone",
             apiLevel = 31,
@@ -260,7 +260,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android 12L",
-            imagePath = "android-releases/12.svg",
+            imagePath = "/android-releases/12.svg",
             versionName = "12.1",
             codename = "Snow Cone v2",
             apiLevel = 32,
@@ -268,7 +268,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android 13",
-            imagePath = "android-releases/13.svg",
+            imagePath = "/android-releases/13.svg",
             versionName = "13",
             codename = "Tiramisu",
             apiLevel = 33,
@@ -276,7 +276,7 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
         ),
         ContentItem.AndroidRelease(
             displayText = "Android 14",
-            imagePath = "android-releases/14.svg",
+            imagePath = "/android-releases/14.svg",
             versionName = "14",
             codename = "Upside Down Cake",
             apiLevel = 33,

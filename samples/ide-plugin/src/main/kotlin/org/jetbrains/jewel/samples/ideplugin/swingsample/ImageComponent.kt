@@ -2,11 +2,13 @@ package org.jetbrains.jewel.samples.ideplugin.swingsample
 
 import com.intellij.openapi.application.EDT
 import com.intellij.openapi.ui.GraphicsConfig
-import com.intellij.ui.AnimatedIcon
-import com.intellij.util.IconUtil
+import com.intellij.ui.util.maximumHeight
+import com.intellij.ui.util.maximumWidth
 import com.intellij.util.ui.ImageUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.awt.Dimension
 import java.awt.Graphics
@@ -16,12 +18,16 @@ import java.awt.event.ComponentEvent
 import java.awt.event.ComponentListener
 import java.awt.image.BufferedImage
 import javax.swing.JComponent
-import kotlin.math.min
 
+// TODO: figure out how to show a placeholder while the image is being loaded,
+//  while avoiding infinite loops of resized -> updateScaledImage() ->
+//  getPreferredSize() -> resized -> ...
 internal class ImageComponent(
     private val scope: CoroutineScope,
     bufferedImage: BufferedImage? = null,
 ) : JComponent() {
+
+    private var resizeJob: Job? = null
 
     var image: BufferedImage? = bufferedImage
         set(value) {
@@ -54,27 +60,22 @@ internal class ImageComponent(
         registerUiInspectorInfoProvider {
             mapOf(
                 "image" to image,
-                "imageSize" to image?.let { Dimension(ImageUtil.getRealWidth(it), ImageUtil.getRealHeight(it)) }
+                "imageSize" to image?.let { Dimension(ImageUtil.getUserWidth(it), ImageUtil.getUserHeight(it)) }
             )
         }
     }
 
     private fun updateScaledImage() {
-        scaledImage = IconUtil.toImage(AnimatedIcon.Big())
-        revalidate()
+        resizeJob?.cancel("New image")
 
         val currentImage = image ?: return
 
-        scope.launch(Dispatchers.Default) {
+        resizeJob = scope.launch(Dispatchers.Default) {
             val imageWidth = currentImage.width
-            val imageHeight = currentImage.height
 
             val componentWidth = width
-            val componentHeight = height
+            val ratioToFit = componentWidth.toDouble() / imageWidth
 
-            val widthRatioToFit = componentWidth.toDouble() / imageWidth
-            val heightRatioToFit = componentHeight.toDouble() / imageHeight
-            val ratioToFit = min(widthRatioToFit, heightRatioToFit)
             val newImage = ImageUtil.scaleImage(currentImage, ratioToFit)
 
             launch(Dispatchers.EDT) {
@@ -88,10 +89,11 @@ internal class ImageComponent(
         val currentImage = scaledImage
 
         return if (!isPreferredSizeSet && currentImage != null) {
-            Dimension(
-                ImageUtil.getUserWidth(currentImage),
-                ImageUtil.getUserHeight(currentImage),
+            val dimension = Dimension(
+                ImageUtil.getRealWidth(currentImage).coerceAtMost(maximumWidth),
+                ImageUtil.getRealHeight(currentImage).coerceAtMost(maximumHeight),
             )
+            dimension
         } else {
             super.getPreferredSize()
         }
@@ -119,5 +121,10 @@ internal class ImageComponent(
 
             graphicsConfig.restore()
         }
+    }
+
+    override fun removeNotify() {
+        super.removeNotify()
+        resizeJob?.cancel("Detaching")
     }
 }
