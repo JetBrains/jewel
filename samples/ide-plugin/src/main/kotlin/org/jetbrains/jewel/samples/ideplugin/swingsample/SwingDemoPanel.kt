@@ -24,6 +24,7 @@ import org.jetbrains.jewel.samples.ideplugin.ContentSource
 import javax.swing.BoxLayout
 import javax.swing.DefaultListModel
 import javax.swing.JPanel
+import javax.swing.ListSelectionModel
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 
@@ -92,9 +93,17 @@ class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
         border = JBUI.Borders.empty(4)
     }
 
+    private var lastSelected: ContentItem? = null
     private val contentList = JBList<ContentItem>().apply {
+        selectionMode = ListSelectionModel.SINGLE_SELECTION
+
         addListSelectionListener {
-            onListSelectionChanged()
+            if (selectedValue != lastSelected) {
+                lastSelected = selectedValue
+                onListSelectionChanged()
+            } else {
+                println("!!! Ignoring already selected")
+            }
         }
     }
 
@@ -162,6 +171,9 @@ class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
     private fun onListSelectionChanged() {
         val selection = contentList.selectedValue
         sidePanel.display(selection)
+
+        revalidate()
+        repaint()
     }
 }
 
