@@ -900,13 +900,11 @@ private fun readCircularProgressStyle(
     )
 
 private fun readTooltipStyle(): IntUiTooltipStyle {
-    val background = "ToolTip.background"
-    val content = "ToolTip.foreground"
     return IntUiTooltipStyle(
         metrics = IntUiTooltipMetrics(),
         colors = IntUiTooltipColors(
-            content = retrieveColorOrUnspecified(content),
-            background = retrieveColorOrUnspecified(background),
+            content = retrieveColorOrUnspecified("ToolTip.foreground"),
+            background = retrieveColorOrUnspecified("ToolTip.background"),
             border = retrieveColorOrUnspecified("ToolTip.borderColor"),
             shadow = Color.Black.copy(alpha = .6f),
         ),
