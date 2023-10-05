@@ -31,3 +31,10 @@ dependencies {
         exclude(group = "org.jetbrains.kotlinx")
     }
 }
+
+tasks {
+    // We don't have any settings in the demo plugin
+    buildSearchableOptions {
+        enabled = false
+    }
+}

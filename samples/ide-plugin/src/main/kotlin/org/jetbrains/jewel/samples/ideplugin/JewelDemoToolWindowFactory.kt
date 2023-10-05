@@ -25,7 +25,6 @@ internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
         addSwingTab(toolWindow)
 
         toolWindow.addComposeTab("Compose Sample") {
-
         }
     }
 
@@ -33,15 +32,16 @@ internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
         val manager = toolWindow.contentManager
         val tabContent =
             manager.factory.createContent(
-                /* component = */ SwingDemoPanel(toolWindow.disposable.createCoroutineScope()),
-                /* displayName = */ "Swing Sample",
-                /* isLockable = */ true
+                SwingDemoPanel(toolWindow.disposable.createCoroutineScope()),
+                "Swing Sample",
+                true,
             )
         tabContent.isCloseable = false
         manager.addContent(tabContent)
     }
 }
 
+@Suppress("InjectDispatcher") // This is likely wrong anyway, it's only for the demo
 private fun Disposable.createCoroutineScope(): CoroutineScope {
     val job = SupervisorJob()
     val scopeDisposable = Disposable { job.cancel("Disposing") }

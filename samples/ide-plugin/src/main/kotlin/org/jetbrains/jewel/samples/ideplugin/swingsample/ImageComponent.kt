@@ -60,11 +60,12 @@ internal class ImageComponent(
         registerUiInspectorInfoProvider {
             mapOf(
                 "image" to image,
-                "imageSize" to image?.let { Dimension(ImageUtil.getUserWidth(it), ImageUtil.getUserHeight(it)) }
+                "imageSize" to image?.let { Dimension(ImageUtil.getUserWidth(it), ImageUtil.getUserHeight(it)) },
             )
         }
     }
 
+    @Suppress("InjectDispatcher") // It's ok in a silly sample
     private fun updateScaledImage() {
         resizeJob?.cancel("New image")
 
@@ -113,10 +114,14 @@ internal class ImageComponent(
             val componentHeight = height
 
             drawImage(
-                /* img = */ currentImage,
-                /* x = */ componentWidth / 2 - (imageWidth) / 2,
-                /* y = */ componentHeight / 2 - (imageHeight) / 2,
-                /* observer = */ null
+                /* img = */
+                currentImage,
+                /* x = */
+                componentWidth / 2 - (imageWidth) / 2,
+                /* y = */
+                componentHeight / 2 - (imageHeight) / 2,
+                /* observer = */
+                null,
             )
 
             graphicsConfig.restore()

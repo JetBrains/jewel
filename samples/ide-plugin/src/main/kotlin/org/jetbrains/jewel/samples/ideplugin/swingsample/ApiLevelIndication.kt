@@ -32,7 +32,7 @@ internal class ApiLevelIndication(apiLevel: Int) : JLabel("API level $apiLevel")
                 height - y,
                 JBUIScale.scale(8),
                 ReleaseChannel.Other.background,
-                null
+                null,
             )
 
             graphicsConfig.restore()

@@ -71,7 +71,7 @@ class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
             }
 
             override fun getActionUpdateThread() = ActionUpdateThread.BGT
-        }
+        },
     )
 
     private val overflowAction = MoreActionGroup()
@@ -82,7 +82,7 @@ class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
             overflowAction,
             overflowAction.templatePresentation.clone(),
             "JewelSwingDemoTopBar",
-            ActionToolbar.DEFAULT_MINIMUM_BUTTON_SIZE
+            ActionToolbar.DEFAULT_MINIMUM_BUTTON_SIZE,
         )
 
     private val topBar = BorderLayoutPanel().apply {
@@ -124,17 +124,21 @@ class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
                 addToCenter(JBLabel(it.displayText))
 
                 if (it is ContentItem.AndroidStudio) {
-                    addToRight(JPanel().apply {
-                        layout = BoxLayout(this, BoxLayout.LINE_AXIS)
-                        isOpaque = false
-                        add(ChannelIndication(it.channel))
-                    })
+                    addToRight(
+                        JPanel().apply {
+                            layout = BoxLayout(this, BoxLayout.LINE_AXIS)
+                            isOpaque = false
+                            add(ChannelIndication(it.channel))
+                        },
+                    )
                 } else if (it is ContentItem.AndroidRelease) {
-                    addToRight(JPanel().apply {
-                        layout = BoxLayout(this, BoxLayout.LINE_AXIS)
-                        isOpaque = false
-                        add(ApiLevelIndication(it.apiLevel))
-                    })
+                    addToRight(
+                        JPanel().apply {
+                            layout = BoxLayout(this, BoxLayout.LINE_AXIS)
+                            isOpaque = false
+                            add(ApiLevelIndication(it.apiLevel))
+                        },
+                    )
                 }
             }
         }

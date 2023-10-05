@@ -71,7 +71,7 @@ private class ItemDetailsPanel(
             JBScrollPane(
                 mainContentPanel,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
             )
 
         addToCenter(scrollingContainer)
@@ -84,7 +84,9 @@ private class ItemDetailsPanel(
                     val releaseDate = contentItem.releaseDate
                     if (releaseDate != null) {
                         it.comment("Released on ${formatter.format(releaseDate.toJavaLocalDate())}")
-                    } else it
+                    } else {
+                        it
+                    }
                 }
                 .component.font = JBFont.h1()
         }.bottomGap(BottomGap.MEDIUM)
