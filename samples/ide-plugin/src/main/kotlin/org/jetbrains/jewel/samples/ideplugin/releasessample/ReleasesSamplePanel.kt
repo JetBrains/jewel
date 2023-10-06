@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.ideplugin.swingsample
+package org.jetbrains.jewel.samples.ideplugin.releasessample
 
 import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.openapi.actionSystem.ActionUpdateThread
@@ -17,10 +17,6 @@ import com.intellij.ui.scale.JBUIScale
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import kotlinx.coroutines.CoroutineScope
-import org.jetbrains.jewel.samples.ideplugin.AndroidReleases
-import org.jetbrains.jewel.samples.ideplugin.AndroidStudioReleases
-import org.jetbrains.jewel.samples.ideplugin.ContentItem
-import org.jetbrains.jewel.samples.ideplugin.ContentSource
 import javax.swing.BoxLayout
 import javax.swing.DefaultListModel
 import javax.swing.JPanel
@@ -28,7 +24,7 @@ import javax.swing.ListSelectionModel
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 
-class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
+class ReleasesSamplePanel(scope: CoroutineScope) : BorderLayoutPanel() {
 
     private val sidePanel = DetailsPanel(scope)
 
@@ -51,7 +47,7 @@ class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
     }
 
     private val actions: List<AnAction> = listOf(
-        object : CheckboxAction("Android Studio releases"), DumbAware {
+        object : CheckboxAction(AndroidStudioReleases.displayName), DumbAware {
 
             override fun isSelected(e: AnActionEvent): Boolean =
                 currentContentSource == AndroidStudioReleases
@@ -62,7 +58,7 @@ class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
 
             override fun getActionUpdateThread() = ActionUpdateThread.BGT
         },
-        object : CheckboxAction("Android desserts"), DumbAware {
+        object : CheckboxAction(AndroidReleases.displayName), DumbAware {
 
             override fun isSelected(e: AnActionEvent): Boolean =
                 currentContentSource == AndroidReleases
@@ -101,8 +97,6 @@ class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
             if (selectedValue != lastSelected) {
                 lastSelected = selectedValue
                 onListSelectionChanged()
-            } else {
-                println("!!! Ignoring already selected")
             }
         }
     }
@@ -164,8 +158,10 @@ class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
     private fun filterContent(text: String) {
         val model = contentList.model as DefaultListModel<ContentItem>
 
+        val normalizedFilter = text.trim()
+
         model.clear()
-        model.addAll(currentContentSource.items.filter { it.matches(text) })
+        model.addAll(currentContentSource.items.filter { it.matches(normalizedFilter) })
     }
 
     private fun onListSelectionChanged() {
@@ -175,25 +171,4 @@ class SwingDemoPanel(scope: CoroutineScope) : BorderLayoutPanel() {
         revalidate()
         repaint()
     }
-}
-
-private fun ContentItem.matches(text: String): Boolean {
-    if (displayText.contains(text, ignoreCase = true)) return true
-    if (versionName.contains(text, ignoreCase = true)) return true
-
-    when (this) {
-        is ContentItem.AndroidStudio -> {
-            if (build.contains(text, ignoreCase = true)) return true
-            if (channel.name.contains(text, ignoreCase = true)) return true
-            if (platformBuild.contains(text, ignoreCase = true)) return true
-            if (platformVersion.contains(text, ignoreCase = true)) return true
-        }
-
-        is ContentItem.AndroidRelease -> {
-            if (codename?.contains(text, ignoreCase = true) == true) return true
-            if (this.apiLevel.toString().contains(text, ignoreCase = true)) return true
-        }
-    }
-
-    return false
 }

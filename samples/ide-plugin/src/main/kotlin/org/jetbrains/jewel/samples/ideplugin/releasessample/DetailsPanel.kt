@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.ideplugin.swingsample
+package org.jetbrains.jewel.samples.ideplugin.releasessample
 
 import com.intellij.ui.components.JBPanelWithEmptyText
 import com.intellij.ui.components.JBScrollPane
@@ -15,7 +15,6 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.datetime.toJavaLocalDate
-import org.jetbrains.jewel.samples.ideplugin.ContentItem
 import java.awt.BorderLayout
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle

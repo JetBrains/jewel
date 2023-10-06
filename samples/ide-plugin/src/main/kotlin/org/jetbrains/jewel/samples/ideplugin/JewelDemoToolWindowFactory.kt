@@ -12,7 +12,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import org.jetbrains.jewel.bridge.addComposeTab
-import org.jetbrains.jewel.samples.ideplugin.swingsample.SwingDemoPanel
+import org.jetbrains.jewel.samples.ideplugin.releasessample.ReleasesSampleCompose
+import org.jetbrains.jewel.samples.ideplugin.releasessample.ReleasesSamplePanel
 
 @ExperimentalCoroutinesApi
 internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
@@ -25,6 +26,7 @@ internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
         addSwingTab(toolWindow)
 
         toolWindow.addComposeTab("Compose Sample") {
+            ReleasesSampleCompose(project)
         }
     }
 
@@ -32,7 +34,7 @@ internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
         val manager = toolWindow.contentManager
         val tabContent =
             manager.factory.createContent(
-                SwingDemoPanel(toolWindow.disposable.createCoroutineScope()),
+                ReleasesSamplePanel(toolWindow.disposable.createCoroutineScope()),
                 "Swing Sample",
                 true,
             )

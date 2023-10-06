@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.ideplugin.swingsample
+package org.jetbrains.jewel.samples.ideplugin.releasessample
 
 import com.intellij.internal.inspector.PropertyBean
 import com.intellij.internal.inspector.UiInspectorUtil

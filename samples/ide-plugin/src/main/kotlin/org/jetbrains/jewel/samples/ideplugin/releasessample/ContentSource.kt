@@ -1,10 +1,34 @@
-package org.jetbrains.jewel.samples.ideplugin
+package org.jetbrains.jewel.samples.ideplugin.releasessample
 
 import kotlinx.datetime.LocalDate
 
-sealed class ContentSource<T : ContentItem> {
+abstract class ContentSource<T : ContentItem> {
 
     abstract val items: List<T>
+
+    abstract val displayName: String
+
+    fun isSameAs(other: ContentSource<*>): Boolean {
+        val thisComparable = getComparableSource()
+        val otherComparable = other.getComparableSource()
+
+        return this == otherComparable
+    }
+
+    private fun getComparableSource() =
+        when (this) {
+            is FilteredContentSource<*> -> original
+            else -> this
+        }
+}
+
+data class FilteredContentSource<T : ContentItem>(
+    override val items: List<T>,
+    val original: ContentSource<*>
+) : ContentSource<T>() {
+
+    override val displayName: String
+        get() = original.displayName
 }
 
 object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
@@ -283,4 +307,6 @@ object AndroidReleases : ContentSource<ContentItem.AndroidRelease>() {
             releaseDate = LocalDate(2023, 10, 4),
         ),
     )
+
+    override val displayName = "Android releases"
 }

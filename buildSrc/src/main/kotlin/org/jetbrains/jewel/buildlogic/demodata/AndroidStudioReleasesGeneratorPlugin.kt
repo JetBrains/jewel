@@ -73,7 +73,7 @@ open class StudioVersionsGenerationExtension(project: Project) {
         .convention("https://jb.gg/android-studio-releases-list.json")
 }
 
-private const val OUTPUT_CLASS_NAME = "org.jetbrains.jewel.samples.ideplugin.AndroidStudioReleases"
+private const val OUTPUT_CLASS_NAME = "org.jetbrains.jewel.samples.ideplugin.releasessample.AndroidStudioReleases"
 
 open class AndroidStudioReleasesGeneratorTask : DefaultTask() {
 

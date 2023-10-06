@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.ideplugin.swingsample
+package org.jetbrains.jewel.samples.ideplugin.releasessample
 
 import com.intellij.openapi.application.EDT
 import com.intellij.openapi.ui.GraphicsConfig

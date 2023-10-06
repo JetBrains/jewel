@@ -1,11 +1,10 @@
-package org.jetbrains.jewel.samples.ideplugin.swingsample
+package org.jetbrains.jewel.samples.ideplugin.releasessample
 
 import com.intellij.openapi.ui.GraphicsConfig
 import com.intellij.ui.paint.RectanglePainter
 import com.intellij.ui.scale.JBUIScale
 import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
-import org.jetbrains.jewel.samples.ideplugin.ReleaseChannel
 import java.awt.Graphics
 import java.awt.Graphics2D
 import javax.swing.JLabel
