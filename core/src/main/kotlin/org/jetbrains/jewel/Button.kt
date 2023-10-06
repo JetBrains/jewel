@@ -34,6 +34,8 @@ import org.jetbrains.jewel.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
+import org.jetbrains.jewel.styling.ButtonColors
+import org.jetbrains.jewel.styling.ButtonMetrics
 import org.jetbrains.jewel.styling.ButtonStyle
 
 @Composable
@@ -64,6 +66,32 @@ fun OutlinedButton(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ButtonStyle = IntelliJTheme.outlinedButtonStyle,
+    textStyle: TextStyle = IntelliJTheme.textStyle,
+    content: @Composable RowScope.() -> Unit,
+) {
+    ButtonImpl(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        interactionSource = interactionSource,
+        style = style,
+        content = content,
+        textStyle = textStyle,
+    )
+}
+
+@Composable
+fun IconButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    style: ButtonStyle = object : ButtonStyle {
+        override val colors: ButtonColors = object : ButtonColors by IntelliJTheme.outlinedButtonStyle.colors {
+        }
+        override val metrics: ButtonMetrics = object : ButtonMetrics by IntelliJTheme.outlinedButtonStyle.metrics {
+        }
+    },
     textStyle: TextStyle = IntelliJTheme.textStyle,
     content: @Composable RowScope.() -> Unit,
 ) {
