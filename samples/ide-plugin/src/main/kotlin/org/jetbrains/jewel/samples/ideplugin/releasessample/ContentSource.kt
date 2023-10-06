@@ -12,7 +12,7 @@ abstract class ContentSource<T : ContentItem> {
         val thisComparable = getComparableSource()
         val otherComparable = other.getComparableSource()
 
-        return this == otherComparable
+        return thisComparable == otherComparable
     }
 
     private fun getComparableSource() =
@@ -24,7 +24,7 @@ abstract class ContentSource<T : ContentItem> {
 
 data class FilteredContentSource<T : ContentItem>(
     override val items: List<T>,
-    val original: ContentSource<*>
+    val original: ContentSource<*>,
 ) : ContentSource<T>() {
 
     override val displayName: String

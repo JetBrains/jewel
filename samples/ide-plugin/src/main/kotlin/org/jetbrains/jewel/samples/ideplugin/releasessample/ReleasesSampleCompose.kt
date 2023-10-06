@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.samples.ideplugin.releasessample
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -9,18 +10,23 @@ import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Transparent
@@ -39,17 +46,25 @@ import androidx.compose.ui.graphics.Color.Companion.Unspecified
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.ResourceLoader
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
+import com.intellij.ui.NewUI
+import com.intellij.ui.RelativeFont
 import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
+import kotlinx.datetime.toJavaLocalDate
 import org.jetbrains.jewel.Divider
 import org.jetbrains.jewel.Icon
 import org.jetbrains.jewel.LocalResourceLoader
@@ -68,6 +83,9 @@ import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.items
+import java.awt.Font
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @Composable
 fun ReleasesSampleCompose(project: Project) {
@@ -89,7 +107,7 @@ fun ReleasesSampleCompose(project: Project) {
 
             RightColumn(
                 selectedItem = selectedItem,
-                modifier = Modifier.weight(.4f).fillMaxHeight()
+                modifier = Modifier.weight(.4f).fillMaxHeight(),
             )
         }
     }
@@ -100,17 +118,19 @@ fun LeftColumn(
     project: Project,
     svgLoader: SvgLoader,
     modifier: Modifier = Modifier,
-    onSelectedItemChange: (ContentItem?) -> Unit
+    onSelectedItemChange: (ContentItem?) -> Unit,
 ) {
     val service = remember(project) { project.service<ReleasesSampleService>() }
     val currentContentSource by service.content.collectAsState()
+    var count = "Recomposing 1 — ${currentContentSource::class.simpleName} ${currentContentSource.items.size}"
+    println(count)
 
     Column(modifier) {
         Row(
             modifier = Modifier.fillMaxWidth()
                 .height(IntrinsicSize.Min)
                 .padding(4.dp, 6.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text("Filter elements:")
 
@@ -149,8 +169,10 @@ fun LeftColumn(
                 }
 
                 onSelectedItemChange(selectedItem)
-            }
+            },
         ) {
+            println("!!!" + count)
+            println("Recomposing 2 — ${currentContentSource::class.simpleName} ${currentContentSource.items.size}")
             items(
                 items = currentContentSource.items,
                 key = { it.key },
@@ -159,7 +181,7 @@ fun LeftColumn(
                         is ContentItem.AndroidRelease -> ItemType.AndroidRelease
                         is ContentItem.AndroidStudio -> ItemType.AndroidStudio
                     }
-                }
+                },
             ) {
                 ContentItemRow(it, isSelected, isActive)
             }
@@ -184,7 +206,7 @@ private fun ContentItemRow(item: ContentItem, isSelected: Boolean, isActive: Boo
         Text(
             text = item.displayText,
             modifier = Modifier.weight(1f),
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
         )
 
         when (item) {
@@ -223,7 +245,7 @@ private fun ItemTag(
         color = foregroundColor,
         modifier = modifier
             .background(backgroundColor, shape)
-            .padding(padding)
+            .padding(padding),
     )
 }
 
@@ -260,7 +282,7 @@ private fun SearchBar(
             if (filterText.isNotBlank()) {
                 CloseIconButton(svgLoader, resourceLoader, service)
             }
-        }
+        },
     )
 }
 
@@ -268,7 +290,7 @@ private fun SearchBar(
 private fun CloseIconButton(
     svgLoader: SvgLoader,
     resourceLoader: ResourceLoader,
-    service: ReleasesSampleService
+    service: ReleasesSampleService,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var hovered by remember { mutableStateOf(false) }
@@ -297,7 +319,7 @@ private fun CloseIconButton(
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
-                role = Role.Button
+                role = Role.Button,
             ) { service.resetFilter() },
     )
 }
@@ -307,7 +329,7 @@ private fun OverflowMenu(
     currentContentSource: ContentSource<*>,
     svgLoader: SvgLoader,
     resourceLoader: ResourceLoader,
-    onContentSourceChange: (ContentSource<*>) -> Unit
+    onContentSourceChange: (ContentSource<*>) -> Unit,
 ) {
     val iconProvider =
         retrieveStatelessIcon("actions/more.svg", svgLoader, IntUiTheme.iconData)
@@ -345,7 +367,7 @@ private fun OverflowMenu(
         modifier = Modifier
             .fillMaxHeight()
             .clickable(interactionSource, null) { menuVisible = !menuVisible }
-            .background(backgroundColor, RoundedCornerShape((DarculaUIUtil.BUTTON_ARC.unscaled / 2).dp))
+            .background(backgroundColor, RoundedCornerShape((DarculaUIUtil.BUTTON_ARC.unscaled / 2).dp)),
     )
 
     val contentSources = remember {
@@ -371,7 +393,7 @@ private fun OverflowMenu(
                         //  the selected flag should be set on mouse hover/keyboard navigation
                         it.isSameAs(currentContentSource)
                     },
-                    onItemClick = onContentSourceChange
+                    onItemClick = onContentSourceChange,
                 ) {
                     Row(
                         modifier = Modifier.height(IntUiTheme.globalMetrics.rowHeight),
@@ -399,9 +421,90 @@ fun RightColumn(
     selectedItem: ContentItem?,
     modifier: Modifier,
 ) {
-    Column(modifier) {
-        Row(Modifier.fillMaxWidth()) {
-            Text(selectedItem?.displayText ?: "N/A")
+    if (selectedItem == null) {
+        Box(modifier, contentAlignment = Alignment.Center) {
+            Text("Nothing to see here", color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor())
+        }
+    } else {
+        Column(modifier) {
+            val imagePath = selectedItem.imagePath
+            if (imagePath != null) {
+                val painter = painterResource(imagePath, LocalResourceLoader.current)
+                Image(
+                    painter = painter,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth()
+                        .aspectRatio(painter.intrinsicSize.ratio)
+                        .sizeIn(maxHeight = 200.dp),
+                    contentScale = ContentScale.FillWidth,
+                )
+            }
+
+            Column(
+                Modifier.verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp, vertical = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                Text(
+                    selectedItem.displayText,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = JBFont.h1().size2D.sp,
+                )
+
+                val formatter = remember(Locale.current) { DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM) }
+                val releaseDate = selectedItem.releaseDate
+                if (releaseDate != null) {
+                    Text(
+                        text = "Released on ${formatter.format(releaseDate.toJavaLocalDate())}",
+                        fontSize = getCommentFontSize(),
+                        color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor(),
+                    )
+                }
+
+                Spacer(Modifier.height(20.dp))
+
+                when (selectedItem) {
+                    is ContentItem.AndroidRelease -> AndroidReleaseDetails(selectedItem)
+                    is ContentItem.AndroidStudio -> AndroidStudioReleaseDetails(selectedItem)
+                }
+            }
         }
     }
+}
+
+@Composable
+private fun AndroidReleaseDetails(item: ContentItem.AndroidRelease) {
+    TextWithLabel("Codename:", item.codename ?: "N/A")
+    TextWithLabel("Version:", item.versionName)
+    TextWithLabel("API level:", item.apiLevel.toString())
+}
+
+@Composable
+private fun AndroidStudioReleaseDetails(item: ContentItem.AndroidStudio) {
+    TextWithLabel("Channel:", item.channel.name)
+    TextWithLabel("Version:", item.versionName)
+    TextWithLabel("IntelliJ Platform version:", item.platformVersion)
+    TextWithLabel("IntelliJ Platform build:", item.platformBuild)
+    TextWithLabel("Full build number:", item.build)
+}
+
+@Composable
+private fun TextWithLabel(labelText: String, valueText: String) {
+    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        Text(labelText)
+        Text(valueText, fontWeight = FontWeight.Bold)
+    }
+}
+
+private val Size.ratio
+    get() = width / height
+
+// Logic from com.intellij.openapi.ui.panel.ComponentPanelBuilder#getCommentFont
+private fun getCommentFontSize(font: Font = JBFont.label()): TextUnit {
+    val commentFont = if (NewUI.isEnabled()) {
+        JBFont.medium()
+    } else {
+        RelativeFont.NORMAL.fromResource("ContextHelp.fontSizeOffset", -2).derive(font)
+    }
+    return commentFont.size2D.sp
 }

@@ -33,6 +33,7 @@ internal class ReleasesSampleService : CoroutineScope, Disposable {
     init {
         combine(originalContentSource, filter) { source, filter ->
             val normalizedFilter = filter.trim()
+            if (normalizedFilter.isBlank()) return@combine source
 
             val filteredContentItems = source.items
                 .filter { it.matches(normalizedFilter) }

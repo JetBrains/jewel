@@ -8,7 +8,7 @@ import org.jetbrains.jewel.GlobalMetrics
 @Immutable
 class IntUiGlobalMetrics(
     override val outlineWidth: Dp = 2.dp,
-    override val rowHeight: Dp = 24.dp
+    override val rowHeight: Dp = 24.dp,
 ) : GlobalMetrics {
 
     override fun equals(other: Any?): Boolean {

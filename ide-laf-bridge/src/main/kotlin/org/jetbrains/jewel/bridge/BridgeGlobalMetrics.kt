@@ -47,7 +47,7 @@ internal class BridgeGlobalMetrics(
             return BridgeGlobalMetrics(
                 outlineWidth = (DarculaUIUtil.BW.unscaled + lw).dp,
                 // The rowHeight() function returns a scaled value, but we need the base value
-                rowHeight = (JBUI.CurrentTheme.List.rowHeight() / JBUIScale.scale(1f)).dp
+                rowHeight = (JBUI.CurrentTheme.List.rowHeight() / JBUIScale.scale(1f)).dp,
             )
         }
     }
