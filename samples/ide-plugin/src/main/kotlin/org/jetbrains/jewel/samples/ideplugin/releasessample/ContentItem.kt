@@ -30,7 +30,7 @@ sealed class ContentItem {
         val codename: String?,
         val apiLevel: Int,
         override val releaseDate: LocalDate?,
-        override val key: Any = apiLevel,
+        override val key: Any = releaseDate ?: displayText,
     ) : ContentItem()
 }
 

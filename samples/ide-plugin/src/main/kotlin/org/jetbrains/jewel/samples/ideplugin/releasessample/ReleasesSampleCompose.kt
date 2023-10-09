@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -12,11 +14,11 @@ import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +27,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -38,7 +41,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Transparent
@@ -47,6 +49,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.res.painterResource
@@ -54,6 +58,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,6 +70,7 @@ import com.intellij.ui.NewUI
 import com.intellij.ui.RelativeFont
 import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.toJavaLocalDate
 import org.jetbrains.jewel.Divider
 import org.jetbrains.jewel.Icon
@@ -73,43 +80,52 @@ import org.jetbrains.jewel.PopupMenu
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.TextField
+import org.jetbrains.jewel.VerticalScrollbar
 import org.jetbrains.jewel.bridge.SwingBridgeService
 import org.jetbrains.jewel.bridge.SwingBridgeTheme
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.bridge.retrieveStatelessIcon
+import org.jetbrains.jewel.bridge.retrieveTextStyle
 import org.jetbrains.jewel.bridge.toComposeColor
+import org.jetbrains.jewel.bridge.toFontFamily
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.items
+import org.jetbrains.skiko.DependsOnJBR
+import java.awt.Cursor
 import java.awt.Font
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import kotlin.math.roundToInt
+import androidx.compose.foundation.gestures.Orientation as ComposeOrientation
 
+@OptIn(DependsOnJBR::class)
 @Composable
 fun ReleasesSampleCompose(project: Project) {
     SwingBridgeTheme {
         val svgLoader = service<SwingBridgeService>().svgLoader
 
-        // TODO use splitter component once it exists
-        Row(Modifier.fillMaxSize()) {
-            var selectedItem: ContentItem? by remember { mutableStateOf(null) }
-
-            LeftColumn(
-                project = project,
-                svgLoader = svgLoader,
-                modifier = Modifier.weight(.4f).fillMaxHeight(),
-                onSelectedItemChange = { selectedItem = it },
-            )
-
-            Divider(Modifier.fillMaxHeight(), orientation = Orientation.Vertical)
-
-            RightColumn(
-                selectedItem = selectedItem,
-                modifier = Modifier.weight(.4f).fillMaxHeight(),
-            )
-        }
+        var selectedItem: ContentItem? by remember { mutableStateOf(null) }
+        HorizontalSplitLayout(
+            first = { modifier ->
+                LeftColumn(
+                    project = project,
+                    svgLoader = svgLoader,
+                    modifier = modifier.fillMaxSize(),
+                    onSelectedItemChange = { selectedItem = it },
+                )
+            },
+            second = { modifier ->
+                RightColumn(
+                    selectedItem = selectedItem,
+                    modifier = modifier.fillMaxSize(),
+                )
+            },
+            Modifier.fillMaxSize(),
+            initialDividerPosition = 300.dp
+        )
     }
 }
 
@@ -122,8 +138,6 @@ fun LeftColumn(
 ) {
     val service = remember(project) { project.service<ReleasesSampleService>() }
     val currentContentSource by service.content.collectAsState()
-    var count = "Recomposing 1 — ${currentContentSource::class.simpleName} ${currentContentSource.items.size}"
-    println(count)
 
     Column(modifier) {
         Row(
@@ -171,8 +185,6 @@ fun LeftColumn(
                 onSelectedItemChange(selectedItem)
             },
         ) {
-            println("!!!" + count)
-            println("Recomposing 2 — ${currentContentSource::class.simpleName} ${currentContentSource.items.size}")
             items(
                 items = currentContentSource.items,
                 key = { it.key },
@@ -207,12 +219,13 @@ private fun ContentItemRow(item: ContentItem, isSelected: Boolean, isActive: Boo
             text = item.displayText,
             modifier = Modifier.weight(1f),
             overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
         )
 
         when (item) {
             is ContentItem.AndroidRelease -> {
                 ItemTag(
-                    text = item.apiLevel.toString(),
+                    text = "API level ${item.apiLevel}",
                     backgroundColor = ReleaseChannel.Other.background.toComposeColor(),
                     foregroundColor = ReleaseChannel.Other.foreground.toComposeColor(),
                 )
@@ -384,7 +397,7 @@ private fun OverflowMenu(
                 menuVisible = false
                 true
             },
-            horizontalAlignment = Alignment.Start,
+            horizontalAlignment = Alignment.End,
             content = {
                 items(
                     contentSources,
@@ -416,6 +429,7 @@ private fun OverflowMenu(
     }
 }
 
+@DependsOnJBR
 @Composable
 fun RightColumn(
     selectedItem: ContentItem?,
@@ -434,21 +448,24 @@ fun RightColumn(
                     painter = painter,
                     contentDescription = null,
                     modifier = Modifier.fillMaxWidth()
-                        .aspectRatio(painter.intrinsicSize.ratio)
                         .sizeIn(maxHeight = 200.dp),
-                    contentScale = ContentScale.FillWidth,
+                    contentScale = ContentScale.Fit,
                 )
             }
 
-            Column(
-                Modifier.verticalScroll(rememberScrollState())
-                    .padding(horizontal = 20.dp, vertical = 12.dp),
+            ScrollableColumn(
+                columnModifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Text(
                     selectedItem.displayText,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = JBFont.h1().size2D.sp,
+                    style = runBlocking {
+                        retrieveTextStyle(
+                            key = "Label.font",
+                            bold = true,
+                            size = JBFont.h1().size2D.sp
+                        )
+                    },
                 )
 
                 val formatter = remember(Locale.current) { DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM) }
@@ -473,6 +490,30 @@ fun RightColumn(
 }
 
 @Composable
+private fun ScrollableColumn(
+    outerModifier: Modifier = Modifier,
+    columnModifier: Modifier = Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Box(outerModifier) {
+        val scrollState = rememberScrollState()
+        Column(
+            modifier = columnModifier.verticalScroll(scrollState),
+            verticalArrangement = verticalArrangement,
+            horizontalAlignment = horizontalAlignment,
+            content = content
+        )
+
+        VerticalScrollbar(
+            adapter = rememberScrollbarAdapter(scrollState),
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight()
+        )
+    }
+}
+
+@Composable
 private fun AndroidReleaseDetails(item: ContentItem.AndroidRelease) {
     TextWithLabel("Codename:", item.codename ?: "N/A")
     TextWithLabel("Version:", item.versionName)
@@ -488,16 +529,15 @@ private fun AndroidStudioReleaseDetails(item: ContentItem.AndroidStudio) {
     TextWithLabel("Full build number:", item.build)
 }
 
+@OptIn(DependsOnJBR::class)
 @Composable
 private fun TextWithLabel(labelText: String, valueText: String) {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(labelText)
-        Text(valueText, fontWeight = FontWeight.Bold)
+        val fontFamily = JBFont.label().asBold().toFontFamily()
+        Text(valueText, fontFamily = fontFamily, fontWeight = FontWeight.W600)
     }
 }
-
-private val Size.ratio
-    get() = width / height
 
 // Logic from com.intellij.openapi.ui.panel.ComponentPanelBuilder#getCommentFont
 private fun getCommentFontSize(font: Font = JBFont.label()): TextUnit {
@@ -507,4 +547,68 @@ private fun getCommentFontSize(font: Font = JBFont.label()): TextUnit {
         RelativeFont.NORMAL.fromResource("ContextHelp.fontSizeOffset", -2).derive(font)
     }
     return commentFont.size2D.sp
+}
+
+@Composable
+private fun HorizontalSplitLayout(
+    first: @Composable (Modifier) -> Unit,
+    second: @Composable (Modifier) -> Unit,
+    modifier: Modifier = Modifier,
+    minRatio: Float = 0f,
+    maxRatio: Float = 1f,
+    initialDividerPosition: Dp = 300.dp,
+) {
+    val density = LocalDensity.current
+    var dividerX by remember {
+        mutableStateOf(with(density) { initialDividerPosition.roundToPx() })
+    }
+
+    Layout(modifier = modifier, content = {
+        val dividerInteractionSource = remember { MutableInteractionSource() }
+        first(Modifier.layoutId("first"))
+
+        Divider(
+            modifier = Modifier.width(1.dp)
+                .fillMaxHeight()
+                .draggable(
+                    interactionSource = dividerInteractionSource,
+                    orientation = ComposeOrientation.Horizontal,
+                    state = rememberDraggableState { delta ->
+                        dividerX += delta.toInt()
+                    }
+                )
+                .pointerHoverIcon(PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR)))
+                .layoutId("divider"),
+            orientation = Orientation.Vertical,
+        )
+
+        second(Modifier.layoutId("second"))
+    }) { measurables, incomingConstraints ->
+        val availableWidth = incomingConstraints.maxWidth
+        val actualDividerX = dividerX.coerceIn(0, availableWidth)
+            .coerceIn((availableWidth * minRatio).roundToInt(), (availableWidth * maxRatio).roundToInt())
+
+        val dividerMeasurable = measurables.single { it.layoutId == "divider" }
+        val dividerPlaceable = dividerMeasurable
+            .measure(Constraints.fixed(1.dp.roundToPx(), incomingConstraints.maxHeight))
+
+        val firstComponentConstraints =
+            Constraints.fixed((actualDividerX - 1).coerceAtLeast(0), incomingConstraints.maxHeight)
+        val firstPlaceable = measurables.single { it.layoutId == "first" }
+            .measure(firstComponentConstraints)
+
+        val secondComponentConstraints =
+            Constraints.fixed(
+                availableWidth - actualDividerX + dividerPlaceable.width,
+                incomingConstraints.maxHeight
+            )
+        val secondPlaceable = measurables.single { it.layoutId == "second" }
+            .measure(secondComponentConstraints)
+
+        layout(availableWidth, incomingConstraints.maxHeight) {
+            firstPlaceable.placeRelative(0, 0)
+            dividerPlaceable.placeRelative(actualDividerX, 0)
+            secondPlaceable.placeRelative(actualDividerX + dividerPlaceable.width, 0)
+        }
+    }
 }
