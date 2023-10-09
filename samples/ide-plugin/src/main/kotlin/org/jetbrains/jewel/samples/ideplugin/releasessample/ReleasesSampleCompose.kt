@@ -5,8 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -49,8 +47,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.res.painterResource
@@ -58,8 +54,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -72,10 +66,9 @@ import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.toJavaLocalDate
-import org.jetbrains.jewel.Divider
+import org.jetbrains.jewel.HorizontalSplitLayout
 import org.jetbrains.jewel.Icon
 import org.jetbrains.jewel.LocalResourceLoader
-import org.jetbrains.jewel.Orientation
 import org.jetbrains.jewel.PopupMenu
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.Text
@@ -94,12 +87,9 @@ import org.jetbrains.jewel.foundation.lazy.items
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.items
 import org.jetbrains.skiko.DependsOnJBR
-import java.awt.Cursor
 import java.awt.Font
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import kotlin.math.roundToInt
-import androidx.compose.foundation.gestures.Orientation as ComposeOrientation
 
 @OptIn(DependsOnJBR::class)
 @Composable
@@ -124,7 +114,9 @@ fun ReleasesSampleCompose(project: Project) {
                 )
             },
             Modifier.fillMaxSize(),
-            initialDividerPosition = 300.dp
+            initialDividerPosition = 400.dp,
+            minRatio = .15f,
+            maxRatio = .7f,
         )
     }
 }
@@ -547,68 +539,4 @@ private fun getCommentFontSize(font: Font = JBFont.label()): TextUnit {
         RelativeFont.NORMAL.fromResource("ContextHelp.fontSizeOffset", -2).derive(font)
     }
     return commentFont.size2D.sp
-}
-
-@Composable
-private fun HorizontalSplitLayout(
-    first: @Composable (Modifier) -> Unit,
-    second: @Composable (Modifier) -> Unit,
-    modifier: Modifier = Modifier,
-    minRatio: Float = 0f,
-    maxRatio: Float = 1f,
-    initialDividerPosition: Dp = 300.dp,
-) {
-    val density = LocalDensity.current
-    var dividerX by remember {
-        mutableStateOf(with(density) { initialDividerPosition.roundToPx() })
-    }
-
-    Layout(modifier = modifier, content = {
-        val dividerInteractionSource = remember { MutableInteractionSource() }
-        first(Modifier.layoutId("first"))
-
-        Divider(
-            modifier = Modifier.width(1.dp)
-                .fillMaxHeight()
-                .draggable(
-                    interactionSource = dividerInteractionSource,
-                    orientation = ComposeOrientation.Horizontal,
-                    state = rememberDraggableState { delta ->
-                        dividerX += delta.toInt()
-                    }
-                )
-                .pointerHoverIcon(PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR)))
-                .layoutId("divider"),
-            orientation = Orientation.Vertical,
-        )
-
-        second(Modifier.layoutId("second"))
-    }) { measurables, incomingConstraints ->
-        val availableWidth = incomingConstraints.maxWidth
-        val actualDividerX = dividerX.coerceIn(0, availableWidth)
-            .coerceIn((availableWidth * minRatio).roundToInt(), (availableWidth * maxRatio).roundToInt())
-
-        val dividerMeasurable = measurables.single { it.layoutId == "divider" }
-        val dividerPlaceable = dividerMeasurable
-            .measure(Constraints.fixed(1.dp.roundToPx(), incomingConstraints.maxHeight))
-
-        val firstComponentConstraints =
-            Constraints.fixed((actualDividerX - 1).coerceAtLeast(0), incomingConstraints.maxHeight)
-        val firstPlaceable = measurables.single { it.layoutId == "first" }
-            .measure(firstComponentConstraints)
-
-        val secondComponentConstraints =
-            Constraints.fixed(
-                availableWidth - actualDividerX + dividerPlaceable.width,
-                incomingConstraints.maxHeight
-            )
-        val secondPlaceable = measurables.single { it.layoutId == "second" }
-            .measure(secondComponentConstraints)
-
-        layout(availableWidth, incomingConstraints.maxHeight) {
-            firstPlaceable.placeRelative(0, 0)
-            dividerPlaceable.placeRelative(actualDividerX, 0)
-            secondPlaceable.placeRelative(actualDividerX + dividerPlaceable.width, 0)
-        }
-    }
 }
