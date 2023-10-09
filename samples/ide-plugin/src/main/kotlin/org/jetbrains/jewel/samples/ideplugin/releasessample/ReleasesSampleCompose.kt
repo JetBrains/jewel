@@ -1,18 +1,15 @@
 package org.jetbrains.jewel.samples.ideplugin.releasessample
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -41,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.Unspecified
 import androidx.compose.ui.graphics.Shape
@@ -85,6 +81,7 @@ import org.jetbrains.jewel.bridge.toFontFamily
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items
+import org.jetbrains.jewel.foundation.lazy.rememberSelectableLazyListState
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.items
 import org.jetbrains.skiko.DependsOnJBR
@@ -153,46 +150,44 @@ fun LeftColumn(
             }
         }
 
-        val interactionSource = remember { MutableInteractionSource() }
-        var focused by remember { mutableStateOf(false) }
-        LaunchedEffect(interactionSource) {
-            interactionSource.interactions.collect {
-                when (it) {
-                    is FocusInteraction.Focus -> focused = true
-                    is FocusInteraction.Unfocus -> focused = false
-                }
-            }
-        }
-        SelectableLazyColumn(
-            modifier = Modifier
-                .focusable(interactionSource = interactionSource)
-                .border(2.dp, if (focused) Blue else Transparent),
-            selectionMode = SelectionMode.Single,
-            onSelectedIndexesChanged = {
-                val selectedItem = if (it.isNotEmpty()) {
-                    currentContentSource.items[it.first()]
-                } else {
-                    null
-                }
-
-                onSelectedItemChange(selectedItem)
-            },
-        ) {
-            items(
-                items = currentContentSource.items,
-                key = { it.key },
-                contentType = {
-                    when (it) {
-                        is ContentItem.AndroidRelease -> ItemType.AndroidRelease
-                        is ContentItem.AndroidStudio -> ItemType.AndroidStudio
+        val listState = rememberSelectableLazyListState()
+        Box(modifier) {
+            SelectableLazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                state = listState,
+                selectionMode = SelectionMode.Single,
+                onSelectedIndexesChanged = {
+                    val selectedItem = if (it.isNotEmpty()) {
+                        currentContentSource.items[it.first()]
+                    } else {
+                        null
                     }
+
+                    onSelectedItemChange(selectedItem)
                 },
             ) {
-                ContentItemRow(it, isSelected, isActive) { newFilter ->
-                    service.filterContent(newFilter)
+                items(
+                    items = currentContentSource.items,
+                    key = { it.key },
+                    contentType = {
+                        when (it) {
+                            is ContentItem.AndroidRelease -> ItemType.AndroidRelease
+                            is ContentItem.AndroidStudio -> ItemType.AndroidStudio
+                        }
+                    },
+                ) {
+                    ContentItemRow(it, isSelected, isActive) { newFilter ->
+                        service.filterContent(newFilter)
+                    }
                 }
             }
+
+            VerticalScrollbar(
+                adapter = rememberScrollbarAdapter(listState.lazyListState),
+                modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
+            )
         }
+
     }
 }
 
@@ -211,7 +206,7 @@ private fun ContentItemRow(
     Row(
         modifier = Modifier.height(IntUiTheme.globalMetrics.rowHeight)
             .background(color)
-            .padding(horizontal = 4.dp),
+            .padding(start = 4.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
@@ -438,54 +433,30 @@ fun RightColumn(
     selectedItem: ContentItem?,
     modifier: Modifier,
 ) {
-    if (selectedItem == null) {
-        Box(modifier, contentAlignment = Alignment.Center) {
+    Box(modifier, contentAlignment = Alignment.Center) {
+        if (selectedItem == null) {
             Text("Nothing to see here", color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor())
-        }
-    } else {
-        ScrollableColumn(outerModifier = modifier) {
-            val imagePath = selectedItem.imagePath
-            if (imagePath != null) {
-                val painter = painterResource(imagePath, LocalResourceLoader.current)
-                Image(
-                    painter = painter,
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxWidth()
-                        .sizeIn(maxHeight = 200.dp),
-                    contentScale = ContentScale.Fit,
-                )
-            }
-
-            Column(
-                Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-            ) {
-                Text(
-                    selectedItem.displayText,
-                    style = runBlocking {
-                        retrieveTextStyle(
-                            key = "Label.font",
-                            bold = true,
-                            size = JBFont.h1().size2D.sp,
+        } else {
+            val scrollState = rememberScrollState()
+            VerticalScrollbarContainer(scrollState, modifier = modifier) {
+                Column(
+                    modifier = Modifier.verticalScroll(scrollState),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start,
+                ) {
+                    val imagePath = selectedItem.imagePath
+                    if (imagePath != null) {
+                        val painter = painterResource(imagePath, LocalResourceLoader.current)
+                        Image(
+                            painter = painter,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxWidth()
+                                .sizeIn(maxHeight = 200.dp),
+                            contentScale = ContentScale.Fit,
                         )
-                    },
-                )
+                    }
 
-                val formatter = remember(Locale.current) { DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM) }
-                val releaseDate = selectedItem.releaseDate
-                if (releaseDate != null) {
-                    Text(
-                        text = "Released on ${formatter.format(releaseDate.toJavaLocalDate())}",
-                        fontSize = getCommentFontSize(),
-                        color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor(),
-                    )
-                }
-
-                Spacer(Modifier.height(20.dp))
-
-                when (selectedItem) {
-                    is ContentItem.AndroidRelease -> AndroidReleaseDetails(selectedItem)
-                    is ContentItem.AndroidStudio -> AndroidStudioReleaseDetails(selectedItem)
+                    ItemDetailsText(selectedItem)
                 }
             }
         }
@@ -493,28 +464,56 @@ fun RightColumn(
 }
 
 @Composable
-private fun ScrollableColumn(
-    outerModifier: Modifier = Modifier,
-    columnModifier: Modifier = Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    content: @Composable ColumnScope.() -> Unit,
+private fun VerticalScrollbarContainer(
+    scrollState: ScrollState,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
 ) {
-    Box(outerModifier) {
-        val scrollState = rememberScrollState()
-        Column(
-            modifier = columnModifier.verticalScroll(scrollState),
-            verticalArrangement = verticalArrangement,
-            horizontalAlignment = horizontalAlignment,
-            content = content,
-        )
+    Box(modifier) {
+        content()
 
-        val style = IntUiTheme.scrollbarStyle
         VerticalScrollbar(
             adapter = rememberScrollbarAdapter(scrollState),
             modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
-            style = style,
         )
+    }
+}
+
+@DependsOnJBR
+@Composable
+private fun ItemDetailsText(selectedItem: ContentItem) {
+    Column(
+        Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        Text(
+            selectedItem.displayText,
+            style = runBlocking {
+                retrieveTextStyle(
+                    key = "Label.font",
+                    bold = true,
+                    size = JBFont.h1().size2D.sp,
+                )
+            },
+        )
+
+        val formatter =
+            remember(Locale.current) { DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM) }
+        val releaseDate = selectedItem.releaseDate
+        if (releaseDate != null) {
+            Text(
+                text = "Released on ${formatter.format(releaseDate.toJavaLocalDate())}",
+                fontSize = getCommentFontSize(),
+                color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor(),
+            )
+        }
+
+        Spacer(Modifier.height(20.dp))
+
+        when (selectedItem) {
+            is ContentItem.AndroidRelease -> AndroidReleaseDetails(selectedItem)
+            is ContentItem.AndroidStudio -> AndroidStudioReleaseDetails(selectedItem)
+        }
     }
 }
 

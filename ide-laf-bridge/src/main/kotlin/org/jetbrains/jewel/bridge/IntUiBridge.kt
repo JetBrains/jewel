@@ -630,10 +630,10 @@ private fun readRadioButtonStyle(iconData: IntelliJThemeIconData, svgLoader: Svg
 
 private fun readScrollbarStyle(isDark: Boolean) = IntUiScrollbarStyle(
     colors = IntUiScrollbarColors(
-        // See ScrollBarPainter.THUMB_BACKGROUND
+        // See ScrollBarPainter.THUMB_OPAQUE_BACKGROUND
         thumbBackground = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbColor")
-            .takeOrElse { if (isDark) Color(0x00000000) else Color(0x00808080) },
-        // See ScrollBarPainter.THUMB_HOVERED_BACKGROUND
+            .takeOrElse { if (isDark) Color(0x59808080) else Color(0x33000000) },
+        // See ScrollBarPainter.THUMB_OPAQUE_HOVERED_BACKGROUND
         thumbBackgroundHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
             .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
     ),
