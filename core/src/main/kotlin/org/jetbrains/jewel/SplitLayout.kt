@@ -46,6 +46,7 @@ fun HorizontalSplitLayout(
         first(Modifier.layoutId("first"))
 
         Divider(
+            orientation = Orientation.Vertical,
             modifier = Modifier.width(1.dp)
                 .fillMaxHeight()
                 .draggable(
@@ -53,11 +54,10 @@ fun HorizontalSplitLayout(
                     orientation = ComposeOrientation.Horizontal,
                     state = rememberDraggableState { delta ->
                         dividerX += delta.toInt()
-                    }
+                    },
                 )
                 .pointerHoverIcon(PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR)))
                 .layoutId("divider"),
-            orientation = Orientation.Vertical,
             color = dividerColor,
             thickness = dividerThickness,
             startIndent = dividerIndent,
@@ -75,17 +75,21 @@ fun HorizontalSplitLayout(
 
         val firstComponentConstraints =
             Constraints.fixed((actualDividerX - 1).coerceAtLeast(0), incomingConstraints.maxHeight)
-        val firstPlaceable = (measurables.find { it.layoutId == "first" }
-            ?: error("No first component found. Have you applied the provided Modifier to it?"))
+        val firstPlaceable = (
+            measurables.find { it.layoutId == "first" }
+                ?: error("No first component found. Have you applied the provided Modifier to it?")
+            )
             .measure(firstComponentConstraints)
 
         val secondComponentConstraints =
             Constraints.fixed(
                 availableWidth - actualDividerX + dividerPlaceable.width,
-                incomingConstraints.maxHeight
+                incomingConstraints.maxHeight,
             )
-        val secondPlaceable = (measurables.find { it.layoutId == "second" }
-            ?: error("No second component found. Have you applied the provided Modifier to it?"))
+        val secondPlaceable = (
+            measurables.find { it.layoutId == "second" }
+                ?: error("No second component found. Have you applied the provided Modifier to it?")
+            )
             .measure(secondComponentConstraints)
 
         layout(availableWidth, incomingConstraints.maxHeight) {
@@ -118,17 +122,17 @@ fun VerticalSplitLayout(
         first(Modifier.layoutId("first"))
 
         Divider(
+            orientation = Orientation.Horizontal,
             modifier = Modifier.fillMaxHeight()
                 .draggable(
                     interactionSource = dividerInteractionSource,
                     orientation = ComposeOrientation.Vertical,
                     state = rememberDraggableState { delta ->
                         dividerY += delta.toInt()
-                    }
+                    },
                 )
                 .pointerHoverIcon(PointerIcon(Cursor(Cursor.N_RESIZE_CURSOR)))
                 .layoutId("divider"),
-            orientation = Orientation.Horizontal,
             color = dividerColor,
             thickness = dividerThickness,
             startIndent = dividerIndent,
@@ -146,17 +150,21 @@ fun VerticalSplitLayout(
 
         val firstComponentConstraints =
             Constraints.fixed(incomingConstraints.maxWidth, (actualDividerY - 1).coerceAtLeast(0))
-        val firstPlaceable = (measurables.find { it.layoutId == "first" }
-            ?: error("No first component found. Have you applied the provided Modifier to it?"))
+        val firstPlaceable = (
+            measurables.find { it.layoutId == "first" }
+                ?: error("No first component found. Have you applied the provided Modifier to it?")
+            )
             .measure(firstComponentConstraints)
 
         val secondComponentConstraints =
             Constraints.fixed(
                 incomingConstraints.maxWidth,
-                availableHeight - actualDividerY + dividerPlaceable.height
+                availableHeight - actualDividerY + dividerPlaceable.height,
             )
-        val secondPlaceable = (measurables.find { it.layoutId == "second" }
-            ?: error("No second component found. Have you applied the provided Modifier to it?"))
+        val secondPlaceable = (
+            measurables.find { it.layoutId == "second" }
+                ?: error("No second component found. Have you applied the provided Modifier to it?")
+            )
             .measure(secondComponentConstraints)
 
         layout(incomingConstraints.maxWidth, availableHeight) {

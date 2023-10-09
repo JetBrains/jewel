@@ -296,10 +296,10 @@ fun MenuSeparator(
     colors: MenuItemColors = IntelliJTheme.menuStyle.colors.itemColors,
 ) {
     Divider(
-        modifier = modifier.padding(metrics.separatorPadding),
-        thickness = metrics.separatorThickness,
         orientation = Orientation.Horizontal,
+        modifier = modifier.padding(metrics.separatorPadding),
         color = colors.separator,
+        thickness = metrics.separatorThickness,
     )
 }
 

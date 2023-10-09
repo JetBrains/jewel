@@ -50,7 +50,7 @@ fun java.awt.Color.toComposeColor() = Color(
 fun java.awt.Color?.toComposeColorOrUnspecified() = this?.toComposeColor() ?: Color.Unspecified
 
 @Suppress("JavaIoSerializableObjectMustHaveReadResolve")
-private object FallbackMarker : JBColor(0x0000, 0x0000) {
+private object FallbackMarker : JBColor(0x00001, 0x00001) {
 
     override fun toString() = "%%%%%%COLOR_NOT_FOUND_MARKER%%%%%%"
 

@@ -201,7 +201,7 @@ private fun ContentItemRow(
     item: ContentItem,
     isSelected: Boolean,
     isActive: Boolean,
-    onTagClick: (String) -> Unit
+    onTagClick: (String) -> Unit,
 ) {
     val color = when {
         isSelected && isActive -> retrieveColorOrUnspecified("List.selectionBackground")
@@ -443,7 +443,7 @@ fun RightColumn(
             Text("Nothing to see here", color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor())
         }
     } else {
-        Column(modifier) {
+        ScrollableColumn(outerModifier = modifier) {
             val imagePath = selectedItem.imagePath
             if (imagePath != null) {
                 val painter = painterResource(imagePath, LocalResourceLoader.current)
@@ -456,8 +456,8 @@ fun RightColumn(
                 )
             }
 
-            ScrollableColumn(
-                columnModifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+            Column(
+                Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Text(
@@ -466,7 +466,7 @@ fun RightColumn(
                         retrieveTextStyle(
                             key = "Label.font",
                             bold = true,
-                            size = JBFont.h1().size2D.sp
+                            size = JBFont.h1().size2D.sp,
                         )
                     },
                 )
@@ -498,7 +498,7 @@ private fun ScrollableColumn(
     columnModifier: Modifier = Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     Box(outerModifier) {
         val scrollState = rememberScrollState()
@@ -506,12 +506,14 @@ private fun ScrollableColumn(
             modifier = columnModifier.verticalScroll(scrollState),
             verticalArrangement = verticalArrangement,
             horizontalAlignment = horizontalAlignment,
-            content = content
+            content = content,
         )
 
+        val style = IntUiTheme.scrollbarStyle
         VerticalScrollbar(
             adapter = rememberScrollbarAdapter(scrollState),
-            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight()
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+            style = style,
         )
     }
 }
