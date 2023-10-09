@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.onClick
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -187,14 +188,21 @@ fun LeftColumn(
                     }
                 },
             ) {
-                ContentItemRow(it, isSelected, isActive)
+                ContentItemRow(it, isSelected, isActive) { newFilter ->
+                    service.filterContent(newFilter)
+                }
             }
         }
     }
 }
 
 @Composable
-private fun ContentItemRow(item: ContentItem, isSelected: Boolean, isActive: Boolean) {
+private fun ContentItemRow(
+    item: ContentItem,
+    isSelected: Boolean,
+    isActive: Boolean,
+    onTagClick: (String) -> Unit
+) {
     val color = when {
         isSelected && isActive -> retrieveColorOrUnspecified("List.selectionBackground")
         isSelected && !isActive -> retrieveColorOrUnspecified("List.selectionInactiveBackground")
@@ -214,12 +222,14 @@ private fun ContentItemRow(item: ContentItem, isSelected: Boolean, isActive: Boo
             maxLines = 1,
         )
 
+        val pointerModifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
         when (item) {
             is ContentItem.AndroidRelease -> {
                 ItemTag(
                     text = "API level ${item.apiLevel}",
                     backgroundColor = ReleaseChannel.Other.background.toComposeColor(),
                     foregroundColor = ReleaseChannel.Other.foreground.toComposeColor(),
+                    modifier = pointerModifier.onClick { onTagClick(item.apiLevel.toString()) },
                 )
             }
 
@@ -229,6 +239,7 @@ private fun ContentItemRow(item: ContentItem, isSelected: Boolean, isActive: Boo
                     text = channel.name.lowercase(),
                     backgroundColor = channel.background.toComposeColor(),
                     foregroundColor = channel.foreground.toComposeColor(),
+                    modifier = pointerModifier.onClick { onTagClick(item.channel.name) },
                 )
             }
         }
