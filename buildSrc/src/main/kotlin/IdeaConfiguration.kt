@@ -7,6 +7,7 @@ enum class SupportedIJVersion {
 
 fun Project.supportedIJVersion(): SupportedIJVersion {
     val prop = localProperty("supported.ij.version")
+        ?: rootProject.property("supported.ij.version")
         ?: error(
             "'supported.ij.version' gradle property is missing. " +
                 "Please, provide it using local.properties file or -Psupported.ij.version argument in CLI"
