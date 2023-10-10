@@ -173,7 +173,7 @@ internal fun createSwingIntUiComponentStyling(
         circularProgressStyle = readCircularProgressStyle(theme.isDark),
         tooltipStyle = readTooltipStyle(),
         textFieldStyle = textFieldStyle,
-        iconButtonMetrics = IntUiIconButtonMetrics()
+        iconButtonMetrics = IntUiIconButtonMetrics(),
     )
 }
 

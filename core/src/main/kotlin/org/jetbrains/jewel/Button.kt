@@ -130,7 +130,7 @@ fun IconButton(
         contentAlignment = Alignment.Center,
         content = {
             content(buttonState)
-        }
+        },
     )
 }
 
