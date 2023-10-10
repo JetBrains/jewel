@@ -50,13 +50,14 @@ fun IconButton(
 
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
+
                 is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
                 is FocusInteraction.Unfocus -> buttonState = buttonState.copy(focused = false)
             }
         }
     }
     val shape = RoundedCornerShape(style.metrics.cornerSize)
-    val background by style.colors.backgroundFor(buttonState)
+    val background = style.colors.backgroundFor(buttonState)
     Box(
         modifier = modifier
             .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
@@ -69,7 +70,7 @@ fun IconButton(
             )
             .clip(shape)
             .padding(style.metrics.padding)
-            .background(background),
+            .background(background.value),
         propagateMinConstraints = true,
         contentAlignment = Alignment.Center,
         content = {

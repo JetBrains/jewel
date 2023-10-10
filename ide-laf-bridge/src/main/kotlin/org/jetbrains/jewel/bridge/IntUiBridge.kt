@@ -904,33 +904,30 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
 
 private fun readCircularProgressStyle(
     isDark: Boolean,
-): IntUiCircularProgressStyle =
-    IntUiCircularProgressStyle(
-        frameTime = 125.milliseconds,
-        color = retrieveColorOrUnspecified("ProgressIcon.color")
-            .takeIf { it.isSpecified }
-            ?: if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD),
-    )
+): IntUiCircularProgressStyle = IntUiCircularProgressStyle(
+    frameTime = 125.milliseconds,
+    color = retrieveColorOrUnspecified("ProgressIcon.color")
+        .takeIf { it.isSpecified }
+        ?: if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD),
+)
 
-private fun readTooltipStyle(): IntUiTooltipStyle =
-    IntUiTooltipStyle(
-        metrics = IntUiTooltipMetrics(),
-        colors = IntUiTooltipColors(
-            content = retrieveColorOrUnspecified("ToolTip.foreground"),
-            background = retrieveColorOrUnspecified("ToolTip.background"),
-            border = retrieveColorOrUnspecified("ToolTip.borderColor"),
-            shadow = Color.Black.copy(alpha = .6f),
-        ),
-    )
+private fun readTooltipStyle(): IntUiTooltipStyle = IntUiTooltipStyle(
+    metrics = IntUiTooltipMetrics(),
+    colors = IntUiTooltipColors(
+        content = retrieveColorOrUnspecified("ToolTip.foreground"),
+        background = retrieveColorOrUnspecified("ToolTip.background"),
+        border = retrieveColorOrUnspecified("ToolTip.borderColor"),
+        shadow = Color.Black.copy(alpha = .6f),
+    ),
+)
 
-private fun readIconButtonStyle(): IntUiIconButtonStyle =
-    IntUiIconButtonStyle(
-        metrics = IntUiIconButtonMetrics(),
-        colors = IntUiIconButtonColors(
-            Color.Unspecified,
-            Color.Unspecified,
-            Color.Unspecified,
-            retrieveColorOrUnspecified("ActionButton.pressedBackground"),
-            retrieveColorOrUnspecified("ActionButton.hoverBackground"),
-        )
+private fun readIconButtonStyle(): IntUiIconButtonStyle = IntUiIconButtonStyle(
+    metrics = IntUiIconButtonMetrics(),
+    colors = IntUiIconButtonColors(
+        background = Color.Unspecified,
+        backgroundDisabled = Color.Unspecified,
+        backgroundFocused = Color.Unspecified,
+        backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
+        backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
     )
+)
