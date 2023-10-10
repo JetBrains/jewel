@@ -1,3 +1,5 @@
+@file:OptIn(DependsOnJBR::class)
+
 package org.jetbrains.jewel.samples.ideplugin.releasessample
 
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -102,7 +104,6 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.time.Duration.Companion.seconds
 
-@OptIn(DependsOnJBR::class)
 @Composable
 fun ReleasesSampleCompose(project: Project) {
     SwingBridgeTheme {
@@ -133,7 +134,7 @@ fun ReleasesSampleCompose(project: Project) {
 }
 
 @Composable
-fun LeftColumn(
+private fun LeftColumn(
     project: Project,
     svgLoader: SvgLoader,
     modifier: Modifier = Modifier,
@@ -143,25 +144,7 @@ fun LeftColumn(
     val currentContentSource by service.content.collectAsState()
 
     Column(modifier) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .padding(4.dp, 6.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text("Filter elements:")
-
-            Spacer(Modifier.width(8.dp))
-
-            val resourceLoader = LocalResourceLoader.current
-            SearchBar(service, svgLoader, resourceLoader, Modifier.weight(1f))
-
-            Spacer(Modifier.width(4.dp))
-
-            OverflowMenu(currentContentSource, svgLoader, resourceLoader) {
-                service.setContentSource(it)
-            }
-        }
+        FilterRow(service, svgLoader, currentContentSource)
 
         val listState = rememberSelectableLazyListState()
         Box(modifier) {
@@ -201,6 +184,104 @@ fun LeftColumn(
             )
         }
     }
+}
+
+@Composable
+private fun FilterRow(
+    service: ReleasesSampleService,
+    svgLoader: SvgLoader,
+    currentContentSource: ContentSource<*>,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth()
+            .height(IntrinsicSize.Min)
+            .padding(4.dp, 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text("Filter elements:")
+
+        Spacer(Modifier.width(8.dp))
+
+        val resourceLoader = LocalResourceLoader.current
+        SearchBar(service, svgLoader, resourceLoader, Modifier.weight(1f))
+
+        Spacer(Modifier.width(4.dp))
+
+        OverflowMenu(currentContentSource, svgLoader, resourceLoader) {
+            service.setContentSource(it)
+        }
+    }
+}
+
+@Composable
+private fun SearchBar(
+    service: ReleasesSampleService,
+    svgLoader: SvgLoader,
+    resourceLoader: ResourceLoader,
+    modifier: Modifier = Modifier,
+) {
+    val filterText by service.filter.collectAsState()
+
+    val searchIconProvider = retrieveStatelessIcon("actions/search.svg", svgLoader, IntUiTheme.iconData)
+    val searchIcon by searchIconProvider.getPainter(resourceLoader)
+
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
+    TextField(
+        value = filterText,
+        onValueChange = { service.filterContent(it) },
+        modifier = modifier.focusRequester(focusRequester),
+        leadingIcon = {
+            Icon(searchIcon, null, Modifier.padding(end = 8.dp))
+        },
+        trailingIcon = {
+            if (filterText.isNotBlank()) {
+                CloseIconButton(svgLoader, resourceLoader, service)
+            }
+        },
+    )
+}
+
+@Composable
+internal fun CloseIconButton(
+    svgLoader: SvgLoader,
+    resourceLoader: ResourceLoader,
+    service: ReleasesSampleService,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    var hovered by remember { mutableStateOf(false) }
+
+    LaunchedEffect(interactionSource) {
+        interactionSource.interactions.collect {
+            when (it) {
+                is HoverInteraction.Enter -> hovered = true
+                is HoverInteraction.Exit -> hovered = false
+            }
+        }
+    }
+
+    val closeIconProvider = retrieveStatelessIcon("actions/close.svg", svgLoader, IntUiTheme.iconData)
+    val closeIcon by closeIconProvider.getPainter(resourceLoader)
+
+    val hoveredCloseIconProvider =
+        retrieveStatelessIcon("actions/closeHovered.svg", svgLoader, IntUiTheme.iconData)
+    val hoveredCloseIcon by hoveredCloseIconProvider.getPainter(resourceLoader)
+
+    Icon(
+        painter = if (hovered) hoveredCloseIcon else closeIcon,
+        contentDescription = "Clear",
+        modifier = Modifier
+            .pointerHoverIcon(PointerIcon.Default)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                role = Role.Button,
+            ) { service.resetFilter() },
+    )
 }
 
 @Composable
@@ -272,83 +353,8 @@ private fun ItemTag(
     )
 }
 
-private enum class ItemType {
-    AndroidRelease, AndroidStudio
-}
-
 @Composable
-private fun SearchBar(
-    service: ReleasesSampleService,
-    svgLoader: SvgLoader,
-    resourceLoader: ResourceLoader,
-    modifier: Modifier = Modifier,
-) {
-    val filterText by service.filter.collectAsState()
-
-    val searchIconProvider = retrieveStatelessIcon("actions/search.svg", svgLoader, IntUiTheme.iconData)
-    val searchIcon by searchIconProvider.getPainter(resourceLoader)
-
-    val focusRequester = remember { FocusRequester() }
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
-
-    TextField(
-        value = filterText,
-        onValueChange = { service.filterContent(it) },
-        modifier = modifier.focusRequester(focusRequester),
-        leadingIcon = {
-            Icon(searchIcon, null, Modifier.padding(end = 8.dp))
-        },
-        trailingIcon = {
-            if (filterText.isNotBlank()) {
-                CloseIconButton(svgLoader, resourceLoader, service)
-            }
-        },
-    )
-}
-
-@Composable
-private fun CloseIconButton(
-    svgLoader: SvgLoader,
-    resourceLoader: ResourceLoader,
-    service: ReleasesSampleService,
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    var hovered by remember { mutableStateOf(false) }
-
-    LaunchedEffect(interactionSource) {
-        interactionSource.interactions.collect {
-            when (it) {
-                is HoverInteraction.Enter -> hovered = true
-                is HoverInteraction.Exit -> hovered = false
-            }
-        }
-    }
-
-    val closeIconProvider = retrieveStatelessIcon("actions/close.svg", svgLoader, IntUiTheme.iconData)
-    val closeIcon by closeIconProvider.getPainter(resourceLoader)
-
-    val hoveredCloseIconProvider =
-        retrieveStatelessIcon("actions/closeHovered.svg", svgLoader, IntUiTheme.iconData)
-    val hoveredCloseIcon by hoveredCloseIconProvider.getPainter(resourceLoader)
-
-    Icon(
-        painter = if (hovered) hoveredCloseIcon else closeIcon,
-        contentDescription = "Clear",
-        modifier = Modifier
-            .pointerHoverIcon(PointerIcon.Default)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                role = Role.Button,
-            ) { service.resetFilter() },
-    )
-}
-
-@Composable
-private fun OverflowMenu(
+internal fun OverflowMenu(
     currentContentSource: ContentSource<*>,
     svgLoader: SvgLoader,
     resourceLoader: ResourceLoader,
@@ -439,9 +445,8 @@ private fun OverflowMenu(
     }
 }
 
-@DependsOnJBR
 @Composable
-fun RightColumn(
+private fun RightColumn(
     selectedItem: ContentItem?,
     modifier: Modifier,
 ) {
@@ -465,6 +470,22 @@ fun RightColumn(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun VerticalScrollbarContainer(
+    scrollState: ScrollState,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    Box(modifier) {
+        content()
+
+        VerticalScrollbar(
+            adapter = rememberScrollbarAdapter(scrollState),
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+        )
     }
 }
 
@@ -504,23 +525,6 @@ private fun ReleaseImage(imagePath: String) {
     )
 }
 
-@Composable
-private fun VerticalScrollbarContainer(
-    scrollState: ScrollState,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
-    Box(modifier) {
-        content()
-
-        VerticalScrollbar(
-            adapter = rememberScrollbarAdapter(scrollState),
-            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
-        )
-    }
-}
-
-@DependsOnJBR
 @Composable
 private fun ItemDetailsText(selectedItem: ContentItem) {
     Column(
@@ -574,7 +578,6 @@ private fun AndroidStudioReleaseDetails(item: ContentItem.AndroidStudio) {
     TextWithLabel("Full build number:", item.build)
 }
 
-@OptIn(DependsOnJBR::class)
 @Composable
 private fun TextWithLabel(labelText: String, valueText: String) {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
