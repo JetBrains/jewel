@@ -10,5 +10,6 @@ dependencies {
 }
 
 tasks.withType<AbstractPublishToMaven>().configureEach {
+    publication.artifactId = "jewel-ide-laf-bridge-platform-specific"
     enabled = supportedIJVersion() == SupportedIJVersion.IJ_232
 }

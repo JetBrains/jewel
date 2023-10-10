@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+import SupportedIJVersion.IJ_232
+import SupportedIJVersion.IJ_233
+
 plugins {
     kotlin("jvm")
     `maven-publish`
@@ -33,7 +36,11 @@ publishing {
             from(components["kotlin"])
             artifact(javadocJar)
             artifact(sourcesJar)
-            version = project.version.toString()
+            val ijVersionRaw = when (supportedIJVersion()) {
+                IJ_232 -> "232"
+                IJ_233 -> "233"
+            }
+            version = "${project.version}-ij-$ijVersionRaw"
             artifactId = "jewel-${project.name}"
             pom {
                 name = "Jewel"
