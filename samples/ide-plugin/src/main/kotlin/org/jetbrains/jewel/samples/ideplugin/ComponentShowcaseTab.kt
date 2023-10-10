@@ -31,6 +31,7 @@ import org.jetbrains.jewel.CircularProgressIndicator
 import org.jetbrains.jewel.CircularProgressIndicatorBig
 import org.jetbrains.jewel.DefaultButton
 import org.jetbrains.jewel.Icon
+import org.jetbrains.jewel.IconButton
 import org.jetbrains.jewel.LazyTree
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.OutlinedButton
@@ -124,9 +125,17 @@ private fun RowScope.ColumnOne(resourceLoader: ResourceLoader) {
 
         val svgLoader = service<SwingBridgeService>().svgLoader
         Row {
-            val painterProvider = retrieveStatelessIcon("actions/close.svg", svgLoader, IntUiTheme.iconData)
+            val painterProvider = retrieveStatelessIcon("actions/more.svg", svgLoader, IntUiTheme.iconData)
             val painter by painterProvider.getPainter(resourceLoader)
             Icon(painter = painter, modifier = Modifier.border(1.dp, Color.Magenta), contentDescription = "An icon")
+        }
+
+        Row {
+            IconButton(onClick = { }) {
+                val painterProvider = retrieveStatelessIcon("actions/close.svg", svgLoader, IntUiTheme.iconData)
+                val painter by painterProvider.getPainter(resourceLoader)
+                Icon(painter = painter, contentDescription = "An icon")
+            }
         }
 
         Row {

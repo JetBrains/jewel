@@ -37,7 +37,7 @@ import org.jetbrains.jewel.styling.LocalDropdownStyle
 import org.jetbrains.jewel.styling.LocalEditorTabStyle
 import org.jetbrains.jewel.styling.LocalGroupHeaderStyle
 import org.jetbrains.jewel.styling.LocalHorizontalProgressBarStyle
-import org.jetbrains.jewel.styling.LocalIconButtonMetrics
+import org.jetbrains.jewel.styling.LocalIconButtonStyle
 import org.jetbrains.jewel.styling.LocalLabelledTextFieldStyle
 import org.jetbrains.jewel.styling.LocalLazyTreeStyle
 import org.jetbrains.jewel.styling.LocalLinkStyle
@@ -234,7 +234,7 @@ fun BaseIntUiTheme(
         LocalIndication provides NoIndication,
         LocalCircularProgressStyle provides componentStyling.circularProgressStyle,
         LocalTooltipStyle provides componentStyling.tooltipStyle,
-        LocalIconButtonMetrics provides componentStyling.iconButtonMetrics,
+        LocalIconButtonStyle provides componentStyling.iconButtonStyle,
     ) {
         IntelliJTheme(theme, swingCompatMode, content)
     }

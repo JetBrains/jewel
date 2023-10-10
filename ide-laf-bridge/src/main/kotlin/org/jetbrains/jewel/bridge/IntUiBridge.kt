@@ -50,7 +50,9 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonMetrics
+import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
@@ -173,7 +175,7 @@ internal fun createSwingIntUiComponentStyling(
         circularProgressStyle = readCircularProgressStyle(theme.isDark),
         tooltipStyle = readTooltipStyle(),
         textFieldStyle = textFieldStyle,
-        iconButtonMetrics = IntUiIconButtonMetrics(),
+        iconButtonStyle = readIconButtonStyle(),
     )
 }
 
@@ -910,8 +912,8 @@ private fun readCircularProgressStyle(
             ?: if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD),
     )
 
-private fun readTooltipStyle(): IntUiTooltipStyle {
-    return IntUiTooltipStyle(
+private fun readTooltipStyle(): IntUiTooltipStyle =
+    IntUiTooltipStyle(
         metrics = IntUiTooltipMetrics(),
         colors = IntUiTooltipColors(
             content = retrieveColorOrUnspecified("ToolTip.foreground"),
@@ -920,4 +922,15 @@ private fun readTooltipStyle(): IntUiTooltipStyle {
             shadow = Color.Black.copy(alpha = .6f),
         ),
     )
-}
+
+private fun readIconButtonStyle(): IntUiIconButtonStyle =
+    IntUiIconButtonStyle(
+        metrics = IntUiIconButtonMetrics(),
+        colors = IntUiIconButtonColors(
+            Color.Unspecified,
+            Color.Unspecified,
+            Color.Unspecified,
+            retrieveColorOrUnspecified("ActionButton.pressedBackground"),
+            retrieveColorOrUnspecified("ActionButton.hoverBackground"),
+        )
+    )
