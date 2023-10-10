@@ -8,6 +8,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
@@ -24,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
@@ -34,9 +36,8 @@ import org.jetbrains.jewel.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
-import org.jetbrains.jewel.styling.ButtonColors
-import org.jetbrains.jewel.styling.ButtonMetrics
 import org.jetbrains.jewel.styling.ButtonStyle
+import org.jetbrains.jewel.styling.IconButtonMetrics
 
 @Composable
 fun DefaultButton(
@@ -85,24 +86,51 @@ fun IconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    metrics: IconButtonMetrics = IntelliJTheme.iconButtonMetrics,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: ButtonStyle = object : ButtonStyle {
-        override val colors: ButtonColors = object : ButtonColors by IntelliJTheme.outlinedButtonStyle.colors {
-        }
-        override val metrics: ButtonMetrics = object : ButtonMetrics by IntelliJTheme.outlinedButtonStyle.metrics {
-        }
-    },
-    textStyle: TextStyle = IntelliJTheme.textStyle,
-    content: @Composable RowScope.() -> Unit,
+    content: @Composable (BoxScope.(ButtonState) -> Unit),
 ) {
-    ButtonImpl(
-        onClick = onClick,
-        modifier = modifier,
-        enabled = enabled,
-        interactionSource = interactionSource,
-        style = style,
-        content = content,
-        textStyle = textStyle,
+    var buttonState by remember(interactionSource) {
+        mutableStateOf(ButtonState.of(enabled = enabled))
+    }
+
+    remember(enabled) {
+        buttonState = buttonState.copy(enabled = enabled)
+    }
+
+    LaunchedEffect(interactionSource) {
+        interactionSource.interactions.collect { interaction ->
+            when (interaction) {
+                is PressInteraction.Press -> buttonState = buttonState.copy(pressed = true)
+                is PressInteraction.Cancel, is PressInteraction.Release ->
+                    buttonState =
+                        buttonState.copy(pressed = false)
+
+                is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
+                is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
+                is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
+                is FocusInteraction.Unfocus -> buttonState = buttonState.copy(focused = false)
+            }
+        }
+    }
+    val shape = RoundedCornerShape(metrics.cornerSize)
+    Box(
+        modifier = modifier
+            .defaultMinSize(metrics.minSize.width, metrics.minSize.height)
+            .clickable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = NoIndication,
+            )
+            .clip(shape)
+            .padding(metrics.padding),
+        propagateMinConstraints = true,
+        contentAlignment = Alignment.Center,
+        content = {
+            content(buttonState)
+        }
     )
 }
 

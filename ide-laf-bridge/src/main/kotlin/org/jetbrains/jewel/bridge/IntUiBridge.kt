@@ -50,6 +50,7 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
@@ -172,6 +173,7 @@ internal fun createSwingIntUiComponentStyling(
         circularProgressStyle = readCircularProgressStyle(theme.isDark),
         tooltipStyle = readTooltipStyle(),
         textFieldStyle = textFieldStyle,
+        iconButtonMetrics = IntUiIconButtonMetrics()
     )
 }
 
