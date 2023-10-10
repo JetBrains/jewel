@@ -88,6 +88,8 @@ import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items
 import org.jetbrains.jewel.foundation.lazy.rememberSelectableLazyListState
+import org.jetbrains.jewel.foundation.onHover
+import org.jetbrains.jewel.foundation.utils.thenIf
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.items
 import org.jetbrains.skiko.DependsOnJBR
@@ -452,24 +454,7 @@ fun RightColumn(
                 ) {
                     val imagePath = selectedItem.imagePath
                     if (imagePath != null) {
-                        val painter = painterResource(imagePath, LocalResourceLoader.current)
-                        val transition = rememberInfiniteTransition("HoloFoil")
-                        val offset by transition.animateFloat(
-                            initialValue = -1f,
-                            targetValue = 1f,
-                            animationSpec = infiniteRepeatable(
-                                tween(durationMillis = 2.seconds.inWholeMilliseconds.toInt(), easing = LinearEasing),
-                                repeatMode = RepeatMode.Reverse,
-                            ),
-                        )
-                        Image(
-                            painter = painter,
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxWidth()
-                                .sizeIn(maxHeight = 200.dp)
-                                .holoFoil(offset),
-                            contentScale = ContentScale.Fit,
-                        )
+                        ReleaseImage(imagePath)
                     }
 
                     ItemDetailsText(selectedItem)
@@ -477,6 +462,32 @@ fun RightColumn(
             }
         }
     }
+}
+
+@Composable
+private fun ReleaseImage(imagePath: String) {
+    val painter = painterResource(imagePath, LocalResourceLoader.current)
+    val transition = rememberInfiniteTransition("HoloFoil")
+    val offset by transition.animateFloat(
+        initialValue = -1f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            tween(durationMillis = 2.seconds.inWholeMilliseconds.toInt(), easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse,
+        ),
+    )
+
+    var isHovered by remember { mutableStateOf(false) }
+
+    Image(
+        painter = painter,
+        contentDescription = null,
+        modifier = Modifier.fillMaxWidth()
+            .sizeIn(maxHeight = 200.dp)
+            .onHover { isHovered = it }
+            .thenIf(isHovered) { holoFoil(offset) },
+        contentScale = ContentScale.Fit,
+    )
 }
 
 @Composable
