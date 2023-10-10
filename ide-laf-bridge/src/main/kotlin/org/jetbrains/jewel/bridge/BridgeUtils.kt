@@ -179,8 +179,10 @@ suspend fun retrieveTextStyle(
     fontStyle: FontStyle = FontStyle.Normal,
     size: TextUnit = TextUnit.Unspecified,
 ): TextStyle {
-    val font = (UIManager.getFont(key) ?: keyNotFound(key, "Font"))
-        .let { JBFont.create(it, false) }
+    val font = JBFont.create(
+        UIManager.getFont(key) ?: keyNotFound(key, "Font"),
+        false,
+    )
 
     val derivedFont = font.let { if (bold) it.asBold() else it.asPlain() }
         .let { if (fontStyle == FontStyle.Italic) it.asItalic() else it }

@@ -1,5 +1,11 @@
 package org.jetbrains.jewel.samples.ideplugin.releasessample
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -88,6 +94,7 @@ import org.jetbrains.skiko.DependsOnJBR
 import java.awt.Font
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(DependsOnJBR::class)
 @Composable
@@ -187,7 +194,6 @@ fun LeftColumn(
                 modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
             )
         }
-
     }
 }
 
@@ -447,11 +453,21 @@ fun RightColumn(
                     val imagePath = selectedItem.imagePath
                     if (imagePath != null) {
                         val painter = painterResource(imagePath, LocalResourceLoader.current)
+                        val transition = rememberInfiniteTransition("HoloFoil")
+                        val offset by transition.animateFloat(
+                            initialValue = -1f,
+                            targetValue = 1f,
+                            animationSpec = infiniteRepeatable(
+                                tween(durationMillis = 2.seconds.inWholeMilliseconds.toInt(), easing = LinearEasing),
+                                repeatMode = RepeatMode.Reverse,
+                            ),
+                        )
                         Image(
                             painter = painter,
                             contentDescription = null,
                             modifier = Modifier.fillMaxWidth()
-                                .sizeIn(maxHeight = 200.dp),
+                                .sizeIn(maxHeight = 200.dp)
+                                .holoFoil(offset),
                             contentScale = ContentScale.Fit,
                         )
                     }
