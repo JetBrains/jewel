@@ -8,6 +8,13 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        supported-ij-version:
+          - 232
+#          - 233
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -17,7 +24,7 @@ jobs:
       - name: Setup Gradle
         run: chmod +x gradlew
       - name: Run Gradle
-        run: ./gradlew publishAllPublicationsToSpaceRepository
+        run: ./gradlew publishAllPublicationsToSpaceRepository -Psupported.ij.version=${{ matrix.supported-ij-version }}
         env:
           MAVEN_SPACE_USERNAME: ${{secrets.MAVEN_SPACE_USERNAME}}
           MAVEN_SPACE_PASSWORD: ${{secrets.MAVEN_SPACE_PASSWORD}}
