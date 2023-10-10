@@ -23,8 +23,13 @@ jobs:
           java-version: 17
       - name: Setup Gradle
         run: chmod +x gradlew
-      - name: Run Gradle
-        run: ./gradlew publishAllPublicationsToSpaceRepository -Psupported.ij.version=${{ matrix.supported-ij-version }}
+      - name: Run Jewel Core Publishing
+        run: ./gradlew publishMainPublicationsToSpaceRepository
+        env:
+          MAVEN_SPACE_USERNAME: ${{secrets.MAVEN_SPACE_USERNAME}}
+          MAVEN_SPACE_PASSWORD: ${{secrets.MAVEN_SPACE_PASSWORD}}
+      - name: Run Jewel IDE Publishing
+        run: ./gradlew publishIdeMainPublicationsToSpaceRepository -Psupported.ij.version=${{ matrix.supported-ij-version }}
         env:
           MAVEN_SPACE_USERNAME: ${{secrets.MAVEN_SPACE_USERNAME}}
           MAVEN_SPACE_PASSWORD: ${{secrets.MAVEN_SPACE_PASSWORD}}

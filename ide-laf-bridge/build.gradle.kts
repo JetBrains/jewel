@@ -2,7 +2,7 @@ import SupportedIJVersion.*
 
 plugins {
     jewel
-    `jewel-publish`
+    `jewel-ij-publish`
     alias(libs.plugins.composeDesktop)
 }
 
