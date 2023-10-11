@@ -1,5 +1,5 @@
 [versions]
-composeDesktop = "1.5.10-beta01"
+composeDesktop = "1.5.2"
 coroutines = "1.7.3"
 detekt = "1.23.1"
 idea232 = "232.8660.185"
