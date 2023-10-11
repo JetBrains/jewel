@@ -9,7 +9,7 @@ import org.jetbrains.jewel.InternalJewelApi
 fun getPatchedIconPath(
     dirProvider: DirProvider,
     originalPath: String,
-    classLoaders: List<ClassLoader>
+    classLoaders: List<ClassLoader>,
 ): String? {
     // For all provided classloaders, we try to get the patched path, both using
     // the original path, and an "abridged" path that has gotten the icon path prefix

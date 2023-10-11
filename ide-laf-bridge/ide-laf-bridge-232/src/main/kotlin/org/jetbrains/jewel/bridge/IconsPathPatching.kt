@@ -7,7 +7,7 @@ import org.jetbrains.jewel.InternalJewelApi
 fun getPatchedIconPath(
     dirProvider: DirProvider,
     originalPath: String,
-    classLoaders: List<ClassLoader>
+    classLoaders: List<ClassLoader>,
 ): String? {
     val clazz = Class.forName("com.intellij.ui.icons.CachedImageIconKt")
     val patchIconPath = clazz.getMethod("patchIconPath", String::class.java, ClassLoader::class.java)

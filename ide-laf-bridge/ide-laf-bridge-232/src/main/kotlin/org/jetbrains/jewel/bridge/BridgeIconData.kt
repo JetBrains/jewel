@@ -1,7 +1,6 @@
 package org.jetbrains.jewel.bridge
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
 import com.intellij.ide.ui.UITheme
 import com.intellij.ui.ColorUtil
 import org.jetbrains.jewel.IntelliJThemeIconData
