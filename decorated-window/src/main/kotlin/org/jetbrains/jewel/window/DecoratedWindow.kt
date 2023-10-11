@@ -20,6 +20,7 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
+import org.jetbrains.jewel.window.utils.DesktopPlatform
 import javax.swing.JFrame
 
 @Composable fun DecoratedWindow(
@@ -36,13 +37,16 @@ import javax.swing.JFrame
     onKeyEvent: (KeyEvent) -> Boolean = { false },
     content: @Composable DecoratedWindowScope.() -> Unit,
 ) {
+    // Using undecorated window for linux
+    val undecorated = DesktopPlatform.Linux == DesktopPlatform.Current
+
     Window(
         onCloseRequest,
         state,
         visible,
         title,
         icon,
-        false,
+        undecorated,
         false,
         resizable,
         enabled,
