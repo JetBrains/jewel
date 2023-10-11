@@ -10,29 +10,18 @@ import org.jetbrains.skia.RuntimeShaderBuilder
 
 @Language("GLSL") // Technically, SkSL
 private const val FOIL_SHADER_CODE = """
-const float STRENGTH = 0.4; // 0.0 = no effect, 1.0 = full effect
+const float SCALE = 1.8; // Effect scale (> 1 means smaller rainbow)
 const float SATURATION = 0.9; // Color saturation (0.0 = grayscale, 1.0 = full color)
 const float LIGHTNESS = 0.65; // Color lightness (0.0 = black, 1.0 = white)
  
 uniform shader content; // Input texture (the application canvas)
 uniform vec2 resolution;  // Size of the canvas
 uniform vec2 offset;     // Additional offset of the effect
+uniform float intensity; // 0.0 = no effect, 1.0 = full effect
 
 // From https://www.ryanjuckett.com/photoshop-blend-modes-in-hlsl/
 vec3 BlendMode_Screen(vec3 base, vec3 blend) {
 	return base + blend - base * blend;
-}
-
-float BlendMode_Overlay(float base, float blend)
-{
-	return (base <= 0.5) ? 2*base*blend : 1 - 2*(1-base)*(1-blend);
-}
-
-float3 BlendMode_Overlay(float3 base, float3 blend)
-{
-	return float3(  BlendMode_Overlay(base.r, blend.r), 
-					BlendMode_Overlay(base.g, blend.g), 
-					BlendMode_Overlay(base.b, blend.b) );
 }
 
 vec4 rainbowEffect(vec2 uv, vec2 coord, vec2 offset) {
@@ -64,11 +53,11 @@ vec4 rainbowEffect(vec2 uv, vec2 coord, vec2 offset) {
     }
 
     vec3 rainbow = BlendMode_Screen(srcColor.rgb, rainbowPrime + m);
-    return mix(srcColor, vec4(rainbow, srcColor.a), STRENGTH);
+    return mix(srcColor, vec4(rainbow, srcColor.a), intensity);
 }
 
 vec4 chromaticAberration(vec2 coord, vec2 offset) {
-    vec2 uv = coord / resolution;
+    vec2 uv = coord / (resolution / SCALE);
     vec4 srcColor = rainbowEffect(uv, coord, offset);
     vec2 shift = offset * vec2(3.0, 5.0) / 1000.0;
     vec4 leftColor = rainbowEffect(uv - shift, coord, offset);
@@ -85,10 +74,11 @@ vec4 main(float2 fragCoord) {
 private val runtimeEffect = RuntimeEffect.makeForShader(FOIL_SHADER_CODE)
 private val shaderBuilder = RuntimeShaderBuilder(runtimeEffect)
 
-internal fun Modifier.holoFoil(offset: Float) =
+internal fun Modifier.holoFoil(offset: Float, intensity: Float = 1f) =
     graphicsLayer {
         shaderBuilder.uniform("resolution", size.width, size.height)
         shaderBuilder.uniform("offset", 0f, offset)
+        shaderBuilder.uniform("intensity", intensity * .65f)
 
         renderEffect =
             ImageFilter.makeRuntimeShader(
@@ -97,9 +87,9 @@ internal fun Modifier.holoFoil(offset: Float) =
                 inputs = arrayOf(null),
             ).asComposeRenderEffect()
 
-        rotationX = offset * 4f
-        rotationY = offset * 10f
-        rotationZ = offset * -3f
-        scaleX = .9f
-        scaleY = .9f
+        rotationX = offset * 4f * intensity
+        rotationY = offset * 10f * intensity
+        rotationZ = offset * -3f * intensity
+        scaleX = 1f - .1f * intensity
+        scaleY = 1f - .1f * intensity
     }
