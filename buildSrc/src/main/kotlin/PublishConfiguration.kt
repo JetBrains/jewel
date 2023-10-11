@@ -19,7 +19,7 @@ internal fun PublishingExtension.configureJewelRepositories() {
 
 internal fun MavenPom.configureJewelPom() {
     name = "Jewel"
-    description = "intelliJ theming system in for Compose."
+    description = "A theme for Compose for Desktop that implements the IntelliJ Platform look and feel."
     url = "https://github.com/JetBrains/jewel"
     licenses {
         license {
