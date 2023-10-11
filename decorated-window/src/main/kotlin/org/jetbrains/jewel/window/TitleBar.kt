@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.window
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
@@ -31,6 +31,7 @@ import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.node.ParentDataModifierNode
 import androidx.compose.ui.platform.InspectableValue
@@ -40,6 +41,8 @@ import androidx.compose.ui.platform.NoInspectorInfo
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import androidx.compose.ui.window.WindowPlacement
@@ -50,6 +53,7 @@ import kotlinx.coroutines.isActive
 import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.LocalContentColor
 import org.jetbrains.jewel.window.styling.TitleBarStyle
+import org.jetbrains.jewel.window.utils.DesktopPlatform
 import org.jetbrains.jewel.window.utils.macos.MacUtil
 import java.awt.Dialog
 import java.awt.Frame
@@ -69,8 +73,23 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
 @Composable fun DecoratedWindowScope.TitleBar(
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
-    newFullscreenControls: Boolean = true,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
+    content: @Composable TitleBarScope.() -> Unit,
+) {
+    when (DesktopPlatform.Current) {
+        DesktopPlatform.Linux -> TODO()
+        DesktopPlatform.Windows -> TODO()
+        DesktopPlatform.MacOS -> TitleBarOnMacOs(modifier, gradientStartColor, style, content)
+        DesktopPlatform.Unknown -> TODO()
+    }
+}
+
+@Composable internal fun DecoratedWindowScope.TitleBarImpl(
+    modifier: Modifier = Modifier,
+    gradientStartColor: Color = Color.Unspecified,
+    style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
+    onSizeChanged: (IntSize, TitleBarState) -> Unit,
+    calculateTitleBarInsets: (CustomTitleBar, TitleBarState) -> PaddingValues,
     content: @Composable TitleBarScope.() -> Unit,
 ) {
     val titleBar = LocalTitleBar.current
@@ -127,15 +146,6 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
         }
     }
 
-    if (newFullscreenControls) {
-        System.setProperty("apple.awt.newFullScreeControls", true.toString())
-        System.setProperty("apple.awt.newFullScreeControls.background", "${style.colors.buttonsBackground.toArgb()}")
-        MacUtil.updateColors(window)
-    } else {
-        System.clearProperty("apple.awt.newFullScreeControls")
-        System.clearProperty("apple.awt.newFullScreeControls.background")
-    }
-
     Layout(
         {
             CompositionLocalProvider(
@@ -145,29 +155,27 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
                 scope.content()
             }
         },
-        modifier.background(backgroundBrush)
-            .layoutId(TITLE_BAR_LAYOUT_ID)
-            .height(style.metrics.height)
-            .fillMaxWidth()
-            .pointerInput(Unit) {
-                val currentContext = currentCoroutineContext()
-                awaitPointerEventScope {
-                    while (currentContext.isActive) {
-                        val event = awaitPointerEvent(PointerEventPass.Main)
-                        event.changes.forEach {
-                            if (!it.isConsumed) {
-                                titleBar.forceHitTest(false)
-                                it.consume()
-                            }
+        modifier.background(backgroundBrush).layoutId(TITLE_BAR_LAYOUT_ID).height(style.metrics.height).onSizeChanged {
+            onSizeChanged(it, titleBarState)
+        }.fillMaxWidth().pointerInput(Unit) {
+            val currentContext = currentCoroutineContext()
+            awaitPointerEventScope {
+                while (currentContext.isActive) {
+                    val event = awaitPointerEvent(PointerEventPass.Main)
+                    event.changes.forEach {
+                        if (!it.isConsumed) {
+                            titleBar.forceHitTest(false)
+                            it.consume()
                         }
                     }
                 }
-            },
+            }
+        },
         measurePolicy = rememberTitleBarMeasurePolicy(
             LocalWindow.current,
             titleBarState,
-            newFullscreenControls,
             titleBar,
+            calculateTitleBarInsets,
         ),
     )
 
@@ -214,8 +222,8 @@ value class TitleBarState(val state: ULong) {
 internal class TitleBarMeasurePolicy(
     private val window: Window,
     private val state: TitleBarState,
-    private val newFullscreenControls: Boolean,
     private val titleBar: CustomTitleBar,
+    private val calculateTitleBarInsets: (CustomTitleBar, TitleBarState) -> PaddingValues,
 ) : MeasurePolicy {
 
     override fun MeasureScope.measure(measurables: List<Measurable>, constraints: Constraints): MeasureResult {
@@ -223,16 +231,7 @@ internal class TitleBarMeasurePolicy(
             return layout(
                 constraints.minWidth,
                 constraints.minHeight,
-            ) {
-                if (state.isFullscreen) {
-                    MacUtil.updateFullScreenButtons(window)
-                }
-                titleBar.height = constraints.minHeight.toDp().value
-                when (window) {
-                    is Dialog -> JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
-                    is Frame -> JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
-                }
-            }
+            ) {}
         }
 
         var occupiedSpaceHorizontally = 0
@@ -258,12 +257,12 @@ internal class TitleBarMeasurePolicy(
             is Frame -> JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
         }
 
-        if (state.isFullscreen && newFullscreenControls) {
-            occupiedSpaceHorizontally += 80.dp.roundToPx()
-        } else {
-            occupiedSpaceHorizontally += titleBar.leftInset.dp.roundToPx()
-            occupiedSpaceHorizontally += titleBar.rightInset.dp.roundToPx()
-        }
+        val contentPadding = calculateTitleBarInsets(titleBar, state)
+        val leftInset = contentPadding.calculateLeftPadding(LayoutDirection.Ltr).roundToPx()
+        val rightInset = contentPadding.calculateRightPadding(LayoutDirection.Ltr).roundToPx()
+
+        occupiedSpaceHorizontally += leftInset
+        occupiedSpaceHorizontally += rightInset
 
         val boxWidth = maxOf(constraints.minWidth, occupiedSpaceHorizontally)
 
@@ -275,15 +274,8 @@ internal class TitleBarMeasurePolicy(
                 (measurable.parentData as? TitleBarChildDataNode)?.horizontalAlignment ?: Alignment.CenterHorizontally
             }
 
-            var headUsedSpace = 0
-            var trailerUsedSpace = 0
-
-            if (state.isFullscreen && newFullscreenControls) {
-                headUsedSpace = 80.dp.roundToPx()
-            } else {
-                headUsedSpace = titleBar.leftInset.dp.roundToPx()
-                trailerUsedSpace = titleBar.rightInset.dp.roundToPx()
-            }
+            var headUsedSpace = leftInset
+            var trailerUsedSpace = rightInset
 
             placeableGroups[Alignment.Start]?.forEach { (measurable, placeable) ->
                 val x = headUsedSpace
@@ -327,15 +319,15 @@ internal class TitleBarMeasurePolicy(
 @Composable internal fun rememberTitleBarMeasurePolicy(
     window: Window,
     state: TitleBarState,
-    newFullscreenControls: Boolean,
     titleBar: CustomTitleBar,
+    calculateTitleBarInsets: (CustomTitleBar, TitleBarState) -> PaddingValues,
 ): MeasurePolicy {
-    return remember(window, state, newFullscreenControls) {
+    return remember(window, state, calculateTitleBarInsets) {
         TitleBarMeasurePolicy(
             window,
             state,
-            newFullscreenControls,
             titleBar,
+            calculateTitleBarInsets,
         )
     }
 }

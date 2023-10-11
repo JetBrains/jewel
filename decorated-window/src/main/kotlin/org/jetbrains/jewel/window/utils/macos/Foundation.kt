@@ -24,7 +24,9 @@ internal object Foundation {
     private val myFoundationLibrary: FoundationLibrary? by lazy {
         try {
             Native.load(
-                "Foundation", FoundationLibrary::class.java, Collections.singletonMap("jna.encoding", "UTF8"),
+                "Foundation",
+                FoundationLibrary::class.java,
+                Collections.singletonMap("jna.encoding", "UTF8"),
             )
         } catch (_: Throwable) {
             null

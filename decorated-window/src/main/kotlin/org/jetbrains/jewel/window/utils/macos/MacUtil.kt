@@ -72,7 +72,8 @@ internal object MacUtil {
         val window = MacUtil.getWindowFromJavaWindow(w)
         val delegate = Foundation.invoke(window, "delegate")
         if (Foundation.invoke(delegate, "respondsToSelector:", Foundation.createSelector("updateColors"))
-                .booleanValue()) {
+                .booleanValue()
+        ) {
             Foundation.invoke(delegate, "updateColors")
         }
     }

@@ -54,6 +54,7 @@ import org.jetbrains.jewel.samples.standalone.components.TextFields
 import org.jetbrains.jewel.samples.standalone.components.Tooltips
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.TitleBar
+import org.jetbrains.jewel.window.newFullscreenControls
 import java.io.InputStream
 
 fun main() {
@@ -90,7 +91,7 @@ fun main() {
                     IntUiTheme.colorPalette.grey(14)
                 }
 
-                TitleBar(gradientStartColor = projectColor) {
+                TitleBar(Modifier.newFullscreenControls(), gradientStartColor = projectColor) {
                     Text(title)
                 }
 
@@ -107,7 +108,7 @@ fun main() {
                         CheckboxRow("Swing compat", swingCompat, resourceLoader, { swingCompat = it })
                     }
 
-                Divider(Orientation.Horizontal, Modifier.fillMaxWidth())
+                    Divider(Orientation.Horizontal, Modifier.fillMaxWidth())
 
                     ComponentShowcase(svgLoader, resourceLoader)
                 }

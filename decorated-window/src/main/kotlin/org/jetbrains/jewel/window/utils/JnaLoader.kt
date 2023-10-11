@@ -21,11 +21,13 @@ internal object JnaLoader {
                 loaded = true
             } catch (@Suppress("TooGenericExceptionCaught") t: Throwable) {
                 logger.log(
-                    Level.WARNING, "Unable to load JNA library(os=${
-                    System.getProperty("os.name")
-                } ${System.getProperty("os.version")}, jna.boot.library.path=${
-                    System.getProperty("jna.boot.library.path")
-                })", t
+                    Level.WARNING,
+                    "Unable to load JNA library(os=${
+                        System.getProperty("os.name")
+                    } ${System.getProperty("os.version")}, jna.boot.library.path=${
+                        System.getProperty("jna.boot.library.path")
+                    })",
+                    t,
                 )
             }
         }
