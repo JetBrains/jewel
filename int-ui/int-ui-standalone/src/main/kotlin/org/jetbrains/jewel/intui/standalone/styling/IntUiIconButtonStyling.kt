@@ -8,6 +8,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.styling.IconButtonColors
 import org.jetbrains.jewel.styling.IconButtonMetrics
@@ -61,8 +62,8 @@ data class IntUiIconButtonColors(
             background: Color = Color.Unspecified,
             backgroundDisabled: Color = Color.Unspecified,
             backgroundFocused: Color = background,
-            backgroundPressed: Color = IntUiLightTheme.colors.grey(12),
-            backgroundHovered: Color = IntUiLightTheme.colors.grey(11),
+            backgroundPressed: Color = IntUiDarkTheme.colors.grey(5),
+            backgroundHovered: Color = IntUiDarkTheme.colors.grey(3),
         ) =
             IntUiIconButtonColors(
                 background,

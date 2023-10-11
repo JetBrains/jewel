@@ -29,14 +29,13 @@ interface IconButtonColors {
 
     @Composable
     fun backgroundFor(state: ButtonState) = rememberUpdatedState(
-        state.chooseValue(
-            normal = background,
-            disabled = backgroundDisabled,
-            focused = backgroundFocused,
-            pressed = backgroundPressed,
-            hovered = backgroundHovered,
-            active = background,
-        ),
+        when {
+            !state.isEnabled -> backgroundDisabled
+            state.isPressed -> backgroundPressed
+            state.isHovered -> backgroundHovered
+            state.isFocused -> backgroundFocused
+            else -> background
+        }
     )
 }
 

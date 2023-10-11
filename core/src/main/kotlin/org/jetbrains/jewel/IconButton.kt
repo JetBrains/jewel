@@ -57,7 +57,7 @@ fun IconButton(
         }
     }
     val shape = RoundedCornerShape(style.metrics.cornerSize)
-    val background = style.colors.backgroundFor(buttonState)
+    val backgroundColor by style.colors.backgroundFor(buttonState)
     Box(
         modifier = modifier
             .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
@@ -70,7 +70,7 @@ fun IconButton(
             )
             .clip(shape)
             .padding(style.metrics.padding)
-            .background(background.value),
+            .background(backgroundColor),
         propagateMinConstraints = true,
         contentAlignment = Alignment.Center,
         content = {
