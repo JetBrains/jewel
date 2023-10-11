@@ -161,7 +161,7 @@ object IntUiTheme : BaseIntUiTheme {
             textFieldStyle = textFieldStyle,
             circularProgressStyle = circularProgressStyle,
             tooltipStyle = tooltipStyle,
-            iconButtonStyle = iconButtonStyle
+            iconButtonStyle = iconButtonStyle,
         )
 
     @Composable
@@ -209,7 +209,7 @@ object IntUiTheme : BaseIntUiTheme {
         textFieldStyle = textFieldStyle,
         circularProgressStyle = circularProgressStyle,
         tooltipStyle = tooltipStyle,
-        iconButtonStyle = iconButtonStyle
+        iconButtonStyle = iconButtonStyle,
     )
 }
 

@@ -35,7 +35,7 @@ interface IconButtonColors {
             state.isHovered -> backgroundHovered
             state.isFocused -> backgroundFocused
             else -> background
-        }
+        },
     )
 }
 

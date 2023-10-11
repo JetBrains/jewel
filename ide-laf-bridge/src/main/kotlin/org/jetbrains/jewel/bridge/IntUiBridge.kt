@@ -929,5 +929,5 @@ private fun readIconButtonStyle(): IntUiIconButtonStyle = IntUiIconButtonStyle(
         backgroundFocused = Color.Unspecified,
         backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
         backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
-    )
+    ),
 )
