@@ -22,8 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.pointer.PointerEventPass
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasurePolicy
@@ -41,22 +39,17 @@ import androidx.compose.ui.platform.NoInspectorInfo
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import androidx.compose.ui.window.WindowPlacement
-import com.jetbrains.JBR
-import com.jetbrains.WindowDecorations.CustomTitleBar
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
 import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.LocalContentColor
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import org.jetbrains.jewel.window.utils.DesktopPlatform
 import org.jetbrains.jewel.window.utils.macos.MacUtil
-import java.awt.Dialog
-import java.awt.Frame
 import java.awt.Window
 import java.awt.event.ComponentEvent
 import java.awt.event.ComponentListener
@@ -88,11 +81,9 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
-    onSizeChanged: (IntSize, TitleBarState) -> Unit,
-    calculateTitleBarInsets: (CustomTitleBar, TitleBarState) -> PaddingValues,
+    applyTitleBar: (Dp, TitleBarState) -> PaddingValues,
     content: @Composable TitleBarScope.() -> Unit,
 ) {
-    val titleBar = LocalTitleBar.current
     val titleBarInfo = LocalTitleBarInfo.current
 
     var titleBarState by remember { mutableStateOf(TitleBarState.of(window)) }
@@ -156,26 +147,14 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
             }
         },
         modifier.background(backgroundBrush).layoutId(TITLE_BAR_LAYOUT_ID).height(style.metrics.height).onSizeChanged {
-            onSizeChanged(it, titleBarState)
-        }.fillMaxWidth().pointerInput(Unit) {
-            val currentContext = currentCoroutineContext()
-            awaitPointerEventScope {
-                while (currentContext.isActive) {
-                    val event = awaitPointerEvent(PointerEventPass.Main)
-                    event.changes.forEach {
-                        if (!it.isConsumed) {
-                            titleBar.forceHitTest(false)
-                            it.consume()
-                        }
-                    }
-                }
+            with(density) {
+                applyTitleBar(it.height.toDp(), titleBarState)
             }
-        },
+        }.fillMaxWidth(),
         measurePolicy = rememberTitleBarMeasurePolicy(
             LocalWindow.current,
             titleBarState,
-            titleBar,
-            calculateTitleBarInsets,
+            applyTitleBar,
         ),
     )
 
@@ -222,8 +201,7 @@ value class TitleBarState(val state: ULong) {
 internal class TitleBarMeasurePolicy(
     private val window: Window,
     private val state: TitleBarState,
-    private val titleBar: CustomTitleBar,
-    private val calculateTitleBarInsets: (CustomTitleBar, TitleBarState) -> PaddingValues,
+    private val applyTitleBar: (Dp, TitleBarState) -> PaddingValues,
 ) : MeasurePolicy {
 
     override fun MeasureScope.measure(measurables: List<Measurable>, constraints: Constraints): MeasureResult {
@@ -251,13 +229,9 @@ internal class TitleBarMeasurePolicy(
         }
 
         val boxHeight = maxSpaceVertically
-        titleBar.height = boxHeight.toDp().value
-        when (window) {
-            is Dialog -> JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
-            is Frame -> JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
-        }
 
-        val contentPadding = calculateTitleBarInsets(titleBar, state)
+        val contentPadding = applyTitleBar(boxHeight.toDp(), state)
+
         val leftInset = contentPadding.calculateLeftPadding(LayoutDirection.Ltr).roundToPx()
         val rightInset = contentPadding.calculateRightPadding(LayoutDirection.Ltr).roundToPx()
 
@@ -319,15 +293,13 @@ internal class TitleBarMeasurePolicy(
 @Composable internal fun rememberTitleBarMeasurePolicy(
     window: Window,
     state: TitleBarState,
-    titleBar: CustomTitleBar,
-    calculateTitleBarInsets: (CustomTitleBar, TitleBarState) -> PaddingValues,
+    applyTitleBar: (Dp, TitleBarState) -> PaddingValues,
 ): MeasurePolicy {
-    return remember(window, state, calculateTitleBarInsets) {
+    return remember(window, state, applyTitleBar) {
         TitleBarMeasurePolicy(
             window,
             state,
-            titleBar,
-            calculateTitleBarInsets,
+            applyTitleBar,
         )
     }
 }

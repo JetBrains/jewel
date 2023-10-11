@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.KeyEvent
@@ -21,8 +20,6 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
-import com.jetbrains.JBR
-import com.jetbrains.WindowDecorations
 import javax.swing.JFrame
 
 @Composable fun DecoratedWindow(
@@ -39,8 +36,6 @@ import javax.swing.JFrame
     onKeyEvent: (KeyEvent) -> Boolean = { false },
     content: @Composable DecoratedWindowScope.() -> Unit,
 ) {
-    val titleBar = remember { JBR.getWindowDecorations().createCustomTitleBar() }
-
     Window(
         onCloseRequest,
         state,
@@ -58,7 +53,6 @@ import javax.swing.JFrame
     ) {
         CompositionLocalProvider(
             LocalWindow provides window,
-            LocalTitleBar provides titleBar,
             LocalTitleBarInfo provides TitleBarInfo(title, icon),
         ) {
             Layout({
@@ -124,10 +118,6 @@ internal data class TitleBarInfo(
     val title: String,
     val icon: Painter?,
 )
-
-internal val LocalTitleBar = compositionLocalOf<WindowDecorations.CustomTitleBar> {
-    error("CompositionLocal LocalTitleBar not provided")
-}
 
 internal val LocalTitleBarInfo = compositionLocalOf<TitleBarInfo> {
     error("CompositionLocal LocalTitleBarInfo not provided, TitleBar must be used in DecoratedWindow")

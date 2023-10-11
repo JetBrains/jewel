@@ -2,12 +2,12 @@ package org.jetbrains.jewel.window
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.platform.InspectorInfo
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.dp
 import com.jetbrains.JBR
@@ -83,22 +83,25 @@ private class NewFullscreenControlsNode(
         System.clearProperty("apple.awt.newFullScreeControls.background")
     }
 
-    val density = LocalDensity.current
-    val titleBar = LocalTitleBar.current
+    val titleBar = remember { JBR.getWindowDecorations().createCustomTitleBar() }
 
-    TitleBarImpl(modifier, gradientStartColor, style, { size, state ->
-        if (state.isFullscreen) {
-            MacUtil.updateFullScreenButtons(window)
-        }
-        with(density) {
-            titleBar.height = size.height.toDp().value
-        }
-        JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
-    }, { _, state ->
-        if (state.isFullscreen && newFullscreenControls) {
-            PaddingValues(start = 80.dp)
-        } else {
-            PaddingValues(start = titleBar.leftInset.dp, end = titleBar.rightInset.dp)
-        }
-    }, content)
+    TitleBarImpl(
+        modifier.customTitleBarMouseEventHandler(titleBar),
+        gradientStartColor,
+        style,
+        { height, state ->
+            if (state.isFullscreen) {
+                MacUtil.updateFullScreenButtons(window)
+            }
+            titleBar.height = height.value
+            JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
+
+            if (state.isFullscreen && newFullscreenControls) {
+                PaddingValues(start = 80.dp)
+            } else {
+                PaddingValues(start = titleBar.leftInset.dp, end = titleBar.rightInset.dp)
+            }
+        },
+        content,
+    )
 }
