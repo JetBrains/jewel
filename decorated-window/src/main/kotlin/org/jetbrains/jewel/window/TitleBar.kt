@@ -77,10 +77,10 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
     content: @Composable TitleBarScope.() -> Unit,
 ) {
     when (DesktopPlatform.Current) {
-        DesktopPlatform.Linux -> TODO()
-        DesktopPlatform.Windows -> TODO()
+        DesktopPlatform.Linux -> TitleBarOnLinux(modifier, gradientStartColor, style, content)
+        DesktopPlatform.Windows -> TitleBarOnWindows(modifier, gradientStartColor, style, content)
         DesktopPlatform.MacOS -> TitleBarOnMacOs(modifier, gradientStartColor, style, content)
-        DesktopPlatform.Unknown -> TODO()
+        DesktopPlatform.Unknown -> error("TitleBar is not supported on this platform(${System.getProperty("os.name")})")
     }
 }
 

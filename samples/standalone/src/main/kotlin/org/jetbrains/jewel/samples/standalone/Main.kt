@@ -92,7 +92,9 @@ fun main() {
                 }
 
                 TitleBar(Modifier.newFullscreenControls(), gradientStartColor = projectColor) {
+                    Text("<- Left", Modifier.align(Alignment.Start))
                     Text(title)
+                    Text("Right ->", Modifier.align(Alignment.End))
                 }
 
                 Column(Modifier.fillMaxSize().background(windowBackground)) {
