@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.intui.core
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.GlobalColors
@@ -9,7 +10,7 @@ import org.jetbrains.jewel.IntelliJThemeDefinition
 import org.jetbrains.jewel.IntelliJThemeIconData
 
 @Immutable
-class IntUiThemeDefinition(
+data class IntUiThemeDefinition(
     override val isDark: Boolean,
     override val globalColors: GlobalColors,
     override val colorPalette: IntUiThemeColorPalette,
@@ -17,7 +18,11 @@ class IntUiThemeDefinition(
     override val globalMetrics: GlobalMetrics,
     override val defaultTextStyle: TextStyle,
     override val contentColor: Color,
+    override val extensionStyles: Array<ProvidedValue<*>> = arrayOf()
 ) : IntelliJThemeDefinition {
+
+    override fun withExtension(extension: ProvidedValue<*>): IntUiThemeDefinition =
+        copy(extensionStyles = extensionStyles + extension)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -31,6 +36,8 @@ class IntUiThemeDefinition(
         if (iconData != other.iconData) return false
         if (globalMetrics != other.globalMetrics) return false
         if (defaultTextStyle != other.defaultTextStyle) return false
+        if (contentColor != other.contentColor) return false
+        if (!extensionStyles.contentEquals(other.extensionStyles)) return false
 
         return true
     }
@@ -42,10 +49,8 @@ class IntUiThemeDefinition(
         result = 31 * result + iconData.hashCode()
         result = 31 * result + globalMetrics.hashCode()
         result = 31 * result + defaultTextStyle.hashCode()
+        result = 31 * result + contentColor.hashCode()
+        result = 31 * result + extensionStyles.contentHashCode()
         return result
     }
-
-    override fun toString(): String =
-        "IntUiThemeDefinition(isDark=$isDark, globalColors=$globalColors, colorPalette=$colorPalette, " +
-            "iconData=$iconData, metrics=$globalMetrics, defaultTextStyle=$defaultTextStyle)"
 }

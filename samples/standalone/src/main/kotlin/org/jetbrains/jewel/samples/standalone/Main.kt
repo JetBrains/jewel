@@ -15,26 +15,30 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.singleWindowApplication
+import androidx.compose.ui.window.application
 import org.jetbrains.jewel.CheckboxRow
 import org.jetbrains.jewel.Divider
 import org.jetbrains.jewel.JewelSvgLoader
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.Orientation
+import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.VerticalScrollbar
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.rememberSvgLoader
+import org.jetbrains.jewel.intui.window.withTitleBar
 import org.jetbrains.jewel.samples.standalone.components.Borders
 import org.jetbrains.jewel.samples.standalone.components.Buttons
 import org.jetbrains.jewel.samples.standalone.components.Checkboxes
@@ -48,41 +52,65 @@ import org.jetbrains.jewel.samples.standalone.components.Tabs
 import org.jetbrains.jewel.samples.standalone.components.TextAreas
 import org.jetbrains.jewel.samples.standalone.components.TextFields
 import org.jetbrains.jewel.samples.standalone.components.Tooltips
+import org.jetbrains.jewel.window.DecoratedWindow
+import org.jetbrains.jewel.window.TitleBar
 import java.io.InputStream
 
 fun main() {
     val icon = svgResource("icons/jewel-logo.svg")
-    singleWindowApplication(
-        title = "Jewel component catalog",
-        icon = icon,
-    ) {
-        var isDark by remember { mutableStateOf(false) }
-        var swingCompat by remember { mutableStateOf(false) }
-        val theme = if (isDark) IntUiTheme.darkThemeDefinition() else IntUiTheme.lightThemeDefinition()
-
-        IntUiTheme(theme, swingCompat) {
-            val resourceLoader = LocalResourceLoader.current
-            val svgLoader by rememberSvgLoader()
-
-            val windowBackground = if (isDark) {
-                IntUiTheme.colorPalette.grey(1)
-            } else {
-                IntUiTheme.colorPalette.grey(14)
+    application {
+        DecoratedWindow(
+            onCloseRequest = { exitApplication() },
+            title = "Jewel component catalog",
+            icon = icon,
+        ) {
+            var isDark by remember { mutableStateOf(false) }
+            var lightHeaderInLight by remember { mutableStateOf(false) }
+            var swingCompat by remember { mutableStateOf(false) }
+            val theme = if (isDark) IntUiTheme.darkThemeDefinition() else IntUiTheme.lightThemeDefinition()
+            val projectColor by remember {
+                derivedStateOf {
+                    if (isDark) {
+                        Color(0xFF654B40)
+                    } else if (lightHeaderInLight) {
+                        Color(0xFFF5D4C1)
+                    } else {
+                        Color(0xFF654B40)
+                    }
+                }
             }
 
-            Column(Modifier.fillMaxSize().background(windowBackground)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    CheckboxRow("Dark", isDark, resourceLoader, { isDark = it })
-                    CheckboxRow("Swing compat", swingCompat, resourceLoader, { swingCompat = it })
+            IntUiTheme(theme.withTitleBar(lightHeaderInLight), swingCompat) {
+                val resourceLoader = LocalResourceLoader.current
+                val svgLoader by rememberSvgLoader()
+
+                val windowBackground = if (isDark) {
+                    IntUiTheme.colorPalette.grey(1)
+                } else {
+                    IntUiTheme.colorPalette.grey(14)
                 }
+
+                TitleBar(gradientStartColor = projectColor) {
+                    Text(title)
+                }
+
+                Column(Modifier.fillMaxSize().background(windowBackground)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        CheckboxRow("Dark", isDark, resourceLoader, { isDark = it })
+                        if (!isDark) {
+                            CheckboxRow("Light Header", lightHeaderInLight, resourceLoader, { lightHeaderInLight = it })
+                        }
+                        CheckboxRow("Swing compat", swingCompat, resourceLoader, { swingCompat = it })
+                    }
 
                 Divider(Orientation.Horizontal, Modifier.fillMaxWidth())
 
-                ComponentShowcase(svgLoader, resourceLoader)
+                    ComponentShowcase(svgLoader, resourceLoader)
+                }
             }
         }
     }

@@ -141,7 +141,7 @@ data class IntUiDropdownColors(
             contentPressed: Color = content,
             contentHovered: Color = content,
             border: Color = IntUiDarkTheme.colors.grey(5),
-            borderDisabled: Color = IntUiDarkTheme.colors.grey(11),
+            borderDisabled: Color = IntUiDarkTheme.colors.grey(5),
             borderFocused: Color = IntUiDarkTheme.colors.blue(6),
             borderPressed: Color = border,
             borderHovered: Color = border,
