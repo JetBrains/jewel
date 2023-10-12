@@ -104,7 +104,7 @@ import javax.swing.JFrame
             }
         }
 
-        val undecoratedWindowBorder = if (undecorated && decoratedWindowState.isMaximized) {
+        val undecoratedWindowBorder = if (undecorated && !decoratedWindowState.isMaximized) {
             Modifier.border(
                 Stroke.Alignment.Inside,
                 style.metrics.borderWidth,
