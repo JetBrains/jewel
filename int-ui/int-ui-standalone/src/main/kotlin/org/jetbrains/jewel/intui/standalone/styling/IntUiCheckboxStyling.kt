@@ -118,16 +118,19 @@ import org.jetbrains.jewel.styling.StatefulResourcePathPatcher
         )
 
         fun light(
-            svgLoader: SvgLoader, checkbox: PainterProvider<CheckboxState> = checkbox(
-                svgLoader, "com/intellij/ide/ui/laf/icons/intellij/checkBox.svg"
-            )
+            svgLoader: SvgLoader,
+            checkbox: PainterProvider<CheckboxState> = checkbox(
+                svgLoader,
+                "com/intellij/ide/ui/laf/icons/intellij/checkBox.svg",
+            ),
         ) = IntUiCheckboxIcons(checkbox)
 
         fun dark(
-            svgLoader: SvgLoader, checkbox: PainterProvider<CheckboxState> = checkbox(
-                svgLoader, "com/intellij/ide/ui/laf/icons/darcula/checkBox.svg"
-            )
+            svgLoader: SvgLoader,
+            checkbox: PainterProvider<CheckboxState> = checkbox(
+                svgLoader,
+                "com/intellij/ide/ui/laf/icons/darcula/checkBox.svg",
+            ),
         ) = IntUiCheckboxIcons(checkbox)
     }
 }
-

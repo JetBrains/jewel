@@ -112,16 +112,19 @@ data class IntUiRadioButtonIcons(
             ResourcePainterProvider.stateful(basePath, svgLoader)
 
         fun light(
-            svgLoader: SvgLoader, radioButton: PainterProvider<RadioButtonState> = radioButton(
-                svgLoader, "com/intellij/ide/ui/laf/icons/intellij/radio.svg"
-            )
+            svgLoader: SvgLoader,
+            radioButton: PainterProvider<RadioButtonState> = radioButton(
+                svgLoader,
+                "com/intellij/ide/ui/laf/icons/intellij/radio.svg",
+            ),
         ) = IntUiRadioButtonIcons(radioButton)
 
         fun dark(
-            svgLoader: SvgLoader, radioButton: PainterProvider<RadioButtonState> = radioButton(
-                svgLoader, "com/intellij/ide/ui/laf/icons/darcula/radio.svg"
-            )
+            svgLoader: SvgLoader,
+            radioButton: PainterProvider<RadioButtonState> = radioButton(
+                svgLoader,
+                "com/intellij/ide/ui/laf/icons/darcula/radio.svg",
+            ),
         ) = IntUiRadioButtonIcons(radioButton)
     }
 }
-
