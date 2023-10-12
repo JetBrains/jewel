@@ -904,30 +904,38 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
 
 private fun readCircularProgressStyle(
     isDark: Boolean,
-): IntUiCircularProgressStyle = IntUiCircularProgressStyle(
-    frameTime = 125.milliseconds,
-    color = retrieveColorOrUnspecified("ProgressIcon.color")
-        .takeIf { it.isSpecified }
-        ?: if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD),
-)
+): IntUiCircularProgressStyle =
+    IntUiCircularProgressStyle(
+        frameTime = 125.milliseconds,
+        color = retrieveColorOrUnspecified("ProgressIcon.color")
+            .takeIf { it.isSpecified }
+            ?: if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD),
+    )
 
-private fun readTooltipStyle(): IntUiTooltipStyle = IntUiTooltipStyle(
-    metrics = IntUiTooltipMetrics(),
-    colors = IntUiTooltipColors(
-        content = retrieveColorOrUnspecified("ToolTip.foreground"),
-        background = retrieveColorOrUnspecified("ToolTip.background"),
-        border = retrieveColorOrUnspecified("ToolTip.borderColor"),
-        shadow = Color.Black.copy(alpha = .6f),
-    ),
-)
+private fun readTooltipStyle(): IntUiTooltipStyle {
+    return IntUiTooltipStyle(
+        metrics = IntUiTooltipMetrics(),
+        colors = IntUiTooltipColors(
+            content = retrieveColorOrUnspecified("ToolTip.foreground"),
+            background = retrieveColorOrUnspecified("ToolTip.background"),
+            border = retrieveColorOrUnspecified("ToolTip.borderColor"),
+            shadow = retrieveColorOrUnspecified("Notification.Shadow.bottom1Color"),
+        ),
+    )
+}
 
 private fun readIconButtonStyle(): IntUiIconButtonStyle = IntUiIconButtonStyle(
-    metrics = IntUiIconButtonMetrics(),
+    metrics = IntUiIconButtonMetrics(CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2)),
     colors = IntUiIconButtonColors(
         background = Color.Unspecified,
         backgroundDisabled = Color.Unspecified,
         backgroundFocused = Color.Unspecified,
         backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
         backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
+        border = Color.Unspecified,
+        borderDisabled = Color.Unspecified,
+        borderFocused = retrieveColorOrUnspecified("ActionButton.focusedBorderColor"),
+        borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
+        borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
     ),
 )

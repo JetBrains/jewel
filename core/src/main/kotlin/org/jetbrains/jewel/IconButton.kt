@@ -1,6 +1,7 @@
 package org.jetbrains.jewel
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
@@ -57,7 +58,8 @@ fun IconButton(
         }
     }
     val shape = RoundedCornerShape(style.metrics.cornerSize)
-    val backgroundColor by style.colors.backgroundFor(buttonState)
+    val background by style.colors.backgroundFor(buttonState)
+    val border by style.colors.borderFor(buttonState)
     Box(
         modifier = modifier
             .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
@@ -70,7 +72,8 @@ fun IconButton(
             )
             .clip(shape)
             .padding(style.metrics.padding)
-            .background(backgroundColor),
+            .background(background)
+            .border(style.metrics.borderWidth, border),
         contentAlignment = Alignment.Center,
         content = {
             content(buttonState)

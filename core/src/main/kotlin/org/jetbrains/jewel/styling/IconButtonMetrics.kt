@@ -8,6 +8,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import org.jetbrains.jewel.ButtonState
 
@@ -27,6 +28,12 @@ interface IconButtonColors {
     val backgroundPressed: Color
     val backgroundHovered: Color
 
+    val border: Color
+    val borderDisabled: Color
+    val borderFocused: Color
+    val borderPressed: Color
+    val borderHovered: Color
+
     @Composable
     fun backgroundFor(state: ButtonState) = rememberUpdatedState(
         when {
@@ -37,12 +44,24 @@ interface IconButtonColors {
             else -> background
         },
     )
+
+    @Composable
+    fun borderFor(state: ButtonState) = rememberUpdatedState(
+        when {
+            !state.isEnabled -> borderDisabled
+            state.isPressed -> borderPressed
+            state.isHovered -> borderHovered
+            state.isFocused -> borderFocused
+            else -> border
+        },
+    )
 }
 
 @Stable
 interface IconButtonMetrics {
 
     val cornerSize: CornerSize
+    val borderWidth: Dp
     val padding: PaddingValues
     val minSize: DpSize
 }
