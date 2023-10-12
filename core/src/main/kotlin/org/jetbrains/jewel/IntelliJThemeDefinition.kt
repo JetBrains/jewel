@@ -19,5 +19,5 @@ interface IntelliJThemeDefinition {
 
     val extensionStyles: Array<ProvidedValue<*>>
 
-    fun withExtensions(vararg extension: ProvidedValue<*>): IntelliJThemeDefinition
+    fun withExtensions(vararg extensions: ProvidedValue<*>): IntelliJThemeDefinition
 }

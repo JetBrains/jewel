@@ -18,7 +18,7 @@ data class IntUiThemeDefinition(
     override val globalMetrics: GlobalMetrics,
     override val defaultTextStyle: TextStyle,
     override val contentColor: Color,
-    override val extensionStyles: Array<ProvidedValue<*>> = arrayOf(),
+    override val extensionStyles: Array<ProvidedValue<*>> = emptyArray(),
 ) : IntelliJThemeDefinition {
 
     override fun withExtensions(vararg extensions: ProvidedValue<*>): IntUiThemeDefinition =

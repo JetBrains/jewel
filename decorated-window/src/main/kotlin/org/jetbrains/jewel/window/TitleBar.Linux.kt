@@ -36,7 +36,7 @@ import java.awt.event.WindowEvent
     val viewConfig = LocalViewConfiguration.current
     TitleBarImpl(
         modifier.onPointerEvent(PointerEventType.Press, PointerEventPass.Main) {
-            if (this.currentEvent.button == PointerButton.Primary && this.currentEvent.changes.any { !it.isConsumed }) {
+            if (this.currentEvent.button == PointerButton.Primary && this.currentEvent.changes.any { changed -> !changed.isConsumed }) {
                 JBR.getWindowMove()?.startMovingTogetherWithMouse(window, MouseEvent.BUTTON1)
                 if (System.currentTimeMillis() - lastPress in viewConfig.doubleTapMinTimeMillis..viewConfig.doubleTapTimeoutMillis) {
                     if (state.isMaximized) {

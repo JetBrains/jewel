@@ -38,6 +38,6 @@ internal object JnaLoader {
             if (loaded == null) {
                 load()
             }
-            return loaded!!
+            return loaded ?: false
         }
 }

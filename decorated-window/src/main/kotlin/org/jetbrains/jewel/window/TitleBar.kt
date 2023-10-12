@@ -191,7 +191,7 @@ internal class TitleBarMeasurePolicy(
                 trailerUsedSpace += placeable.width
             }
 
-            val centerPlaceable = placeableGroups[Alignment.CenterHorizontally] ?: listOf()
+            val centerPlaceable = placeableGroups[Alignment.CenterHorizontally].orEmpty()
 
             val requiredCenterSpace = centerPlaceable.sumOf { it.second.width }
             val minX = headUsedSpace
