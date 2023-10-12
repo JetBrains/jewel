@@ -74,7 +74,7 @@ fun IconButton(
             .border(style.metrics.borderWidth, border, shape),
         contentAlignment = Alignment.Center,
         content = {
-            onBackground(backgroundColor) {
+            onBackground(background) {
                 content(buttonState)
             }
         },

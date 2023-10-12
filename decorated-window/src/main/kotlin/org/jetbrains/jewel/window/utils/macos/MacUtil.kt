@@ -7,6 +7,7 @@ import java.awt.Window
 import java.lang.reflect.InvocationTargetException
 import java.util.logging.Level
 import java.util.logging.Logger
+import javax.swing.SwingUtilities
 
 internal object MacUtil {
 
@@ -69,22 +70,26 @@ internal object MacUtil {
     }
 
     fun updateColors(w: Window) {
-        val window = MacUtil.getWindowFromJavaWindow(w)
-        val delegate = Foundation.invoke(window, "delegate")
-        if (Foundation.invoke(delegate, "respondsToSelector:", Foundation.createSelector("updateColors"))
-                .booleanValue()
-        ) {
-            Foundation.invoke(delegate, "updateColors")
+        SwingUtilities.invokeLater {
+            val window = MacUtil.getWindowFromJavaWindow(w)
+            val delegate = Foundation.invoke(window, "delegate")
+            if (Foundation.invoke(delegate, "respondsToSelector:", Foundation.createSelector("updateColors"))
+                    .booleanValue()
+            ) {
+                Foundation.invoke(delegate, "updateColors")
+            }
         }
     }
 
     fun updateFullScreenButtons(w: Window) {
-        val selector = Foundation.createSelector("updateFullScreenButtons")
-        val window = getWindowFromJavaWindow(w)
-        val delegate = Foundation.invoke(window, "delegate")
+        SwingUtilities.invokeLater {
+            val selector = Foundation.createSelector("updateFullScreenButtons")
+            val window = getWindowFromJavaWindow(w)
+            val delegate = Foundation.invoke(window, "delegate")
 
-        if (Foundation.invoke(delegate, "respondsToSelector:", selector).booleanValue()) {
-            Foundation.invoke(delegate, "updateFullScreenButtons")
+            if (Foundation.invoke(delegate, "respondsToSelector:", selector).booleanValue()) {
+                Foundation.invoke(delegate, "updateFullScreenButtons")
+            }
         }
     }
 }

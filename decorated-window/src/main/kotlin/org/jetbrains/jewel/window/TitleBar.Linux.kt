@@ -12,6 +12,7 @@ import androidx.compose.ui.input.pointer.PointerButton
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
+import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.dp
 import com.jetbrains.JBR
 import org.jetbrains.jewel.Icon
@@ -31,11 +32,21 @@ import java.awt.event.WindowEvent
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
     content: @Composable TitleBarScope.(DecoratedWindowState) -> Unit,
 ) {
+    var lastPress = 0L
+    val viewConfig = LocalViewConfiguration.current
     TitleBarImpl(
         modifier.onPointerEvent(PointerEventType.Press, PointerEventPass.Main) {
             if (this.currentEvent.button == PointerButton.Primary) {
                 if (this.currentEvent.changes.any { !it.isConsumed }) {
-                    JBR.getWindowMove().startMovingTogetherWithMouse(window, MouseEvent.BUTTON1)
+                    JBR.getWindowMove()?.startMovingTogetherWithMouse(window, MouseEvent.BUTTON1)
+                    if (System.currentTimeMillis() - lastPress in viewConfig.doubleTapMinTimeMillis..viewConfig.doubleTapTimeoutMillis) {
+                        if (state.isMaximized) {
+                            window.extendedState = Frame.NORMAL
+                        } else {
+                            window.extendedState = Frame.MAXIMIZED_BOTH
+                        }
+                    }
+                    lastPress = System.currentTimeMillis()
                 }
             }
         },

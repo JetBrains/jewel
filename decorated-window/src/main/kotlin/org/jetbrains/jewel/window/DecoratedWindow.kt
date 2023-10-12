@@ -30,11 +30,14 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
+import com.jetbrains.JBR
 import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.window.styling.DecoratedWindowStyle
 import org.jetbrains.jewel.window.utils.DesktopPlatform
+import java.awt.event.ComponentEvent
+import java.awt.event.ComponentListener
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.JFrame
@@ -54,6 +57,14 @@ import javax.swing.JFrame
     style: DecoratedWindowStyle = IntelliJTheme.defaultDecoratedWindowStyle,
     content: @Composable DecoratedWindowScope.() -> Unit,
 ) {
+    remember {
+        if (!JBR.isAvailable()) {
+            error(
+                "DecoratedWindow only can be used on JetBrainsRuntime(JBR) platform, please check the document https://github.com/JetBrains/jewel#int-ui-standalone-theme",
+            )
+        }
+    }
+
     // Using undecorated window for linux
     val undecorated = DesktopPlatform.Linux == DesktopPlatform.Current
 
@@ -75,7 +86,7 @@ import javax.swing.JFrame
         var decoratedWindowState by remember { mutableStateOf(DecoratedWindowState.of(window)) }
 
         DisposableEffect(window) {
-            val adapter = object : WindowAdapter() {
+            val adapter = object : WindowAdapter(), ComponentListener {
                 override fun windowActivated(e: WindowEvent?) {
                     decoratedWindowState = DecoratedWindowState.of(window)
                 }
@@ -95,12 +106,27 @@ import javax.swing.JFrame
                 override fun windowStateChanged(e: WindowEvent) {
                     decoratedWindowState = DecoratedWindowState.of(window)
                 }
+
+                override fun componentResized(e: ComponentEvent?) {
+                    decoratedWindowState = DecoratedWindowState.of(window)
+                }
+
+                override fun componentMoved(e: ComponentEvent?) {
+                }
+
+                override fun componentShown(e: ComponentEvent?) {
+                }
+
+                override fun componentHidden(e: ComponentEvent?) {
+                }
             }
             window.addWindowListener(adapter)
             window.addWindowStateListener(adapter)
+            window.addComponentListener(adapter)
             onDispose {
                 window.removeWindowListener(adapter)
                 window.removeWindowStateListener(adapter)
+                window.removeComponentListener(adapter)
             }
         }
 

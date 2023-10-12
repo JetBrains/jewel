@@ -39,8 +39,13 @@ import org.jetbrains.jewel.window.styling.TitleBarStyle
                 Color.Transparent,
                 colors.iconButtonPressBackground,
                 colors.iconButtonHoverBackground,
+                Color.Transparent,
+                Color.Transparent,
+                Color.Transparent,
+                Color.Transparent,
+                Color.Transparent,
             ),
-            IntUiIconButtonMetrics(),
+            IntUiIconButtonMetrics(borderWidth = 0.dp),
         )
     }
 
@@ -52,8 +57,13 @@ import org.jetbrains.jewel.window.styling.TitleBarStyle
                 Color.Transparent,
                 colors.titlePaneButtonPressBackground,
                 colors.titlePaneButtonHoverBackground,
+                Color.Transparent,
+                Color.Transparent,
+                Color.Transparent,
+                Color.Transparent,
+                Color.Transparent,
             ),
-            IntUiIconButtonMetrics(CornerSize(0.dp)),
+            IntUiIconButtonMetrics(CornerSize(0.dp), borderWidth = 0.dp),
         )
     }
 
@@ -65,8 +75,13 @@ import org.jetbrains.jewel.window.styling.TitleBarStyle
                 Color.Transparent,
                 colors.titlePaneCloseButtonPressBackground,
                 colors.titlePaneCloseButtonHoverBackground,
+                Color.Transparent,
+                Color.Transparent,
+                Color.Transparent,
+                Color.Transparent,
+                Color.Transparent,
             ),
-            IntUiIconButtonMetrics(CornerSize(0.dp)),
+            IntUiIconButtonMetrics(CornerSize(0.dp), borderWidth = 0.dp),
         )
     }
 
