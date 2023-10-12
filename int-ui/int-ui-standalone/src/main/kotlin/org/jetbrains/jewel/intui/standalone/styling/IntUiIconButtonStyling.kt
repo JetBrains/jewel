@@ -44,7 +44,7 @@ data class IntUiIconButtonColors(
         @Composable
         fun light(
             background: Color = Color.Unspecified,
-            backgroundDisabled: Color = Color.Unspecified,
+            backgroundDisabled: Color = background,
             backgroundFocused: Color = background,
             backgroundPressed: Color = IntUiLightTheme.colors.grey(11),
             backgroundHovered: Color = IntUiLightTheme.colors.grey(12),
@@ -60,7 +60,7 @@ data class IntUiIconButtonColors(
         @Composable
         fun dark(
             background: Color = Color.Unspecified,
-            backgroundDisabled: Color = Color.Unspecified,
+            backgroundDisabled: Color = background,
             backgroundFocused: Color = background,
             backgroundPressed: Color = IntUiDarkTheme.colors.grey(5),
             backgroundHovered: Color = IntUiDarkTheme.colors.grey(3),
@@ -78,6 +78,6 @@ data class IntUiIconButtonColors(
 @Stable
 data class IntUiIconButtonMetrics(
     override val cornerSize: CornerSize = CornerSize(4.dp),
-    override val padding: PaddingValues = PaddingValues(horizontal = 0.dp, vertical = 0.dp),
+    override val padding: PaddingValues = PaddingValues(0.dp),
     override val minSize: DpSize = DpSize(16.dp, 16.dp),
 ) : IconButtonMetrics
