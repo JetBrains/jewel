@@ -71,7 +71,6 @@ fun IconButton(
             .clip(shape)
             .padding(style.metrics.padding)
             .background(backgroundColor),
-        propagateMinConstraints = true,
         contentAlignment = Alignment.Center,
         content = {
             content(buttonState)

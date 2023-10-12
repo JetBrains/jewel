@@ -125,7 +125,7 @@ private fun RowScope.ColumnOne(resourceLoader: ResourceLoader) {
 
         val svgLoader = service<SwingBridgeService>().svgLoader
         Row {
-            val painterProvider = retrieveStatelessIcon("actions/more.svg", svgLoader, IntUiTheme.iconData)
+            val painterProvider = retrieveStatelessIcon("actions/close.svg", svgLoader, IntUiTheme.iconData)
             val painter by painterProvider.getPainter(resourceLoader)
             Icon(painter = painter, modifier = Modifier.border(1.dp, Color.Magenta), contentDescription = "An icon")
         }

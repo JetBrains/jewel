@@ -3,7 +3,6 @@ package org.jetbrains.jewel.samples.standalone.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -44,7 +43,7 @@ fun Buttons(svgLoader: JewelSvgLoader, resourceLoader: ResourceLoader) {
             Text("Default disabled")
         }
 
-        IconButton(onClick = {}, modifier = Modifier.size(30.dp)) {
+        IconButton(onClick = {}) {
             val iconProvider = remember { ResourcePainterProvider.stateless("icons/close.svg", svgLoader) }
             val iconPainter by iconProvider.getPainter(resourceLoader)
             Icon(
