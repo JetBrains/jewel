@@ -5,7 +5,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.window.styling.DecoratedWindowColors
 import org.jetbrains.jewel.window.styling.DecoratedWindowMetrics
 import org.jetbrains.jewel.window.styling.DecoratedWindowStyle
@@ -48,7 +47,7 @@ import org.jetbrains.jewel.window.styling.DecoratedWindowStyle
             inactiveBorderColor: Color = borderColor,
         ) = IntUiDecoratedWindowColors(
             borderColor,
-            inactiveBorderColor
+            inactiveBorderColor,
         )
 
         @Composable fun dark(
@@ -57,11 +56,11 @@ import org.jetbrains.jewel.window.styling.DecoratedWindowStyle
             inactiveBorderColor: Color = borderColor,
         ) = IntUiDecoratedWindowColors(
             borderColor,
-            inactiveBorderColor
+            inactiveBorderColor,
         )
     }
 }
 
 @Stable data class IntUiDecoratedWindowMetrics(
-    override val borderWidth: Dp
+    override val borderWidth: Dp,
 ) : DecoratedWindowMetrics

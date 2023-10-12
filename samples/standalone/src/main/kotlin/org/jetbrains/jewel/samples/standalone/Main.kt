@@ -85,10 +85,10 @@ fun main() {
             val svgLoader by rememberSvgLoader()
 
             DecoratedWindow(
-            onCloseRequest = { exitApplication() },
-            title = "Jewel component catalog",
-            icon = icon,
-        ) {
+                onCloseRequest = { exitApplication() },
+                title = "Jewel component catalog",
+                icon = icon,
+            ) {
                 val windowBackground = if (isDark) {
                     IntUiTheme.colorPalette.grey(1)
                 } else {

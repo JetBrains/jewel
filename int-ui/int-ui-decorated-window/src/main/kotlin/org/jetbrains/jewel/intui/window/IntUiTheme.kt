@@ -36,6 +36,6 @@ fun IntUiThemeDefinition.withDecoratedWindow(lightHeaderInLight: Boolean = false
 
     return withExtensions(
         LocalDecoratedWindowStyle provides decoratedWindowStyle(),
-        LocalTitleBarStyle provides titleBarStyle(svgLoader, lightHeaderInLight)
+        LocalTitleBarStyle provides titleBarStyle(svgLoader, lightHeaderInLight),
     )
 }

@@ -109,7 +109,7 @@ import javax.swing.JFrame
                 Stroke.Alignment.Inside,
                 style.metrics.borderWidth,
                 style.colors.borderFor(decoratedWindowState).value,
-                RectangleShape
+                RectangleShape,
             ).padding(style.metrics.borderWidth)
         } else {
             Modifier
