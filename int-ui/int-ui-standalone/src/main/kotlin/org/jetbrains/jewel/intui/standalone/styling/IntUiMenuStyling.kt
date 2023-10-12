@@ -212,7 +212,7 @@ data class IntUiMenuIcons(
         @Composable
         fun submenuChevron(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/chevronRight.svg",
+            basePath: String = "expui/general/chevronRight.svg",
         ): PainterProvider<MenuItemState> =
             ResourcePainterProvider.stateful(basePath, svgLoader)
     }

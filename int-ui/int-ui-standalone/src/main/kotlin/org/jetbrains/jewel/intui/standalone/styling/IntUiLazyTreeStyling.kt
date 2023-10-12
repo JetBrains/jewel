@@ -121,14 +121,14 @@ data class IntUiLazyTreeIcons(
         @Composable
         fun chevronCollapsed(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/chevronRight.svg",
+            basePath: String = "expui/general/chevronRight.svg",
         ): PainterProvider<Unit> =
             ResourcePainterProvider.stateless(basePath, svgLoader)
 
         @Composable
         fun chevronExpanded(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/chevronDown.svg",
+            basePath: String = "expui/general/chevronDown.svg",
         ): PainterProvider<Unit> =
             ResourcePainterProvider.stateless(basePath, svgLoader)
     }

@@ -353,7 +353,7 @@ data class IntUiTabIcons(
         @Composable
         fun close(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/closeSmall.svg",
+            basePath: String = "expui/general/closeSmall.svg",
         ): PainterProvider<ButtonState> =
             ResourcePainterProvider.stateful(basePath, svgLoader)
     }

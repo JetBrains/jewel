@@ -118,14 +118,14 @@ data class IntUiLinkIcons(
         @Composable
         fun dropdownChevron(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/chevronDown.svg",
+            basePath: String = "expui/general/chevronDown.svg",
         ): PainterProvider<LinkState> =
             ResourcePainterProvider.stateful(basePath, svgLoader)
 
         @Composable
         fun externalLink(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/externalLink.svg",
+            basePath: String = "expui/ide/externalLink.svg",
         ): PainterProvider<LinkState> =
             ResourcePainterProvider.stateful(basePath, svgLoader)
     }

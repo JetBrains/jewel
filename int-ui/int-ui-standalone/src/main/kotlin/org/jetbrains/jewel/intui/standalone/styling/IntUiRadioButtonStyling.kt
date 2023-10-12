@@ -31,7 +31,7 @@ data class IntUiRadioButtonStyle(
             svgLoader: SvgLoader,
             colors: IntUiRadioButtonColors = IntUiRadioButtonColors.light(),
             metrics: IntUiRadioButtonMetrics = IntUiRadioButtonMetrics(),
-            icons: IntUiRadioButtonIcons = intUiRadioButtonIcons(svgLoader),
+            icons: IntUiRadioButtonIcons = IntUiRadioButtonIcons.light(svgLoader),
         ) = IntUiRadioButtonStyle(colors, metrics, icons)
 
         @Composable
@@ -39,7 +39,7 @@ data class IntUiRadioButtonStyle(
             svgLoader: SvgLoader,
             colors: IntUiRadioButtonColors = IntUiRadioButtonColors.dark(),
             metrics: IntUiRadioButtonMetrics = IntUiRadioButtonMetrics(),
-            icons: IntUiRadioButtonIcons = intUiRadioButtonIcons(svgLoader),
+            icons: IntUiRadioButtonIcons = IntUiRadioButtonIcons.dark(svgLoader),
         ) = IntUiRadioButtonStyle(colors, metrics, icons)
     }
 }
@@ -105,17 +105,23 @@ data class IntUiRadioButtonIcons(
 
     companion object {
 
-        @Composable
         fun radioButton(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/radio.svg",
+            basePath: String = "com/intellij/ide/ui/laf/icons/intellij/radio.svg",
         ): PainterProvider<RadioButtonState> =
             ResourcePainterProvider.stateful(basePath, svgLoader)
+
+        fun light(
+            svgLoader: SvgLoader, radioButton: PainterProvider<RadioButtonState> = radioButton(
+                svgLoader, "com/intellij/ide/ui/laf/icons/intellij/radio.svg"
+            )
+        ) = IntUiRadioButtonIcons(radioButton)
+
+        fun dark(
+            svgLoader: SvgLoader, radioButton: PainterProvider<RadioButtonState> = radioButton(
+                svgLoader, "com/intellij/ide/ui/laf/icons/darcula/radio.svg"
+            )
+        ) = IntUiRadioButtonIcons(radioButton)
     }
 }
 
-@Composable
-fun intUiRadioButtonIcons(
-    svgLoader: SvgLoader,
-    radioButton: PainterProvider<RadioButtonState> = IntUiRadioButtonIcons.radioButton(svgLoader),
-) = IntUiRadioButtonIcons(radioButton)

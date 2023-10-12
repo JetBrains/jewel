@@ -193,7 +193,7 @@ data class IntUiDropdownIcons(
         @Composable
         fun chevronDown(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/chevronDown.svg",
+            basePath: String = "expui/general/chevronDown.svg",
         ): PainterProvider<DropdownState> =
             ResourcePainterProvider.stateful(basePath, svgLoader)
     }
