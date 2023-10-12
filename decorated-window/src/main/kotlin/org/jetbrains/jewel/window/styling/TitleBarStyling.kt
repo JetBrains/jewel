@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import org.jetbrains.jewel.styling.IconButtonStyle
 import org.jetbrains.jewel.styling.PainterProvider
-import org.jetbrains.jewel.window.TitleBarState
+import org.jetbrains.jewel.window.DecoratedWindowState
 
 @Stable
 interface TitleBarStyle {
@@ -50,7 +50,7 @@ interface TitleBarColors {
     val iconButtonPressBackground: Color
 
     @Composable
-    fun backgroundFor(state: TitleBarState) = rememberUpdatedState(
+    fun backgroundFor(state: DecoratedWindowState) = rememberUpdatedState(
         when {
             !state.isActive -> inactiveBackground
             else -> background
@@ -73,13 +73,13 @@ interface TitleBarMetrics {
 @Immutable
 interface TitleBarIcons {
 
-    val minimizeButton: PainterProvider<TitleBarState>
+    val minimizeButton: PainterProvider<DecoratedWindowState>
 
-    val maximizeButton: PainterProvider<TitleBarState>
+    val maximizeButton: PainterProvider<DecoratedWindowState>
 
-    val restoreButton: PainterProvider<TitleBarState>
+    val restoreButton: PainterProvider<DecoratedWindowState>
 
-    val closeButton: PainterProvider<TitleBarState>
+    val closeButton: PainterProvider<DecoratedWindowState>
 }
 
 val LocalTitleBarStyle = staticCompositionLocalOf<TitleBarStyle> {

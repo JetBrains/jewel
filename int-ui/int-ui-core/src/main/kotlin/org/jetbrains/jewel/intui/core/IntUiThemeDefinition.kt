@@ -21,8 +21,8 @@ data class IntUiThemeDefinition(
     override val extensionStyles: Array<ProvidedValue<*>> = arrayOf(),
 ) : IntelliJThemeDefinition {
 
-    override fun withExtension(extension: ProvidedValue<*>): IntUiThemeDefinition =
-        copy(extensionStyles = extensionStyles + extension)
+    override fun withExtensions(vararg extensions: ProvidedValue<*>): IntUiThemeDefinition =
+        copy(extensionStyles = extensionStyles + extensions)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

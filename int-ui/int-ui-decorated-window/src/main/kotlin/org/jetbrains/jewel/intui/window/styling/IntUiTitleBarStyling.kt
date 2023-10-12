@@ -19,7 +19,7 @@ import org.jetbrains.jewel.styling.IconButtonStyle
 import org.jetbrains.jewel.styling.PainterProvider
 import org.jetbrains.jewel.styling.ResourcePainterProvider
 import org.jetbrains.jewel.styling.SimpleResourcePathPatcher
-import org.jetbrains.jewel.window.TitleBarState
+import org.jetbrains.jewel.window.DecoratedWindowState
 import org.jetbrains.jewel.window.styling.TitleBarColors
 import org.jetbrains.jewel.window.styling.TitleBarIcons
 import org.jetbrains.jewel.window.styling.TitleBarMetrics
@@ -218,10 +218,10 @@ import org.jetbrains.jewel.window.styling.TitleBarStyle
 ) : TitleBarMetrics
 
 @Immutable data class IntUiTitleBarIcons(
-    override val minimizeButton: PainterProvider<TitleBarState>,
-    override val maximizeButton: PainterProvider<TitleBarState>,
-    override val restoreButton: PainterProvider<TitleBarState>,
-    override val closeButton: PainterProvider<TitleBarState>,
+    override val minimizeButton: PainterProvider<DecoratedWindowState>,
+    override val maximizeButton: PainterProvider<DecoratedWindowState>,
+    override val restoreButton: PainterProvider<DecoratedWindowState>,
+    override val closeButton: PainterProvider<DecoratedWindowState>,
 ) : TitleBarIcons {
 
     @OptIn(InternalJewelApi::class)
@@ -230,39 +230,39 @@ import org.jetbrains.jewel.window.styling.TitleBarStyle
         @Composable fun minimize(
             svgLoader: SvgLoader,
             basePath: String = "icons/intui/window/minimize.svg",
-        ): PainterProvider<TitleBarState> = ResourcePainterProvider(basePath, svgLoader, TitleBarResourcePathPatcher())
+        ): PainterProvider<DecoratedWindowState> = ResourcePainterProvider(basePath, svgLoader, TitleBarResourcePathPatcher())
 
         @Composable fun maximize(
             svgLoader: SvgLoader,
             basePath: String = "icons/intui/window/maximize.svg",
-        ): PainterProvider<TitleBarState> = ResourcePainterProvider(basePath, svgLoader, TitleBarResourcePathPatcher())
+        ): PainterProvider<DecoratedWindowState> = ResourcePainterProvider(basePath, svgLoader, TitleBarResourcePathPatcher())
 
         @Composable fun restore(
             svgLoader: SvgLoader,
             basePath: String = "icons/intui/window/restore.svg",
-        ): PainterProvider<TitleBarState> = ResourcePainterProvider(basePath, svgLoader, TitleBarResourcePathPatcher())
+        ): PainterProvider<DecoratedWindowState> = ResourcePainterProvider(basePath, svgLoader, TitleBarResourcePathPatcher())
 
         @Composable fun close(
             svgLoader: SvgLoader,
             basePath: String = "icons/intui/window/close.svg",
-        ): PainterProvider<TitleBarState> = ResourcePainterProvider(basePath, svgLoader, TitleBarResourcePathPatcher())
+        ): PainterProvider<DecoratedWindowState> = ResourcePainterProvider(basePath, svgLoader, TitleBarResourcePathPatcher())
     }
 }
 
 @Composable fun intUiTitleBarIcons(
     svgLoader: SvgLoader,
-    minimize: PainterProvider<TitleBarState> = IntUiTitleBarIcons.minimize(svgLoader),
-    maximize: PainterProvider<TitleBarState> = IntUiTitleBarIcons.maximize(svgLoader),
-    restore: PainterProvider<TitleBarState> = IntUiTitleBarIcons.restore(svgLoader),
-    close: PainterProvider<TitleBarState> = IntUiTitleBarIcons.close(svgLoader),
+    minimize: PainterProvider<DecoratedWindowState> = IntUiTitleBarIcons.minimize(svgLoader),
+    maximize: PainterProvider<DecoratedWindowState> = IntUiTitleBarIcons.maximize(svgLoader),
+    restore: PainterProvider<DecoratedWindowState> = IntUiTitleBarIcons.restore(svgLoader),
+    close: PainterProvider<DecoratedWindowState> = IntUiTitleBarIcons.close(svgLoader),
 ) = IntUiTitleBarIcons(minimize, maximize, restore, close)
 
 private class TitleBarResourcePathPatcher(
-    private val prefixTokensProvider: (state: TitleBarState) -> String = { "" },
-    private val suffixTokensProvider: (state: TitleBarState) -> String = { "" },
-) : SimpleResourcePathPatcher<TitleBarState>() {
+    private val prefixTokensProvider: (state: DecoratedWindowState) -> String = { "" },
+    private val suffixTokensProvider: (state: DecoratedWindowState) -> String = { "" },
+) : SimpleResourcePathPatcher<DecoratedWindowState>() {
 
-    @Composable override fun injectAdditionalTokens(extraData: TitleBarState?): String = buildString {
+    @Composable override fun injectAdditionalTokens(extraData: DecoratedWindowState?): String = buildString {
         if (extraData == null) return@buildString
 
         append(prefixTokensProvider(extraData))

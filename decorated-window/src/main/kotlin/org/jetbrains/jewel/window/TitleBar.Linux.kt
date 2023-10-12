@@ -29,7 +29,7 @@ import java.awt.event.WindowEvent
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
-    content: @Composable TitleBarScope.(TitleBarState) -> Unit,
+    content: @Composable TitleBarScope.(DecoratedWindowState) -> Unit,
 ) {
     TitleBarImpl(
         modifier.onPointerEvent(PointerEventType.Press, PointerEventPass.Main) {
@@ -67,7 +67,7 @@ import java.awt.event.WindowEvent
 
 @Composable private fun TitleBarScope.CloseButton(
     onClick: () -> Unit,
-    state: TitleBarState,
+    state: DecoratedWindowState,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
 ) {
     ControlButton(onClick, state, style.icons.closeButton, "Close", style, style.paneCloseButtonStyle())
@@ -75,8 +75,8 @@ import java.awt.event.WindowEvent
 
 @Composable private fun TitleBarScope.ControlButton(
     onClick: () -> Unit,
-    state: TitleBarState,
-    painterProvider: PainterProvider<TitleBarState>,
+    state: DecoratedWindowState,
+    painterProvider: PainterProvider<DecoratedWindowState>,
     description: String,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
     iconButtonStyle: IconButtonStyle = style.paneButtonStyle(),

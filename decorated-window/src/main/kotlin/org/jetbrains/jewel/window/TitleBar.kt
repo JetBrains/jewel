@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -43,7 +41,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import androidx.compose.ui.window.WindowPlacement
 import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.LocalContentColor
 import org.jetbrains.jewel.onBackground
@@ -66,7 +63,7 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
-    content: @Composable TitleBarScope.(TitleBarState) -> Unit,
+    content: @Composable TitleBarScope.(DecoratedWindowState) -> Unit,
 ) {
     when (DesktopPlatform.Current) {
         DesktopPlatform.Linux -> TitleBarOnLinux(modifier, gradientStartColor, style, content)
@@ -80,14 +77,12 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
-    applyTitleBar: (Dp, TitleBarState) -> PaddingValues,
-    content: @Composable TitleBarScope.(TitleBarState) -> Unit,
+    applyTitleBar: (Dp, DecoratedWindowState) -> PaddingValues,
+    content: @Composable TitleBarScope.(DecoratedWindowState) -> Unit,
 ) {
     val titleBarInfo = LocalTitleBarInfo.current
 
-    var titleBarState by remember { mutableStateOf(TitleBarState.of(window)) }
-
-    val background by style.colors.backgroundFor(titleBarState)
+    val background by style.colors.backgroundFor(state)
 
     val density = LocalDensity.current
 
@@ -107,36 +102,6 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
         }
     }
 
-    DisposableEffect(window) {
-        val adapter = object : WindowAdapter() {
-            override fun windowActivated(e: WindowEvent?) {
-                titleBarState = TitleBarState.of(window)
-            }
-
-            override fun windowDeactivated(e: WindowEvent?) {
-                titleBarState = TitleBarState.of(window)
-            }
-
-            override fun windowIconified(e: WindowEvent?) {
-                titleBarState = TitleBarState.of(window)
-            }
-
-            override fun windowDeiconified(e: WindowEvent?) {
-                titleBarState = TitleBarState.of(window)
-            }
-
-            override fun windowStateChanged(e: WindowEvent) {
-                titleBarState = TitleBarState.of(window)
-            }
-        }
-        window.addWindowListener(adapter)
-        window.addWindowStateListener(adapter)
-        onDispose {
-            window.removeWindowListener(adapter)
-            window.removeWindowStateListener(adapter)
-        }
-    }
-
     Layout(
         {
             CompositionLocalProvider(
@@ -145,18 +110,18 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
             ) {
                 onBackground(background) {
                     val scope = TitleBarScopeImpl(titleBarInfo.title, titleBarInfo.icon)
-                    scope.content(titleBarState)
+                    scope.content(state)
                 }
             }
         },
         modifier.background(backgroundBrush).layoutId(TITLE_BAR_LAYOUT_ID).height(style.metrics.height).onSizeChanged {
             with(density) {
-                applyTitleBar(it.height.toDp(), titleBarState)
+                applyTitleBar(it.height.toDp(), state)
             }
         }.fillMaxWidth(),
         measurePolicy = rememberTitleBarMeasurePolicy(
             LocalWindow.current,
-            titleBarState,
+            state,
             applyTitleBar,
         ),
     )
@@ -164,69 +129,10 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
     Spacer(Modifier.layoutId(TITLE_BAR_BORDER_LAYOUT_ID).height(1.dp).fillMaxWidth().background(style.colors.border))
 }
 
-@Immutable @JvmInline
-value class TitleBarState(val state: ULong) {
-
-    @Stable val isActive: Boolean
-        get() = state and Active != 0UL
-
-    @Stable val isFullscreen: Boolean
-        get() = state and Fullscreen != 0UL
-
-    @Stable val isMinimized: Boolean
-        get() = state and Minimize != 0UL
-
-    @Stable val isMaximized: Boolean
-        get() = state and Maximize != 0UL
-
-    fun copy(
-        fullscreen: Boolean = isFullscreen,
-        minimized: Boolean = isMinimized,
-        maximized: Boolean = isMaximized,
-        active: Boolean = isActive,
-    ) = of(
-        fullscreen = fullscreen,
-        minimized = minimized,
-        maximized = maximized,
-        active = active,
-    )
-
-    override fun toString() = "${javaClass.simpleName}(isFullscreen=$isFullscreen, isActive=$isActive)"
-
-    companion object {
-
-        val Active = 1UL shl 0
-        val Fullscreen = 1UL shl 1
-        val Minimize = 1UL shl 2
-        val Maximize = 1UL shl 3
-
-        fun of(
-            fullscreen: Boolean = false,
-            minimized: Boolean = false,
-            maximized: Boolean = false,
-            active: Boolean = true,
-        ) = TitleBarState(
-            state = (if (fullscreen) Fullscreen else 0UL) or
-                (if (minimized) Minimize else 0UL) or
-                (if (maximized) Maximize else 0UL) or
-                (if (active) Active else 0UL),
-        )
-
-        fun of(
-            window: ComposeWindow,
-        ) = of(
-            window.placement == WindowPlacement.Fullscreen,
-            window.isMinimized,
-            window.placement == WindowPlacement.Maximized,
-            window.isActive,
-        )
-    }
-}
-
 internal class TitleBarMeasurePolicy(
     private val window: Window,
-    private val state: TitleBarState,
-    private val applyTitleBar: (Dp, TitleBarState) -> PaddingValues,
+    private val state: DecoratedWindowState,
+    private val applyTitleBar: (Dp, DecoratedWindowState) -> PaddingValues,
 ) : MeasurePolicy {
 
     override fun MeasureScope.measure(measurables: List<Measurable>, constraints: Constraints): MeasureResult {
@@ -317,8 +223,8 @@ internal class TitleBarMeasurePolicy(
 
 @Composable internal fun rememberTitleBarMeasurePolicy(
     window: Window,
-    state: TitleBarState,
-    applyTitleBar: (Dp, TitleBarState) -> PaddingValues,
+    state: DecoratedWindowState,
+    applyTitleBar: (Dp, DecoratedWindowState) -> PaddingValues,
 ): MeasurePolicy {
     return remember(window, state, applyTitleBar) {
         TitleBarMeasurePolicy(

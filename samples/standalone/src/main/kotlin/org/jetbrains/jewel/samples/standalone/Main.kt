@@ -41,7 +41,7 @@ import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.VerticalScrollbar
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.rememberSvgLoader
-import org.jetbrains.jewel.intui.window.withTitleBar
+import org.jetbrains.jewel.intui.window.withDecoratedWindow
 import org.jetbrains.jewel.samples.standalone.components.Borders
 import org.jetbrains.jewel.samples.standalone.components.Buttons
 import org.jetbrains.jewel.samples.standalone.components.Checkboxes
@@ -64,31 +64,31 @@ import java.io.InputStream
 fun main() {
     val icon = svgResource("icons/jewel-logo.svg")
     application {
-        DecoratedWindow(
+        var isDark by remember { mutableStateOf(false) }
+        var lightHeaderInLight by remember { mutableStateOf(false) }
+        var swingCompat by remember { mutableStateOf(false) }
+        val theme = if (isDark) IntUiTheme.darkThemeDefinition() else IntUiTheme.lightThemeDefinition()
+        val projectColor by remember {
+            derivedStateOf {
+                if (isDark) {
+                    Color(0xFF654B40)
+                } else if (lightHeaderInLight) {
+                    Color(0xFFF5D4C1)
+                } else {
+                    Color(0xFF654B40)
+                }
+            }
+        }
+
+        IntUiTheme(theme.withDecoratedWindow(lightHeaderInLight), swingCompat) {
+            val resourceLoader = LocalResourceLoader.current
+            val svgLoader by rememberSvgLoader()
+
+            DecoratedWindow(
             onCloseRequest = { exitApplication() },
             title = "Jewel component catalog",
             icon = icon,
         ) {
-            var isDark by remember { mutableStateOf(false) }
-            var lightHeaderInLight by remember { mutableStateOf(false) }
-            var swingCompat by remember { mutableStateOf(false) }
-            val theme = if (isDark) IntUiTheme.darkThemeDefinition() else IntUiTheme.lightThemeDefinition()
-            val projectColor by remember {
-                derivedStateOf {
-                    if (isDark) {
-                        Color(0xFF654B40)
-                    } else if (lightHeaderInLight) {
-                        Color(0xFFF5D4C1)
-                    } else {
-                        Color(0xFF654B40)
-                    }
-                }
-            }
-
-            IntUiTheme(theme.withTitleBar(lightHeaderInLight), swingCompat) {
-                val resourceLoader = LocalResourceLoader.current
-                val svgLoader by rememberSvgLoader()
-
                 val windowBackground = if (isDark) {
                     IntUiTheme.colorPalette.grey(1)
                 } else {

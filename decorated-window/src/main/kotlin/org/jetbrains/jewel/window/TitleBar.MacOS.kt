@@ -61,7 +61,7 @@ private class NewFullscreenControlsNode(
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
-    content: @Composable TitleBarScope.(TitleBarState) -> Unit,
+    content: @Composable TitleBarScope.(DecoratedWindowState) -> Unit,
 ) {
     val newFullscreenControls = modifier.foldOut(false) { e, r ->
         if (e is NewFullscreenControlsElement) {
