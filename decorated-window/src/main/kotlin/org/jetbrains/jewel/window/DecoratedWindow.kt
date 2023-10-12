@@ -40,7 +40,6 @@ import java.awt.event.ComponentEvent
 import java.awt.event.ComponentListener
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import javax.swing.JFrame
 
 @Composable fun DecoratedWindow(
     onCloseRequest: () -> Unit,
@@ -60,8 +59,7 @@ import javax.swing.JFrame
     remember {
         if (!JBR.isAvailable()) {
             error(
-                "DecoratedWindow only can be used on JetBrainsRuntime(JBR) platform, " +
-                    "please check the document https://github.com/JetBrains/jewel#int-ui-standalone-theme",
+                "DecoratedWindow only can be used on JetBrainsRuntime(JBR) platform, " + "please check the document https://github.com/JetBrains/jewel#int-ui-standalone-theme",
             )
         }
     }
@@ -146,7 +144,6 @@ import javax.swing.JFrame
         }
 
         CompositionLocalProvider(
-            LocalWindow provides window,
             LocalTitleBarInfo provides TitleBarInfo(title, icon),
         ) {
             Layout({
@@ -213,8 +210,7 @@ private object DecoratedWindowMeasurePolicy : MeasurePolicy {
     }
 }
 
-@Immutable @JvmInline
-value class DecoratedWindowState(val state: ULong) {
+@Immutable @JvmInline value class DecoratedWindowState(val state: ULong) {
 
     @Stable val isActive: Boolean
         get() = state and Active != 0UL
@@ -255,10 +251,7 @@ value class DecoratedWindowState(val state: ULong) {
             maximized: Boolean = false,
             active: Boolean = true,
         ) = DecoratedWindowState(
-            state = (if (fullscreen) Fullscreen else 0UL) or
-                (if (minimized) Minimize else 0UL) or
-                (if (maximized) Maximize else 0UL) or
-                (if (active) Active else 0UL),
+            state = (if (fullscreen) Fullscreen else 0UL) or (if (minimized) Minimize else 0UL) or (if (maximized) Maximize else 0UL) or (if (active) Active else 0UL),
         )
 
         fun of(
@@ -279,8 +272,4 @@ internal data class TitleBarInfo(
 
 internal val LocalTitleBarInfo = compositionLocalOf<TitleBarInfo> {
     error("CompositionLocal LocalTitleBarInfo not provided, TitleBar must be used in DecoratedWindow")
-}
-
-val LocalWindow = compositionLocalOf<JFrame> {
-    error("CompositionLocal LocalWindow not provided")
 }

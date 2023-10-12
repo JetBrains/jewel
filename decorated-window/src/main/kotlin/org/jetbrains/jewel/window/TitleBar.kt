@@ -116,7 +116,7 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
             }
         }.fillMaxWidth(),
         measurePolicy = rememberTitleBarMeasurePolicy(
-            LocalWindow.current,
+            window,
             state,
             applyTitleBar,
         ),
