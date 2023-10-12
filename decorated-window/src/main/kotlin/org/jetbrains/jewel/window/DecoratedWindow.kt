@@ -59,7 +59,8 @@ import java.awt.event.WindowEvent
     remember {
         if (!JBR.isAvailable()) {
             error(
-                "DecoratedWindow only can be used on JetBrainsRuntime(JBR) platform, " + "please check the document https://github.com/JetBrains/jewel#int-ui-standalone-theme",
+                "DecoratedWindow only can be used on JetBrainsRuntime(JBR) platform, " +
+                    "please check the document https://github.com/JetBrains/jewel#int-ui-standalone-theme",
             )
         }
     }
@@ -251,7 +252,10 @@ private object DecoratedWindowMeasurePolicy : MeasurePolicy {
             maximized: Boolean = false,
             active: Boolean = true,
         ) = DecoratedWindowState(
-            state = (if (fullscreen) Fullscreen else 0UL) or (if (minimized) Minimize else 0UL) or (if (maximized) Maximize else 0UL) or (if (active) Active else 0UL),
+            state = (if (fullscreen) Fullscreen else 0UL) or
+                (if (minimized) Minimize else 0UL) or
+                (if (maximized) Maximize else 0UL) or
+                (if (active) Active else 0UL),
         )
 
         fun of(
