@@ -211,7 +211,8 @@ private object DecoratedWindowMeasurePolicy : MeasurePolicy {
     }
 }
 
-@Immutable @JvmInline value class DecoratedWindowState(val state: ULong) {
+@Immutable @JvmInline
+value class DecoratedWindowState(val state: ULong) {
 
     @Stable val isActive: Boolean
         get() = state and Active != 0UL
