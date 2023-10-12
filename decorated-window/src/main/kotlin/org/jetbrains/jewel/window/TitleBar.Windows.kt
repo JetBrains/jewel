@@ -20,7 +20,7 @@ import org.jetbrains.jewel.window.styling.TitleBarStyle
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
-    content: @Composable TitleBarScope.() -> Unit,
+    content: @Composable TitleBarScope.(TitleBarState) -> Unit,
 ) {
     val titleBar = remember { JBR.getWindowDecorations().createCustomTitleBar() }
 

@@ -44,17 +44,16 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import androidx.compose.ui.window.WindowPlacement
-import kotlinx.coroutines.isActive
 import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.LocalContentColor
+import org.jetbrains.jewel.onBackground
+import org.jetbrains.jewel.styling.LocalIconButtonStyle
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import org.jetbrains.jewel.window.utils.DesktopPlatform
 import org.jetbrains.jewel.window.utils.macos.MacUtil
 import java.awt.Window
-import java.awt.event.ComponentEvent
-import java.awt.event.ComponentListener
+import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import java.awt.event.WindowFocusListener
 import kotlin.math.max
 
 internal const val TITLE_BAR_COMPONENT_LAYOUT_ID_PREFIX = "__TITLE_BAR_"
@@ -67,7 +66,7 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
-    content: @Composable TitleBarScope.() -> Unit,
+    content: @Composable TitleBarScope.(TitleBarState) -> Unit,
 ) {
     when (DesktopPlatform.Current) {
         DesktopPlatform.Linux -> TitleBarOnLinux(modifier, gradientStartColor, style, content)
@@ -82,7 +81,7 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
     applyTitleBar: (Dp, TitleBarState) -> PaddingValues,
-    content: @Composable TitleBarScope.() -> Unit,
+    content: @Composable TitleBarScope.(TitleBarState) -> Unit,
 ) {
     val titleBarInfo = LocalTitleBarInfo.current
 
@@ -109,31 +108,32 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
     }
 
     DisposableEffect(window) {
-        val componentListener = object : ComponentListener {
-            override fun componentResized(e: ComponentEvent?) {
-                titleBarState = titleBarState.copy(fullscreen = window.placement == WindowPlacement.Fullscreen)
+        val adapter = object : WindowAdapter() {
+            override fun windowActivated(e: WindowEvent?) {
+                titleBarState = TitleBarState.of(window)
             }
 
-            override fun componentMoved(e: ComponentEvent?) = Unit
+            override fun windowDeactivated(e: WindowEvent?) {
+                titleBarState = TitleBarState.of(window)
+            }
 
-            override fun componentShown(e: ComponentEvent?) = Unit
+            override fun windowIconified(e: WindowEvent?) {
+                titleBarState = TitleBarState.of(window)
+            }
 
-            override fun componentHidden(e: ComponentEvent?) = Unit
+            override fun windowDeiconified(e: WindowEvent?) {
+                titleBarState = TitleBarState.of(window)
+            }
+
+            override fun windowStateChanged(e: WindowEvent) {
+                titleBarState = TitleBarState.of(window)
+            }
         }
-        val focusListener = object : WindowFocusListener {
-            override fun windowGainedFocus(e: WindowEvent?) {
-                titleBarState = titleBarState.copy(active = true)
-            }
-
-            override fun windowLostFocus(e: WindowEvent?) {
-                titleBarState = titleBarState.copy(active = false)
-            }
-        }
-        window.addComponentListener(componentListener)
-        window.addWindowFocusListener(focusListener)
+        window.addWindowListener(adapter)
+        window.addWindowStateListener(adapter)
         onDispose {
-            window.removeComponentListener(componentListener)
-            window.removeWindowFocusListener(focusListener)
+            window.removeWindowListener(adapter)
+            window.removeWindowStateListener(adapter)
         }
     }
 
@@ -141,9 +141,12 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
         {
             CompositionLocalProvider(
                 LocalContentColor provides style.colors.content,
+                LocalIconButtonStyle provides style.iconButtonStyle(),
             ) {
-                val scope = TitleBarScopeImpl(titleBarInfo.title, titleBarInfo.icon)
-                scope.content()
+                onBackground(background) {
+                    val scope = TitleBarScopeImpl(titleBarInfo.title, titleBarInfo.icon)
+                    scope.content(titleBarState)
+                }
             }
         },
         modifier.background(backgroundBrush).layoutId(TITLE_BAR_LAYOUT_ID).height(style.metrics.height).onSizeChanged {
@@ -170,11 +173,21 @@ value class TitleBarState(val state: ULong) {
     @Stable val isFullscreen: Boolean
         get() = state and Fullscreen != 0UL
 
+    @Stable val isMinimized: Boolean
+        get() = state and Minimize != 0UL
+
+    @Stable val isMaximized: Boolean
+        get() = state and Maximize != 0UL
+
     fun copy(
         fullscreen: Boolean = isFullscreen,
+        minimized: Boolean = isMinimized,
+        maximized: Boolean = isMaximized,
         active: Boolean = isActive,
     ) = of(
         fullscreen = fullscreen,
+        minimized = minimized,
+        maximized = maximized,
         active = active,
     )
 
@@ -184,17 +197,29 @@ value class TitleBarState(val state: ULong) {
 
         val Active = 1UL shl 0
         val Fullscreen = 1UL shl 1
+        val Minimize = 1UL shl 2
+        val Maximize = 1UL shl 3
 
         fun of(
             fullscreen: Boolean = false,
+            minimized: Boolean = false,
+            maximized: Boolean = false,
             active: Boolean = true,
         ) = TitleBarState(
-            state = (if (fullscreen) Fullscreen else 0UL) or (if (active) Active else 0UL),
+            state = (if (fullscreen) Fullscreen else 0UL) or
+                (if (minimized) Minimize else 0UL) or
+                (if (maximized) Maximize else 0UL) or
+                (if (active) Active else 0UL),
         )
 
         fun of(
             window: ComposeWindow,
-        ) = of(window.placement == WindowPlacement.Fullscreen, window.isActive)
+        ) = of(
+            window.placement == WindowPlacement.Fullscreen,
+            window.isMinimized,
+            window.placement == WindowPlacement.Maximized,
+            window.isActive,
+        )
     }
 }
 

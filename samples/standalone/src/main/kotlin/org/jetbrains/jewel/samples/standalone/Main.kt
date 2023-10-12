@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
@@ -31,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.application
 import org.jetbrains.jewel.CheckboxRow
 import org.jetbrains.jewel.Divider
+import org.jetbrains.jewel.Icon
+import org.jetbrains.jewel.IconButton
 import org.jetbrains.jewel.JewelSvgLoader
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.Orientation
@@ -52,6 +55,7 @@ import org.jetbrains.jewel.samples.standalone.components.Tabs
 import org.jetbrains.jewel.samples.standalone.components.TextAreas
 import org.jetbrains.jewel.samples.standalone.components.TextFields
 import org.jetbrains.jewel.samples.standalone.components.Tooltips
+import org.jetbrains.jewel.styling.ResourcePainterProvider
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.TitleBar
 import org.jetbrains.jewel.window.newFullscreenControls
@@ -94,7 +98,19 @@ fun main() {
                 TitleBar(Modifier.newFullscreenControls(), gradientStartColor = projectColor) {
                     Text("<- Left", Modifier.align(Alignment.Start))
                     Text(title)
-                    Text("Right ->", Modifier.align(Alignment.End))
+
+                    IconButton({}, Modifier.align(Alignment.End).size(40.dp).padding(5.dp)) {
+                        val iconProvider = remember { ResourcePainterProvider.stateless("icons/settings@20x20.svg", svgLoader) }
+                        Icon(iconProvider.getPainter(resourceLoader).value, "Settings")
+                    }
+                    IconButton({}, Modifier.align(Alignment.End).size(40.dp).padding(5.dp)) {
+                        val iconProvider = remember { ResourcePainterProvider.stateless("icons/search@20x20.svg", svgLoader) }
+                        Icon(iconProvider.getPainter(resourceLoader).value, "Search")
+                    }
+                    IconButton({}, Modifier.align(Alignment.End).size(40.dp).padding(5.dp)) {
+                        val iconProvider = remember { ResourcePainterProvider.stateless("icons/cwmAccess@20x20.svg", svgLoader) }
+                        Icon(iconProvider.getPainter(resourceLoader).value, "Code With Me")
+                    }
                 }
 
                 Column(Modifier.fillMaxSize().background(windowBackground)) {

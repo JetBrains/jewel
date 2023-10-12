@@ -61,7 +61,7 @@ private class NewFullscreenControlsNode(
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
-    content: @Composable TitleBarScope.() -> Unit,
+    content: @Composable TitleBarScope.(TitleBarState) -> Unit,
 ) {
     val newFullscreenControls = modifier.foldOut(false) { e, r ->
         if (e is NewFullscreenControlsElement) {
@@ -75,7 +75,7 @@ private class NewFullscreenControlsNode(
         System.setProperty("apple.awt.newFullScreeControls", true.toString())
         System.setProperty(
             "apple.awt.newFullScreeControls.background",
-            "${style.colors.buttonsBackground.toArgb()}",
+            "${style.colors.fullscreenControlButtonsBackground.toArgb()}",
         )
         MacUtil.updateColors(window)
     } else {

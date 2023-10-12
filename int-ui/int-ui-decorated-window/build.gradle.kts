@@ -6,5 +6,5 @@ plugins {
 
 dependencies {
     api(projects.decoratedWindow)
-    api(projects.intUi.intUiCore)
+    api(projects.intUi.intUiStandalone)
 }
