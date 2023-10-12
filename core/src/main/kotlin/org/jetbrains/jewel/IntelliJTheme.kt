@@ -258,7 +258,7 @@ fun onBackground(color: Color, content: @Composable () -> Unit) {
     val locals = if (color.isSpecified && color.alpha == 1f) {
         arrayOf(LocalOnDarkBackground provides color.isDark())
     } else {
-        arrayOf()
+        emptyArray()
     }
 
     CompositionLocalProvider(values = locals, content)
