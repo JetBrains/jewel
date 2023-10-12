@@ -60,7 +60,8 @@ import javax.swing.JFrame
     remember {
         if (!JBR.isAvailable()) {
             error(
-                "DecoratedWindow only can be used on JetBrainsRuntime(JBR) platform, please check the document https://github.com/JetBrains/jewel#int-ui-standalone-theme",
+                "DecoratedWindow only can be used on JetBrainsRuntime(JBR) platform, " +
+                    "please check the document https://github.com/JetBrains/jewel#int-ui-standalone-theme",
             )
         }
     }
@@ -112,12 +113,15 @@ import javax.swing.JFrame
                 }
 
                 override fun componentMoved(e: ComponentEvent?) {
+                    // Empty
                 }
 
                 override fun componentShown(e: ComponentEvent?) {
+                    // Empty
                 }
 
                 override fun componentHidden(e: ComponentEvent?) {
+                    // Empty
                 }
             }
             window.addWindowListener(adapter)

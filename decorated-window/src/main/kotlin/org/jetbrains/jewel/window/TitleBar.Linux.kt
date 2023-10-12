@@ -36,18 +36,16 @@ import java.awt.event.WindowEvent
     val viewConfig = LocalViewConfiguration.current
     TitleBarImpl(
         modifier.onPointerEvent(PointerEventType.Press, PointerEventPass.Main) {
-            if (this.currentEvent.button == PointerButton.Primary) {
-                if (this.currentEvent.changes.any { !it.isConsumed }) {
-                    JBR.getWindowMove()?.startMovingTogetherWithMouse(window, MouseEvent.BUTTON1)
-                    if (System.currentTimeMillis() - lastPress in viewConfig.doubleTapMinTimeMillis..viewConfig.doubleTapTimeoutMillis) {
-                        if (state.isMaximized) {
-                            window.extendedState = Frame.NORMAL
-                        } else {
-                            window.extendedState = Frame.MAXIMIZED_BOTH
-                        }
+            if (this.currentEvent.button == PointerButton.Primary && this.currentEvent.changes.any { !it.isConsumed }) {
+                JBR.getWindowMove()?.startMovingTogetherWithMouse(window, MouseEvent.BUTTON1)
+                if (System.currentTimeMillis() - lastPress in viewConfig.doubleTapMinTimeMillis..viewConfig.doubleTapTimeoutMillis) {
+                    if (state.isMaximized) {
+                        window.extendedState = Frame.NORMAL
+                    } else {
+                        window.extendedState = Frame.MAXIMIZED_BOTH
                     }
-                    lastPress = System.currentTimeMillis()
                 }
+                lastPress = System.currentTimeMillis()
             }
         },
         gradientStartColor,
