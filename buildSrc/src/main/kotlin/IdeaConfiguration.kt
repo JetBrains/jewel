@@ -19,7 +19,7 @@ fun Project.supportedIJVersion(): SupportedIJVersion {
             logger.warn(
                 """
                     No 'supported.ij.version' property provided. Falling back to IJ 233.
-                    It is recommended to provide it to avoid unexpected behavior.
+                    It is recommended to provide it using local.properties file or -Psupported.ij.version to avoid unexpected behavior.
                 """.trimIndent()
             )
         }
