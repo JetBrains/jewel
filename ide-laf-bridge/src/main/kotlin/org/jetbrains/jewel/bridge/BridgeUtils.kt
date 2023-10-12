@@ -53,7 +53,7 @@ fun java.awt.Color?.toComposeColorOrUnspecified() = this?.toComposeColor() ?: Co
 fun retrieveColorOrNull(key: String): Color? =
     try {
         JBColor.namedColor(key, marker("JEWEL_JBCOLOR_MARKER")).toComposeColor()
-    } catch (e: AssertionError) {
+    } catch (_: AssertionError) {
         // JBColor.marker will throw AssertionError on getRGB/any other color
         // for now there is no way to handle non-existing key.
         // The way should be introduced in platform
