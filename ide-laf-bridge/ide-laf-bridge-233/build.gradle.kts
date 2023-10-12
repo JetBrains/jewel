@@ -1,6 +1,6 @@
 plugins {
     jewel
-    `jewel-ij-publish`
+    `jewel-publish`
     alias(libs.plugins.composeDesktop)
 }
 
@@ -10,6 +10,6 @@ dependencies {
 }
 
 tasks.withType<AbstractPublishToMaven>().configureEach {
-    publication.artifactId = "jewel-ide-laf-bridge-platform-specific"
+    publication.artifactId = "jewel-ide-laf-bridge-ij-233"
     enabled = supportedIJVersion() == SupportedIJVersion.IJ_233
 }
