@@ -170,7 +170,7 @@ private fun TabStripWithAddButton(
                 .background(backgroundColor),
             contentAlignment = Alignment.Center,
         ) {
-            val addIconProvider = remember { ResourcePainterProvider.stateless("icons/intui/add.svg", svgLoader) }
+            val addIconProvider = remember { ResourcePainterProvider.stateless("expui/general/add.svg", svgLoader) }
             val addIcon by addIconProvider.getPainter(resourceLoader)
 
             Icon(addIcon, contentDescription = "Add a tab")
