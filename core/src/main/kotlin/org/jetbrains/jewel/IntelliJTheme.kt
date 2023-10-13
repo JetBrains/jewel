@@ -262,7 +262,7 @@ val LocalIconData = staticCompositionLocalOf<IntelliJThemeIconData> {
  */
 @Composable
 fun onBackground(color: Color, content: @Composable () -> Unit) {
-    val locals = if (color.isSpecified) {
+    val locals = if (color.isSpecified && color.alpha > 0) {
         arrayOf(LocalOnDarkBackground provides color.isDark())
     } else {
         emptyArray()

@@ -67,21 +67,22 @@ import java.net.URI
 fun main() {
     val icon = svgResource("icons/jewel-logo.svg")
     application {
-        var isDark by remember { mutableStateOf(false) }
-        var lightHeaderInLight by remember { mutableStateOf(false) }
+        // 0 for light
+        // 1 for light with light header
+        // 2 for dark
+        var intTheme by remember { mutableStateOf(IntUiThemes.Light) }
+
         var swingCompat by remember { mutableStateOf(false) }
-        val theme = if (isDark) IntUiTheme.darkThemeDefinition() else IntUiTheme.lightThemeDefinition()
+        val theme = if (intTheme.isDark()) IntUiTheme.darkThemeDefinition() else IntUiTheme.lightThemeDefinition()
         val projectColor by rememberUpdatedState(
-            if (isDark) {
-                Color(0xFF654B40)
-            } else if (lightHeaderInLight) {
+            if (intTheme.isLightHeader()) {
                 Color(0xFFF5D4C1)
             } else {
                 Color(0xFF654B40)
-            },
+            }
         )
 
-        IntUiTheme(theme.withDecoratedWindow(lightHeaderInLight), swingCompat) {
+        IntUiTheme(theme.withDecoratedWindow(intTheme.isLightHeader()), swingCompat) {
             val resourceLoader = LocalResourceLoader.current
             val svgLoader by rememberSvgLoader()
 
@@ -90,30 +91,38 @@ fun main() {
                 title = "Jewel component catalog",
                 icon = icon,
             ) {
-                val windowBackground = if (isDark) {
+                val windowBackground = if (intTheme.isDark()) {
                     IntUiTheme.colorPalette.grey(1)
                 } else {
                     IntUiTheme.colorPalette.grey(14)
                 }
                 TitleBar(Modifier.newFullscreenControls(), gradientStartColor = projectColor) {
-                    Text("<- Left", Modifier.align(Alignment.Start))
+                    val jewelLogoProvider = rememberStatelessPainterProvider("icons/jewel-logo.svg", svgLoader)
+                    val jewelLogo by jewelLogoProvider.getPainter(resourceLoader)
+
+                    Icon(jewelLogo, "Jewel Logo", Modifier.size(20.dp).align(Alignment.Start))
+
                     Text(title)
 
                     Tooltip({
-                        if (isDark) {
-                            Text("Switch to light theme")
-                        } else {
-                            Text("Switch to dark theme")
+                        when (intTheme) {
+                            IntUiThemes.Light -> Text("Switch to light theme with light header")
+                            IntUiThemes.LightWithLightHeader -> Text("Switch to dark theme")
+                            IntUiThemes.Dark -> Text("Switch to light theme")
                         }
                     }, Modifier.align(Alignment.End)) {
                         IconButton({
-                            isDark = !isDark
+                            intTheme = when (intTheme) {
+                                IntUiThemes.Light -> IntUiThemes.LightWithLightHeader
+                                IntUiThemes.LightWithLightHeader -> IntUiThemes.Dark
+                                IntUiThemes.Dark -> IntUiThemes.Light
+                            }
                         }, Modifier.size(40.dp).padding(5.dp)) {
                             val lightThemeIcon =
                                 rememberStatelessPainterProvider("icons/lightTheme@20x20.svg", svgLoader)
                             val darkThemeIcon = rememberStatelessPainterProvider("icons/darkTheme@20x20.svg", svgLoader)
 
-                            val iconProvider = if (isDark) darkThemeIcon else lightThemeIcon
+                            val iconProvider = if (intTheme.isDark()) darkThemeIcon else lightThemeIcon
                             Icon(iconProvider.getPainter(resourceLoader).value, "Themes")
                         }
                     }
@@ -136,15 +145,6 @@ fun main() {
                         horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        CheckboxRow("Dark", isDark, resourceLoader, { isDark = it })
-                        if (!isDark) {
-                            CheckboxRow(
-                                "Light Header",
-                                lightHeaderInLight,
-                                resourceLoader,
-                                { lightHeaderInLight = it },
-                            )
-                        }
                         CheckboxRow("Swing compat", swingCompat, resourceLoader, { swingCompat = it })
                     }
 
