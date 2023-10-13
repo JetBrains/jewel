@@ -9,7 +9,7 @@ interface IconMapper {
 
 object IntelliJIconMapper : IconMapper {
 
-    private const val VERBOSE = true
+    private const val VERBOSE = false
 
     override fun mapPath(
         originalPath: String,
