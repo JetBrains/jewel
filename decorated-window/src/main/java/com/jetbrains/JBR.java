@@ -48,6 +48,7 @@ import java.lang.reflect.InvocationTargetException;
  *     planB();
  * }
  * }</pre></blockquote>
+ *
  * @implNote JBR API is initialized on first access to this class (in static initializer).
  * Actual implementation is linked on demand, when corresponding service is requested by client.
  */
@@ -55,6 +56,7 @@ public class JBR {
 
     private static final ServiceApi api;
     private static final Exception bootstrapException;
+
     static {
         ServiceApi a = null;
         Exception exception = null;
@@ -73,7 +75,8 @@ public class JBR {
         bootstrapException = exception;
     }
 
-    private JBR() {}
+    private JBR() {
+    }
 
     private static <T> T getService(Class<T> interFace, FallbackSupplier<T> fallback) {
         T service = getService(interFace);
@@ -129,33 +132,10 @@ public class JBR {
 
     // ======================= Generated static methods =======================
 
-    private static class ExtendedGlyphCache__Holder {
-    @Deprecated(forRemoval=true)
-    @SuppressWarnings("removal")
-        private static final ExtendedGlyphCache INSTANCE = getService(ExtendedGlyphCache.class, null);
-    }
-    /**
-     * @return true if current runtime has implementation for all methods in {@link ExtendedGlyphCache}
-     * and its dependencies (can fully implement given service).
-     * @see #getExtendedGlyphCache()
-     */
-    @Deprecated(forRemoval=true)
-    @SuppressWarnings("removal")
-    public static boolean isExtendedGlyphCacheSupported() {
-        return ExtendedGlyphCache__Holder.INSTANCE != null;
-    }
-    /**
-     * @return full implementation of {@link ExtendedGlyphCache} service if any, or {@code null} otherwise
-     */
-    @Deprecated(forRemoval=true)
-    @SuppressWarnings("removal")
-    public static ExtendedGlyphCache getExtendedGlyphCache() {
-        return ExtendedGlyphCache__Holder.INSTANCE;
-    }
-
     private static class DesktopActions__Holder {
         private static final DesktopActions INSTANCE = getService(DesktopActions.class, null);
     }
+
     /**
      * @return true if current runtime has implementation for all methods in {@link DesktopActions}
      * and its dependencies (can fully implement given service).
@@ -164,6 +144,7 @@ public class JBR {
     public static boolean isDesktopActionsSupported() {
         return DesktopActions__Holder.INSTANCE != null;
     }
+
     /**
      * @return full implementation of {@link DesktopActions} service if any, or {@code null} otherwise
      */
@@ -171,70 +152,10 @@ public class JBR {
         return DesktopActions__Holder.INSTANCE;
     }
 
-    private static class CustomWindowDecoration__Holder {
-    @Deprecated
-        private static final CustomWindowDecoration INSTANCE = getService(CustomWindowDecoration.class, CustomWindowDecoration.__Fallback::new);
-    }
-    /**
-     * @return true if current runtime has implementation for all methods in {@link CustomWindowDecoration}
-     * and its dependencies (can fully implement given service).
-     * @see #getCustomWindowDecoration()
-     */
-    @Deprecated
-    public static boolean isCustomWindowDecorationSupported() {
-        return CustomWindowDecoration__Holder.INSTANCE != null;
-    }
-    /**
-     * Custom window decoration allows merging of window content with native title bar,
-     * which is usually done by treating title bar as part of client area, but with some
-     * special behavior like dragging or maximizing on double click.
-     * @implNote Behavior is platform-dependent, only macOS and Windows are supported.
-     * @return full implementation of {@link CustomWindowDecoration} service if any, or {@code null} otherwise
-     */
-    @Deprecated
-    public static CustomWindowDecoration getCustomWindowDecoration() {
-        return CustomWindowDecoration__Holder.INSTANCE;
-    }
-
-    private static class ProjectorUtils__Holder {
-        private static final ProjectorUtils INSTANCE = getService(ProjectorUtils.class, null);
-    }
-    /**
-     * @return true if current runtime has implementation for all methods in {@link ProjectorUtils}
-     * and its dependencies (can fully implement given service).
-     * @see #getProjectorUtils()
-     */
-    public static boolean isProjectorUtilsSupported() {
-        return ProjectorUtils__Holder.INSTANCE != null;
-    }
-    /**
-     * @return full implementation of {@link ProjectorUtils} service if any, or {@code null} otherwise
-     */
-    public static ProjectorUtils getProjectorUtils() {
-        return ProjectorUtils__Holder.INSTANCE;
-    }
-
-    private static class FontExtensions__Holder {
-        private static final FontExtensions INSTANCE = getService(FontExtensions.class, null);
-    }
-    /**
-     * @return true if current runtime has implementation for all methods in {@link FontExtensions}
-     * and its dependencies (can fully implement given service).
-     * @see #getFontExtensions()
-     */
-    public static boolean isFontExtensionsSupported() {
-        return FontExtensions__Holder.INSTANCE != null;
-    }
-    /**
-     * @return full implementation of {@link FontExtensions} service if any, or {@code null} otherwise
-     */
-    public static FontExtensions getFontExtensions() {
-        return FontExtensions__Holder.INSTANCE;
-    }
-
     private static class RoundedCornersManager__Holder {
         private static final RoundedCornersManager INSTANCE = getService(RoundedCornersManager.class, null);
     }
+
     /**
      * @return true if current runtime has implementation for all methods in {@link RoundedCornersManager}
      * and its dependencies (can fully implement given service).
@@ -243,36 +164,21 @@ public class JBR {
     public static boolean isRoundedCornersManagerSupported() {
         return RoundedCornersManager__Holder.INSTANCE != null;
     }
+
     /**
      * This manager allows decorate awt Window with rounded corners.
      * Appearance depends from operating system.
+     *
      * @return full implementation of {@link RoundedCornersManager} service if any, or {@code null} otherwise
      */
     public static RoundedCornersManager getRoundedCornersManager() {
         return RoundedCornersManager__Holder.INSTANCE;
     }
 
-    private static class GraphicsUtils__Holder {
-        private static final GraphicsUtils INSTANCE = getService(GraphicsUtils.class, null);
-    }
-    /**
-     * @return true if current runtime has implementation for all methods in {@link GraphicsUtils}
-     * and its dependencies (can fully implement given service).
-     * @see #getGraphicsUtils()
-     */
-    public static boolean isGraphicsUtilsSupported() {
-        return GraphicsUtils__Holder.INSTANCE != null;
-    }
-    /**
-     * @return full implementation of {@link GraphicsUtils} service if any, or {@code null} otherwise
-     */
-    public static GraphicsUtils getGraphicsUtils() {
-        return GraphicsUtils__Holder.INSTANCE;
-    }
-
     private static class WindowDecorations__Holder {
         private static final WindowDecorations INSTANCE = getService(WindowDecorations.class, null);
     }
+
     /**
      * @return true if current runtime has implementation for all methods in {@link WindowDecorations}
      * and its dependencies (can fully implement given service).
@@ -281,56 +187,21 @@ public class JBR {
     public static boolean isWindowDecorationsSupported() {
         return WindowDecorations__Holder.INSTANCE != null;
     }
+
     /**
      * Window decorations consist of title bar, window controls and border.
-     * @see WindowDecorations.CustomTitleBar
+     *
      * @return full implementation of {@link WindowDecorations} service if any, or {@code null} otherwise
+     * @see WindowDecorations.CustomTitleBar
      */
     public static WindowDecorations getWindowDecorations() {
         return WindowDecorations__Holder.INSTANCE;
     }
 
-    private static class AccessibleAnnouncer__Holder {
-        private static final AccessibleAnnouncer INSTANCE = getService(AccessibleAnnouncer.class, null);
-    }
-    /**
-     * @return true if current runtime has implementation for all methods in {@link AccessibleAnnouncer}
-     * and its dependencies (can fully implement given service).
-     * @see #getAccessibleAnnouncer()
-     */
-    public static boolean isAccessibleAnnouncerSupported() {
-        return AccessibleAnnouncer__Holder.INSTANCE != null;
-    }
-    /**
-     * This interface provides the ability to speak a given string using screen readers.
-     *
-     * @return full implementation of {@link AccessibleAnnouncer} service if any, or {@code null} otherwise
-     */
-    public static AccessibleAnnouncer getAccessibleAnnouncer() {
-        return AccessibleAnnouncer__Holder.INSTANCE;
-    }
-
-    private static class Jstack__Holder {
-        private static final Jstack INSTANCE = getService(Jstack.class, null);
-    }
-    /**
-     * @return true if current runtime has implementation for all methods in {@link Jstack}
-     * and its dependencies (can fully implement given service).
-     * @see #getJstack()
-     */
-    public static boolean isJstackSupported() {
-        return Jstack__Holder.INSTANCE != null;
-    }
-    /**
-     * @return full implementation of {@link Jstack} service if any, or {@code null} otherwise
-     */
-    public static Jstack getJstack() {
-        return Jstack__Holder.INSTANCE;
-    }
-
     private static class WindowMove__Holder {
         private static final WindowMove INSTANCE = getService(WindowMove.class, null);
     }
+
     /**
      * @return true if current runtime has implementation for all methods in {@link WindowMove}
      * and its dependencies (can fully implement given service).
@@ -339,6 +210,7 @@ public class JBR {
     public static boolean isWindowMoveSupported() {
         return WindowMove__Holder.INSTANCE != null;
     }
+
     /**
      * @return full implementation of {@link WindowMove} service if any, or {@code null} otherwise
      */
