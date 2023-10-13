@@ -1,7 +1,6 @@
 package org.jetbrains.jewel.bridge
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.ResourceLoader
+import org.jetbrains.jewel.IconMapper
 import org.jetbrains.jewel.IntelliJThemeIconData
 import org.jetbrains.jewel.InteractiveComponentState
 import org.jetbrains.jewel.InternalJewelApi
@@ -15,21 +14,10 @@ import org.jetbrains.jewel.styling.StatefulResourcePathPatcher
 internal class BridgeResourcePainterProvider<T> @InternalJewelApi constructor(
     basePath: String,
     svgLoader: SvgLoader,
-    private val pathPatcher: ResourcePathPatcher<T>,
-    private val iconMapper: IconMapper,
-    private val iconData: IntelliJThemeIconData,
-) : ResourcePainterProvider<T>(basePath, svgLoader, pathPatcher) {
-
-    @Composable
-    override fun patchPath(
-        basePath: String,
-        resourceLoader: ResourceLoader,
-        extraData: T?,
-    ): String {
-        val patched = pathPatcher.patchVariant(basePath, resourceLoader, extraData)
-        val override = iconMapper.mapPath(patched, iconData, resourceLoader)
-        return pathPatcher.patchTheme(override, resourceLoader)
-    }
+    pathPatcher: ResourcePathPatcher<T>,
+    iconMapper: IconMapper,
+    iconData: IntelliJThemeIconData,
+) : ResourcePainterProvider<T>(basePath, svgLoader, iconMapper, iconData, pathPatcher) {
 
     companion object Factory {
 

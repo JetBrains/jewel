@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.CheckboxState
+import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
@@ -104,19 +105,22 @@ import org.jetbrains.jewel.styling.StatefulResourcePathPatcher
 
     companion object {
 
+        @Composable
         fun checkbox(
             svgLoader: SvgLoader,
             basePath: String = "com/intellij/ide/ui/laf/icons/intellij/checkBox.svg",
         ): PainterProvider<CheckboxState> = ResourcePainterProvider.stateful(
             basePath,
             svgLoader,
+            LocalIconData.current,
             pathPatcher = StatefulResourcePathPatcher(
                 prefixTokensProvider = { state: CheckboxState ->
                     if (state.toggleableState == ToggleableState.Indeterminate) "Indeterminate" else ""
                 },
-            ),
+            )
         )
 
+        @Composable
         fun light(
             svgLoader: SvgLoader,
             checkbox: PainterProvider<CheckboxState> = checkbox(
@@ -125,6 +129,7 @@ import org.jetbrains.jewel.styling.StatefulResourcePathPatcher
             ),
         ) = IntUiCheckboxIcons(checkbox)
 
+        @Composable
         fun dark(
             svgLoader: SvgLoader,
             checkbox: PainterProvider<CheckboxState> = checkbox(

@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.MenuItemState
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
@@ -214,7 +215,7 @@ data class IntUiMenuIcons(
             svgLoader: SvgLoader,
             basePath: String = "expui/general/chevronRight.svg",
         ): PainterProvider<MenuItemState> =
-            ResourcePainterProvider.stateful(basePath, svgLoader)
+            ResourcePainterProvider.stateful(basePath, svgLoader, LocalIconData.current)
     }
 }
 

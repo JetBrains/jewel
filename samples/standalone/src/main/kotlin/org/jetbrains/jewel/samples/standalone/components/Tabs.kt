@@ -28,13 +28,14 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.Icon
 import org.jetbrains.jewel.IntelliJTheme
+import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.NoIndication
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.TabData
 import org.jetbrains.jewel.TabStrip
 import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
-import org.jetbrains.jewel.styling.ResourcePainterProvider
+import org.jetbrains.jewel.styling.rememberStatelessPainterProvider
 import kotlin.math.max
 
 @Composable
@@ -170,7 +171,7 @@ private fun TabStripWithAddButton(
                 .background(backgroundColor),
             contentAlignment = Alignment.Center,
         ) {
-            val addIconProvider = remember { ResourcePainterProvider.stateless("expui/general/add.svg", svgLoader) }
+            val addIconProvider = rememberStatelessPainterProvider("expui/general/add.svg", svgLoader)
             val addIcon by addIconProvider.getPainter(resourceLoader)
 
             Icon(addIcon, contentDescription = "Add a tab")
