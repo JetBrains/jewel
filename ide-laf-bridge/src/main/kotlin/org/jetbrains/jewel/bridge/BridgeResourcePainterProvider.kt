@@ -15,7 +15,7 @@ import org.jetbrains.jewel.styling.StatefulResourcePathPatcher
 internal class BridgeResourcePainterProvider<T> @InternalJewelApi constructor(
     basePath: String,
     svgLoader: SvgLoader,
-    pathPatcher: ResourcePathPatcher<T>,
+    private val pathPatcher: ResourcePathPatcher<T>,
     private val iconMapper: IconMapper,
     private val iconData: IntelliJThemeIconData,
 ) : ResourcePainterProvider<T>(basePath, svgLoader, pathPatcher) {
@@ -26,8 +26,9 @@ internal class BridgeResourcePainterProvider<T> @InternalJewelApi constructor(
         resourceLoader: ResourceLoader,
         extraData: T?,
     ): String {
-        val patchedPath = super.patchPath(basePath, resourceLoader, extraData)
-        return iconMapper.mapPath(patchedPath, iconData, resourceLoader)
+        val patched = pathPatcher.patchVariant(basePath, resourceLoader, extraData)
+        val override = iconMapper.mapPath(patched, iconData, resourceLoader)
+        return pathPatcher.patchTheme(override, resourceLoader)
     }
 
     companion object Factory {

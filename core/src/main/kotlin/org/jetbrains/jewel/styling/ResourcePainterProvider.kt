@@ -36,8 +36,10 @@ open class ResourcePainterProvider<T> @InternalJewelApi constructor(
         basePath: String,
         resourceLoader: ResourceLoader,
         extraData: T?,
-    ): String =
-        pathPatcher.patchPath(basePath, resourceLoader, extraData)
+    ): String {
+        val patched = pathPatcher.patchVariant(basePath, resourceLoader, extraData)
+        return pathPatcher.patchTheme(patched, resourceLoader)
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
