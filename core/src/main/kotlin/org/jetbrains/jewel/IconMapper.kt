@@ -9,7 +9,7 @@ interface IconMapper {
 
 object IntelliJIconMapper : IconMapper {
 
-    private val verbose = true
+    private const val VERBOSE = true
 
     override fun mapPath(
         originalPath: String,
@@ -19,8 +19,8 @@ object IntelliJIconMapper : IconMapper {
         val normalized = "/${originalPath.trimStart('/')}"
         val overriddenPath = iconData.iconOverrides[normalized] ?: normalized
 
-        if (overriddenPath != normalized) {
-            if (verbose) println("Found theme icon override: '$originalPath' -> '$overriddenPath'")
+        if (overriddenPath != normalized && VERBOSE) {
+            println("Found theme icon override: '$originalPath' -> '$overriddenPath'")
         }
 
         return overriddenPath
