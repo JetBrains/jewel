@@ -10,7 +10,7 @@ import org.jetbrains.jewel.IntelliJThemeDefinition
 import org.jetbrains.jewel.IntelliJThemeIconData
 
 @Immutable
-data class IntUiThemeDefinition(
+class IntUiThemeDefinition(
     override val isDark: Boolean,
     override val globalColors: GlobalColors,
     override val colorPalette: IntUiThemeColorPalette,
@@ -23,6 +23,26 @@ data class IntUiThemeDefinition(
 
     override fun withExtensions(vararg extensions: ProvidedValue<*>): IntUiThemeDefinition =
         copy(extensionStyles = extensionStyles + extensions)
+
+    fun copy(
+        isDark: Boolean = this.isDark,
+        globalColors: GlobalColors = this.globalColors,
+        colorPalette: IntUiThemeColorPalette = this.colorPalette,
+        iconData: IntelliJThemeIconData = this.iconData,
+        globalMetrics: GlobalMetrics = this.globalMetrics,
+        defaultTextStyle: TextStyle = this.defaultTextStyle,
+        contentColor: Color = this.contentColor,
+        extensionStyles: Array<ProvidedValue<*>> = this.extensionStyles,
+    ): IntUiThemeDefinition = IntUiThemeDefinition(
+        isDark = isDark,
+        globalColors = globalColors,
+        colorPalette = colorPalette,
+        iconData = iconData,
+        globalMetrics = globalMetrics,
+        defaultTextStyle = defaultTextStyle,
+        contentColor = contentColor,
+        extensionStyles = extensionStyles,
+    )
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

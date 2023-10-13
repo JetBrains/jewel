@@ -39,12 +39,12 @@ class IntUiDecoratedWindowStyle(
 
         @Composable fun light(
             colors: IntUiDecoratedWindowColors = IntUiDecoratedWindowColors.light(),
-            metrics: IntUiDecoratedWindowMetrics = IntUiDecoratedWindowMetrics(1.dp),
+            metrics: IntUiDecoratedWindowMetrics = IntUiDecoratedWindowMetrics(),
         ): IntUiDecoratedWindowStyle = IntUiDecoratedWindowStyle(colors, metrics)
 
         @Composable fun dark(
             colors: IntUiDecoratedWindowColors = IntUiDecoratedWindowColors.dark(),
-            metrics: IntUiDecoratedWindowMetrics = IntUiDecoratedWindowMetrics(1.dp),
+            metrics: IntUiDecoratedWindowMetrics = IntUiDecoratedWindowMetrics(),
         ): IntUiDecoratedWindowStyle = IntUiDecoratedWindowStyle(colors, metrics)
     }
 }
@@ -100,7 +100,7 @@ class IntUiDecoratedWindowColors(
 
 @Stable
 class IntUiDecoratedWindowMetrics(
-    override val borderWidth: Dp,
+    override val borderWidth: Dp = 1.dp,
 ) : DecoratedWindowMetrics {
 
     override fun toString(): String = "IntUiDecoratedWindowMetrics(borderWidth=$borderWidth)"
