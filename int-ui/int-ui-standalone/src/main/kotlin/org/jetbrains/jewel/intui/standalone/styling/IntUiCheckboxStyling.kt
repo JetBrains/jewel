@@ -117,7 +117,7 @@ import org.jetbrains.jewel.styling.StatefulResourcePathPatcher
                 prefixTokensProvider = { state: CheckboxState ->
                     if (state.toggleableState == ToggleableState.Indeterminate) "Indeterminate" else ""
                 },
-            )
+            ),
         )
 
         @Composable

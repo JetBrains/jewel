@@ -14,7 +14,6 @@ import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.Icon
 import org.jetbrains.jewel.IconButton
 import org.jetbrains.jewel.JewelSvgLoader
-import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.OutlinedButton
 import org.jetbrains.jewel.Text
 import org.jetbrains.jewel.styling.rememberStatelessPainterProvider

@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.Icon
 import org.jetbrains.jewel.IntelliJTheme
-import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.NoIndication
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.TabData

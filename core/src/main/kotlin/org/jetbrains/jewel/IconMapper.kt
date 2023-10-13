@@ -1,8 +1,6 @@
 package org.jetbrains.jewel
 
 import androidx.compose.ui.res.ResourceLoader
-import java.util.logging.Level
-import java.util.logging.Logger
 
 interface IconMapper {
 

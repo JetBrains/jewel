@@ -61,7 +61,6 @@ open class ResourcePainterProvider<T> @InternalJewelApi constructor(
         if (iconData != other.iconData) return false
         if (pathPatcher != other.pathPatcher) return false
 
-
         return true
     }
 
@@ -86,14 +85,14 @@ open class ResourcePainterProvider<T> @InternalJewelApi constructor(
                 svgLoader,
                 IntelliJIconMapper,
                 iconData,
-                SimpleResourcePathPatcher()
+                SimpleResourcePathPatcher(),
             )
 
         fun <T : InteractiveComponentState> stateful(
             basePath: String,
             svgLoader: SvgLoader,
             iconData: IntelliJThemeIconData,
-            pathPatcher: ResourcePathPatcher<T> = StatefulResourcePathPatcher()
+            pathPatcher: ResourcePathPatcher<T> = StatefulResourcePathPatcher(),
         ) =
             ResourcePainterProvider(basePath, svgLoader, IntelliJIconMapper, iconData, pathPatcher)
     }
@@ -103,7 +102,7 @@ open class ResourcePainterProvider<T> @InternalJewelApi constructor(
 fun rememberStatelessPainterProvider(
     basePath: String,
     svgLoader: SvgLoader,
-    iconData: IntelliJThemeIconData = LocalIconData.current
+    iconData: IntelliJThemeIconData = LocalIconData.current,
 ): ResourcePainterProvider<Unit> = remember(basePath, iconData) {
     ResourcePainterProvider.stateless(basePath, svgLoader, iconData)
 }
@@ -113,7 +112,7 @@ fun <T : InteractiveComponentState> rememberStatefulPainterProvider(
     basePath: String,
     svgLoader: SvgLoader,
     pathPatcher: ResourcePathPatcher<T> = StatefulResourcePathPatcher(),
-    iconData: IntelliJThemeIconData = LocalIconData.current
+    iconData: IntelliJThemeIconData = LocalIconData.current,
 ): ResourcePainterProvider<T> = remember(basePath, iconData, pathPatcher) {
     ResourcePainterProvider.stateful(basePath, svgLoader, iconData, pathPatcher)
 }
