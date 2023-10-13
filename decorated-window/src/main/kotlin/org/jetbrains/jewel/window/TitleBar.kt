@@ -36,7 +36,6 @@ import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import org.jetbrains.jewel.IntelliJTheme
@@ -159,8 +158,8 @@ internal class TitleBarMeasurePolicy(
 
         val contentPadding = applyTitleBar(boxHeight.toDp(), state)
 
-        val leftInset = contentPadding.calculateLeftPadding(LayoutDirection.Ltr).roundToPx()
-        val rightInset = contentPadding.calculateRightPadding(LayoutDirection.Ltr).roundToPx()
+        val leftInset = contentPadding.calculateLeftPadding(layoutDirection).roundToPx()
+        val rightInset = contentPadding.calculateRightPadding(layoutDirection).roundToPx()
 
         occupiedSpaceHorizontally += leftInset
         occupiedSpaceHorizontally += rightInset

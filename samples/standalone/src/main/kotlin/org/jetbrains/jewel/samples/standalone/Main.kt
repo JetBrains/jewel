@@ -16,10 +16,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +38,7 @@ import org.jetbrains.jewel.JewelSvgLoader
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.Orientation
 import org.jetbrains.jewel.Text
+import org.jetbrains.jewel.Tooltip
 import org.jetbrains.jewel.VerticalScrollbar
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.rememberSvgLoader
@@ -55,11 +56,13 @@ import org.jetbrains.jewel.samples.standalone.components.Tabs
 import org.jetbrains.jewel.samples.standalone.components.TextAreas
 import org.jetbrains.jewel.samples.standalone.components.TextFields
 import org.jetbrains.jewel.samples.standalone.components.Tooltips
-import org.jetbrains.jewel.styling.ResourcePainterProvider
+import org.jetbrains.jewel.styling.rememberStatelessPainterProvider
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.TitleBar
 import org.jetbrains.jewel.window.newFullscreenControls
+import java.awt.Desktop
 import java.io.InputStream
+import java.net.URI
 
 fun main() {
     val icon = svgResource("icons/jewel-logo.svg")
@@ -68,17 +71,15 @@ fun main() {
         var lightHeaderInLight by remember { mutableStateOf(false) }
         var swingCompat by remember { mutableStateOf(false) }
         val theme = if (isDark) IntUiTheme.darkThemeDefinition() else IntUiTheme.lightThemeDefinition()
-        val projectColor by remember {
-            derivedStateOf {
-                if (isDark) {
-                    Color(0xFF654B40)
-                } else if (lightHeaderInLight) {
-                    Color(0xFFF5D4C1)
-                } else {
-                    Color(0xFF654B40)
-                }
-            }
-        }
+        val projectColor by rememberUpdatedState(
+            if (isDark) {
+                Color(0xFF654B40)
+            } else if (lightHeaderInLight) {
+                Color(0xFFF5D4C1)
+            } else {
+                Color(0xFF654B40)
+            },
+        )
 
         IntUiTheme(theme.withDecoratedWindow(lightHeaderInLight), swingCompat) {
             val resourceLoader = LocalResourceLoader.current
@@ -94,22 +95,38 @@ fun main() {
                 } else {
                     IntUiTheme.colorPalette.grey(14)
                 }
-
                 TitleBar(Modifier.newFullscreenControls(), gradientStartColor = projectColor) {
                     Text("<- Left", Modifier.align(Alignment.Start))
                     Text(title)
 
-                    IconButton({}, Modifier.align(Alignment.End).size(40.dp).padding(5.dp)) {
-                        val iconProvider = remember { ResourcePainterProvider.stateless("icons/settings@20x20.svg", svgLoader) }
-                        Icon(iconProvider.getPainter(resourceLoader).value, "Settings")
+                    Tooltip({
+                        if (isDark) {
+                            Text("Switch to light theme")
+                        } else {
+                            Text("Switch to dark theme")
+                        }
+                    }, Modifier.align(Alignment.End)) {
+                        IconButton({
+                            isDark = !isDark
+                        }, Modifier.size(40.dp).padding(5.dp)) {
+                            val lightThemeIcon =
+                                rememberStatelessPainterProvider("icons/lightTheme@20x20.svg", svgLoader)
+                            val darkThemeIcon = rememberStatelessPainterProvider("icons/darkTheme@20x20.svg", svgLoader)
+
+                            val iconProvider = if (isDark) darkThemeIcon else lightThemeIcon
+                            Icon(iconProvider.getPainter(resourceLoader).value, "Themes")
+                        }
                     }
-                    IconButton({}, Modifier.align(Alignment.End).size(40.dp).padding(5.dp)) {
-                        val iconProvider = remember { ResourcePainterProvider.stateless("icons/search@20x20.svg", svgLoader) }
-                        Icon(iconProvider.getPainter(resourceLoader).value, "Search")
-                    }
-                    IconButton({}, Modifier.align(Alignment.End).size(40.dp).padding(5.dp)) {
-                        val iconProvider = remember { ResourcePainterProvider.stateless("icons/cwmAccess@20x20.svg", svgLoader) }
-                        Icon(iconProvider.getPainter(resourceLoader).value, "Code With Me")
+
+                    Tooltip({
+                        Text("Open Jewel Github repository")
+                    }, Modifier.align(Alignment.End)) {
+                        IconButton({
+                            Desktop.getDesktop().browse(URI.create("https://github.com/JetBrains/jewel"))
+                        }, Modifier.size(40.dp).padding(5.dp)) {
+                            val iconProvider = rememberStatelessPainterProvider("icons/github@20x20.svg", svgLoader)
+                            Icon(iconProvider.getPainter(resourceLoader).value, "Github")
+                        }
                     }
                 }
 
@@ -121,7 +138,12 @@ fun main() {
                     ) {
                         CheckboxRow("Dark", isDark, resourceLoader, { isDark = it })
                         if (!isDark) {
-                            CheckboxRow("Light Header", lightHeaderInLight, resourceLoader, { lightHeaderInLight = it })
+                            CheckboxRow(
+                                "Light Header",
+                                lightHeaderInLight,
+                                resourceLoader,
+                                { lightHeaderInLight = it },
+                            )
                         }
                         CheckboxRow("Swing compat", swingCompat, resourceLoader, { swingCompat = it })
                     }

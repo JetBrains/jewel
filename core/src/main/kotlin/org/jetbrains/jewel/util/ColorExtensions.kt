@@ -1,7 +1,7 @@
 package org.jetbrains.jewel.util
 
 import androidx.compose.ui.graphics.Color
-import kotlin.math.pow
+import androidx.compose.ui.graphics.luminance
 import kotlin.math.roundToInt
 
 fun Color.toHexString(): String {
@@ -22,10 +22,4 @@ fun Color.toHexString(): String {
     }
 }
 
-fun Color.isDark(): Boolean = (luminance + 0.05) / 0.05 < 4.5
-
-val Color.luminance: Double
-    get() = linearRGBComponentValue(red) * 0.2126 + linearRGBComponentValue(green) * 0.7152 + linearRGBComponentValue(blue) * 0.0722
-
-private fun linearRGBComponentValue(colorValue: Float): Double =
-    if (colorValue <= 0.03928) colorValue / 12.92 else ((colorValue + 0.055) / 1.055).pow(2.4)
+fun Color.isDark(): Boolean = (luminance() + 0.05) / 0.05 < 4.5

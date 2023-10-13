@@ -237,7 +237,7 @@ internal val LocalIsDarkTheme = staticCompositionLocalOf<Boolean> {
 }
 
 internal val LocalOnDarkBackground = staticCompositionLocalOf<Boolean> {
-    error("No InDarkTheme provided")
+    error("No OnDarkBackground provided")
 }
 
 internal val LocalSwingCompatMode = staticCompositionLocalOf {
@@ -253,9 +253,16 @@ val LocalIconData = staticCompositionLocalOf<IntelliJThemeIconData> {
     EmptyThemeIconData
 }
 
+/**
+ * Sets the background color of the current area,
+ * which affects the style(light or dark) of the icon rendered above it,
+ * by calculating the luminance.
+ * If the color is not specified, the style will follow the current theme style.
+ * Transparent color will be ignored.
+ */
 @Composable
 fun onBackground(color: Color, content: @Composable () -> Unit) {
-    val locals = if (color.isSpecified && color.alpha == 1f) {
+    val locals = if (color.isSpecified) {
         arrayOf(LocalOnDarkBackground provides color.isDark())
     } else {
         emptyArray()

@@ -6,6 +6,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.jetbrains.JBR
@@ -41,12 +42,20 @@ import org.jetbrains.jewel.window.styling.TitleBarStyle
 internal fun Modifier.customTitleBarMouseEventHandler(titleBar: CustomTitleBar): Modifier = this.pointerInput(Unit) {
     val currentContext = currentCoroutineContext()
     awaitPointerEventScope {
+        var inUserControl = false
         while (currentContext.isActive) {
             val event = awaitPointerEvent(PointerEventPass.Main)
             event.changes.forEach {
-                if (!it.isConsumed) {
+                if (!it.isConsumed && !inUserControl) {
                     titleBar.forceHitTest(false)
-                    it.consume()
+                } else {
+                    if (event.type == PointerEventType.Press) {
+                        inUserControl = true
+                    }
+                    if (event.type == PointerEventType.Release) {
+                        inUserControl = false
+                    }
+                    titleBar.forceHitTest(true)
                 }
             }
         }
