@@ -42,6 +42,7 @@ import org.jetbrains.jewel.Tooltip
 import org.jetbrains.jewel.VerticalScrollbar
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.rememberSvgLoader
+import org.jetbrains.jewel.intui.window.styling.IntUiTitleBarStyle
 import org.jetbrains.jewel.intui.window.withDecoratedWindow
 import org.jetbrains.jewel.samples.standalone.components.Borders
 import org.jetbrains.jewel.samples.standalone.components.Buttons
@@ -67,9 +68,6 @@ import java.net.URI
 fun main() {
     val icon = svgResource("icons/jewel-logo.svg")
     application {
-        // 0 for light
-        // 1 for light with light header
-        // 2 for dark
         var intTheme by remember { mutableStateOf(IntUiThemes.Light) }
 
         var swingCompat by remember { mutableStateOf(false) }
@@ -79,10 +77,19 @@ fun main() {
                 Color(0xFFF5D4C1)
             } else {
                 Color(0xFF654B40)
-            }
+            },
         )
 
-        IntUiTheme(theme.withDecoratedWindow(intTheme.isLightHeader()), swingCompat) {
+        IntUiTheme(
+            theme.withDecoratedWindow(
+                titleBarStyle = when (intTheme) {
+                    IntUiThemes.Light -> IntUiTitleBarStyle.light()
+                    IntUiThemes.LightWithLightHeader -> IntUiTitleBarStyle.lightWithLightHeader()
+                    IntUiThemes.Dark -> IntUiTitleBarStyle.dark()
+                },
+            ),
+            swingCompat,
+        ) {
             val resourceLoader = LocalResourceLoader.current
             val svgLoader by rememberSvgLoader()
 

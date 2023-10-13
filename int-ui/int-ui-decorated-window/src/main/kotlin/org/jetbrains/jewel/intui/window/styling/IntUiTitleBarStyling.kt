@@ -14,6 +14,7 @@ import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
+import org.jetbrains.jewel.intui.standalone.rememberSvgLoader
 import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
@@ -109,7 +110,7 @@ class IntUiTitleBarStyle(
 
         @Composable
         fun light(
-            svgLoader: SvgLoader,
+            svgLoader: SvgLoader = rememberSvgLoader(false).value,
             colors: IntUiTitleBarColors = IntUiTitleBarColors.light(),
             metrics: IntUiTitleBarMetrics = IntUiTitleBarMetrics(),
             icons: IntUiTitleBarIcons = intUiTitleBarIcons(svgLoader),
@@ -117,7 +118,7 @@ class IntUiTitleBarStyle(
 
         @Composable
         fun lightWithLightHeader(
-            svgLoader: SvgLoader,
+            svgLoader: SvgLoader = rememberSvgLoader(false).value,
             colors: IntUiTitleBarColors = IntUiTitleBarColors.lightWithLightHeader(),
             metrics: IntUiTitleBarMetrics = IntUiTitleBarMetrics(),
             icons: IntUiTitleBarIcons = intUiTitleBarIcons(svgLoader),
@@ -125,7 +126,7 @@ class IntUiTitleBarStyle(
 
         @Composable
         fun dark(
-            svgLoader: SvgLoader,
+            svgLoader: SvgLoader = rememberSvgLoader(true).value,
             colors: IntUiTitleBarColors = IntUiTitleBarColors.dark(),
             metrics: IntUiTitleBarMetrics = IntUiTitleBarMetrics(),
             icons: IntUiTitleBarIcons = intUiTitleBarIcons(svgLoader),
