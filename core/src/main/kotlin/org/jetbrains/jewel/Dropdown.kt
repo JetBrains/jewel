@@ -32,7 +32,6 @@ import androidx.compose.ui.input.InputModeManager
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInputModeManager
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.window.Popup
@@ -129,17 +128,14 @@ fun Dropdown(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(style.metrics.contentPadding)
-                        .padding(
-                            end = minSize.height - style.metrics.contentPadding.calculateRightPadding(
-                                LocalLayoutDirection.current,
-                            ),
-                        ),
+                        .padding(end = minSize.height),
                     contentAlignment = Alignment.CenterStart,
                     content = content,
                 )
 
                 Box(
-                    modifier = Modifier.size(arrowMinSize).align(Alignment.CenterEnd),
+                    modifier = Modifier.size(arrowMinSize)
+                        .align(Alignment.CenterEnd),
                     contentAlignment = Alignment.Center,
                 ) {
                     val chevronIcon by style.icons.chevronDown.getPainter(resourceLoader, dropdownState)
