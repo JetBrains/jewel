@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.intui.window.styling
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -95,7 +96,13 @@ class IntUiTitleBarStyle(
                 content = content,
                 iconTint = Color.Unspecified,
             ),
-            metrics = IntUiDropdownMetrics.undecorated(cornerSize = CornerSize(6.dp)),
+            metrics = IntUiDropdownMetrics(
+                arrowMinSize = DpSize(30.dp, 30.dp),
+                cornerSize = CornerSize(6.dp),
+                minSize = DpSize((23 + 6).dp, 30.dp),
+                contentPadding = PaddingValues(top = 3.dp, bottom = 3.dp, start = 6.dp, end = 0.dp),
+                borderWidth = 0.dp
+            ),
             menuStyle = menuStyle,
         )
 

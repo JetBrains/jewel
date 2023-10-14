@@ -39,7 +39,7 @@ data class IntUiDropdownStyle(
         fun undecorated(
             svgLoader: SvgLoader,
             colors: IntUiDropdownColors,
-            metrics: IntUiDropdownMetrics = IntUiDropdownMetrics.undecorated(),
+            metrics: IntUiDropdownMetrics = IntUiDropdownMetrics(borderWidth = 0.dp),
             icons: IntUiDropdownIcons = intUiDropdownIcons(svgLoader),
             textStyle: TextStyle = IntUiTheme.defaultTextStyle,
             menuStyle: MenuStyle = IntUiMenuStyle.light(svgLoader),
@@ -223,25 +223,7 @@ data class IntUiDropdownMetrics(
     override val cornerSize: CornerSize = CornerSize(4.dp),
     override val contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 3.dp),
     override val borderWidth: Dp = 1.dp,
-) : DropdownMetrics {
-
-    companion object {
-
-        fun undecorated(
-            arrowMinSize: DpSize = DpSize((23 + 3).dp, 24.dp),
-            minSize: DpSize = DpSize((23 + 6).dp, 24.dp),
-            cornerSize: CornerSize = CornerSize(4.dp),
-            contentPadding: PaddingValues = PaddingValues(top = 3.dp, bottom = 3.dp, start = 6.dp, end = 0.dp),
-            borderWidth: Dp = 0.dp,
-        ) = IntUiDropdownMetrics(
-            arrowMinSize,
-            minSize,
-            cornerSize,
-            contentPadding,
-            borderWidth,
-        )
-    }
-}
+) : DropdownMetrics
 
 @Immutable
 data class IntUiDropdownIcons(
