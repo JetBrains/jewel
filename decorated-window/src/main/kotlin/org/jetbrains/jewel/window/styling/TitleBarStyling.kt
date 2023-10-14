@@ -8,6 +8,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
+import org.jetbrains.jewel.styling.DropdownStyle
 import org.jetbrains.jewel.styling.IconButtonStyle
 import org.jetbrains.jewel.styling.PainterProvider
 import org.jetbrains.jewel.window.DecoratedWindowState
@@ -19,11 +20,10 @@ interface TitleBarStyle {
     val metrics: TitleBarMetrics
     val icons: TitleBarIcons
 
-    fun iconButtonStyle(): IconButtonStyle
-
-    fun paneButtonStyle(): IconButtonStyle
-
-    fun paneCloseButtonStyle(): IconButtonStyle
+    val dropdownStyle: DropdownStyle
+    val iconButtonStyle: IconButtonStyle
+    val paneButtonStyle: IconButtonStyle
+    val paneCloseButtonStyle: IconButtonStyle
 }
 
 @Stable
@@ -48,6 +48,10 @@ interface TitleBarColors {
     // The hover and press background color for IconButtons in title bar content
     val iconButtonHoverBackground: Color
     val iconButtonPressBackground: Color
+
+    // The hover and press background color for Dropdown in title bar content
+    val dropdownPressBackground: Color
+    val dropdownHoverBackground: Color
 
     @Composable
     fun backgroundFor(state: DecoratedWindowState) = rememberUpdatedState(

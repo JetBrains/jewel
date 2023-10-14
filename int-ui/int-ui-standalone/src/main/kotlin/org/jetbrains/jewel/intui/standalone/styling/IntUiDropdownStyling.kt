@@ -36,6 +36,16 @@ data class IntUiDropdownStyle(
     companion object {
 
         @Composable
+        fun undecorated(
+            svgLoader: SvgLoader,
+            colors: IntUiDropdownColors,
+            metrics: IntUiDropdownMetrics = IntUiDropdownMetrics.undecorated(),
+            icons: IntUiDropdownIcons = intUiDropdownIcons(svgLoader),
+            textStyle: TextStyle = IntUiTheme.defaultTextStyle,
+            menuStyle: MenuStyle = IntUiMenuStyle.light(svgLoader),
+        ) = IntUiDropdownStyle(colors, metrics, icons, textStyle, menuStyle)
+
+        @Composable
         fun light(
             svgLoader: SvgLoader,
             colors: IntUiDropdownColors = IntUiDropdownColors.light(),
@@ -82,6 +92,37 @@ data class IntUiDropdownColors(
 ) : DropdownColors {
 
     companion object {
+
+        @Composable
+        fun undecorated(
+            backgroundPressed: Color,
+            backgroundHovered: Color = backgroundPressed,
+            content: Color,
+            contentDisabled: Color = content,
+            iconTint: Color,
+            iconTintDisabled: Color = iconTint,
+        ) = IntUiDropdownColors(
+            background = Color.Transparent,
+            backgroundDisabled = Color.Transparent,
+            backgroundFocused = Color.Transparent,
+            backgroundPressed = backgroundPressed,
+            backgroundHovered = backgroundHovered,
+            content = content,
+            contentDisabled = contentDisabled,
+            contentFocused = content,
+            contentPressed = content,
+            contentHovered = content,
+            border = Color.Transparent,
+            borderDisabled = Color.Transparent,
+            borderFocused = Color.Transparent,
+            borderPressed = Color.Transparent,
+            borderHovered = Color.Transparent,
+            iconTint = iconTint,
+            iconTintDisabled = iconTintDisabled,
+            iconTintFocused = iconTint,
+            iconTintPressed = iconTint,
+            iconTintHovered = iconTint,
+        )
 
         @Composable
         fun light(
@@ -182,7 +223,25 @@ data class IntUiDropdownMetrics(
     override val cornerSize: CornerSize = CornerSize(4.dp),
     override val contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 3.dp),
     override val borderWidth: Dp = 1.dp,
-) : DropdownMetrics
+) : DropdownMetrics {
+
+    companion object {
+
+        fun undecorated(
+            arrowMinSize: DpSize = DpSize((23 + 3).dp, 24.dp),
+            minSize: DpSize = DpSize((23 + 6).dp, 24.dp),
+            cornerSize: CornerSize = CornerSize(4.dp),
+            contentPadding: PaddingValues = PaddingValues(top = 3.dp, bottom = 3.dp, start = 6.dp, end = 0.dp),
+            borderWidth: Dp = 0.dp,
+        ) = IntUiDropdownMetrics(
+            arrowMinSize,
+            minSize,
+            cornerSize,
+            contentPadding,
+            borderWidth,
+        )
+    }
+}
 
 @Immutable
 data class IntUiDropdownIcons(

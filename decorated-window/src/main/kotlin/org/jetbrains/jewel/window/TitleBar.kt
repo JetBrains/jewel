@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.offset
 import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.LocalContentColor
 import org.jetbrains.jewel.onBackground
+import org.jetbrains.jewel.styling.LocalDropdownStyle
 import org.jetbrains.jewel.styling.LocalIconButtonStyle
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import org.jetbrains.jewel.window.utils.DesktopPlatform
@@ -101,7 +103,8 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
         {
             CompositionLocalProvider(
                 LocalContentColor provides style.colors.content,
-                LocalIconButtonStyle provides style.iconButtonStyle(),
+                LocalIconButtonStyle provides style.iconButtonStyle,
+                LocalDropdownStyle provides style.dropdownStyle,
             ) {
                 onBackground(background) {
                     val scope = TitleBarScopeImpl(titleBarInfo.title, titleBarInfo.icon)
@@ -109,11 +112,16 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
                 }
             }
         },
-        modifier.background(backgroundBrush).layoutId(TITLE_BAR_LAYOUT_ID).height(style.metrics.height).onSizeChanged {
-            with(density) {
-                applyTitleBar(it.height.toDp(), state)
+        modifier.background(backgroundBrush)
+            .focusProperties { canFocus = false }
+            .layoutId(TITLE_BAR_LAYOUT_ID)
+            .height(style.metrics.height)
+            .onSizeChanged {
+                with(density) {
+                    applyTitleBar(it.height.toDp(), state)
+                }
             }
-        }.fillMaxWidth(),
+            .fillMaxWidth(),
         measurePolicy = rememberTitleBarMeasurePolicy(
             window,
             state,

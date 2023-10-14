@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerButton
 import androidx.compose.ui.input.pointer.PointerEventPass
@@ -79,7 +78,7 @@ import java.awt.event.WindowEvent
     state: DecoratedWindowState,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
 ) {
-    ControlButton(onClick, state, style.icons.closeButton, "Close", style, style.paneCloseButtonStyle())
+    ControlButton(onClick, state, style.icons.closeButton, "Close", style, style.paneCloseButtonStyle)
 }
 
 @Composable private fun TitleBarScope.ControlButton(
@@ -88,12 +87,11 @@ import java.awt.event.WindowEvent
     painterProvider: PainterProvider<DecoratedWindowState>,
     description: String,
     style: TitleBarStyle = IntelliJTheme.defaultTitleBarStyle,
-    iconButtonStyle: IconButtonStyle = style.paneButtonStyle(),
+    iconButtonStyle: IconButtonStyle = style.paneButtonStyle,
 ) {
     IconButton(
         onClick,
-        Modifier.focusProperties { canFocus = false }
-            .align(Alignment.End)
+        Modifier.align(Alignment.End)
             .focusable(false)
             .size(style.metrics.titlePaneButtonSize),
         style = iconButtonStyle,

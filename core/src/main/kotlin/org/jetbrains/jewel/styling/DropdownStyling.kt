@@ -41,6 +41,8 @@ interface DropdownColors {
             pressed = backgroundPressed,
             hovered = backgroundHovered,
             active = background,
+            // Dropdown has hovered/pressed in title bar
+            isSwingCompatMode = false,
         ),
     )
 

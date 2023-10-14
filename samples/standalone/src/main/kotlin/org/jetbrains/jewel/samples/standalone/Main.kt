@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.application
 import org.jetbrains.jewel.CheckboxRow
 import org.jetbrains.jewel.Divider
+import org.jetbrains.jewel.Dropdown
 import org.jetbrains.jewel.Icon
 import org.jetbrains.jewel.IconButton
 import org.jetbrains.jewel.JewelSvgLoader
@@ -57,6 +59,7 @@ import org.jetbrains.jewel.samples.standalone.components.Tabs
 import org.jetbrains.jewel.samples.standalone.components.TextAreas
 import org.jetbrains.jewel.samples.standalone.components.TextFields
 import org.jetbrains.jewel.samples.standalone.components.Tooltips
+import org.jetbrains.jewel.separator
 import org.jetbrains.jewel.styling.rememberStatelessPainterProvider
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.TitleBar
@@ -107,41 +110,64 @@ fun main() {
                     val jewelLogoProvider = rememberStatelessPainterProvider("icons/jewel-logo.svg", svgLoader)
                     val jewelLogo by jewelLogoProvider.getPainter(resourceLoader)
 
-                    Icon(jewelLogo, "Jewel Logo", Modifier.size(20.dp).align(Alignment.Start))
-
-                    Text(title)
-
-                    Tooltip({
-                        when (intTheme) {
-                            IntUiThemes.Light -> Text("Switch to light theme with light header")
-                            IntUiThemes.LightWithLightHeader -> Text("Switch to dark theme")
-                            IntUiThemes.Dark -> Text("Switch to light theme")
-                        }
-                    }, Modifier.align(Alignment.End)) {
-                        IconButton({
-                            intTheme = when (intTheme) {
-                                IntUiThemes.Light -> IntUiThemes.LightWithLightHeader
-                                IntUiThemes.LightWithLightHeader -> IntUiThemes.Dark
-                                IntUiThemes.Dark -> IntUiThemes.Light
+                    Row(Modifier.align(Alignment.Start)) {
+                        Dropdown(resourceLoader, Modifier.height(30.dp), menuContent = {
+                            selectableItem(false, {
+                            }) {
+                                Text("New Project...")
                             }
-                        }, Modifier.size(40.dp).padding(5.dp)) {
-                            val lightThemeIcon =
-                                rememberStatelessPainterProvider("icons/lightTheme@20x20.svg", svgLoader)
-                            val darkThemeIcon = rememberStatelessPainterProvider("icons/darkTheme@20x20.svg", svgLoader)
-
-                            val iconProvider = if (intTheme.isDark()) darkThemeIcon else lightThemeIcon
-                            Icon(iconProvider.getPainter(resourceLoader).value, "Themes")
+                            separator()
+                            selectableItem(false, {
+                            }) {
+                                Text("jewel")
+                            }
+                        }) {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(3.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Icon(jewelLogo, "Jewel Logo", Modifier.padding(horizontal = 4.dp).size(20.dp))
+                                Text("jewel")
+                            }
                         }
                     }
 
-                    Tooltip({
-                        Text("Open Jewel Github repository")
-                    }, Modifier.align(Alignment.End)) {
-                        IconButton({
-                            Desktop.getDesktop().browse(URI.create("https://github.com/JetBrains/jewel"))
-                        }, Modifier.size(40.dp).padding(5.dp)) {
-                            val iconProvider = rememberStatelessPainterProvider("icons/github@20x20.svg", svgLoader)
-                            Icon(iconProvider.getPainter(resourceLoader).value, "Github")
+                    Text(title)
+
+                    Row(Modifier.align(Alignment.End)) {
+                        Tooltip({
+                            Text("Open Jewel Github repository")
+                        }) {
+                            IconButton({
+                                Desktop.getDesktop().browse(URI.create("https://github.com/JetBrains/jewel"))
+                            }, Modifier.size(40.dp).padding(5.dp)) {
+                                val iconProvider = rememberStatelessPainterProvider("icons/github@20x20.svg", svgLoader)
+                                Icon(iconProvider.getPainter(resourceLoader).value, "Github")
+                            }
+                        }
+
+                        Tooltip({
+                            when (intTheme) {
+                                IntUiThemes.Light -> Text("Switch to light theme with light header")
+                                IntUiThemes.LightWithLightHeader -> Text("Switch to dark theme")
+                                IntUiThemes.Dark -> Text("Switch to light theme")
+                            }
+                        }) {
+                            IconButton({
+                                intTheme = when (intTheme) {
+                                    IntUiThemes.Light -> IntUiThemes.LightWithLightHeader
+                                    IntUiThemes.LightWithLightHeader -> IntUiThemes.Dark
+                                    IntUiThemes.Dark -> IntUiThemes.Light
+                                }
+                            }, Modifier.size(40.dp).padding(5.dp)) {
+                                val lightThemeIcon =
+                                    rememberStatelessPainterProvider("icons/lightTheme@20x20.svg", svgLoader)
+                                val darkThemeIcon =
+                                    rememberStatelessPainterProvider("icons/darkTheme@20x20.svg", svgLoader)
+
+                                val iconProvider = if (intTheme.isDark()) darkThemeIcon else lightThemeIcon
+                                Icon(iconProvider.getPainter(resourceLoader).value, "Themes")
+                            }
                         }
                     }
                 }
