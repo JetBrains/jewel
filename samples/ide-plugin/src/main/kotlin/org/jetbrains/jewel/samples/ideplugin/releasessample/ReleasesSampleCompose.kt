@@ -49,11 +49,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.Unspecified
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isAltPressed
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.isMetaPressed
+import androidx.compose.ui.input.key.isShiftPressed
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.key.utf16CodePoint
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
@@ -98,6 +108,7 @@ import java.awt.Font
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.time.Duration.Companion.seconds
+import java.awt.event.KeyEvent as AwtKeyEvent
 
 @OptIn(DependsOnJBR::class)
 @Composable
@@ -157,8 +168,28 @@ fun LeftColumn(
 
         val listState = rememberSelectableLazyListState()
         Box(modifier) {
+            var speedDialText by remember { mutableStateOf("") }
             SelectableLazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().onPreviewKeyEvent {
+                    if (it.type != KeyEventType.KeyUp) {
+                        return@onPreviewKeyEvent false
+                    }
+
+                    if (it.isAltPressed || it.isCtrlPressed || it.isMetaPressed || it.isShiftPressed) {
+                        return@onPreviewKeyEvent false
+                    }
+
+                    val pressedChar = it.utf16CodePoint.toChar()
+                    if (pressedChar.lowercaseChar() in 'a'..'z' || pressedChar.lowercaseChar() in '0'..'9') {
+                        speedDialText += pressedChar
+                        true
+                    } else if ((it.nativeKeyEvent as AwtKeyEvent).keyCode == AwtKeyEvent.VK_BACK_SPACE) {
+                        speedDialText = speedDialText.dropLast(1)
+                        true
+                    } else {
+                        false
+                    }
+                },
                 state = listState,
                 selectionMode = SelectionMode.Single,
                 onSelectedIndexesChanged = {
@@ -181,7 +212,7 @@ fun LeftColumn(
                         }
                     },
                 ) {
-                    ContentItemRow(it, isSelected, isActive) { newFilter ->
+                    ContentItemRow(it, isSelected, isActive, speedDialText) { newFilter ->
                         service.filterContent(newFilter)
                     }
                 }
@@ -200,6 +231,7 @@ private fun ContentItemRow(
     item: ContentItem,
     isSelected: Boolean,
     isActive: Boolean,
+    speedDialText: String,
     onTagClick: (String) -> Unit,
 ) {
     val color = when {
@@ -214,8 +246,22 @@ private fun ContentItemRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
+        val coloredText = remember(item.displayText, speedDialText) {
+            buildAnnotatedString {
+                val highlightPosition = item.displayText.indexOf(speedDialText, ignoreCase = true)
+                if (highlightPosition >= 0) {
+                    append(item.displayText.take(highlightPosition))
+                    pushStyle(SpanStyle(background = Color.Yellow))
+                    append(item.displayText.substring(highlightPosition until highlightPosition + speedDialText.length))
+                    pop()
+                    append(item.displayText.drop(highlightPosition + speedDialText.length))
+                } else {
+                    append(item.displayText)
+                }
+            }
+        }
         Text(
-            text = item.displayText,
+            text = coloredText,
             modifier = Modifier.weight(1f),
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
