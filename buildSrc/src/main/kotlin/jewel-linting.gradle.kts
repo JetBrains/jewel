@@ -6,7 +6,9 @@ plugins {
 }
 
 configurations {
-    val dependencies = dependencyScope("sarif")
+    val dependencies = register("sarif") {
+        isCanBeDeclared = true
+    }
     register("outgoingSarif") {
         isCanBeConsumed = true
         isCanBeResolved = true
@@ -16,6 +18,3 @@ configurations {
         }
     }
 }
-
-
-
