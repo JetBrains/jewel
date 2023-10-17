@@ -101,7 +101,7 @@ class IntUiTitleBarStyle(
                 cornerSize = CornerSize(6.dp),
                 minSize = DpSize((23 + 6).dp, 30.dp),
                 contentPadding = PaddingValues(top = 3.dp, bottom = 3.dp, start = 6.dp, end = 0.dp),
-                borderWidth = 0.dp
+                borderWidth = 0.dp,
             ),
             menuStyle = menuStyle,
         )
