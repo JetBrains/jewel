@@ -16,12 +16,11 @@ interface FocusableComponentState : InteractiveComponentState {
         pressed: T,
         hovered: T,
         active: T,
-        isSwingCompatMode: Boolean = IntelliJTheme.isSwingCompatMode,
     ): T =
         when {
             !isEnabled -> disabled
-            isPressed && !isSwingCompatMode -> pressed
-            isHovered && !isSwingCompatMode -> hovered
+            isPressed && !IntelliJTheme.isSwingCompatMode -> pressed
+            isHovered && !IntelliJTheme.isSwingCompatMode -> hovered
             isFocused -> focused
             isActive -> active
             else -> normal
