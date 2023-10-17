@@ -71,12 +71,12 @@ import java.net.URI
 fun main() {
     val icon = svgResource("icons/jewel-logo.svg")
     application {
-        var intTheme by remember { mutableStateOf(IntUiThemes.Light) }
+        var intUiTheme by remember { mutableStateOf(IntUiThemes.Light) }
 
         var swingCompat by remember { mutableStateOf(false) }
-        val theme = if (intTheme.isDark()) IntUiTheme.darkThemeDefinition() else IntUiTheme.lightThemeDefinition()
+        val theme = if (intUiTheme.isDark()) IntUiTheme.darkThemeDefinition() else IntUiTheme.lightThemeDefinition()
         val projectColor by rememberUpdatedState(
-            if (intTheme.isLightHeader()) {
+            if (intUiTheme.isLightHeader()) {
                 Color(0xFFF5D4C1)
             } else {
                 Color(0xFF654B40)
@@ -85,7 +85,7 @@ fun main() {
 
         IntUiTheme(
             theme.withDecoratedWindow(
-                titleBarStyle = when (intTheme) {
+                titleBarStyle = when (intUiTheme) {
                     IntUiThemes.Light -> IntUiTitleBarStyle.light()
                     IntUiThemes.LightWithLightHeader -> IntUiTitleBarStyle.lightWithLightHeader()
                     IntUiThemes.Dark -> IntUiTitleBarStyle.dark()
@@ -101,7 +101,7 @@ fun main() {
                 title = "Jewel component catalog",
                 icon = icon,
             ) {
-                val windowBackground = if (intTheme.isDark()) {
+                val windowBackground = if (intUiTheme.isDark()) {
                     IntUiTheme.colorPalette.grey(1)
                 } else {
                     IntUiTheme.colorPalette.grey(14)
@@ -147,14 +147,14 @@ fun main() {
                         }
 
                         Tooltip({
-                            when (intTheme) {
+                            when (intUiTheme) {
                                 IntUiThemes.Light -> Text("Switch to light theme with light header")
                                 IntUiThemes.LightWithLightHeader -> Text("Switch to dark theme")
                                 IntUiThemes.Dark -> Text("Switch to light theme")
                             }
                         }) {
                             IconButton({
-                                intTheme = when (intTheme) {
+                                intUiTheme = when (intUiTheme) {
                                     IntUiThemes.Light -> IntUiThemes.LightWithLightHeader
                                     IntUiThemes.LightWithLightHeader -> IntUiThemes.Dark
                                     IntUiThemes.Dark -> IntUiThemes.Light
@@ -165,7 +165,7 @@ fun main() {
                                 val darkThemeIcon =
                                     rememberStatelessPainterProvider("icons/darkTheme@20x20.svg", svgLoader)
 
-                                val iconProvider = if (intTheme.isDark()) darkThemeIcon else lightThemeIcon
+                                val iconProvider = if (intUiTheme.isDark()) darkThemeIcon else lightThemeIcon
                                 Icon(iconProvider.getPainter(resourceLoader).value, "Themes")
                             }
                         }
