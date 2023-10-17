@@ -6,11 +6,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.RadioButtonState
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.styling.PainterProvider
 import org.jetbrains.jewel.styling.RadioButtonColors
 import org.jetbrains.jewel.styling.RadioButtonIcons
@@ -32,7 +32,7 @@ data class IntUiRadioButtonStyle(
             svgLoader: SvgLoader,
             colors: IntUiRadioButtonColors = IntUiRadioButtonColors.light(),
             metrics: IntUiRadioButtonMetrics = IntUiRadioButtonMetrics(),
-            icons: IntUiRadioButtonIcons = intUiRadioButtonIcons(svgLoader),
+            icons: IntUiRadioButtonIcons = IntUiRadioButtonIcons.light(svgLoader),
         ) = IntUiRadioButtonStyle(colors, metrics, icons)
 
         @Composable
@@ -40,7 +40,7 @@ data class IntUiRadioButtonStyle(
             svgLoader: SvgLoader,
             colors: IntUiRadioButtonColors = IntUiRadioButtonColors.dark(),
             metrics: IntUiRadioButtonMetrics = IntUiRadioButtonMetrics(),
-            icons: IntUiRadioButtonIcons = intUiRadioButtonIcons(svgLoader),
+            icons: IntUiRadioButtonIcons = IntUiRadioButtonIcons.dark(svgLoader),
         ) = IntUiRadioButtonStyle(colors, metrics, icons)
     }
 }
@@ -59,12 +59,12 @@ data class IntUiRadioButtonColors(
 
         @Composable
         fun light(
-            content: Color = IntUiTheme.defaultLightTextStyle.color,
-            contentHovered: Color = IntUiLightTheme.colors.grey(8),
-            contentDisabled: Color = content,
+            content: Color = Color.Unspecified,
+            contentHovered: Color = content,
+            contentDisabled: Color = IntUiLightTheme.colors.grey(8),
             contentSelected: Color = content,
             contentSelectedHovered: Color = content,
-            contentSelectedDisabled: Color = content,
+            contentSelectedDisabled: Color = contentDisabled,
         ) = IntUiRadioButtonColors(
             content,
             contentHovered,
@@ -76,12 +76,12 @@ data class IntUiRadioButtonColors(
 
         @Composable
         fun dark(
-            content: Color = IntUiTheme.defaultDarkTextStyle.color,
-            contentHovered: Color = IntUiDarkTheme.colors.grey(8),
-            contentDisabled: Color = content,
+            content: Color = Color.Unspecified,
+            contentHovered: Color = content,
+            contentDisabled: Color = IntUiDarkTheme.colors.grey(8),
             contentSelected: Color = content,
             contentSelectedHovered: Color = content,
-            contentSelectedDisabled: Color = content,
+            contentSelectedDisabled: Color = contentDisabled,
         ) = IntUiRadioButtonColors(
             content,
             contentHovered,
@@ -109,14 +109,26 @@ data class IntUiRadioButtonIcons(
         @Composable
         fun radioButton(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/radio.svg",
+            basePath: String = "com/intellij/ide/ui/laf/icons/intellij/radio.svg",
         ): PainterProvider<RadioButtonState> =
-            ResourcePainterProvider.stateful(basePath, svgLoader)
+            ResourcePainterProvider.stateful(basePath, svgLoader, LocalIconData.current)
+
+        @Composable
+        fun light(
+            svgLoader: SvgLoader,
+            radioButton: PainterProvider<RadioButtonState> = radioButton(
+                svgLoader,
+                "com/intellij/ide/ui/laf/icons/intellij/radio.svg",
+            ),
+        ) = IntUiRadioButtonIcons(radioButton)
+
+        @Composable
+        fun dark(
+            svgLoader: SvgLoader,
+            radioButton: PainterProvider<RadioButtonState> = radioButton(
+                svgLoader,
+                "com/intellij/ide/ui/laf/icons/darcula/radio.svg",
+            ),
+        ) = IntUiRadioButtonIcons(radioButton)
     }
 }
-
-@Composable
-fun intUiRadioButtonIcons(
-    svgLoader: SvgLoader,
-    radioButton: PainterProvider<RadioButtonState> = IntUiRadioButtonIcons.radioButton(svgLoader),
-) = IntUiRadioButtonIcons(radioButton)

@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.platform.Typeface
 import androidx.compose.ui.unit.Dp
@@ -15,20 +16,26 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.takeOrElse
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.ui.JBColor
+import com.intellij.ui.JBColor.marker
 import com.intellij.ui.scale.JBUIScale.scale
 import com.intellij.util.ui.JBDimension
+import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBInsets
 import com.intellij.util.ui.JBValue
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.jewel.IntelliJThemeIconData
 import org.jetbrains.jewel.InteractiveComponentState
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.styling.PainterProvider
+import org.jetbrains.skia.Typeface
 import org.jetbrains.skiko.DependsOnJBR
 import org.jetbrains.skiko.awt.font.AwtFontManager
 import org.jetbrains.skiko.toSkikoTypefaceOrNull
 import java.awt.Dimension
+import java.awt.Font
 import java.awt.Insets
 import javax.swing.UIManager
 
@@ -43,11 +50,15 @@ fun java.awt.Color.toComposeColor() = Color(
 
 fun java.awt.Color?.toComposeColorOrUnspecified() = this?.toComposeColor() ?: Color.Unspecified
 
-@Suppress("UnstableApiUsage")
-fun retrieveColorOrNull(key: String) =
-    JBColor.namedColor(key)
-        .takeUnless { it.name == "NAMED_COLOR_FALLBACK_MARKER" }
-        ?.toComposeColor()
+fun retrieveColorOrNull(key: String): Color? =
+    try {
+        JBColor.namedColor(key, marker("JEWEL_JBCOLOR_MARKER")).toComposeColor()
+    } catch (_: AssertionError) {
+        // JBColor.marker will throw AssertionError on getRGB/any other color
+        // for now there is no way to handle non-existing key.
+        // The way should be introduced in platform
+        null
+    }
 
 fun retrieveColorOrUnspecified(key: String): Color {
     val color = retrieveColorOrNull(key)
@@ -159,28 +170,44 @@ suspend fun retrieveTextStyle(
     key: String,
     color: Color = Color.Unspecified,
     lineHeight: TextUnit = TextUnit.Unspecified,
+    bold: Boolean = false,
+    fontStyle: FontStyle = FontStyle.Normal,
+    size: TextUnit = TextUnit.Unspecified,
 ): TextStyle {
-    val font = UIManager.getFont(key) ?: keyNotFound(key, "Font")
+    val font = JBFont.create(
+        UIManager.getFont(key) ?: keyNotFound(key, "Font"),
+        false,
+    )
 
-    return with(font) {
-        val typeface = toSkikoTypefaceOrNull(awtFontManager)
-            ?: org.jetbrains.skia.Typeface.makeDefault()
-                .also {
-                    logger.warn(
-                        "Unable to convert font ${font.fontName} into a Skiko typeface, " +
-                            "fallback to 'Typeface.makeDefault()'",
-                    )
-                }
+    val derivedFont = font.let { if (bold) it.asBold() else it.asPlain() }
+        .let { if (fontStyle == FontStyle.Italic) it.asItalic() else it }
 
-        TextStyle(
-            color = color,
-            fontSize = size.sp,
-            fontWeight = FontWeight.Normal,
-            fontFamily = FontFamily(Typeface(typeface)),
-            // todo textDecoration might be defined in the awt theme
-            lineHeight = lineHeight,
-        )
-    }
+    val typeface = derivedFont.toSkikoTypefaceOrNull(awtFontManager)
+        ?: Typeface.makeDefault()
+            .also {
+                logger.warn(
+                    "Unable to convert font ${font.fontName} into a Skiko typeface, " +
+                        "fallback to 'Typeface.makeDefault()'",
+                )
+            }
+
+    return TextStyle(
+        color = color,
+        fontSize = size.takeOrElse { derivedFont.size.sp },
+        fontWeight = if (bold) FontWeight.Bold else FontWeight.Normal,
+        fontStyle = fontStyle,
+        fontFamily = FontFamily(Typeface(typeface)),
+        // todo textDecoration might be defined in the awt theme
+        lineHeight = lineHeight,
+    )
+}
+
+@DependsOnJBR
+fun Font.toFontFamily(): FontFamily {
+    val typeface = runBlocking { toSkikoTypefaceOrNull(awtFontManager) }
+        ?: error("Can't turn $this into a Typeface")
+
+    return FontFamily(Typeface(typeface))
 }
 
 val JBValue.dp

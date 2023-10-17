@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.singleWindowApplication
 import org.jetbrains.jewel.CheckboxRow
 import org.jetbrains.jewel.Divider
+import org.jetbrains.jewel.JewelSvgLoader
 import org.jetbrains.jewel.LocalResourceLoader
 import org.jetbrains.jewel.Orientation
 import org.jetbrains.jewel.VerticalScrollbar
@@ -36,11 +37,13 @@ import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.ToolWindow
 import org.jetbrains.jewel.intui.standalone.ToolWindowButtonData
 import org.jetbrains.jewel.intui.standalone.styling.IntUiToolWindowButtonStyle
+import org.jetbrains.jewel.intui.standalone.rememberSvgLoader
 import org.jetbrains.jewel.samples.standalone.components.Borders
 import org.jetbrains.jewel.samples.standalone.components.Buttons
 import org.jetbrains.jewel.samples.standalone.components.Checkboxes
 import org.jetbrains.jewel.samples.standalone.components.ChipsAndTree
 import org.jetbrains.jewel.samples.standalone.components.Dropdowns
+import org.jetbrains.jewel.samples.standalone.components.Icons
 import org.jetbrains.jewel.samples.standalone.components.Links
 import org.jetbrains.jewel.samples.standalone.components.ProgressBar
 import org.jetbrains.jewel.samples.standalone.components.RadioButtons
@@ -48,6 +51,7 @@ import org.jetbrains.jewel.samples.standalone.components.Tabs
 import org.jetbrains.jewel.samples.standalone.components.TextAreas
 import org.jetbrains.jewel.samples.standalone.components.TextFields
 import org.jetbrains.jewel.samples.standalone.components.ToolWindowStrip
+import org.jetbrains.jewel.samples.standalone.components.Tooltips
 import java.io.InputStream
 
 fun main() {
@@ -62,6 +66,7 @@ fun main() {
 
         IntUiTheme(theme, swingCompat) {
             val resourceLoader = LocalResourceLoader.current
+            val svgLoader by rememberSvgLoader()
 
             val windowBackground = if (isDark) {
                 IntUiTheme.colorPalette.grey(1)
@@ -127,9 +132,9 @@ fun main() {
                         CheckboxRow("Swing compat", swingCompat, resourceLoader, { swingCompat = it })
                     }
 
-                    Divider(Modifier.fillMaxWidth())
+                    Divider(Orientation.Horizontal, Modifier.fillMaxWidth())
 
-                    ComponentShowcase()
+                    ComponentShowcase(svgLoader, resourceLoader)
                 }
             }
         }
@@ -137,9 +142,8 @@ fun main() {
 }
 
 @Composable
-private fun ComponentShowcase() {
+private fun ComponentShowcase(svgLoader: JewelSvgLoader, resourceLoader: ResourceLoader) {
     val verticalScrollState = rememberScrollState()
-
     Box(Modifier.fillMaxSize()) {
         Column(
             Modifier.width(IntrinsicSize.Max)
@@ -149,16 +153,18 @@ private fun ComponentShowcase() {
             horizontalAlignment = Alignment.Start,
         ) {
             Borders()
-            Buttons()
+            Buttons(svgLoader, resourceLoader)
             Dropdowns()
             Checkboxes()
             RadioButtons()
             Links()
-            TextFields()
+            Tooltips()
+            TextFields(svgLoader, resourceLoader)
             TextAreas()
-            ProgressBar()
+            ProgressBar(svgLoader)
             ChipsAndTree()
-            Tabs()
+            Tabs(svgLoader, resourceLoader)
+            Icons(svgLoader, resourceLoader)
         }
 
         VerticalScrollbar(

@@ -1,13 +1,20 @@
+import SupportedIJVersion.*
+
 plugins {
     jewel
     alias(libs.plugins.composeDesktop)
     alias(libs.plugins.ideaGradlePlugin)
+    `android-studio-releases-generator`
 }
 
 intellij {
     pluginName.set("Jewel Demo")
     plugins.set(listOf("org.jetbrains.kotlin"))
-    version.set("2023.2.1")
+    val versionRaw = when (supportedIJVersion()) {
+        IJ_232 -> libs.versions.idea232.get()
+        IJ_233 -> libs.versions.idea233.get()
+    }
+    version.set(versionRaw)
 }
 
 // TODO remove this once the IJ Gradle plugin fixes their repositories bug
@@ -21,5 +28,19 @@ repositories {
 }
 
 dependencies {
-    implementation(projects.ideLafBridge)
+    implementation(projects.ideLafBridge) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+
+    implementation(compose.desktop.currentOs) {
+        exclude(group = "org.jetbrains.compose.material")
+        exclude(group = "org.jetbrains.kotlinx")
+    }
+}
+
+tasks {
+    // We don't have any settings in the demo plugin
+    buildSearchableOptions {
+        enabled = false
+    }
 }

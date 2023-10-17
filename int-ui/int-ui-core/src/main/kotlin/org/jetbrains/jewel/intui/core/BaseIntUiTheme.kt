@@ -1,15 +1,11 @@
 package org.jetbrains.jewel.intui.core
 
-import androidx.compose.foundation.Indication
-import androidx.compose.foundation.IndicationInstance
 import androidx.compose.foundation.LocalContextMenuRepresentation
 import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
@@ -19,9 +15,12 @@ import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.IntelliJThemeIconData
 import org.jetbrains.jewel.LocalColorPalette
 import org.jetbrains.jewel.LocalIconData
+import org.jetbrains.jewel.NoIndication
 import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.CheckboxStyle
 import org.jetbrains.jewel.styling.ChipStyle
+import org.jetbrains.jewel.styling.CircularProgressStyle
+import org.jetbrains.jewel.styling.DividerStyle
 import org.jetbrains.jewel.styling.DropdownStyle
 import org.jetbrains.jewel.styling.GroupHeaderStyle
 import org.jetbrains.jewel.styling.HorizontalProgressBarStyle
@@ -30,12 +29,15 @@ import org.jetbrains.jewel.styling.LazyTreeStyle
 import org.jetbrains.jewel.styling.LinkStyle
 import org.jetbrains.jewel.styling.LocalCheckboxStyle
 import org.jetbrains.jewel.styling.LocalChipStyle
+import org.jetbrains.jewel.styling.LocalCircularProgressStyle
 import org.jetbrains.jewel.styling.LocalDefaultButtonStyle
 import org.jetbrains.jewel.styling.LocalDefaultTabStyle
+import org.jetbrains.jewel.styling.LocalDividerStyle
 import org.jetbrains.jewel.styling.LocalDropdownStyle
 import org.jetbrains.jewel.styling.LocalEditorTabStyle
 import org.jetbrains.jewel.styling.LocalGroupHeaderStyle
 import org.jetbrains.jewel.styling.LocalHorizontalProgressBarStyle
+import org.jetbrains.jewel.styling.LocalIconButtonStyle
 import org.jetbrains.jewel.styling.LocalLabelledTextFieldStyle
 import org.jetbrains.jewel.styling.LocalLazyTreeStyle
 import org.jetbrains.jewel.styling.LocalLinkStyle
@@ -45,6 +47,7 @@ import org.jetbrains.jewel.styling.LocalRadioButtonStyle
 import org.jetbrains.jewel.styling.LocalScrollbarStyle
 import org.jetbrains.jewel.styling.LocalTextAreaStyle
 import org.jetbrains.jewel.styling.LocalTextFieldStyle
+import org.jetbrains.jewel.styling.LocalTooltipStyle
 import org.jetbrains.jewel.styling.MenuStyle
 import org.jetbrains.jewel.styling.RadioButtonStyle
 import org.jetbrains.jewel.styling.ScrollbarStyle
@@ -53,9 +56,6 @@ import org.jetbrains.jewel.styling.TextAreaStyle
 import org.jetbrains.jewel.styling.TextFieldStyle
 
 interface BaseIntUiTheme : IntelliJTheme {
-
-    val defaultLightTextStyle: TextStyle
-    val defaultDarkTextStyle: TextStyle
 
     val globalColors: GlobalColors
         @Composable
@@ -67,10 +67,10 @@ interface BaseIntUiTheme : IntelliJTheme {
         @ReadOnlyComposable
         get() = IntelliJTheme.globalMetrics
 
-    val defaultTextStyle: TextStyle
+    val textStyle: TextStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.defaultTextStyle
+        get() = IntelliJTheme.textStyle
 
     val contentColor: Color
         @Composable
@@ -116,6 +116,11 @@ interface BaseIntUiTheme : IntelliJTheme {
         @Composable
         @ReadOnlyComposable
         get() = IntelliJTheme.chipStyle
+
+    val dividerStyle: DividerStyle
+        @Composable
+        @ReadOnlyComposable
+        get() = IntelliJTheme.dividerStyle
 
     val dropdownStyle: DropdownStyle
         @Composable
@@ -181,6 +186,11 @@ interface BaseIntUiTheme : IntelliJTheme {
         @Composable
         @ReadOnlyComposable
         get() = IntelliJTheme.editorTabStyle
+
+    val circularProgressStyle: CircularProgressStyle
+        @Composable
+        @ReadOnlyComposable
+        get() = IntelliJTheme.circularProgressStyle
 }
 
 @Composable
@@ -206,6 +216,7 @@ fun BaseIntUiTheme(
         LocalChipStyle provides componentStyling.chipStyle,
         LocalContextMenuRepresentation provides IntelliJContextMenuRepresentation,
         LocalDefaultButtonStyle provides componentStyling.defaultButtonStyle,
+        LocalDividerStyle provides componentStyling.dividerStyle,
         LocalDropdownStyle provides componentStyling.dropdownStyle,
         LocalGroupHeaderStyle provides componentStyling.groupHeaderStyle,
         LocalHorizontalProgressBarStyle provides componentStyling.horizontalProgressBarStyle,
@@ -221,21 +232,10 @@ fun BaseIntUiTheme(
         LocalDefaultTabStyle provides componentStyling.defaultTabStyle,
         LocalEditorTabStyle provides componentStyling.editorTabStyle,
         LocalIndication provides NoIndication,
+        LocalCircularProgressStyle provides componentStyling.circularProgressStyle,
+        LocalTooltipStyle provides componentStyling.tooltipStyle,
+        LocalIconButtonStyle provides componentStyling.iconButtonStyle,
     ) {
         IntelliJTheme(theme, swingCompatMode, content)
     }
-}
-
-private object NoIndication : Indication {
-
-    private object NoIndicationInstance : IndicationInstance {
-
-        override fun ContentDrawScope.drawIndication() {
-            drawContent()
-        }
-    }
-
-    @Composable
-    override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance =
-        NoIndicationInstance
 }

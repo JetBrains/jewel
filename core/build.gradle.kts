@@ -1,3 +1,5 @@
+import org.jetbrains.compose.ComposeBuildConfig
+
 plugins {
     jewel
     `jewel-publish`
@@ -5,6 +7,8 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
+private val composeVersion get() = ComposeBuildConfig.composeVersion
+
 dependencies {
-    api(compose.desktop.currentOs)
+    api("org.jetbrains.compose.foundation:foundation-desktop:$composeVersion")
 }

@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.ButtonState
+import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
@@ -139,7 +140,7 @@ data class IntUiTabColors(
             backgroundPressed: Color = backgroundHovered,
             backgroundSelected: Color = background,
             backgroundDisabled: Color = background,
-            content: Color = IntUiDarkTheme.colors.grey(12),
+            content: Color = Color.Unspecified,
             contentHovered: Color = content,
             contentDisabled: Color = content,
             contentPressed: Color = content,
@@ -182,7 +183,7 @@ data class IntUiTabColors(
             backgroundPressed: Color = background,
             backgroundSelected: Color = background,
             backgroundDisabled: Color = background,
-            content: Color = IntUiLightTheme.colors.grey(3),
+            content: Color = Color.Unspecified,
             contentHovered: Color = content,
             contentDisabled: Color = content,
             contentPressed: Color = content,
@@ -223,7 +224,7 @@ data class IntUiTabColors(
             backgroundSelected: Color = background,
             backgroundDisabled: Color = background,
 
-            content: Color = IntUiDarkTheme.colors.grey(12),
+            content: Color = Color.Unspecified,
             contentHovered: Color = content,
             contentDisabled: Color = content,
             contentPressed: Color = content,
@@ -353,9 +354,9 @@ data class IntUiTabIcons(
         @Composable
         fun close(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/closeSmall.svg",
+            basePath: String = "expui/general/closeSmall.svg",
         ): PainterProvider<ButtonState> =
-            ResourcePainterProvider.stateful(basePath, svgLoader)
+            ResourcePainterProvider.stateful(basePath, svgLoader, LocalIconData.current)
     }
 }
 

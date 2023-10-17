@@ -34,6 +34,7 @@ import org.jetbrains.jewel.CommonStateBitMask.Enabled
 import org.jetbrains.jewel.CommonStateBitMask.Focused
 import org.jetbrains.jewel.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.CommonStateBitMask.Pressed
+import org.jetbrains.jewel.CommonStateBitMask.Selected
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.styling.RadioButtonStyle
 
@@ -47,7 +48,7 @@ fun RadioButton(
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: RadioButtonStyle = IntelliJTheme.radioButtonStyle,
-    textStyle: TextStyle = IntelliJTheme.defaultTextStyle,
+    textStyle: TextStyle = IntelliJTheme.textStyle,
 ) {
     RadioButtonImpl(
         selected = selected,
@@ -74,7 +75,7 @@ fun RadioButtonRow(
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: RadioButtonStyle = IntelliJTheme.radioButtonStyle,
-    textStyle: TextStyle = IntelliJTheme.defaultTextStyle,
+    textStyle: TextStyle = IntelliJTheme.textStyle,
 ) {
     RadioButtonImpl(
         selected = selected,
@@ -101,7 +102,7 @@ fun RadioButtonRow(
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: RadioButtonStyle = IntelliJTheme.radioButtonStyle,
-    textStyle: TextStyle = IntelliJTheme.defaultTextStyle,
+    textStyle: TextStyle = IntelliJTheme.textStyle,
     content: @Composable RowScope.() -> Unit,
 ) {
     RadioButtonImpl(
@@ -183,7 +184,7 @@ private fun RadioButtonImpl(
             val contentColor by colors.contentFor(radioButtonState)
             CompositionLocalProvider(
                 LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
-                LocalContentColor provides contentColor.takeOrElse { textStyle.color },
+                LocalContentColor provides contentColor.takeOrElse { textStyle.color.takeOrElse { LocalContentColor.current } },
             ) {
                 content()
             }
@@ -248,10 +249,6 @@ value class RadioButtonState(val state: ULong) : SelectableComponentState {
             "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     companion object {
-
-        private const val SELECTED_BIT_OFFSET = CommonStateBitMask.FIRST_AVAILABLE_OFFSET
-
-        private val Selected = 1UL shl SELECTED_BIT_OFFSET
 
         fun of(
             selected: Boolean,

@@ -1,13 +1,10 @@
 package org.jetbrains.jewel
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.Indication
-import androidx.compose.foundation.IndicationInstance
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.HoverInteraction
-import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +30,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.isTertiary
 import androidx.compose.ui.input.pointer.onPointerEvent
@@ -81,7 +78,7 @@ internal fun TabImpl(
 
     CompositionLocalProvider(
         LocalIndication provides NoIndication,
-        LocalContentColor provides tabStyle.colors.contentFor(tabState).value,
+        LocalContentColor provides tabStyle.colors.contentFor(tabState).value.takeOrElse { LocalContentColor.current },
     ) {
         val labelAlpha by tabStyle.contentAlpha.labelFor(tabState)
         val iconAlpha by tabStyle.contentAlpha.iconFor(tabState)
@@ -162,21 +159,6 @@ internal fun TabImpl(
                 Spacer(Modifier.size(16.dp))
             }
         }
-    }
-}
-
-private object NoIndication : Indication {
-    private object NoIndicationInstance : IndicationInstance {
-
-        override fun ContentDrawScope.drawIndication() {
-            drawContent()
-        }
-    }
-
-    @Suppress("ExpressionBodySyntax")
-    @Composable
-    override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
-        return NoIndicationInstance
     }
 }
 

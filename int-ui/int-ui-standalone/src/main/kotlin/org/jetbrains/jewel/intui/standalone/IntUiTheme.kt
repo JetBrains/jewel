@@ -5,6 +5,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -34,9 +35,12 @@ import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.IntUiButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLazyTreeStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLinkStyle
@@ -46,12 +50,16 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTabStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
 import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.CheckboxStyle
 import org.jetbrains.jewel.styling.ChipStyle
+import org.jetbrains.jewel.styling.CircularProgressStyle
+import org.jetbrains.jewel.styling.DividerStyle
 import org.jetbrains.jewel.styling.DropdownStyle
 import org.jetbrains.jewel.styling.GroupHeaderStyle
 import org.jetbrains.jewel.styling.HorizontalProgressBarStyle
+import org.jetbrains.jewel.styling.IconButtonStyle
 import org.jetbrains.jewel.styling.LabelledTextFieldStyle
 import org.jetbrains.jewel.styling.LazyTreeStyle
 import org.jetbrains.jewel.styling.LinkStyle
@@ -64,15 +72,12 @@ import org.jetbrains.jewel.themes.StandalonePaletteMapperFactory
 
 object IntUiTheme : BaseIntUiTheme {
 
-    private val intUiDefaultTextStyle = TextStyle.Default.copy(
+    val defaultTextStyle = TextStyle.Default.copy(
         fontFamily = FontFamily.Inter,
         fontSize = 13.sp,
         fontWeight = FontWeight.Normal,
         fontStyle = FontStyle.Normal,
     )
-
-    override val defaultLightTextStyle = intUiDefaultTextStyle.copy(color = IntUiLightTheme.colors.grey(1))
-    override val defaultDarkTextStyle = intUiDefaultTextStyle.copy(color = IntUiDarkTheme.colors.grey(12))
 
     @Composable
     fun lightThemeDefinition(
@@ -80,8 +85,9 @@ object IntUiTheme : BaseIntUiTheme {
         metrics: GlobalMetrics = IntUiGlobalMetrics(),
         palette: IntUiThemeColorPalette = IntUiLightTheme.colors,
         icons: IntelliJThemeIconData = IntUiLightTheme.icons,
-        defaultTextStyle: TextStyle = defaultLightTextStyle,
-    ) = IntUiThemeDefinition(isDark = false, colors, palette, icons, metrics, defaultTextStyle)
+        defaultTextStyle: TextStyle = this.defaultTextStyle,
+        contentColor: Color = IntUiLightTheme.colors.grey(1),
+    ) = IntUiThemeDefinition(isDark = false, colors, palette, icons, metrics, defaultTextStyle, contentColor)
 
     @Composable
     fun darkThemeDefinition(
@@ -89,8 +95,9 @@ object IntUiTheme : BaseIntUiTheme {
         metrics: GlobalMetrics = IntUiGlobalMetrics(),
         palette: IntUiThemeColorPalette = IntUiDarkTheme.colors,
         icons: IntelliJThemeIconData = IntUiDarkTheme.icons,
-        defaultTextStyle: TextStyle = defaultDarkTextStyle,
-    ) = IntUiThemeDefinition(isDark = true, colors, palette, icons, metrics, defaultTextStyle)
+        defaultTextStyle: TextStyle = this.defaultTextStyle,
+        contentColor: Color = IntUiDarkTheme.colors.grey(12),
+    ) = IntUiThemeDefinition(isDark = true, colors, palette, icons, metrics, defaultTextStyle, contentColor)
 
     @Composable
     fun defaultComponentStyling(theme: IntUiThemeDefinition, svgLoader: SvgLoader): IntelliJComponentStyling {
@@ -115,6 +122,7 @@ object IntUiTheme : BaseIntUiTheme {
         outlinedButtonStyle: ButtonStyle = IntUiButtonStyle.Outlined.dark(),
         checkboxStyle: CheckboxStyle = IntUiCheckboxStyle.dark(svgLoader),
         chipStyle: ChipStyle = IntUiChipStyle.dark(),
+        dividerStyle: DividerStyle = IntUiDividerStyle.dark(),
         dropdownStyle: DropdownStyle = IntUiDropdownStyle.dark(svgLoader),
         groupHeaderStyle: GroupHeaderStyle = IntUiGroupHeaderStyle.dark(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.dark(),
@@ -128,12 +136,16 @@ object IntUiTheme : BaseIntUiTheme {
         lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.dark(svgLoader),
         defaultTabStyle: TabStyle = IntUiTabStyle.Default.dark(svgLoader),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(svgLoader),
+        circularProgressStyle: CircularProgressStyle = IntUiCircularProgressStyle.dark(),
+        tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.dark(),
+        iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.dark(),
     ) =
         IntelliJComponentStyling(
             checkboxStyle = checkboxStyle,
             chipStyle = chipStyle,
             defaultButtonStyle = defaultButtonStyle,
             defaultTabStyle = defaultTabStyle,
+            dividerStyle = dividerStyle,
             dropdownStyle = dropdownStyle,
             editorTabStyle = editorTabStyle,
             groupHeaderStyle = groupHeaderStyle,
@@ -147,6 +159,9 @@ object IntUiTheme : BaseIntUiTheme {
             scrollbarStyle = scrollbarStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
+            circularProgressStyle = circularProgressStyle,
+            tooltipStyle = tooltipStyle,
+            iconButtonStyle = iconButtonStyle,
         )
 
     @Composable
@@ -156,6 +171,7 @@ object IntUiTheme : BaseIntUiTheme {
         outlinedButtonStyle: ButtonStyle = IntUiButtonStyle.Outlined.light(),
         checkboxStyle: CheckboxStyle = IntUiCheckboxStyle.light(svgLoader),
         chipStyle: ChipStyle = IntUiChipStyle.light(),
+        dividerStyle: DividerStyle = IntUiDividerStyle.light(),
         dropdownStyle: DropdownStyle = IntUiDropdownStyle.light(svgLoader),
         groupHeaderStyle: GroupHeaderStyle = IntUiGroupHeaderStyle.light(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.light(),
@@ -169,26 +185,32 @@ object IntUiTheme : BaseIntUiTheme {
         lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.light(svgLoader),
         defaultTabStyle: TabStyle = IntUiTabStyle.Default.light(svgLoader),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(svgLoader),
-    ) =
-        IntelliJComponentStyling(
-            checkboxStyle = checkboxStyle,
-            chipStyle = chipStyle,
-            defaultButtonStyle = defaultButtonStyle,
-            defaultTabStyle = defaultTabStyle,
-            dropdownStyle = dropdownStyle,
-            editorTabStyle = editorTabStyle,
-            groupHeaderStyle = groupHeaderStyle,
-            horizontalProgressBarStyle = horizontalProgressBarStyle,
-            labelledTextFieldStyle = labelledTextFieldStyle,
-            lazyTreeStyle = lazyTreeStyle,
-            linkStyle = linkStyle,
-            menuStyle = menuStyle,
-            outlinedButtonStyle = outlinedButtonStyle,
-            radioButtonStyle = radioButtonStyle,
-            scrollbarStyle = scrollbarStyle,
-            textAreaStyle = textAreaStyle,
-            textFieldStyle = textFieldStyle,
-        )
+        circularProgressStyle: CircularProgressStyle = IntUiCircularProgressStyle.light(),
+        tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.light(),
+        iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.light(),
+    ) = IntelliJComponentStyling(
+        checkboxStyle = checkboxStyle,
+        chipStyle = chipStyle,
+        defaultButtonStyle = defaultButtonStyle,
+        defaultTabStyle = defaultTabStyle,
+        dividerStyle = dividerStyle,
+        dropdownStyle = dropdownStyle,
+        editorTabStyle = editorTabStyle,
+        groupHeaderStyle = groupHeaderStyle,
+        horizontalProgressBarStyle = horizontalProgressBarStyle,
+        labelledTextFieldStyle = labelledTextFieldStyle,
+        lazyTreeStyle = lazyTreeStyle,
+        linkStyle = linkStyle,
+        menuStyle = menuStyle,
+        outlinedButtonStyle = outlinedButtonStyle,
+        radioButtonStyle = radioButtonStyle,
+        scrollbarStyle = scrollbarStyle,
+        textAreaStyle = textAreaStyle,
+        textFieldStyle = textFieldStyle,
+        circularProgressStyle = circularProgressStyle,
+        tooltipStyle = tooltipStyle,
+        iconButtonStyle = iconButtonStyle,
+    )
 }
 
 @Composable
@@ -197,20 +219,39 @@ fun IntUiTheme(
     swingCompatMode: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    val svgLoader by remember(themeDefinition.isDark, themeDefinition.iconData, themeDefinition.colorPalette) {
-        val paletteMapper =
-            StandalonePaletteMapperFactory.create(
-                themeDefinition.isDark,
-                themeDefinition.iconData,
-                themeDefinition.colorPalette,
-            )
-        val svgPatcher = IntelliJSvgPatcher(paletteMapper)
-        mutableStateOf(JewelSvgLoader(svgPatcher))
-    }
+    val svgLoader by rememberSvgLoader(
+        isDark = themeDefinition.isDark,
+        iconData = themeDefinition.iconData,
+        colorPalette = themeDefinition.colorPalette,
+    )
 
     val componentStyling = defaultComponentStyling(themeDefinition, svgLoader)
     IntUiTheme(themeDefinition, componentStyling, swingCompatMode, content)
 }
+
+/**
+ * Create and remember an instance of [SvgLoader].
+ *
+ * Note that since [SvgLoader] may cache the loaded images, and that
+ * creating it may be somewhat expensive, you should only create it once at
+ * the top level, and pass it around.
+ */
+@Composable
+fun rememberSvgLoader(
+    isDark: Boolean = IntUiTheme.isDark,
+    iconData: IntelliJThemeIconData = IntUiTheme.iconData,
+    colorPalette: IntUiThemeColorPalette = IntUiTheme.colorPalette,
+) =
+    remember(isDark, iconData, colorPalette) {
+        val paletteMapper =
+            StandalonePaletteMapperFactory.create(
+                isDark,
+                iconData,
+                colorPalette,
+            )
+        val svgPatcher = IntelliJSvgPatcher(paletteMapper)
+        mutableStateOf(JewelSvgLoader(svgPatcher))
+    }
 
 @Composable
 fun IntUiTheme(

@@ -9,20 +9,26 @@ import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.CheckboxStyle
 import org.jetbrains.jewel.styling.ChipStyle
+import org.jetbrains.jewel.styling.CircularProgressStyle
+import org.jetbrains.jewel.styling.DividerStyle
 import org.jetbrains.jewel.styling.DropdownStyle
 import org.jetbrains.jewel.styling.GroupHeaderStyle
 import org.jetbrains.jewel.styling.HorizontalProgressBarStyle
+import org.jetbrains.jewel.styling.IconButtonStyle
 import org.jetbrains.jewel.styling.LabelledTextFieldStyle
 import org.jetbrains.jewel.styling.LazyTreeStyle
 import org.jetbrains.jewel.styling.LinkStyle
 import org.jetbrains.jewel.styling.LocalCheckboxStyle
 import org.jetbrains.jewel.styling.LocalChipStyle
+import org.jetbrains.jewel.styling.LocalCircularProgressStyle
 import org.jetbrains.jewel.styling.LocalDefaultButtonStyle
 import org.jetbrains.jewel.styling.LocalDefaultTabStyle
+import org.jetbrains.jewel.styling.LocalDividerStyle
 import org.jetbrains.jewel.styling.LocalDropdownStyle
 import org.jetbrains.jewel.styling.LocalEditorTabStyle
 import org.jetbrains.jewel.styling.LocalGroupHeaderStyle
 import org.jetbrains.jewel.styling.LocalHorizontalProgressBarStyle
+import org.jetbrains.jewel.styling.LocalIconButtonStyle
 import org.jetbrains.jewel.styling.LocalLabelledTextFieldStyle
 import org.jetbrains.jewel.styling.LocalLazyTreeStyle
 import org.jetbrains.jewel.styling.LocalLinkStyle
@@ -32,12 +38,14 @@ import org.jetbrains.jewel.styling.LocalRadioButtonStyle
 import org.jetbrains.jewel.styling.LocalScrollbarStyle
 import org.jetbrains.jewel.styling.LocalTextAreaStyle
 import org.jetbrains.jewel.styling.LocalTextFieldStyle
+import org.jetbrains.jewel.styling.LocalTooltipStyle
 import org.jetbrains.jewel.styling.MenuStyle
 import org.jetbrains.jewel.styling.RadioButtonStyle
 import org.jetbrains.jewel.styling.ScrollbarStyle
 import org.jetbrains.jewel.styling.TabStyle
 import org.jetbrains.jewel.styling.TextAreaStyle
 import org.jetbrains.jewel.styling.TextFieldStyle
+import org.jetbrains.jewel.styling.TooltipStyle
 
 interface IntelliJTheme {
 
@@ -57,7 +65,7 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalGlobalMetrics.current
 
-        val defaultTextStyle: TextStyle
+        val textStyle: TextStyle
             @Composable
             @ReadOnlyComposable
             get() = LocalTextStyle.current
@@ -110,6 +118,11 @@ interface IntelliJTheme {
             @Composable
             @ReadOnlyComposable
             get() = LocalChipStyle.current
+
+        val dividerStyle: DividerStyle
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalDividerStyle.current
 
         val dropdownStyle: DropdownStyle
             @Composable
@@ -175,6 +188,20 @@ interface IntelliJTheme {
             @Composable
             @ReadOnlyComposable
             get() = LocalEditorTabStyle.current
+
+        val circularProgressStyle: CircularProgressStyle
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalCircularProgressStyle.current
+
+        val tooltipStyle: TooltipStyle
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalTooltipStyle.current
+        val iconButtonStyle: IconButtonStyle
+            @Composable
+            @ReadOnlyComposable
+            get() = LocalIconButtonStyle.current
     }
 }
 
@@ -191,12 +218,10 @@ fun IntelliJTheme(
 
 @Composable
 fun IntelliJTheme(theme: IntelliJThemeDefinition, content: @Composable () -> Unit) {
-    val defaultTextStyle = theme.defaultTextStyle
-
     CompositionLocalProvider(
         LocalIsDarkTheme provides theme.isDark,
-        LocalContentColor provides defaultTextStyle.color,
-        LocalTextStyle provides defaultTextStyle,
+        LocalContentColor provides theme.contentColor,
+        LocalTextStyle provides theme.defaultTextStyle,
         LocalGlobalColors provides theme.globalColors,
         LocalGlobalMetrics provides theme.globalMetrics,
         content = content,

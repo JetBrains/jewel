@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.DropdownState
+import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
@@ -40,7 +41,7 @@ data class IntUiDropdownStyle(
             colors: IntUiDropdownColors = IntUiDropdownColors.light(),
             metrics: IntUiDropdownMetrics = IntUiDropdownMetrics(),
             icons: IntUiDropdownIcons = intUiDropdownIcons(svgLoader),
-            textStyle: TextStyle = IntUiTheme.defaultLightTextStyle,
+            textStyle: TextStyle = IntUiTheme.defaultTextStyle,
             menuStyle: MenuStyle = IntUiMenuStyle.light(svgLoader),
         ) = IntUiDropdownStyle(colors, metrics, icons, textStyle, menuStyle)
 
@@ -50,7 +51,7 @@ data class IntUiDropdownStyle(
             colors: IntUiDropdownColors = IntUiDropdownColors.dark(),
             metrics: IntUiDropdownMetrics = IntUiDropdownMetrics(),
             icons: IntUiDropdownIcons = intUiDropdownIcons(svgLoader),
-            textStyle: TextStyle = IntUiTheme.defaultDarkTextStyle,
+            textStyle: TextStyle = IntUiTheme.defaultTextStyle,
             menuStyle: MenuStyle = IntUiMenuStyle.dark(svgLoader),
         ) = IntUiDropdownStyle(colors, metrics, icons, textStyle, menuStyle)
     }
@@ -193,9 +194,9 @@ data class IntUiDropdownIcons(
         @Composable
         fun chevronDown(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/chevronDown.svg",
+            basePath: String = "expui/general/chevronDown.svg",
         ): PainterProvider<DropdownState> =
-            ResourcePainterProvider.stateful(basePath, svgLoader)
+            ResourcePainterProvider.stateful(basePath, svgLoader, LocalIconData.current)
     }
 }
 

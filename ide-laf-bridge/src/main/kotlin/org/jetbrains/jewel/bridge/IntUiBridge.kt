@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
@@ -36,6 +37,9 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerMetrics
+import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownIcons
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownMetrics
@@ -46,6 +50,9 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonColors
+import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonMetrics
+import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
@@ -84,6 +91,9 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
+import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipColors
+import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipMetrics
+import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -112,6 +122,7 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefini
         iconData = BridgeIconData.readFromLaF(),
         globalMetrics = BridgeGlobalMetrics.readFromLaF(),
         defaultTextStyle = textStyle,
+        contentColor = JBColor.foreground().toComposeColor(),
     )
 }
 
@@ -148,6 +159,7 @@ internal fun createSwingIntUiComponentStyling(
         chipStyle = readChipStyle(),
         defaultButtonStyle = readDefaultButtonStyle(),
         defaultTabStyle = readDefaultTabStyle(theme.iconData, svgLoader),
+        dividerStyle = readDividerStyle(),
         dropdownStyle = readDropdownStyle(theme.iconData, svgLoader, menuStyle, dropdownTextStyle),
         editorTabStyle = readEditorTabStyle(theme.iconData, svgLoader),
         groupHeaderStyle = readGroupHeaderStyle(),
@@ -160,7 +172,10 @@ internal fun createSwingIntUiComponentStyling(
         radioButtonStyle = readRadioButtonStyle(theme.iconData, svgLoader),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
+        circularProgressStyle = readCircularProgressStyle(theme.isDark),
+        tooltipStyle = readTooltipStyle(),
         textFieldStyle = textFieldStyle,
+        iconButtonStyle = readIconButtonStyle(),
     )
 }
 
@@ -337,6 +352,12 @@ private fun readChipStyle(): IntUiChipStyle {
     )
 }
 
+private fun readDividerStyle() =
+    IntUiDividerStyle(
+        color = retrieveColorOrUnspecified("Borders.color"),
+        metrics = IntUiDividerMetrics(),
+    )
+
 private fun readDropdownStyle(
     iconData: IntelliJThemeIconData,
     svgLoader: SvgLoader,
@@ -398,7 +419,6 @@ private fun readDropdownStyle(
 
 private fun readGroupHeaderStyle() = IntUiGroupHeaderStyle(
     colors = IntUiGroupHeaderColors(
-        content = retrieveColorOrUnspecified("Separator.foreground"),
         divider = retrieveColorOrUnspecified("Separator.separatorColor"),
     ),
     metrics = IntUiGroupHeaderMetrics(
@@ -614,12 +634,12 @@ private fun readRadioButtonStyle(iconData: IntelliJThemeIconData, svgLoader: Svg
 
 private fun readScrollbarStyle(isDark: Boolean) = IntUiScrollbarStyle(
     colors = IntUiScrollbarColors(
-        // See ScrollBarPainter.THUMB_BACKGROUND
+        // See ScrollBarPainter.THUMB_OPAQUE_BACKGROUND
         thumbBackground = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbColor")
-            .takeOrElse { if (isDark) Color(0x00000000) else Color(0x00808080) },
-        // See ScrollBarPainter.THUMB_HOVERED_BACKGROUND
+            .takeOrElse { if (isDark) Color(0x59808080) else Color(0x33000000) },
+        // See ScrollBarPainter.THUMB_OPAQUE_HOVERED_BACKGROUND
         thumbBackgroundHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
-            .takeOrElse { if (isDark) Color(0x00000000) else Color(0x00808080) },
+            .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
     ),
     metrics = IntUiScrollbarMetrics(
         thumbCornerSize = CornerSize(100),
@@ -881,3 +901,41 @@ private fun readEditorTabStyle(iconData: IntelliJThemeIconData, svgLoader: SvgLo
         ),
     )
 }
+
+private fun readCircularProgressStyle(
+    isDark: Boolean,
+): IntUiCircularProgressStyle =
+    IntUiCircularProgressStyle(
+        frameTime = 125.milliseconds,
+        color = retrieveColorOrUnspecified("ProgressIcon.color")
+            .takeIf { it.isSpecified }
+            ?: if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD),
+    )
+
+private fun readTooltipStyle(): IntUiTooltipStyle {
+    return IntUiTooltipStyle(
+        metrics = IntUiTooltipMetrics(),
+        colors = IntUiTooltipColors(
+            content = retrieveColorOrUnspecified("ToolTip.foreground"),
+            background = retrieveColorOrUnspecified("ToolTip.background"),
+            border = retrieveColorOrUnspecified("ToolTip.borderColor"),
+            shadow = retrieveColorOrUnspecified("Notification.Shadow.bottom1Color"),
+        ),
+    )
+}
+
+private fun readIconButtonStyle(): IntUiIconButtonStyle = IntUiIconButtonStyle(
+    metrics = IntUiIconButtonMetrics(CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2)),
+    colors = IntUiIconButtonColors(
+        background = Color.Unspecified,
+        backgroundDisabled = Color.Unspecified,
+        backgroundFocused = Color.Unspecified,
+        backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
+        backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
+        border = Color.Unspecified,
+        borderDisabled = Color.Unspecified,
+        borderFocused = retrieveColorOrUnspecified("ActionButton.focusedBorderColor"),
+        borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
+        borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
+    ),
+)

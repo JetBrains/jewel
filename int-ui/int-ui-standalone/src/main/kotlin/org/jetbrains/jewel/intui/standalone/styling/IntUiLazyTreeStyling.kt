@@ -8,6 +8,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.SvgLoader
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
@@ -60,7 +61,7 @@ data class IntUiLazyTreeColors(
 
         @Composable
         fun light(
-            content: Color = IntUiLightTheme.colors.grey(1),
+            content: Color = Color.Unspecified,
             contentFocused: Color = content,
             contentSelected: Color = content,
             contentSelectedFocused: Color = content,
@@ -79,7 +80,7 @@ data class IntUiLazyTreeColors(
 
         @Composable
         fun dark(
-            content: Color = IntUiDarkTheme.colors.grey(12),
+            content: Color = Color.Unspecified,
             contentFocused: Color = content,
             contentSelected: Color = content,
             contentSelectedFocused: Color = content,
@@ -121,16 +122,16 @@ data class IntUiLazyTreeIcons(
         @Composable
         fun chevronCollapsed(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/chevronRight.svg",
+            basePath: String = "expui/general/chevronRight.svg",
         ): PainterProvider<Unit> =
-            ResourcePainterProvider.stateless(basePath, svgLoader)
+            ResourcePainterProvider.stateless(basePath, svgLoader, LocalIconData.current)
 
         @Composable
         fun chevronExpanded(
             svgLoader: SvgLoader,
-            basePath: String = "icons/intui/chevronDown.svg",
+            basePath: String = "expui/general/chevronDown.svg",
         ): PainterProvider<Unit> =
-            ResourcePainterProvider.stateless(basePath, svgLoader)
+            ResourcePainterProvider.stateless(basePath, svgLoader, LocalIconData.current)
     }
 }
 
