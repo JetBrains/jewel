@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.bridge
 
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.ui.icons.patchIconPath
 import com.intellij.util.ui.DirProvider
 import org.jetbrains.jewel.InternalJewelApi
@@ -20,6 +21,33 @@ fun getPatchedIconPath(
     for (classLoader in classLoaders) {
         val patchedPath = patchIconPath(originalPath.removePrefix("/"), classLoader)?.first
             ?: patchIconPath(fallbackPath, classLoader)?.first
+
+        // 233 EAP 4 broke path patching horribly, now it can return a
+        // "reflective path", which is a FQN to an ExpUIIcons entry.
+        // As a (hopefully) temporary solution, we undo this transformation
+        // back into the original path.
+        if (patchedPath?.startsWith("com.intellij.icons.ExpUiIcons") == true) {
+            val iconPath = patchedPath.removePrefix("com.intellij.icons.ExpUiIcons.")
+
+            return buildString {
+                append("expui/")
+                iconPath.split('.')
+                    .map { it.trim() }
+                    .filter { it.isNotEmpty() }
+                    .forEach {
+                        append(it.first().lowercaseChar())
+                        append(it.drop(1))
+                        append('/')
+                    }
+                replace(length - 1, length, "")
+                if (iconPath.contains("_dark")) append("_dark")
+                append(".svg")
+
+                Logger.getInstance("IconsPathPatching")
+                    .warn("IntelliJ returned a reflective path: $patchedPath for $iconPath." +
+                        " We reverted that to a plausible-looking resource path: ${toString()}")
+            }
+        }
 
         if (patchedPath != null) {
             return patchedPath

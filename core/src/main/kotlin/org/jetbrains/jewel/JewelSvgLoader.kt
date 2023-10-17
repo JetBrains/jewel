@@ -3,6 +3,8 @@ package org.jetbrains.jewel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.ResourceLoader
@@ -37,8 +39,20 @@ class JewelSvgLoader(private val svgPatcher: SvgPatcher) : SvgLoader {
     ): Painter {
         val density = LocalDensity.current
 
-        val painter = useResource(resourcePath, loader) {
-            loadSvgPainter(it.patchColors(resourcePath), density)
+        val painter = try {
+            useResource(resourcePath, loader) {
+                loadSvgPainter(it.patchColors(resourcePath), density)
+            }
+        } catch (ex: IllegalArgumentException) {
+            System.err.println(
+                buildString {
+                    appendLine("Unable to load SVG resource $resourcePath")
+                    appendLine(ex.stackTraceToString())
+                },
+            )
+            return remember(resourcePath, density, loader) {
+                ColorPainter(Color.Magenta)
+            }
         }
         return remember(resourcePath, density, loader) { painter }
     }
