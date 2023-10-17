@@ -31,3 +31,5 @@ fun Size(size: String?): PainterHint = if (size.isNullOrEmpty()) {
 } else {
     SizeImpl(size)
 }
+
+fun Size(width: Int, height: Int): PainterHint = SizeImpl("${width}x$height")
