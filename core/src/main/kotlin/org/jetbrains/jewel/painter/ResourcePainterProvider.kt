@@ -94,14 +94,12 @@ class ResourcePainterProvider(
         val density = LocalDensity.current
 
         return when (format) {
-            "svg" -> {
-                remember(url, density, hints) {
-                    patchSvg(url.openStream(), hints).use {
-                        if (inDebugMode) {
-                            println("Load icon $basePath(${hints.joinToString()}) from $url")
-                        }
-                        loadSvgPainter(it, density)
+            "svg" -> remember(url, density, hints) {
+                patchSvg(url.openStream(), hints).use {
+                    if (inDebugMode) {
+                        println("Load icon $basePath(${hints.joinToString()}) from $url")
                     }
+                    loadSvgPainter(it, density)
                 }
             }
 
@@ -112,13 +110,11 @@ class ResourcePainterProvider(
                 rememberVectorPainter(vector)
             }
 
-            else -> {
-                remember(url, density) {
-                    val bitmap = url.openStream().use {
-                        loadImageBitmap(it)
-                    }
-                    BitmapPainter(bitmap)
+            else -> remember(url, density) {
+                val bitmap = url.openStream().use {
+                    loadImageBitmap(it)
                 }
+                BitmapPainter(bitmap)
             }
         }
     }
