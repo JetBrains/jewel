@@ -97,7 +97,15 @@ class ResourcePainterProvider(
         }.reversed()
 
         val url = pathStack.firstNotNullOfOrNull { resolveResource(it) }
-            ?: error("Resource '$basePath(${hints.joinToString()})' not found")
+
+        @Suppress("UrlHashCode") // It's ok when comparing a URL to null
+        if (url == null) {
+            if (inDebugMode) {
+                error("Resource '$basePath(${hints.joinToString()})' not found")
+            } else {
+                return errorPainter
+            }
+        }
 
         val density = LocalDensity.current
 
