@@ -1470,17 +1470,31 @@ public final class org/jetbrains/jewel/foundation/utils/ModifierExtensionsKt {
 	public static final fun thenIf (Landroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
 }
 
-public final class org/jetbrains/jewel/painter/DarkPainterHintsProvider : org/jetbrains/jewel/painter/PainterHintsProvider {
+public abstract interface class org/jetbrains/jewel/painter/BitmapPainterHint : org/jetbrains/jewel/painter/PainterHint {
+	public abstract fun canApplyTo (Ljava/lang/String;)Z
+}
+
+public final class org/jetbrains/jewel/painter/BitmapPainterHint$DefaultImpls {
+	public static fun canApplyTo (Lorg/jetbrains/jewel/painter/BitmapPainterHint;Ljava/lang/String;)Z
+}
+
+public final class org/jetbrains/jewel/painter/CommonPainterHintsProvider : org/jetbrains/jewel/painter/PainterHintsProvider {
 	public static final field $stable I
-	public static final field INSTANCE Lorg/jetbrains/jewel/painter/DarkPainterHintsProvider;
+	public static final field INSTANCE Lorg/jetbrains/jewel/painter/CommonPainterHintsProvider;
 	public fun hints (Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ljava/util/List;
 }
 
 public abstract interface class org/jetbrains/jewel/painter/PainterHint {
 	public static final field None Lorg/jetbrains/jewel/painter/PainterHint$None;
+	public abstract fun canApplyTo (Ljava/lang/String;)Z
+}
+
+public final class org/jetbrains/jewel/painter/PainterHint$DefaultImpls {
+	public static fun canApplyTo (Lorg/jetbrains/jewel/painter/PainterHint;Ljava/lang/String;)Z
 }
 
 public final class org/jetbrains/jewel/painter/PainterHint$None : org/jetbrains/jewel/painter/PainterHint {
+	public fun canApplyTo (Ljava/lang/String;)Z
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1496,9 +1510,14 @@ public abstract interface class org/jetbrains/jewel/painter/PainterPathHint : or
 	public abstract fun patch (Ljava/lang/String;)Ljava/lang/String;
 }
 
+public final class org/jetbrains/jewel/painter/PainterPathHint$DefaultImpls {
+	public static fun canApplyTo (Lorg/jetbrains/jewel/painter/PainterPathHint;Ljava/lang/String;)Z
+}
+
 public abstract class org/jetbrains/jewel/painter/PainterPrefixHint : org/jetbrains/jewel/painter/PainterPathHint {
 	public static final field $stable I
 	public fun <init> ()V
+	public fun canApplyTo (Ljava/lang/String;)Z
 	public fun patch (Ljava/lang/String;)Ljava/lang/String;
 	public abstract fun prefix ()Ljava/lang/String;
 }
@@ -1511,15 +1530,24 @@ public abstract interface class org/jetbrains/jewel/painter/PainterResourcePathH
 	public abstract fun patch (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
 }
 
+public final class org/jetbrains/jewel/painter/PainterResourcePathHint$DefaultImpls {
+	public static fun canApplyTo (Lorg/jetbrains/jewel/painter/PainterResourcePathHint;Ljava/lang/String;)Z
+}
+
 public abstract class org/jetbrains/jewel/painter/PainterSuffixHint : org/jetbrains/jewel/painter/PainterPathHint {
 	public static final field $stable I
 	public fun <init> ()V
+	public fun canApplyTo (Ljava/lang/String;)Z
 	public fun patch (Ljava/lang/String;)Ljava/lang/String;
 	public abstract fun suffix ()Ljava/lang/String;
 }
 
-public abstract interface class org/jetbrains/jewel/painter/PainterSvgPatchHint : org/jetbrains/jewel/painter/PainterHint {
+public abstract interface class org/jetbrains/jewel/painter/PainterSvgPatchHint : org/jetbrains/jewel/painter/SvgPainterHint {
 	public abstract fun patch (Lorg/w3c/dom/Element;)V
+}
+
+public final class org/jetbrains/jewel/painter/PainterSvgPatchHint$DefaultImpls {
+	public static fun canApplyTo (Lorg/jetbrains/jewel/painter/PainterSvgPatchHint;Ljava/lang/String;)Z
 }
 
 public final class org/jetbrains/jewel/painter/ResourcePainterProvider : org/jetbrains/jewel/painter/PainterProvider {
@@ -1532,9 +1560,30 @@ public final class org/jetbrains/jewel/painter/ResourcePainterProviderKt {
 	public static final fun rememberResourcePainterProvider (Ljava/lang/String;Ljava/lang/Class;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/painter/PainterProvider;
 }
 
+public abstract interface class org/jetbrains/jewel/painter/SvgPainterHint : org/jetbrains/jewel/painter/PainterHint {
+	public abstract fun canApplyTo (Ljava/lang/String;)Z
+}
+
+public final class org/jetbrains/jewel/painter/SvgPainterHint$DefaultImpls {
+	public static fun canApplyTo (Lorg/jetbrains/jewel/painter/SvgPainterHint;Ljava/lang/String;)Z
+}
+
+public abstract interface class org/jetbrains/jewel/painter/XmlPainterHint : org/jetbrains/jewel/painter/PainterHint {
+	public abstract fun canApplyTo (Ljava/lang/String;)Z
+}
+
+public final class org/jetbrains/jewel/painter/XmlPainterHint$DefaultImpls {
+	public static fun canApplyTo (Lorg/jetbrains/jewel/painter/XmlPainterHint;Ljava/lang/String;)Z
+}
+
 public final class org/jetbrains/jewel/painter/hints/DarkKt {
 	public static final fun Dark (Z)Lorg/jetbrains/jewel/painter/PainterHint;
 	public static synthetic fun Dark$default (ZILjava/lang/Object;)Lorg/jetbrains/jewel/painter/PainterHint;
+}
+
+public final class org/jetbrains/jewel/painter/hints/HiDpiKt {
+	public static final fun HiDpi (Landroidx/compose/ui/unit/Density;)Lorg/jetbrains/jewel/painter/PainterHint;
+	public static final fun HiDpi (Z)Lorg/jetbrains/jewel/painter/PainterHint;
 }
 
 public final class org/jetbrains/jewel/painter/hints/OverrideKt {
@@ -1554,6 +1603,7 @@ public final class org/jetbrains/jewel/painter/hints/SelectedKt {
 public final class org/jetbrains/jewel/painter/hints/SizeKt {
 	public static final fun Size (II)Lorg/jetbrains/jewel/painter/PainterHint;
 	public static final fun Size (Ljava/lang/String;)Lorg/jetbrains/jewel/painter/PainterHint;
+	public static synthetic fun Size$default (IIILjava/lang/Object;)Lorg/jetbrains/jewel/painter/PainterHint;
 }
 
 public final class org/jetbrains/jewel/painter/hints/StatefulKt {
