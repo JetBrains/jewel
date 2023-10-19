@@ -48,7 +48,7 @@ detekt {
     buildUponDefaultConfig = true
 }
 
-val sarif by configurations.creating {
+val sarif: Configuration by configurations.creating {
     isCanBeConsumed = true
     attributes {
         attribute(Usage.USAGE_ATTRIBUTE, objects.named("sarif"))
