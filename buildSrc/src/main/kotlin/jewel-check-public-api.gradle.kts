@@ -16,6 +16,7 @@ tasks {
     val validatePublicApi = register<ValidatePublicApiTask>("validatePublicApi") {
         include { it.file.extension == "api" }
         source(project.fileTree("api"))
+        dependsOn(named("apiCheck"))
     }
 
     named("check") {

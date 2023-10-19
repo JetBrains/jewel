@@ -10,6 +10,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
@@ -18,7 +19,8 @@ import org.jetbrains.jewel.styling.TextFieldColors
 import org.jetbrains.jewel.styling.TextFieldStyle
 
 @Stable
-data class IntUiTextFieldStyle(
+@Poko
+class IntUiTextFieldStyle(
     override val colors: IntUiTextFieldColors,
     override val metrics: IntUiTextFieldMetrics,
     override val textStyle: TextStyle,
@@ -43,7 +45,8 @@ data class IntUiTextFieldStyle(
 }
 
 @Immutable
-data class IntUiTextFieldColors(
+@Poko
+class IntUiTextFieldColors(
     override val background: Color,
     override val backgroundDisabled: Color,
     override val backgroundFocused: Color,
@@ -166,7 +169,8 @@ data class IntUiTextFieldColors(
 }
 
 @Stable
-data class IntUiTextFieldMetrics(
+@Poko
+class IntUiTextFieldMetrics(
     override val cornerSize: CornerSize = CornerSize(4.dp),
     override val contentPadding: PaddingValues = PaddingValues(horizontal = 9.dp, vertical = 6.dp),
     override val minSize: DpSize = DpSize(144.dp, 28.dp),

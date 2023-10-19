@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.styling.ChipColors
@@ -17,7 +18,8 @@ import org.jetbrains.jewel.styling.ChipMetrics
 import org.jetbrains.jewel.styling.ChipStyle
 
 @Stable
-data class IntUiChipStyle(
+@Poko
+class IntUiChipStyle(
     override val colors: IntUiChipColors,
     override val metrics: IntUiChipMetrics,
 ) : ChipStyle {
@@ -39,7 +41,8 @@ data class IntUiChipStyle(
 }
 
 @Immutable
-data class IntUiChipColors(
+@Poko
+class IntUiChipColors(
     override val background: Brush,
     override val backgroundDisabled: Brush,
     override val backgroundFocused: Brush,
@@ -207,7 +210,8 @@ data class IntUiChipColors(
 }
 
 @Stable
-data class IntUiChipMetrics(
+@Poko
+class IntUiChipMetrics(
     override val cornerSize: CornerSize = CornerSize(100),
     override val padding: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
     override val borderWidth: Dp = 1.dp,
