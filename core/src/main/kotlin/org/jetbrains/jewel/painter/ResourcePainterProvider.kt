@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.VectorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.loadImageBitmap
@@ -33,12 +32,18 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
+private val errorPainter = ColorPainter(Color.Magenta)
+
 /**
  * Provide [Painter] by resources in the module and jars, it use the
  * ResourceResolver to load resources.
  *
  * It will cache the painter by [PainterHint]s, so it is safe to call
  * [getPainter] multiple times.
+ *
+ * If a resource fails to load, it will be silently replaced by a
+ * magenta color painter, and the exception logged. If Jewel is in
+ * [debug mode][inDebugMode], however, exceptions will not be suppressed.
  */
 @Immutable
 class ResourcePainterProvider(
@@ -97,6 +102,7 @@ class ResourcePainterProvider(
         val density = LocalDensity.current
 
         val extension = basePath.substringAfterLast(".").lowercase()
+
         return when (extension) {
             "svg" -> createSvgPainter(url, density, hints)
             "xml" -> createVectorDrawablePainter(url, density)
@@ -118,28 +124,20 @@ class ResourcePainterProvider(
         return null
     }
 
-    @Suppress("TooGenericExceptionCaught") // This is a last-resort fallback when icons fail to load
     @Composable
-    private fun createSvgPainter(url: URL, density: Density, hints: List<PainterHint>): Painter {
-        val painter = try {
-            patchSvg(url.openStream(), hints).use {
-                if (inDebugMode) {
-                    println("Loading icon $basePath(${hints.joinToString()}) from $url")
+    private fun createSvgPainter(url: URL, density: Density, hints: List<PainterHint>): Painter =
+        tryLoadingResource(
+            url = url,
+            loadingAction = { resourceUrl ->
+                patchSvg(url.openStream(), hints).use { inputStream ->
+                    if (inDebugMode) {
+                        println("Loading icon $basePath(${hints.joinToString()}) from $resourceUrl")
+                    }
+                    loadSvgPainter(inputStream, density)
                 }
-                loadSvgPainter(it, density)
-            }
-        } catch (e: RuntimeException) {
-            val message = "Unable to load SVG resource from $url\n${e.stackTraceToString()}"
-            if (inDebugMode) {
-                error(message)
-            }
-
-            System.err.println(message)
-            ColorPainter(Color.Magenta)
-        }
-
-        return remember(url, density, hints) { painter }
-    }
+            },
+            rememberAction = { remember(url, density, hints) { it } },
+        )
 
     private fun patchSvg(inputStream: InputStream, hints: List<PainterHint>): InputStream {
         if (hints.all { it !is PainterSvgPatchHint }) {
@@ -160,21 +158,29 @@ class ResourcePainterProvider(
     }
 
     @Composable
-    private fun createVectorDrawablePainter(url: URL, density: Density): VectorPainter {
-        val vector = url.openStream().use {
-            loadXmlImageVector(InputSource(it), density)
-        }
-        return rememberVectorPainter(vector)
-    }
+    private fun createVectorDrawablePainter(url: URL, density: Density): Painter =
+        tryLoadingResource(
+            url = url,
+            loadingAction = { resourceUrl ->
+                resourceUrl.openStream().use {
+                    loadXmlImageVector(InputSource(it), density)
+                }
+            },
+            rememberAction = { rememberVectorPainter(it) },
+        )
 
     @Composable
     private fun createBitmapPainter(url: URL, density: Density) =
-        remember(url, density) {
-            val bitmap = url.openStream().use {
-                loadImageBitmap(it)
-            }
-            BitmapPainter(bitmap)
-        }
+        tryLoadingResource(
+            url = url,
+            loadingAction = { resourceUrl ->
+                val bitmap = resourceUrl.openStream().use {
+                    loadImageBitmap(it)
+                }
+                BitmapPainter(bitmap)
+            },
+            rememberAction = { remember(url, density) { it } },
+        )
 
     private fun Document.writeToString(): String {
         val tf = TransformerFactory.newInstance()
@@ -192,6 +198,28 @@ class ResourcePainterProvider(
         } catch (e: IOException) {
             error("Unable to render XML document to string: ${e.message}")
         }
+    }
+
+    @Composable
+    private fun <T> tryLoadingResource(
+        url: URL,
+        loadingAction: (URL) -> T,
+        rememberAction: @Composable (T) -> Painter,
+    ): Painter {
+        @Suppress("TooGenericExceptionCaught") // This is a last-resort fallback when icons fail to load
+        val painter = try {
+            loadingAction(url)
+        } catch (e: RuntimeException) {
+            val message = "Unable to load SVG resource from $url\n${e.stackTraceToString()}"
+            if (inDebugMode) {
+                error(message)
+            }
+
+            System.err.println(message)
+            return errorPainter
+        }
+
+        return rememberAction(painter)
     }
 }
 
