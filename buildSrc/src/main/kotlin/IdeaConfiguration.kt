@@ -10,7 +10,7 @@ private var warned = AtomicBoolean(false)
 
 fun Project.supportedIJVersion(): SupportedIJVersion {
     val prop = kotlin.runCatching {
-        rootProject.property("supported.ij.version")?.toString() ?:
+        rootProject.findProperty("supported.ij.version")?.toString() ?:
             localProperty("supported.ij.version")
     }.getOrNull()
 
