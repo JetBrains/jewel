@@ -27,10 +27,6 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldTextStyles
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLazyTreeColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLazyTreeIcons
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLazyTreeMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLazyTreeStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLinkColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLinkIcons
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLinkMetrics
@@ -92,6 +88,10 @@ import org.jetbrains.jewel.styling.IconButtonColors
 import org.jetbrains.jewel.styling.IconButtonMetrics
 import org.jetbrains.jewel.styling.IconButtonStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
+import org.jetbrains.jewel.styling.LazyTreeColors
+import org.jetbrains.jewel.styling.LazyTreeIcons
+import org.jetbrains.jewel.styling.LazyTreeMetrics
+import org.jetbrains.jewel.styling.LazyTreeStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
@@ -748,13 +748,13 @@ private fun readTextFieldStyle(textFieldStyle: TextStyle): IntUiTextFieldStyle {
     )
 }
 
-private fun readLazyTreeStyle(): IntUiLazyTreeStyle {
+private fun readLazyTreeStyle(): LazyTreeStyle {
     val normalContent = retrieveColorOrUnspecified("Tree.foreground")
     val selectedContent = retrieveColorOrUnspecified("Tree.selectionForeground")
     val selectedElementBackground = retrieveColorOrUnspecified("Tree.selectionBackground")
     val inactiveSelectedElementBackground = retrieveColorOrUnspecified("Tree.selectionInactiveBackground")
 
-    val colors = IntUiLazyTreeColors(
+    val colors = LazyTreeColors(
         content = normalContent,
         contentFocused = normalContent,
         contentSelected = selectedContent,
@@ -767,9 +767,9 @@ private fun readLazyTreeStyle(): IntUiLazyTreeStyle {
     val chevronCollapsed = bridgePainterProvider("${iconsBasePath}general/chevron-right.svg")
     val chevronExpanded = bridgePainterProvider("${iconsBasePath}general/chevron-down.svg")
 
-    return IntUiLazyTreeStyle(
+    return LazyTreeStyle(
         colors = colors,
-        metrics = IntUiLazyTreeMetrics(
+        metrics = LazyTreeMetrics(
             indentSize = retrieveIntAsDpOrUnspecified("Tree.leftChildIndent").takeOrElse { 7.dp } +
                 retrieveIntAsDpOrUnspecified("Tree.rightChildIndent").takeOrElse { 11.dp },
             elementBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
@@ -778,7 +778,7 @@ private fun readLazyTreeStyle(): IntUiLazyTreeStyle {
             elementMinHeight = retrieveIntAsDpOrUnspecified("Tree.rowHeight").takeOrElse { 24.dp },
             chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
         ),
-        icons = IntUiLazyTreeIcons(
+        icons = LazyTreeIcons(
             chevronCollapsed = chevronCollapsed,
             chevronExpanded = chevronExpanded,
             chevronSelectedCollapsed = chevronCollapsed,
