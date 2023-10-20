@@ -20,7 +20,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.Default
-import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLazyTreeStyle
@@ -99,7 +98,7 @@ object IntUiTheme : BaseIntUiTheme {
         dropdownStyle: DropdownStyle = DropdownStyle.Default.dark(),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(),
         groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.dark(),
-        horizontalProgressBarStyle: HorizontalProgressBarStyle = IntUiHorizontalProgressBarStyle.dark(),
+        horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.dark(),
         iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.dark(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.dark(),
         lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.dark(),
@@ -148,7 +147,7 @@ object IntUiTheme : BaseIntUiTheme {
         dropdownStyle: DropdownStyle = DropdownStyle.Default.light(),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(),
         groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.light(),
-        horizontalProgressBarStyle: HorizontalProgressBarStyle = IntUiHorizontalProgressBarStyle.light(),
+        horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.light(),
         iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.light(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.light(),
         lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.light(),

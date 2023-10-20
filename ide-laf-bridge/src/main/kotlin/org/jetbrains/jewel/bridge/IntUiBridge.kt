@@ -23,9 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
@@ -91,6 +88,9 @@ import org.jetbrains.jewel.styling.DropdownStyle
 import org.jetbrains.jewel.styling.GroupHeaderColors
 import org.jetbrains.jewel.styling.GroupHeaderMetrics
 import org.jetbrains.jewel.styling.GroupHeaderStyle
+import org.jetbrains.jewel.styling.HorizontalProgressBarColors
+import org.jetbrains.jewel.styling.HorizontalProgressBarMetrics
+import org.jetbrains.jewel.styling.HorizontalProgressBarStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -457,14 +457,14 @@ private fun readGroupHeaderStyle() = GroupHeaderStyle(
     ),
 )
 
-private fun readHorizontalProgressBarStyle() = IntUiHorizontalProgressBarStyle(
-    colors = IntUiHorizontalProgressBarColors(
+private fun readHorizontalProgressBarStyle() = HorizontalProgressBarStyle(
+    colors = HorizontalProgressBarColors(
         track = retrieveColorOrUnspecified("ProgressBar.trackColor"),
         progress = retrieveColorOrUnspecified("ProgressBar.progressColor"),
         indeterminateBase = retrieveColorOrUnspecified("ProgressBar.indeterminateStartColor"),
         indeterminateHighlight = retrieveColorOrUnspecified("ProgressBar.indeterminateEndColor"),
     ),
-    metrics = IntUiHorizontalProgressBarMetrics(
+    metrics = HorizontalProgressBarMetrics(
         cornerSize = CornerSize(100),
         minHeight = 4.dp, // See DarculaProgressBarUI.DEFAULT_WIDTH
         // See DarculaProgressBarUI.CYCLE_TIME_DEFAULT, DarculaProgressBarUI.REPAINT_INTERVAL_DEFAULT,
