@@ -27,9 +27,6 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldTextStyles
-import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTabColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTabContentAlpha
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTabIcons
@@ -91,6 +88,9 @@ import org.jetbrains.jewel.styling.RadioButtonColors
 import org.jetbrains.jewel.styling.RadioButtonIcons
 import org.jetbrains.jewel.styling.RadioButtonMetrics
 import org.jetbrains.jewel.styling.RadioButtonStyle
+import org.jetbrains.jewel.styling.ScrollbarColors
+import org.jetbrains.jewel.styling.ScrollbarMetrics
+import org.jetbrains.jewel.styling.ScrollbarStyle
 import org.jetbrains.jewel.styling.SubmenuMetrics
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -100,6 +100,9 @@ private val logger = Logger.getInstance("JewelIntUiBridge")
 
 internal val uiDefaults
     get() = UIManager.getDefaults()
+
+private val iconsBasePath
+    get() = DirProvider().dir()
 
 @OptIn(DependsOnJBR::class)
 internal suspend fun createBridgeIntUiDefinition(): IntUiThemeDefinition {
@@ -251,9 +254,6 @@ private fun readOutlinedButtonStyle(): ButtonStyle {
         ),
     )
 }
-
-private val iconsBasePath
-    get() = DirProvider().dir()
 
 private fun readCheckboxStyle(): CheckboxStyle {
     val textColor = retrieveColorOrUnspecified("CheckBox.foreground")
@@ -447,15 +447,16 @@ private fun readUndecoratedDropdownStyle(
     )
 }
 
-private fun readGroupHeaderStyle() = GroupHeaderStyle(
-    colors = GroupHeaderColors(
-        divider = retrieveColorOrUnspecified("Separator.separatorColor"),
-    ),
-    metrics = GroupHeaderMetrics(
-        dividerThickness = 1.dp, // see DarculaSeparatorUI
-        indent = 1.dp, // see DarculaSeparatorUI
-    ),
-)
+private fun readGroupHeaderStyle() =
+    GroupHeaderStyle(
+        colors = GroupHeaderColors(
+            divider = retrieveColorOrUnspecified("Separator.separatorColor"),
+        ),
+        metrics = GroupHeaderMetrics(
+            dividerThickness = 1.dp, // see DarculaSeparatorUI
+            indent = 1.dp, // see DarculaSeparatorUI
+        ),
+    )
 
 private fun readHorizontalProgressBarStyle() = HorizontalProgressBarStyle(
     colors = HorizontalProgressBarColors(
@@ -644,23 +645,24 @@ private fun readRadioButtonStyle(): RadioButtonStyle {
     )
 }
 
-private fun readScrollbarStyle(isDark: Boolean) = IntUiScrollbarStyle(
-    colors = IntUiScrollbarColors(
-        // See ScrollBarPainter.THUMB_OPAQUE_BACKGROUND
-        thumbBackground = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbColor")
-            .takeOrElse { if (isDark) Color(0x59808080) else Color(0x33000000) },
-        // See ScrollBarPainter.THUMB_OPAQUE_HOVERED_BACKGROUND
-        thumbBackgroundHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
-            .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
-    ),
-    metrics = IntUiScrollbarMetrics(
-        thumbCornerSize = CornerSize(100),
-        thumbThickness = 8.dp,
-        minThumbLength = 16.dp,
-        trackPadding = PaddingValues(start = 7.dp, end = 3.dp),
-    ),
-    hoverDuration = 300.milliseconds,
-)
+private fun readScrollbarStyle(isDark: Boolean) =
+    ScrollbarStyle(
+        colors = ScrollbarColors(
+            // See ScrollBarPainter.THUMB_OPAQUE_BACKGROUND
+            thumbBackground = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbColor")
+                .takeOrElse { if (isDark) Color(0x59808080) else Color(0x33000000) },
+            // See ScrollBarPainter.THUMB_OPAQUE_HOVERED_BACKGROUND
+            thumbBackgroundHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
+                .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
+        ),
+        metrics = ScrollbarMetrics(
+            thumbCornerSize = CornerSize(100),
+            thumbThickness = 8.dp,
+            minThumbLength = 16.dp,
+            trackPadding = PaddingValues(start = 7.dp, end = 3.dp),
+        ),
+        hoverDuration = 300.milliseconds,
+    )
 
 private fun readTextAreaStyle(textStyle: TextStyle, metrics: IntUiTextFieldMetrics): IntUiTextAreaStyle {
     val normalBackground = retrieveColorOrUnspecified("TextArea.background")
@@ -919,23 +921,24 @@ private fun readTooltipStyle() =
         ),
     )
 
-private fun readIconButtonStyle(): IconButtonStyle = IconButtonStyle(
-    metrics = IconButtonMetrics(
-        cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
-        borderWidth = 1.dp,
-        padding = PaddingValues(0.dp),
-        minSize = DpSize(16.dp, 16.dp),
-    ),
-    colors = IconButtonColors(
-        background = Color.Unspecified,
-        backgroundDisabled = Color.Unspecified,
-        backgroundFocused = Color.Unspecified,
-        backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
-        backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
-        border = Color.Unspecified,
-        borderDisabled = Color.Unspecified,
-        borderFocused = retrieveColorOrUnspecified("ActionButton.focusedBorderColor"),
-        borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
-        borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
-    ),
-)
+private fun readIconButtonStyle(): IconButtonStyle =
+    IconButtonStyle(
+        metrics = IconButtonMetrics(
+            cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
+            borderWidth = 1.dp,
+            padding = PaddingValues(0.dp),
+            minSize = DpSize(16.dp, 16.dp),
+        ),
+        colors = IconButtonColors(
+            background = Color.Unspecified,
+            backgroundDisabled = Color.Unspecified,
+            backgroundFocused = Color.Unspecified,
+            backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
+            backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
+            border = Color.Unspecified,
+            borderDisabled = Color.Unspecified,
+            borderFocused = retrieveColorOrUnspecified("ActionButton.focusedBorderColor"),
+            borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
+            borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
+        ),
+    )
