@@ -6,13 +6,12 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
-import org.jetbrains.jewel.foundation.utils.thenIf
+import org.jetbrains.jewel.util.thenIf
 
 enum class Outline {
     None,
     Warning,
-    Error,
-    ;
+    Error;
 
     companion object {
 

@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
-import org.jetbrains.jewel.IntelliJTheme
 import org.jetbrains.jewel.JewelTheme
 import org.jetbrains.jewel.LocalColorPalette
 import org.jetbrains.jewel.LocalIconData
@@ -189,7 +188,7 @@ fun BaseIntUiTheme(
     swingCompatMode: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    IntelliJTheme(theme, swingCompatMode) {
+    JewelTheme(theme, swingCompatMode) {
         CompositionLocalProvider(
             LocalColorPalette provides theme.colorPalette,
             LocalIconData provides theme.iconData,

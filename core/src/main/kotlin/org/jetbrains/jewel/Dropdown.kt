@@ -47,7 +47,7 @@ import org.jetbrains.jewel.painter.hints.Stateful
 import org.jetbrains.jewel.styling.DropdownStyle
 import org.jetbrains.jewel.styling.LocalMenuStyle
 import org.jetbrains.jewel.styling.MenuStyle
-import org.jetbrains.jewel.util.appendIf
+import org.jetbrains.jewel.util.thenIf
 
 @Composable
 fun Dropdown(
@@ -110,8 +110,8 @@ fun Dropdown(
             indication = null,
         )
             .background(colors.backgroundFor(dropdownState).value, shape)
-            .appendIf(hasNoOutline) { border(Stroke.Alignment.Center, style.metrics.borderWidth, borderColor, shape) }
-            .appendIf(outline == Outline.None) { focusOutline(dropdownState, shape) }
+            .thenIf(hasNoOutline) { border(Stroke.Alignment.Center, style.metrics.borderWidth, borderColor, shape) }
+            .thenIf(outline == Outline.None) { focusOutline(dropdownState, shape) }
             .outline(dropdownState, outline, shape)
             .width(IntrinsicSize.Max)
             .defaultMinSize(minSize.width, minSize.height.coerceAtLeast(arrowMinSize.height)),
