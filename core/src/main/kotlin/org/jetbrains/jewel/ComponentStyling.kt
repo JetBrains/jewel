@@ -78,7 +78,7 @@ class ComponentStyling(
         LocalCheckboxStyle provides checkboxStyle,
         LocalChipStyle provides chipStyle,
         LocalCircularProgressStyle provides circularProgressStyle,
-        LocalContextMenuRepresentation provides IntelliJContextMenuRepresentation,
+        LocalContextMenuRepresentation provides ContextMenuRepresentation,
         LocalDefaultButtonStyle provides defaultButtonStyle,
         LocalDefaultDropdownStyle provides defaultDropdownStyle,
         LocalDefaultTabStyle provides defaultTabStyle,

@@ -20,7 +20,7 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.window.rememberCursorPositionProvider
 import org.jetbrains.jewel.styling.MenuStyle
 
-object IntelliJContextMenuRepresentation : ContextMenuRepresentation {
+object ContextMenuRepresentation : ContextMenuRepresentation {
 
     @Composable
     override fun Representation(state: ContextMenuState, items: () -> List<ContextMenuItem>) {
