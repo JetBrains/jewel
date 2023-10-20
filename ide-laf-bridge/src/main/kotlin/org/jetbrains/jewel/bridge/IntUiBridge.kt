@@ -23,9 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiChipColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiChipMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiChipStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerStyle
@@ -90,6 +87,9 @@ import org.jetbrains.jewel.styling.CheckboxColors
 import org.jetbrains.jewel.styling.CheckboxIcons
 import org.jetbrains.jewel.styling.CheckboxMetrics
 import org.jetbrains.jewel.styling.CheckboxStyle
+import org.jetbrains.jewel.styling.ChipColors
+import org.jetbrains.jewel.styling.ChipMetrics
+import org.jetbrains.jewel.styling.ChipStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -282,7 +282,7 @@ private fun readCheckboxStyle(): CheckboxStyle {
 //  1. There is no real disabled state, we're making it sort of up
 //  2. Chips can be used as buttons (see run configs) or as radio buttons (see MeetNewUi)
 //  3. We also have a toggleable version because why not
-private fun readChipStyle(): IntUiChipStyle {
+private fun readChipStyle(): ChipStyle {
     val normalBackground =
         retrieveColorsOrUnspecified("Button.startBackground", "Button.endBackground")
             .createVerticalBrush()
@@ -291,7 +291,7 @@ private fun readChipStyle(): IntUiChipStyle {
     val disabledBorder = retrieveColorOrUnspecified("Button.disabledBorderColor")
     val selectedBorder = retrieveColorOrUnspecified("Component.focusColor")
 
-    val colors = IntUiChipColors(
+    val colors = ChipColors(
         background = normalBackground,
         backgroundDisabled = normalBackground,
         backgroundFocused = normalBackground,
@@ -323,9 +323,9 @@ private fun readChipStyle(): IntUiChipStyle {
         borderSelectedFocused = selectedBorder,
         borderSelectedHovered = selectedBorder,
     )
-    return IntUiChipStyle(
+    return ChipStyle(
         colors = colors,
-        metrics = IntUiChipMetrics(
+        metrics = ChipMetrics(
             cornerSize = CornerSize(6.dp),
             padding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
             borderWidth = 1.dp,

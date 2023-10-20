@@ -21,7 +21,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.Default
 import org.jetbrains.jewel.intui.standalone.styling.Defaults
-import org.jetbrains.jewel.intui.standalone.styling.IntUiChipStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownStyle
@@ -94,7 +93,7 @@ object IntUiTheme : BaseIntUiTheme {
         defaultButtonStyle: ButtonStyle = ButtonStyle.Default.dark(),
         outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.dark(),
         checkboxStyle: CheckboxStyle = CheckboxStyle.Defaults.dark(),
-        chipStyle: ChipStyle = IntUiChipStyle.dark(),
+        chipStyle: ChipStyle = ChipStyle.Defaults.dark(),
         dividerStyle: DividerStyle = IntUiDividerStyle.dark(),
         dropdownStyle: DropdownStyle = IntUiDropdownStyle.dark(),
         groupHeaderStyle: GroupHeaderStyle = IntUiGroupHeaderStyle.dark(),
@@ -140,7 +139,7 @@ object IntUiTheme : BaseIntUiTheme {
         defaultButtonStyle: ButtonStyle = ButtonStyle.Default.light(),
         outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.light(),
         checkboxStyle: CheckboxStyle = CheckboxStyle.Defaults.light(),
-        chipStyle: ChipStyle = IntUiChipStyle.light(),
+        chipStyle: ChipStyle = ChipStyle.Defaults.light(),
         dividerStyle: DividerStyle = IntUiDividerStyle.light(),
         dropdownStyle: DropdownStyle = IntUiDropdownStyle.light(),
         groupHeaderStyle: GroupHeaderStyle = IntUiGroupHeaderStyle.light(),
