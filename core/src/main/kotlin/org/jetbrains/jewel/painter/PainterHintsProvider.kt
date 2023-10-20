@@ -19,13 +19,13 @@ import org.jetbrains.jewel.painter.hints.HiDpi
 interface PainterHintsProvider {
 
     /**
-     * Those hints will be added before the [hints][PainterProvider.getPainter] that passed in [PainterProvider.getPainter].
+     * These hints will be consumed before the [hints] when [PainterProvider.getPainter] is called.
      */
     @Composable
     fun priorityHints(path: String): List<PainterHint> = emptyList()
 
     /**
-     * Those hints will be added after the [hints][PainterProvider.getPainter] that passed in [PainterProvider.getPainter].
+     * These hints will be consumed after the [priorityHints] when [PainterProvider.getPainter] is called.
      */
     @Composable
     fun hints(path: String): List<PainterHint>
