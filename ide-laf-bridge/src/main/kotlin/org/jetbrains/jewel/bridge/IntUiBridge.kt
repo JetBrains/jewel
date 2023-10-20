@@ -23,16 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldTextStyles
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaStyle
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
@@ -64,6 +54,10 @@ import org.jetbrains.jewel.styling.IconButtonColors
 import org.jetbrains.jewel.styling.IconButtonMetrics
 import org.jetbrains.jewel.styling.IconButtonStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
+import org.jetbrains.jewel.styling.LabelledTextFieldColors
+import org.jetbrains.jewel.styling.LabelledTextFieldMetrics
+import org.jetbrains.jewel.styling.LabelledTextFieldStyle
+import org.jetbrains.jewel.styling.LabelledTextFieldTextStyles
 import org.jetbrains.jewel.styling.LazyTreeColors
 import org.jetbrains.jewel.styling.LazyTreeIcons
 import org.jetbrains.jewel.styling.LazyTreeMetrics
@@ -92,6 +86,12 @@ import org.jetbrains.jewel.styling.TabContentAlpha
 import org.jetbrains.jewel.styling.TabIcons
 import org.jetbrains.jewel.styling.TabMetrics
 import org.jetbrains.jewel.styling.TabStyle
+import org.jetbrains.jewel.styling.TextAreaColors
+import org.jetbrains.jewel.styling.TextAreaMetrics
+import org.jetbrains.jewel.styling.TextAreaStyle
+import org.jetbrains.jewel.styling.TextFieldColors
+import org.jetbrains.jewel.styling.TextFieldMetrics
+import org.jetbrains.jewel.styling.TextFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
@@ -478,8 +478,8 @@ private fun readHorizontalProgressBarStyle() = HorizontalProgressBarStyle(
 private fun readLabelledTextFieldStyle(
     inputFieldStyle: InputFieldStyle,
     labelTextStyle: TextStyle,
-): IntUiLabelledTextFieldStyle {
-    val colors = IntUiLabelledTextFieldColors(
+): LabelledTextFieldStyle {
+    val colors = LabelledTextFieldColors(
         background = inputFieldStyle.colors.background,
         backgroundDisabled = inputFieldStyle.colors.backgroundDisabled,
         backgroundFocused = inputFieldStyle.colors.backgroundFocused,
@@ -505,9 +505,9 @@ private fun readLabelledTextFieldStyle(
         hint = StatusText.DEFAULT_ATTRIBUTES.fgColor.toComposeColor(),
     )
 
-    return IntUiLabelledTextFieldStyle(
+    return LabelledTextFieldStyle(
         colors = colors,
-        metrics = IntUiLabelledTextFieldMetrics(
+        metrics = LabelledTextFieldMetrics(
             cornerSize = inputFieldStyle.metrics.cornerSize,
             contentPadding = inputFieldStyle.metrics.contentPadding,
             minSize = inputFieldStyle.metrics.minSize,
@@ -516,7 +516,7 @@ private fun readLabelledTextFieldStyle(
             hintSpacing = 6.dp,
         ),
         textStyle = inputFieldStyle.textStyle,
-        textStyles = IntUiLabelledTextFieldTextStyles(
+        textStyles = LabelledTextFieldTextStyles(
             label = labelTextStyle,
             hint = labelTextStyle.copy(fontSize = labelTextStyle.fontSize - 1f),
         ),
@@ -664,14 +664,14 @@ private fun readScrollbarStyle(isDark: Boolean) =
         hoverDuration = 300.milliseconds,
     )
 
-private fun readTextAreaStyle(textStyle: TextStyle, metrics: IntUiTextFieldMetrics): IntUiTextAreaStyle {
+private fun readTextAreaStyle(textStyle: TextStyle, metrics: TextFieldMetrics): TextAreaStyle {
     val normalBackground = retrieveColorOrUnspecified("TextArea.background")
     val normalContent = retrieveColorOrUnspecified("TextArea.foreground")
     val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
     val focusedBorder = DarculaUIUtil.getOutlineColor(true, true).toComposeColor()
     val normalCaret = retrieveColorOrUnspecified("TextArea.caretForeground")
 
-    val colors = IntUiTextAreaColors(
+    val colors = TextAreaColors(
         background = normalBackground,
         backgroundDisabled = retrieveColorOrUnspecified("TextArea.disabledBackground"),
         backgroundFocused = normalBackground,
@@ -695,9 +695,9 @@ private fun readTextAreaStyle(textStyle: TextStyle, metrics: IntUiTextFieldMetri
         placeholder = NamedColorUtil.getInactiveTextColor().toComposeColor(),
     )
 
-    return IntUiTextAreaStyle(
+    return TextAreaStyle(
         colors = colors,
-        metrics = IntUiTextAreaMetrics(
+        metrics = TextAreaMetrics(
             cornerSize = metrics.cornerSize,
             contentPadding = metrics.contentPadding,
             minSize = metrics.minSize,
@@ -707,14 +707,14 @@ private fun readTextAreaStyle(textStyle: TextStyle, metrics: IntUiTextFieldMetri
     )
 }
 
-private fun readTextFieldStyle(textFieldStyle: TextStyle): IntUiTextFieldStyle {
+private fun readTextFieldStyle(textFieldStyle: TextStyle): TextFieldStyle {
     val normalBackground = retrieveColorOrUnspecified("TextField.background")
     val normalContent = retrieveColorOrUnspecified("TextField.foreground")
     val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
     val focusedBorder = DarculaUIUtil.getOutlineColor(true, true).toComposeColor()
     val normalCaret = retrieveColorOrUnspecified("TextField.caretForeground")
 
-    val colors = IntUiTextFieldColors(
+    val colors = TextFieldColors(
         background = normalBackground,
         backgroundDisabled = retrieveColorOrUnspecified("TextField.disabledBackground"),
         backgroundFocused = normalBackground,
@@ -738,9 +738,9 @@ private fun readTextFieldStyle(textFieldStyle: TextStyle): IntUiTextFieldStyle {
         placeholder = NamedColorUtil.getInactiveTextColor().toComposeColor(),
     )
 
-    return IntUiTextFieldStyle(
+    return TextFieldStyle(
         colors = colors,
-        metrics = IntUiTextFieldMetrics(
+        metrics = TextFieldMetrics(
             cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp),
             contentPadding = PaddingValues(horizontal = 9.dp, vertical = 2.dp),
             minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),

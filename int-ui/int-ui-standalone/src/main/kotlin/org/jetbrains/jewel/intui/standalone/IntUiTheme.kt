@@ -21,9 +21,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.Default
 import org.jetbrains.jewel.intui.standalone.styling.Editor
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaStyle
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
 import org.jetbrains.jewel.intui.standalone.styling.Outlined
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
@@ -46,6 +43,7 @@ import org.jetbrains.jewel.styling.MenuStyle
 import org.jetbrains.jewel.styling.RadioButtonStyle
 import org.jetbrains.jewel.styling.ScrollbarStyle
 import org.jetbrains.jewel.styling.TabStyle
+import org.jetbrains.jewel.styling.TextAreaStyle
 import org.jetbrains.jewel.styling.TextFieldStyle
 
 object IntUiTheme : BaseIntUiTheme {
@@ -94,15 +92,15 @@ object IntUiTheme : BaseIntUiTheme {
         groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.dark(),
         horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.dark(),
         iconButtonStyle: IconButtonStyle = IconButtonStyle.dark(),
-        labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.dark(),
+        labelledTextFieldStyle: LabelledTextFieldStyle = LabelledTextFieldStyle.dark(),
         lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.dark(),
         linkStyle: LinkStyle = LinkStyle.dark(),
         menuStyle: MenuStyle = MenuStyle.dark(),
         outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.dark(),
         radioButtonStyle: RadioButtonStyle = RadioButtonStyle.dark(),
         scrollbarStyle: ScrollbarStyle = ScrollbarStyle.dark(),
-        textAreaStyle: IntUiTextAreaStyle = IntUiTextAreaStyle.dark(),
-        textFieldStyle: TextFieldStyle = IntUiTextFieldStyle.dark(),
+        textAreaStyle: TextAreaStyle = TextAreaStyle.dark(),
+        textFieldStyle: TextFieldStyle = TextFieldStyle.dark(),
         tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.dark(),
         undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.dark(),
     ) = IntelliJComponentStyling(
@@ -143,15 +141,15 @@ object IntUiTheme : BaseIntUiTheme {
         groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.light(),
         horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.light(),
         iconButtonStyle: IconButtonStyle = IconButtonStyle.light(),
-        labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.light(),
+        labelledTextFieldStyle: LabelledTextFieldStyle = LabelledTextFieldStyle.light(),
         lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.light(),
         linkStyle: LinkStyle = LinkStyle.light(),
         menuStyle: MenuStyle = MenuStyle.light(),
         outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.light(),
         radioButtonStyle: RadioButtonStyle = RadioButtonStyle.light(),
         scrollbarStyle: ScrollbarStyle = ScrollbarStyle.light(),
-        textAreaStyle: IntUiTextAreaStyle = IntUiTextAreaStyle.light(),
-        textFieldStyle: TextFieldStyle = IntUiTextFieldStyle.light(),
+        textAreaStyle: TextAreaStyle = TextAreaStyle.light(),
+        textFieldStyle: TextFieldStyle = TextFieldStyle.light(),
         tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.light(),
         undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.light(),
     ) = IntelliJComponentStyling(
