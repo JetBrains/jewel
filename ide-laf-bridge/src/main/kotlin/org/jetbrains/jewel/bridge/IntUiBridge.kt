@@ -23,10 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxIcons
-import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipStyle
@@ -90,6 +86,10 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
 import org.jetbrains.jewel.styling.ButtonColors
 import org.jetbrains.jewel.styling.ButtonMetrics
 import org.jetbrains.jewel.styling.ButtonStyle
+import org.jetbrains.jewel.styling.CheckboxColors
+import org.jetbrains.jewel.styling.CheckboxIcons
+import org.jetbrains.jewel.styling.CheckboxMetrics
+import org.jetbrains.jewel.styling.CheckboxStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -253,28 +253,24 @@ private fun readOutlinedButtonStyle(): ButtonStyle {
 private val iconsBasePath
     get() = DirProvider().dir()
 
-private fun readCheckboxStyle(): IntUiCheckboxStyle {
-    val background = retrieveColorOrUnspecified("CheckBox.background")
+private fun readCheckboxStyle(): CheckboxStyle {
     val textColor = retrieveColorOrUnspecified("CheckBox.foreground")
-    val colors = IntUiCheckboxColors(
-        checkboxBackground = background,
-        checkboxBackgroundDisabled = background,
-        checkboxBackgroundSelected = background,
+    val colors = CheckboxColors(
         content = textColor,
         contentDisabled = retrieveColorOrUnspecified("CheckBox.disabledText"),
         contentSelected = textColor,
     )
 
-    return IntUiCheckboxStyle(
+    return CheckboxStyle(
         colors = colors,
-        metrics = IntUiCheckboxMetrics(
+        metrics = CheckboxMetrics(
             checkboxSize = DarculaCheckBoxUI().defaultIcon.let { DpSize(it.iconWidth.dp, it.iconHeight.dp) },
             checkboxCornerSize = CornerSize(3.dp), // See DarculaCheckBoxUI#drawCheckIcon
             outlineSize = DpSize(15.dp, 15.dp), // Extrapolated from SVG
             outlineOffset = DpOffset(2.5.dp, 1.5.dp), // Extrapolated from SVG
             iconContentGap = 5.dp, // See DarculaCheckBoxUI#textIconGap
         ),
-        icons = IntUiCheckboxIcons(
+        icons = CheckboxIcons(
             checkbox = bridgePainterProvider("${iconsBasePath}checkBox.svg"),
         ),
     )
