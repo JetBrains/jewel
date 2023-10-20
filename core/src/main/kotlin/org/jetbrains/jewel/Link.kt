@@ -39,7 +39,7 @@ import org.jetbrains.jewel.CommonStateBitMask.Enabled
 import org.jetbrains.jewel.CommonStateBitMask.Focused
 import org.jetbrains.jewel.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.CommonStateBitMask.Pressed
-import org.jetbrains.jewel.IntelliJTheme.Companion.isSwingCompatMode
+import org.jetbrains.jewel.JewelTheme.Companion.isSwingCompatMode
 import org.jetbrains.jewel.foundation.onHover
 import org.jetbrains.jewel.painter.PainterProvider
 import org.jetbrains.jewel.painter.hints.Stateful

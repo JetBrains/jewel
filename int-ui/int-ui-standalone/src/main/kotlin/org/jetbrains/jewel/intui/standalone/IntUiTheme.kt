@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJComponentStyling
+import org.jetbrains.jewel.JewelTheme
 import org.jetbrains.jewel.ThemeColorPalette
 import org.jetbrains.jewel.ThemeDefinition
 import org.jetbrains.jewel.ThemeIconData

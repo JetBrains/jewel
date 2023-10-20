@@ -10,6 +10,7 @@ import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJTheme
+import org.jetbrains.jewel.JewelTheme
 import org.jetbrains.jewel.LocalColorPalette
 import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.NoIndication
@@ -34,142 +35,142 @@ import org.jetbrains.jewel.styling.TabStyle
 import org.jetbrains.jewel.styling.TextAreaStyle
 import org.jetbrains.jewel.styling.TextFieldStyle
 
-interface BaseIntUiTheme : IntelliJTheme {
+interface BaseIntUiTheme : JewelTheme {
 
     val globalColors: GlobalColors
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.globalColors
+        get() = JewelTheme.globalColors
 
     val globalMetrics: GlobalMetrics
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.globalMetrics
+        get() = JewelTheme.globalMetrics
 
     val textStyle: TextStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.textStyle
+        get() = JewelTheme.textStyle
 
     val contentColor: Color
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.contentColor
+        get() = JewelTheme.contentColor
 
     val isDark: Boolean
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.isDark
+        get() = JewelTheme.isDark
 
     val isSwingCompatMode: Boolean
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.isSwingCompatMode
+        get() = JewelTheme.isSwingCompatMode
 
     val iconData: ThemeIconData
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.iconData
+        get() = JewelTheme.iconData
 
     val colorPalette: ThemeColorPalette
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.colorPalette
+        get() = JewelTheme.colorPalette
 
     val defaultButtonStyle: ButtonStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.defaultButtonStyle
+        get() = JewelTheme.defaultButtonStyle
 
     val outlinedButtonStyle: ButtonStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.outlinedButtonStyle
+        get() = JewelTheme.outlinedButtonStyle
 
     val checkboxStyle: CheckboxStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.checkboxStyle
+        get() = JewelTheme.checkboxStyle
 
     val chipStyle: ChipStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.chipStyle
+        get() = JewelTheme.chipStyle
 
     val dividerStyle: DividerStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.dividerStyle
+        get() = JewelTheme.dividerStyle
 
     val dropdownStyle: DropdownStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.dropdownStyle
+        get() = JewelTheme.dropdownStyle
 
     val groupHeaderStyle: GroupHeaderStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.groupHeaderStyle
+        get() = JewelTheme.groupHeaderStyle
 
     val labelledTextFieldStyle: LabelledTextFieldStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.labelledTextFieldStyle
+        get() = JewelTheme.labelledTextFieldStyle
 
     val linkStyle: LinkStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.linkStyle
+        get() = JewelTheme.linkStyle
 
     val menuStyle: MenuStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.menuStyle
+        get() = JewelTheme.menuStyle
 
     val horizontalProgressBarStyle: HorizontalProgressBarStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.horizontalProgressBarStyle
+        get() = JewelTheme.horizontalProgressBarStyle
 
     val radioButtonStyle: RadioButtonStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.radioButtonStyle
+        get() = JewelTheme.radioButtonStyle
 
     val scrollbarStyle: ScrollbarStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.scrollbarStyle
+        get() = JewelTheme.scrollbarStyle
 
     val textAreaStyle: TextAreaStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.textAreaStyle
+        get() = JewelTheme.textAreaStyle
 
     val textFieldStyle: TextFieldStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.textFieldStyle
+        get() = JewelTheme.textFieldStyle
 
     val treeStyle: LazyTreeStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.treeStyle
+        get() = JewelTheme.treeStyle
 
     val defaultTabStyle: TabStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.defaultTabStyle
+        get() = JewelTheme.defaultTabStyle
 
     val editorTabStyle: TabStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.editorTabStyle
+        get() = JewelTheme.editorTabStyle
 
     val circularProgressStyle: CircularProgressStyle
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.circularProgressStyle
+        get() = JewelTheme.circularProgressStyle
 }
 
 @Composable

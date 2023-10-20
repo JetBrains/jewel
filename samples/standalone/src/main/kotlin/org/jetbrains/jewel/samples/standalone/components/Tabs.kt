@@ -26,7 +26,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.Icon
-import org.jetbrains.jewel.IntelliJTheme
+import org.jetbrains.jewel.JewelTheme
 import org.jetbrains.jewel.NoIndication
 import org.jetbrains.jewel.TabData
 import org.jetbrains.jewel.TabStrip
@@ -146,7 +146,7 @@ private fun TabStripWithAddButton(
         }
 
         Box(
-            modifier = Modifier.size(IntelliJTheme.defaultTabStyle.metrics.tabHeight)
+            modifier = Modifier.size(JewelTheme.defaultTabStyle.metrics.tabHeight)
                 .clickable(
                     onClick = onAddClick,
                     onClickLabel = "Add a tab",

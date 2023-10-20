@@ -30,9 +30,9 @@ fun Modifier.focusOutline(
     state: FocusableComponentState,
     outlineShape: Shape,
     alignment: Stroke.Alignment = Stroke.Alignment.Outside,
-    outlineWidth: Dp = IntelliJTheme.globalMetrics.outlineWidth,
+    outlineWidth: Dp = JewelTheme.globalMetrics.outlineWidth,
 ): Modifier {
-    val outlineColors = IntelliJTheme.globalColors.outlines
+    val outlineColors = JewelTheme.globalColors.outlines
 
     return thenIf(state.isFocused) {
         val outlineColor = outlineColors.focused
@@ -46,9 +46,9 @@ fun Modifier.outline(
     outline: Outline,
     outlineShape: Shape,
     alignment: Stroke.Alignment = Stroke.Alignment.Outside,
-    outlineWidth: Dp = IntelliJTheme.globalMetrics.outlineWidth,
+    outlineWidth: Dp = JewelTheme.globalMetrics.outlineWidth,
 ): Modifier {
-    val outlineColors = IntelliJTheme.globalColors.outlines
+    val outlineColors = JewelTheme.globalColors.outlines
 
     return thenIf(outline != Outline.None) {
         val outlineColor = when {

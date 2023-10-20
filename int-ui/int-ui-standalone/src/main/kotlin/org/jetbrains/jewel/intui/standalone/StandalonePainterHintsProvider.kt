@@ -2,7 +2,7 @@ package org.jetbrains.jewel.intui.standalone
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
-import org.jetbrains.jewel.IntelliJTheme
+import org.jetbrains.jewel.JewelTheme
 import org.jetbrains.jewel.ThemeDefinition
 import org.jetbrains.jewel.intui.core.IntUiPainterHintsProvider
 import org.jetbrains.jewel.painter.PainterHint
@@ -19,22 +19,18 @@ class StandalonePainterHintsProvider(
     theme.colorPalette.rawMap,
 ) {
 
-    private val overrideHint: PainterHint
-
-    init {
-        overrideHint = Override(
-            theme.iconData.iconOverrides.entries.associate { (k, v) ->
-                k.removePrefix("/") to v.removePrefix("/")
-            },
-        )
-    }
+    private val overrideHint: PainterHint = Override(
+        theme.iconData.iconOverrides.entries.associate { (k, v) ->
+            k.removePrefix("/") to v.removePrefix("/")
+        },
+    )
 
     @Composable
     override fun hints(path: String): List<PainterHint> = buildList {
         add(getPaletteHint(path))
         add(overrideHint)
         add(HiDpi(LocalDensity.current))
-        add(Dark(IntelliJTheme.isDark))
+        add(Dark(JewelTheme.isDark))
     }
 
     companion object {

@@ -32,7 +32,7 @@ object IntelliJContextMenuRepresentation : ContextMenuRepresentation {
                     state.status = ContextMenuState.Status.Closed
                     true
                 },
-                style = IntelliJTheme.menuStyle,
+                style = JewelTheme.menuStyle,
             ) {
                 contextItems(items)
             }
@@ -45,7 +45,7 @@ internal fun ContextMenu(
     onDismissRequest: (InputMode) -> Boolean,
     modifier: Modifier = Modifier,
     focusable: Boolean = true,
-    style: MenuStyle = IntelliJTheme.menuStyle,
+    style: MenuStyle = JewelTheme.menuStyle,
     content: MenuScope.() -> Unit,
 ) {
     var focusManager: FocusManager? by mutableStateOf(null)

@@ -47,7 +47,7 @@ import org.jetbrains.jewel.styling.TextAreaStyle
 import org.jetbrains.jewel.styling.TextFieldStyle
 import org.jetbrains.jewel.styling.TooltipStyle
 
-interface IntelliJTheme {
+interface JewelTheme {
 
     companion object {
 
@@ -206,18 +206,18 @@ interface IntelliJTheme {
 }
 
 @Composable
-fun IntelliJTheme(
+fun JewelTheme(
     theme: ThemeDefinition,
     swingCompatMode: Boolean,
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(LocalSwingCompatMode provides swingCompatMode) {
-        IntelliJTheme(theme, content)
+        JewelTheme(theme, content)
     }
 }
 
 @Composable
-fun IntelliJTheme(theme: ThemeDefinition, content: @Composable () -> Unit) {
+fun JewelTheme(theme: ThemeDefinition, content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalIsDarkTheme provides theme.isDark,
         LocalContentColor provides theme.contentColor,
@@ -229,7 +229,7 @@ fun IntelliJTheme(theme: ThemeDefinition, content: @Composable () -> Unit) {
 }
 
 internal val LocalIsDarkTheme = staticCompositionLocalOf<Boolean> {
-    error("No InDarkTheme provided")
+    error("No IsDarkTheme provided")
 }
 
 internal val LocalSwingCompatMode = staticCompositionLocalOf {
@@ -245,9 +245,7 @@ val LocalIconData = staticCompositionLocalOf<ThemeIconData> {
     ThemeIconData.Empty
 }
 
-/**
- * Overrides the dark mode of the current area.
- */
+/** Overrides the dark mode for the current composition scope. */
 @Composable
 fun OverrideDarkMode(isDark: Boolean, content: @Composable () -> Unit) {
     CompositionLocalProvider(LocalIsDarkTheme provides isDark, content = content)

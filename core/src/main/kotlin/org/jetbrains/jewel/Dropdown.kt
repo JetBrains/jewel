@@ -56,7 +56,7 @@ fun Dropdown(
     menuModifier: Modifier = Modifier,
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: DropdownStyle = IntelliJTheme.dropdownStyle,
+    style: DropdownStyle = JewelTheme.dropdownStyle,
     menuContent: MenuScope.() -> Unit,
     content: @Composable BoxScope.() -> Unit,
 ) {

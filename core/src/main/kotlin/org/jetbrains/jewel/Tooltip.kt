@@ -32,7 +32,7 @@ import org.jetbrains.jewel.util.isDark
 fun Tooltip(
     tooltip: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    style: TooltipStyle = IntelliJTheme.tooltipStyle,
+    style: TooltipStyle = JewelTheme.tooltipStyle,
     tooltipPlacement: TooltipPlacement = IntellijTooltipPlacement(
         contentOffset = style.metrics.tooltipOffset,
         alignment = style.metrics.tooltipAlignment,
