@@ -57,7 +57,7 @@ internal object IntUiThemeDescriptorReader {
     private val colorPaletteClassName =
         ClassName.bestGuess("org.jetbrains.jewel.intui.core.IntUiThemeColorPalette")
     private val iconDataClassName =
-        ClassName.bestGuess("org.jetbrains.jewel.IntelliJThemeIconData")
+        ClassName.bestGuess("org.jetbrains.jewel.ThemeIconData")
 
     private fun TypeSpec.Builder.readColors(
         className: ClassName,
@@ -153,42 +153,45 @@ internal object IntUiThemeDescriptorReader {
     }
 
     private fun TypeSpec.Builder.readIcons(theme: IntellijThemeDescriptor) {
-        addType(TypeSpec.objectBuilder("Icons").apply {
-            addSuperinterface(iconDataClassName)
+        val iconOverrides = mutableMapOf<String, String>()
+        val colorPalette = mutableMapOf<String, String>()
 
-            val iconOverrides = mutableMapOf<String, String>()
-
-            for ((key, value) in theme.icons) {
-                if (value is JsonPrimitive && value.isString) {
-                    iconOverrides += key to value.content
-                } else if (value is JsonObject && key == "ColorPalette") {
-                    val colorPalette = value.entries
-                        .mapNotNull {
-                            val pairValue = it.value
-                            if (pairValue is JsonPrimitive && pairValue.isString) {
-                                it.key to pairValue.content
-                            } else null
-                        }.toMap()
-
-                    addProperty(createOverrideStringMapProperty("colorPalette", colorPalette))
-                }
+        for ((key, value) in theme.icons) {
+            if (value is JsonPrimitive && value.isString) {
+                iconOverrides += key to value.content
+            } else if (value is JsonObject && key == "ColorPalette") {
+                value.entries
+                    .mapNotNull {
+                        val pairValue = it.value
+                        if (pairValue is JsonPrimitive && pairValue.isString) {
+                            it.key to pairValue.content
+                        } else null
+                    }
+                    .forEach { colorPalette[it.first] = it.second }
             }
+        }
 
-            addProperty(createOverrideStringMapProperty("iconOverrides", iconOverrides))
-            addProperty(
-                createOverrideStringMapProperty(
-                    "selectionColorPalette",
-                    theme.iconColorsOnSelection
-                )
-            )
-        }.build())
+        val iconOverridesBlock = iconOverrides.toMapCodeBlock()
+        val selectionColorPaletteBlock = theme.iconColorsOnSelection.toMapCodeBlock()
 
         addProperty(
             PropertySpec.builder("icons", iconDataClassName, KModifier.OVERRIDE)
-                .initializer("Icons")
+                .initializer(
+                    CodeBlock.of(
+                        "ThemeIconData(\n%L,\n%L,\n%L\n)",
+                        colorPalette.toMapCodeBlock(),
+                        iconOverridesBlock,
+                        selectionColorPaletteBlock,
+                    )
+                )
                 .build()
         )
     }
+
+    private inline fun <reified K, reified V> Map<K, V>.toMapCodeBlock() =
+        entries
+            .map { (key, value) -> CodeBlock.of("\"%L\" to \"%L\"", key, value) }
+            .joinToCode(prefix = "mapOf(", separator = ",\n", suffix = ")")
 
     private inline fun <reified K, reified V> createOverrideStringMapProperty(name: String, values: Map<K, V>) =
         PropertySpec.builder(

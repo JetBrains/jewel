@@ -10,7 +10,7 @@ import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJTheme
-import org.jetbrains.jewel.IntelliJThemeIconData
+import org.jetbrains.jewel.ThemeIconData
 import org.jetbrains.jewel.LocalColorPalette
 import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.NoIndication
@@ -64,7 +64,7 @@ interface BaseIntUiTheme : IntelliJTheme {
         @ReadOnlyComposable
         get() = IntelliJTheme.isSwingCompatMode
 
-    val iconData: IntelliJThemeIconData
+    val iconData: ThemeIconData
         @Composable
         @ReadOnlyComposable
         get() = IntelliJTheme.iconData

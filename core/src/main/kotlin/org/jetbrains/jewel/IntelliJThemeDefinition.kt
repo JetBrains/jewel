@@ -14,5 +14,5 @@ interface IntelliJThemeDefinition {
     val contentColor: Color
 
     val colorPalette: IntelliJThemeColorPalette
-    val iconData: IntelliJThemeIconData
+    val iconData: ThemeIconData
 }

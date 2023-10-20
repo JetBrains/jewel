@@ -3,7 +3,7 @@ package org.jetbrains.jewel.bridge
 import androidx.compose.runtime.Immutable
 import com.intellij.ide.ui.UITheme
 import com.intellij.ui.ColorUtil
-import org.jetbrains.jewel.IntelliJThemeIconData
+import org.jetbrains.jewel.ThemeIconData
 import org.jetbrains.jewel.InternalJewelApi
 
 @Immutable
@@ -12,7 +12,7 @@ class BridgeIconData(
     override val iconOverrides: Map<String, String>,
     override val colorPalette: Map<String, String>,
     override val selectionColorPalette: Map<String, Int>,
-) : IntelliJThemeIconData {
+) : ThemeIconData {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

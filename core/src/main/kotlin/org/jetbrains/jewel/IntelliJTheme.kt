@@ -90,7 +90,7 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalColorPalette.current
 
-        val iconData: IntelliJThemeIconData
+        val iconData: ThemeIconData
             @Composable
             @ReadOnlyComposable
             get() = LocalIconData.current
@@ -241,8 +241,8 @@ val LocalColorPalette = staticCompositionLocalOf<IntelliJThemeColorPalette> {
     EmptyThemeColorPalette
 }
 
-val LocalIconData = staticCompositionLocalOf<IntelliJThemeIconData> {
-    EmptyThemeIconData
+val LocalIconData = staticCompositionLocalOf<ThemeIconData> {
+    ThemeIconData.Empty
 }
 
 /**
