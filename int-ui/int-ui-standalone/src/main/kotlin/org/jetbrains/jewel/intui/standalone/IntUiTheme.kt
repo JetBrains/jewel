@@ -21,7 +21,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.Default
 import org.jetbrains.jewel.intui.standalone.styling.Editor
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
 import org.jetbrains.jewel.intui.standalone.styling.Outlined
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
 import org.jetbrains.jewel.intui.standalone.styling.dark
@@ -45,6 +44,7 @@ import org.jetbrains.jewel.styling.ScrollbarStyle
 import org.jetbrains.jewel.styling.TabStyle
 import org.jetbrains.jewel.styling.TextAreaStyle
 import org.jetbrains.jewel.styling.TextFieldStyle
+import org.jetbrains.jewel.styling.TooltipStyle
 
 object IntUiTheme : BaseIntUiTheme {
 
@@ -101,7 +101,7 @@ object IntUiTheme : BaseIntUiTheme {
         scrollbarStyle: ScrollbarStyle = ScrollbarStyle.dark(),
         textAreaStyle: TextAreaStyle = TextAreaStyle.dark(),
         textFieldStyle: TextFieldStyle = TextFieldStyle.dark(),
-        tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.dark(),
+        tooltipStyle: TooltipStyle = TooltipStyle.dark(),
         undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.dark(),
     ) = IntelliJComponentStyling(
         checkboxStyle = checkboxStyle,
@@ -150,7 +150,7 @@ object IntUiTheme : BaseIntUiTheme {
         scrollbarStyle: ScrollbarStyle = ScrollbarStyle.light(),
         textAreaStyle: TextAreaStyle = TextAreaStyle.light(),
         textFieldStyle: TextFieldStyle = TextFieldStyle.light(),
-        tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.light(),
+        tooltipStyle: TooltipStyle = TooltipStyle.light(),
         undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.light(),
     ) = IntelliJComponentStyling(
         checkboxStyle = checkboxStyle,

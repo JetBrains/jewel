@@ -23,9 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
 import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.styling.ButtonColors
 import org.jetbrains.jewel.styling.ButtonMetrics
@@ -92,6 +89,9 @@ import org.jetbrains.jewel.styling.TextAreaStyle
 import org.jetbrains.jewel.styling.TextFieldColors
 import org.jetbrains.jewel.styling.TextFieldMetrics
 import org.jetbrains.jewel.styling.TextFieldStyle
+import org.jetbrains.jewel.styling.TooltipColors
+import org.jetbrains.jewel.styling.TooltipMetrics
+import org.jetbrains.jewel.styling.TooltipStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
@@ -911,9 +911,9 @@ private fun readCircularProgressStyle(
     )
 
 private fun readTooltipStyle() =
-    IntUiTooltipStyle(
-        metrics = IntUiTooltipMetrics(),
-        colors = IntUiTooltipColors(
+    TooltipStyle(
+        metrics = TooltipMetrics.defaults(),
+        colors = TooltipColors(
             content = retrieveColorOrUnspecified("ToolTip.foreground"),
             background = retrieveColorOrUnspecified("ToolTip.background"),
             border = retrieveColorOrUnspecified("ToolTip.borderColor"),
