@@ -198,6 +198,7 @@ interface JewelTheme {
             @Composable
             @ReadOnlyComposable
             get() = LocalTooltipStyle.current
+
         val iconButtonStyle: IconButtonStyle
             @Composable
             @ReadOnlyComposable
