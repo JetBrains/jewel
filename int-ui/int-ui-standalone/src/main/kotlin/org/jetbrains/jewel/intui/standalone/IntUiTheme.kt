@@ -21,7 +21,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.Default
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
-import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiRadioButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTabStyle
@@ -100,7 +99,7 @@ object IntUiTheme : BaseIntUiTheme {
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.dark(),
         lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.dark(),
         linkStyle: LinkStyle = LinkStyle.dark(),
-        menuStyle: MenuStyle = IntUiMenuStyle.dark(),
+        menuStyle: MenuStyle = MenuStyle.dark(),
         outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.dark(),
         radioButtonStyle: RadioButtonStyle = IntUiRadioButtonStyle.dark(),
         scrollbarStyle: ScrollbarStyle = IntUiScrollbarStyle.dark(),
@@ -149,7 +148,7 @@ object IntUiTheme : BaseIntUiTheme {
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.light(),
         lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.light(),
         linkStyle: LinkStyle = LinkStyle.light(),
-        menuStyle: MenuStyle = IntUiMenuStyle.light(),
+        menuStyle: MenuStyle = MenuStyle.light(),
         outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.light(),
         radioButtonStyle: RadioButtonStyle = IntUiRadioButtonStyle.light(),
         scrollbarStyle: ScrollbarStyle = IntUiScrollbarStyle.light(),

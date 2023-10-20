@@ -30,7 +30,7 @@ object IntUiDefaultDropdownStyleFactory {
         metrics: DropdownMetrics = DropdownMetrics.default(),
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = IntUiTheme.defaultTextStyle,
-        menuStyle: MenuStyle = IntUiMenuStyle.light(),
+        menuStyle: MenuStyle = MenuStyle.light(),
     ) = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
 
     @Composable
@@ -39,7 +39,7 @@ object IntUiDefaultDropdownStyleFactory {
         metrics: DropdownMetrics = DropdownMetrics.default(),
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = IntUiTheme.defaultTextStyle,
-        menuStyle: MenuStyle = IntUiMenuStyle.dark(),
+        menuStyle: MenuStyle = MenuStyle.dark(),
     ) = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
 }
 
@@ -54,7 +54,7 @@ object IntUiUndecoratedDropdownStyleFactory {
         metrics: DropdownMetrics = DropdownMetrics.undecorated(),
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = IntUiTheme.defaultTextStyle,
-        menuStyle: MenuStyle = IntUiMenuStyle.light(),
+        menuStyle: MenuStyle = MenuStyle.light(),
     ) = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
 
     @Composable
@@ -63,7 +63,7 @@ object IntUiUndecoratedDropdownStyleFactory {
         metrics: DropdownMetrics = DropdownMetrics.undecorated(),
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = IntUiTheme.defaultTextStyle,
-        menuStyle: MenuStyle = IntUiMenuStyle.dark(),
+        menuStyle: MenuStyle = MenuStyle.dark(),
     ) = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
 }
 

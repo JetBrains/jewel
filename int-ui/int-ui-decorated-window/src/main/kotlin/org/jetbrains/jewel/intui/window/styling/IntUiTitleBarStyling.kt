@@ -10,9 +10,10 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GenerateDataFunctions
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuStyle
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
+import org.jetbrains.jewel.intui.standalone.styling.dark
 import org.jetbrains.jewel.intui.standalone.styling.defaults
+import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.intui.window.decoratedWindowPainterProvider
 import org.jetbrains.jewel.painter.PainterProvider
 import org.jetbrains.jewel.styling.DropdownColors
@@ -20,6 +21,7 @@ import org.jetbrains.jewel.styling.DropdownStyle
 import org.jetbrains.jewel.styling.IconButtonColors
 import org.jetbrains.jewel.styling.IconButtonMetrics
 import org.jetbrains.jewel.styling.IconButtonStyle
+import org.jetbrains.jewel.styling.MenuStyle
 import org.jetbrains.jewel.window.styling.TitleBarColors
 import org.jetbrains.jewel.window.styling.TitleBarIcons
 import org.jetbrains.jewel.window.styling.TitleBarMetrics
@@ -79,7 +81,7 @@ class IntUiTitleBarStyle(
                     backgroundHovered = colors.dropdownHoveredBackground,
                     backgroundPressed = colors.dropdownPressedBackground,
                 ),
-                menuStyle = IntUiMenuStyle.light(),
+                menuStyle = MenuStyle.light(),
             ),
             iconButtonStyle = titleBarIconButtonStyle(
                 colors.iconButtonHoveredBackground,
@@ -117,7 +119,7 @@ class IntUiTitleBarStyle(
                     backgroundHovered = colors.dropdownHoveredBackground,
                     backgroundPressed = colors.dropdownPressedBackground,
                 ),
-                menuStyle = IntUiMenuStyle.light(),
+                menuStyle = MenuStyle.light(),
             ),
             iconButtonStyle = titleBarIconButtonStyle(
                 colors.iconButtonHoveredBackground,
@@ -155,7 +157,7 @@ class IntUiTitleBarStyle(
                     backgroundHovered = colors.dropdownHoveredBackground,
                     backgroundPressed = colors.dropdownPressedBackground,
                 ),
-                menuStyle = IntUiMenuStyle.dark(),
+                menuStyle = MenuStyle.dark(),
             ),
             iconButtonStyle = titleBarIconButtonStyle(
                 colors.iconButtonHoveredBackground,

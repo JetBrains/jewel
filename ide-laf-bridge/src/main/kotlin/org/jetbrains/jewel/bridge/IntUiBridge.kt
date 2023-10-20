@@ -27,12 +27,6 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldTextStyles
-import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuIcons
-import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuItemColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuItemMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiRadioButtonColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiRadioButtonIcons
 import org.jetbrains.jewel.intui.standalone.styling.IntUiRadioButtonMetrics
@@ -40,7 +34,6 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiRadioButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarStyle
-import org.jetbrains.jewel.intui.standalone.styling.IntUiSubmenuMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTabColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTabContentAlpha
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTabIcons
@@ -92,6 +85,13 @@ import org.jetbrains.jewel.styling.LinkIcons
 import org.jetbrains.jewel.styling.LinkMetrics
 import org.jetbrains.jewel.styling.LinkStyle
 import org.jetbrains.jewel.styling.LinkTextStyles
+import org.jetbrains.jewel.styling.MenuColors
+import org.jetbrains.jewel.styling.MenuIcons
+import org.jetbrains.jewel.styling.MenuItemColors
+import org.jetbrains.jewel.styling.MenuItemMetrics
+import org.jetbrains.jewel.styling.MenuMetrics
+import org.jetbrains.jewel.styling.MenuStyle
+import org.jetbrains.jewel.styling.SubmenuMetrics
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
@@ -343,7 +343,7 @@ private fun readDividerStyle() =
     )
 
 private fun readDefaultDropdownStyle(
-    menuStyle: IntUiMenuStyle,
+    menuStyle: MenuStyle,
     dropdownTextStyle: TextStyle,
 ): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
@@ -396,7 +396,7 @@ private fun readDefaultDropdownStyle(
 }
 
 private fun readUndecoratedDropdownStyle(
-    menuStyle: IntUiMenuStyle,
+    menuStyle: MenuStyle,
     dropdownTextStyle: TextStyle,
 ): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
@@ -563,15 +563,15 @@ private fun readLinkStyle(
     )
 }
 
-private fun readMenuStyle(): IntUiMenuStyle {
+private fun readMenuStyle(): MenuStyle {
     val backgroundSelected = retrieveColorOrUnspecified("MenuItem.selectionBackground")
     val foregroundSelected = retrieveColorOrUnspecified("MenuItem.selectionForeground")
 
-    val colors = IntUiMenuColors(
+    val colors = MenuColors(
         background = retrieveColorOrUnspecified("PopupMenu.background"),
         border = retrieveColorOrUnspecified("Popup.borderColor").takeOrElse { retrieveColorOrUnspecified("Popup.Border.color") },
         shadow = Color.Black.copy(alpha = .6f),
-        itemColors = IntUiMenuItemColors(
+        itemColors = MenuItemColors(
             background = retrieveColorOrUnspecified("MenuItem.background"),
             backgroundDisabled = retrieveColorOrUnspecified("MenuItem.disabledBackground"),
             backgroundFocused = backgroundSelected,
@@ -591,16 +591,16 @@ private fun readMenuStyle(): IntUiMenuStyle {
         ),
     )
 
-    return IntUiMenuStyle(
+    return MenuStyle(
         colors = colors,
-        metrics = IntUiMenuMetrics(
+        metrics = MenuMetrics(
             cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
             menuMargin = PaddingValues(0.dp),
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 12.dp),
             offset = DpOffset(0.dp, 2.dp),
             shadowSize = 12.dp,
             borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
-            itemMetrics = IntUiMenuItemMetrics(
+            itemMetrics = MenuItemMetrics(
                 selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp),
                 outerPadding = PaddingValues(horizontal = 6.dp),
                 contentPadding = PaddingValues(horizontal = 10.dp, vertical = 1.dp),
@@ -610,11 +610,11 @@ private fun readMenuStyle(): IntUiMenuStyle {
                 ),
                 separatorThickness = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeWidth").takeOrElse { 0.dp },
             ),
-            submenuMetrics = IntUiSubmenuMetrics(
+            submenuMetrics = SubmenuMetrics(
                 offset = DpOffset(0.dp, (-8).dp),
             ),
         ),
-        icons = IntUiMenuIcons(
+        icons = MenuIcons(
             submenuChevron = bridgePainterProvider("${iconsBasePath}general/chevron-down.svg"),
         ),
     )
