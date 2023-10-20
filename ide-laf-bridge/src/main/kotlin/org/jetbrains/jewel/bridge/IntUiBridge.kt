@@ -27,11 +27,6 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldTextStyles
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLinkColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLinkIcons
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLinkMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLinkStyle
-import org.jetbrains.jewel.intui.standalone.styling.IntUiLinkTextStyles
 import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuIcons
 import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuItemColors
@@ -92,6 +87,11 @@ import org.jetbrains.jewel.styling.LazyTreeColors
 import org.jetbrains.jewel.styling.LazyTreeIcons
 import org.jetbrains.jewel.styling.LazyTreeMetrics
 import org.jetbrains.jewel.styling.LazyTreeStyle
+import org.jetbrains.jewel.styling.LinkColors
+import org.jetbrains.jewel.styling.LinkIcons
+import org.jetbrains.jewel.styling.LinkMetrics
+import org.jetbrains.jewel.styling.LinkStyle
+import org.jetbrains.jewel.styling.LinkTextStyles
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
@@ -524,11 +524,11 @@ private fun readLabelledTextFieldStyle(
 
 private fun readLinkStyle(
     linkTextStyle: TextStyle,
-): IntUiLinkStyle {
+): LinkStyle {
     val normalContent =
         retrieveColorOrUnspecified("Link.activeForeground").takeOrElse { retrieveColorOrUnspecified("Link.activeForeground") }
 
-    val colors = IntUiLinkColors(
+    val colors = LinkColors(
         content = normalContent,
         contentDisabled = retrieveColorOrUnspecified("Link.disabledForeground").takeOrElse {
             retrieveColorOrUnspecified(
@@ -541,18 +541,18 @@ private fun readLinkStyle(
         contentVisited = retrieveColorOrUnspecified("Link.visitedForeground").takeOrElse { retrieveColorOrUnspecified("link.visited.foreground") },
     )
 
-    return IntUiLinkStyle(
+    return LinkStyle(
         colors = colors,
-        metrics = IntUiLinkMetrics(
+        metrics = LinkMetrics(
             focusHaloCornerSize = CornerSize(Registry.intValue("ide.link.button.focus.round.arc", 4).dp),
             textIconGap = 4.dp,
             iconSize = DpSize.Unspecified,
         ),
-        icons = IntUiLinkIcons(
+        icons = LinkIcons(
             dropdownChevron = bridgePainterProvider("${iconsBasePath}general/chevron-down.svg"),
             externalLink = bridgePainterProvider("${iconsBasePath}ide/external_link_arrow.svg"),
         ),
-        textStyles = IntUiLinkTextStyles(
+        textStyles = LinkTextStyles(
             normal = linkTextStyle,
             disabled = linkTextStyle,
             focused = linkTextStyle,

@@ -80,7 +80,7 @@ fun LazyTreeMetrics.Companion.defaults(
     elementPadding,
     elementContentPadding,
     elementMinHeight,
-    chevronContentGap
+    chevronContentGap,
 )
 
 fun LazyTreeIcons.Companion.defaults(
