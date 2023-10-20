@@ -207,8 +207,6 @@ public final class org/jetbrains/jewel/intui/standalone/styling/IntUiDefaultTabS
 
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiDividerStyleKt {
 	public static final fun dark-3IgeMak (Lorg/jetbrains/jewel/styling/DividerStyle$Companion;JLorg/jetbrains/jewel/styling/DividerMetrics;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/styling/DividerStyle;
-	public static final fun defaults-VpY3zN4 (Lorg/jetbrains/jewel/styling/DividerMetrics$Companion;FF)Lorg/jetbrains/jewel/styling/DividerMetrics;
-	public static synthetic fun defaults-VpY3zN4$default (Lorg/jetbrains/jewel/styling/DividerMetrics$Companion;FFILjava/lang/Object;)Lorg/jetbrains/jewel/styling/DividerMetrics;
 	public static final fun light-3IgeMak (Lorg/jetbrains/jewel/styling/DividerStyle$Companion;JLorg/jetbrains/jewel/styling/DividerMetrics;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/styling/DividerStyle;
 }
 
@@ -394,8 +392,6 @@ public final class org/jetbrains/jewel/intui/standalone/styling/IntUiTextFieldSt
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiTooltipStylingKt {
 	public static final fun dark (Lorg/jetbrains/jewel/styling/TooltipStyle$Companion;Lorg/jetbrains/jewel/styling/TooltipColors;Lorg/jetbrains/jewel/styling/TooltipMetrics;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/styling/TooltipStyle;
 	public static final fun dark-zf8z9n0 (Lorg/jetbrains/jewel/styling/TooltipColors$Companion;JJJJLandroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/styling/TooltipColors;
-	public static final fun defaults-_3NXNO4 (Lorg/jetbrains/jewel/styling/TooltipMetrics$Companion;Landroidx/compose/foundation/layout/PaddingValues;JLandroidx/compose/foundation/shape/CornerSize;FFJLandroidx/compose/ui/Alignment$Horizontal;)Lorg/jetbrains/jewel/styling/TooltipMetrics;
-	public static synthetic fun defaults-_3NXNO4$default (Lorg/jetbrains/jewel/styling/TooltipMetrics$Companion;Landroidx/compose/foundation/layout/PaddingValues;JLandroidx/compose/foundation/shape/CornerSize;FFJLandroidx/compose/ui/Alignment$Horizontal;ILjava/lang/Object;)Lorg/jetbrains/jewel/styling/TooltipMetrics;
 	public static final fun light (Lorg/jetbrains/jewel/styling/TooltipStyle$Companion;Lorg/jetbrains/jewel/styling/TooltipColors;Lorg/jetbrains/jewel/styling/TooltipMetrics;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/styling/TooltipStyle;
 	public static final fun light-zf8z9n0 (Lorg/jetbrains/jewel/styling/TooltipColors$Companion;JJJJLandroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/styling/TooltipColors;
 }

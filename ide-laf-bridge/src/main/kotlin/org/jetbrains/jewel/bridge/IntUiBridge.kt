@@ -23,7 +23,7 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.defaults
+import org.jetbrains.jewel.intui.core.styling.defaults
 import org.jetbrains.jewel.styling.ButtonColors
 import org.jetbrains.jewel.styling.ButtonMetrics
 import org.jetbrains.jewel.styling.ButtonStyle
@@ -436,7 +436,7 @@ private fun readUndecoratedDropdownStyle(
                 DarculaUIUtil.MINIMUM_HEIGHT.dp,
             ),
             cornerSize = CornerSize(JBUI.CurrentTheme.MainToolbar.Dropdown.hoverArc().dp),
-            contentPadding = JBUI.CurrentTheme.MainToolbar.Dropdown.margin().toPaddingValues(),
+            contentPadding = JBUI.CurrentTheme.MainToolbar.Dropdown.borderInsets().toPaddingValues(),
             borderWidth = 0.dp,
         ),
         icons = DropdownIcons(

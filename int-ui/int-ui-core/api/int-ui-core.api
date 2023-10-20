@@ -110,6 +110,13 @@ public final class org/jetbrains/jewel/intui/core/IntUiThemeDefinition : org/jet
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class org/jetbrains/jewel/intui/core/styling/CommonMetricsKt {
+	public static final fun defaults-VpY3zN4 (Lorg/jetbrains/jewel/styling/DividerMetrics$Companion;FF)Lorg/jetbrains/jewel/styling/DividerMetrics;
+	public static synthetic fun defaults-VpY3zN4$default (Lorg/jetbrains/jewel/styling/DividerMetrics$Companion;FFILjava/lang/Object;)Lorg/jetbrains/jewel/styling/DividerMetrics;
+	public static final fun defaults-_3NXNO4 (Lorg/jetbrains/jewel/styling/TooltipMetrics$Companion;Landroidx/compose/foundation/layout/PaddingValues;JLandroidx/compose/foundation/shape/CornerSize;FFJLandroidx/compose/ui/Alignment$Horizontal;)Lorg/jetbrains/jewel/styling/TooltipMetrics;
+	public static synthetic fun defaults-_3NXNO4$default (Lorg/jetbrains/jewel/styling/TooltipMetrics$Companion;Landroidx/compose/foundation/layout/PaddingValues;JLandroidx/compose/foundation/shape/CornerSize;FFJLandroidx/compose/ui/Alignment$Horizontal;ILjava/lang/Object;)Lorg/jetbrains/jewel/styling/TooltipMetrics;
+}
+
 public final class org/jetbrains/jewel/intui/core/theme/IntUiDarkTheme : org/jetbrains/jewel/IntelliJThemeDescriptor {
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/intui/core/theme/IntUiDarkTheme;
