@@ -9,9 +9,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import org.jetbrains.jewel.ComponentStyling
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
-import org.jetbrains.jewel.ComponentStyling
 import org.jetbrains.jewel.ThemeColorPalette
 import org.jetbrains.jewel.ThemeDefinition
 import org.jetbrains.jewel.ThemeIconData

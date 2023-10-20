@@ -51,10 +51,10 @@ internal class SwingBridgeService : Disposable {
             logger.warn("Darcula LaFs (aka \"old UI\") are not supported yet, falling back to Int UI")
         }
 
-        val themeDefinition = createBridgeIntUiDefinition()
+        val themeDefinition = createBridgeThemeDefinition()
         return BridgeThemeData(
-            themeDefinition = createBridgeIntUiDefinition(),
-            componentStyling = createSwingIntUiComponentStyling(themeDefinition),
+            themeDefinition = createBridgeThemeDefinition(),
+            componentStyling = createBridgeComponentStyling(themeDefinition),
         )
     }
 
@@ -70,10 +70,10 @@ internal class SwingBridgeService : Disposable {
         companion object {
 
             val DEFAULT = run {
-                val themeDefinition = createBridgeIntUiDefinition(TextStyle.Default)
+                val themeDefinition = createBridgeThemeDefinition(TextStyle.Default)
                 BridgeThemeData(
-                    themeDefinition = createBridgeIntUiDefinition(TextStyle.Default),
-                    componentStyling = createSwingIntUiComponentStyling(
+                    themeDefinition = createBridgeThemeDefinition(TextStyle.Default),
+                    componentStyling = createBridgeComponentStyling(
                         theme = themeDefinition,
                         textAreaTextStyle = TextStyle.Default,
                         textFieldTextStyle = TextStyle.Default,

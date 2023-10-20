@@ -11,7 +11,8 @@ import org.jetbrains.jewel.util.thenIf
 enum class Outline {
     None,
     Warning,
-    Error;
+    Error,
+    ;
 
     companion object {
 

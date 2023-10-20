@@ -21,9 +21,9 @@ import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
+import org.jetbrains.jewel.ComponentStyling
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
-import org.jetbrains.jewel.ComponentStyling
 import org.jetbrains.jewel.ThemeColorPalette
 import org.jetbrains.jewel.ThemeDefinition
 import org.jetbrains.jewel.ThemeIconData
@@ -109,15 +109,15 @@ private val iconsBasePath
     get() = DirProvider().dir()
 
 @OptIn(DependsOnJBR::class)
-internal suspend fun createBridgeIntUiDefinition(): ThemeDefinition {
+internal suspend fun createBridgeThemeDefinition(): ThemeDefinition {
     val textStyle = retrieveTextStyle("Label.font", "Label.foreground")
-    return createBridgeIntUiDefinition(textStyle)
+    return createBridgeThemeDefinition(textStyle)
 }
 
-internal fun createBridgeIntUiDefinition(textStyle: TextStyle): ThemeDefinition {
+internal fun createBridgeThemeDefinition(textStyle: TextStyle): ThemeDefinition {
     val isDark = !JBColor.isBright()
 
-    logger.debug("Obtaining Int UI theme definition from Swing...")
+    logger.debug("Obtaining theme definition from Swing...")
 
     return ThemeDefinition(
         isDark = isDark,
@@ -131,9 +131,9 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): ThemeDefinition 
 }
 
 @OptIn(DependsOnJBR::class)
-internal suspend fun createSwingIntUiComponentStyling(
+internal suspend fun createBridgeComponentStyling(
     theme: ThemeDefinition,
-): ComponentStyling = createSwingIntUiComponentStyling(
+): ComponentStyling = createBridgeComponentStyling(
     theme = theme,
     textAreaTextStyle = retrieveTextStyle("TextArea.font", "TextArea.foreground"),
     textFieldTextStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
@@ -142,7 +142,7 @@ internal suspend fun createSwingIntUiComponentStyling(
     linkTextStyle = retrieveTextStyle("Label.font"),
 )
 
-internal fun createSwingIntUiComponentStyling(
+internal fun createBridgeComponentStyling(
     theme: ThemeDefinition,
     textFieldTextStyle: TextStyle,
     textAreaTextStyle: TextStyle,
