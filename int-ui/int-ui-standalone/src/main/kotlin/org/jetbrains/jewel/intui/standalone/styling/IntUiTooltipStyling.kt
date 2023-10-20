@@ -36,19 +36,19 @@ fun TooltipStyle.Companion.dark(
 
 @Composable
 fun TooltipColors.Companion.light(
-    contentColor: Color = IntUiLightTheme.colors.grey(12),
     backgroundColor: Color = IntUiLightTheme.colors.grey(2),
+    contentColor: Color = IntUiLightTheme.colors.grey(12),
     borderColor: Color = backgroundColor,
     shadow: Color = Color(0x78919191), // Not a palette color
-) = TooltipColors(contentColor, backgroundColor, borderColor, shadow)
+) = TooltipColors(backgroundColor, contentColor, borderColor, shadow)
 
 @Composable
 fun TooltipColors.Companion.dark(
-    contentColor: Color = IntUiDarkTheme.colors.grey(12),
     backgroundColor: Color = IntUiDarkTheme.colors.grey(2),
-    shadow: Color = Color(0x66000000), // Not a palette color
+    contentColor: Color = IntUiDarkTheme.colors.grey(12),
     borderColor: Color = IntUiDarkTheme.colors.grey(3),
-) = TooltipColors(contentColor, backgroundColor, borderColor, shadow)
+    shadow: Color = Color(0x66000000), // Not a palette color
+) = TooltipColors(backgroundColor, contentColor, borderColor, shadow)
 
 fun TooltipMetrics.Companion.defaults(
     contentPadding: PaddingValues = PaddingValues(vertical = 9.dp, horizontal = 12.dp),

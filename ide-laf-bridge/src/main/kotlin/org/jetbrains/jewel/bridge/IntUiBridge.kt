@@ -388,7 +388,7 @@ private fun readDefaultDropdownStyle(
             borderWidth = DarculaUIUtil.BW.dp,
         ),
         icons = DropdownIcons(
-            chevronDown = bridgePainterProvider("${iconsBasePath}general/chevron-down.svg"),
+            chevronDown = bridgePainterProvider("general/chevron-down.svg"),
         ),
         textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
@@ -440,7 +440,7 @@ private fun readUndecoratedDropdownStyle(
             borderWidth = 0.dp,
         ),
         icons = DropdownIcons(
-            chevronDown = bridgePainterProvider("${iconsBasePath}general/chevron-down.svg"),
+            chevronDown = bridgePainterProvider("general/chevron-down.svg"),
         ),
         textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
@@ -547,11 +547,11 @@ private fun readLinkStyle(
         metrics = LinkMetrics(
             focusHaloCornerSize = CornerSize(Registry.intValue("ide.link.button.focus.round.arc", 4).dp),
             textIconGap = 4.dp,
-            iconSize = DpSize.Unspecified,
+            iconSize = DpSize(16.dp, 16.dp),
         ),
         icons = LinkIcons(
-            dropdownChevron = bridgePainterProvider("${iconsBasePath}general/chevron-down.svg"),
-            externalLink = bridgePainterProvider("${iconsBasePath}ide/external_link_arrow.svg"),
+            dropdownChevron = bridgePainterProvider("general/chevron-down.svg"),
+            externalLink = bridgePainterProvider("ide/external_link_arrow.svg"),
         ),
         textStyles = LinkTextStyles(
             normal = linkTextStyle,
@@ -604,7 +604,7 @@ private fun readMenuStyle(): MenuStyle {
             itemMetrics = MenuItemMetrics(
                 selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp),
                 outerPadding = PaddingValues(horizontal = 6.dp),
-                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 1.dp),
+                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
                 separatorPadding = PaddingValues(
                     horizontal = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.withToEdge").takeOrElse { 0.dp },
                     vertical = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeIndent").takeOrElse { 0.dp },
@@ -616,7 +616,7 @@ private fun readMenuStyle(): MenuStyle {
             ),
         ),
         icons = MenuIcons(
-            submenuChevron = bridgePainterProvider("${iconsBasePath}general/chevron-down.svg"),
+            submenuChevron = bridgePainterProvider("general/chevron-right.svg"),
         ),
     )
 }
@@ -766,8 +766,8 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
         elementBackgroundSelectedFocused = selectedElementBackground,
     )
 
-    val chevronCollapsed = bridgePainterProvider("${iconsBasePath}general/chevron-right.svg")
-    val chevronExpanded = bridgePainterProvider("${iconsBasePath}general/chevron-down.svg")
+    val chevronCollapsed = bridgePainterProvider("general/chevron-right.svg")
+    val chevronExpanded = bridgePainterProvider("general/chevron-down.svg")
 
     return LazyTreeStyle(
         colors = colors,
@@ -826,7 +826,7 @@ private fun readDefaultTabStyle(): TabStyle {
             tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
         ),
         icons = TabIcons(
-            close = bridgePainterProvider("${iconsBasePath}expui/general/closeSmall.svg"),
+            close = bridgePainterProvider("expui/general/closeSmall.svg"),
         ),
         contentAlpha = TabContentAlpha(
             iconNormal = 1f,
@@ -881,7 +881,7 @@ private fun readEditorTabStyle(): TabStyle {
             tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
         ),
         icons = TabIcons(
-            close = bridgePainterProvider("${iconsBasePath}expui/general/closeSmall.svg"),
+            close = bridgePainterProvider("expui/general/closeSmall.svg"),
         ),
         contentAlpha = TabContentAlpha(
             iconNormal = .7f,

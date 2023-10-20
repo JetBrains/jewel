@@ -1486,6 +1486,7 @@ public final class org/jetbrains/jewel/painter/CommonPainterHintsProvider : org/
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/painter/CommonPainterHintsProvider;
 	public fun hints (Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ljava/util/List;
+	public fun priorityHints (Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ljava/util/List;
 }
 
 public abstract interface class org/jetbrains/jewel/painter/PainterHint {
@@ -1504,6 +1505,11 @@ public final class org/jetbrains/jewel/painter/PainterHint$None : org/jetbrains/
 
 public abstract interface class org/jetbrains/jewel/painter/PainterHintsProvider {
 	public abstract fun hints (Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ljava/util/List;
+	public abstract fun priorityHints (Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ljava/util/List;
+}
+
+public final class org/jetbrains/jewel/painter/PainterHintsProvider$DefaultImpls {
+	public static fun priorityHints (Lorg/jetbrains/jewel/painter/PainterHintsProvider;Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ljava/util/List;
 }
 
 public final class org/jetbrains/jewel/painter/PainterHintsProviderKt {
