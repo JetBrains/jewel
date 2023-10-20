@@ -3,6 +3,7 @@ package org.jetbrains.jewel.intui.core
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import org.jetbrains.jewel.GenerateDataFunctions
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJThemeDefinition

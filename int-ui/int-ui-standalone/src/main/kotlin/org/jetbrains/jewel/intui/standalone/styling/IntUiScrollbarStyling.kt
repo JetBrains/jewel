@@ -8,6 +8,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.GenerateDataFunctions
 import org.jetbrains.jewel.styling.ScrollbarColors
 import org.jetbrains.jewel.styling.ScrollbarMetrics
 import org.jetbrains.jewel.styling.ScrollbarStyle

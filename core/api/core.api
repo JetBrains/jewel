@@ -233,6 +233,9 @@ public final class org/jetbrains/jewel/FocusableComponentState$DefaultImpls {
 	public static fun chooseValue (Lorg/jetbrains/jewel/FocusableComponentState;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Landroidx/compose/runtime/Composer;I)Ljava/lang/Object;
 }
 
+public abstract interface annotation class org/jetbrains/jewel/GenerateDataFunctions : java/lang/annotation/Annotation {
+}
+
 public abstract interface class org/jetbrains/jewel/GlobalColors {
 	public abstract fun getBorders ()Lorg/jetbrains/jewel/BorderColors;
 	public abstract fun getInfoContent-0d7_KjU ()J

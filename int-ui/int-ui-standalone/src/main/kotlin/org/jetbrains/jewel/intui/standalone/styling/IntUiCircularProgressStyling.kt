@@ -4,6 +4,7 @@ package org.jetbrains.jewel.intui.standalone.styling
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import org.jetbrains.jewel.GenerateDataFunctions
 import org.jetbrains.jewel.styling.CircularProgressStyle
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
