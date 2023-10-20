@@ -85,7 +85,7 @@ interface IntelliJTheme {
             @ReadOnlyComposable
             get() = LocalSwingCompatMode.current
 
-        val colorPalette: IntelliJThemeColorPalette
+        val colorPalette: ThemeColorPalette
             @Composable
             @ReadOnlyComposable
             get() = LocalColorPalette.current
@@ -237,8 +237,8 @@ internal val LocalSwingCompatMode = staticCompositionLocalOf {
     false
 }
 
-val LocalColorPalette = staticCompositionLocalOf<IntelliJThemeColorPalette> {
-    EmptyThemeColorPalette
+val LocalColorPalette = staticCompositionLocalOf<ThemeColorPalette> {
+    ThemeColorPalette.Empty
 }
 
 val LocalIconData = staticCompositionLocalOf<ThemeIconData> {

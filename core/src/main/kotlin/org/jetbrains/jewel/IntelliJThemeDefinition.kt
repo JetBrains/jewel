@@ -13,6 +13,6 @@ interface IntelliJThemeDefinition {
     val defaultTextStyle: TextStyle
     val contentColor: Color
 
-    val colorPalette: IntelliJThemeColorPalette
+    val colorPalette: ThemeColorPalette
     val iconData: ThemeIconData
 }

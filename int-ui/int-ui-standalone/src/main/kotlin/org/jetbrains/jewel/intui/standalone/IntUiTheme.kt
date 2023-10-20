@@ -12,9 +12,9 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJComponentStyling
+import org.jetbrains.jewel.ThemeColorPalette
 import org.jetbrains.jewel.ThemeIconData
 import org.jetbrains.jewel.intui.core.BaseIntUiTheme
-import org.jetbrains.jewel.intui.core.IntUiThemeColorPalette
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
@@ -59,8 +59,8 @@ object IntUiTheme : BaseIntUiTheme {
     fun lightThemeDefinition(
         colors: GlobalColors = GlobalColors.light(),
         metrics: GlobalMetrics = GlobalMetrics.defaults(),
-        palette: IntUiThemeColorPalette = IntUiLightTheme.colors,
-        icons: ThemeIconData = IntUiLightTheme.icons,
+        palette: ThemeColorPalette = IntUiLightTheme.colors,
+        icons: ThemeIconData = IntUiLightTheme.iconData,
         defaultTextStyle: TextStyle = this.defaultTextStyle,
         contentColor: Color = IntUiLightTheme.colors.grey(1),
     ) = IntUiThemeDefinition(isDark = false, colors, palette, icons, metrics, defaultTextStyle, contentColor)
@@ -69,8 +69,8 @@ object IntUiTheme : BaseIntUiTheme {
     fun darkThemeDefinition(
         colors: GlobalColors = GlobalColors.dark(),
         metrics: GlobalMetrics = GlobalMetrics.defaults(),
-        palette: IntUiThemeColorPalette = IntUiDarkTheme.colors,
-        icons: ThemeIconData = IntUiDarkTheme.icons,
+        palette: ThemeColorPalette = IntUiDarkTheme.colors,
+        icons: ThemeIconData = IntUiDarkTheme.iconData,
         defaultTextStyle: TextStyle = this.defaultTextStyle,
         contentColor: Color = IntUiDarkTheme.colors.grey(12),
     ) = IntUiThemeDefinition(isDark = true, colors, palette, icons, metrics, defaultTextStyle, contentColor)

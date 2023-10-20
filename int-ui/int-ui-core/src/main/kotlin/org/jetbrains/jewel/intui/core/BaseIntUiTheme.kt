@@ -14,6 +14,7 @@ import org.jetbrains.jewel.ThemeIconData
 import org.jetbrains.jewel.LocalColorPalette
 import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.NoIndication
+import org.jetbrains.jewel.ThemeColorPalette
 import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.CheckboxStyle
 import org.jetbrains.jewel.styling.ChipStyle
@@ -69,10 +70,10 @@ interface BaseIntUiTheme : IntelliJTheme {
         @ReadOnlyComposable
         get() = IntelliJTheme.iconData
 
-    val colorPalette: IntUiThemeColorPalette
+    val colorPalette: ThemeColorPalette
         @Composable
         @ReadOnlyComposable
-        get() = IntelliJTheme.colorPalette as? IntUiThemeColorPalette ?: EmptyIntUiThemeColorPalette
+        get() = IntelliJTheme.colorPalette
 
     val defaultButtonStyle: ButtonStyle
         @Composable

@@ -7,6 +7,7 @@ import org.jetbrains.jewel.GenerateDataFunctions
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJThemeDefinition
+import org.jetbrains.jewel.ThemeColorPalette
 import org.jetbrains.jewel.ThemeIconData
 
 @Immutable
@@ -14,7 +15,7 @@ import org.jetbrains.jewel.ThemeIconData
 class IntUiThemeDefinition(
     override val isDark: Boolean,
     override val globalColors: GlobalColors,
-    override val colorPalette: IntUiThemeColorPalette,
+    override val colorPalette: ThemeColorPalette,
     override val iconData: ThemeIconData,
     override val globalMetrics: GlobalMetrics,
     override val defaultTextStyle: TextStyle,
