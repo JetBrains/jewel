@@ -27,10 +27,6 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldTextStyles
-import org.jetbrains.jewel.intui.standalone.styling.IntUiRadioButtonColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiRadioButtonIcons
-import org.jetbrains.jewel.intui.standalone.styling.IntUiRadioButtonMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiRadioButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiScrollbarStyle
@@ -91,6 +87,10 @@ import org.jetbrains.jewel.styling.MenuItemColors
 import org.jetbrains.jewel.styling.MenuItemMetrics
 import org.jetbrains.jewel.styling.MenuMetrics
 import org.jetbrains.jewel.styling.MenuStyle
+import org.jetbrains.jewel.styling.RadioButtonColors
+import org.jetbrains.jewel.styling.RadioButtonIcons
+import org.jetbrains.jewel.styling.RadioButtonMetrics
+import org.jetbrains.jewel.styling.RadioButtonStyle
 import org.jetbrains.jewel.styling.SubmenuMetrics
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -620,10 +620,10 @@ private fun readMenuStyle(): MenuStyle {
     )
 }
 
-private fun readRadioButtonStyle(): IntUiRadioButtonStyle {
+private fun readRadioButtonStyle(): RadioButtonStyle {
     val normalContent = retrieveColorOrUnspecified("RadioButton.foreground")
     val disabledContent = retrieveColorOrUnspecified("RadioButton.disabledText")
-    val colors = IntUiRadioButtonColors(
+    val colors = RadioButtonColors(
         content = normalContent,
         contentHovered = normalContent,
         contentDisabled = disabledContent,
@@ -632,13 +632,13 @@ private fun readRadioButtonStyle(): IntUiRadioButtonStyle {
         contentSelectedDisabled = disabledContent,
     )
 
-    return IntUiRadioButtonStyle(
+    return RadioButtonStyle(
         colors = colors,
-        metrics = IntUiRadioButtonMetrics(
+        metrics = RadioButtonMetrics(
             radioButtonSize = DpSize(19.dp, 19.dp),
             iconContentGap = retrieveIntAsDpOrUnspecified("RadioButton.textIconGap").takeOrElse { 4.dp },
         ),
-        icons = IntUiRadioButtonIcons(
+        icons = RadioButtonIcons(
             radioButton = bridgePainterProvider("${iconsBasePath}radio.svg"),
         ),
     )
