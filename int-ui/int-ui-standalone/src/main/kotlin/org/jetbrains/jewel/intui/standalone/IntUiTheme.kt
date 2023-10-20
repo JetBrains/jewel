@@ -21,7 +21,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.Default
 import org.jetbrains.jewel.intui.standalone.styling.Defaults
-import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
@@ -36,6 +35,7 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
 import org.jetbrains.jewel.intui.standalone.styling.Outlined
+import org.jetbrains.jewel.intui.standalone.styling.Undecorated
 import org.jetbrains.jewel.painter.LocalPainterHintsProvider
 import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.CheckboxStyle
@@ -84,41 +84,46 @@ object IntUiTheme : BaseIntUiTheme {
         contentColor: Color = IntUiDarkTheme.colors.grey(12),
     ) = IntUiThemeDefinition(isDark = true, colors, palette, icons, metrics, defaultTextStyle, contentColor)
 
-    @Composable fun defaultComponentStyling(theme: IntUiThemeDefinition): IntelliJComponentStyling =
+    @Composable
+    fun defaultComponentStyling(theme: IntUiThemeDefinition): IntelliJComponentStyling =
         if (theme.isDark) darkComponentStyling() else lightComponentStyling()
 
-    @Composable fun darkComponentStyling(
-        defaultButtonStyle: ButtonStyle = ButtonStyle.Default.dark(),
-        outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.dark(),
+    @Composable
+    fun darkComponentStyling(
         checkboxStyle: CheckboxStyle = CheckboxStyle.Defaults.dark(),
         chipStyle: ChipStyle = ChipStyle.Defaults.dark(),
+        circularProgressStyle: CircularProgressStyle = CircularProgressStyle.Defaults.dark(),
+        defaultButtonStyle: ButtonStyle = ButtonStyle.Default.dark(),
+        defaultTabStyle: TabStyle = IntUiTabStyle.Default.dark(),
         dividerStyle: DividerStyle = DividerStyle.Defaults.dark(),
-        dropdownStyle: DropdownStyle = IntUiDropdownStyle.dark(),
+        dropdownStyle: DropdownStyle = DropdownStyle.Default.dark(),
+        editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(),
         groupHeaderStyle: GroupHeaderStyle = IntUiGroupHeaderStyle.dark(),
+        horizontalProgressBarStyle: HorizontalProgressBarStyle = IntUiHorizontalProgressBarStyle.dark(),
+        iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.dark(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.dark(),
+        lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.dark(),
         linkStyle: LinkStyle = IntUiLinkStyle.dark(),
         menuStyle: MenuStyle = IntUiMenuStyle.dark(),
-        horizontalProgressBarStyle: HorizontalProgressBarStyle = IntUiHorizontalProgressBarStyle.dark(),
+        outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.dark(),
         radioButtonStyle: RadioButtonStyle = IntUiRadioButtonStyle.dark(),
         scrollbarStyle: ScrollbarStyle = IntUiScrollbarStyle.dark(),
         textAreaStyle: IntUiTextAreaStyle = IntUiTextAreaStyle.dark(),
         textFieldStyle: TextFieldStyle = IntUiTextFieldStyle.dark(),
-        lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.dark(),
-        defaultTabStyle: TabStyle = IntUiTabStyle.Default.dark(),
-        editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(),
-        circularProgressStyle: CircularProgressStyle = CircularProgressStyle.Defaults.dark(),
         tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.dark(),
-        iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.dark(),
+        undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.dark(),
     ) = IntelliJComponentStyling(
         checkboxStyle = checkboxStyle,
         chipStyle = chipStyle,
+        circularProgressStyle = circularProgressStyle,
         defaultButtonStyle = defaultButtonStyle,
+        defaultDropdownStyle = dropdownStyle,
         defaultTabStyle = defaultTabStyle,
         dividerStyle = dividerStyle,
-        dropdownStyle = dropdownStyle,
         editorTabStyle = editorTabStyle,
         groupHeaderStyle = groupHeaderStyle,
         horizontalProgressBarStyle = horizontalProgressBarStyle,
+        iconButtonStyle = iconButtonStyle,
         labelledTextFieldStyle = labelledTextFieldStyle,
         lazyTreeStyle = lazyTreeStyle,
         linkStyle = linkStyle,
@@ -128,43 +133,46 @@ object IntUiTheme : BaseIntUiTheme {
         scrollbarStyle = scrollbarStyle,
         textAreaStyle = textAreaStyle,
         textFieldStyle = textFieldStyle,
-        circularProgressStyle = circularProgressStyle,
         tooltipStyle = tooltipStyle,
-        iconButtonStyle = iconButtonStyle,
+        undecoratedDropdownStyle = undecoratedDropdownStyle,
     )
 
-    @Composable fun lightComponentStyling(
-        defaultButtonStyle: ButtonStyle = ButtonStyle.Default.light(),
-        outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.light(),
+    @Composable
+    fun lightComponentStyling(
         checkboxStyle: CheckboxStyle = CheckboxStyle.Defaults.light(),
         chipStyle: ChipStyle = ChipStyle.Defaults.light(),
+        circularProgressStyle: CircularProgressStyle = CircularProgressStyle.Defaults.light(),
+        defaultButtonStyle: ButtonStyle = ButtonStyle.Default.light(),
+        defaultTabStyle: TabStyle = IntUiTabStyle.Default.light(),
         dividerStyle: DividerStyle = DividerStyle.Defaults.light(),
-        dropdownStyle: DropdownStyle = IntUiDropdownStyle.light(),
+        dropdownStyle: DropdownStyle = DropdownStyle.Default.light(),
+        editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(),
         groupHeaderStyle: GroupHeaderStyle = IntUiGroupHeaderStyle.light(),
+        horizontalProgressBarStyle: HorizontalProgressBarStyle = IntUiHorizontalProgressBarStyle.light(),
+        iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.light(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.light(),
+        lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.light(),
         linkStyle: LinkStyle = IntUiLinkStyle.light(),
         menuStyle: MenuStyle = IntUiMenuStyle.light(),
-        horizontalProgressBarStyle: HorizontalProgressBarStyle = IntUiHorizontalProgressBarStyle.light(),
+        outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.light(),
         radioButtonStyle: RadioButtonStyle = IntUiRadioButtonStyle.light(),
         scrollbarStyle: ScrollbarStyle = IntUiScrollbarStyle.light(),
         textAreaStyle: IntUiTextAreaStyle = IntUiTextAreaStyle.light(),
         textFieldStyle: TextFieldStyle = IntUiTextFieldStyle.light(),
-        lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.light(),
-        defaultTabStyle: TabStyle = IntUiTabStyle.Default.light(),
-        editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(),
-        circularProgressStyle: CircularProgressStyle = CircularProgressStyle.Defaults.light(),
         tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.light(),
-        iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.light(),
+        undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.light(),
     ) = IntelliJComponentStyling(
         checkboxStyle = checkboxStyle,
         chipStyle = chipStyle,
+        circularProgressStyle = circularProgressStyle,
         defaultButtonStyle = defaultButtonStyle,
+        defaultDropdownStyle = dropdownStyle,
         defaultTabStyle = defaultTabStyle,
         dividerStyle = dividerStyle,
-        dropdownStyle = dropdownStyle,
         editorTabStyle = editorTabStyle,
         groupHeaderStyle = groupHeaderStyle,
         horizontalProgressBarStyle = horizontalProgressBarStyle,
+        iconButtonStyle = iconButtonStyle,
         labelledTextFieldStyle = labelledTextFieldStyle,
         lazyTreeStyle = lazyTreeStyle,
         linkStyle = linkStyle,
@@ -174,21 +182,23 @@ object IntUiTheme : BaseIntUiTheme {
         scrollbarStyle = scrollbarStyle,
         textAreaStyle = textAreaStyle,
         textFieldStyle = textFieldStyle,
-        circularProgressStyle = circularProgressStyle,
         tooltipStyle = tooltipStyle,
-        iconButtonStyle = iconButtonStyle,
+        undecoratedDropdownStyle = undecoratedDropdownStyle,
     )
 }
 
-@Composable fun IntUiTheme(
+@Composable
+fun IntUiTheme(
     theme: IntUiThemeDefinition,
     componentStyling: @Composable () -> Array<ProvidedValue<*>>,
     swingCompatMode: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    BaseIntUiTheme(theme, {
-        defaultComponentStyling(theme).providedStyles() + componentStyling()
-    }, swingCompatMode) {
+    BaseIntUiTheme(
+        theme,
+        componentStyling = { defaultComponentStyling(theme).providedStyles() + componentStyling() },
+        swingCompatMode,
+    ) {
         CompositionLocalProvider(
             LocalPainterHintsProvider provides StandalonePainterHintsProvider(theme),
         ) {

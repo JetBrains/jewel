@@ -23,10 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownIcons
-import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderStyle
@@ -91,6 +87,10 @@ import org.jetbrains.jewel.styling.ChipStyle
 import org.jetbrains.jewel.styling.CircularProgressStyle
 import org.jetbrains.jewel.styling.DividerMetrics
 import org.jetbrains.jewel.styling.DividerStyle
+import org.jetbrains.jewel.styling.DropdownColors
+import org.jetbrains.jewel.styling.DropdownIcons
+import org.jetbrains.jewel.styling.DropdownMetrics
+import org.jetbrains.jewel.styling.DropdownStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -151,13 +151,15 @@ internal fun createSwingIntUiComponentStyling(
     return IntelliJComponentStyling(
         checkboxStyle = readCheckboxStyle(),
         chipStyle = readChipStyle(),
+        circularProgressStyle = readCircularProgressStyle(theme.isDark),
         defaultButtonStyle = readDefaultButtonStyle(),
+        defaultDropdownStyle = readDefaultDropdownStyle(menuStyle, dropdownTextStyle),
         defaultTabStyle = readDefaultTabStyle(),
         dividerStyle = readDividerStyle(),
-        dropdownStyle = readDropdownStyle(menuStyle, dropdownTextStyle),
         editorTabStyle = readEditorTabStyle(),
         groupHeaderStyle = readGroupHeaderStyle(),
         horizontalProgressBarStyle = readHorizontalProgressBarStyle(),
+        iconButtonStyle = readIconButtonStyle(),
         labelledTextFieldStyle = readLabelledTextFieldStyle(textFieldStyle, labelTextStyle),
         lazyTreeStyle = readLazyTreeStyle(),
         linkStyle = readLinkStyle(linkTextStyle),
@@ -166,10 +168,9 @@ internal fun createSwingIntUiComponentStyling(
         radioButtonStyle = readRadioButtonStyle(),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
-        circularProgressStyle = readCircularProgressStyle(theme.isDark),
-        tooltipStyle = readTooltipStyle(),
         textFieldStyle = textFieldStyle,
-        iconButtonStyle = readIconButtonStyle(),
+        tooltipStyle = readTooltipStyle(),
+        undecoratedDropdownStyle = readUndecoratedDropdownStyle(menuStyle, dropdownTextStyle),
     )
 }
 
@@ -341,16 +342,16 @@ private fun readDividerStyle() =
         metrics = DividerMetrics.defaults(),
     )
 
-private fun readDropdownStyle(
+private fun readDefaultDropdownStyle(
     menuStyle: IntUiMenuStyle,
     dropdownTextStyle: TextStyle,
-): IntUiDropdownStyle {
+): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
     val normalBorder = retrieveColorOrUnspecified("Component.borderColor")
     val focusedBorder = retrieveColorOrUnspecified("Component.focusedBorderColor")
 
-    val colors = IntUiDropdownColors(
+    val colors = DropdownColors(
         background = normalBackground,
         backgroundDisabled = retrieveColorOrUnspecified("ComboBox.disabledBackground"),
         backgroundFocused = normalBackground,
@@ -374,9 +375,9 @@ private fun readDropdownStyle(
     )
 
     val arrowWidth = DarculaUIUtil.ARROW_BUTTON_WIDTH.dp
-    return IntUiDropdownStyle(
+    return DropdownStyle(
         colors = colors,
-        metrics = IntUiDropdownMetrics(
+        metrics = DropdownMetrics(
             arrowMinSize = DpSize(arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
             minSize = DpSize(
                 DarculaUIUtil.MINIMUM_WIDTH.dp + arrowWidth,
@@ -386,7 +387,59 @@ private fun readDropdownStyle(
             contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
             borderWidth = DarculaUIUtil.BW.dp,
         ),
-        icons = IntUiDropdownIcons(
+        icons = DropdownIcons(
+            chevronDown = bridgePainterProvider("${iconsBasePath}general/chevron-down.svg"),
+        ),
+        textStyle = dropdownTextStyle,
+        menuStyle = menuStyle,
+    )
+}
+
+private fun readUndecoratedDropdownStyle(
+    menuStyle: IntUiMenuStyle,
+    dropdownTextStyle: TextStyle,
+): DropdownStyle {
+    val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
+    val hoverBackground = retrieveColorOrUnspecified("MainToolbar.Dropdown.transparentHoverBackground")
+    val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
+
+    val colors = DropdownColors(
+        background = normalBackground,
+        backgroundDisabled = retrieveColorOrUnspecified("ComboBox.disabledBackground"),
+        backgroundFocused = normalBackground,
+        backgroundPressed = normalBackground,
+        backgroundHovered = hoverBackground,
+        content = normalContent,
+        contentDisabled = retrieveColorOrUnspecified("ComboBox.disabledForeground"),
+        contentFocused = normalContent,
+        contentPressed = normalContent,
+        contentHovered = normalContent,
+        border = Color.Transparent,
+        borderDisabled = Color.Transparent,
+        borderFocused = Color.Transparent,
+        borderPressed = Color.Transparent,
+        borderHovered = Color.Transparent,
+        iconTint = Color.Unspecified,
+        iconTintDisabled = Color.Unspecified,
+        iconTintFocused = Color.Unspecified,
+        iconTintPressed = Color.Unspecified,
+        iconTintHovered = Color.Unspecified,
+    )
+
+    val arrowWidth = DarculaUIUtil.ARROW_BUTTON_WIDTH.dp
+    return DropdownStyle(
+        colors = colors,
+        metrics = DropdownMetrics(
+            arrowMinSize = DpSize(arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
+            minSize = DpSize(
+                DarculaUIUtil.MINIMUM_WIDTH.dp + arrowWidth,
+                DarculaUIUtil.MINIMUM_HEIGHT.dp,
+            ),
+            cornerSize = CornerSize(JBUI.CurrentTheme.MainToolbar.Dropdown.hoverArc().dp),
+            contentPadding = JBUI.CurrentTheme.MainToolbar.Dropdown.margin().toPaddingValues(),
+            borderWidth = 0.dp,
+        ),
+        icons = DropdownIcons(
             chevronDown = bridgePainterProvider("${iconsBasePath}general/chevron-down.svg"),
         ),
         textStyle = dropdownTextStyle,

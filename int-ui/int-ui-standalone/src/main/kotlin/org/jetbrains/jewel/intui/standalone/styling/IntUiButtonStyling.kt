@@ -24,13 +24,13 @@ object IntUiDefaultButtonStyleFactory {
     @Composable
     fun light(
         colors: ButtonColors = ButtonColors.Default.light(),
-        metrics: ButtonMetrics = ButtonMetrics.Default.create(),
+        metrics: ButtonMetrics = ButtonMetrics.default(),
     ) = ButtonStyle(colors, metrics)
 
     @Composable
     fun dark(
         colors: ButtonColors = ButtonColors.Default.dark(),
-        metrics: ButtonMetrics = ButtonMetrics.Default.create(),
+        metrics: ButtonMetrics = ButtonMetrics.default(),
     ) = ButtonStyle(colors, metrics)
 }
 
@@ -42,13 +42,13 @@ object IntUiOutlinedButtonStyleFactory {
     @Composable
     fun light(
         colors: ButtonColors = ButtonColors.Outlined.light(),
-        metrics: ButtonMetrics = ButtonMetrics.Outlined.create(),
+        metrics: ButtonMetrics = ButtonMetrics.outlined(),
     ) = ButtonStyle(colors, metrics)
 
     @Composable
     fun dark(
         colors: ButtonColors = ButtonColors.Outlined.dark(),
-        metrics: ButtonMetrics = ButtonMetrics.Outlined.create(),
+        metrics: ButtonMetrics = ButtonMetrics.outlined(),
     ) = ButtonStyle(colors, metrics)
 }
 
@@ -204,28 +204,16 @@ object IntUiOutlinedButtonColorFactory {
     )
 }
 
-val ButtonMetrics.Companion.Default: IntUiDefaultButtonMetricsFactory
-    get() = IntUiDefaultButtonMetricsFactory
+fun ButtonMetrics.Companion.default(
+    cornerSize: CornerSize = CornerSize(4.dp),
+    padding: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
+    minSize: DpSize = DpSize(72.dp, 28.dp),
+    borderWidth: Dp = 0.dp,
+) = ButtonMetrics(cornerSize, padding, minSize, borderWidth)
 
-object IntUiDefaultButtonMetricsFactory {
-
-    fun create(
-        cornerSize: CornerSize = CornerSize(4.dp),
-        padding: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-        minSize: DpSize = DpSize(72.dp, 28.dp),
-        borderWidth: Dp = 0.dp,
-    ) = ButtonMetrics(cornerSize, padding, minSize, borderWidth)
-}
-
-val ButtonMetrics.Companion.Outlined: IntUiOutlinedButtonMetricsFactory
-    get() = IntUiOutlinedButtonMetricsFactory
-
-object IntUiOutlinedButtonMetricsFactory {
-
-    fun create(
-        cornerSize: CornerSize = CornerSize(4.dp),
-        padding: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-        minSize: DpSize = DpSize(72.dp, 28.dp),
-        borderWidth: Dp = 1.dp,
-    ) = ButtonMetrics(cornerSize, padding, minSize, borderWidth)
-}
+fun ButtonMetrics.Companion.outlined(
+    cornerSize: CornerSize = CornerSize(4.dp),
+    padding: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
+    minSize: DpSize = DpSize(72.dp, 28.dp),
+    borderWidth: Dp = 1.dp,
+) = ButtonMetrics(cornerSize, padding, minSize, borderWidth)
