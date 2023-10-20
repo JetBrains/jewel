@@ -20,7 +20,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.Default
-import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLazyTreeStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLinkStyle
@@ -34,6 +33,7 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
 import org.jetbrains.jewel.intui.standalone.styling.Outlined
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
 import org.jetbrains.jewel.intui.standalone.styling.dark
+import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.painter.LocalPainterHintsProvider
 import org.jetbrains.jewel.styling.ButtonStyle
@@ -44,6 +44,8 @@ import org.jetbrains.jewel.styling.DividerStyle
 import org.jetbrains.jewel.styling.DropdownStyle
 import org.jetbrains.jewel.styling.GroupHeaderStyle
 import org.jetbrains.jewel.styling.HorizontalProgressBarStyle
+import org.jetbrains.jewel.styling.IconButtonColors
+import org.jetbrains.jewel.styling.IconButtonMetrics
 import org.jetbrains.jewel.styling.IconButtonStyle
 import org.jetbrains.jewel.styling.LabelledTextFieldStyle
 import org.jetbrains.jewel.styling.LazyTreeStyle
@@ -99,7 +101,7 @@ object IntUiTheme : BaseIntUiTheme {
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(),
         groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.dark(),
         horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.dark(),
-        iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.dark(),
+        iconButtonStyle: IconButtonStyle = IconButtonStyle.dark(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.dark(),
         lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.dark(),
         linkStyle: LinkStyle = IntUiLinkStyle.dark(),
@@ -148,7 +150,7 @@ object IntUiTheme : BaseIntUiTheme {
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(),
         groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.light(),
         horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.light(),
-        iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.light(),
+        iconButtonStyle: IconButtonStyle = IconButtonStyle.light(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.light(),
         lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.light(),
         linkStyle: LinkStyle = IntUiLinkStyle.light(),

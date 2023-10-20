@@ -23,9 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
@@ -91,6 +88,9 @@ import org.jetbrains.jewel.styling.GroupHeaderStyle
 import org.jetbrains.jewel.styling.HorizontalProgressBarColors
 import org.jetbrains.jewel.styling.HorizontalProgressBarMetrics
 import org.jetbrains.jewel.styling.HorizontalProgressBarStyle
+import org.jetbrains.jewel.styling.IconButtonColors
+import org.jetbrains.jewel.styling.IconButtonMetrics
+import org.jetbrains.jewel.styling.IconButtonStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -900,7 +900,7 @@ private fun readEditorTabStyle(): IntUiTabStyle {
 
 private fun readCircularProgressStyle(
     isDark: Boolean,
-): CircularProgressStyle =
+) =
     CircularProgressStyle(
         frameTime = 125.milliseconds,
         color = retrieveColorOrUnspecified("ProgressIcon.color")
@@ -908,8 +908,8 @@ private fun readCircularProgressStyle(
             ?: if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD),
     )
 
-private fun readTooltipStyle(): IntUiTooltipStyle {
-    return IntUiTooltipStyle(
+private fun readTooltipStyle() =
+    IntUiTooltipStyle(
         metrics = IntUiTooltipMetrics(),
         colors = IntUiTooltipColors(
             content = retrieveColorOrUnspecified("ToolTip.foreground"),
@@ -918,11 +918,15 @@ private fun readTooltipStyle(): IntUiTooltipStyle {
             shadow = retrieveColorOrUnspecified("Notification.Shadow.bottom1Color"),
         ),
     )
-}
 
-private fun readIconButtonStyle(): IntUiIconButtonStyle = IntUiIconButtonStyle(
-    metrics = IntUiIconButtonMetrics(CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2)),
-    colors = IntUiIconButtonColors(
+private fun readIconButtonStyle(): IconButtonStyle = IconButtonStyle(
+    metrics = IconButtonMetrics(
+        cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
+        borderWidth = 1.dp,
+        padding = PaddingValues(0.dp),
+        minSize = DpSize(16.dp, 16.dp),
+    ),
+    colors = IconButtonColors(
         background = Color.Unspecified,
         backgroundDisabled = Color.Unspecified,
         backgroundFocused = Color.Unspecified,

@@ -10,15 +10,15 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GenerateDataFunctions
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiMenuStyle
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
+import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.intui.window.decoratedWindowPainterProvider
 import org.jetbrains.jewel.painter.PainterProvider
 import org.jetbrains.jewel.styling.DropdownColors
 import org.jetbrains.jewel.styling.DropdownStyle
+import org.jetbrains.jewel.styling.IconButtonColors
+import org.jetbrains.jewel.styling.IconButtonMetrics
 import org.jetbrains.jewel.styling.IconButtonStyle
 import org.jetbrains.jewel.window.styling.TitleBarColors
 import org.jetbrains.jewel.window.styling.TitleBarIcons
@@ -43,9 +43,9 @@ class IntUiTitleBarStyle(
         private fun titleBarIconButtonStyle(
             hoveredBackground: Color,
             pressedBackground: Color,
-            metrics: IntUiIconButtonMetrics,
-        ) = IntUiIconButtonStyle(
-            IntUiIconButtonColors(
+            metrics: IconButtonMetrics,
+        ) = IconButtonStyle(
+            IconButtonColors(
                 background = Color.Transparent,
                 backgroundDisabled = Color.Transparent,
                 backgroundFocused = Color.Transparent,
@@ -84,17 +84,17 @@ class IntUiTitleBarStyle(
             iconButtonStyle = titleBarIconButtonStyle(
                 colors.iconButtonHoveredBackground,
                 colors.iconButtonPressedBackground,
-                IntUiIconButtonMetrics(borderWidth = 0.dp),
+                IconButtonMetrics.defaults(borderWidth = 0.dp),
             ),
             paneButtonStyle = titleBarIconButtonStyle(
                 colors.titlePaneButtonHoveredBackground,
                 colors.titlePaneButtonPressedBackground,
-                IntUiIconButtonMetrics(CornerSize(0.dp), borderWidth = 0.dp),
+                IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
             ),
             paneCloseButtonStyle = titleBarIconButtonStyle(
                 colors.titlePaneCloseButtonHoveredBackground,
                 colors.titlePaneCloseButtonPressedBackground,
-                IntUiIconButtonMetrics(CornerSize(0.dp), borderWidth = 0.dp),
+                IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
             ),
         )
 
@@ -122,17 +122,17 @@ class IntUiTitleBarStyle(
             iconButtonStyle = titleBarIconButtonStyle(
                 colors.iconButtonHoveredBackground,
                 colors.iconButtonPressedBackground,
-                IntUiIconButtonMetrics(borderWidth = 0.dp),
+                IconButtonMetrics.defaults(borderWidth = 0.dp),
             ),
             paneButtonStyle = titleBarIconButtonStyle(
                 colors.titlePaneButtonHoveredBackground,
                 colors.titlePaneButtonPressedBackground,
-                IntUiIconButtonMetrics(CornerSize(0.dp), borderWidth = 0.dp),
+                IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
             ),
             paneCloseButtonStyle = titleBarIconButtonStyle(
                 colors.titlePaneCloseButtonHoveredBackground,
                 colors.titlePaneCloseButtonPressedBackground,
-                IntUiIconButtonMetrics(CornerSize(0.dp), borderWidth = 0.dp),
+                IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
             ),
         )
 
@@ -160,17 +160,17 @@ class IntUiTitleBarStyle(
             iconButtonStyle = titleBarIconButtonStyle(
                 colors.iconButtonHoveredBackground,
                 colors.iconButtonPressedBackground,
-                IntUiIconButtonMetrics(borderWidth = 0.dp),
+                IconButtonMetrics.defaults(borderWidth = 0.dp),
             ),
             paneButtonStyle = titleBarIconButtonStyle(
                 colors.titlePaneButtonHoveredBackground,
                 colors.titlePaneButtonPressedBackground,
-                IntUiIconButtonMetrics(CornerSize(0.dp), borderWidth = 0.dp),
+                IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
             ),
             paneCloseButtonStyle = titleBarIconButtonStyle(
                 colors.titlePaneCloseButtonHoveredBackground,
                 colors.titlePaneCloseButtonPressedBackground,
-                IntUiIconButtonMetrics(CornerSize(0.dp), borderWidth = 0.dp),
+                IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
             ),
         )
     }
