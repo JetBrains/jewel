@@ -11,8 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
-import org.jetbrains.jewel.IntelliJComponentStyling
-import org.jetbrains.jewel.JewelTheme
+import org.jetbrains.jewel.ComponentStyling
 import org.jetbrains.jewel.ThemeColorPalette
 import org.jetbrains.jewel.ThemeDefinition
 import org.jetbrains.jewel.ThemeIconData
@@ -77,7 +76,7 @@ object IntUiTheme : BaseIntUiTheme {
     ) = ThemeDefinition(isDark = true, colors, metrics, defaultTextStyle, contentColor, palette, iconData)
 
     @Composable
-    fun defaultComponentStyling(theme: ThemeDefinition): IntelliJComponentStyling =
+    fun defaultComponentStyling(theme: ThemeDefinition): ComponentStyling =
         if (theme.isDark) darkComponentStyling() else lightComponentStyling()
 
     @Composable
@@ -104,7 +103,7 @@ object IntUiTheme : BaseIntUiTheme {
         textFieldStyle: TextFieldStyle = TextFieldStyle.dark(),
         tooltipStyle: TooltipStyle = TooltipStyle.dark(),
         undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.dark(),
-    ) = IntelliJComponentStyling(
+    ) = ComponentStyling(
         checkboxStyle = checkboxStyle,
         chipStyle = chipStyle,
         circularProgressStyle = circularProgressStyle,
@@ -153,7 +152,7 @@ object IntUiTheme : BaseIntUiTheme {
         textFieldStyle: TextFieldStyle = TextFieldStyle.light(),
         tooltipStyle: TooltipStyle = TooltipStyle.light(),
         undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.light(),
-    ) = IntelliJComponentStyling(
+    ) = ComponentStyling(
         checkboxStyle = checkboxStyle,
         chipStyle = chipStyle,
         circularProgressStyle = circularProgressStyle,

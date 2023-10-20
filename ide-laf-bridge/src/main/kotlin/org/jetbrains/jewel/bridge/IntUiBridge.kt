@@ -23,7 +23,7 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
-import org.jetbrains.jewel.IntelliJComponentStyling
+import org.jetbrains.jewel.ComponentStyling
 import org.jetbrains.jewel.ThemeColorPalette
 import org.jetbrains.jewel.ThemeDefinition
 import org.jetbrains.jewel.ThemeIconData
@@ -133,7 +133,7 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): ThemeDefinition 
 @OptIn(DependsOnJBR::class)
 internal suspend fun createSwingIntUiComponentStyling(
     theme: ThemeDefinition,
-): IntelliJComponentStyling = createSwingIntUiComponentStyling(
+): ComponentStyling = createSwingIntUiComponentStyling(
     theme = theme,
     textAreaTextStyle = retrieveTextStyle("TextArea.font", "TextArea.foreground"),
     textFieldTextStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
@@ -149,13 +149,13 @@ internal fun createSwingIntUiComponentStyling(
     dropdownTextStyle: TextStyle,
     labelTextStyle: TextStyle,
     linkTextStyle: TextStyle,
-): IntelliJComponentStyling {
+): ComponentStyling {
     logger.debug("Obtaining Int UI component styling from Swing...")
 
     val textFieldStyle = readTextFieldStyle(textFieldTextStyle)
     val menuStyle = readMenuStyle()
 
-    return IntelliJComponentStyling(
+    return ComponentStyling(
         checkboxStyle = readCheckboxStyle(),
         chipStyle = readChipStyle(),
         circularProgressStyle = readCircularProgressStyle(theme.isDark),

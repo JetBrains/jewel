@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
-import org.jetbrains.jewel.IntelliJComponentStyling
+import org.jetbrains.jewel.ComponentStyling
 import org.jetbrains.jewel.ThemeDefinition
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -64,7 +64,7 @@ internal class SwingBridgeService : Disposable {
 
     internal data class BridgeThemeData(
         val themeDefinition: ThemeDefinition,
-        val componentStyling: IntelliJComponentStyling,
+        val componentStyling: ComponentStyling,
     ) {
 
         companion object {
