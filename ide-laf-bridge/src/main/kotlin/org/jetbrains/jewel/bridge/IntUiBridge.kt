@@ -23,9 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarStyle
@@ -91,6 +88,9 @@ import org.jetbrains.jewel.styling.DropdownColors
 import org.jetbrains.jewel.styling.DropdownIcons
 import org.jetbrains.jewel.styling.DropdownMetrics
 import org.jetbrains.jewel.styling.DropdownStyle
+import org.jetbrains.jewel.styling.GroupHeaderColors
+import org.jetbrains.jewel.styling.GroupHeaderMetrics
+import org.jetbrains.jewel.styling.GroupHeaderStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -447,11 +447,11 @@ private fun readUndecoratedDropdownStyle(
     )
 }
 
-private fun readGroupHeaderStyle() = IntUiGroupHeaderStyle(
-    colors = IntUiGroupHeaderColors(
+private fun readGroupHeaderStyle() = GroupHeaderStyle(
+    colors = GroupHeaderColors(
         divider = retrieveColorOrUnspecified("Separator.separatorColor"),
     ),
-    metrics = IntUiGroupHeaderMetrics(
+    metrics = GroupHeaderMetrics(
         dividerThickness = 1.dp, // see DarculaSeparatorUI
         indent = 1.dp, // see DarculaSeparatorUI
     ),

@@ -16,45 +16,33 @@ import org.jetbrains.jewel.styling.CheckboxIcons
 import org.jetbrains.jewel.styling.CheckboxMetrics
 import org.jetbrains.jewel.styling.CheckboxStyle
 
-val CheckboxStyle.Companion.Defaults: IntUiCheckboxStyleFactory
-    get() = IntUiCheckboxStyleFactory
+@Composable
+fun CheckboxStyle.Companion.light(
+    colors: CheckboxColors = CheckboxColors.light(),
+    metrics: CheckboxMetrics = CheckboxMetrics.defaults(),
+    icons: CheckboxIcons = CheckboxIcons.light(),
+) = CheckboxStyle(colors, metrics, icons)
 
-object IntUiCheckboxStyleFactory {
+@Composable
+fun CheckboxStyle.Companion.dark(
+    colors: CheckboxColors = CheckboxColors.dark(),
+    metrics: CheckboxMetrics = CheckboxMetrics.defaults(),
+    icons: CheckboxIcons = CheckboxIcons.dark(),
+) = CheckboxStyle(colors, metrics, icons)
 
-    @Composable
-    fun light(
-        colors: CheckboxColors = CheckboxColors.Defaults.light(),
-        metrics: CheckboxMetrics = CheckboxMetrics.defaults(),
-        icons: CheckboxIcons = CheckboxIcons.Defaults.light(),
-    ) = CheckboxStyle(colors, metrics, icons)
+@Composable
+fun CheckboxColors.Companion.light(
+    content: Color = Color.Unspecified,
+    contentDisabled: Color = IntUiLightTheme.colors.grey(8),
+    contentSelected: Color = content,
+) = CheckboxColors(content, contentDisabled, contentSelected)
 
-    @Composable
-    fun dark(
-        colors: CheckboxColors = CheckboxColors.Defaults.dark(),
-        metrics: CheckboxMetrics = CheckboxMetrics.defaults(),
-        icons: CheckboxIcons = CheckboxIcons.Defaults.dark(),
-    ) = CheckboxStyle(colors, metrics, icons)
-}
-
-val CheckboxColors.Companion.Defaults: IntUiCheckboxColorsFactory
-    get() = IntUiCheckboxColorsFactory
-
-object IntUiCheckboxColorsFactory {
-
-    @Composable
-    fun light(
-        content: Color = Color.Unspecified,
-        contentDisabled: Color = IntUiLightTheme.colors.grey(8),
-        contentSelected: Color = content,
-    ) = CheckboxColors(content, contentDisabled, contentSelected)
-
-    @Composable
-    fun dark(
-        content: Color = Color.Unspecified,
-        contentDisabled: Color = IntUiDarkTheme.colors.grey(7),
-        contentSelected: Color = content,
-    ) = CheckboxColors(content, contentDisabled, contentSelected)
-}
+@Composable
+fun CheckboxColors.Companion.dark(
+    content: Color = Color.Unspecified,
+    contentDisabled: Color = IntUiDarkTheme.colors.grey(7),
+    contentSelected: Color = content,
+) = CheckboxColors(content, contentDisabled, contentSelected)
 
 fun CheckboxMetrics.Companion.defaults(
     checkboxSize: DpSize = DpSize(19.dp, 19.dp),
@@ -64,22 +52,16 @@ fun CheckboxMetrics.Companion.defaults(
     iconContentGap: Dp = 5.dp,
 ) = CheckboxMetrics(checkboxSize, checkboxCornerSize, outlineSize, outlineOffset, iconContentGap)
 
-val CheckboxIcons.Companion.Defaults: IntUiCheckboxIconsFactory
-    get() = IntUiCheckboxIconsFactory
+@Composable
+fun CheckboxIcons.Companion.light(
+    checkbox: PainterProvider = checkbox("com/intellij/ide/ui/laf/icons/intellij/checkBox.svg"),
+) = CheckboxIcons(checkbox)
 
-object IntUiCheckboxIconsFactory {
+@Composable
+fun CheckboxIcons.Companion.dark(
+    checkbox: PainterProvider = checkbox("com/intellij/ide/ui/laf/icons/darcula/checkBox.svg"),
+) = CheckboxIcons(checkbox)
 
-    @Composable
-    fun light(
-        checkbox: PainterProvider = checkbox("com/intellij/ide/ui/laf/icons/intellij/checkBox.svg"),
-    ) = CheckboxIcons(checkbox)
-
-    @Composable
-    fun dark(
-        checkbox: PainterProvider = checkbox("com/intellij/ide/ui/laf/icons/darcula/checkBox.svg"),
-    ) = CheckboxIcons(checkbox)
-
-    @Composable
-    private fun checkbox(basePath: String): PainterProvider =
-        standalonePainterProvider(basePath)
-}
+@Composable
+private fun checkbox(basePath: String): PainterProvider =
+    standalonePainterProvider(basePath)

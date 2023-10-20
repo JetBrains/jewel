@@ -9,23 +9,17 @@ import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.styling.DividerMetrics
 import org.jetbrains.jewel.styling.DividerStyle
 
-val DividerStyle.Companion.Defaults: IntUiDividerStyleFactory
-    get() = IntUiDividerStyleFactory
+@Composable
+fun DividerStyle.Companion.light(
+    color: Color = IntUiLightTheme.colors.grey(12),
+    metrics: DividerMetrics = DividerMetrics.defaults(),
+) = DividerStyle(color, metrics)
 
-object IntUiDividerStyleFactory {
-
-    @Composable
-    fun light(
-        color: Color = IntUiLightTheme.colors.grey(12),
-        metrics: DividerMetrics = DividerMetrics.defaults(),
-    ) = DividerStyle(color, metrics)
-
-    @Composable
-    fun dark(
-        color: Color = IntUiDarkTheme.colors.grey(1),
-        metrics: DividerMetrics = DividerMetrics.defaults(),
-    ) = DividerStyle(color, metrics)
-}
+@Composable
+fun DividerStyle.Companion.dark(
+    color: Color = IntUiDarkTheme.colors.grey(1),
+    metrics: DividerMetrics = DividerMetrics.defaults(),
+) = DividerStyle(color, metrics)
 
 fun DividerMetrics.Companion.defaults(
     thickness: Dp = 1.dp,

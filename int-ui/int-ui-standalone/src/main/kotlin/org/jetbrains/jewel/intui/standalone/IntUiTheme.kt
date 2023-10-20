@@ -20,8 +20,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.Default
-import org.jetbrains.jewel.intui.standalone.styling.Defaults
-import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiHorizontalProgressBarStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiIconButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
@@ -36,6 +34,8 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
 import org.jetbrains.jewel.intui.standalone.styling.Outlined
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
+import org.jetbrains.jewel.intui.standalone.styling.dark
+import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.painter.LocalPainterHintsProvider
 import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.CheckboxStyle
@@ -90,15 +90,15 @@ object IntUiTheme : BaseIntUiTheme {
 
     @Composable
     fun darkComponentStyling(
-        checkboxStyle: CheckboxStyle = CheckboxStyle.Defaults.dark(),
-        chipStyle: ChipStyle = ChipStyle.Defaults.dark(),
-        circularProgressStyle: CircularProgressStyle = CircularProgressStyle.Defaults.dark(),
+        checkboxStyle: CheckboxStyle = CheckboxStyle.dark(),
+        chipStyle: ChipStyle = ChipStyle.dark(),
+        circularProgressStyle: CircularProgressStyle = CircularProgressStyle.dark(),
         defaultButtonStyle: ButtonStyle = ButtonStyle.Default.dark(),
         defaultTabStyle: TabStyle = IntUiTabStyle.Default.dark(),
-        dividerStyle: DividerStyle = DividerStyle.Defaults.dark(),
+        dividerStyle: DividerStyle = DividerStyle.dark(),
         dropdownStyle: DropdownStyle = DropdownStyle.Default.dark(),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(),
-        groupHeaderStyle: GroupHeaderStyle = IntUiGroupHeaderStyle.dark(),
+        groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.dark(),
         horizontalProgressBarStyle: HorizontalProgressBarStyle = IntUiHorizontalProgressBarStyle.dark(),
         iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.dark(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.dark(),
@@ -139,15 +139,15 @@ object IntUiTheme : BaseIntUiTheme {
 
     @Composable
     fun lightComponentStyling(
-        checkboxStyle: CheckboxStyle = CheckboxStyle.Defaults.light(),
-        chipStyle: ChipStyle = ChipStyle.Defaults.light(),
-        circularProgressStyle: CircularProgressStyle = CircularProgressStyle.Defaults.light(),
+        checkboxStyle: CheckboxStyle = CheckboxStyle.light(),
+        chipStyle: ChipStyle = ChipStyle.light(),
+        circularProgressStyle: CircularProgressStyle = CircularProgressStyle.light(),
         defaultButtonStyle: ButtonStyle = ButtonStyle.Default.light(),
         defaultTabStyle: TabStyle = IntUiTabStyle.Default.light(),
-        dividerStyle: DividerStyle = DividerStyle.Defaults.light(),
+        dividerStyle: DividerStyle = DividerStyle.light(),
         dropdownStyle: DropdownStyle = DropdownStyle.Default.light(),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(),
-        groupHeaderStyle: GroupHeaderStyle = IntUiGroupHeaderStyle.light(),
+        groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.light(),
         horizontalProgressBarStyle: HorizontalProgressBarStyle = IntUiHorizontalProgressBarStyle.light(),
         iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.light(),
         labelledTextFieldStyle: LabelledTextFieldStyle = IntUiLabelledTextFieldStyle.light(),

@@ -7,18 +7,12 @@ import org.jetbrains.jewel.styling.CircularProgressStyle
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-val CircularProgressStyle.Companion.Defaults: IntUiCircularProgressStyleFactory
-    get() = IntUiCircularProgressStyleFactory
+fun CircularProgressStyle.Companion.dark(
+    frameTime: Duration = 125.milliseconds,
+    color: Color = Color(0xFF6F737A),
+) = CircularProgressStyle(frameTime, color)
 
-object IntUiCircularProgressStyleFactory {
-
-    fun dark(
-        frameTime: Duration = 125.milliseconds,
-        color: Color = Color(0xFF6F737A),
-    ) = CircularProgressStyle(frameTime, color)
-
-    fun light(
-        frameTime: Duration = 125.milliseconds,
-        color: Color = Color(0xFFA8ADBD),
-    ) = CircularProgressStyle(frameTime, color)
-}
+fun CircularProgressStyle.Companion.light(
+    frameTime: Duration = 125.milliseconds,
+    color: Color = Color(0xFFA8ADBD),
+) = CircularProgressStyle(frameTime, color)
