@@ -27,11 +27,6 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldTextStyles
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTabColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTabContentAlpha
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTabIcons
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTabMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTabStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaStyle
@@ -92,6 +87,11 @@ import org.jetbrains.jewel.styling.ScrollbarColors
 import org.jetbrains.jewel.styling.ScrollbarMetrics
 import org.jetbrains.jewel.styling.ScrollbarStyle
 import org.jetbrains.jewel.styling.SubmenuMetrics
+import org.jetbrains.jewel.styling.TabColors
+import org.jetbrains.jewel.styling.TabContentAlpha
+import org.jetbrains.jewel.styling.TabIcons
+import org.jetbrains.jewel.styling.TabMetrics
+import org.jetbrains.jewel.styling.TabStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
@@ -790,13 +790,13 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
 }
 
 // See com.intellij.ui.tabs.impl.themes.DefaultTabTheme
-private fun readDefaultTabStyle(): IntUiTabStyle {
+private fun readDefaultTabStyle(): TabStyle {
     val normalBackground = JBUI.CurrentTheme.DefaultTabs.background().toComposeColor()
     val selectedBackground = JBUI.CurrentTheme.DefaultTabs.underlinedTabBackground().toComposeColorOrUnspecified()
     val normalContent = retrieveColorOrUnspecified("TabbedPane.foreground")
     val selectedUnderline = retrieveColorOrUnspecified("TabbedPane.underlineColor")
 
-    val colors = IntUiTabColors(
+    val colors = TabColors(
         background = normalBackground,
         backgroundDisabled = normalBackground,
         backgroundFocused = normalBackground,
@@ -817,18 +817,18 @@ private fun readDefaultTabStyle(): IntUiTabStyle {
         underlineSelected = selectedUnderline,
     )
 
-    return IntUiTabStyle(
+    return TabStyle(
         colors = colors,
-        metrics = IntUiTabMetrics(
+        metrics = TabMetrics(
             underlineThickness = retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight").takeOrElse { 2.dp },
             tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
             closeContentGap = 4.dp,
             tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
         ),
-        icons = IntUiTabIcons(
+        icons = TabIcons(
             close = bridgePainterProvider("${iconsBasePath}expui/general/closeSmall.svg"),
         ),
-        contentAlpha = IntUiTabContentAlpha(
+        contentAlpha = TabContentAlpha(
             iconNormal = 1f,
             iconDisabled = 1f,
             iconFocused = 1f,
@@ -845,13 +845,13 @@ private fun readDefaultTabStyle(): IntUiTabStyle {
     )
 }
 
-private fun readEditorTabStyle(): IntUiTabStyle {
+private fun readEditorTabStyle(): TabStyle {
     val normalBackground = JBUI.CurrentTheme.EditorTabs.background().toComposeColor()
     val selectedBackground = JBUI.CurrentTheme.EditorTabs.underlinedTabBackground().toComposeColorOrUnspecified()
     val normalContent = retrieveColorOrUnspecified("TabbedPane.foreground")
     val selectedUnderline = retrieveColorOrUnspecified("TabbedPane.underlineColor")
 
-    val colors = IntUiTabColors(
+    val colors = TabColors(
         background = normalBackground,
         backgroundDisabled = normalBackground,
         backgroundFocused = normalBackground,
@@ -872,18 +872,18 @@ private fun readEditorTabStyle(): IntUiTabStyle {
         underlineSelected = selectedUnderline,
     )
 
-    return IntUiTabStyle(
+    return TabStyle(
         colors = colors,
-        metrics = IntUiTabMetrics(
+        metrics = TabMetrics(
             underlineThickness = retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight").takeOrElse { 2.dp },
             tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
             closeContentGap = 4.dp,
             tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
         ),
-        icons = IntUiTabIcons(
+        icons = TabIcons(
             close = bridgePainterProvider("${iconsBasePath}expui/general/closeSmall.svg"),
         ),
-        contentAlpha = IntUiTabContentAlpha(
+        contentAlpha = TabContentAlpha(
             iconNormal = .7f,
             iconDisabled = .7f,
             iconFocused = .7f,

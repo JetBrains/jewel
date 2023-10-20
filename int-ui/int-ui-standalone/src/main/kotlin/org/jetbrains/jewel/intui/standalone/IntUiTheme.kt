@@ -20,8 +20,8 @@ import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.Default
+import org.jetbrains.jewel.intui.standalone.styling.Editor
 import org.jetbrains.jewel.intui.standalone.styling.IntUiLabelledTextFieldStyle
-import org.jetbrains.jewel.intui.standalone.styling.IntUiTabStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
@@ -87,10 +87,10 @@ object IntUiTheme : BaseIntUiTheme {
         chipStyle: ChipStyle = ChipStyle.dark(),
         circularProgressStyle: CircularProgressStyle = CircularProgressStyle.dark(),
         defaultButtonStyle: ButtonStyle = ButtonStyle.Default.dark(),
-        defaultTabStyle: TabStyle = IntUiTabStyle.Default.dark(),
+        defaultTabStyle: TabStyle = TabStyle.Default.dark(),
         dividerStyle: DividerStyle = DividerStyle.dark(),
         dropdownStyle: DropdownStyle = DropdownStyle.Default.dark(),
-        editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(),
+        editorTabStyle: TabStyle = TabStyle.Editor.dark(),
         groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.dark(),
         horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.dark(),
         iconButtonStyle: IconButtonStyle = IconButtonStyle.dark(),
@@ -136,10 +136,10 @@ object IntUiTheme : BaseIntUiTheme {
         chipStyle: ChipStyle = ChipStyle.light(),
         circularProgressStyle: CircularProgressStyle = CircularProgressStyle.light(),
         defaultButtonStyle: ButtonStyle = ButtonStyle.Default.light(),
-        defaultTabStyle: TabStyle = IntUiTabStyle.Default.light(),
+        defaultTabStyle: TabStyle = TabStyle.Default.light(),
         dividerStyle: DividerStyle = DividerStyle.light(),
         dropdownStyle: DropdownStyle = DropdownStyle.Default.light(),
-        editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(),
+        editorTabStyle: TabStyle = TabStyle.Editor.light(),
         groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.light(),
         horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.light(),
         iconButtonStyle: IconButtonStyle = IconButtonStyle.light(),
