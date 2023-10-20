@@ -42,7 +42,9 @@ import org.jetbrains.jewel.Tooltip
 import org.jetbrains.jewel.VerticalScrollbar
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.intui.window.decoratedWindowComponentStyling
-import org.jetbrains.jewel.intui.window.styling.IntUiTitleBarStyle
+import org.jetbrains.jewel.intui.window.styling.dark
+import org.jetbrains.jewel.intui.window.styling.light
+import org.jetbrains.jewel.intui.window.styling.lightWithLightHeader
 import org.jetbrains.jewel.samples.standalone.components.Borders
 import org.jetbrains.jewel.samples.standalone.components.Buttons
 import org.jetbrains.jewel.samples.standalone.components.Checkboxes
@@ -60,6 +62,7 @@ import org.jetbrains.jewel.separator
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.TitleBar
 import org.jetbrains.jewel.window.newFullscreenControls
+import org.jetbrains.jewel.window.styling.TitleBarStyle
 import java.awt.Desktop
 import java.io.InputStream
 import java.net.URI
@@ -84,9 +87,9 @@ fun main() {
             {
                 theme.decoratedWindowComponentStyling(
                     titleBarStyle = when (intUiTheme) {
-                        IntUiThemes.Light -> IntUiTitleBarStyle.light()
-                        IntUiThemes.LightWithLightHeader -> IntUiTitleBarStyle.lightWithLightHeader()
-                        IntUiThemes.Dark -> IntUiTitleBarStyle.dark()
+                        IntUiThemes.Light -> TitleBarStyle.light()
+                        IntUiThemes.LightWithLightHeader -> TitleBarStyle.lightWithLightHeader()
+                        IntUiThemes.Dark -> TitleBarStyle.dark()
                     },
                 )
             },
