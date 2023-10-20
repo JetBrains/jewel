@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
@@ -17,7 +16,7 @@ import org.jetbrains.jewel.styling.RadioButtonMetrics
 import org.jetbrains.jewel.styling.RadioButtonStyle
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiRadioButtonStyle(
     override val colors: IntUiRadioButtonColors,
     override val metrics: IntUiRadioButtonMetrics,
@@ -43,7 +42,7 @@ class IntUiRadioButtonStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiRadioButtonColors(
     override val content: Color,
     override val contentHovered: Color,
@@ -92,14 +91,14 @@ class IntUiRadioButtonColors(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiRadioButtonMetrics(
     override val radioButtonSize: DpSize = DpSize(19.dp, 19.dp),
     override val iconContentGap: Dp = 8.dp,
 ) : RadioButtonMetrics
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiRadioButtonIcons(
     override val radioButton: PainterProvider,
 ) : RadioButtonIcons {

@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.styling.IconButtonColors
@@ -17,7 +16,7 @@ import org.jetbrains.jewel.styling.IconButtonMetrics
 import org.jetbrains.jewel.styling.IconButtonStyle
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiIconButtonStyle(
     override val colors: IntUiIconButtonColors,
     override val metrics: IntUiIconButtonMetrics,
@@ -34,7 +33,7 @@ class IntUiIconButtonStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiIconButtonColors(
     override val background: Color,
     override val backgroundDisabled: Color,
@@ -105,7 +104,7 @@ class IntUiIconButtonColors(
 }
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiIconButtonMetrics(
     override val cornerSize: CornerSize = CornerSize(4.dp),
     override val borderWidth: Dp = 1.dp,

@@ -9,7 +9,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
@@ -22,7 +21,7 @@ import org.jetbrains.jewel.styling.LinkStyle
 import org.jetbrains.jewel.styling.LinkTextStyles
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiLinkStyle(
     override val colors: IntUiLinkColors,
     override val metrics: IntUiLinkMetrics,
@@ -51,7 +50,7 @@ class IntUiLinkStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiLinkColors(
     override val content: Color,
     override val contentDisabled: Color,
@@ -100,7 +99,7 @@ class IntUiLinkColors(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiLinkMetrics(
     override val focusHaloCornerSize: CornerSize = CornerSize(2.dp),
     override val textIconGap: Dp = 0.dp,
@@ -108,7 +107,7 @@ class IntUiLinkMetrics(
 ) : LinkMetrics
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiLinkIcons(
     override val dropdownChevron: PainterProvider,
     override val externalLink: PainterProvider,
@@ -135,7 +134,7 @@ fun intUiLinkIcons(
 ) = IntUiLinkIcons(dropdownChevron, externalLink)
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiLinkTextStyles(
     override val normal: TextStyle,
     override val disabled: TextStyle,

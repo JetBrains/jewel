@@ -12,6 +12,10 @@ apiValidation {
     nonPublicMarkers.add("org.jetbrains.jewel.InternalJewelApi")
 }
 
+poko {
+    pokoAnnotation.set("org.jetbrains.jewel.GenerateDataFunctions")
+}
+
 tasks {
     val validatePublicApi = register<ValidatePublicApiTask>("validatePublicApi") {
         include { it.file.extension == "api" }

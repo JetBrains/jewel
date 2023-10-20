@@ -5,14 +5,13 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.styling.DividerMetrics
 import org.jetbrains.jewel.styling.DividerStyle
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiDividerStyle(
     override val color: Color,
     override val metrics: DividerMetrics,
@@ -35,7 +34,7 @@ class IntUiDividerStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiDividerMetrics(
     override val thickness: Dp = 1.dp,
     override val startIndent: Dp = 0.dp,

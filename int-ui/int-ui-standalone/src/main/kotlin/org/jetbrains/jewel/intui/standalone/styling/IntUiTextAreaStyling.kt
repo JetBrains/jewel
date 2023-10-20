@@ -10,7 +10,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
@@ -19,7 +18,7 @@ import org.jetbrains.jewel.styling.TextAreaColors
 import org.jetbrains.jewel.styling.TextAreaStyle
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiTextAreaStyle(
     override val colors: IntUiTextAreaColors,
     override val metrics: IntUiTextAreaMetrics,
@@ -45,7 +44,7 @@ class IntUiTextAreaStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiTextAreaColors(
     override val background: Color,
     override val backgroundDisabled: Color,
@@ -169,7 +168,7 @@ class IntUiTextAreaColors(
 }
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiTextAreaMetrics(
     override val cornerSize: CornerSize = CornerSize(4.dp),
     override val contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),

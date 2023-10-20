@@ -10,7 +10,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
@@ -23,7 +22,7 @@ import org.jetbrains.jewel.styling.DropdownStyle
 import org.jetbrains.jewel.styling.MenuStyle
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiDropdownStyle(
     override val colors: IntUiDropdownColors,
     override val metrics: IntUiDropdownMetrics,
@@ -64,7 +63,7 @@ class IntUiDropdownStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiDropdownColors(
     override val background: Color,
     override val backgroundDisabled: Color,
@@ -214,7 +213,7 @@ class IntUiDropdownColors(
 }
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiDropdownMetrics(
     override val arrowMinSize: DpSize = DpSize((23 + 3).dp, 24.dp),
     override val minSize: DpSize = DpSize((49 + 23 + 6).dp, 24.dp),
@@ -224,7 +223,7 @@ class IntUiDropdownMetrics(
 ) : DropdownMetrics
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiDropdownIcons(
     override val chevronDown: PainterProvider,
 ) : DropdownIcons {

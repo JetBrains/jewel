@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
@@ -21,7 +20,7 @@ import org.jetbrains.jewel.styling.LabelledTextFieldStyle
 import org.jetbrains.jewel.styling.LabelledTextFieldTextStyles
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiLabelledTextFieldStyle(
     override val colors: IntUiLabelledTextFieldColors,
     override val metrics: IntUiLabelledTextFieldMetrics,
@@ -50,7 +49,7 @@ class IntUiLabelledTextFieldStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiLabelledTextFieldColors(
     override val background: Color,
     override val backgroundDisabled: Color,
@@ -184,7 +183,7 @@ class IntUiLabelledTextFieldColors(
 }
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiLabelledTextFieldMetrics(
     override val cornerSize: CornerSize = CornerSize(4.dp),
     override val contentPadding: PaddingValues = PaddingValues(horizontal = 9.dp, vertical = 6.dp),
@@ -195,7 +194,7 @@ class IntUiLabelledTextFieldMetrics(
 ) : LabelledTextFieldMetrics
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiLabelledTextFieldTextStyles(
     override val label: TextStyle,
     override val hint: TextStyle,

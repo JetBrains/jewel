@@ -3,14 +3,13 @@ package org.jetbrains.jewel.intui.core
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJThemeDefinition
 import org.jetbrains.jewel.IntelliJThemeIconData
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiThemeDefinition(
     override val isDark: Boolean,
     override val globalColors: GlobalColors,

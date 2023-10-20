@@ -6,7 +6,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.styling.HorizontalProgressBarColors
@@ -16,7 +15,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiHorizontalProgressBarStyle(
     override val colors: IntUiHorizontalProgressBarColors,
     override val metrics: IntUiHorizontalProgressBarMetrics,
@@ -42,7 +41,7 @@ class IntUiHorizontalProgressBarStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiHorizontalProgressBarColors(
     override val track: Color,
     override val progress: Color,
@@ -71,7 +70,7 @@ class IntUiHorizontalProgressBarColors(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiHorizontalProgressBarMetrics(
     override val cornerSize: CornerSize = CornerSize(100),
     override val minHeight: Dp = 4.dp,

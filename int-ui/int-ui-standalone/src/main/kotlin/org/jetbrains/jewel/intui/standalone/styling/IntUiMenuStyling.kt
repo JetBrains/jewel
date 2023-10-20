@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
@@ -23,7 +22,7 @@ import org.jetbrains.jewel.styling.MenuStyle
 import org.jetbrains.jewel.styling.SubmenuMetrics
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiMenuStyle(
     override val colors: IntUiMenuColors,
     override val metrics: IntUiMenuMetrics,
@@ -49,7 +48,7 @@ class IntUiMenuStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiMenuColors(
     override val background: Color,
     override val border: Color,
@@ -78,7 +77,7 @@ class IntUiMenuColors(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiMenuItemColors(
     override val background: Color,
     override val backgroundDisabled: Color,
@@ -177,7 +176,7 @@ class IntUiMenuItemColors(
 }
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiMenuMetrics(
     override val cornerSize: CornerSize = CornerSize(8.dp),
     override val menuMargin: PaddingValues = PaddingValues(vertical = 6.dp),
@@ -190,7 +189,7 @@ class IntUiMenuMetrics(
 ) : MenuMetrics
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiMenuItemMetrics(
     override val selectionCornerSize: CornerSize = CornerSize(4.dp),
     override val outerPadding: PaddingValues = PaddingValues(horizontal = 4.dp),
@@ -200,13 +199,13 @@ class IntUiMenuItemMetrics(
 ) : MenuItemMetrics
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiSubmenuMetrics(
     override val offset: DpOffset = DpOffset(0.dp, (-8).dp),
 ) : SubmenuMetrics
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiMenuIcons(
     override val submenuChevron: PainterProvider,
 ) : MenuIcons {

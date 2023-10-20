@@ -4,13 +4,12 @@ package org.jetbrains.jewel.intui.standalone.styling
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.styling.CircularProgressStyle
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiCircularProgressStyle(
     override val frameTime: Duration,
     override val color: Color,

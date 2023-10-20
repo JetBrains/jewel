@@ -7,7 +7,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
@@ -19,7 +18,7 @@ import org.jetbrains.jewel.styling.TabMetrics
 import org.jetbrains.jewel.styling.TabStyle
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiTabStyle(
     override val colors: TabColors,
     override val metrics: TabMetrics,
@@ -67,7 +66,7 @@ class IntUiTabStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiTabColors(
     override val background: Color,
     override val backgroundDisabled: Color,
@@ -259,7 +258,7 @@ class IntUiTabColors(
 }
 
 @Stable
-@Poko
+@GenerateDataFunctions
 class IntUiTabMetrics(
     override val underlineThickness: Dp = 3.dp,
     override val tabPadding: PaddingValues = PaddingValues(horizontal = 8.dp),
@@ -268,7 +267,7 @@ class IntUiTabMetrics(
 ) : TabMetrics
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiTabContentAlpha(
     override val iconNormal: Float,
     override val iconDisabled: Float,
@@ -346,7 +345,7 @@ class IntUiTabContentAlpha(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiTabIcons(
     override val close: PainterProvider,
 ) : TabIcons {

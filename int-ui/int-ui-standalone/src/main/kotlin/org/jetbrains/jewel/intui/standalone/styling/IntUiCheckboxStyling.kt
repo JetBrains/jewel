@@ -8,7 +8,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import dev.drewhamilton.poko.Poko
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
@@ -19,7 +18,7 @@ import org.jetbrains.jewel.styling.CheckboxMetrics
 import org.jetbrains.jewel.styling.CheckboxStyle
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiCheckboxStyle(
     override val colors: IntUiCheckboxColors,
     override val metrics: IntUiCheckboxMetrics,
@@ -43,7 +42,7 @@ class IntUiCheckboxStyle(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiCheckboxColors(
     override val checkboxBackground: Color,
     override val checkboxBackgroundDisabled: Color,
@@ -90,7 +89,7 @@ class IntUiCheckboxColors(
 }
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiCheckboxMetrics(
     override val checkboxSize: DpSize = DpSize(19.dp, 19.dp),
     override val checkboxCornerSize: CornerSize = CornerSize(3.dp),
@@ -100,7 +99,7 @@ class IntUiCheckboxMetrics(
 ) : CheckboxMetrics
 
 @Immutable
-@Poko
+@GenerateDataFunctions
 class IntUiCheckboxIcons(
     override val checkbox: PainterProvider,
 ) : CheckboxIcons {
