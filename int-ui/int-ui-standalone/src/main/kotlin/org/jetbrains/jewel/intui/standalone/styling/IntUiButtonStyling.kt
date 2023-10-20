@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.styling.ButtonColors
 import org.jetbrains.jewel.styling.ButtonMetrics
 import org.jetbrains.jewel.styling.ButtonStyle
@@ -136,20 +135,20 @@ object IntUiOutlinedButtonColorFactory {
     @Composable
     fun light(
         background: Brush = SolidColor(Color.Transparent),
-        backgroundDisabled: Brush = SolidColor(IntUiTheme.colorPalette.grey(12)),
+        backgroundDisabled: Brush = SolidColor(IntUiLightTheme.colors.grey(12)),
         backgroundFocused: Brush = SolidColor(Color.Transparent),
-        backgroundPressed: Brush = SolidColor(IntUiTheme.colorPalette.grey(13)),
+        backgroundPressed: Brush = SolidColor(IntUiLightTheme.colors.grey(13)),
         backgroundHovered: Brush = SolidColor(Color.Transparent),
-        content: Color = IntUiTheme.colorPalette.grey(1),
-        contentDisabled: Color = IntUiTheme.colorPalette.grey(8),
-        contentFocused: Color = IntUiTheme.colorPalette.grey(1),
-        contentPressed: Color = IntUiTheme.colorPalette.grey(1),
-        contentHovered: Color = IntUiTheme.colorPalette.grey(1),
-        border: Brush = SolidColor(IntUiTheme.colorPalette.grey(9)),
-        borderDisabled: Brush = SolidColor(IntUiTheme.colorPalette.blue(11)),
-        borderFocused: Brush = SolidColor(IntUiTheme.colorPalette.blue(4)),
-        borderPressed: Brush = SolidColor(IntUiTheme.colorPalette.grey(7)),
-        borderHovered: Brush = SolidColor(IntUiTheme.colorPalette.grey(8)),
+        content: Color = IntUiLightTheme.colors.grey(1),
+        contentDisabled: Color = IntUiLightTheme.colors.grey(8),
+        contentFocused: Color = IntUiLightTheme.colors.grey(1),
+        contentPressed: Color = IntUiLightTheme.colors.grey(1),
+        contentHovered: Color = IntUiLightTheme.colors.grey(1),
+        border: Brush = SolidColor(IntUiLightTheme.colors.grey(9)),
+        borderDisabled: Brush = SolidColor(IntUiLightTheme.colors.blue(11)),
+        borderFocused: Brush = SolidColor(IntUiLightTheme.colors.blue(4)),
+        borderPressed: Brush = SolidColor(IntUiLightTheme.colors.grey(7)),
+        borderHovered: Brush = SolidColor(IntUiLightTheme.colors.grey(8)),
     ) = ButtonColors(
         background,
         backgroundDisabled,
@@ -171,20 +170,20 @@ object IntUiOutlinedButtonColorFactory {
     @Composable
     fun dark(
         background: Brush = SolidColor(Color.Transparent),
-        backgroundDisabled: Brush = SolidColor(IntUiTheme.colorPalette.grey(5)),
-        backgroundFocused: Brush = SolidColor(IntUiTheme.colorPalette.grey(6)),
-        backgroundPressed: Brush = SolidColor(IntUiTheme.colorPalette.grey(2)),
+        backgroundDisabled: Brush = SolidColor(IntUiDarkTheme.colors.grey(5)),
+        backgroundFocused: Brush = SolidColor(IntUiDarkTheme.colors.grey(6)),
+        backgroundPressed: Brush = SolidColor(IntUiDarkTheme.colors.grey(2)),
         backgroundHovered: Brush = SolidColor(Color.Unspecified),
-        content: Color = IntUiTheme.colorPalette.grey(12),
-        contentDisabled: Color = IntUiTheme.colorPalette.grey(8),
-        contentFocused: Color = IntUiTheme.colorPalette.grey(12),
-        contentPressed: Color = IntUiTheme.colorPalette.grey(12),
-        contentHovered: Color = IntUiTheme.colorPalette.grey(12),
-        border: Brush = SolidColor(IntUiTheme.colorPalette.grey(5)),
-        borderDisabled: Brush = SolidColor(IntUiTheme.colorPalette.blue(4)),
-        borderFocused: Brush = SolidColor(IntUiTheme.colorPalette.grey(2)),
-        borderPressed: Brush = SolidColor(IntUiTheme.colorPalette.grey(7)),
-        borderHovered: Brush = SolidColor(IntUiTheme.colorPalette.grey(7)),
+        content: Color = IntUiDarkTheme.colors.grey(12),
+        contentDisabled: Color = IntUiDarkTheme.colors.grey(8),
+        contentFocused: Color = IntUiDarkTheme.colors.grey(12),
+        contentPressed: Color = IntUiDarkTheme.colors.grey(12),
+        contentHovered: Color = IntUiDarkTheme.colors.grey(12),
+        border: Brush = SolidColor(IntUiDarkTheme.colors.grey(5)),
+        borderDisabled: Brush = SolidColor(IntUiDarkTheme.colors.blue(4)),
+        borderFocused: Brush = SolidColor(IntUiDarkTheme.colors.grey(2)),
+        borderPressed: Brush = SolidColor(IntUiDarkTheme.colors.grey(7)),
+        borderHovered: Brush = SolidColor(IntUiDarkTheme.colors.grey(7)),
     ) = ButtonColors(
         background,
         backgroundDisabled,
