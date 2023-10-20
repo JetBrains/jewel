@@ -13,9 +13,9 @@ import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.ThemeColorPalette
+import org.jetbrains.jewel.ThemeDefinition
 import org.jetbrains.jewel.ThemeIconData
 import org.jetbrains.jewel.intui.core.BaseIntUiTheme
-import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
@@ -60,23 +60,23 @@ object IntUiTheme : BaseIntUiTheme {
         colors: GlobalColors = GlobalColors.light(),
         metrics: GlobalMetrics = GlobalMetrics.defaults(),
         palette: ThemeColorPalette = IntUiLightTheme.colors,
-        icons: ThemeIconData = IntUiLightTheme.iconData,
+        iconData: ThemeIconData = IntUiLightTheme.iconData,
         defaultTextStyle: TextStyle = this.defaultTextStyle,
         contentColor: Color = IntUiLightTheme.colors.grey(1),
-    ) = IntUiThemeDefinition(isDark = false, colors, palette, icons, metrics, defaultTextStyle, contentColor)
+    ) = ThemeDefinition(isDark = false, colors, metrics, defaultTextStyle, contentColor, palette, iconData)
 
     @Composable
     fun darkThemeDefinition(
         colors: GlobalColors = GlobalColors.dark(),
         metrics: GlobalMetrics = GlobalMetrics.defaults(),
         palette: ThemeColorPalette = IntUiDarkTheme.colors,
-        icons: ThemeIconData = IntUiDarkTheme.iconData,
+        iconData: ThemeIconData = IntUiDarkTheme.iconData,
         defaultTextStyle: TextStyle = this.defaultTextStyle,
         contentColor: Color = IntUiDarkTheme.colors.grey(12),
-    ) = IntUiThemeDefinition(isDark = true, colors, palette, icons, metrics, defaultTextStyle, contentColor)
+    ) = ThemeDefinition(isDark = true, colors, metrics, defaultTextStyle, contentColor, palette, iconData)
 
     @Composable
-    fun defaultComponentStyling(theme: IntUiThemeDefinition): IntelliJComponentStyling =
+    fun defaultComponentStyling(theme: ThemeDefinition): IntelliJComponentStyling =
         if (theme.isDark) darkComponentStyling() else lightComponentStyling()
 
     @Composable
@@ -180,7 +180,7 @@ object IntUiTheme : BaseIntUiTheme {
 
 @Composable
 fun IntUiTheme(
-    theme: IntUiThemeDefinition,
+    theme: ThemeDefinition,
     componentStyling: @Composable () -> Array<ProvidedValue<*>>,
     swingCompatMode: Boolean = false,
     content: @Composable () -> Unit,

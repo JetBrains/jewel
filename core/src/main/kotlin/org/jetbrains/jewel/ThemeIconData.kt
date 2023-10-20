@@ -22,7 +22,7 @@ class ThemeIconData(
         val Empty = ThemeIconData(
             iconOverrides = emptyMap(),
             colorPalette = emptyMap(),
-            selectionColorPalette = emptyMap()
+            selectionColorPalette = emptyMap(),
         )
     }
 }

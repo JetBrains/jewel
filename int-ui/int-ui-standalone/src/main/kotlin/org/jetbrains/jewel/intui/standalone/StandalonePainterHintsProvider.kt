@@ -3,15 +3,15 @@ package org.jetbrains.jewel.intui.standalone
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
 import org.jetbrains.jewel.IntelliJTheme
+import org.jetbrains.jewel.ThemeDefinition
 import org.jetbrains.jewel.intui.core.IntUiPainterHintsProvider
-import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.painter.PainterHint
 import org.jetbrains.jewel.painter.hints.Dark
 import org.jetbrains.jewel.painter.hints.HiDpi
 import org.jetbrains.jewel.painter.hints.Override
 
 class StandalonePainterHintsProvider(
-    theme: IntUiThemeDefinition,
+    theme: ThemeDefinition,
 ) : IntUiPainterHintsProvider(
     theme.isDark,
     intellijColorPalette,

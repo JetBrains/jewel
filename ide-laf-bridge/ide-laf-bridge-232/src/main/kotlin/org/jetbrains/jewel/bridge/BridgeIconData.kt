@@ -3,8 +3,8 @@ package org.jetbrains.jewel.bridge
 import androidx.compose.runtime.Immutable
 import com.intellij.ide.ui.UITheme
 import com.intellij.ui.ColorUtil
-import org.jetbrains.jewel.ThemeIconData
 import org.jetbrains.jewel.InternalJewelApi
+import org.jetbrains.jewel.ThemeIconData
 
 @Immutable
 @InternalJewelApi

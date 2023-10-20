@@ -207,7 +207,7 @@ interface IntelliJTheme {
 
 @Composable
 fun IntelliJTheme(
-    theme: IntelliJThemeDefinition,
+    theme: ThemeDefinition,
     swingCompatMode: Boolean,
     content: @Composable () -> Unit,
 ) {
@@ -217,7 +217,7 @@ fun IntelliJTheme(
 }
 
 @Composable
-fun IntelliJTheme(theme: IntelliJThemeDefinition, content: @Composable () -> Unit) {
+fun IntelliJTheme(theme: ThemeDefinition, content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalIsDarkTheme provides theme.isDark,
         LocalContentColor provides theme.contentColor,

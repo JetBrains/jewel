@@ -10,11 +10,12 @@ import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJTheme
-import org.jetbrains.jewel.ThemeIconData
 import org.jetbrains.jewel.LocalColorPalette
 import org.jetbrains.jewel.LocalIconData
 import org.jetbrains.jewel.NoIndication
 import org.jetbrains.jewel.ThemeColorPalette
+import org.jetbrains.jewel.ThemeDefinition
+import org.jetbrains.jewel.ThemeIconData
 import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.CheckboxStyle
 import org.jetbrains.jewel.styling.ChipStyle
@@ -173,7 +174,7 @@ interface BaseIntUiTheme : IntelliJTheme {
 
 @Composable
 fun BaseIntUiTheme(
-    theme: IntUiThemeDefinition,
+    theme: ThemeDefinition,
     componentStyling: @Composable () -> Array<ProvidedValue<*>>,
     content: @Composable () -> Unit,
 ) {
@@ -182,7 +183,7 @@ fun BaseIntUiTheme(
 
 @Composable
 fun BaseIntUiTheme(
-    theme: IntUiThemeDefinition,
+    theme: ThemeDefinition,
     componentStyling: @Composable () -> Array<ProvidedValue<*>>,
     swingCompatMode: Boolean = false,
     content: @Composable () -> Unit,

@@ -25,8 +25,8 @@ import org.jetbrains.jewel.GlobalColors
 import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.ThemeColorPalette
+import org.jetbrains.jewel.ThemeDefinition
 import org.jetbrains.jewel.ThemeIconData
-import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.intui.core.styling.defaults
 import org.jetbrains.jewel.styling.ButtonColors
 import org.jetbrains.jewel.styling.ButtonMetrics
@@ -109,17 +109,17 @@ private val iconsBasePath
     get() = DirProvider().dir()
 
 @OptIn(DependsOnJBR::class)
-internal suspend fun createBridgeIntUiDefinition(): IntUiThemeDefinition {
+internal suspend fun createBridgeIntUiDefinition(): ThemeDefinition {
     val textStyle = retrieveTextStyle("Label.font", "Label.foreground")
     return createBridgeIntUiDefinition(textStyle)
 }
 
-internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefinition {
+internal fun createBridgeIntUiDefinition(textStyle: TextStyle): ThemeDefinition {
     val isDark = !JBColor.isBright()
 
     logger.debug("Obtaining Int UI theme definition from Swing...")
 
-    return IntUiThemeDefinition(
+    return ThemeDefinition(
         isDark = isDark,
         globalColors = GlobalColors.readFromLaF(),
         colorPalette = ThemeColorPalette.readFromLaF(),
@@ -132,7 +132,7 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefini
 
 @OptIn(DependsOnJBR::class)
 internal suspend fun createSwingIntUiComponentStyling(
-    theme: IntUiThemeDefinition,
+    theme: ThemeDefinition,
 ): IntelliJComponentStyling = createSwingIntUiComponentStyling(
     theme = theme,
     textAreaTextStyle = retrieveTextStyle("TextArea.font", "TextArea.foreground"),
@@ -143,7 +143,7 @@ internal suspend fun createSwingIntUiComponentStyling(
 )
 
 internal fun createSwingIntUiComponentStyling(
-    theme: IntUiThemeDefinition,
+    theme: ThemeDefinition,
     textFieldTextStyle: TextStyle,
     textAreaTextStyle: TextStyle,
     dropdownTextStyle: TextStyle,

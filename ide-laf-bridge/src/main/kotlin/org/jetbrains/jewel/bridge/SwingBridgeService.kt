@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 import org.jetbrains.jewel.IntelliJComponentStyling
-import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
+import org.jetbrains.jewel.ThemeDefinition
 import kotlin.time.Duration.Companion.milliseconds
 
 @Service(Level.APP)
@@ -28,7 +28,6 @@ internal class SwingBridgeService : Disposable {
     private val coroutineScope: CoroutineScope =
         CoroutineScope(SupervisorJob() + CoroutineName("JewelSwingBridge"))
 
-    // TODO we shouldn't assume it's Int UI, but we only have that for now
     internal val currentBridgeThemeData: StateFlow<BridgeThemeData> =
         IntelliJApplication.lookAndFeelChangedFlow(coroutineScope)
             .mapLatest { tryGettingThemeData() }
@@ -64,7 +63,7 @@ internal class SwingBridgeService : Disposable {
     }
 
     internal data class BridgeThemeData(
-        val themeDefinition: IntUiThemeDefinition,
+        val themeDefinition: ThemeDefinition,
         val componentStyling: IntelliJComponentStyling,
     ) {
 
