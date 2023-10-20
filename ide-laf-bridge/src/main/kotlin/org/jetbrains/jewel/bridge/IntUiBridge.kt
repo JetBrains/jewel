@@ -23,8 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownIcons
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownMetrics
@@ -79,6 +77,7 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
+import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.styling.ButtonColors
 import org.jetbrains.jewel.styling.ButtonMetrics
 import org.jetbrains.jewel.styling.ButtonStyle
@@ -90,6 +89,8 @@ import org.jetbrains.jewel.styling.ChipColors
 import org.jetbrains.jewel.styling.ChipMetrics
 import org.jetbrains.jewel.styling.ChipStyle
 import org.jetbrains.jewel.styling.CircularProgressStyle
+import org.jetbrains.jewel.styling.DividerMetrics
+import org.jetbrains.jewel.styling.DividerStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -335,9 +336,9 @@ private fun readChipStyle(): ChipStyle {
 }
 
 private fun readDividerStyle() =
-    IntUiDividerStyle(
+    DividerStyle(
         color = retrieveColorOrUnspecified("Borders.color"),
-        metrics = IntUiDividerMetrics(),
+        metrics = DividerMetrics.defaults(),
     )
 
 private fun readDropdownStyle(
