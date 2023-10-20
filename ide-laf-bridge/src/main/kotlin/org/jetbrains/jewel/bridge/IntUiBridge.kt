@@ -23,9 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiButtonColors
-import org.jetbrains.jewel.intui.standalone.styling.IntUiButtonMetrics
-import org.jetbrains.jewel.intui.standalone.styling.IntUiButtonStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxIcons
 import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxMetrics
@@ -90,6 +87,9 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipColors
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
+import org.jetbrains.jewel.styling.ButtonColors
+import org.jetbrains.jewel.styling.ButtonMetrics
+import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -172,7 +172,7 @@ internal fun createSwingIntUiComponentStyling(
     )
 }
 
-private fun readDefaultButtonStyle(): IntUiButtonStyle {
+private fun readDefaultButtonStyle(): ButtonStyle {
     val normalBackground =
         retrieveColorsOrUnspecified(
             "Button.default.startBackground",
@@ -183,7 +183,7 @@ private fun readDefaultButtonStyle(): IntUiButtonStyle {
         retrieveColorsOrUnspecified("Button.default.startBorderColor", "Button.default.endBorderColor")
             .createVerticalBrush()
 
-    val colors = IntUiButtonColors(
+    val colors = ButtonColors(
         background = normalBackground,
         backgroundDisabled = SolidColor(Color.Transparent),
         backgroundFocused = normalBackground,
@@ -201,9 +201,9 @@ private fun readDefaultButtonStyle(): IntUiButtonStyle {
         borderHovered = normalBorder,
     )
 
-    return IntUiButtonStyle(
+    return ButtonStyle(
         colors = colors,
-        metrics = IntUiButtonMetrics(
+        metrics = ButtonMetrics(
             cornerSize = retrieveArcAsCornerSizeWithFallbacks("Button.default.arc", "Button.arc"),
             padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
             minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
@@ -212,7 +212,7 @@ private fun readDefaultButtonStyle(): IntUiButtonStyle {
     )
 }
 
-private fun readOutlinedButtonStyle(): IntUiButtonStyle {
+private fun readOutlinedButtonStyle(): ButtonStyle {
     val normalBackground =
         retrieveColorsOrUnspecified("Button.startBackground", "Button.endBackground")
             .createVerticalBrush()
@@ -221,7 +221,7 @@ private fun readOutlinedButtonStyle(): IntUiButtonStyle {
         retrieveColorsOrUnspecified("Button.startBorderColor", "Button.endBorderColor")
             .createVerticalBrush()
 
-    val colors = IntUiButtonColors(
+    val colors = ButtonColors(
         background = normalBackground,
         backgroundDisabled = SolidColor(Color.Transparent),
         backgroundFocused = normalBackground,
@@ -239,9 +239,9 @@ private fun readOutlinedButtonStyle(): IntUiButtonStyle {
         borderHovered = normalBorder,
     )
 
-    return IntUiButtonStyle(
+    return ButtonStyle(
         colors = colors,
-        metrics = IntUiButtonMetrics(
+        metrics = ButtonMetrics(
             cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
             padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
             minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),

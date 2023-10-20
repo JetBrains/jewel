@@ -3,7 +3,6 @@ package org.jetbrains.jewel.intui.standalone
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -20,7 +19,7 @@ import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
-import org.jetbrains.jewel.intui.standalone.styling.IntUiButtonStyle
+import org.jetbrains.jewel.intui.standalone.styling.Default
 import org.jetbrains.jewel.intui.standalone.styling.IntUiCheckboxStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiChipStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressStyle
@@ -39,6 +38,7 @@ import org.jetbrains.jewel.intui.standalone.styling.IntUiTabStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextAreaStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTextFieldStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiTooltipStyle
+import org.jetbrains.jewel.intui.standalone.styling.Outlined
 import org.jetbrains.jewel.painter.LocalPainterHintsProvider
 import org.jetbrains.jewel.styling.ButtonStyle
 import org.jetbrains.jewel.styling.CheckboxStyle
@@ -91,8 +91,8 @@ object IntUiTheme : BaseIntUiTheme {
         if (theme.isDark) darkComponentStyling() else lightComponentStyling()
 
     @Composable fun darkComponentStyling(
-        defaultButtonStyle: ButtonStyle = IntUiButtonStyle.Default.dark(),
-        outlinedButtonStyle: ButtonStyle = IntUiButtonStyle.Outlined.dark(),
+        defaultButtonStyle: ButtonStyle = ButtonStyle.Default.dark(),
+        outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.dark(),
         checkboxStyle: CheckboxStyle = IntUiCheckboxStyle.dark(),
         chipStyle: ChipStyle = IntUiChipStyle.dark(),
         dividerStyle: DividerStyle = IntUiDividerStyle.dark(),
@@ -137,8 +137,8 @@ object IntUiTheme : BaseIntUiTheme {
     )
 
     @Composable fun lightComponentStyling(
-        defaultButtonStyle: ButtonStyle = IntUiButtonStyle.Default.light(),
-        outlinedButtonStyle: ButtonStyle = IntUiButtonStyle.Outlined.light(),
+        defaultButtonStyle: ButtonStyle = ButtonStyle.Default.light(),
+        outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.light(),
         checkboxStyle: CheckboxStyle = IntUiCheckboxStyle.light(),
         chipStyle: ChipStyle = IntUiChipStyle.light(),
         dividerStyle: DividerStyle = IntUiDividerStyle.light(),
