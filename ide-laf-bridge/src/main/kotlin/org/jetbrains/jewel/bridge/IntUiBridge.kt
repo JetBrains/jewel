@@ -21,6 +21,8 @@ import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
+import org.jetbrains.jewel.GlobalColors
+import org.jetbrains.jewel.GlobalMetrics
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
 import org.jetbrains.jewel.intui.core.styling.defaults
@@ -117,10 +119,10 @@ internal fun createBridgeIntUiDefinition(textStyle: TextStyle): IntUiThemeDefini
 
     return IntUiThemeDefinition(
         isDark = isDark,
-        globalColors = BridgeGlobalColors.readFromLaF(),
+        globalColors = GlobalColors.readFromLaF(),
         colorPalette = BridgeThemeColorPalette.readFromLaF(),
         iconData = BridgeIconData.readFromLaF(),
-        globalMetrics = BridgeGlobalMetrics.readFromLaF(),
+        globalMetrics = GlobalMetrics.readFromLaF(),
         defaultTextStyle = textStyle,
         contentColor = JBColor.foreground().toComposeColor(),
     )

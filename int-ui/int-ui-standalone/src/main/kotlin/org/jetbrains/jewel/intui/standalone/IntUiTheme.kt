@@ -57,8 +57,8 @@ object IntUiTheme : BaseIntUiTheme {
 
     @Composable
     fun lightThemeDefinition(
-        colors: GlobalColors = IntUiGlobalColors.light(),
-        metrics: GlobalMetrics = IntUiGlobalMetrics(),
+        colors: GlobalColors = GlobalColors.light(),
+        metrics: GlobalMetrics = GlobalMetrics.defaults(),
         palette: IntUiThemeColorPalette = IntUiLightTheme.colors,
         icons: IntelliJThemeIconData = IntUiLightTheme.icons,
         defaultTextStyle: TextStyle = this.defaultTextStyle,
@@ -67,8 +67,8 @@ object IntUiTheme : BaseIntUiTheme {
 
     @Composable
     fun darkThemeDefinition(
-        colors: GlobalColors = IntUiGlobalColors.dark(),
-        metrics: GlobalMetrics = IntUiGlobalMetrics(),
+        colors: GlobalColors = GlobalColors.dark(),
+        metrics: GlobalMetrics = GlobalMetrics.defaults(),
         palette: IntUiThemeColorPalette = IntUiDarkTheme.colors,
         icons: IntelliJThemeIconData = IntUiDarkTheme.icons,
         defaultTextStyle: TextStyle = this.defaultTextStyle,
