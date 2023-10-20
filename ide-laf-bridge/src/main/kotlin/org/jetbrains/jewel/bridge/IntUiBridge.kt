@@ -23,7 +23,6 @@ import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.IntelliJComponentStyling
 import org.jetbrains.jewel.intui.core.IntUiThemeDefinition
-import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerMetrics
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownColors
@@ -90,6 +89,7 @@ import org.jetbrains.jewel.styling.CheckboxStyle
 import org.jetbrains.jewel.styling.ChipColors
 import org.jetbrains.jewel.styling.ChipMetrics
 import org.jetbrains.jewel.styling.ChipStyle
+import org.jetbrains.jewel.styling.CircularProgressStyle
 import org.jetbrains.jewel.styling.InputFieldStyle
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
@@ -846,8 +846,8 @@ private fun readEditorTabStyle(): IntUiTabStyle {
 
 private fun readCircularProgressStyle(
     isDark: Boolean,
-): IntUiCircularProgressStyle =
-    IntUiCircularProgressStyle(
+): CircularProgressStyle =
+    CircularProgressStyle(
         frameTime = 125.milliseconds,
         color = retrieveColorOrUnspecified("ProgressIcon.color")
             .takeIf { it.isSpecified }

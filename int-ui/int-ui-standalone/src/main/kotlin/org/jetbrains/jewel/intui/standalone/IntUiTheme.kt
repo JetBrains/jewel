@@ -21,7 +21,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme.defaultComponentStyling
 import org.jetbrains.jewel.intui.standalone.styling.Default
 import org.jetbrains.jewel.intui.standalone.styling.Defaults
-import org.jetbrains.jewel.intui.standalone.styling.IntUiCircularProgressStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDividerStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiDropdownStyle
 import org.jetbrains.jewel.intui.standalone.styling.IntUiGroupHeaderStyle
@@ -108,7 +107,7 @@ object IntUiTheme : BaseIntUiTheme {
         lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.dark(),
         defaultTabStyle: TabStyle = IntUiTabStyle.Default.dark(),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.dark(),
-        circularProgressStyle: CircularProgressStyle = IntUiCircularProgressStyle.dark(),
+        circularProgressStyle: CircularProgressStyle = CircularProgressStyle.Defaults.dark(),
         tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.dark(),
         iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.dark(),
     ) = IntelliJComponentStyling(
@@ -154,7 +153,7 @@ object IntUiTheme : BaseIntUiTheme {
         lazyTreeStyle: LazyTreeStyle = IntUiLazyTreeStyle.light(),
         defaultTabStyle: TabStyle = IntUiTabStyle.Default.light(),
         editorTabStyle: TabStyle = IntUiTabStyle.Editor.light(),
-        circularProgressStyle: CircularProgressStyle = IntUiCircularProgressStyle.light(),
+        circularProgressStyle: CircularProgressStyle = CircularProgressStyle.Defaults.light(),
         tooltipStyle: IntUiTooltipStyle = IntUiTooltipStyle.light(),
         iconButtonStyle: IconButtonStyle = IntUiIconButtonStyle.light(),
     ) = IntelliJComponentStyling(
