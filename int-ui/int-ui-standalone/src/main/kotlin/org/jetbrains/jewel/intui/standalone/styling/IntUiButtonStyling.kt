@@ -12,43 +12,43 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 
-val org.jetbrains.jewel.core.component.styling.ButtonStyle.Companion.Default: IntUiDefaultButtonStyleFactory
+val org.jetbrains.jewel.ui.component.styling.ButtonStyle.Companion.Default: IntUiDefaultButtonStyleFactory
     get() = IntUiDefaultButtonStyleFactory
 
 object IntUiDefaultButtonStyleFactory {
 
     @Composable
     fun light(
-        colors: org.jetbrains.jewel.core.component.styling.ButtonColors = org.jetbrains.jewel.core.component.styling.ButtonColors.Default.light(),
-        metrics: org.jetbrains.jewel.core.component.styling.ButtonMetrics = org.jetbrains.jewel.core.component.styling.ButtonMetrics.default(),
-    ) = org.jetbrains.jewel.core.component.styling.ButtonStyle(colors, metrics)
+        colors: org.jetbrains.jewel.ui.component.styling.ButtonColors = org.jetbrains.jewel.ui.component.styling.ButtonColors.Default.light(),
+        metrics: org.jetbrains.jewel.ui.component.styling.ButtonMetrics = org.jetbrains.jewel.ui.component.styling.ButtonMetrics.default(),
+    ) = org.jetbrains.jewel.ui.component.styling.ButtonStyle(colors, metrics)
 
     @Composable
     fun dark(
-        colors: org.jetbrains.jewel.core.component.styling.ButtonColors = org.jetbrains.jewel.core.component.styling.ButtonColors.Default.dark(),
-        metrics: org.jetbrains.jewel.core.component.styling.ButtonMetrics = org.jetbrains.jewel.core.component.styling.ButtonMetrics.default(),
-    ) = org.jetbrains.jewel.core.component.styling.ButtonStyle(colors, metrics)
+        colors: org.jetbrains.jewel.ui.component.styling.ButtonColors = org.jetbrains.jewel.ui.component.styling.ButtonColors.Default.dark(),
+        metrics: org.jetbrains.jewel.ui.component.styling.ButtonMetrics = org.jetbrains.jewel.ui.component.styling.ButtonMetrics.default(),
+    ) = org.jetbrains.jewel.ui.component.styling.ButtonStyle(colors, metrics)
 }
 
-val org.jetbrains.jewel.core.component.styling.ButtonStyle.Companion.Outlined: IntUiOutlinedButtonStyleFactory
+val org.jetbrains.jewel.ui.component.styling.ButtonStyle.Companion.Outlined: IntUiOutlinedButtonStyleFactory
     get() = IntUiOutlinedButtonStyleFactory
 
 object IntUiOutlinedButtonStyleFactory {
 
     @Composable
     fun light(
-        colors: org.jetbrains.jewel.core.component.styling.ButtonColors = org.jetbrains.jewel.core.component.styling.ButtonColors.Outlined.light(),
-        metrics: org.jetbrains.jewel.core.component.styling.ButtonMetrics = org.jetbrains.jewel.core.component.styling.ButtonMetrics.outlined(),
-    ) = org.jetbrains.jewel.core.component.styling.ButtonStyle(colors, metrics)
+        colors: org.jetbrains.jewel.ui.component.styling.ButtonColors = org.jetbrains.jewel.ui.component.styling.ButtonColors.Outlined.light(),
+        metrics: org.jetbrains.jewel.ui.component.styling.ButtonMetrics = org.jetbrains.jewel.ui.component.styling.ButtonMetrics.outlined(),
+    ) = org.jetbrains.jewel.ui.component.styling.ButtonStyle(colors, metrics)
 
     @Composable
     fun dark(
-        colors: org.jetbrains.jewel.core.component.styling.ButtonColors = org.jetbrains.jewel.core.component.styling.ButtonColors.Outlined.dark(),
-        metrics: org.jetbrains.jewel.core.component.styling.ButtonMetrics = org.jetbrains.jewel.core.component.styling.ButtonMetrics.outlined(),
-    ) = org.jetbrains.jewel.core.component.styling.ButtonStyle(colors, metrics)
+        colors: org.jetbrains.jewel.ui.component.styling.ButtonColors = org.jetbrains.jewel.ui.component.styling.ButtonColors.Outlined.dark(),
+        metrics: org.jetbrains.jewel.ui.component.styling.ButtonMetrics = org.jetbrains.jewel.ui.component.styling.ButtonMetrics.outlined(),
+    ) = org.jetbrains.jewel.ui.component.styling.ButtonStyle(colors, metrics)
 }
 
-val org.jetbrains.jewel.core.component.styling.ButtonColors.Companion.Default: IntUiDefaultButtonColorFactory
+val org.jetbrains.jewel.ui.component.styling.ButtonColors.Companion.Default: IntUiDefaultButtonColorFactory
     get() = IntUiDefaultButtonColorFactory
 
 object IntUiDefaultButtonColorFactory {
@@ -70,7 +70,7 @@ object IntUiDefaultButtonColorFactory {
         borderFocused: Brush = SolidColor(IntUiLightTheme.colors.blue(4)),
         borderPressed: Brush = border,
         borderHovered: Brush = border,
-    ) = org.jetbrains.jewel.core.component.styling.ButtonColors(
+    ) = org.jetbrains.jewel.ui.component.styling.ButtonColors(
         background,
         backgroundDisabled,
         backgroundFocused,
@@ -105,7 +105,7 @@ object IntUiDefaultButtonColorFactory {
         borderFocused: Brush = SolidColor(IntUiDarkTheme.colors.grey(1)),
         borderPressed: Brush = border,
         borderHovered: Brush = border,
-    ) = org.jetbrains.jewel.core.component.styling.ButtonColors(
+    ) = org.jetbrains.jewel.ui.component.styling.ButtonColors(
         background,
         backgroundDisabled,
         backgroundFocused,
@@ -124,7 +124,7 @@ object IntUiDefaultButtonColorFactory {
     )
 }
 
-val org.jetbrains.jewel.core.component.styling.ButtonColors.Companion.Outlined: IntUiOutlinedButtonColorFactory
+val org.jetbrains.jewel.ui.component.styling.ButtonColors.Companion.Outlined: IntUiOutlinedButtonColorFactory
     get() = IntUiOutlinedButtonColorFactory
 
 object IntUiOutlinedButtonColorFactory {
@@ -146,7 +146,7 @@ object IntUiOutlinedButtonColorFactory {
         borderFocused: Brush = SolidColor(IntUiLightTheme.colors.blue(4)),
         borderPressed: Brush = SolidColor(IntUiLightTheme.colors.grey(7)),
         borderHovered: Brush = SolidColor(IntUiLightTheme.colors.grey(8)),
-    ) = org.jetbrains.jewel.core.component.styling.ButtonColors(
+    ) = org.jetbrains.jewel.ui.component.styling.ButtonColors(
         background,
         backgroundDisabled,
         backgroundFocused,
@@ -181,7 +181,7 @@ object IntUiOutlinedButtonColorFactory {
         borderFocused: Brush = SolidColor(IntUiDarkTheme.colors.grey(2)),
         borderPressed: Brush = SolidColor(IntUiDarkTheme.colors.grey(7)),
         borderHovered: Brush = SolidColor(IntUiDarkTheme.colors.grey(7)),
-    ) = org.jetbrains.jewel.core.component.styling.ButtonColors(
+    ) = org.jetbrains.jewel.ui.component.styling.ButtonColors(
         background,
         backgroundDisabled,
         backgroundFocused,
@@ -200,16 +200,16 @@ object IntUiOutlinedButtonColorFactory {
     )
 }
 
-fun org.jetbrains.jewel.core.component.styling.ButtonMetrics.Companion.default(
+fun org.jetbrains.jewel.ui.component.styling.ButtonMetrics.Companion.default(
     cornerSize: CornerSize = CornerSize(4.dp),
     padding: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
     minSize: DpSize = DpSize(72.dp, 28.dp),
     borderWidth: Dp = 0.dp,
-) = org.jetbrains.jewel.core.component.styling.ButtonMetrics(cornerSize, padding, minSize, borderWidth)
+) = org.jetbrains.jewel.ui.component.styling.ButtonMetrics(cornerSize, padding, minSize, borderWidth)
 
-fun org.jetbrains.jewel.core.component.styling.ButtonMetrics.Companion.outlined(
+fun org.jetbrains.jewel.ui.component.styling.ButtonMetrics.Companion.outlined(
     cornerSize: CornerSize = CornerSize(4.dp),
     padding: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
     minSize: DpSize = DpSize(72.dp, 28.dp),
     borderWidth: Dp = 1.dp,
-) = org.jetbrains.jewel.core.component.styling.ButtonMetrics(cornerSize, padding, minSize, borderWidth)
+) = org.jetbrains.jewel.ui.component.styling.ButtonMetrics(cornerSize, padding, minSize, borderWidth)

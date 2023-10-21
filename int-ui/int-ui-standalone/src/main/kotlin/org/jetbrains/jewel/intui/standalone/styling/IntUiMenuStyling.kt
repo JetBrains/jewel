@@ -7,17 +7,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.component.styling.MenuColors
-import org.jetbrains.jewel.core.component.styling.MenuIcons
-import org.jetbrains.jewel.core.component.styling.MenuItemColors
-import org.jetbrains.jewel.core.component.styling.MenuItemMetrics
-import org.jetbrains.jewel.core.component.styling.MenuMetrics
-import org.jetbrains.jewel.core.component.styling.MenuStyle
-import org.jetbrains.jewel.core.component.styling.SubmenuMetrics
-import org.jetbrains.jewel.core.painter.PainterProvider
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
+import org.jetbrains.jewel.ui.component.styling.MenuColors
+import org.jetbrains.jewel.ui.component.styling.MenuIcons
+import org.jetbrains.jewel.ui.component.styling.MenuItemColors
+import org.jetbrains.jewel.ui.component.styling.MenuItemMetrics
+import org.jetbrains.jewel.ui.component.styling.MenuMetrics
+import org.jetbrains.jewel.ui.component.styling.MenuStyle
+import org.jetbrains.jewel.ui.component.styling.SubmenuMetrics
+import org.jetbrains.jewel.ui.painter.PainterProvider
 
 @Composable
 fun MenuStyle.Companion.light(

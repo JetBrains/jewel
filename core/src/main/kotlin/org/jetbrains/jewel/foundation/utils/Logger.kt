@@ -38,6 +38,7 @@ internal interface Logger {
 }
 
 // TODO remove and replace with real logger
+@Deprecated("Use a real logger instead")
 internal object Log : Logger {
 
     override var currentLogLevel: LogLevel = LogLevel.Off

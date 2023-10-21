@@ -9,9 +9,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.Outline
-import org.jetbrains.jewel.core.component.GroupHeader
-import org.jetbrains.jewel.core.component.RadioButtonRow
+import org.jetbrains.jewel.ui.Outline
+import org.jetbrains.jewel.ui.component.GroupHeader
+import org.jetbrains.jewel.ui.component.RadioButtonRow
 
 @Composable
 fun RadioButtons() {

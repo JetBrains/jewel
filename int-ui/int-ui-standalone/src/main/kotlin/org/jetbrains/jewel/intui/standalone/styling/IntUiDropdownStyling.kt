@@ -8,17 +8,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.component.styling.DropdownColors
-import org.jetbrains.jewel.core.component.styling.DropdownIcons
-import org.jetbrains.jewel.core.component.styling.DropdownMetrics
-import org.jetbrains.jewel.core.component.styling.DropdownStyle
-import org.jetbrains.jewel.core.component.styling.MenuStyle
-import org.jetbrains.jewel.core.painter.PainterProvider
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.defaultTextStyle
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
+import org.jetbrains.jewel.ui.component.styling.DropdownColors
+import org.jetbrains.jewel.ui.component.styling.DropdownIcons
+import org.jetbrains.jewel.ui.component.styling.DropdownMetrics
+import org.jetbrains.jewel.ui.component.styling.DropdownStyle
+import org.jetbrains.jewel.ui.component.styling.MenuStyle
+import org.jetbrains.jewel.ui.painter.PainterProvider
 
 val DropdownStyle.Companion.Default: IntUiDefaultDropdownStyleFactory
     get() = IntUiDefaultDropdownStyleFactory

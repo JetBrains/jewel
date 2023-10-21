@@ -38,12 +38,12 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import org.jetbrains.jewel.core.component.styling.LocalDefaultDropdownStyle
-import org.jetbrains.jewel.core.component.styling.LocalIconButtonStyle
-import org.jetbrains.jewel.core.util.isDark
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
+import org.jetbrains.jewel.ui.component.styling.LocalDefaultDropdownStyle
+import org.jetbrains.jewel.ui.component.styling.LocalIconButtonStyle
+import org.jetbrains.jewel.ui.util.isDark
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import org.jetbrains.jewel.window.utils.DesktopPlatform
 import org.jetbrains.jewel.window.utils.macos.MacUtil

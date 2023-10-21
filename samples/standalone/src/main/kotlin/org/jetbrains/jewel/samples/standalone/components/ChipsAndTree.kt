@@ -22,16 +22,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.colorPalette
-import org.jetbrains.jewel.core.component.Chip
-import org.jetbrains.jewel.core.component.GroupHeader
-import org.jetbrains.jewel.core.component.LazyTree
-import org.jetbrains.jewel.core.component.RadioButtonChip
-import org.jetbrains.jewel.core.component.Text
-import org.jetbrains.jewel.core.component.ToggleableChip
-import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.tree.buildTree
+import org.jetbrains.jewel.ui.colorPalette
+import org.jetbrains.jewel.ui.component.Chip
+import org.jetbrains.jewel.ui.component.GroupHeader
+import org.jetbrains.jewel.ui.component.LazyTree
+import org.jetbrains.jewel.ui.component.RadioButtonChip
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.ToggleableChip
 
 @Composable
 fun ChipsAndTree() {

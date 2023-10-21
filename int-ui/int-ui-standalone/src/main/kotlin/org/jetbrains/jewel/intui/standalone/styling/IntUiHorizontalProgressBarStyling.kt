@@ -5,11 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.component.styling.HorizontalProgressBarColors
-import org.jetbrains.jewel.core.component.styling.HorizontalProgressBarMetrics
-import org.jetbrains.jewel.core.component.styling.HorizontalProgressBarStyle
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
+import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarColors
+import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarMetrics
+import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 

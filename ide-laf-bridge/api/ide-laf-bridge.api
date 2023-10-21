@@ -9,7 +9,7 @@ public final class org/jetbrains/jewel/bridge/BridgeGlobalMetricsKt {
 }
 
 public final class org/jetbrains/jewel/bridge/BridgeResourceResolverKt {
-	public static final fun bridgePainterProvider (Ljava/lang/String;)Lorg/jetbrains/jewel/core/painter/ResourcePainterProvider;
+	public static final fun bridgePainterProvider (Ljava/lang/String;)Lorg/jetbrains/jewel/ui/painter/ResourcePainterProvider;
 }
 
 public final class org/jetbrains/jewel/bridge/BridgeThemeColorPaletteKt {

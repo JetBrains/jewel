@@ -11,13 +11,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.Outline
-import org.jetbrains.jewel.core.component.GroupHeader
-import org.jetbrains.jewel.core.component.Icon
-import org.jetbrains.jewel.core.component.LabelledTextField
-import org.jetbrains.jewel.core.component.Text
-import org.jetbrains.jewel.core.component.TextField
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
+import org.jetbrains.jewel.ui.Outline
+import org.jetbrains.jewel.ui.component.GroupHeader
+import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.LabelledTextField
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.TextField
 
 @Composable
 fun TextFields() {

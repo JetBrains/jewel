@@ -6,8 +6,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.component.styling.DividerMetrics
-import org.jetbrains.jewel.core.component.styling.TooltipMetrics
+import org.jetbrains.jewel.ui.component.styling.DividerMetrics
+import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 

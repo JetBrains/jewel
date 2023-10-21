@@ -6,9 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.component.styling.ScrollbarColors
-import org.jetbrains.jewel.core.component.styling.ScrollbarMetrics
-import org.jetbrains.jewel.core.component.styling.ScrollbarStyle
+import org.jetbrains.jewel.ui.component.styling.ScrollbarColors
+import org.jetbrains.jewel.ui.component.styling.ScrollbarMetrics
+import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 

@@ -7,13 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.component.DefaultButton
-import org.jetbrains.jewel.core.component.GroupHeader
-import org.jetbrains.jewel.core.component.Icon
-import org.jetbrains.jewel.core.component.IconButton
-import org.jetbrains.jewel.core.component.OutlinedButton
-import org.jetbrains.jewel.core.component.Text
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
+import org.jetbrains.jewel.ui.component.DefaultButton
+import org.jetbrains.jewel.ui.component.GroupHeader
+import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.IconButton
+import org.jetbrains.jewel.ui.component.OutlinedButton
+import org.jetbrains.jewel.ui.component.Text
 
 @Composable
 fun Buttons() {

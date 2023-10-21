@@ -5,15 +5,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.component.styling.TabColors
-import org.jetbrains.jewel.core.component.styling.TabContentAlpha
-import org.jetbrains.jewel.core.component.styling.TabIcons
-import org.jetbrains.jewel.core.component.styling.TabMetrics
-import org.jetbrains.jewel.core.component.styling.TabStyle
-import org.jetbrains.jewel.core.painter.PainterProvider
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
+import org.jetbrains.jewel.ui.component.styling.TabColors
+import org.jetbrains.jewel.ui.component.styling.TabContentAlpha
+import org.jetbrains.jewel.ui.component.styling.TabIcons
+import org.jetbrains.jewel.ui.component.styling.TabMetrics
+import org.jetbrains.jewel.ui.component.styling.TabStyle
+import org.jetbrains.jewel.ui.painter.PainterProvider
 
 val TabStyle.Companion.Default
     get() = IntUiDefaultTabStyleFactory
