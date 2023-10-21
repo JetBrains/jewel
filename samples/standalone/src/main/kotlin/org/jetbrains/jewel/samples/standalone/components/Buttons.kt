@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.GroupHeader
 import org.jetbrains.jewel.core.component.DefaultButton
+import org.jetbrains.jewel.core.component.GroupHeader
 import org.jetbrains.jewel.core.component.Icon
 import org.jetbrains.jewel.core.component.IconButton
 import org.jetbrains.jewel.core.component.OutlinedButton

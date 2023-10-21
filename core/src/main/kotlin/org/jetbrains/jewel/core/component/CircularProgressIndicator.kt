@@ -17,9 +17,10 @@ import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.circularProgressStyle
 import org.jetbrains.jewel.core.component.styling.CircularProgressStyle
 import org.jetbrains.jewel.core.util.toRgbaHexString
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 
 @Composable
 fun CircularProgressIndicator(

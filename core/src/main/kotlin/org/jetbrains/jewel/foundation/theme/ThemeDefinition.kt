@@ -1,9 +1,11 @@
-package org.jetbrains.jewel.core
+package org.jetbrains.jewel.foundation.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
+import org.jetbrains.jewel.foundation.GlobalColors
+import org.jetbrains.jewel.foundation.GlobalMetrics
 
 @Immutable
 @GenerateDataFunctions

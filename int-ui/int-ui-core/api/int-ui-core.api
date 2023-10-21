@@ -1,6 +1,6 @@
 public final class org/jetbrains/jewel/intui/core/BaseIntUiThemeKt {
-	public static final fun BaseIntUiTheme (Lorg/jetbrains/jewel/core/ThemeDefinition;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
-	public static final fun BaseIntUiTheme (Lorg/jetbrains/jewel/core/ThemeDefinition;Lkotlin/jvm/functions/Function2;ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun BaseIntUiTheme (Lorg/jetbrains/jewel/foundation/theme/ThemeDefinition;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun BaseIntUiTheme (Lorg/jetbrains/jewel/foundation/theme/ThemeDefinition;Lkotlin/jvm/functions/Function2;ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
 public abstract class org/jetbrains/jewel/intui/core/IntUiPainterHintsProvider : org/jetbrains/jewel/core/painter/PainterHintsProvider {
@@ -17,20 +17,20 @@ public final class org/jetbrains/jewel/intui/core/styling/CommonMetricsKt {
 	public static synthetic fun defaults-_3NXNO4$default (Lorg/jetbrains/jewel/core/component/styling/TooltipMetrics$Companion;Landroidx/compose/foundation/layout/PaddingValues;JLandroidx/compose/foundation/shape/CornerSize;FFJLandroidx/compose/ui/Alignment$Horizontal;ILjava/lang/Object;)Lorg/jetbrains/jewel/core/component/styling/TooltipMetrics;
 }
 
-public final class org/jetbrains/jewel/intui/core/theme/IntUiDarkTheme : org/jetbrains/jewel/core/ThemeDescriptor {
+public final class org/jetbrains/jewel/intui/core/theme/IntUiDarkTheme : org/jetbrains/jewel/foundation/theme/ThemeDescriptor {
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/intui/core/theme/IntUiDarkTheme;
-	public fun getColors ()Lorg/jetbrains/jewel/core/ThemeColorPalette;
-	public fun getIconData ()Lorg/jetbrains/jewel/core/ThemeIconData;
+	public fun getColors ()Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;
+	public fun getIconData ()Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
 	public fun getName ()Ljava/lang/String;
 	public fun isDark ()Z
 }
 
-public final class org/jetbrains/jewel/intui/core/theme/IntUiLightTheme : org/jetbrains/jewel/core/ThemeDescriptor {
+public final class org/jetbrains/jewel/intui/core/theme/IntUiLightTheme : org/jetbrains/jewel/foundation/theme/ThemeDescriptor {
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/intui/core/theme/IntUiLightTheme;
-	public fun getColors ()Lorg/jetbrains/jewel/core/ThemeColorPalette;
-	public fun getIconData ()Lorg/jetbrains/jewel/core/ThemeIconData;
+	public fun getColors ()Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;
+	public fun getIconData ()Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
 	public fun getName ()Ljava/lang/String;
 	public fun isDark ()Z
 }

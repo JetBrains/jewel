@@ -21,9 +21,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.NoIndication
 import org.jetbrains.jewel.core.component.styling.IconButtonStyle
+import org.jetbrains.jewel.core.iconButtonStyle
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 
 @Composable
 fun IconButton(

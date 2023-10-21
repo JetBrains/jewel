@@ -1,11 +1,11 @@
 public final class org/jetbrains/jewel/bridge/BridgeGlobalColorsKt {
-	public static final fun readFromLaF (Lorg/jetbrains/jewel/core/BorderColors$Companion;)Lorg/jetbrains/jewel/core/BorderColors;
-	public static final fun readFromLaF (Lorg/jetbrains/jewel/core/GlobalColors$Companion;)Lorg/jetbrains/jewel/core/GlobalColors;
-	public static final fun readFromLaF (Lorg/jetbrains/jewel/core/OutlineColors$Companion;)Lorg/jetbrains/jewel/core/OutlineColors;
+	public static final fun readFromLaF (Lorg/jetbrains/jewel/foundation/BorderColors$Companion;)Lorg/jetbrains/jewel/foundation/BorderColors;
+	public static final fun readFromLaF (Lorg/jetbrains/jewel/foundation/GlobalColors$Companion;)Lorg/jetbrains/jewel/foundation/GlobalColors;
+	public static final fun readFromLaF (Lorg/jetbrains/jewel/foundation/OutlineColors$Companion;)Lorg/jetbrains/jewel/foundation/OutlineColors;
 }
 
 public final class org/jetbrains/jewel/bridge/BridgeGlobalMetricsKt {
-	public static final fun readFromLaF (Lorg/jetbrains/jewel/core/GlobalMetrics$Companion;)Lorg/jetbrains/jewel/core/GlobalMetrics;
+	public static final fun readFromLaF (Lorg/jetbrains/jewel/foundation/GlobalMetrics$Companion;)Lorg/jetbrains/jewel/foundation/GlobalMetrics;
 }
 
 public final class org/jetbrains/jewel/bridge/BridgeResourceResolverKt {
@@ -13,8 +13,8 @@ public final class org/jetbrains/jewel/bridge/BridgeResourceResolverKt {
 }
 
 public final class org/jetbrains/jewel/bridge/BridgeThemeColorPaletteKt {
-	public static final fun getWindowsPopupBorder (Lorg/jetbrains/jewel/core/ThemeColorPalette;)Landroidx/compose/ui/graphics/Color;
-	public static final fun readFromLaF (Lorg/jetbrains/jewel/core/ThemeColorPalette$Companion;)Lorg/jetbrains/jewel/core/ThemeColorPalette;
+	public static final fun getWindowsPopupBorder (Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;)Landroidx/compose/ui/graphics/Color;
+	public static final fun readFromLaF (Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette$Companion;)Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;
 }
 
 public final class org/jetbrains/jewel/bridge/BridgeUtilsKt {

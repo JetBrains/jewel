@@ -24,13 +24,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.GroupHeader
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.NoIndication
+import org.jetbrains.jewel.core.component.GroupHeader
 import org.jetbrains.jewel.core.component.Icon
 import org.jetbrains.jewel.core.component.TabData
 import org.jetbrains.jewel.core.component.TabStrip
 import org.jetbrains.jewel.core.component.Text
+import org.jetbrains.jewel.core.defaultTabStyle
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
 import kotlin.math.max
 

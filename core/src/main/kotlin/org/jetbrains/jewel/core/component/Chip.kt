@@ -25,9 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.semantics.Role
-import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.chipStyle
 import org.jetbrains.jewel.core.component.styling.ChipStyle
 import org.jetbrains.jewel.core.focusOutline
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active

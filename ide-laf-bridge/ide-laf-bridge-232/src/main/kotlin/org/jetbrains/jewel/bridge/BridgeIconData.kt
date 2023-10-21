@@ -2,8 +2,8 @@ package org.jetbrains.jewel.bridge
 
 import com.intellij.ide.ui.UITheme
 import com.intellij.ui.ColorUtil
-import org.jetbrains.jewel.core.ThemeIconData
 import org.jetbrains.jewel.foundation.InternalJewelApi
+import org.jetbrains.jewel.foundation.theme.ThemeIconData
 
 @OptIn(InternalJewelApi::class)
 fun ThemeIconData.Companion.readFromLaF(): ThemeIconData {

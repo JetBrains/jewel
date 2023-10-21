@@ -1,5 +1,5 @@
 public final class org/jetbrains/jewel/bridge/BridgeIconDataKt {
-	public static final fun readFromLaF (Lorg/jetbrains/jewel/core/ThemeIconData$Companion;)Lorg/jetbrains/jewel/core/ThemeIconData;
+	public static final fun readFromLaF (Lorg/jetbrains/jewel/foundation/theme/ThemeIconData$Companion;)Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
 }
 
 public final class org/jetbrains/jewel/bridge/BridgePainterHintsProvider : org/jetbrains/jewel/intui/core/IntUiPainterHintsProvider {

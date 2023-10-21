@@ -22,11 +22,6 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
 import org.jetbrains.jewel.core.ComponentStyling
-import org.jetbrains.jewel.core.GlobalColors
-import org.jetbrains.jewel.core.GlobalMetrics
-import org.jetbrains.jewel.core.ThemeColorPalette
-import org.jetbrains.jewel.core.ThemeDefinition
-import org.jetbrains.jewel.core.ThemeIconData
 import org.jetbrains.jewel.core.component.styling.ButtonColors
 import org.jetbrains.jewel.core.component.styling.ButtonMetrics
 import org.jetbrains.jewel.core.component.styling.ButtonStyle
@@ -95,6 +90,11 @@ import org.jetbrains.jewel.core.component.styling.TextFieldStyle
 import org.jetbrains.jewel.core.component.styling.TooltipColors
 import org.jetbrains.jewel.core.component.styling.TooltipMetrics
 import org.jetbrains.jewel.core.component.styling.TooltipStyle
+import org.jetbrains.jewel.foundation.GlobalColors
+import org.jetbrains.jewel.foundation.GlobalMetrics
+import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
+import org.jetbrains.jewel.foundation.theme.ThemeDefinition
+import org.jetbrains.jewel.foundation.theme.ThemeIconData
 import org.jetbrains.jewel.intui.core.styling.defaults
 import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager

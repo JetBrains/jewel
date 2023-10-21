@@ -90,8 +90,8 @@ public final class org/jetbrains/jewel/window/DecoratedWindowState$Companion {
 }
 
 public final class org/jetbrains/jewel/window/ThemeKt {
-	public static final fun getDefaultDecoratedWindowStyle (Lorg/jetbrains/jewel/core/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/window/styling/DecoratedWindowStyle;
-	public static final fun getDefaultTitleBarStyle (Lorg/jetbrains/jewel/core/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/window/styling/TitleBarStyle;
+	public static final fun getDefaultDecoratedWindowStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/window/styling/DecoratedWindowStyle;
+	public static final fun getDefaultTitleBarStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/window/styling/TitleBarStyle;
 }
 
 public final class org/jetbrains/jewel/window/TitleBarKt {

@@ -36,9 +36,12 @@ import androidx.compose.ui.input.pointer.isTertiary
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.NoIndication
+import org.jetbrains.jewel.core.defaultTabStyle
+import org.jetbrains.jewel.core.editorTabStyle
 import org.jetbrains.jewel.core.painter.hints.Stateful
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Enabled
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused

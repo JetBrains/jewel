@@ -78,7 +78,6 @@ import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.bridge.retrieveTextStyle
 import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.bridge.toFontFamily
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.component.HorizontalSplitLayout
 import org.jetbrains.jewel.core.component.Icon
 import org.jetbrains.jewel.core.component.PopupMenu
@@ -88,6 +87,7 @@ import org.jetbrains.jewel.core.component.VerticalScrollbar
 import org.jetbrains.jewel.core.component.items
 import org.jetbrains.jewel.core.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.core.util.thenIf
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items

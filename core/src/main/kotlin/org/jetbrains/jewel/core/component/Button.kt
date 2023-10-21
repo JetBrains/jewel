@@ -27,9 +27,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.component.styling.ButtonStyle
+import org.jetbrains.jewel.core.defaultButtonStyle
 import org.jetbrains.jewel.core.focusOutline
+import org.jetbrains.jewel.core.outlinedButtonStyle
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -38,6 +41,7 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
+import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 
 @Composable
 fun DefaultButton(

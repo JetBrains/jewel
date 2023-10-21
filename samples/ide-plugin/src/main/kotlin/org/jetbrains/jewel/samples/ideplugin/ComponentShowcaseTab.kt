@@ -28,7 +28,6 @@ import com.intellij.ui.JBColor
 import icons.JewelIcons
 import org.jetbrains.jewel.bridge.SwingBridgeTheme
 import org.jetbrains.jewel.bridge.toComposeColor
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.component.CheckboxRow
 import org.jetbrains.jewel.core.component.CircularProgressIndicator
 import org.jetbrains.jewel.core.component.CircularProgressIndicatorBig
@@ -41,6 +40,7 @@ import org.jetbrains.jewel.core.component.RadioButtonRow
 import org.jetbrains.jewel.core.component.Text
 import org.jetbrains.jewel.core.component.TextField
 import org.jetbrains.jewel.core.component.Tooltip
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.tree.buildTree
 
 @Composable internal fun ComponentShowcaseTab() {

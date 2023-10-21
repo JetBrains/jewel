@@ -256,9 +256,9 @@ private fun ContentDrawScope.drawRoundedBorder(
     expandWidthPx: Float,
 ) {
     val roundRect = when (alignment) {
-        Stroke.Alignment.Inside -> outline.roundRect.inflate(expandWidthPx - strokeWidthPx / 2f)
-        Stroke.Alignment.Center -> outline.roundRect.inflate(expandWidthPx)
-        Stroke.Alignment.Outside -> outline.roundRect.inflate(expandWidthPx + strokeWidthPx / 2f)
+        Stroke.Alignment.Inside -> outline.roundRect.grow(expandWidthPx - strokeWidthPx / 2f)
+        Stroke.Alignment.Center -> outline.roundRect.grow(expandWidthPx)
+        Stroke.Alignment.Outside -> outline.roundRect.grow(expandWidthPx + strokeWidthPx / 2f)
     }
 
     if (roundRect.hasAtLeastOneNonRoundedCorner()) {
@@ -267,8 +267,8 @@ private fun ContentDrawScope.drawRoundedBorder(
         val borderPath = cache.obtainPath().apply {
             reset()
             fillType = PathFillType.EvenOdd
-            addRoundRect(roundRect.deflate(strokeWidthPx / 2f))
-            addRoundRect(roundRect.inflate(strokeWidthPx / 2f))
+            addRoundRect(roundRect.shrink(strokeWidthPx / 2f))
+            addRoundRect(roundRect.grow(strokeWidthPx / 2f))
         }
         drawPath(borderPath, brush)
     } else {

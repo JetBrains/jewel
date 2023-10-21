@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.core
+package org.jetbrains.jewel.core.component
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.input.InputMode

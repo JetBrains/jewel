@@ -34,7 +34,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import org.jetbrains.jewel.core.JewelTheme.Companion.isSwingCompatMode
 import org.jetbrains.jewel.core.component.styling.LinkStyle
 import org.jetbrains.jewel.core.component.styling.LocalLinkStyle
 import org.jetbrains.jewel.core.component.styling.LocalMenuStyle
@@ -44,6 +43,7 @@ import org.jetbrains.jewel.core.focusOutline
 import org.jetbrains.jewel.core.painter.PainterProvider
 import org.jetbrains.jewel.core.painter.hints.Stateful
 import org.jetbrains.jewel.core.util.thenIf
+import org.jetbrains.jewel.foundation.theme.JewelTheme.Companion.isSwingCompatMode
 import org.jetbrains.jewel.foundation.onHover
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active

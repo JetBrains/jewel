@@ -5,12 +5,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import com.intellij.ide.ui.UITheme
 import com.intellij.openapi.diagnostic.thisLogger
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.painter.PainterHint
 import org.jetbrains.jewel.core.painter.hints.Dark
 import org.jetbrains.jewel.core.painter.hints.HiDpi
 import org.jetbrains.jewel.core.util.fromRGBAHexString
 import org.jetbrains.jewel.foundation.InternalJewelApi
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.core.IntUiPainterHintsProvider
 
 @InternalJewelApi

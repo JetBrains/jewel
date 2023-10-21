@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.GroupHeader
+import org.jetbrains.jewel.core.component.GroupHeader
 import org.jetbrains.jewel.core.component.Icon
 import org.jetbrains.jewel.core.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons

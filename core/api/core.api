@@ -1,18 +1,3 @@
-public final class org/jetbrains/jewel/core/BorderColors {
-	public static final field $stable I
-	public static final field Companion Lorg/jetbrains/jewel/core/BorderColors$Companion;
-	public synthetic fun <init> (JJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getDisabled-0d7_KjU ()J
-	public final fun getFocused-0d7_KjU ()J
-	public final fun getNormal-0d7_KjU ()J
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class org/jetbrains/jewel/core/BorderColors$Companion {
-}
-
 public abstract interface class org/jetbrains/jewel/core/ClassLoaderProvider {
 	public abstract fun getClassLoaders ()Ljava/util/List;
 }
@@ -48,127 +33,34 @@ public final class org/jetbrains/jewel/core/ComponentStyling {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class org/jetbrains/jewel/core/ContextMenuDivider : androidx/compose/foundation/ContextMenuItem {
-	public static final field $stable I
-	public static final field INSTANCE Lorg/jetbrains/jewel/core/ContextMenuDivider;
-}
-
-public final class org/jetbrains/jewel/core/ContextMenuRepresentation : androidx/compose/foundation/ContextMenuRepresentation {
-	public static final field $stable I
-	public static final field INSTANCE Lorg/jetbrains/jewel/core/ContextMenuRepresentation;
-	public fun Representation (Landroidx/compose/foundation/ContextMenuState;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
-}
-
-public final class org/jetbrains/jewel/core/ContextSubmenu : androidx/compose/foundation/ContextMenuItem {
-	public static final field $stable I
-	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
-	public final fun getSubmenu ()Lkotlin/jvm/functions/Function0;
-}
-
 public final class org/jetbrains/jewel/core/DisabledColorFilterKt {
 	public static final fun disabled (Landroidx/compose/ui/graphics/ColorFilter$Companion;)Landroidx/compose/ui/graphics/ColorFilter;
 }
 
-public final class org/jetbrains/jewel/core/GlobalColors {
-	public static final field $stable I
-	public static final field Companion Lorg/jetbrains/jewel/core/GlobalColors$Companion;
-	public synthetic fun <init> (Lorg/jetbrains/jewel/core/BorderColors;Lorg/jetbrains/jewel/core/OutlineColors;JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBorders ()Lorg/jetbrains/jewel/core/BorderColors;
-	public final fun getInfoContent-0d7_KjU ()J
-	public final fun getOutlines ()Lorg/jetbrains/jewel/core/OutlineColors;
-	public final fun getPaneBackground-0d7_KjU ()J
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class org/jetbrains/jewel/core/GlobalColors$Companion {
-}
-
-public final class org/jetbrains/jewel/core/GlobalColorsKt {
-	public static final fun getLocalGlobalColors ()Landroidx/compose/runtime/ProvidableCompositionLocal;
-}
-
-public final class org/jetbrains/jewel/core/GlobalMetrics {
-	public static final field $stable I
-	public static final field Companion Lorg/jetbrains/jewel/core/GlobalMetrics$Companion;
-	public synthetic fun <init> (FFLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getOutlineWidth-D9Ej5fM ()F
-	public final fun getRowHeight-D9Ej5fM ()F
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class org/jetbrains/jewel/core/GlobalMetrics$Companion {
-}
-
-public final class org/jetbrains/jewel/core/GlobalMetricsKt {
-	public static final fun getLocalGlobalMetrics ()Landroidx/compose/runtime/ProvidableCompositionLocal;
-}
-
-public final class org/jetbrains/jewel/core/GroupHeaderKt {
-	public static final fun GroupHeader-cf5BqRc (Ljava/lang/String;Landroidx/compose/ui/Modifier;JLorg/jetbrains/jewel/core/component/styling/GroupHeaderStyle;Landroidx/compose/runtime/Composer;II)V
-}
-
-public abstract interface class org/jetbrains/jewel/core/JewelTheme {
-	public static final field Companion Lorg/jetbrains/jewel/core/JewelTheme$Companion;
-}
-
-public final class org/jetbrains/jewel/core/JewelTheme$Companion {
-	public final fun getCheckboxStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/CheckboxStyle;
-	public final fun getChipStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/ChipStyle;
-	public final fun getCircularProgressStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/CircularProgressStyle;
-	public final fun getColorPalette (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/ThemeColorPalette;
-	public final fun getContentColor (Landroidx/compose/runtime/Composer;I)J
-	public final fun getDefaultButtonStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/ButtonStyle;
-	public final fun getDefaultTabStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/TabStyle;
-	public final fun getDividerStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/DividerStyle;
-	public final fun getDropdownStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/DropdownStyle;
-	public final fun getEditorTabStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/TabStyle;
-	public final fun getGlobalColors (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/GlobalColors;
-	public final fun getGlobalMetrics (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/GlobalMetrics;
-	public final fun getGroupHeaderStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/GroupHeaderStyle;
-	public final fun getHorizontalProgressBarStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/HorizontalProgressBarStyle;
-	public final fun getIconButtonStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/IconButtonStyle;
-	public final fun getIconData (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/ThemeIconData;
-	public final fun getLabelledTextFieldStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/LabelledTextFieldStyle;
-	public final fun getLinkStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/LinkStyle;
-	public final fun getMenuStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/MenuStyle;
-	public final fun getOutlinedButtonStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/ButtonStyle;
-	public final fun getRadioButtonStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/RadioButtonStyle;
-	public final fun getScrollbarStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/ScrollbarStyle;
-	public final fun getTextAreaStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/TextAreaStyle;
-	public final fun getTextFieldStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/TextFieldStyle;
-	public final fun getTextStyle (Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/text/TextStyle;
-	public final fun getTooltipStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/TooltipStyle;
-	public final fun getTreeStyle (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/LazyTreeStyle;
-	public final fun isDark (Landroidx/compose/runtime/Composer;I)Z
-	public final fun isSwingCompatMode (Landroidx/compose/runtime/Composer;I)Z
-}
-
 public final class org/jetbrains/jewel/core/JewelThemeKt {
-	public static final fun JewelTheme (Lorg/jetbrains/jewel/core/ThemeDefinition;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
-	public static final fun JewelTheme (Lorg/jetbrains/jewel/core/ThemeDefinition;ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
-	public static final fun OverrideDarkMode (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
-	public static final fun getLocalColorPalette ()Landroidx/compose/runtime/ProvidableCompositionLocal;
-	public static final fun getLocalIconData ()Landroidx/compose/runtime/ProvidableCompositionLocal;
-}
-
-public final class org/jetbrains/jewel/core/MenuManager {
-	public static final field $stable I
-	public fun <init> (Lkotlin/jvm/functions/Function1;Lorg/jetbrains/jewel/core/MenuManager;)V
-	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;Lorg/jetbrains/jewel/core/MenuManager;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun close-iuPiT84 (I)Z
-	public final fun closeAll-HMVJIwE (IZ)V
-	public final fun getOnDismissRequest ()Lkotlin/jvm/functions/Function1;
-	public final fun isRootMenu ()Z
-	public final fun isSubmenu ()Z
-	public final fun submenuManager (Lkotlin/jvm/functions/Function1;)Lorg/jetbrains/jewel/core/MenuManager;
-}
-
-public final class org/jetbrains/jewel/core/MenuManagerKt {
-	public static final fun getLocalMenuManager ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+	public static final fun getCheckboxStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/CheckboxStyle;
+	public static final fun getChipStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/ChipStyle;
+	public static final fun getCircularProgressStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/CircularProgressStyle;
+	public static final fun getColorPalette (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;
+	public static final fun getDefaultButtonStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/ButtonStyle;
+	public static final fun getDefaultTabStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/TabStyle;
+	public static final fun getDividerStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/DividerStyle;
+	public static final fun getDropdownStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/DropdownStyle;
+	public static final fun getEditorTabStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/TabStyle;
+	public static final fun getGroupHeaderStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/GroupHeaderStyle;
+	public static final fun getHorizontalProgressBarStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/HorizontalProgressBarStyle;
+	public static final fun getIconButtonStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/IconButtonStyle;
+	public static final fun getIconData (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
+	public static final fun getLabelledTextFieldStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/LabelledTextFieldStyle;
+	public static final fun getLinkStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/LinkStyle;
+	public static final fun getMenuStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/MenuStyle;
+	public static final fun getOutlinedButtonStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/ButtonStyle;
+	public static final fun getRadioButtonStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/RadioButtonStyle;
+	public static final fun getScrollbarStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/ScrollbarStyle;
+	public static final fun getTextAreaStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/TextAreaStyle;
+	public static final fun getTextFieldStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/TextFieldStyle;
+	public static final fun getTooltipStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/TooltipStyle;
+	public static final fun getTreeStyle (Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/core/component/styling/LazyTreeStyle;
 }
 
 public final class org/jetbrains/jewel/core/NoIndication : androidx/compose/foundation/Indication {
@@ -197,101 +89,9 @@ public final class org/jetbrains/jewel/core/Outline$Companion {
 	public final fun of (ZZ)Lorg/jetbrains/jewel/core/Outline;
 }
 
-public final class org/jetbrains/jewel/core/OutlineColors {
-	public static final field $stable I
-	public static final field Companion Lorg/jetbrains/jewel/core/OutlineColors$Companion;
-	public synthetic fun <init> (JJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getError-0d7_KjU ()J
-	public final fun getFocused-0d7_KjU ()J
-	public final fun getFocusedError-0d7_KjU ()J
-	public final fun getFocusedWarning-0d7_KjU ()J
-	public final fun getWarning-0d7_KjU ()J
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class org/jetbrains/jewel/core/OutlineColors$Companion {
-}
-
 public final class org/jetbrains/jewel/core/OutlineKt {
 	public static final fun focusOutline-FJfuzF0 (Landroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/foundation/state/FocusableComponentState;Landroidx/compose/ui/graphics/Shape;Lorg/jetbrains/jewel/foundation/Stroke$Alignment;FLandroidx/compose/runtime/Composer;II)Landroidx/compose/ui/Modifier;
 	public static final fun outline-HYR8e34 (Landroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/foundation/state/FocusableComponentState;Lorg/jetbrains/jewel/core/Outline;Landroidx/compose/ui/graphics/Shape;Lorg/jetbrains/jewel/foundation/Stroke$Alignment;FLandroidx/compose/runtime/Composer;II)Landroidx/compose/ui/Modifier;
-}
-
-public final class org/jetbrains/jewel/core/ThemeColorPalette {
-	public static final field $stable I
-	public static final field Companion Lorg/jetbrains/jewel/core/ThemeColorPalette$Companion;
-	public fun <init> (Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/Map;)V
-	public final fun blue-vNxB06k (I)J
-	public final fun blueOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBlue ()Ljava/util/List;
-	public final fun getGreen ()Ljava/util/List;
-	public final fun getGrey ()Ljava/util/List;
-	public final fun getOrange ()Ljava/util/List;
-	public final fun getPurple ()Ljava/util/List;
-	public final fun getRawMap ()Ljava/util/Map;
-	public final fun getRed ()Ljava/util/List;
-	public final fun getTeal ()Ljava/util/List;
-	public final fun getYellow ()Ljava/util/List;
-	public final fun green-vNxB06k (I)J
-	public final fun greenOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
-	public final fun grey-vNxB06k (I)J
-	public final fun greyOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
-	public fun hashCode ()I
-	public final fun lookup-ijrfgN4 (Ljava/lang/String;)Landroidx/compose/ui/graphics/Color;
-	public final fun orange-vNxB06k (I)J
-	public final fun orangeOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
-	public final fun purple-vNxB06k (I)J
-	public final fun purpleOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
-	public final fun red-vNxB06k (I)J
-	public final fun redOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
-	public final fun teal-vNxB06k (I)J
-	public final fun tealOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
-	public fun toString ()Ljava/lang/String;
-	public final fun yellow-vNxB06k (I)J
-	public final fun yellowOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
-}
-
-public final class org/jetbrains/jewel/core/ThemeColorPalette$Companion {
-	public final fun getEmpty ()Lorg/jetbrains/jewel/core/ThemeColorPalette;
-}
-
-public final class org/jetbrains/jewel/core/ThemeDefinition {
-	public static final field $stable I
-	public synthetic fun <init> (ZLorg/jetbrains/jewel/core/GlobalColors;Lorg/jetbrains/jewel/core/GlobalMetrics;Landroidx/compose/ui/text/TextStyle;JLorg/jetbrains/jewel/core/ThemeColorPalette;Lorg/jetbrains/jewel/core/ThemeIconData;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getColorPalette ()Lorg/jetbrains/jewel/core/ThemeColorPalette;
-	public final fun getContentColor-0d7_KjU ()J
-	public final fun getDefaultTextStyle ()Landroidx/compose/ui/text/TextStyle;
-	public final fun getGlobalColors ()Lorg/jetbrains/jewel/core/GlobalColors;
-	public final fun getGlobalMetrics ()Lorg/jetbrains/jewel/core/GlobalMetrics;
-	public final fun getIconData ()Lorg/jetbrains/jewel/core/ThemeIconData;
-	public fun hashCode ()I
-	public final fun isDark ()Z
-	public fun toString ()Ljava/lang/String;
-}
-
-public abstract interface class org/jetbrains/jewel/core/ThemeDescriptor {
-	public abstract fun getColors ()Lorg/jetbrains/jewel/core/ThemeColorPalette;
-	public abstract fun getIconData ()Lorg/jetbrains/jewel/core/ThemeIconData;
-	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun isDark ()Z
-}
-
-public final class org/jetbrains/jewel/core/ThemeIconData {
-	public static final field $stable I
-	public static final field Companion Lorg/jetbrains/jewel/core/ThemeIconData$Companion;
-	public fun <init> (Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;)V
-	public final fun getColorPalette ()Ljava/util/Map;
-	public final fun getIconOverrides ()Ljava/util/Map;
-	public final fun getSelectionColorPalette ()Ljava/util/Map;
-	public final fun selectionColorMapping ()Ljava/util/Map;
-}
-
-public final class org/jetbrains/jewel/core/ThemeIconData$Companion {
-	public final fun getEmpty ()Lorg/jetbrains/jewel/core/ThemeIconData;
 }
 
 public final class org/jetbrains/jewel/core/component/ButtonKt {
@@ -433,6 +233,23 @@ public final class org/jetbrains/jewel/core/component/ComposableSingletons$MenuK
 	public final fun getLambda-1$core ()Lkotlin/jvm/functions/Function2;
 }
 
+public final class org/jetbrains/jewel/core/component/ContextMenuDivider : androidx/compose/foundation/ContextMenuItem {
+	public static final field $stable I
+	public static final field INSTANCE Lorg/jetbrains/jewel/core/component/ContextMenuDivider;
+}
+
+public final class org/jetbrains/jewel/core/component/ContextMenuRepresentation : androidx/compose/foundation/ContextMenuRepresentation {
+	public static final field $stable I
+	public static final field INSTANCE Lorg/jetbrains/jewel/core/component/ContextMenuRepresentation;
+	public fun Representation (Landroidx/compose/foundation/ContextMenuState;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class org/jetbrains/jewel/core/component/ContextSubmenu : androidx/compose/foundation/ContextMenuItem {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
+	public final fun getSubmenu ()Lkotlin/jvm/functions/Function0;
+}
+
 public final class org/jetbrains/jewel/core/component/DividerKt {
 	public static final fun Divider-RLL6an4 (Lorg/jetbrains/jewel/core/Orientation;Landroidx/compose/ui/Modifier;JFFLorg/jetbrains/jewel/core/component/styling/DividerStyle;Landroidx/compose/runtime/Composer;II)V
 }
@@ -473,6 +290,10 @@ public final class org/jetbrains/jewel/core/component/DropdownState : org/jetbra
 public final class org/jetbrains/jewel/core/component/DropdownState$Companion {
 	public final fun of-Qeg9ZnA (ZZZZZ)J
 	public static synthetic fun of-Qeg9ZnA$default (Lorg/jetbrains/jewel/core/component/DropdownState$Companion;ZZZZZILjava/lang/Object;)J
+}
+
+public final class org/jetbrains/jewel/core/component/GroupHeaderKt {
+	public static final fun GroupHeader-cf5BqRc (Ljava/lang/String;Landroidx/compose/ui/Modifier;JLorg/jetbrains/jewel/core/component/styling/GroupHeaderStyle;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class org/jetbrains/jewel/core/component/IconButtonKt {
@@ -623,6 +444,22 @@ public final class org/jetbrains/jewel/core/component/MenuKt {
 	public static final fun items (Lorg/jetbrains/jewel/core/component/MenuScope;ILkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;)V
 	public static final fun items (Lorg/jetbrains/jewel/core/component/MenuScope;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;)V
 	public static final fun separator (Lorg/jetbrains/jewel/core/component/MenuScope;)V
+}
+
+public final class org/jetbrains/jewel/core/component/MenuManager {
+	public static final field $stable I
+	public fun <init> (Lkotlin/jvm/functions/Function1;Lorg/jetbrains/jewel/core/component/MenuManager;)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;Lorg/jetbrains/jewel/core/component/MenuManager;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun close-iuPiT84 (I)Z
+	public final fun closeAll-HMVJIwE (IZ)V
+	public final fun getOnDismissRequest ()Lkotlin/jvm/functions/Function1;
+	public final fun isRootMenu ()Z
+	public final fun isSubmenu ()Z
+	public final fun submenuManager (Lkotlin/jvm/functions/Function1;)Lorg/jetbrains/jewel/core/component/MenuManager;
+}
+
+public final class org/jetbrains/jewel/core/component/MenuManagerKt {
+	public static final fun getLocalMenuManager ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
 public abstract interface class org/jetbrains/jewel/core/component/MenuScope {
@@ -831,7 +668,6 @@ public final class org/jetbrains/jewel/core/component/TextFieldKt {
 public final class org/jetbrains/jewel/core/component/TextKt {
 	public static final fun Text--4IGK_g (Landroidx/compose/ui/text/AnnotatedString;Landroidx/compose/ui/Modifier;JJLandroidx/compose/ui/text/font/FontStyle;Landroidx/compose/ui/text/font/FontWeight;Landroidx/compose/ui/text/font/FontFamily;JLandroidx/compose/ui/text/style/TextDecoration;Landroidx/compose/ui/text/style/TextAlign;JIZILjava/util/Map;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/runtime/Composer;III)V
 	public static final fun Text-fLXpl1I (Ljava/lang/String;Landroidx/compose/ui/Modifier;JJLandroidx/compose/ui/text/font/FontStyle;Landroidx/compose/ui/text/font/FontWeight;Landroidx/compose/ui/text/font/FontFamily;JLandroidx/compose/ui/text/style/TextDecoration;Landroidx/compose/ui/text/style/TextAlign;JIZILkotlin/jvm/functions/Function1;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/runtime/Composer;III)V
-	public static final fun getLocalContentColor ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 	public static final fun getLocalTextStyle ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
@@ -2384,6 +2220,21 @@ public final class org/jetbrains/jewel/core/util/SpinnerProgressIconGenerator$Sm
 	public final fun generateRawSvg (Ljava/lang/String;)Ljava/util/List;
 }
 
+public final class org/jetbrains/jewel/foundation/BorderColors {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/foundation/BorderColors$Companion;
+	public synthetic fun <init> (JJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDisabled-0d7_KjU ()J
+	public final fun getFocused-0d7_KjU ()J
+	public final fun getNormal-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/foundation/BorderColors$Companion {
+}
+
 public final class org/jetbrains/jewel/foundation/BorderKt {
 	public static final fun border (Landroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/foundation/Stroke;Landroidx/compose/ui/graphics/Shape;)Landroidx/compose/ui/Modifier;
 	public static final fun border-AkepmR4 (Landroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/foundation/Stroke$Alignment;FLandroidx/compose/ui/graphics/Brush;Landroidx/compose/ui/graphics/Shape;F)Landroidx/compose/ui/Modifier;
@@ -2402,7 +2253,84 @@ public abstract interface annotation class org/jetbrains/jewel/foundation/Experi
 public abstract interface annotation class org/jetbrains/jewel/foundation/GenerateDataFunctions : java/lang/annotation/Annotation {
 }
 
+public final class org/jetbrains/jewel/foundation/GlobalColors {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/foundation/GlobalColors$Companion;
+	public synthetic fun <init> (Lorg/jetbrains/jewel/foundation/BorderColors;Lorg/jetbrains/jewel/foundation/OutlineColors;JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBorders ()Lorg/jetbrains/jewel/foundation/BorderColors;
+	public final fun getInfoContent-0d7_KjU ()J
+	public final fun getOutlines ()Lorg/jetbrains/jewel/foundation/OutlineColors;
+	public final fun getPaneBackground-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/foundation/GlobalColors$Companion {
+}
+
+public final class org/jetbrains/jewel/foundation/GlobalColorsKt {
+	public static final fun getLocalGlobalColors ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public final class org/jetbrains/jewel/foundation/GlobalMetrics {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/foundation/GlobalMetrics$Companion;
+	public synthetic fun <init> (FFLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getOutlineWidth-D9Ej5fM ()F
+	public final fun getRowHeight-D9Ej5fM ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/foundation/GlobalMetrics$Companion {
+}
+
+public final class org/jetbrains/jewel/foundation/GlobalMetricsKt {
+	public static final fun getLocalGlobalMetrics ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
 public abstract interface annotation class org/jetbrains/jewel/foundation/InternalJewelApi : java/lang/annotation/Annotation {
+}
+
+public abstract interface class org/jetbrains/jewel/foundation/JewelTheme {
+	public static final field Companion Lorg/jetbrains/jewel/foundation/JewelTheme$Companion;
+}
+
+public final class org/jetbrains/jewel/foundation/JewelTheme$Companion {
+	public final fun getContentColor (Landroidx/compose/runtime/Composer;I)J
+	public final fun getGlobalColors (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/GlobalColors;
+	public final fun getGlobalMetrics (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/GlobalMetrics;
+	public final fun getTextStyle (Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/text/TextStyle;
+	public final fun isDark (Landroidx/compose/runtime/Composer;I)Z
+	public final fun isSwingCompatMode (Landroidx/compose/runtime/Composer;I)Z
+}
+
+public final class org/jetbrains/jewel/foundation/JewelThemeKt {
+	public static final fun JewelTheme (Lorg/jetbrains/jewel/foundation/theme/ThemeDefinition;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun JewelTheme (Lorg/jetbrains/jewel/foundation/theme/ThemeDefinition;ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun OverrideDarkMode (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun getLocalColorPalette ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+	public static final fun getLocalContentColor ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+	public static final fun getLocalIconData ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public final class org/jetbrains/jewel/foundation/OutlineColors {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/foundation/OutlineColors$Companion;
+	public synthetic fun <init> (JJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getError-0d7_KjU ()J
+	public final fun getFocused-0d7_KjU ()J
+	public final fun getFocusedError-0d7_KjU ()J
+	public final fun getFocusedWarning-0d7_KjU ()J
+	public final fun getWarning-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/foundation/OutlineColors$Companion {
 }
 
 public final class org/jetbrains/jewel/foundation/PointerInputKt {
@@ -2688,6 +2616,81 @@ public final class org/jetbrains/jewel/foundation/state/ToggleableComponentState
 
 public final class org/jetbrains/jewel/foundation/state/ToggleableComponentState$DefaultImpls {
 	public static fun chooseValue (Lorg/jetbrains/jewel/foundation/state/ToggleableComponentState;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Landroidx/compose/runtime/Composer;I)Ljava/lang/Object;
+}
+
+public final class org/jetbrains/jewel/foundation/theme/ThemeColorPalette {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette$Companion;
+	public fun <init> (Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/Map;)V
+	public final fun blue-vNxB06k (I)J
+	public final fun blueOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBlue ()Ljava/util/List;
+	public final fun getGreen ()Ljava/util/List;
+	public final fun getGrey ()Ljava/util/List;
+	public final fun getOrange ()Ljava/util/List;
+	public final fun getPurple ()Ljava/util/List;
+	public final fun getRawMap ()Ljava/util/Map;
+	public final fun getRed ()Ljava/util/List;
+	public final fun getTeal ()Ljava/util/List;
+	public final fun getYellow ()Ljava/util/List;
+	public final fun green-vNxB06k (I)J
+	public final fun greenOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
+	public final fun grey-vNxB06k (I)J
+	public final fun greyOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
+	public fun hashCode ()I
+	public final fun lookup-ijrfgN4 (Ljava/lang/String;)Landroidx/compose/ui/graphics/Color;
+	public final fun orange-vNxB06k (I)J
+	public final fun orangeOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
+	public final fun purple-vNxB06k (I)J
+	public final fun purpleOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
+	public final fun red-vNxB06k (I)J
+	public final fun redOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
+	public final fun teal-vNxB06k (I)J
+	public final fun tealOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
+	public fun toString ()Ljava/lang/String;
+	public final fun yellow-vNxB06k (I)J
+	public final fun yellowOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
+}
+
+public final class org/jetbrains/jewel/foundation/theme/ThemeColorPalette$Companion {
+	public final fun getEmpty ()Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;
+}
+
+public final class org/jetbrains/jewel/foundation/theme/ThemeDefinition {
+	public static final field $stable I
+	public synthetic fun <init> (ZLorg/jetbrains/jewel/foundation/GlobalColors;Lorg/jetbrains/jewel/foundation/GlobalMetrics;Landroidx/compose/ui/text/TextStyle;JLorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getColorPalette ()Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;
+	public final fun getContentColor-0d7_KjU ()J
+	public final fun getDefaultTextStyle ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getGlobalColors ()Lorg/jetbrains/jewel/foundation/GlobalColors;
+	public final fun getGlobalMetrics ()Lorg/jetbrains/jewel/foundation/GlobalMetrics;
+	public final fun getIconData ()Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
+	public fun hashCode ()I
+	public final fun isDark ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class org/jetbrains/jewel/foundation/theme/ThemeDescriptor {
+	public abstract fun getColors ()Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;
+	public abstract fun getIconData ()Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun isDark ()Z
+}
+
+public final class org/jetbrains/jewel/foundation/theme/ThemeIconData {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/foundation/theme/ThemeIconData$Companion;
+	public fun <init> (Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;)V
+	public final fun getColorPalette ()Ljava/util/Map;
+	public final fun getIconOverrides ()Ljava/util/Map;
+	public final fun getSelectionColorPalette ()Ljava/util/Map;
+	public final fun selectionColorMapping ()Ljava/util/Map;
+}
+
+public final class org/jetbrains/jewel/foundation/theme/ThemeIconData$Companion {
+	public final fun getEmpty ()Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
 }
 
 public final class org/jetbrains/jewel/foundation/tree/BasicLazyTreeKt {

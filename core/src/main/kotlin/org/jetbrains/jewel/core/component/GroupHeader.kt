@@ -1,12 +1,11 @@
-package org.jetbrains.jewel.core
+package org.jetbrains.jewel.core.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.jewel.core.component.Divider
-import org.jetbrains.jewel.core.component.Text
+import org.jetbrains.jewel.core.Orientation
 import org.jetbrains.jewel.core.component.styling.GroupHeaderStyle
 import org.jetbrains.jewel.core.component.styling.LocalGroupHeaderStyle
 

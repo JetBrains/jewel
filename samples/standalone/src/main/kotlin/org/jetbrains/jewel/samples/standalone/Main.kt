@@ -31,8 +31,8 @@ import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.application
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.Orientation
+import org.jetbrains.jewel.core.colorPalette
 import org.jetbrains.jewel.core.component.CheckboxRow
 import org.jetbrains.jewel.core.component.Divider
 import org.jetbrains.jewel.core.component.Dropdown
@@ -42,6 +42,7 @@ import org.jetbrains.jewel.core.component.Text
 import org.jetbrains.jewel.core.component.Tooltip
 import org.jetbrains.jewel.core.component.VerticalScrollbar
 import org.jetbrains.jewel.core.component.separator
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.standalone.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.darkThemeDefinition
 import org.jetbrains.jewel.intui.standalone.lightThemeDefinition

@@ -3,7 +3,7 @@ package org.jetbrains.jewel.bridge
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import com.intellij.openapi.diagnostic.Logger
-import org.jetbrains.jewel.core.ThemeColorPalette
+import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
 import java.util.TreeMap
 
 private val logger = Logger.getInstance("BridgeThemeColorPalette")

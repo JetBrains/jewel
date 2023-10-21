@@ -1,9 +1,8 @@
-package org.jetbrains.jewel.core
+package org.jetbrains.jewel.foundation
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
 @Immutable
 @GenerateDataFunctions

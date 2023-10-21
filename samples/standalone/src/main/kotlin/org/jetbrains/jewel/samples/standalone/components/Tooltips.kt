@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.GroupHeader
-import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.component.GroupHeader
 import org.jetbrains.jewel.core.component.Text
 import org.jetbrains.jewel.core.component.Tooltip
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 
 @Composable
 fun Tooltips() {

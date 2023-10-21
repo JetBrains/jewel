@@ -4,7 +4,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
-import org.jetbrains.jewel.core.LocalIsDarkTheme
 import org.jetbrains.jewel.core.component.CheckboxState
 import org.jetbrains.jewel.core.painter.PainterHint
 import org.jetbrains.jewel.core.painter.PainterPathHint
@@ -20,6 +19,7 @@ import org.jetbrains.jewel.core.painter.hints.Stateful
 import org.jetbrains.jewel.core.painter.hints.Stroke
 import org.jetbrains.jewel.core.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.core.painter.writeToString
+import org.jetbrains.jewel.foundation.theme.LocalIsDarkTheme
 import org.junit.Assert
 import org.junit.Test
 import javax.xml.XMLConstants

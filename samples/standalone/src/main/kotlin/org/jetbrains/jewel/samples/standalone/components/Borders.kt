@@ -15,11 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.GroupHeader
-import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.colorPalette
+import org.jetbrains.jewel.core.component.GroupHeader
 import org.jetbrains.jewel.core.component.OutlinedButton
 import org.jetbrains.jewel.core.component.RadioButtonRow
 import org.jetbrains.jewel.core.component.Text
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 

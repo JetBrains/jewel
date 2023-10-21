@@ -29,9 +29,8 @@ import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
-import org.jetbrains.jewel.core.JewelTheme
-import org.jetbrains.jewel.core.LocalSwingCompatMode
 import org.jetbrains.jewel.core.Outline
+import org.jetbrains.jewel.core.checkboxStyle
 import org.jetbrains.jewel.core.component.styling.CheckboxColors
 import org.jetbrains.jewel.core.component.styling.CheckboxIcons
 import org.jetbrains.jewel.core.component.styling.CheckboxMetrics
@@ -41,6 +40,9 @@ import org.jetbrains.jewel.core.painter.PainterHint
 import org.jetbrains.jewel.core.painter.PainterSuffixHint
 import org.jetbrains.jewel.core.painter.hints.Selected
 import org.jetbrains.jewel.core.painter.hints.Stateful
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.foundation.theme.LocalContentColor
+import org.jetbrains.jewel.foundation.theme.LocalSwingCompatMode
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Enabled
@@ -51,6 +53,7 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Selected
 import org.jetbrains.jewel.foundation.state.ToggleableComponentState
 import org.jetbrains.jewel.foundation.state.ToggleableComponentState.Companion.readToggleableState
+import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 
 @Composable
 fun Checkbox(

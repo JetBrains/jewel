@@ -4,6 +4,7 @@ import androidx.compose.foundation.LocalContextMenuRepresentation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.Stable
+import org.jetbrains.jewel.core.component.ContextMenuRepresentation
 import org.jetbrains.jewel.core.component.styling.LocalDefaultTabStyle
 import org.jetbrains.jewel.core.component.styling.LocalEditorTabStyle
 import org.jetbrains.jewel.core.component.styling.LocalTextAreaStyle

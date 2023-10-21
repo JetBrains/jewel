@@ -2,7 +2,7 @@ package org.jetbrains.jewel.intui.standalone
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.core.GlobalMetrics
+import org.jetbrains.jewel.foundation.GlobalMetrics
 
 fun GlobalMetrics.Companion.defaults(
     outlineWidth: Dp = 2.dp,

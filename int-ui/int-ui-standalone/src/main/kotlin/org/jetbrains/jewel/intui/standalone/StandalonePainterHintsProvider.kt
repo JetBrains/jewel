@@ -2,12 +2,12 @@ package org.jetbrains.jewel.intui.standalone
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
-import org.jetbrains.jewel.core.JewelTheme
-import org.jetbrains.jewel.core.ThemeDefinition
 import org.jetbrains.jewel.core.painter.PainterHint
 import org.jetbrains.jewel.core.painter.hints.Dark
 import org.jetbrains.jewel.core.painter.hints.HiDpi
 import org.jetbrains.jewel.core.painter.hints.Override
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.intui.core.IntUiPainterHintsProvider
 
 class StandalonePainterHintsProvider(

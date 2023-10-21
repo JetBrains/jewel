@@ -2,7 +2,7 @@ package org.jetbrains.jewel.foundation.state
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 
 interface FocusableComponentState : InteractiveComponentState {
 

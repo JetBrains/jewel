@@ -13,9 +13,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.takeOrElse
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.Orientation
 import org.jetbrains.jewel.core.component.styling.DividerStyle
+import org.jetbrains.jewel.core.dividerStyle
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 
 @Composable
 fun Divider(

@@ -3,7 +3,6 @@ package org.jetbrains.jewel.core.component
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
@@ -17,7 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.foundation.theme.LocalContentColor
 
 @Composable
 fun Text(
@@ -99,12 +99,4 @@ fun Text(
         ),
     )
     BasicText(text, modifier, mergedStyle, onTextLayout, overflow, softWrap, maxLines, minLines = 1, inlineContent)
-}
-
-val LocalTextStyle = staticCompositionLocalOf<TextStyle> {
-    error("No TextStyle provided")
-}
-
-val LocalContentColor = staticCompositionLocalOf<Color> {
-    error("No ContentColor provided")
 }

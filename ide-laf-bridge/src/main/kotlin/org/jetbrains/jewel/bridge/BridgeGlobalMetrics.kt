@@ -5,7 +5,7 @@ import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ui.scale.JBUIScale
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
-import org.jetbrains.jewel.core.GlobalMetrics
+import org.jetbrains.jewel.foundation.GlobalMetrics
 
 fun GlobalMetrics.Companion.readFromLaF(): GlobalMetrics {
     // Copied from DarculaUIUtil.doPaint(java.awt.Graphics2D, int, int, float, float, boolean)

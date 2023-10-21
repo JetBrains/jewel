@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalDensity
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.painter.hints.Dark
 import org.jetbrains.jewel.core.painter.hints.HiDpi
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 
 /**
  * Provides [hints][PainterHint] to a [PainterProvider].

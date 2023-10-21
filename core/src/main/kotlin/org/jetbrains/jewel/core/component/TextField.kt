@@ -24,9 +24,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.offset
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.Outline
 import org.jetbrains.jewel.core.component.styling.TextFieldStyle
+import org.jetbrains.jewel.core.textFieldStyle
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.foundation.theme.LocalContentColor
+import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import kotlin.math.max
 
 /**

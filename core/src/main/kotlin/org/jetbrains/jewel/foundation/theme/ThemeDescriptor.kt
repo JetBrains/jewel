@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.core
+package org.jetbrains.jewel.foundation.theme
 
 import androidx.compose.runtime.Immutable
 

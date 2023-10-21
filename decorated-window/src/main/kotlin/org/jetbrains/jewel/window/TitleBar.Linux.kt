@@ -14,13 +14,13 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.dp
 import com.jetbrains.JBR
-import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.component.Icon
 import org.jetbrains.jewel.core.component.IconButton
 import org.jetbrains.jewel.core.component.styling.IconButtonStyle
 import org.jetbrains.jewel.core.painter.PainterHint
 import org.jetbrains.jewel.core.painter.PainterProvider
 import org.jetbrains.jewel.core.painter.PainterSuffixHint
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import java.awt.Frame
 import java.awt.event.MouseEvent
