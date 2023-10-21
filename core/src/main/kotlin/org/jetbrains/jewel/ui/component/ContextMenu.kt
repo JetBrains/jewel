@@ -20,7 +20,7 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.window.rememberCursorPositionProvider
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
-import org.jetbrains.jewel.ui.menuStyle
+import org.jetbrains.jewel.ui.theme.menuStyle
 
 object ContextMenuRepresentation : ContextMenuRepresentation {
 

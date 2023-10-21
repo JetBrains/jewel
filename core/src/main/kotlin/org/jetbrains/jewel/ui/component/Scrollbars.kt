@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
-import org.jetbrains.jewel.ui.scrollbarStyle
+import org.jetbrains.jewel.ui.theme.scrollbarStyle
 import kotlin.time.DurationUnit
 import androidx.compose.foundation.ScrollbarStyle as ComposeScrollbarStyle
 

@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
+import org.jetbrains.jewel.bridge.theme.createBridgeComponentStyling
+import org.jetbrains.jewel.bridge.theme.createBridgeThemeDefinition
 import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.ui.ComponentStyling
 import kotlin.time.Duration.Companion.milliseconds

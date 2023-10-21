@@ -50,10 +50,10 @@ import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.DropdownStyle
 import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
-import org.jetbrains.jewel.ui.dropdownStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.painter.hints.Stateful
+import org.jetbrains.jewel.ui.theme.dropdownStyle
 import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable

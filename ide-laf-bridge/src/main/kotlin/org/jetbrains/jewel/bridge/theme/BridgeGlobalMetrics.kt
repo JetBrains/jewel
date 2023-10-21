@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.bridge
+package org.jetbrains.jewel.bridge.theme
 
 import androidx.compose.ui.unit.dp
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil

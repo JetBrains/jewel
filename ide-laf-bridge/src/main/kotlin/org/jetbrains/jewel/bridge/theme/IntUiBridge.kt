@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.bridge
+package org.jetbrains.jewel.bridge.theme
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
@@ -21,12 +21,25 @@ import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
 import com.intellij.util.ui.StatusText
+import org.jetbrains.jewel.bridge.bridgePainterProvider
+import org.jetbrains.jewel.bridge.createVerticalBrush
+import org.jetbrains.jewel.bridge.dp
+import org.jetbrains.jewel.bridge.minus
+import org.jetbrains.jewel.bridge.readFromLaF
+import org.jetbrains.jewel.bridge.retrieveArcAsCornerSizeWithFallbacks
+import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
+import org.jetbrains.jewel.bridge.retrieveColorsOrUnspecified
+import org.jetbrains.jewel.bridge.retrieveInsetsAsPaddingValues
+import org.jetbrains.jewel.bridge.retrieveIntAsDpOrUnspecified
+import org.jetbrains.jewel.bridge.retrieveTextStyle
+import org.jetbrains.jewel.bridge.toComposeColor
+import org.jetbrains.jewel.bridge.toComposeColorOrUnspecified
+import org.jetbrains.jewel.bridge.toPaddingValues
 import org.jetbrains.jewel.foundation.GlobalColors
 import org.jetbrains.jewel.foundation.GlobalMetrics
 import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
 import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.foundation.theme.ThemeIconData
-import org.jetbrains.jewel.intui.core.styling.defaults
 import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.ui.component.styling.ButtonColors
 import org.jetbrains.jewel.ui.component.styling.ButtonMetrics

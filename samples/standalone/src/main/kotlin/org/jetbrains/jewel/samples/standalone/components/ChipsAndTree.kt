@@ -25,13 +25,13 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.tree.buildTree
-import org.jetbrains.jewel.ui.colorPalette
 import org.jetbrains.jewel.ui.component.Chip
 import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.LazyTree
 import org.jetbrains.jewel.ui.component.RadioButtonChip
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.ToggleableChip
+import org.jetbrains.jewel.ui.theme.colorPalette
 
 @Composable
 fun ChipsAndTree() {

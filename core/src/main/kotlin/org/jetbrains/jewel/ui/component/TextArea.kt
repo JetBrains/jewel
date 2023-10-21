@@ -29,7 +29,7 @@ import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
-import org.jetbrains.jewel.ui.textAreaStyle
+import org.jetbrains.jewel.ui.theme.textAreaStyle
 
 /**
  * @param placeholder the optional placeholder to be displayed over the

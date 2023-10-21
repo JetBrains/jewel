@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.ThemeDefinition
-import org.jetbrains.jewel.intui.core.IntUiPainterHintsProvider
+import org.jetbrains.jewel.ui.painter.BasePainterHintsProvider
 import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.hints.Dark
 import org.jetbrains.jewel.ui.painter.hints.HiDpi
@@ -12,7 +12,7 @@ import org.jetbrains.jewel.ui.painter.hints.Override
 
 class StandalonePainterHintsProvider(
     theme: ThemeDefinition,
-) : IntUiPainterHintsProvider(
+) : BasePainterHintsProvider(
     theme.isDark,
     intellijColorPalette,
     theme.iconData.colorPalette,

@@ -24,7 +24,7 @@ import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.LabelledTextFieldStyle
-import org.jetbrains.jewel.ui.labelledTextFieldStyle
+import org.jetbrains.jewel.ui.theme.labelledTextFieldStyle
 
 /**
  * @param label the label to display above the component.

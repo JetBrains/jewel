@@ -44,7 +44,7 @@ import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.painter.hints.Selected
 import org.jetbrains.jewel.ui.painter.hints.Stateful
-import org.jetbrains.jewel.ui.radioButtonStyle
+import org.jetbrains.jewel.ui.theme.radioButtonStyle
 
 @Composable
 fun RadioButton(

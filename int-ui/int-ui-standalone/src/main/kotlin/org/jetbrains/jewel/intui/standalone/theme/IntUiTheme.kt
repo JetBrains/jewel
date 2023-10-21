@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.intui.standalone
+package org.jetbrains.jewel.intui.standalone.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -15,9 +15,10 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
 import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.foundation.theme.ThemeIconData
-import org.jetbrains.jewel.intui.core.BaseIntUiTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
+import org.jetbrains.jewel.intui.standalone.Inter
+import org.jetbrains.jewel.intui.standalone.StandalonePainterHintsProvider
 import org.jetbrains.jewel.intui.standalone.styling.Default
 import org.jetbrains.jewel.intui.standalone.styling.Editor
 import org.jetbrains.jewel.intui.standalone.styling.Outlined
@@ -45,6 +46,7 @@ import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.painter.LocalPainterHintsProvider
+import org.jetbrains.jewel.ui.theme.BaseJewelTheme
 
 val JewelTheme.Companion.defaultTextStyle
     get() = TextStyle.Default.copy(
@@ -183,7 +185,7 @@ fun IntUiTheme(
     swingCompatMode: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    BaseIntUiTheme(
+    BaseJewelTheme(
         theme,
         componentStyling = { JewelTheme.defaultComponentStyling(theme).providedStyles() + componentStyling() },
         swingCompatMode,

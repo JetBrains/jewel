@@ -44,7 +44,6 @@ import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalSwingCompatMode
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Outline
-import org.jetbrains.jewel.ui.checkboxStyle
 import org.jetbrains.jewel.ui.component.styling.CheckboxColors
 import org.jetbrains.jewel.ui.component.styling.CheckboxIcons
 import org.jetbrains.jewel.ui.component.styling.CheckboxMetrics
@@ -54,6 +53,7 @@ import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.PainterSuffixHint
 import org.jetbrains.jewel.ui.painter.hints.Selected
 import org.jetbrains.jewel.ui.painter.hints.Stateful
+import org.jetbrains.jewel.ui.theme.checkboxStyle
 
 @Composable
 fun Checkbox(

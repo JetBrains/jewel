@@ -37,9 +37,9 @@ import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.state.SelectableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
-import org.jetbrains.jewel.ui.chipStyle
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
 import org.jetbrains.jewel.ui.focusOutline
+import org.jetbrains.jewel.ui.theme.chipStyle
 
 @Composable
 fun Chip(

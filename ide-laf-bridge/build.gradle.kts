@@ -9,7 +9,7 @@ plugins {
 }
 
 dependencies {
-    api(projects.intUi.intUiCore) {
+    api(projects.core) {
         exclude(group = "org.jetbrains.kotlinx")
     }
     when (supportedIJVersion()) {

@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.ui.circularProgressStyle
 import org.jetbrains.jewel.ui.component.styling.CircularProgressStyle
+import org.jetbrains.jewel.ui.theme.circularProgressStyle
 import org.jetbrains.jewel.ui.util.toRgbaHexString
 
 @Composable

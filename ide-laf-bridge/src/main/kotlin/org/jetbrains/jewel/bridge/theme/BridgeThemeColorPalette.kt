@@ -1,8 +1,9 @@
-package org.jetbrains.jewel.bridge
+package org.jetbrains.jewel.bridge.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import com.intellij.openapi.diagnostic.Logger
+import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
 import java.util.TreeMap
 

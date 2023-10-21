@@ -1,5 +1,6 @@
-package org.jetbrains.jewel.bridge
+package org.jetbrains.jewel.bridge.theme
 
+import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.foundation.BorderColors
 import org.jetbrains.jewel.foundation.GlobalColors
 import org.jetbrains.jewel.foundation.OutlineColors

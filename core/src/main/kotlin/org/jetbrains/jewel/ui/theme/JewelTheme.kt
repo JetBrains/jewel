@@ -1,12 +1,17 @@
-package org.jetbrains.jewel.ui
+package org.jetbrains.jewel.ui.theme
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.ReadOnlyComposable
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalColorPalette
 import org.jetbrains.jewel.foundation.theme.LocalIconData
 import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
+import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.foundation.theme.ThemeIconData
+import org.jetbrains.jewel.ui.NoIndication
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
 import org.jetbrains.jewel.ui.component.styling.CheckboxStyle
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
@@ -166,3 +171,30 @@ val JewelTheme.Companion.iconButtonStyle: IconButtonStyle
     @Composable
     @ReadOnlyComposable
     get() = LocalIconButtonStyle.current
+
+@Composable
+fun BaseJewelTheme(
+    theme: ThemeDefinition,
+    componentStyling: @Composable () -> Array<ProvidedValue<*>>,
+    content: @Composable () -> Unit,
+) {
+    BaseJewelTheme(theme, componentStyling, swingCompatMode = false, content)
+}
+
+@Composable
+fun BaseJewelTheme(
+    theme: ThemeDefinition,
+    componentStyling: @Composable () -> Array<ProvidedValue<*>>,
+    swingCompatMode: Boolean = false,
+    content: @Composable () -> Unit,
+) {
+    JewelTheme(theme, swingCompatMode) {
+        CompositionLocalProvider(
+            LocalColorPalette provides theme.colorPalette,
+            LocalIconData provides theme.iconData,
+            LocalIndication provides NoIndication,
+        ) {
+            CompositionLocalProvider(values = componentStyling(), content = content)
+        }
+    }
+}

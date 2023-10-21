@@ -1,12 +1,10 @@
-package org.jetbrains.jewel.intui.core
+package org.jetbrains.jewel.ui.painter
 
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.jewel.ui.painter.PainterHint
-import org.jetbrains.jewel.ui.painter.PainterHintsProvider
 import org.jetbrains.jewel.ui.painter.hints.Palette
 import org.jetbrains.jewel.ui.util.fromRGBAHexString
 
-abstract class IntUiPainterHintsProvider(
+abstract class BasePainterHintsProvider(
     isDark: Boolean,
     intellijIconPalette: Map<String, String?>,
     themeIconPalette: Map<String, String?>,

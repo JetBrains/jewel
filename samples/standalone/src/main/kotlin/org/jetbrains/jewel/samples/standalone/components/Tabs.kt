@@ -32,7 +32,7 @@ import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.TabData
 import org.jetbrains.jewel.ui.component.TabStrip
 import org.jetbrains.jewel.ui.component.Text
-import org.jetbrains.jewel.ui.defaultTabStyle
+import org.jetbrains.jewel.ui.theme.defaultTabStyle
 import kotlin.math.max
 
 @Composable

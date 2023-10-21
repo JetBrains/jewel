@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.intui.standalone
+package org.jetbrains.jewel.intui.standalone.theme
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

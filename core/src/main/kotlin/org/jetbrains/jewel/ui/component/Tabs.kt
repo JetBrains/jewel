@@ -46,9 +46,9 @@ import org.jetbrains.jewel.foundation.state.SelectableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.ui.NoIndication
-import org.jetbrains.jewel.ui.defaultTabStyle
-import org.jetbrains.jewel.ui.editorTabStyle
 import org.jetbrains.jewel.ui.painter.hints.Stateful
+import org.jetbrains.jewel.ui.theme.defaultTabStyle
+import org.jetbrains.jewel.ui.theme.editorTabStyle
 
 @Composable
 internal fun TabImpl(

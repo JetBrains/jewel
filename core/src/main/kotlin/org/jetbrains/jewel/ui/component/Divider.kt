@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.takeOrElse
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
-import org.jetbrains.jewel.ui.dividerStyle
+import org.jetbrains.jewel.ui.theme.dividerStyle
 
 @Composable
 fun Divider(

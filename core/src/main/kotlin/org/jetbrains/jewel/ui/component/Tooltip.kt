@@ -29,7 +29,7 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
-import org.jetbrains.jewel.ui.tooltipStyle
+import org.jetbrains.jewel.ui.theme.tooltipStyle
 import org.jetbrains.jewel.ui.util.isDark
 
 @Composable

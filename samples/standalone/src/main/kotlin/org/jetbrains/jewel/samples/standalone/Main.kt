@@ -32,9 +32,9 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.application
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.intui.standalone.IntUiTheme
-import org.jetbrains.jewel.intui.standalone.darkThemeDefinition
-import org.jetbrains.jewel.intui.standalone.lightThemeDefinition
+import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
+import org.jetbrains.jewel.intui.standalone.theme.darkThemeDefinition
+import org.jetbrains.jewel.intui.standalone.theme.lightThemeDefinition
 import org.jetbrains.jewel.intui.window.decoratedWindowComponentStyling
 import org.jetbrains.jewel.intui.window.styling.dark
 import org.jetbrains.jewel.intui.window.styling.light
@@ -53,7 +53,6 @@ import org.jetbrains.jewel.samples.standalone.components.TextAreas
 import org.jetbrains.jewel.samples.standalone.components.TextFields
 import org.jetbrains.jewel.samples.standalone.components.Tooltips
 import org.jetbrains.jewel.ui.Orientation
-import org.jetbrains.jewel.ui.colorPalette
 import org.jetbrains.jewel.ui.component.CheckboxRow
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.Dropdown
@@ -63,6 +62,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Tooltip
 import org.jetbrains.jewel.ui.component.VerticalScrollbar
 import org.jetbrains.jewel.ui.component.separator
+import org.jetbrains.jewel.ui.theme.colorPalette
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.TitleBar
 import org.jetbrains.jewel.window.newFullscreenControls

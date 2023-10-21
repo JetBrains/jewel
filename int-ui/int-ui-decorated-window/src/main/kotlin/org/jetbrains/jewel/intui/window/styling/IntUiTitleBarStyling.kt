@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
-import org.jetbrains.jewel.intui.standalone.styling.dark
 import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.intui.window.decoratedWindowPainterProvider
@@ -123,7 +122,6 @@ fun TitleBarStyle.Companion.dark(
                 backgroundHovered = colors.dropdownHoveredBackground,
                 backgroundPressed = colors.dropdownPressedBackground,
             ),
-            menuStyle = MenuStyle.dark(),
         ),
         iconButtonStyle = titleBarIconButtonStyle(
             colors.iconButtonHoveredBackground,

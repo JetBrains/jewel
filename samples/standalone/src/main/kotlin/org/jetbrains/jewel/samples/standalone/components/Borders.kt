@@ -18,11 +18,11 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.ui.colorPalette
 import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.RadioButtonRow
 import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.theme.colorPalette
 
 @Composable
 internal fun Borders() {

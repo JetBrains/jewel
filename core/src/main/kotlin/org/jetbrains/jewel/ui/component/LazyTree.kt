@@ -17,7 +17,7 @@ import org.jetbrains.jewel.foundation.tree.TreeElementState
 import org.jetbrains.jewel.foundation.tree.TreeState
 import org.jetbrains.jewel.foundation.tree.rememberTreeState
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
-import org.jetbrains.jewel.ui.treeStyle
+import org.jetbrains.jewel.ui.theme.treeStyle
 
 @ExperimentalJewelApi
 @Composable

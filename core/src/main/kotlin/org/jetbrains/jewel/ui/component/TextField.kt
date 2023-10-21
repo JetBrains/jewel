@@ -29,7 +29,7 @@ import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
-import org.jetbrains.jewel.ui.textFieldStyle
+import org.jetbrains.jewel.ui.theme.textFieldStyle
 import kotlin.math.max
 
 /**

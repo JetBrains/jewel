@@ -876,32 +876,6 @@ public final class org/jetbrains/jewel/ui/DisabledColorFilterKt {
 	public static final fun disabled (Landroidx/compose/ui/graphics/ColorFilter$Companion;)Landroidx/compose/ui/graphics/ColorFilter;
 }
 
-public final class org/jetbrains/jewel/ui/JewelThemeKt {
-	public static final fun getCheckboxStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/CheckboxStyle;
-	public static final fun getChipStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/ChipStyle;
-	public static final fun getCircularProgressStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/CircularProgressStyle;
-	public static final fun getColorPalette (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;
-	public static final fun getDefaultButtonStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;
-	public static final fun getDefaultTabStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TabStyle;
-	public static final fun getDividerStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/DividerStyle;
-	public static final fun getDropdownStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;
-	public static final fun getEditorTabStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TabStyle;
-	public static final fun getGroupHeaderStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/GroupHeaderStyle;
-	public static final fun getHorizontalProgressBarStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/HorizontalProgressBarStyle;
-	public static final fun getIconButtonStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/IconButtonStyle;
-	public static final fun getIconData (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
-	public static final fun getLabelledTextFieldStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/LabelledTextFieldStyle;
-	public static final fun getLinkStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/LinkStyle;
-	public static final fun getMenuStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/MenuStyle;
-	public static final fun getOutlinedButtonStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;
-	public static final fun getRadioButtonStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/RadioButtonStyle;
-	public static final fun getScrollbarStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarStyle;
-	public static final fun getTextAreaStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TextAreaStyle;
-	public static final fun getTextFieldStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TextFieldStyle;
-	public static final fun getTooltipStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TooltipStyle;
-	public static final fun getTreeStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/LazyTreeStyle;
-}
-
 public final class org/jetbrains/jewel/ui/NoIndication : androidx/compose/foundation/Indication {
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/ui/NoIndication;
@@ -1757,6 +1731,8 @@ public final class org/jetbrains/jewel/ui/component/styling/DividerMetrics {
 }
 
 public final class org/jetbrains/jewel/ui/component/styling/DividerMetrics$Companion {
+	public final fun defaults-YgX7TsA (FF)Lorg/jetbrains/jewel/ui/component/styling/DividerMetrics;
+	public static synthetic fun defaults-YgX7TsA$default (Lorg/jetbrains/jewel/ui/component/styling/DividerMetrics$Companion;FFILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/DividerMetrics;
 }
 
 public final class org/jetbrains/jewel/ui/component/styling/DividerStyle {
@@ -2855,6 +2831,8 @@ public final class org/jetbrains/jewel/ui/component/styling/TooltipMetrics {
 }
 
 public final class org/jetbrains/jewel/ui/component/styling/TooltipMetrics$Companion {
+	public final fun defaults-e4GK2sY (Landroidx/compose/foundation/layout/PaddingValues;JLandroidx/compose/foundation/shape/CornerSize;FFJLandroidx/compose/ui/Alignment$Horizontal;)Lorg/jetbrains/jewel/ui/component/styling/TooltipMetrics;
+	public static synthetic fun defaults-e4GK2sY$default (Lorg/jetbrains/jewel/ui/component/styling/TooltipMetrics$Companion;Landroidx/compose/foundation/layout/PaddingValues;JLandroidx/compose/foundation/shape/CornerSize;FFJLandroidx/compose/ui/Alignment$Horizontal;ILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/TooltipMetrics;
 }
 
 public final class org/jetbrains/jewel/ui/component/styling/TooltipStyle {
@@ -2873,6 +2851,13 @@ public final class org/jetbrains/jewel/ui/component/styling/TooltipStyle$Compani
 
 public final class org/jetbrains/jewel/ui/component/styling/TooltipStylingKt {
 	public static final fun getLocalTooltipStyle ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public abstract class org/jetbrains/jewel/ui/painter/BasePainterHintsProvider : org/jetbrains/jewel/ui/painter/PainterHintsProvider {
+	public static final field $stable I
+	public fun <init> (ZLjava/util/Map;Ljava/util/Map;Ljava/util/Map;)V
+	protected final fun getPaletteHint (Ljava/lang/String;)Lorg/jetbrains/jewel/ui/painter/PainterHint;
+	public fun priorityHints (Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Ljava/util/List;
 }
 
 public abstract interface class org/jetbrains/jewel/ui/painter/BitmapPainterHint : org/jetbrains/jewel/ui/painter/PainterHint {
@@ -3024,6 +3009,34 @@ public final class org/jetbrains/jewel/ui/painter/hints/StatefulKt {
 public final class org/jetbrains/jewel/ui/painter/hints/StrokeKt {
 	public static final fun Stroke (Z)Lorg/jetbrains/jewel/ui/painter/PainterHint;
 	public static synthetic fun Stroke$default (ZILjava/lang/Object;)Lorg/jetbrains/jewel/ui/painter/PainterHint;
+}
+
+public final class org/jetbrains/jewel/ui/theme/JewelThemeKt {
+	public static final fun BaseJewelTheme (Lorg/jetbrains/jewel/foundation/theme/ThemeDefinition;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun BaseJewelTheme (Lorg/jetbrains/jewel/foundation/theme/ThemeDefinition;Lkotlin/jvm/functions/Function2;ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun getCheckboxStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/CheckboxStyle;
+	public static final fun getChipStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/ChipStyle;
+	public static final fun getCircularProgressStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/CircularProgressStyle;
+	public static final fun getColorPalette (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;
+	public static final fun getDefaultButtonStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;
+	public static final fun getDefaultTabStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TabStyle;
+	public static final fun getDividerStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/DividerStyle;
+	public static final fun getDropdownStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;
+	public static final fun getEditorTabStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TabStyle;
+	public static final fun getGroupHeaderStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/GroupHeaderStyle;
+	public static final fun getHorizontalProgressBarStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/HorizontalProgressBarStyle;
+	public static final fun getIconButtonStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/IconButtonStyle;
+	public static final fun getIconData (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
+	public static final fun getLabelledTextFieldStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/LabelledTextFieldStyle;
+	public static final fun getLinkStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/LinkStyle;
+	public static final fun getMenuStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/MenuStyle;
+	public static final fun getOutlinedButtonStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;
+	public static final fun getRadioButtonStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/RadioButtonStyle;
+	public static final fun getScrollbarStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarStyle;
+	public static final fun getTextAreaStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TextAreaStyle;
+	public static final fun getTextFieldStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TextFieldStyle;
+	public static final fun getTooltipStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TooltipStyle;
+	public static final fun getTreeStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/LazyTreeStyle;
 }
 
 public final class org/jetbrains/jewel/ui/util/ColorExtensionsKt {

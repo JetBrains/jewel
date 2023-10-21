@@ -73,9 +73,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.toJavaLocalDate
-import org.jetbrains.jewel.bridge.SwingBridgeTheme
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.bridge.retrieveTextStyle
+import org.jetbrains.jewel.bridge.theme.SwingBridgeTheme
 import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.bridge.toFontFamily
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn

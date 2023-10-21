@@ -24,7 +24,7 @@ import androidx.compose.ui.semantics.Role
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.NoIndication
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
-import org.jetbrains.jewel.ui.iconButtonStyle
+import org.jetbrains.jewel.ui.theme.iconButtonStyle
 
 @Composable
 fun IconButton(

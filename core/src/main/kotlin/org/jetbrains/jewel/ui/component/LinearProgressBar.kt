@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
-import org.jetbrains.jewel.ui.horizontalProgressBarStyle
+import org.jetbrains.jewel.ui.theme.horizontalProgressBarStyle
 
 // TODO implement green/red/yellow variants based on com.intellij.openapi.progress.util.ColorProgressBar
 

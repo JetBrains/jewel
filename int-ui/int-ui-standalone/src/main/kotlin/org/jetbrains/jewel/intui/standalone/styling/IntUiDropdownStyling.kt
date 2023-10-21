@@ -11,8 +11,8 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.intui.standalone.defaultTextStyle
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
+import org.jetbrains.jewel.intui.standalone.theme.defaultTextStyle
 import org.jetbrains.jewel.ui.component.styling.DropdownColors
 import org.jetbrains.jewel.ui.component.styling.DropdownIcons
 import org.jetbrains.jewel.ui.component.styling.DropdownMetrics
