@@ -30,7 +30,7 @@ plugins {
 }
 
 include(
-    ":core",
+    ":ui",
     ":decorated-window",
     ":int-ui:int-ui-decorated-window",
     ":int-ui:int-ui-standalone",

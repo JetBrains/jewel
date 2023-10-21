@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    api(projects.core)
+    api(projects.ui)
     compileOnly(libs.bundles.idea232)
 }
 

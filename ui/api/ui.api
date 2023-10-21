@@ -1043,7 +1043,7 @@ public final class org/jetbrains/jewel/ui/component/ComposableSingletons$MenuKt 
 	public static final field INSTANCE Lorg/jetbrains/jewel/ui/component/ComposableSingletons$MenuKt;
 	public static field lambda-1 Lkotlin/jvm/functions/Function2;
 	public fun <init> ()V
-	public final fun getLambda-1$core ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda-1$ui ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class org/jetbrains/jewel/ui/component/ContextMenuDivider : androidx/compose/foundation/ContextMenuItem {
