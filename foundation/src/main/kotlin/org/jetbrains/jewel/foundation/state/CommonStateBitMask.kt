@@ -1,6 +1,6 @@
 package org.jetbrains.jewel.foundation.state
 
-internal object CommonStateBitMask {
+object CommonStateBitMask {
 
     val Enabled = 1UL shl 0
     val Focused = 1UL shl 1

@@ -37,7 +37,6 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Selected
 import org.jetbrains.jewel.foundation.state.SelectableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
-import org.jetbrains.jewel.foundation.theme.LocalSwingCompatMode
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
@@ -156,7 +155,7 @@ private fun RadioButtonImpl(
         }
     }
 
-    if (LocalSwingCompatMode.current) {
+    if (JewelTheme.isSwingCompatMode) {
         radioButtonState = radioButtonState.copy(hovered = false, pressed = false)
     }
 

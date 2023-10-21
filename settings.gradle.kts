@@ -31,6 +31,7 @@ plugins {
 
 include(
     ":ui",
+    ":foundation",
     ":decorated-window",
     ":int-ui:int-ui-decorated-window",
     ":int-ui:int-ui-standalone",

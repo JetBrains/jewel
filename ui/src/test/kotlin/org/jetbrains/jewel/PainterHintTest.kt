@@ -1,10 +1,9 @@
 package org.jetbrains.jewel
 
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
-import org.jetbrains.jewel.foundation.theme.LocalIsDarkTheme
+import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
 import org.jetbrains.jewel.ui.component.CheckboxState
 import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.PainterPathHint
@@ -30,7 +29,7 @@ class PainterHintTest : BasicJewelUiTest() {
 
     @Test
     fun `empty hint should be ignored`() = runComposeTest({
-        CompositionLocalProvider(LocalIsDarkTheme provides false) {
+        OverrideDarkMode(isDark = false) {
             val provider = rememberResourcePainterProvider("icons/github.svg", PainterHintTest::class.java)
 
             val painter1 by provider.getPainter()

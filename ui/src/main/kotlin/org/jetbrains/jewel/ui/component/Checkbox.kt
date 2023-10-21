@@ -41,7 +41,6 @@ import org.jetbrains.jewel.foundation.state.ToggleableComponentState
 import org.jetbrains.jewel.foundation.state.ToggleableComponentState.Companion.readToggleableState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
-import org.jetbrains.jewel.foundation.theme.LocalSwingCompatMode
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.CheckboxColors
@@ -271,7 +270,7 @@ private fun CheckboxImpl(
         }
     }
 
-    if (LocalSwingCompatMode.current) {
+    if (JewelTheme.isSwingCompatMode) {
         checkboxState = checkboxState.copy(hovered = false, pressed = false)
     }
 
