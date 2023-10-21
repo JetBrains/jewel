@@ -1,9 +1,9 @@
-package org.jetbrains.jewel
+package org.jetbrains.jewel.core.state
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.state.ToggleableState
-import org.jetbrains.jewel.CommonStateBitMask.Indeterminate
-import org.jetbrains.jewel.CommonStateBitMask.Selected
+import org.jetbrains.jewel.core.state.CommonStateBitMask.Indeterminate
+import org.jetbrains.jewel.core.state.CommonStateBitMask.Selected
 
 interface ToggleableComponentState : SelectableComponentState {
 

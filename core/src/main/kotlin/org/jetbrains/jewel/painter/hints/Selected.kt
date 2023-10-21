@@ -1,7 +1,7 @@
 package org.jetbrains.jewel.painter.hints
 
 import androidx.compose.runtime.Immutable
-import org.jetbrains.jewel.SelectableComponentState
+import org.jetbrains.jewel.core.state.SelectableComponentState
 import org.jetbrains.jewel.painter.PainterHint
 import org.jetbrains.jewel.painter.PainterSuffixHint
 

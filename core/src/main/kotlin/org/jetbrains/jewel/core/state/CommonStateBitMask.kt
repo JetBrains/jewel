@@ -1,4 +1,4 @@
-package org.jetbrains.jewel
+package org.jetbrains.jewel.core.state
 
 internal object CommonStateBitMask {
 

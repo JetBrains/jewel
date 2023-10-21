@@ -36,12 +36,6 @@ import androidx.compose.ui.platform.LocalInputModeManager
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
-import org.jetbrains.jewel.CommonStateBitMask.Active
-import org.jetbrains.jewel.CommonStateBitMask.Enabled
-import org.jetbrains.jewel.CommonStateBitMask.Focused
-import org.jetbrains.jewel.CommonStateBitMask.Hovered
-import org.jetbrains.jewel.CommonStateBitMask.Pressed
-import org.jetbrains.jewel.FocusableComponentState
 import org.jetbrains.jewel.JewelTheme
 import org.jetbrains.jewel.LocalMenuManager
 import org.jetbrains.jewel.MenuManager
@@ -49,6 +43,12 @@ import org.jetbrains.jewel.Outline
 import org.jetbrains.jewel.core.component.styling.DropdownStyle
 import org.jetbrains.jewel.core.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.core.component.styling.MenuStyle
+import org.jetbrains.jewel.core.state.CommonStateBitMask.Active
+import org.jetbrains.jewel.core.state.CommonStateBitMask.Enabled
+import org.jetbrains.jewel.core.state.CommonStateBitMask.Focused
+import org.jetbrains.jewel.core.state.CommonStateBitMask.Hovered
+import org.jetbrains.jewel.core.state.CommonStateBitMask.Pressed
+import org.jetbrains.jewel.core.state.FocusableComponentState
 import org.jetbrains.jewel.focusOutline
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border

@@ -1,8 +1,8 @@
 package org.jetbrains.jewel.painter.hints
 
 import androidx.compose.runtime.Immutable
-import org.jetbrains.jewel.FocusableComponentState
-import org.jetbrains.jewel.InteractiveComponentState
+import org.jetbrains.jewel.core.state.FocusableComponentState
+import org.jetbrains.jewel.core.state.InteractiveComponentState
 import org.jetbrains.jewel.painter.PainterHint
 import org.jetbrains.jewel.painter.PainterSuffixHint
 
