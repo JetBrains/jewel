@@ -9,10 +9,10 @@ import org.jetbrains.jewel.core.component.styling.RadioButtonColors
 import org.jetbrains.jewel.core.component.styling.RadioButtonIcons
 import org.jetbrains.jewel.core.component.styling.RadioButtonMetrics
 import org.jetbrains.jewel.core.component.styling.RadioButtonStyle
+import org.jetbrains.jewel.core.painter.PainterProvider
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
-import org.jetbrains.jewel.painter.PainterProvider
 
 @Composable
 fun RadioButtonStyle.Companion.light(

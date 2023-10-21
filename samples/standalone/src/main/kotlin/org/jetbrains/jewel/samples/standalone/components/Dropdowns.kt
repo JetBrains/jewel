@@ -9,8 +9,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.GroupHeader
-import org.jetbrains.jewel.Outline
+import org.jetbrains.jewel.core.GroupHeader
+import org.jetbrains.jewel.core.Outline
 import org.jetbrains.jewel.core.component.Dropdown
 import org.jetbrains.jewel.core.component.Text
 import org.jetbrains.jewel.core.component.separator

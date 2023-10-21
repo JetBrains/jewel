@@ -10,10 +10,10 @@ import org.jetbrains.jewel.core.component.styling.LazyTreeColors
 import org.jetbrains.jewel.core.component.styling.LazyTreeIcons
 import org.jetbrains.jewel.core.component.styling.LazyTreeMetrics
 import org.jetbrains.jewel.core.component.styling.LazyTreeStyle
+import org.jetbrains.jewel.core.painter.PainterProvider
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
-import org.jetbrains.jewel.painter.PainterProvider
 
 @Composable
 fun LazyTreeStyle.Companion.light(

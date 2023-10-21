@@ -8,7 +8,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.JewelTheme
+import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.component.styling.TextAreaColors
 import org.jetbrains.jewel.core.component.styling.TextAreaMetrics
 import org.jetbrains.jewel.core.component.styling.TextAreaStyle

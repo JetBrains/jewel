@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.unit.Dp
-import org.jetbrains.jewel.GenerateDataFunctions
 
 sealed class Stroke {
     @Immutable

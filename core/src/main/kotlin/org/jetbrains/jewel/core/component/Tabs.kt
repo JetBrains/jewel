@@ -36,16 +36,16 @@ import androidx.compose.ui.input.pointer.isTertiary
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.NoIndication
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Active
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Enabled
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Focused
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Hovered
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Pressed
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Selected
-import org.jetbrains.jewel.core.state.SelectableComponentState
-import org.jetbrains.jewel.painter.hints.Stateful
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.NoIndication
+import org.jetbrains.jewel.core.painter.hints.Stateful
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Enabled
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Selected
+import org.jetbrains.jewel.foundation.state.SelectableComponentState
 
 @Composable
 internal fun TabImpl(

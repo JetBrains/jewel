@@ -1,7 +1,7 @@
 package org.jetbrains.jewel.intui.standalone
 
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.painter.ResourcePainterProvider
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.painter.ResourcePainterProvider
 
 /**
  * Create a [PainterProvider][org.jetbrains.jewel.painter.PainterProvider] to load a

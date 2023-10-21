@@ -1,7 +1,7 @@
 package org.jetbrains.jewel.intui.window
 
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.painter.ResourcePainterProvider
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.painter.ResourcePainterProvider
 import org.jetbrains.jewel.window.styling.DecoratedWindowStyle
 
 /**

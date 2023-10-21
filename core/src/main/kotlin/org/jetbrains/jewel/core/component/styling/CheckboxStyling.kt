@@ -10,9 +10,9 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
-import org.jetbrains.jewel.GenerateDataFunctions
 import org.jetbrains.jewel.core.component.CheckboxState
-import org.jetbrains.jewel.painter.PainterProvider
+import org.jetbrains.jewel.core.painter.PainterProvider
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
 @Immutable
 @GenerateDataFunctions

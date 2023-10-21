@@ -10,9 +10,9 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
-import org.jetbrains.jewel.GenerateDataFunctions
-import org.jetbrains.jewel.JewelTheme
+import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.component.ChipState
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
 @Stable
 @GenerateDataFunctions

@@ -1,7 +1,7 @@
 package org.jetbrains.jewel.bridge
 
 import com.intellij.util.ui.DirProvider
-import org.jetbrains.jewel.painter.ResourcePainterProvider
+import org.jetbrains.jewel.core.painter.ResourcePainterProvider
 
 /**
  * [ResourcePainterProvider] to resolve resource in Intellij Module and Bridge module.

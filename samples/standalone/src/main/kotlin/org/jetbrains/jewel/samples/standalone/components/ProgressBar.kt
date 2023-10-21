@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import org.jetbrains.jewel.GroupHeader
+import org.jetbrains.jewel.core.GroupHeader
 import org.jetbrains.jewel.core.component.CircularProgressIndicator
 import org.jetbrains.jewel.core.component.CircularProgressIndicatorBig
 import org.jetbrains.jewel.core.component.HorizontalProgressBar

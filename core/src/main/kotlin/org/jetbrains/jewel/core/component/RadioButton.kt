@@ -27,21 +27,21 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.LocalSwingCompatMode
-import org.jetbrains.jewel.Outline
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.LocalSwingCompatMode
+import org.jetbrains.jewel.core.Outline
 import org.jetbrains.jewel.core.component.styling.RadioButtonStyle
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Active
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Enabled
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Focused
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Hovered
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Pressed
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Selected
-import org.jetbrains.jewel.core.state.SelectableComponentState
+import org.jetbrains.jewel.core.outline
+import org.jetbrains.jewel.core.painter.hints.Selected
+import org.jetbrains.jewel.core.painter.hints.Stateful
 import org.jetbrains.jewel.foundation.Stroke
-import org.jetbrains.jewel.outline
-import org.jetbrains.jewel.painter.hints.Selected
-import org.jetbrains.jewel.painter.hints.Stateful
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Enabled
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Selected
+import org.jetbrains.jewel.foundation.state.SelectableComponentState
 
 @Composable
 fun RadioButton(

@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupPositionProvider
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.OverrideDarkMode
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.OverrideDarkMode
 import org.jetbrains.jewel.core.component.styling.TooltipStyle
-import org.jetbrains.jewel.util.isDark
+import org.jetbrains.jewel.core.util.isDark
 
 @Composable
 fun Tooltip(

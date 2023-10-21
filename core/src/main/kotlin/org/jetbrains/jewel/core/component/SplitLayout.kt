@@ -23,8 +23,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.Orientation
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.Orientation
 import java.awt.Cursor
 import kotlin.math.roundToInt
 import androidx.compose.foundation.gestures.Orientation as ComposeOrientation

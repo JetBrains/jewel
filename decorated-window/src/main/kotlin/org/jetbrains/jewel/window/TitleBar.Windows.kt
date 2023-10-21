@@ -13,8 +13,8 @@ import com.jetbrains.JBR
 import com.jetbrains.WindowDecorations.CustomTitleBar
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.util.isDark
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.util.isDark
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 
 @Composable internal fun DecoratedWindowScope.TitleBarOnWindows(

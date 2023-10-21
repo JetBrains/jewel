@@ -14,10 +14,10 @@ import org.jetbrains.jewel.core.component.styling.MenuItemMetrics
 import org.jetbrains.jewel.core.component.styling.MenuMetrics
 import org.jetbrains.jewel.core.component.styling.MenuStyle
 import org.jetbrains.jewel.core.component.styling.SubmenuMetrics
+import org.jetbrains.jewel.core.painter.PainterProvider
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
-import org.jetbrains.jewel.painter.PainterProvider
 
 @Composable
 fun MenuStyle.Companion.light(

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.window.PopupPositionProvider
-import org.jetbrains.jewel.MenuManager
+import org.jetbrains.jewel.core.MenuManager
 
 internal fun handlePopupMenuOnKeyEvent(
     keyEvent: KeyEvent,

@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.GroupHeader
-import org.jetbrains.jewel.JewelTheme
+import org.jetbrains.jewel.core.GroupHeader
+import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.component.Text
 import org.jetbrains.jewel.core.component.Tooltip
 

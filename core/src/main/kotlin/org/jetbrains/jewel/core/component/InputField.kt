@@ -22,19 +22,19 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import org.jetbrains.jewel.Outline
+import org.jetbrains.jewel.core.Outline
 import org.jetbrains.jewel.core.component.styling.InputFieldStyle
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Active
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Enabled
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Focused
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Hovered
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Pressed
-import org.jetbrains.jewel.core.state.FocusableComponentState
-import org.jetbrains.jewel.focusOutline
+import org.jetbrains.jewel.core.focusOutline
+import org.jetbrains.jewel.core.outline
+import org.jetbrains.jewel.core.util.thenIf
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
-import org.jetbrains.jewel.outline
-import org.jetbrains.jewel.util.thenIf
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Enabled
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
+import org.jetbrains.jewel.foundation.state.FocusableComponentState
 
 @Composable
 internal fun InputField(

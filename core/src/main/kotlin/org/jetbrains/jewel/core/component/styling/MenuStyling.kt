@@ -10,9 +10,9 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
-import org.jetbrains.jewel.GenerateDataFunctions
 import org.jetbrains.jewel.core.component.MenuItemState
-import org.jetbrains.jewel.painter.PainterProvider
+import org.jetbrains.jewel.core.painter.PainterProvider
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
 @Stable
 @GenerateDataFunctions

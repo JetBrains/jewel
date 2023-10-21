@@ -31,7 +31,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.painter.rememberResourcePainterProvider
+import org.jetbrains.jewel.core.painter.rememberResourcePainterProvider
 import org.xml.sax.InputSource
 import java.io.InputStream
 

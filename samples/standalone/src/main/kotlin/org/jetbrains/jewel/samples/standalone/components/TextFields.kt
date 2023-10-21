@@ -11,8 +11,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.GroupHeader
-import org.jetbrains.jewel.Outline
+import org.jetbrains.jewel.core.GroupHeader
+import org.jetbrains.jewel.core.Outline
 import org.jetbrains.jewel.core.component.Icon
 import org.jetbrains.jewel.core.component.LabelledTextField
 import org.jetbrains.jewel.core.component.Text

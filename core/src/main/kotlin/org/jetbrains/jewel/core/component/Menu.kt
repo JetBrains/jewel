@@ -60,25 +60,25 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.LocalMenuManager
-import org.jetbrains.jewel.MenuManager
-import org.jetbrains.jewel.Orientation
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.LocalMenuManager
+import org.jetbrains.jewel.core.MenuManager
+import org.jetbrains.jewel.core.Orientation
 import org.jetbrains.jewel.core.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.core.component.styling.MenuItemColors
 import org.jetbrains.jewel.core.component.styling.MenuItemMetrics
 import org.jetbrains.jewel.core.component.styling.MenuStyle
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Active
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Enabled
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Focused
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Hovered
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Pressed
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Selected
-import org.jetbrains.jewel.core.state.SelectableComponentState
+import org.jetbrains.jewel.core.painter.hints.Stateful
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 import org.jetbrains.jewel.foundation.onHover
-import org.jetbrains.jewel.painter.hints.Stateful
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Enabled
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Selected
+import org.jetbrains.jewel.foundation.state.SelectableComponentState
 
 @Composable
 fun PopupMenu(

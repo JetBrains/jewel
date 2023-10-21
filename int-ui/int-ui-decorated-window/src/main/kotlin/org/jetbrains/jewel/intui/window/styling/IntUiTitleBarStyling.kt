@@ -12,6 +12,7 @@ import org.jetbrains.jewel.core.component.styling.IconButtonColors
 import org.jetbrains.jewel.core.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.core.component.styling.IconButtonStyle
 import org.jetbrains.jewel.core.component.styling.MenuStyle
+import org.jetbrains.jewel.core.painter.PainterProvider
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
@@ -19,7 +20,6 @@ import org.jetbrains.jewel.intui.standalone.styling.dark
 import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.intui.window.decoratedWindowPainterProvider
-import org.jetbrains.jewel.painter.PainterProvider
 import org.jetbrains.jewel.window.styling.TitleBarColors
 import org.jetbrains.jewel.window.styling.TitleBarIcons
 import org.jetbrains.jewel.window.styling.TitleBarMetrics

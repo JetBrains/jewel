@@ -4,11 +4,11 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.LocalColorPalette
-import org.jetbrains.jewel.LocalIconData
-import org.jetbrains.jewel.NoIndication
-import org.jetbrains.jewel.ThemeDefinition
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.LocalColorPalette
+import org.jetbrains.jewel.core.LocalIconData
+import org.jetbrains.jewel.core.NoIndication
+import org.jetbrains.jewel.core.ThemeDefinition
 
 @Composable
 fun BaseIntUiTheme(

@@ -4,7 +4,7 @@ import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.UITheme
 import com.intellij.ide.ui.laf.UIThemeBasedLookAndFeelInfo
 import com.intellij.openapi.diagnostic.Logger
-import org.jetbrains.jewel.InternalJewelApi
+import org.jetbrains.jewel.foundation.InternalJewelApi
 import java.lang.reflect.Field
 
 private val logger = Logger.getInstance("UiThemeExtensions")

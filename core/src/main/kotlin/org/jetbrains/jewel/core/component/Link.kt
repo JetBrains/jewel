@@ -34,24 +34,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import org.jetbrains.jewel.JewelTheme.Companion.isSwingCompatMode
+import org.jetbrains.jewel.core.JewelTheme.Companion.isSwingCompatMode
 import org.jetbrains.jewel.core.component.styling.LinkStyle
 import org.jetbrains.jewel.core.component.styling.LocalLinkStyle
 import org.jetbrains.jewel.core.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.core.component.styling.MenuStyle
-import org.jetbrains.jewel.core.state.CommonStateBitMask
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Active
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Enabled
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Focused
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Hovered
-import org.jetbrains.jewel.core.state.CommonStateBitMask.Pressed
-import org.jetbrains.jewel.core.state.FocusableComponentState
-import org.jetbrains.jewel.disabled
-import org.jetbrains.jewel.focusOutline
+import org.jetbrains.jewel.core.disabled
+import org.jetbrains.jewel.core.focusOutline
+import org.jetbrains.jewel.core.painter.PainterProvider
+import org.jetbrains.jewel.core.painter.hints.Stateful
+import org.jetbrains.jewel.core.util.thenIf
 import org.jetbrains.jewel.foundation.onHover
-import org.jetbrains.jewel.painter.PainterProvider
-import org.jetbrains.jewel.painter.hints.Stateful
-import org.jetbrains.jewel.util.thenIf
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Enabled
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
+import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import java.awt.Cursor
 
 @Composable

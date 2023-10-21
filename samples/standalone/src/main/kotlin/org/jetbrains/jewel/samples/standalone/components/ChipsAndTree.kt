@@ -22,8 +22,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.GroupHeader
-import org.jetbrains.jewel.JewelTheme
+import org.jetbrains.jewel.core.GroupHeader
+import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.component.Chip
 import org.jetbrains.jewel.core.component.LazyTree
 import org.jetbrains.jewel.core.component.RadioButtonChip

@@ -27,9 +27,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalLayoutDirection
-import org.jetbrains.jewel.core.state.CommonStateBitMask
-import org.jetbrains.jewel.core.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.onHover
+import org.jetbrains.jewel.foundation.state.CommonStateBitMask
+import org.jetbrains.jewel.foundation.state.FocusableComponentState
 
 @Composable
 fun TabStrip(

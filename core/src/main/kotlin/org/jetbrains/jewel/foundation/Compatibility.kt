@@ -1,7 +1,5 @@
 package org.jetbrains.jewel.foundation
 
-import org.jetbrains.jewel.ExperimentalJewelApi
-
 /**
  * Enables the new compositing strategy for rendering directly into Swing
  * Graphics. This fixes z-order problems and artifacts on resizing, but

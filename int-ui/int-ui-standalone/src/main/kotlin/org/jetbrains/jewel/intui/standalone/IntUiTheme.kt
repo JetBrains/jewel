@@ -9,13 +9,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import org.jetbrains.jewel.ComponentStyling
-import org.jetbrains.jewel.GlobalColors
-import org.jetbrains.jewel.GlobalMetrics
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.ThemeColorPalette
-import org.jetbrains.jewel.ThemeDefinition
-import org.jetbrains.jewel.ThemeIconData
+import org.jetbrains.jewel.core.ComponentStyling
+import org.jetbrains.jewel.core.GlobalColors
+import org.jetbrains.jewel.core.GlobalMetrics
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.ThemeColorPalette
+import org.jetbrains.jewel.core.ThemeDefinition
+import org.jetbrains.jewel.core.ThemeIconData
 import org.jetbrains.jewel.core.component.styling.ButtonStyle
 import org.jetbrains.jewel.core.component.styling.CheckboxStyle
 import org.jetbrains.jewel.core.component.styling.ChipStyle
@@ -35,6 +35,7 @@ import org.jetbrains.jewel.core.component.styling.TabStyle
 import org.jetbrains.jewel.core.component.styling.TextAreaStyle
 import org.jetbrains.jewel.core.component.styling.TextFieldStyle
 import org.jetbrains.jewel.core.component.styling.TooltipStyle
+import org.jetbrains.jewel.core.painter.LocalPainterHintsProvider
 import org.jetbrains.jewel.intui.core.BaseIntUiTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
@@ -44,7 +45,6 @@ import org.jetbrains.jewel.intui.standalone.styling.Outlined
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
 import org.jetbrains.jewel.intui.standalone.styling.dark
 import org.jetbrains.jewel.intui.standalone.styling.light
-import org.jetbrains.jewel.painter.LocalPainterHintsProvider
 
 val JewelTheme.Companion.defaultTextStyle
     get() = TextStyle.Default.copy(
@@ -56,8 +56,8 @@ val JewelTheme.Companion.defaultTextStyle
 
 @Composable
 fun JewelTheme.Companion.lightThemeDefinition(
-    colors: GlobalColors = GlobalColors.light(),
-    metrics: GlobalMetrics = GlobalMetrics.defaults(),
+    colors: GlobalColors = org.jetbrains.jewel.core.GlobalColors.light(),
+    metrics: GlobalMetrics = org.jetbrains.jewel.core.GlobalMetrics.defaults(),
     palette: ThemeColorPalette = IntUiLightTheme.colors,
     iconData: ThemeIconData = IntUiLightTheme.iconData,
     defaultTextStyle: TextStyle = JewelTheme.defaultTextStyle,
@@ -66,8 +66,8 @@ fun JewelTheme.Companion.lightThemeDefinition(
 
 @Composable
 fun JewelTheme.Companion.darkThemeDefinition(
-    colors: GlobalColors = GlobalColors.dark(),
-    metrics: GlobalMetrics = GlobalMetrics.defaults(),
+    colors: GlobalColors = org.jetbrains.jewel.core.GlobalColors.dark(),
+    metrics: GlobalMetrics = org.jetbrains.jewel.core.GlobalMetrics.defaults(),
     palette: ThemeColorPalette = IntUiDarkTheme.colors,
     iconData: ThemeIconData = IntUiDarkTheme.iconData,
     defaultTextStyle: TextStyle = JewelTheme.defaultTextStyle,

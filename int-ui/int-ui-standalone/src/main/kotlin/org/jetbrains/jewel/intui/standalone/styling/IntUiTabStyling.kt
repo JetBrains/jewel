@@ -10,10 +10,10 @@ import org.jetbrains.jewel.core.component.styling.TabContentAlpha
 import org.jetbrains.jewel.core.component.styling.TabIcons
 import org.jetbrains.jewel.core.component.styling.TabMetrics
 import org.jetbrains.jewel.core.component.styling.TabStyle
+import org.jetbrains.jewel.core.painter.PainterProvider
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
-import org.jetbrains.jewel.painter.PainterProvider
 
 val TabStyle.Companion.Default
     get() = IntUiDefaultTabStyleFactory

@@ -1,8 +1,8 @@
 package org.jetbrains.jewel.bridge
 
-import org.jetbrains.jewel.BorderColors
-import org.jetbrains.jewel.GlobalColors
-import org.jetbrains.jewel.OutlineColors
+import org.jetbrains.jewel.core.BorderColors
+import org.jetbrains.jewel.core.GlobalColors
+import org.jetbrains.jewel.core.OutlineColors
 
 fun GlobalColors.Companion.readFromLaF() =
     GlobalColors(

@@ -24,8 +24,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.offset
-import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.Outline
+import org.jetbrains.jewel.core.JewelTheme
+import org.jetbrains.jewel.core.Outline
 import org.jetbrains.jewel.core.component.styling.TextAreaStyle
 
 /**

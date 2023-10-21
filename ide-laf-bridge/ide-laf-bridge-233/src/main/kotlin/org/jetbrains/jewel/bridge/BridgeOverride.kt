@@ -3,7 +3,7 @@ package org.jetbrains.jewel.bridge
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.ui.icons.patchIconPath
 import com.intellij.util.ui.DirProvider
-import org.jetbrains.jewel.painter.PainterResourcePathHint
+import org.jetbrains.jewel.core.painter.PainterResourcePathHint
 
 internal object BridgeOverride : PainterResourcePathHint {
 

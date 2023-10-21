@@ -8,9 +8,9 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
-import org.jetbrains.jewel.GenerateDataFunctions
 import org.jetbrains.jewel.core.component.TabState
-import org.jetbrains.jewel.painter.PainterProvider
+import org.jetbrains.jewel.core.painter.PainterProvider
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
 @Stable
 @GenerateDataFunctions

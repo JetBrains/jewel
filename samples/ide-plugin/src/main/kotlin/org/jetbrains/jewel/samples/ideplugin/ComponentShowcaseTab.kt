@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.dp
 import com.intellij.icons.AllIcons
 import com.intellij.ui.JBColor
 import icons.JewelIcons
-import org.jetbrains.jewel.JewelTheme
 import org.jetbrains.jewel.bridge.SwingBridgeTheme
 import org.jetbrains.jewel.bridge.toComposeColor
+import org.jetbrains.jewel.core.JewelTheme
 import org.jetbrains.jewel.core.component.CheckboxRow
 import org.jetbrains.jewel.core.component.CircularProgressIndicator
 import org.jetbrains.jewel.core.component.CircularProgressIndicatorBig

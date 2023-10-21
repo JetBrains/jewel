@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
-import org.jetbrains.jewel.ComponentStyling
-import org.jetbrains.jewel.ThemeDefinition
+import org.jetbrains.jewel.core.ComponentStyling
+import org.jetbrains.jewel.core.ThemeDefinition
 import kotlin.time.Duration.Companion.milliseconds
 
 @Service(Level.APP)

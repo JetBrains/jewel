@@ -5,9 +5,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.intellij.openapi.components.service
-import org.jetbrains.jewel.ExperimentalJewelApi
+import org.jetbrains.jewel.core.painter.LocalPainterHintsProvider
+import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.intui.core.BaseIntUiTheme
-import org.jetbrains.jewel.painter.LocalPainterHintsProvider
 
 private val bridgeService
     get() = service<SwingBridgeService>()
