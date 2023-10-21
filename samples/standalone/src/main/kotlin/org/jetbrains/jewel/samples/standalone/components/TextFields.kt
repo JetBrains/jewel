@@ -12,11 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GroupHeader
-import org.jetbrains.jewel.Icon
-import org.jetbrains.jewel.LabelledTextField
 import org.jetbrains.jewel.Outline
-import org.jetbrains.jewel.Text
-import org.jetbrains.jewel.TextField
+import org.jetbrains.jewel.core.component.Icon
+import org.jetbrains.jewel.core.component.LabelledTextField
+import org.jetbrains.jewel.core.component.Text
+import org.jetbrains.jewel.core.component.TextField
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
 
 @Composable

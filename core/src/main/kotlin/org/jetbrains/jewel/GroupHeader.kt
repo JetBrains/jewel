@@ -5,8 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.jewel.styling.GroupHeaderStyle
-import org.jetbrains.jewel.styling.LocalGroupHeaderStyle
+import org.jetbrains.jewel.core.component.Divider
+import org.jetbrains.jewel.core.component.Text
+import org.jetbrains.jewel.core.component.styling.GroupHeaderStyle
+import org.jetbrains.jewel.core.component.styling.LocalGroupHeaderStyle
 
 @Composable
 fun GroupHeader(

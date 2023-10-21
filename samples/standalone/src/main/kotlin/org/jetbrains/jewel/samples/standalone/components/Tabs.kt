@@ -25,12 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GroupHeader
-import org.jetbrains.jewel.Icon
 import org.jetbrains.jewel.JewelTheme
 import org.jetbrains.jewel.NoIndication
-import org.jetbrains.jewel.TabData
-import org.jetbrains.jewel.TabStrip
-import org.jetbrains.jewel.Text
+import org.jetbrains.jewel.core.component.Icon
+import org.jetbrains.jewel.core.component.TabData
+import org.jetbrains.jewel.core.component.TabStrip
+import org.jetbrains.jewel.core.component.Text
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
 import kotlin.math.max
 

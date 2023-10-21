@@ -8,11 +8,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.core.component.styling.ChipColors
+import org.jetbrains.jewel.core.component.styling.ChipMetrics
+import org.jetbrains.jewel.core.component.styling.ChipStyle
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.styling.ChipColors
-import org.jetbrains.jewel.styling.ChipMetrics
-import org.jetbrains.jewel.styling.ChipStyle
 
 @Composable
 fun ChipStyle.Companion.light(

@@ -4,6 +4,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
+import org.jetbrains.jewel.core.component.CheckboxState
 import org.jetbrains.jewel.painter.PainterHint
 import org.jetbrains.jewel.painter.PainterPathHint
 import org.jetbrains.jewel.painter.PainterResourcePathHint

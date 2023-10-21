@@ -22,7 +22,7 @@ fun ThemeColorPalette.Companion.readFromLaF(): ThemeColorPalette {
     val teal = readPaletteColors("Teal")
     val windowsPopupBorder = readPaletteColor("windowsPopupBorder")
 
-    val rawMap = buildMap<String, Color> {
+    val rawMap = buildMap {
         putAll(grey)
         putAll(blue)
         putAll(green)

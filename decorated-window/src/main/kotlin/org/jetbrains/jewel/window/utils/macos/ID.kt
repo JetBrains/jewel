@@ -17,8 +17,6 @@ internal class ID : NativeLong {
 
     override fun toShort(): Short = toInt().toShort()
 
-    override fun toInt(): Int = super.toInt()
-
     companion object {
         @JvmField
         val NIL = ID(0L)

@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GroupHeader
-import org.jetbrains.jewel.Icon
+import org.jetbrains.jewel.core.component.Icon
 import org.jetbrains.jewel.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
 

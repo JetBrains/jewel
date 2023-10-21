@@ -12,7 +12,7 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.Outline
-import org.jetbrains.jewel.TriStateCheckboxRow
+import org.jetbrains.jewel.core.component.TriStateCheckboxRow
 
 @Composable
 fun Checkboxes() {

@@ -18,7 +18,12 @@ import androidx.compose.ui.platform.LocalInputModeManager
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.window.rememberCursorPositionProvider
-import org.jetbrains.jewel.styling.MenuStyle
+import org.jetbrains.jewel.core.component.MenuContent
+import org.jetbrains.jewel.core.component.MenuScope
+import org.jetbrains.jewel.core.component.Text
+import org.jetbrains.jewel.core.component.handlePopupMenuOnKeyEvent
+import org.jetbrains.jewel.core.component.separator
+import org.jetbrains.jewel.core.component.styling.MenuStyle
 
 object ContextMenuRepresentation : ContextMenuRepresentation {
 

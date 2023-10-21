@@ -11,56 +11,58 @@ import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
 import org.jetbrains.jewel.painter.PainterProvider
-import org.jetbrains.jewel.styling.CheckboxColors
-import org.jetbrains.jewel.styling.CheckboxIcons
-import org.jetbrains.jewel.styling.CheckboxMetrics
-import org.jetbrains.jewel.styling.CheckboxStyle
 
 @Composable
-fun CheckboxStyle.Companion.light(
-    colors: CheckboxColors = CheckboxColors.light(),
-    metrics: CheckboxMetrics = CheckboxMetrics.defaults(),
-    icons: CheckboxIcons = CheckboxIcons.light(),
-) = CheckboxStyle(colors, metrics, icons)
+fun org.jetbrains.jewel.core.component.styling.CheckboxStyle.Companion.light(
+    colors: org.jetbrains.jewel.core.component.styling.CheckboxColors = org.jetbrains.jewel.core.component.styling.CheckboxColors.light(),
+    metrics: org.jetbrains.jewel.core.component.styling.CheckboxMetrics = org.jetbrains.jewel.core.component.styling.CheckboxMetrics.defaults(),
+    icons: org.jetbrains.jewel.core.component.styling.CheckboxIcons = org.jetbrains.jewel.core.component.styling.CheckboxIcons.light(),
+) = org.jetbrains.jewel.core.component.styling.CheckboxStyle(colors, metrics, icons)
 
 @Composable
-fun CheckboxStyle.Companion.dark(
-    colors: CheckboxColors = CheckboxColors.dark(),
-    metrics: CheckboxMetrics = CheckboxMetrics.defaults(),
-    icons: CheckboxIcons = CheckboxIcons.dark(),
-) = CheckboxStyle(colors, metrics, icons)
+fun org.jetbrains.jewel.core.component.styling.CheckboxStyle.Companion.dark(
+    colors: org.jetbrains.jewel.core.component.styling.CheckboxColors = org.jetbrains.jewel.core.component.styling.CheckboxColors.dark(),
+    metrics: org.jetbrains.jewel.core.component.styling.CheckboxMetrics = org.jetbrains.jewel.core.component.styling.CheckboxMetrics.defaults(),
+    icons: org.jetbrains.jewel.core.component.styling.CheckboxIcons = org.jetbrains.jewel.core.component.styling.CheckboxIcons.dark(),
+) = org.jetbrains.jewel.core.component.styling.CheckboxStyle(colors, metrics, icons)
 
 @Composable
-fun CheckboxColors.Companion.light(
+fun org.jetbrains.jewel.core.component.styling.CheckboxColors.Companion.light(
     content: Color = Color.Unspecified,
     contentDisabled: Color = IntUiLightTheme.colors.grey(8),
     contentSelected: Color = content,
-) = CheckboxColors(content, contentDisabled, contentSelected)
+) = org.jetbrains.jewel.core.component.styling.CheckboxColors(content, contentDisabled, contentSelected)
 
 @Composable
-fun CheckboxColors.Companion.dark(
+fun org.jetbrains.jewel.core.component.styling.CheckboxColors.Companion.dark(
     content: Color = Color.Unspecified,
     contentDisabled: Color = IntUiDarkTheme.colors.grey(7),
     contentSelected: Color = content,
-) = CheckboxColors(content, contentDisabled, contentSelected)
+) = org.jetbrains.jewel.core.component.styling.CheckboxColors(content, contentDisabled, contentSelected)
 
-fun CheckboxMetrics.Companion.defaults(
+fun org.jetbrains.jewel.core.component.styling.CheckboxMetrics.Companion.defaults(
     checkboxSize: DpSize = DpSize(19.dp, 19.dp),
     checkboxCornerSize: CornerSize = CornerSize(3.dp),
     outlineSize: DpSize = DpSize(15.dp, 15.dp),
     outlineOffset: DpOffset = DpOffset(2.5.dp, 1.5.dp),
     iconContentGap: Dp = 5.dp,
-) = CheckboxMetrics(checkboxSize, checkboxCornerSize, outlineSize, outlineOffset, iconContentGap)
+) = org.jetbrains.jewel.core.component.styling.CheckboxMetrics(
+    checkboxSize,
+    checkboxCornerSize,
+    outlineSize,
+    outlineOffset,
+    iconContentGap,
+)
 
 @Composable
-fun CheckboxIcons.Companion.light(
+fun org.jetbrains.jewel.core.component.styling.CheckboxIcons.Companion.light(
     checkbox: PainterProvider = checkbox("com/intellij/ide/ui/laf/icons/intellij/checkBox.svg"),
-) = CheckboxIcons(checkbox)
+) = org.jetbrains.jewel.core.component.styling.CheckboxIcons(checkbox)
 
 @Composable
-fun CheckboxIcons.Companion.dark(
+fun org.jetbrains.jewel.core.component.styling.CheckboxIcons.Companion.dark(
     checkbox: PainterProvider = checkbox("com/intellij/ide/ui/laf/icons/darcula/checkBox.svg"),
-) = CheckboxIcons(checkbox)
+) = org.jetbrains.jewel.core.component.styling.CheckboxIcons(checkbox)
 
 @Composable
 private fun checkbox(basePath: String): PainterProvider =

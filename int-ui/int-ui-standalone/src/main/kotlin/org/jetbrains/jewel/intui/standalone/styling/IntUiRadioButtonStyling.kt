@@ -5,14 +5,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.core.component.styling.RadioButtonColors
+import org.jetbrains.jewel.core.component.styling.RadioButtonIcons
+import org.jetbrains.jewel.core.component.styling.RadioButtonMetrics
+import org.jetbrains.jewel.core.component.styling.RadioButtonStyle
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
 import org.jetbrains.jewel.painter.PainterProvider
-import org.jetbrains.jewel.styling.RadioButtonColors
-import org.jetbrains.jewel.styling.RadioButtonIcons
-import org.jetbrains.jewel.styling.RadioButtonMetrics
-import org.jetbrains.jewel.styling.RadioButtonStyle
 
 @Composable
 fun RadioButtonStyle.Companion.light(

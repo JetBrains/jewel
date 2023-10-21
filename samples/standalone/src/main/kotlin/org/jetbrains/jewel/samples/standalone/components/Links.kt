@@ -9,12 +9,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.DropdownLink
-import org.jetbrains.jewel.ExternalLink
 import org.jetbrains.jewel.GroupHeader
-import org.jetbrains.jewel.Link
-import org.jetbrains.jewel.Text
-import org.jetbrains.jewel.separator
+import org.jetbrains.jewel.core.component.DropdownLink
+import org.jetbrains.jewel.core.component.ExternalLink
+import org.jetbrains.jewel.core.component.Link
+import org.jetbrains.jewel.core.component.Text
+import org.jetbrains.jewel.core.component.separator
 
 @Composable
 fun Links() {

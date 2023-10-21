@@ -10,13 +10,13 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.jewel.JewelTheme
+import org.jetbrains.jewel.core.component.styling.LabelledTextFieldColors
+import org.jetbrains.jewel.core.component.styling.LabelledTextFieldMetrics
+import org.jetbrains.jewel.core.component.styling.LabelledTextFieldStyle
+import org.jetbrains.jewel.core.component.styling.LabelledTextFieldTextStyles
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.defaultTextStyle
-import org.jetbrains.jewel.styling.LabelledTextFieldColors
-import org.jetbrains.jewel.styling.LabelledTextFieldMetrics
-import org.jetbrains.jewel.styling.LabelledTextFieldStyle
-import org.jetbrains.jewel.styling.LabelledTextFieldTextStyles
 
 @Composable
 fun LabelledTextFieldStyle.Companion.light(
@@ -143,7 +143,14 @@ fun LabelledTextFieldMetrics.Companion.defaults(
     borderWidth: Dp = 1.dp,
     labelSpacing: Dp = 6.dp,
     hintSpacing: Dp = 6.dp,
-) = LabelledTextFieldMetrics(borderWidth, contentPadding, cornerSize, minSize, labelSpacing, hintSpacing)
+) = LabelledTextFieldMetrics(
+    borderWidth,
+    contentPadding,
+    cornerSize,
+    minSize,
+    labelSpacing,
+    hintSpacing,
+)
 
 fun LabelledTextFieldTextStyles.Companion.light(
     label: TextStyle = JewelTheme.defaultTextStyle,

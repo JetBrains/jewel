@@ -190,7 +190,7 @@ interface SelectableColumnOnKeyEvent {
         val targetIndex = min((state.lastActiveItemIndex ?: 0) + visibleSize, keys.lastIndex)
         val newSelectionList =
             keys.subList(state.lastActiveItemIndex ?: 0, targetIndex)
-                .filter { it is Selectable }
+                .filterIsInstance<Selectable>()
                 .let {
                     state.selectedKeys + it.map { selectableKey -> selectableKey.key }
                 }

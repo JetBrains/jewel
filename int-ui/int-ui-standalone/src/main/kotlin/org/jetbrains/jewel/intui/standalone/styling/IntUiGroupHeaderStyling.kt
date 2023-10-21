@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.core.component.styling.GroupHeaderColors
+import org.jetbrains.jewel.core.component.styling.GroupHeaderMetrics
+import org.jetbrains.jewel.core.component.styling.GroupHeaderStyle
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.styling.GroupHeaderColors
-import org.jetbrains.jewel.styling.GroupHeaderMetrics
-import org.jetbrains.jewel.styling.GroupHeaderStyle
 
 @Composable
 fun GroupHeaderStyle.Companion.light(

@@ -39,10 +39,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.LocalContentColor
 import org.jetbrains.jewel.OverrideDarkMode
-import org.jetbrains.jewel.styling.LocalDefaultDropdownStyle
-import org.jetbrains.jewel.styling.LocalIconButtonStyle
+import org.jetbrains.jewel.core.component.LocalContentColor
+import org.jetbrains.jewel.core.component.styling.LocalDefaultDropdownStyle
+import org.jetbrains.jewel.core.component.styling.LocalIconButtonStyle
 import org.jetbrains.jewel.util.isDark
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import org.jetbrains.jewel.window.utils.DesktopPlatform

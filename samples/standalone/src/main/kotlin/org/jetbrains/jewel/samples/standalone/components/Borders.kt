@@ -17,9 +17,9 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.OutlinedButton
-import org.jetbrains.jewel.RadioButtonRow
-import org.jetbrains.jewel.Text
+import org.jetbrains.jewel.core.component.OutlinedButton
+import org.jetbrains.jewel.core.component.RadioButtonRow
+import org.jetbrains.jewel.core.component.Text
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.border
 

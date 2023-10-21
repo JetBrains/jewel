@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.GroupHeader
 import org.jetbrains.jewel.JewelTheme
-import org.jetbrains.jewel.Text
-import org.jetbrains.jewel.Tooltip
+import org.jetbrains.jewel.core.component.Text
+import org.jetbrains.jewel.core.component.Tooltip
 
 @Composable
 fun Tooltips() {

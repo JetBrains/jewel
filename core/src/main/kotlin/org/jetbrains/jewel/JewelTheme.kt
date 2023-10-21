@@ -6,46 +6,48 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import org.jetbrains.jewel.styling.ButtonStyle
-import org.jetbrains.jewel.styling.CheckboxStyle
-import org.jetbrains.jewel.styling.ChipStyle
-import org.jetbrains.jewel.styling.CircularProgressStyle
-import org.jetbrains.jewel.styling.DividerStyle
-import org.jetbrains.jewel.styling.DropdownStyle
-import org.jetbrains.jewel.styling.GroupHeaderStyle
-import org.jetbrains.jewel.styling.HorizontalProgressBarStyle
-import org.jetbrains.jewel.styling.IconButtonStyle
-import org.jetbrains.jewel.styling.LabelledTextFieldStyle
-import org.jetbrains.jewel.styling.LazyTreeStyle
-import org.jetbrains.jewel.styling.LinkStyle
-import org.jetbrains.jewel.styling.LocalCheckboxStyle
-import org.jetbrains.jewel.styling.LocalChipStyle
-import org.jetbrains.jewel.styling.LocalCircularProgressStyle
-import org.jetbrains.jewel.styling.LocalDefaultButtonStyle
-import org.jetbrains.jewel.styling.LocalDefaultDropdownStyle
-import org.jetbrains.jewel.styling.LocalDefaultTabStyle
-import org.jetbrains.jewel.styling.LocalDividerStyle
-import org.jetbrains.jewel.styling.LocalEditorTabStyle
-import org.jetbrains.jewel.styling.LocalGroupHeaderStyle
-import org.jetbrains.jewel.styling.LocalHorizontalProgressBarStyle
-import org.jetbrains.jewel.styling.LocalIconButtonStyle
-import org.jetbrains.jewel.styling.LocalLabelledTextFieldStyle
-import org.jetbrains.jewel.styling.LocalLazyTreeStyle
-import org.jetbrains.jewel.styling.LocalLinkStyle
-import org.jetbrains.jewel.styling.LocalMenuStyle
-import org.jetbrains.jewel.styling.LocalOutlinedButtonStyle
-import org.jetbrains.jewel.styling.LocalRadioButtonStyle
-import org.jetbrains.jewel.styling.LocalScrollbarStyle
-import org.jetbrains.jewel.styling.LocalTextAreaStyle
-import org.jetbrains.jewel.styling.LocalTextFieldStyle
-import org.jetbrains.jewel.styling.LocalTooltipStyle
-import org.jetbrains.jewel.styling.MenuStyle
-import org.jetbrains.jewel.styling.RadioButtonStyle
-import org.jetbrains.jewel.styling.ScrollbarStyle
-import org.jetbrains.jewel.styling.TabStyle
-import org.jetbrains.jewel.styling.TextAreaStyle
-import org.jetbrains.jewel.styling.TextFieldStyle
-import org.jetbrains.jewel.styling.TooltipStyle
+import org.jetbrains.jewel.core.component.LocalContentColor
+import org.jetbrains.jewel.core.component.LocalTextStyle
+import org.jetbrains.jewel.core.component.styling.ButtonStyle
+import org.jetbrains.jewel.core.component.styling.CheckboxStyle
+import org.jetbrains.jewel.core.component.styling.ChipStyle
+import org.jetbrains.jewel.core.component.styling.CircularProgressStyle
+import org.jetbrains.jewel.core.component.styling.DividerStyle
+import org.jetbrains.jewel.core.component.styling.DropdownStyle
+import org.jetbrains.jewel.core.component.styling.GroupHeaderStyle
+import org.jetbrains.jewel.core.component.styling.HorizontalProgressBarStyle
+import org.jetbrains.jewel.core.component.styling.IconButtonStyle
+import org.jetbrains.jewel.core.component.styling.LabelledTextFieldStyle
+import org.jetbrains.jewel.core.component.styling.LazyTreeStyle
+import org.jetbrains.jewel.core.component.styling.LinkStyle
+import org.jetbrains.jewel.core.component.styling.LocalCheckboxStyle
+import org.jetbrains.jewel.core.component.styling.LocalChipStyle
+import org.jetbrains.jewel.core.component.styling.LocalCircularProgressStyle
+import org.jetbrains.jewel.core.component.styling.LocalDefaultButtonStyle
+import org.jetbrains.jewel.core.component.styling.LocalDefaultDropdownStyle
+import org.jetbrains.jewel.core.component.styling.LocalDefaultTabStyle
+import org.jetbrains.jewel.core.component.styling.LocalDividerStyle
+import org.jetbrains.jewel.core.component.styling.LocalEditorTabStyle
+import org.jetbrains.jewel.core.component.styling.LocalGroupHeaderStyle
+import org.jetbrains.jewel.core.component.styling.LocalHorizontalProgressBarStyle
+import org.jetbrains.jewel.core.component.styling.LocalIconButtonStyle
+import org.jetbrains.jewel.core.component.styling.LocalLabelledTextFieldStyle
+import org.jetbrains.jewel.core.component.styling.LocalLazyTreeStyle
+import org.jetbrains.jewel.core.component.styling.LocalLinkStyle
+import org.jetbrains.jewel.core.component.styling.LocalMenuStyle
+import org.jetbrains.jewel.core.component.styling.LocalOutlinedButtonStyle
+import org.jetbrains.jewel.core.component.styling.LocalRadioButtonStyle
+import org.jetbrains.jewel.core.component.styling.LocalScrollbarStyle
+import org.jetbrains.jewel.core.component.styling.LocalTextAreaStyle
+import org.jetbrains.jewel.core.component.styling.LocalTextFieldStyle
+import org.jetbrains.jewel.core.component.styling.LocalTooltipStyle
+import org.jetbrains.jewel.core.component.styling.MenuStyle
+import org.jetbrains.jewel.core.component.styling.RadioButtonStyle
+import org.jetbrains.jewel.core.component.styling.ScrollbarStyle
+import org.jetbrains.jewel.core.component.styling.TabStyle
+import org.jetbrains.jewel.core.component.styling.TextAreaStyle
+import org.jetbrains.jewel.core.component.styling.TextFieldStyle
+import org.jetbrains.jewel.core.component.styling.TooltipStyle
 
 interface JewelTheme {
 
@@ -238,11 +240,11 @@ internal val LocalSwingCompatMode = staticCompositionLocalOf {
     false
 }
 
-val LocalColorPalette = staticCompositionLocalOf<ThemeColorPalette> {
+val LocalColorPalette = staticCompositionLocalOf {
     ThemeColorPalette.Empty
 }
 
-val LocalIconData = staticCompositionLocalOf<ThemeIconData> {
+val LocalIconData = staticCompositionLocalOf {
     ThemeIconData.Empty
 }
 
