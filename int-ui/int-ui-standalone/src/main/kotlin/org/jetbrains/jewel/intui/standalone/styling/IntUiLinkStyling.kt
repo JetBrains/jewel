@@ -13,33 +13,38 @@ import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
 import org.jetbrains.jewel.intui.standalone.theme.defaultTextStyle
+import org.jetbrains.jewel.ui.component.styling.LinkColors
+import org.jetbrains.jewel.ui.component.styling.LinkIcons
+import org.jetbrains.jewel.ui.component.styling.LinkMetrics
+import org.jetbrains.jewel.ui.component.styling.LinkStyle
+import org.jetbrains.jewel.ui.component.styling.LinkTextStyles
 import org.jetbrains.jewel.ui.painter.PainterProvider
 
 @Composable
-fun org.jetbrains.jewel.ui.component.styling.LinkStyle.Companion.light(
-    colors: org.jetbrains.jewel.ui.component.styling.LinkColors = org.jetbrains.jewel.ui.component.styling.LinkColors.light(),
-    metrics: org.jetbrains.jewel.ui.component.styling.LinkMetrics = org.jetbrains.jewel.ui.component.styling.LinkMetrics.defaults(),
-    icons: org.jetbrains.jewel.ui.component.styling.LinkIcons = org.jetbrains.jewel.ui.component.styling.LinkIcons.defaults(),
-    textStyles: org.jetbrains.jewel.ui.component.styling.LinkTextStyles = org.jetbrains.jewel.ui.component.styling.LinkTextStyles.light(),
-) = org.jetbrains.jewel.ui.component.styling.LinkStyle(colors, metrics, icons, textStyles)
+fun LinkStyle.Companion.light(
+    colors: LinkColors = LinkColors.light(),
+    metrics: LinkMetrics = LinkMetrics.defaults(),
+    icons: LinkIcons = LinkIcons.defaults(),
+    textStyles: LinkTextStyles = LinkTextStyles.light(),
+) = LinkStyle(colors, metrics, icons, textStyles)
 
 @Composable
-fun org.jetbrains.jewel.ui.component.styling.LinkStyle.Companion.dark(
-    colors: org.jetbrains.jewel.ui.component.styling.LinkColors = org.jetbrains.jewel.ui.component.styling.LinkColors.dark(),
-    metrics: org.jetbrains.jewel.ui.component.styling.LinkMetrics = org.jetbrains.jewel.ui.component.styling.LinkMetrics.defaults(),
-    icons: org.jetbrains.jewel.ui.component.styling.LinkIcons = org.jetbrains.jewel.ui.component.styling.LinkIcons.defaults(),
-    textStyles: org.jetbrains.jewel.ui.component.styling.LinkTextStyles = org.jetbrains.jewel.ui.component.styling.LinkTextStyles.dark(),
-) = org.jetbrains.jewel.ui.component.styling.LinkStyle(colors, metrics, icons, textStyles)
+fun LinkStyle.Companion.dark(
+    colors: LinkColors = LinkColors.dark(),
+    metrics: LinkMetrics = LinkMetrics.defaults(),
+    icons: LinkIcons = LinkIcons.defaults(),
+    textStyles: LinkTextStyles = LinkTextStyles.dark(),
+) = LinkStyle(colors, metrics, icons, textStyles)
 
 @Composable
-fun org.jetbrains.jewel.ui.component.styling.LinkColors.Companion.light(
+fun LinkColors.Companion.light(
     content: Color = IntUiLightTheme.colors.blue(2),
     contentDisabled: Color = IntUiLightTheme.colors.grey(8),
     contentFocused: Color = content,
     contentPressed: Color = content,
     contentHovered: Color = content,
     contentVisited: Color = content,
-) = org.jetbrains.jewel.ui.component.styling.LinkColors(
+) = LinkColors(
     content,
     contentDisabled,
     contentFocused,
@@ -49,14 +54,14 @@ fun org.jetbrains.jewel.ui.component.styling.LinkColors.Companion.light(
 )
 
 @Composable
-fun org.jetbrains.jewel.ui.component.styling.LinkColors.Companion.dark(
+fun LinkColors.Companion.dark(
     content: Color = IntUiDarkTheme.colors.blue(9),
     contentDisabled: Color = IntUiDarkTheme.colors.grey(7),
     contentFocused: Color = content,
     contentPressed: Color = content,
     contentHovered: Color = content,
     contentVisited: Color = content,
-) = org.jetbrains.jewel.ui.component.styling.LinkColors(
+) = LinkColors(
     content,
     contentDisabled,
     contentFocused,
@@ -65,35 +70,35 @@ fun org.jetbrains.jewel.ui.component.styling.LinkColors.Companion.dark(
     contentVisited,
 )
 
-fun org.jetbrains.jewel.ui.component.styling.LinkMetrics.Companion.defaults(
+fun LinkMetrics.Companion.defaults(
     focusHaloCornerSize: CornerSize = CornerSize(2.dp),
     textIconGap: Dp = 0.dp,
     iconSize: DpSize = DpSize(16.dp, 16.dp),
-) = org.jetbrains.jewel.ui.component.styling.LinkMetrics(focusHaloCornerSize, textIconGap, iconSize)
+) = LinkMetrics(focusHaloCornerSize, textIconGap, iconSize)
 
-fun org.jetbrains.jewel.ui.component.styling.LinkIcons.Companion.defaults(
+fun LinkIcons.Companion.defaults(
     dropdownChevron: PainterProvider = standalonePainterProvider("expui/general/chevronDown.svg"),
     externalLink: PainterProvider = standalonePainterProvider("expui/ide/externalLink.svg"),
-) = org.jetbrains.jewel.ui.component.styling.LinkIcons(dropdownChevron, externalLink)
+) = LinkIcons(dropdownChevron, externalLink)
 
 @Composable
-fun org.jetbrains.jewel.ui.component.styling.LinkTextStyles.Companion.light(
+fun LinkTextStyles.Companion.light(
     normal: TextStyle = JewelTheme.defaultTextStyle.copy(textDecoration = TextDecoration.Underline),
     disabled: TextStyle = JewelTheme.defaultTextStyle,
     focused: TextStyle = normal,
     pressed: TextStyle = normal,
     hovered: TextStyle = normal,
     visited: TextStyle = normal,
-): org.jetbrains.jewel.ui.component.styling.LinkTextStyles =
-    org.jetbrains.jewel.ui.component.styling.LinkTextStyles(normal, disabled, focused, pressed, hovered, visited)
+): LinkTextStyles =
+    LinkTextStyles(normal, disabled, focused, pressed, hovered, visited)
 
 @Composable
-fun org.jetbrains.jewel.ui.component.styling.LinkTextStyles.Companion.dark(
+fun LinkTextStyles.Companion.dark(
     normal: TextStyle = JewelTheme.defaultTextStyle.copy(textDecoration = TextDecoration.Underline),
     disabled: TextStyle = JewelTheme.defaultTextStyle,
     focused: TextStyle = normal,
     pressed: TextStyle = normal,
     hovered: TextStyle = normal,
     visited: TextStyle = normal,
-): org.jetbrains.jewel.ui.component.styling.LinkTextStyles =
-    org.jetbrains.jewel.ui.component.styling.LinkTextStyles(normal, disabled, focused, pressed, hovered, visited)
+): LinkTextStyles =
+    LinkTextStyles(normal, disabled, focused, pressed, hovered, visited)
