@@ -78,9 +78,9 @@ The project is split in modules:
       Desktop app
     * `int-ui-decorated-window` has a standalone version of the Int UI styling values for the custom window decoration
       that can be used in any Compose for Desktop app
-5. `ide-laf-bridge` contains the Swing LaF bridge to use in IntelliJ Platform plugins (see more below)
+6. `ide-laf-bridge` contains the Swing LaF bridge to use in IntelliJ Platform plugins (see more below)
     * The `ide-laf-bridge-*` sub-modules contain code that is specific to a certain IntelliJ Platform version
-6. `samples` contains the example apps, which showcase the available components:
+7. `samples` contains the example apps, which showcase the available components:
     * `standalone` is a regular CfD app, using the standalone theme definitions and custom window decoration
     * `ide-plugin` is an IntelliJ plugin that showcases the use of the Swing Bridge
 
@@ -252,17 +252,17 @@ If you don't already have access to the Kotlin Slack, you can request it
 Jewel is licensed under the [Apache 2.0 license](https://github.com/JetBrains/jewel/blob/main/LICENSE).
 
 ```
-   Copyright 2022–3 JetBrains s.r.o.
+Copyright 2022–3 JetBrains s.r.o.
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
