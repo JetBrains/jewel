@@ -12,8 +12,8 @@ desktop-optimized theme and set of components.
 > This project is in active development, and caution is advised when considering it for production uses. You _can_ use
 > it, but you should expect APIs to change often, things to move around and/or break, and all that jazz. Binary
 > compatibility is not guaranteed across releases, and APIs are still in flux and subject to change.
-> 
-> Writing 3rd party IntelliJ Plugins in Compose for Desktop is currently **not officially supported** by the IntelliJ 
+>
+> Writing 3rd party IntelliJ Plugins in Compose for Desktop is currently **not officially supported** by the IntelliJ
 > Platform. It should work, but your mileage may vary, and if things break you're on your own.
 >
 > Use at your own risk!
@@ -23,8 +23,9 @@ application. Additionally, it has a Swing LaF Bridge that only works in the Inte
 plugins), but automatically mirrors the current Swing LaF into Compose for a native-looking, consistent UI.
 
 ## Getting started
+
 To use Jewel in your app, you only need to add the relevant dependency. There are two scenarios: standalone Compose for
-Desktop app, and IntelliJ Platform plugin. 
+Desktop app, and IntelliJ Platform plugin.
 
 For now, Jewel artifacts aren't available on Maven Central. You need to add a custom Maven repository to your build:
 
@@ -39,10 +40,10 @@ If you're writing a **standalone app**, then you should depend on the `int-ui-st
 
 ```kotlin
 dependencies {
-    implementation("org.jetbrains.jewel:jewel-int-ui-standalone:[jewel version]") 
+    implementation("org.jetbrains.jewel:jewel-int-ui-standalone:[jewel version]")
 
     // Optional, for custom decorated windows:
-    implementation("org.jetbrains.jewel:jewel-int-ui-decorated-window:[jewel version]") 
+    implementation("org.jetbrains.jewel:jewel-int-ui-decorated-window:[jewel version]")
 }
 ```
 
@@ -51,7 +52,7 @@ For an **IntelliJ Platform plugin**, then you should depend on the appropriate `
 ```kotlin
 dependencies {
     // The platform version is a supported major IJP version (e.g., 232 or 233 for 2023.2 and 2023.3 respectively)
-    implementation("org.jetbrains.jewel:jewel-ide-laf-bridge-platform-specific:[jewel version]-ij-[platform version]") 
+    implementation("org.jetbrains.jewel:jewel-ide-laf-bridge-platform-specific:[jewel version]-ij-[platform version]")
 }
 ```
 
@@ -101,10 +102,11 @@ IntUiTheme(isDark = false) {
     // ...
 }
 ```
-        
+
 If you want more control over the theming, you can use other `IntUiTheme` overloads, like the standalone sample does.
-                                                     
+
 #### Custom window decoration
+
 The JetBrains Runtime allows windows to have a custom decoration instead of the regular title bar.
 
 ![A screenshot of the custom window decoration in the standalone sample](art/docs/custom-chrome.png)
@@ -140,7 +142,8 @@ and LaF — and the Compose world.
 
 This bridge ensures that we pick up the colours, typography, metrics, and images as defined in the current IntelliJ
 theme, and apply them to the Compose components as well. This means Jewel will automatically adapt to IntelliJ Platform
-themes that use the [standard theming](https://plugins.jetbrains.com/docs/intellij/themes-getting-started.html) mechanisms.
+themes that use the [standard theming](https://plugins.jetbrains.com/docs/intellij/themes-getting-started.html)
+mechanisms.
 
 > [!NOTE]
 > IntelliJ themes that use non-standard mechanisms (such as providing custom UI implementations for Swing components)
@@ -157,7 +160,7 @@ SwingBridgeTheme {
 #### Accessing icons
 
 When you want to draw an icon from the resources, you can either use the `Icon` composable and pass it the resource path
-and the corresponding class to look up the classpath from, or go one lever deeper and use the lower level, 
+and the corresponding class to look up the classpath from, or go one lever deeper and use the lower level,
 `Painter`-based API.
 
 The `Icon` approach looks like this:
@@ -182,17 +185,45 @@ val painter by painterProvider.getPainter()
 ```
 
 #### Icon runtime patching
+
 Jewel emulates the under-the-hood machinations that happen in the IntelliJ Platform when loading icons. Specifically,
 the resource will be subject to some transformations before being loaded.
 
 For example, in the IDE, if New UI is active, the icon path may be replaced with a different one. Some key colors in SVG
-icons will also be replaced based on the current theme. See 
+icons will also be replaced based on the current theme. See
 [the docs](https://plugins.jetbrains.com/docs/intellij/work-with-icons-and-images.html#new-ui-icons).
 
 Beyond that, even in standalone, Jewel will pick up icons with the appropriate dark/light variant for the current theme,
 and for bitmap icons it will try to pick the 2x variants based on the `LocalDensity`.
 
-If you want to learn more about this system, the entry point is the `PainterHint` class.
+If you have a _stateful_ icon, that is if you need to display different icons based on some state, you can use the
+`PainterProvider.getPainter(PainterHint...)` overload. You can then use one of the state-mapping `PainterHint` to let
+Jewel load the appropriate icon automatically:
+
+```kotlin
+// myState implements SelectableComponentState and has a ToggleableState property
+val myPainter by myPainterProvider.getPainter(
+    if (myState.toggleableState == ToggleableState.Indeterminate) {
+        IndeterminateHint
+    } else {
+        PainterHint.None
+    },
+    Selected(myState),
+    Stateful(myState),
+)
+```
+
+Where the `IndeterminateHint` looks like this:
+
+```kotlin
+private object IndeterminateHint : PainterSuffixHint() {
+    override fun suffix(): String = "Indeterminate"
+}
+```
+
+Assuming the PainterProvider has a base path of `components/myIcon.svg`, Jewel will automatically translate it to the
+right path based on the state. If you want to learn more about this system, look at the `PainterHint` interface and its
+implementations.
 
 ### Swing interoperability
 
@@ -217,6 +248,7 @@ If you don't already have access to the Kotlin Slack, you can request it
 [here](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up).
 
 ## License
+
 Jewel is licensed under the [Apache 2.0 license](https://github.com/JetBrains/jewel/blob/main/LICENSE).
 
 ```
