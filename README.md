@@ -18,9 +18,42 @@ desktop-optimized theme and set of components.
 >
 > Use at your own risk!
 
-Jewel provides stand-alone implementations of the IntelliJ Platform themes that can be used in any Compose for Desktop
-application, and a Swing LaF Bridge that only works in the IntelliJ Platform (i.e., used to create IDE plugins), but
-automatically mirrors the current Swing LaF into Compose for a native-looking, consistent UI.
+Jewel provides an implementation of the IntelliJ Platform themes that can be used in any Compose for Desktop
+application. Additionally, it has a Swing LaF Bridge that only works in the IntelliJ Platform (i.e., used to create IDE
+plugins), but automatically mirrors the current Swing LaF into Compose for a native-looking, consistent UI.
+
+## Getting started
+To use Jewel in your app, you only need to add the relevant dependency. There are two scenarios: standalone Compose for
+Desktop app, and IntelliJ Platform plugin. 
+
+For now, Jewel artifacts aren't available on Maven Central. You need to add a custom Maven repository to your build:
+
+```kotlin
+repositories {
+    maven("https://packages.jetbrains.team/maven/p/kpm/public/")
+    // Any other repositories you need (e.g., mavenCentral())
+}
+```
+
+If you're writing a **standalone app**, then you should depend on the `int-ui-standalone` artifact:
+
+```kotlin
+dependencies {
+    implementation("org.jetbrains.jewel:jewel-int-ui-standalone:[jewel version]") 
+
+    // Optional, for custom decorated windows:
+    implementation("org.jetbrains.jewel:jewel-int-ui-decorated-window:[jewel version]") 
+}
+```
+
+For an **IntelliJ Platform plugin**, then you should depend on the appropriate `ide-laf-bridge` artifact:
+
+```kotlin
+dependencies {
+    // The platform version is a supported major IJP version (e.g., 232 or 233 for 2023.2 and 2023.3 respectively)
+    implementation("org.jetbrains.jewel:jewel-ide-laf-bridge-platform-specific:[jewel version]-ij-[platform version]") 
+}
+```
 
 ## Project structure
 
