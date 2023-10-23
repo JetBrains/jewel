@@ -28,6 +28,8 @@ open class CheckIdeaVersionTask : DefaultTask() {
             "fields=code,releases,releases.version,releases.build,releases.type&" +
             "code=IC"
 
+    constructor() : super()
+
     init {
         group = "jewel"
     }
@@ -46,8 +48,10 @@ open class CheckIdeaVersionTask : DefaultTask() {
                     .use { json.decodeFromStream<List<ApiIdeaReleasesItem>>(it) }
                     .first()
             } catch (e: IOException) {
-                logger.warn("Couldn't fetch IJ Platform releases, can't check for updates.\n" +
-                    "Cause: ${e::class.qualifiedName} — ${e.message}")
+                logger.warn(
+                    "Couldn't fetch IJ Platform releases, can't check for updates.\n" +
+                        "Cause: ${e::class.qualifiedName} — ${e.message}"
+                )
                 return
             } catch (e: RuntimeException) {
                 logger.error("Unexpected error while fetching IJ Platform releases, can't check for updates.", e)
@@ -58,15 +62,25 @@ open class CheckIdeaVersionTask : DefaultTask() {
         check(icReleases.releases.isNotEmpty()) { "Was expecting to have releases but the list is empty" }
 
         val currentPlatformVersion = project.supportedIJVersion()
-        val rawPlatformVersion = when (currentPlatformVersion) {
-            SupportedIJVersion.IJ_232 -> "2023.2"
-            SupportedIJVersion.IJ_233 -> "2023.3"
-        }
-        val latestVersion = icReleases.releases.asSequence()
+        val rawPlatformVersion = getRawPlatformVersion(currentPlatformVersion)
+        val currentPlatformBuild = readPlatformBuild(currentPlatformVersion)
+
+        val latestAvailableBuild = icReleases.releases.asSequence()
             .filter { it.version == rawPlatformVersion }
             .sortedBy { it.build }
             .first()
 
-        logger.lifecycle("The latest IntelliJ Platform $rawPlatformVersion build is ${latestVersion.build}")
+
+
+        logger.lifecycle("The latest IntelliJ Platform $rawPlatformVersion build is ${latestAvailableBuild.build}")
+    }
+
+    private fun getRawPlatformVersion(currentPlatformVersion: SupportedIJVersion) = when (currentPlatformVersion) {
+        SupportedIJVersion.IJ_232 -> "2023.2"
+        SupportedIJVersion.IJ_233 -> "2023.3"
+    }
+
+    private fun readPlatformBuild(currentPlatformVersion: SupportedIJVersion) {
+        TODO()
     }
 }
