@@ -29,7 +29,7 @@ open class CheckIdeaVersionTask : DefaultTask() {
             "fields=code,releases,releases.version,releases.build,releases.type&" +
             "code=IC"
 
-    private val versionRegex = "2\\d{2}\\.\\d{4}\\.\\d+(?:EAP-SNAPSHOT)?".toRegex(RegexOption.IGNORE_CASE)
+    private val versionRegex = "2\\d{2}\\.\\d+\\.\\d+(?:EAP-SNAPSHOT)?".toRegex(RegexOption.IGNORE_CASE)
 
     init {
         group = "jewel"
