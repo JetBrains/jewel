@@ -29,7 +29,7 @@ open class CheckIdeaVersionTask : DefaultTask() {
             "fields=code,releases,releases.version,releases.build,releases.type&" +
             "code=IC"
 
-    private val versionRegex = "2\\d{2}\\.\\d+\\.\\d+(?:EAP-SNAPSHOT)?".toRegex(RegexOption.IGNORE_CASE)
+    private val versionRegex = "2\\d{2}\\.\\d+\\.\\d+(?:-EAP-SNAPSHOT)?".toRegex(RegexOption.IGNORE_CASE)
 
     init {
         group = "jewel"
@@ -77,10 +77,16 @@ open class CheckIdeaVersionTask : DefaultTask() {
         val currentPlatformBuild = rawPlatformBuild.substringBefore('-')
         if (VersionComparator.compare(currentPlatformBuild, latestAvailableBuild.build) < 0) {
             throw GradleException(
-                "IntelliJ Platform version dependency is out of date.\n" +
-                    "Current build: $currentPlatformBuild\n" +
-                    "Latest build: ${latestAvailableBuild.build}\n" +
-                    "Detected channel: ${if (isCurrentBuildStable) "stable" else "non-stable (eap/beta/rc)"}"
+                buildString {
+                    appendLine("IntelliJ Platform version dependency is out of date.")
+                    appendLine()
+                    appendLine("Current build: $rawPlatformBuild")
+                    append("Latest build: ${latestAvailableBuild.build}")
+                    if (!isCurrentBuildStable) append("-EAP-SNAPSHOT")
+                    appendLine()
+                    append("Detected channel: ")
+                    appendLine(if (isCurrentBuildStable) "stable" else "non-stable (eap/beta/rc)")
+                }
             )
         }
         logger.lifecycle("No IntelliJ Platform version updates available. Current: $currentPlatformBuild")
