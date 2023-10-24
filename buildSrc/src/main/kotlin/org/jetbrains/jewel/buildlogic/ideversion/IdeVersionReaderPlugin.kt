@@ -69,7 +69,7 @@ open class CheckIdeaVersionTask : DefaultTask() {
         val isCurrentBuildStable = !rawPlatformBuild.contains("EAP")
         val latestAvailableBuild = icReleases.releases.asSequence()
             .filter { it.version.startsWith(majorPlatformVersion) }
-            .filter { if (isCurrentBuildStable) it.type == "release" else it.type != "release" }
+            .filter { if (isCurrentBuildStable) it.type == "release" else true }
             .sortedWith(ReleaseComparator)
             .last()
         logger.info("The latest IntelliJ Platform $majorPlatformVersion build is ${latestAvailableBuild.build}")
