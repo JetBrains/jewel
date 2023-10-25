@@ -13,10 +13,6 @@ gradlePlugin {
             id = "android-studio-releases-generator"
             implementationClass = "org.jetbrains.jewel.buildlogic.demodata.AndroidStudioReleasesGeneratorPlugin"
         }
-        register("ide-version-check") {
-            id = "ide-version-check"
-            implementationClass = "org.jetbrains.jewel.buildlogic.ideversion.IdeVersionReaderPlugin"
-        }
     }
 }
 

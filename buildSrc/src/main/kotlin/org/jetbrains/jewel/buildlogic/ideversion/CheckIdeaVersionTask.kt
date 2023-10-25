@@ -5,22 +5,10 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.Plugin
-import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
-import org.gradle.kotlin.dsl.register
 import supportedIJVersion
 import java.io.IOException
 import java.net.URL
-
-abstract class IdeVersionReaderPlugin : Plugin<Project> {
-
-    final override fun apply(target: Project) {
-        with(target) {
-            tasks.register<CheckIdeaVersionTask>("checkLatestIntelliJPlatformBuild")
-        }
-    }
-}
 
 open class CheckIdeaVersionTask : DefaultTask() {
 
