@@ -35,8 +35,6 @@ extension.all {
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
-        extensions.getByType<KotlinJvmProjectExtension>().apply {
-            sourceSets["main"].kotlin.srcDir(targetDir)
-        }
+        the<KotlinJvmProjectExtension>().sourceSets["main"].kotlin.srcDir(targetDir)
     }
 }

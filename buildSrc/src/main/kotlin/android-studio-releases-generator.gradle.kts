@@ -9,7 +9,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 
 val extension: StudioVersionsGenerationExtension =
-    extensions.findByType(StudioVersionsGenerationExtension::class.java)
+    extensions.findByType<StudioVersionsGenerationExtension>()
         ?: extensions.create("androidStudioReleasesGenerator", StudioVersionsGenerationExtension::class.java)
 
 val task =
@@ -34,7 +34,5 @@ tasks {
 }
 
 pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
-    extensions.getByType<KotlinJvmProjectExtension>().apply {
-        sourceSets["main"].kotlin.srcDir(extension.targetDir)
-    }
+    the<KotlinJvmProjectExtension>().sourceSets["main"].kotlin.srcDir(extension.targetDir)
 }
