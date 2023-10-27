@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.semantics.Role
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.NoIndication
@@ -65,6 +66,7 @@ fun IconButton(
     Box(
         modifier = modifier
             .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
+            .focusProperties { canFocus = false }
             .clickable(
                 onClick = onClick,
                 enabled = enabled,

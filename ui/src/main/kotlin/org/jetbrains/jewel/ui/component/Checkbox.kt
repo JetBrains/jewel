@@ -37,6 +37,7 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Indeterminate
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Selected
+import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.state.ToggleableComponentState
 import org.jetbrains.jewel.foundation.state.ToggleableComponentState.Companion.readToggleableState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -344,7 +345,7 @@ private fun CheckBoxImage(outerModifier: Modifier, checkboxPainter: Painter, che
 
 @Immutable
 @JvmInline
-value class CheckboxState(private val state: ULong) : ToggleableComponentState {
+value class CheckboxState(private val state: ULong) : ToggleableComponentState, FocusableComponentState {
 
     @Stable
     override val toggleableState: ToggleableState

@@ -28,12 +28,10 @@ class IconButtonStyle(
 class IconButtonColors(
     val background: Color,
     val backgroundDisabled: Color,
-    val backgroundFocused: Color,
     val backgroundPressed: Color,
     val backgroundHovered: Color,
     val border: Color,
     val borderDisabled: Color,
-    val borderFocused: Color,
     val borderPressed: Color,
     val borderHovered: Color,
 ) {
@@ -44,7 +42,6 @@ class IconButtonColors(
             !state.isEnabled -> backgroundDisabled
             state.isPressed -> backgroundPressed
             state.isHovered -> backgroundHovered
-            state.isFocused -> backgroundFocused
             else -> background
         },
     )
@@ -53,7 +50,6 @@ class IconButtonColors(
     fun borderFor(state: ButtonState) = rememberUpdatedState(
         when {
             !state.isEnabled -> borderDisabled
-            state.isFocused -> borderFocused
             state.isPressed -> borderPressed
             state.isHovered -> borderHovered
             else -> border
