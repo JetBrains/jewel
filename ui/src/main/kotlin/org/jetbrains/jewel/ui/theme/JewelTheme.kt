@@ -215,9 +215,7 @@ private class ComponentStyleProviderScopeImpl(override val theme: ThemeDefinitio
 
     private val styles = mutableListOf<ProvidedValue<*>>()
 
-    fun styles(): Array<ProvidedValue<*>> {
-        return styles.toTypedArray()
-    }
+    fun styles(): Array<ProvidedValue<*>> = styles.toTypedArray()
 
     override fun provide(vararg providedValues: ProvidedValue<*>) {
         styles.addAll(providedValues)
