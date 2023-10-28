@@ -8,6 +8,7 @@ import com.intellij.openapi.components.service
 import org.jetbrains.jewel.bridge.BridgePainterHintsProvider
 import org.jetbrains.jewel.bridge.SwingBridgeService
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
+import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.ui.painter.LocalPainterHintsProvider
 import org.jetbrains.jewel.ui.theme.BaseJewelTheme
 
@@ -20,9 +21,11 @@ fun SwingBridgeTheme(content: @Composable () -> Unit) {
     val themeData by bridgeService.currentBridgeThemeData.collectAsState()
 
     // TODO handle non-Int UI themes, too
-    BaseJewelTheme(themeData.themeDefinition, {
-        provide(providedValues = themeData.componentStyling.providedStyles())
-    }, swingCompatMode = true) {
+    BaseJewelTheme(
+        themeData.themeDefinition,
+        ComponentStyling.with(themeData.componentStyling),
+        swingCompatMode = true
+    ) {
         CompositionLocalProvider(LocalPainterHintsProvider provides BridgePainterHintsProvider(themeData.themeDefinition.isDark)) {
             content()
         }

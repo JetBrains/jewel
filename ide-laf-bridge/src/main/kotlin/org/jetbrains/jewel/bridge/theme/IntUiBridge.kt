@@ -41,6 +41,7 @@ import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
 import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.foundation.theme.ThemeIconData
 import org.jetbrains.jewel.ui.ComponentStyling
+import org.jetbrains.jewel.ui.DefaultComponentStyling
 import org.jetbrains.jewel.ui.component.styling.ButtonColors
 import org.jetbrains.jewel.ui.component.styling.ButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
@@ -168,7 +169,7 @@ internal fun createBridgeComponentStyling(
     val textFieldStyle = readTextFieldStyle(textFieldTextStyle)
     val menuStyle = readMenuStyle()
 
-    return ComponentStyling(
+    return DefaultComponentStyling(
         checkboxStyle = readCheckboxStyle(),
         chipStyle = readChipStyle(),
         circularProgressStyle = readCircularProgressStyle(theme.isDark),
@@ -949,12 +950,10 @@ private fun readIconButtonStyle(): IconButtonStyle =
         colors = IconButtonColors(
             background = Color.Unspecified,
             backgroundDisabled = Color.Unspecified,
-            backgroundFocused = Color.Unspecified,
             backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
             backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
             border = Color.Unspecified,
             borderDisabled = Color.Unspecified,
-            borderFocused = retrieveColorOrUnspecified("ActionButton.focusedBorderColor"),
             borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
             borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
         ),
