@@ -2,13 +2,14 @@ package org.jetbrains.jewel.ui.painter.hints
 
 import androidx.compose.runtime.Immutable
 import org.jetbrains.jewel.ui.painter.PainterHint
+import org.jetbrains.jewel.ui.painter.PainterProviderScope
 import org.jetbrains.jewel.ui.painter.PainterSuffixHint
 import org.jetbrains.jewel.ui.painter.SvgPainterHint
 
 @Immutable
 private class SizeImpl(private val size: String) : PainterSuffixHint(), SvgPainterHint {
 
-    override fun suffix(): String = buildString {
+    override fun PainterProviderScope.suffix(): String = buildString {
         append("@")
         append(size)
     }

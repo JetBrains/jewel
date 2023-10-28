@@ -7,7 +7,7 @@ import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
 import org.jetbrains.jewel.ui.component.CheckboxState
 import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.PainterPathHint
-import org.jetbrains.jewel.ui.painter.PainterResourcePathHint
+import org.jetbrains.jewel.ui.painter.PainterProviderScope
 import org.jetbrains.jewel.ui.painter.PainterSvgPatchHint
 import org.jetbrains.jewel.ui.painter.hints.Dark
 import org.jetbrains.jewel.ui.painter.hints.HiDpi
@@ -45,15 +45,19 @@ class PainterHintTest : BasicJewelUiTest() {
         awaitIdle()
     }
 
+    private class TestPainterProviderScope(
+        override val rawPath: String,
+        override val path: String = rawPath,
+    ) : PainterProviderScope
+
     private fun String.applyPathHints(vararg hints: PainterHint): String {
+        val scope = TestPainterProviderScope(this)
         var result = this
-        val format = this.substringAfterLast('.').lowercase()
         hints.forEach {
-            if (!it.canApplyTo(format)) return@forEach
-            result = when (it) {
-                is PainterResourcePathHint -> it.patch(result, emptyList())
-                is PainterPathHint -> it.patch(result)
-                else -> return@forEach
+            if (it !is PainterPathHint) return@forEach
+            with(it) {
+                if (!scope.canApply()) return@forEach
+                result = scope.patch(result)
             }
         }
         return result
@@ -63,10 +67,16 @@ class PainterHintTest : BasicJewelUiTest() {
         .apply { setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true) }
 
     private fun String.applyPaletteHints(vararg hints: PainterHint): String {
+        val scope = TestPainterProviderScope("fake_svg.svg")
         val doc = documentBuilderFactory.newDocumentBuilder().parse(this.toByteArray().inputStream())
 
         hints.filterIsInstance<PainterSvgPatchHint>()
-            .onEach { it.patch(doc.documentElement) }
+            .onEach {
+                with(it) {
+                    if (!scope.canApply()) return@onEach
+                    scope.patch(doc.documentElement)
+                }
+            }
 
         return doc.writeToString()
     }

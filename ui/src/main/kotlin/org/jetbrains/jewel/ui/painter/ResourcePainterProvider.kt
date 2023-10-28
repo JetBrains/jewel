@@ -51,6 +51,8 @@ class ResourcePainterProvider(
     vararg classLoaders: ClassLoader,
 ) : PainterProvider {
 
+    private val scope = Scope(basePath, classLoaders.toSet())
+
     private val cache = ConcurrentHashMap<Int, Painter>()
 
     private val contextClassLoaders = classLoaders.toList()
@@ -58,12 +60,28 @@ class ResourcePainterProvider(
     private val documentBuilderFactory = DocumentBuilderFactory.newDefaultInstance()
         .apply { setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true) }
 
+    private fun MutableList<PainterHint>.resolveHint(hint: PainterHint) {
+        with(hint) {
+            if (scope.canApply()) {
+                add(hint)
+            }
+        }
+    }
+
     @Composable
     override fun getPainter(vararg hints: PainterHint): State<Painter> {
         val currentHintsProvider = LocalPainterHintsProvider.current
-        val providedHints =
-            currentHintsProvider.priorityHints(basePath) + hints.toList() + currentHintsProvider.hints(basePath)
-        val resolvedHints = providedHints.filter { it.canApplyTo(basePath) }
+        val resolvedHints = buildList {
+            currentHintsProvider.priorityHints(basePath).forEach {
+                resolveHint(it)
+            }
+            hints.forEach {
+                resolveHint(it)
+            }
+            currentHintsProvider.hints(basePath).forEach {
+                resolveHint(it)
+            }
+        }
 
         val cacheKey = resolvedHints.hashCode()
 
@@ -83,25 +101,18 @@ class ResourcePainterProvider(
 
     @Composable
     private fun loadPainter(hints: List<PainterHint>): Painter {
-        var paths = setOf(basePath)
+        var scopes = listOf(scope)
 
         for (hint in hints) {
-            if (hint !is PainterResourcePathHint && hint !is PainterPathHint) continue
-            paths = paths.flatMap {
-                val patched = when (hint) {
-                    is PainterResourcePathHint -> hint.patch(it, contextClassLoaders)
-                    is PainterPathHint -> hint.patch(it)
-                    else -> return@flatMap listOf(it)
-                }
-
-                setOf(patched, it)
-            }.toSet()
+            if (hint !is PainterPathHint) continue
+            scopes = scopes.flatMap {
+                listOfNotNull(it.apply(hint), it)
+            }
         }
 
-        val url = paths.firstNotNullOfOrNull { resolveResource(it) }
-
-        @Suppress("UrlHashCode") // It's ok when comparing a URL to null
-        if (url == null) {
+        val (chosenScope, url) = scopes.firstNotNullOfOrNull {
+            resolveResource(scope)
+        } ?: run {
             if (inDebugMode) {
                 error("Resource '$basePath(${hints.joinToString()})' not found")
             } else {
@@ -114,27 +125,29 @@ class ResourcePainterProvider(
         val extension = basePath.substringAfterLast(".").lowercase()
 
         var painter = when (extension) {
-            "svg" -> createSvgPainter(url, density, hints)
+            "svg" -> createSvgPainter(chosenScope, url, density, hints)
             "xml" -> createVectorDrawablePainter(url, density)
             else -> createBitmapPainter(url, density)
         }
 
         for (hint in hints) {
             if (hint !is PainterWrapperHint) continue
-            painter = hint.wrap(painter)
+            with(hint) {
+                painter = chosenScope.wrap(painter)
+            }
         }
 
         return painter
     }
 
-    private fun resolveResource(path: String): URL? {
-        val normalized = path.removePrefix("/")
+    private fun resolveResource(scope: Scope): Pair<Scope, URL>? {
+        val normalized = scope.path.removePrefix("/")
 
         for (classLoader in contextClassLoaders) {
             val url = classLoader.getResource(normalized)
             if (url != null) {
                 if (inDebugMode) println("Found resource: '$normalized'")
-                return url
+                return scope to url
             }
         }
 
@@ -142,11 +155,11 @@ class ResourcePainterProvider(
     }
 
     @Composable
-    private fun createSvgPainter(url: URL, density: Density, hints: List<PainterHint>): Painter =
+    private fun createSvgPainter(scope: Scope, url: URL, density: Density, hints: List<PainterHint>): Painter =
         tryLoadingResource(
             url = url,
             loadingAction = { resourceUrl ->
-                patchSvg(url.openStream(), hints).use { inputStream ->
+                patchSvg(scope, url.openStream(), hints).use { inputStream ->
                     if (inDebugMode) {
                         println("Loading icon $basePath(${hints.joinToString()}) from $resourceUrl")
                     }
@@ -156,7 +169,7 @@ class ResourcePainterProvider(
             rememberAction = { remember(url, density, hints) { it } },
         )
 
-    private fun patchSvg(inputStream: InputStream, hints: List<PainterHint>): InputStream {
+    private fun patchSvg(scope: Scope, inputStream: InputStream, hints: List<PainterHint>): InputStream {
         if (hints.all { it !is PainterSvgPatchHint }) {
             return inputStream
         }
@@ -167,7 +180,9 @@ class ResourcePainterProvider(
 
             hints.forEach { hint ->
                 if (hint !is PainterSvgPatchHint) return@forEach
-                hint.patch(document.documentElement)
+                with(hint) {
+                    scope.patch(document.documentElement)
+                }
             }
 
             return document.writeToString().byteInputStream()
@@ -219,6 +234,27 @@ class ResourcePainterProvider(
         }
 
         return rememberAction(painter)
+    }
+
+    private class Scope(
+        override val rawPath: String,
+        override val classLoaders: Set<ClassLoader>,
+        override val path: String = rawPath,
+    ) : ResourcePainterProviderScope {
+
+        fun apply(pathHint: PainterPathHint): Scope? {
+            with(pathHint) {
+                val patched = patch(path)
+                if (patched == path) {
+                    return null
+                }
+                return Scope(
+                    rawPath = rawPath,
+                    classLoaders = classLoaders,
+                    path = patched,
+                )
+            }
+        }
     }
 }
 
