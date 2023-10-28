@@ -9,7 +9,7 @@ interface ComponentStyling {
         with(StaticComponentStyling(values = values))
 
     fun provide(provider: @Composable () -> Array<out ProvidedValue<*>>): ComponentStyling =
-        with(DynamicComponentStyling(provider))
+        with(LazyComponentStyling(provider))
 
     fun with(styling: ComponentStyling): ComponentStyling =
         CombinedComponentStyling(this, styling)
@@ -41,13 +41,13 @@ private class StaticComponentStyling(private val values: Array<out ProvidedValue
     override fun toString(): String = "StaticComponentStyle(values=${values.contentToString()})"
 }
 
-private class DynamicComponentStyling(val provider: @Composable () -> Array<out ProvidedValue<*>>) : ComponentStyling {
+private class LazyComponentStyling(val provider: @Composable () -> Array<out ProvidedValue<*>>) : ComponentStyling {
 
     @Composable
     override fun styles(): Array<out ProvidedValue<*>> = provider()
 
     override fun equals(other: Any?): Boolean =
-        other is DynamicComponentStyling && provider == other.provider
+        other is LazyComponentStyling && provider == other.provider
 
     override fun hashCode(): Int = provider.hashCode()
 
