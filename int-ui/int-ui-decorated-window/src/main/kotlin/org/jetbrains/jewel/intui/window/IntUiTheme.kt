@@ -21,7 +21,9 @@ fun ComponentStyleProviderScope.provideDecoratedWindowComponentStyling(
     } else {
         TitleBarStyle.light()
     },
-) = provide(
-    LocalDecoratedWindowStyle provides windowStyle,
-    LocalTitleBarStyle provides titleBarStyle,
-)
+) {
+    provide(
+        LocalDecoratedWindowStyle provides windowStyle,
+        LocalTitleBarStyle provides titleBarStyle,
+    )
+}
