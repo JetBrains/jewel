@@ -15,10 +15,8 @@ private object StrokeImpl : PainterSuffixHint(), PainterSvgPatchHint {
 
     override fun PainterProviderScope.patch(element: Element) {
         if (path.contains(suffix())) return
-        element.patchPalette(
-            fill = backgroundPalette.associateWith { Color.Transparent },
-            stroke = strokeColors.associateWith { Color.White },
-        )
+        val palette = backgroundPalette.associateWith { Color.Transparent } + strokeColors.associateWith { Color.White }
+        element.patchPalette(palette)
     }
 
     override fun PainterProviderScope.canApply(): Boolean = true

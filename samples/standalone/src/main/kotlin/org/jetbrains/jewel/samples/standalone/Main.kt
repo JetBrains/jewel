@@ -35,7 +35,7 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.theme.darkThemeDefinition
 import org.jetbrains.jewel.intui.standalone.theme.lightThemeDefinition
-import org.jetbrains.jewel.intui.window.provideDecoratedWindowComponentStyling
+import org.jetbrains.jewel.intui.window.decoratedWindow
 import org.jetbrains.jewel.intui.window.styling.dark
 import org.jetbrains.jewel.intui.window.styling.light
 import org.jetbrains.jewel.intui.window.styling.lightWithLightHeader
@@ -52,6 +52,7 @@ import org.jetbrains.jewel.samples.standalone.components.Tabs
 import org.jetbrains.jewel.samples.standalone.components.TextAreas
 import org.jetbrains.jewel.samples.standalone.components.TextFields
 import org.jetbrains.jewel.samples.standalone.components.Tooltips
+import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.CheckboxRow
 import org.jetbrains.jewel.ui.component.Divider
@@ -66,6 +67,7 @@ import org.jetbrains.jewel.ui.theme.colorPalette
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.TitleBar
 import org.jetbrains.jewel.window.newFullscreenControls
+import org.jetbrains.jewel.window.styling.DecoratedWindowStyle
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import java.awt.Desktop
 import java.io.InputStream
@@ -94,15 +96,18 @@ fun main() {
 
         IntUiTheme(
             themeDefinition,
-            componentStyling = {
-                provideDecoratedWindowComponentStyling(
-                    titleBarStyle = when (theme) {
-                        IntUiThemes.Light -> TitleBarStyle.light()
-                        IntUiThemes.LightWithLightHeader -> TitleBarStyle.lightWithLightHeader()
-                        IntUiThemes.Dark -> TitleBarStyle.dark()
-                    },
-                )
-            },
+            ComponentStyling.decoratedWindow(
+                windowStyle = if (theme.isDark()) {
+                    DecoratedWindowStyle.dark()
+                } else {
+                    DecoratedWindowStyle.light()
+                },
+                titleBarStyle = when (theme) {
+                    IntUiThemes.Light -> TitleBarStyle.light()
+                    IntUiThemes.LightWithLightHeader -> TitleBarStyle.lightWithLightHeader()
+                    IntUiThemes.Dark -> TitleBarStyle.dark()
+                },
+            ),
             swingCompat,
         ) {
             DecoratedWindow(

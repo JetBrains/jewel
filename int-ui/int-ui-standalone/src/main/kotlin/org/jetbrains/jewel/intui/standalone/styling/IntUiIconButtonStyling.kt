@@ -29,24 +29,20 @@ fun IconButtonStyle.Companion.dark(
 fun IconButtonColors.Companion.light(
     background: Color = Color.Unspecified,
     backgroundDisabled: Color = background,
-    backgroundFocused: Color = background,
     backgroundPressed: Color = IntUiLightTheme.colors.grey(11),
     backgroundHovered: Color = IntUiLightTheme.colors.grey(12),
     border: Color = background,
     borderDisabled: Color = border,
-    borderFocused: Color = IntUiLightTheme.colors.blue(5),
     borderPressed: Color = backgroundPressed,
     borderHovered: Color = backgroundHovered,
 ) =
     IconButtonColors(
         background,
         backgroundDisabled,
-        backgroundFocused,
         backgroundPressed,
         backgroundHovered,
         border,
         borderDisabled,
-        borderFocused,
         borderPressed,
         borderHovered,
     )
@@ -55,25 +51,21 @@ fun IconButtonColors.Companion.light(
 fun IconButtonColors.Companion.dark(
     background: Color = Color.Unspecified,
     backgroundDisabled: Color = background,
-    backgroundFocused: Color = background,
     backgroundPressed: Color = IntUiDarkTheme.colors.grey(5),
     backgroundHovered: Color = IntUiDarkTheme.colors.grey(3),
     border: Color = background,
     borderDisabled: Color = border,
     borderFocused: Color = IntUiDarkTheme.colors.blue(6),
-    borderPressed: Color = backgroundPressed,
     borderHovered: Color = backgroundHovered,
 ) =
     IconButtonColors(
         background,
         backgroundDisabled,
-        backgroundFocused,
         backgroundPressed,
         backgroundHovered,
         border,
         borderDisabled,
         borderFocused,
-        borderPressed,
         borderHovered,
     )
 

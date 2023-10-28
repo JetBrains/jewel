@@ -111,7 +111,7 @@ class ResourcePainterProvider(
         }
 
         val (chosenScope, url) = scopes.firstNotNullOfOrNull {
-            resolveResource(scope)
+            resolveResource(it)
         } ?: run {
             if (inDebugMode) {
                 error("Resource '$basePath(${hints.joinToString()})' not found")

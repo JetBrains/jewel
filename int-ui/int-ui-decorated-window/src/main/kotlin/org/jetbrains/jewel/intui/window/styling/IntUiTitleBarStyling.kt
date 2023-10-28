@@ -11,7 +11,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
 import org.jetbrains.jewel.intui.standalone.styling.defaults
-import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.intui.standalone.styling.undecorated
 import org.jetbrains.jewel.intui.window.decoratedWindowPainterProvider
 import org.jetbrains.jewel.ui.component.styling.DropdownColors
@@ -47,6 +46,7 @@ fun TitleBarStyle.Companion.light(
                 backgroundPressed = colors.dropdownPressedBackground,
             ),
             metrics = DropdownMetrics.undecorated(
+                arrowMinSize = DpSize(20.dp, 24.dp),
                 minSize = DpSize(60.dp, 30.dp),
                 cornerSize = CornerSize(6.dp),
                 contentPadding = PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
@@ -90,6 +90,7 @@ fun TitleBarStyle.Companion.lightWithLightHeader(
                 backgroundPressed = colors.dropdownPressedBackground,
             ),
             metrics = DropdownMetrics.undecorated(
+                arrowMinSize = DpSize(20.dp, 24.dp),
                 minSize = DpSize(60.dp, 30.dp),
                 cornerSize = CornerSize(6.dp),
                 contentPadding = PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
@@ -164,12 +165,10 @@ private fun titleBarIconButtonStyle(
     IconButtonColors(
         background = Color.Transparent,
         backgroundDisabled = Color.Transparent,
-        backgroundFocused = Color.Transparent,
         backgroundPressed = hoveredBackground,
         backgroundHovered = pressedBackground,
         border = Color.Transparent,
         borderDisabled = Color.Transparent,
-        borderFocused = Color.Transparent,
         borderPressed = Color.Transparent,
         borderHovered = Color.Transparent,
     ),

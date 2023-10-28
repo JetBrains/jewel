@@ -1,17 +1,22 @@
 package org.jetbrains.jewel.samples.standalone.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
 import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.Icon
@@ -19,6 +24,7 @@ import org.jetbrains.jewel.ui.painter.badge.DotBadgeShape
 import org.jetbrains.jewel.ui.painter.hints.Badge
 import org.jetbrains.jewel.ui.painter.hints.Stroke
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
+import org.jetbrains.jewel.ui.theme.colorPalette
 
 @Composable
 internal fun Icons() {
@@ -45,7 +51,16 @@ internal fun Icons() {
         val badged by iconProvider.getPainter(Badge(Color.Red, DotBadgeShape.Default))
         Icon(badged, "Jewel Logo", Modifier.size(20.dp))
 
-        val stroked by iconProvider.getPainter(Stroke(true))
-        Icon(stroked, "Jewel Logo", Modifier.size(20.dp))
+        val restartIconProvider = rememberResourcePainterProvider("icons/taskGroup.svg", StandaloneSampleIcons::class.java)
+
+        val normal by restartIconProvider.getPainter()
+        val stroked by restartIconProvider.getPainter(Stroke(true))
+
+        Box(Modifier.size(24.dp)) {
+            Icon(normal, "taskGroup", Modifier.align(Alignment.Center))
+        }
+        Box(Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp))) {
+            Icon(stroked, "taskGroup", Modifier.align(Alignment.Center))
+        }
     }
 }
