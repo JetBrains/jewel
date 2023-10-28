@@ -17,6 +17,7 @@ import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.painter.badge.DotBadgeShape
 import org.jetbrains.jewel.ui.painter.hints.Badge
+import org.jetbrains.jewel.ui.painter.hints.Stroke
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 
 @Composable
@@ -43,5 +44,8 @@ internal fun Icons() {
 
         val badged by iconProvider.getPainter(Badge(Color.Red, DotBadgeShape.Default))
         Icon(badged, "Jewel Logo", Modifier.size(20.dp))
+
+        val stroked by iconProvider.getPainter(Stroke(true))
+        Icon(stroked, "Jewel Logo", Modifier.size(20.dp))
     }
 }

@@ -50,6 +50,7 @@ import org.jetbrains.jewel.ui.component.styling.CheckboxMetrics
 import org.jetbrains.jewel.ui.component.styling.LocalCheckboxStyle
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.painter.PainterHint
+import org.jetbrains.jewel.ui.painter.PainterProviderScope
 import org.jetbrains.jewel.ui.painter.PainterSuffixHint
 import org.jetbrains.jewel.ui.painter.hints.Selected
 import org.jetbrains.jewel.ui.painter.hints.Stateful
@@ -333,7 +334,7 @@ private fun CheckboxImpl(
 
 private object CheckBoxIndeterminate : PainterSuffixHint() {
 
-    override fun suffix(): String = "Indeterminate"
+    override fun PainterProviderScope.suffix(): String = "Indeterminate"
 }
 
 @Composable
