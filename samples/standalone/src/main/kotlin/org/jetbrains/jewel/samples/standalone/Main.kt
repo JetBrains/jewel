@@ -67,7 +67,6 @@ import org.jetbrains.jewel.ui.theme.colorPalette
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.TitleBar
 import org.jetbrains.jewel.window.newFullscreenControls
-import org.jetbrains.jewel.window.styling.DecoratedWindowStyle
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import java.awt.Desktop
 import java.io.InputStream
@@ -97,11 +96,6 @@ fun main() {
         IntUiTheme(
             themeDefinition,
             ComponentStyling.decoratedWindow(
-                windowStyle = if (theme.isDark()) {
-                    DecoratedWindowStyle.dark()
-                } else {
-                    DecoratedWindowStyle.light()
-                },
                 titleBarStyle = when (theme) {
                     IntUiThemes.Light -> TitleBarStyle.light()
                     IntUiThemes.LightWithLightHeader -> TitleBarStyle.lightWithLightHeader()

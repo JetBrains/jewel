@@ -1,7 +1,5 @@
 package org.jetbrains.jewel.intui.window
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidedValue
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.window.styling.dark
 import org.jetbrains.jewel.intui.window.styling.light
@@ -12,36 +10,24 @@ import org.jetbrains.jewel.window.styling.LocalTitleBarStyle
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 
 fun ComponentStyling.decoratedWindow(
-    windowStyle: DecoratedWindowStyle,
-    titleBarStyle: TitleBarStyle,
-): ComponentStyling = provide(
-    LocalDecoratedWindowStyle provides windowStyle,
-    LocalTitleBarStyle provides titleBarStyle,
-)
+    windowStyle: DecoratedWindowStyle? = null,
+    titleBarStyle: TitleBarStyle? = null,
+): ComponentStyling = provide {
+    val isDark = JewelTheme.isDark
 
-fun ComponentStyling.decoratedWindow(): ComponentStyling = with(DecoratedWindowComponentStyling)
-
-private object DecoratedWindowComponentStyling : ComponentStyling {
-
-    @Composable
-    override fun styles(): Array<out ProvidedValue<*>> {
-        val isDark = JewelTheme.isDark
-        val windowStyle: DecoratedWindowStyle = if (isDark) {
-            DecoratedWindowStyle.dark()
-        } else {
-            DecoratedWindowStyle.light()
-        }
-        val titleBarStyle: TitleBarStyle = if (isDark) {
-            TitleBarStyle.dark()
-        } else {
-            TitleBarStyle.light()
-        }
-
-        return arrayOf(
-            LocalDecoratedWindowStyle provides windowStyle,
-            LocalTitleBarStyle provides titleBarStyle,
-        )
+    val currentWindowStyle = windowStyle ?: if (isDark) {
+        DecoratedWindowStyle.dark()
+    } else {
+        DecoratedWindowStyle.light()
+    }
+    val currentTitleBarStyle = titleBarStyle ?: if (isDark) {
+        TitleBarStyle.dark()
+    } else {
+        TitleBarStyle.light()
     }
 
-    override fun toString(): String = "DecoratedWindowComponentStyle"
+    arrayOf(
+        LocalDecoratedWindowStyle provides currentWindowStyle,
+        LocalTitleBarStyle provides currentTitleBarStyle,
+    )
 }

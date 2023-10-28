@@ -24,7 +24,7 @@ fun SwingBridgeTheme(content: @Composable () -> Unit) {
     BaseJewelTheme(
         themeData.themeDefinition,
         ComponentStyling.with(themeData.componentStyling),
-        swingCompatMode = true
+        swingCompatMode = true,
     ) {
         CompositionLocalProvider(LocalPainterHintsProvider provides BridgePainterHintsProvider(themeData.themeDefinition.isDark)) {
             content()

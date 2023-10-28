@@ -8,6 +8,9 @@ interface ComponentStyling {
     fun provide(vararg values: ProvidedValue<*>): ComponentStyling =
         with(StaticComponentStyling(values = values))
 
+    fun provide(provider: @Composable () -> Array<out ProvidedValue<*>>): ComponentStyling =
+        with(DynamicComponentStyling(provider))
+
     fun with(styling: ComponentStyling): ComponentStyling =
         CombinedComponentStyling(this, styling)
 
@@ -15,9 +18,6 @@ interface ComponentStyling {
     fun styles(): Array<out ProvidedValue<*>>
 
     companion object : ComponentStyling {
-
-        override fun provide(vararg values: ProvidedValue<*>): ComponentStyling =
-            StaticComponentStyling(values = values)
 
         override fun with(styling: ComponentStyling): ComponentStyling = styling
 
@@ -39,6 +39,19 @@ private class StaticComponentStyling(private val values: Array<out ProvidedValue
     override fun hashCode(): Int = values.contentHashCode()
 
     override fun toString(): String = "StaticComponentStyle(values=${values.contentToString()})"
+}
+
+private class DynamicComponentStyling(val provider: @Composable () -> Array<out ProvidedValue<*>>) : ComponentStyling {
+
+    @Composable
+    override fun styles(): Array<out ProvidedValue<*>> = provider()
+
+    override fun equals(other: Any?): Boolean =
+        other is DynamicComponentStyling && provider == other.provider
+
+    override fun hashCode(): Int = provider.hashCode()
+
+    override fun toString(): String = "DynamicComponentStyleProvider(provider=$provider)"
 }
 
 private class CombinedComponentStyling(
