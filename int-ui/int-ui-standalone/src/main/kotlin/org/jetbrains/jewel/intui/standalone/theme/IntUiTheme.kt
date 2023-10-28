@@ -77,14 +77,14 @@ fun JewelTheme.Companion.darkThemeDefinition(
 ) = ThemeDefinition(isDark = true, colors, metrics, defaultTextStyle, contentColor, palette, iconData)
 
 @Composable
-fun ComponentStyling.defaultComponentStyling(): ComponentStyling = provide {
+fun ComponentStyling.default(): ComponentStyling = provide {
     val isDark = JewelTheme.isDark
-    val styling = if (isDark) darkComponentStyling() else lightComponentStyling()
+    val styling = if (isDark) dark() else light()
     styling.styles()
 }
 
 @Composable
-fun ComponentStyling.darkComponentStyling(
+fun ComponentStyling.dark(
     checkboxStyle: CheckboxStyle = CheckboxStyle.dark(),
     chipStyle: ChipStyle = ChipStyle.dark(),
     circularProgressStyle: CircularProgressStyle = CircularProgressStyle.dark(),
@@ -133,7 +133,7 @@ fun ComponentStyling.darkComponentStyling(
 )
 
 @Composable
-fun ComponentStyling.lightComponentStyling(
+fun ComponentStyling.light(
     checkboxStyle: CheckboxStyle = CheckboxStyle.light(),
     chipStyle: ChipStyle = ChipStyle.light(),
     circularProgressStyle: CircularProgressStyle = CircularProgressStyle.light(),
@@ -211,7 +211,7 @@ fun IntUiTheme(
 ) {
     BaseJewelTheme(
         theme,
-        ComponentStyling.defaultComponentStyling().with(styling),
+        ComponentStyling.default().with(styling),
         swingCompatMode,
     ) {
         CompositionLocalProvider(
