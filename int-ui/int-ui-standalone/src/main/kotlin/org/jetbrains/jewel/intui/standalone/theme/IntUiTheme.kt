@@ -131,7 +131,7 @@ fun ComponentStyling.dark(
         textFieldStyle = textFieldStyle,
         tooltipStyle = tooltipStyle,
         undecoratedDropdownStyle = undecoratedDropdownStyle,
-    )
+    ),
 )
 
 @Composable
@@ -182,7 +182,7 @@ fun ComponentStyling.light(
         textFieldStyle = textFieldStyle,
         tooltipStyle = tooltipStyle,
         undecoratedDropdownStyle = undecoratedDropdownStyle,
-    )
+    ),
 )
 
 @Composable
