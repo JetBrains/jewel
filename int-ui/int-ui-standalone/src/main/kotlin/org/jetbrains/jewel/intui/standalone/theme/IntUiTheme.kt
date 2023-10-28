@@ -77,8 +77,11 @@ fun JewelTheme.Companion.darkThemeDefinition(
 ) = ThemeDefinition(isDark = true, colors, metrics, defaultTextStyle, contentColor, palette, iconData)
 
 @Composable
-fun ComponentStyling.defaultComponentStyling(theme: ThemeDefinition): ComponentStyling =
-    with(if (theme.isDark) darkComponentStyling() else lightComponentStyling())
+fun ComponentStyling.defaultComponentStyling(): ComponentStyling = provide {
+    val isDark = JewelTheme.isDark
+    val styling = if (isDark) darkComponentStyling() else lightComponentStyling()
+    styling.styles()
+}
 
 @Composable
 fun ComponentStyling.darkComponentStyling(
@@ -193,7 +196,7 @@ fun IntUiTheme(
 
     IntUiTheme(
         theme = themeDefinition,
-        style = ComponentStyling,
+        styling = ComponentStyling,
         swingCompatMode = swingCompatMode,
         content = content,
     )
@@ -202,13 +205,13 @@ fun IntUiTheme(
 @Composable
 fun IntUiTheme(
     theme: ThemeDefinition,
-    style: ComponentStyling,
+    styling: ComponentStyling,
     swingCompatMode: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     BaseJewelTheme(
         theme,
-        ComponentStyling.defaultComponentStyling(theme).with(style),
+        ComponentStyling.defaultComponentStyling().with(styling),
         swingCompatMode,
     ) {
         CompositionLocalProvider(

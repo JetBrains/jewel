@@ -175,16 +175,16 @@ val JewelTheme.Companion.iconButtonStyle: IconButtonStyle
 @Composable
 fun BaseJewelTheme(
     theme: ThemeDefinition,
-    style: ComponentStyling,
+    styling: ComponentStyling,
     content: @Composable () -> Unit,
 ) {
-    BaseJewelTheme(theme, style, swingCompatMode = false, content)
+    BaseJewelTheme(theme, styling, swingCompatMode = false, content)
 }
 
 @Composable
 fun BaseJewelTheme(
     theme: ThemeDefinition,
-    style: ComponentStyling,
+    styling: ComponentStyling,
     swingCompatMode: Boolean = false,
     content: @Composable () -> Unit,
 ) {
@@ -194,7 +194,7 @@ fun BaseJewelTheme(
             LocalIconData provides theme.iconData,
             LocalIndication provides NoIndication,
         ) {
-            CompositionLocalProvider(values = style.styles(), content = content)
+            CompositionLocalProvider(values = styling.styles(), content = content)
         }
     }
 }
