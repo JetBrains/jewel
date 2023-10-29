@@ -77,10 +77,9 @@ fun JewelTheme.Companion.darkThemeDefinition(
 ) = ThemeDefinition(isDark = true, colors, metrics, defaultTextStyle, contentColor, palette, iconData)
 
 @Composable
-fun ComponentStyling.default(): ComponentStyling = provide {
+fun ComponentStyling.default(): ComponentStyling = with {
     val isDark = JewelTheme.isDark
-    val styling = if (isDark) dark() else light()
-    styling.styles()
+    if (isDark) dark() else light()
 }
 
 @Composable

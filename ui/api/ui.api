@@ -3,6 +3,7 @@ public abstract interface class org/jetbrains/jewel/ui/ComponentStyling {
 	public abstract fun provide (Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public abstract fun provide ([Landroidx/compose/runtime/ProvidedValue;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public abstract fun styles (Landroidx/compose/runtime/Composer;I)[Landroidx/compose/runtime/ProvidedValue;
+	public abstract fun with (Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public abstract fun with (Lorg/jetbrains/jewel/ui/ComponentStyling;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 }
 
@@ -11,12 +12,14 @@ public final class org/jetbrains/jewel/ui/ComponentStyling$Companion : org/jetbr
 	public fun provide ([Landroidx/compose/runtime/ProvidedValue;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun styles (Landroidx/compose/runtime/Composer;I)[Landroidx/compose/runtime/ProvidedValue;
 	public fun toString ()Ljava/lang/String;
+	public fun with (Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun with (Lorg/jetbrains/jewel/ui/ComponentStyling;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 }
 
 public final class org/jetbrains/jewel/ui/ComponentStyling$DefaultImpls {
 	public static fun provide (Lorg/jetbrains/jewel/ui/ComponentStyling;Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public static fun provide (Lorg/jetbrains/jewel/ui/ComponentStyling;[Landroidx/compose/runtime/ProvidedValue;)Lorg/jetbrains/jewel/ui/ComponentStyling;
+	public static fun with (Lorg/jetbrains/jewel/ui/ComponentStyling;Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public static fun with (Lorg/jetbrains/jewel/ui/ComponentStyling;Lorg/jetbrains/jewel/ui/ComponentStyling;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 }
 
@@ -52,6 +55,8 @@ public final class org/jetbrains/jewel/ui/DefaultComponentStyling : org/jetbrain
 	public fun provide ([Landroidx/compose/runtime/ProvidedValue;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun styles (Landroidx/compose/runtime/Composer;I)[Landroidx/compose/runtime/ProvidedValue;
 	public fun toString ()Ljava/lang/String;
+	public synthetic fun with (Lkotlin/jvm/functions/Function0;)Lorg/jetbrains/jewel/ui/ComponentStyling;
+	public fun with (Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun with (Lorg/jetbrains/jewel/ui/ComponentStyling;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 }
 

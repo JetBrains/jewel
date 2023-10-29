@@ -5,14 +5,25 @@ import androidx.compose.runtime.ProvidedValue
 
 interface ComponentStyling {
 
-    fun provide(vararg values: ProvidedValue<*>): ComponentStyling =
-        with(StaticComponentStyling(values = values))
+    fun provide(vararg values: ProvidedValue<*>): ComponentStyling {
+        if (values.isEmpty()) return this
+        return with(StaticComponentStyling(values = values))
+    }
 
     fun provide(provider: @Composable () -> Array<out ProvidedValue<*>>): ComponentStyling =
         with(LazyComponentStyling(provider))
 
-    fun with(styling: ComponentStyling): ComponentStyling =
-        CombinedComponentStyling(this, styling)
+    fun with(styling: ComponentStyling): ComponentStyling {
+        if (styling is Companion) return this
+        return CombinedComponentStyling(this, styling)
+    }
+
+    fun with(styling: @Composable () -> ComponentStyling): ComponentStyling =
+        with(
+            LazyComponentStyling {
+                styling().styles()
+            },
+        )
 
     @Composable
     fun styles(): Array<out ProvidedValue<*>>
