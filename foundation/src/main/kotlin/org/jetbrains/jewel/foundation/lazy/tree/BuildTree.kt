@@ -8,33 +8,45 @@ fun <T> buildTree(builder: TreeBuilder<T>.() -> Unit): Tree<T> =
     TreeBuilder<T>().apply(builder).build()
 
 class TreeBuilder<T> : TreeGeneratorScope<T> {
-    sealed class Element<T> {
+    sealed interface Element<T> {
 
-        abstract val id: Any?
+        val data: T
+        val selectionId: Any?
+        val uiId: Any?
 
         @GenerateDataFunctions
-        class Leaf<T>(val data: T, override val id: Any?) : Element<T>()
+        class Leaf<T>(
+            override val data: T,
+            override val selectionId: Any?,
+            override val uiId: Any?,
+        ) : Element<T>
 
         @GenerateDataFunctions
         class Node<T>(
-            val data: T,
-            override val id: Any?,
+            override val data: T,
+            override val selectionId: Any?,
+            override val uiId: Any?,
             val childrenGenerator: ChildrenGeneratorScope<T>.() -> Unit,
-        ) : Element<T>()
+        ) : Element<T>
     }
 
     private val heads = mutableListOf<Element<T>>()
 
-    override fun addLeaf(data: T, id: Any?) {
-        heads.add(Element.Leaf(data, id))
+    override fun addLeaf(
+        data: T,
+        selectionId: Any?,
+        uiId: Any?,
+    ) {
+        heads.add(Element.Leaf(data, selectionId, uiId))
     }
 
     override fun addNode(
         data: T,
-        id: Any?,
+        selectionId: Any?,
+        uiId: Any?,
         childrenGenerator: ChildrenGeneratorScope<T>.() -> Unit,
     ) {
-        heads.add(Element.Node(data, id, childrenGenerator))
+        heads.add(Element.Node(data, selectionId, uiId, childrenGenerator))
     }
 
     override fun add(element: Element<T>) {
@@ -53,7 +65,8 @@ class TreeBuilder<T> : TreeGeneratorScope<T> {
                     parent = null,
                     previous = previous,
                     next = null,
-                    id = elementBuilder.id ?: "$index",
+                    selectionId = elementBuilder.selectionId ?: "$index",
+                    uiId = elementBuilder.uiId ?: "$index",
                 )
 
                 is Element.Node -> Tree.Element.Node(
@@ -64,7 +77,8 @@ class TreeBuilder<T> : TreeGeneratorScope<T> {
                     childrenGenerator = { parent -> generateElements(parent, elementBuilder) },
                     previous = previous,
                     next = null,
-                    id = elementBuilder.id ?: "$index",
+                    selectionId = elementBuilder.selectionId ?: "$index",
+                    uiId = elementBuilder.uiId ?: "$index",
                 )
             }
             elements.add(current)
@@ -91,7 +105,8 @@ private fun <T> generateElements(
                 parent = parent,
                 previous = previous,
                 next = null,
-                id = elementBuilder.id ?: (parent.id.toString() + "." + index),
+                selectionId = elementBuilder.selectionId ?: (parent.selectionId.toString() + "." + index),
+                uiId = elementBuilder.uiId ?: (parent.uiId.toString() + "." + index),
             )
 
             is TreeBuilder.Element.Node -> Tree.Element.Node(
@@ -102,7 +117,8 @@ private fun <T> generateElements(
                 childrenGenerator = { generateElements(it, elementBuilder) },
                 previous = previous,
                 next = null,
-                id = elementBuilder.id ?: (parent.id.toString() + "." + index),
+                selectionId = elementBuilder.selectionId ?: (parent.selectionId.toString() + "." + index),
+                uiId = elementBuilder.uiId ?: (parent.uiId.toString() + "." + index),
             )
         }
         previous.next = current
@@ -123,11 +139,16 @@ interface TreeGeneratorScope<T> {
 
     fun addNode(
         data: T,
-        id: Any? = null,
+        selectionId: Any? = null,
+        uiId: Any? = selectionId,
         childrenGenerator: ChildrenGeneratorScope<T>.() -> Unit = { },
     )
 
-    fun addLeaf(data: T, id: Any? = null)
+    fun addLeaf(
+        data: T,
+        selectionId: Any? = null,
+        uiId: Any? = selectionId,
+    )
 
     fun add(element: TreeBuilder.Element<T>)
 }
@@ -141,16 +162,21 @@ class ChildrenGeneratorScope<T>(private val parentElement: Tree.Element.Node<T>)
 
     internal val elements = mutableListOf<TreeBuilder.Element<T>>()
 
-    override fun addLeaf(data: T, id: Any?) {
-        elements.add(TreeBuilder.Element.Leaf(data, id))
+    override fun addLeaf(
+        data: T,
+        selectionId: Any?,
+        uiId: Any?,
+    ) {
+        elements.add(TreeBuilder.Element.Leaf(data, selectionId, uiId))
     }
 
     override fun addNode(
         data: T,
-        id: Any?,
+        selectionId: Any?,
+        uiId: Any?,
         childrenGenerator: ChildrenGeneratorScope<T>.() -> Unit,
     ) {
-        elements.add(TreeBuilder.Element.Node(data, id, childrenGenerator))
+        elements.add(TreeBuilder.Element.Node(data, selectionId, uiId, childrenGenerator))
     }
 
     override fun add(element: TreeBuilder.Element<T>) {

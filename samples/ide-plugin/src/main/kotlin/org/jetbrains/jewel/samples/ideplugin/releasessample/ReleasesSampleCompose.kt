@@ -174,7 +174,7 @@ private fun LeftColumn(
             ) {
                 items(
                     items = currentContentSource.items,
-                    key = { it.key },
+                    selectionKey = { it.key },
                     contentType = {
                         when (it) {
                             is ContentItem.AndroidRelease -> ItemType.AndroidRelease

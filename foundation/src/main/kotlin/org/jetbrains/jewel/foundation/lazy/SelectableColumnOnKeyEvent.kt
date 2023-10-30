@@ -14,7 +14,7 @@ interface SelectableColumnOnKeyEvent {
     fun onSelectFirstItem(allKeys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
         val firstSelectable = allKeys.withIndex().firstOrNull { it.value is Selectable }
         if (firstSelectable != null) {
-            state.selectedKeys = listOf(firstSelectable.value.key)
+            state.selectedKeys = listOf(firstSelectable.value.value)
             state.lastActiveItemIndex = firstSelectable.index
         }
     }
@@ -30,7 +30,7 @@ interface SelectableColumnOnKeyEvent {
                     while (iterator.hasPrevious()) {
                         val previous = iterator.previous()
                         if (previous is Selectable) {
-                            add(previous.key)
+                            add(previous.value)
                             state.lastActiveItemIndex = (iterator.previousIndex() + 1).coerceAtMost(keys.size)
                         }
                     }
@@ -64,7 +64,7 @@ interface SelectableColumnOnKeyEvent {
             val list = mutableListOf<Any>(state.selectedKeys)
             keys.subList(it, keys.lastIndex).forEachIndexed { index, selectableLazyListKey ->
                 if (selectableLazyListKey is Selectable) {
-                    list.add(selectableLazyListKey.key)
+                    list.add(selectableLazyListKey.value)
                 }
                 state.lastActiveItemIndex = index
             }
@@ -85,7 +85,7 @@ interface SelectableColumnOnKeyEvent {
                 .reversed()
                 .firstOrNull { it.value is Selectable }
                 ?.let { (index, selectableKey) ->
-                    state.selectedKeys = listOf(selectableKey.key)
+                    state.selectedKeys = listOf(selectableKey.value)
                     state.lastActiveItemIndex = index
                 }
         }
@@ -104,7 +104,7 @@ interface SelectableColumnOnKeyEvent {
                 .reversed()
                 .firstOrNull { it.value is Selectable }
                 ?.let { (index, selectableKey) ->
-                    state.selectedKeys = state.selectedKeys + selectableKey.key
+                    state.selectedKeys = state.selectedKeys + selectableKey.value
                     state.lastActiveItemIndex = index
                 }
         }
@@ -121,7 +121,7 @@ interface SelectableColumnOnKeyEvent {
                 .dropWhile { it.index <= lastActiveIndex }
                 .firstOrNull { it.value is Selectable }
                 ?.let { (index, selectableKey) ->
-                    state.selectedKeys = listOf(selectableKey.key)
+                    state.selectedKeys = listOf(selectableKey.value)
                     state.lastActiveItemIndex = index
                 }
         }
@@ -139,7 +139,7 @@ interface SelectableColumnOnKeyEvent {
                 .dropWhile { it.index <= lastActiveIndex }
                 .firstOrNull { it.value is Selectable }
                 ?.let { (index, selectableKey) ->
-                    state.selectedKeys = state.selectedKeys + selectableKey.key
+                    state.selectedKeys = state.selectedKeys + selectableKey.value
                     state.lastActiveItemIndex = index
                 }
         }
@@ -151,7 +151,7 @@ interface SelectableColumnOnKeyEvent {
     fun onScrollPageUpAndSelectItem(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
         val visibleSize = state.layoutInfo.visibleItemsInfo.size
         val targetIndex = max((state.lastActiveItemIndex ?: 0) - visibleSize, 0)
-        state.selectedKeys = listOf(keys[targetIndex].key)
+        state.selectedKeys = listOf(keys[targetIndex].value)
         state.lastActiveItemIndex = targetIndex
     }
 
@@ -166,7 +166,7 @@ interface SelectableColumnOnKeyEvent {
                 .withIndex()
                 .filter { it.value is Selectable }
                 .let {
-                    state.selectedKeys + it.map { selectableKey -> selectableKey.value.key }
+                    state.selectedKeys + it.map { selectableKey -> selectableKey.value.value }
                 }
         state.selectedKeys = newSelectionList
         state.lastActiveItemIndex = targetIndex
@@ -178,7 +178,7 @@ interface SelectableColumnOnKeyEvent {
     fun onScrollPageDownAndSelectItem(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
         val visibleSize = state.layoutInfo.visibleItemsInfo.size
         val targetIndex = min((state.lastActiveItemIndex ?: 0) + visibleSize, keys.lastIndex)
-        state.selectedKeys = listOf(keys[targetIndex].key)
+        state.selectedKeys = listOf(keys[targetIndex].value)
         state.lastActiveItemIndex = targetIndex
     }
 
@@ -192,7 +192,7 @@ interface SelectableColumnOnKeyEvent {
             keys.subList(state.lastActiveItemIndex ?: 0, targetIndex)
                 .filterIsInstance<Selectable>()
                 .let {
-                    state.selectedKeys + it.map { selectableKey -> selectableKey.key }
+                    state.selectedKeys + it.map { selectableKey -> selectableKey.value }
                 }
         state.selectedKeys = newSelectionList
         state.lastActiveItemIndex = targetIndex
@@ -210,7 +210,7 @@ interface SelectableColumnOnKeyEvent {
      * Select All
      */
     fun onSelectAll(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
-        state.selectedKeys = keys.filterIsInstance<Selectable>().map { it.key }
+        state.selectedKeys = keys.filterIsInstance<Selectable>().map { it.value }
     }
 }
 

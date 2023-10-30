@@ -248,43 +248,56 @@ public abstract interface class org/jetbrains/jewel/foundation/lazy/SelectableLa
 	public abstract fun isSelected ()Z
 }
 
-public abstract class org/jetbrains/jewel/foundation/lazy/SelectableLazyListKey {
-	public static final field $stable I
-	public fun equals (Ljava/lang/Object;)Z
-	public abstract fun getKey ()Ljava/lang/Object;
-	public fun hashCode ()I
+public abstract interface class org/jetbrains/jewel/foundation/lazy/SelectableLazyListKey {
+	public abstract fun getValue ()Ljava/lang/Object;
 }
 
 public final class org/jetbrains/jewel/foundation/lazy/SelectableLazyListKey$NotSelectable : org/jetbrains/jewel/foundation/lazy/SelectableLazyListKey {
-	public static final field $stable I
-	public fun <init> (Ljava/lang/Object;)V
-	public fun getKey ()Ljava/lang/Object;
+	public static final synthetic fun box-impl (Ljava/lang/Object;)Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListKey$NotSelectable;
+	public static fun constructor-impl (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public fun getValue ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/Object;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/Object;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/Object;
 }
 
 public final class org/jetbrains/jewel/foundation/lazy/SelectableLazyListKey$Selectable : org/jetbrains/jewel/foundation/lazy/SelectableLazyListKey {
-	public static final field $stable I
-	public fun <init> (Ljava/lang/Object;)V
-	public fun getKey ()Ljava/lang/Object;
+	public static final synthetic fun box-impl (Ljava/lang/Object;)Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListKey$Selectable;
+	public static fun constructor-impl (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public fun getValue ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/Object;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/Object;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/Object;
 }
 
 public abstract interface class org/jetbrains/jewel/foundation/lazy/SelectableLazyListScope {
-	public abstract fun item (Ljava/lang/Object;Ljava/lang/Object;ZLkotlin/jvm/functions/Function3;)V
-	public abstract fun items (ILkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;)V
-	public abstract fun stickyHeader (Ljava/lang/Object;Ljava/lang/Object;ZLkotlin/jvm/functions/Function3;)V
+	public abstract fun item (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;ZLkotlin/jvm/functions/Function3;)V
+	public abstract fun items (ILkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;)V
+	public abstract fun stickyHeader (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;ZLkotlin/jvm/functions/Function3;)V
 }
 
 public final class org/jetbrains/jewel/foundation/lazy/SelectableLazyListScope$DefaultImpls {
-	public static synthetic fun item$default (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/lang/Object;Ljava/lang/Object;ZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
-	public static synthetic fun items$default (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;ILkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;ILjava/lang/Object;)V
-	public static synthetic fun stickyHeader$default (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/lang/Object;Ljava/lang/Object;ZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
+	public static synthetic fun item$default (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;ZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
+	public static synthetic fun items$default (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;ILkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;ILjava/lang/Object;)V
+	public static synthetic fun stickyHeader$default (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;ZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
 }
 
 public final class org/jetbrains/jewel/foundation/lazy/SelectableLazyListScopeKt {
-	public static final fun SelectableLazyItemScope (Landroidx/compose/foundation/lazy/LazyItemScope;ZZLandroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyItemScope;
-	public static final fun items (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;)V
-	public static synthetic fun items$default (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;ILjava/lang/Object;)V
-	public static final fun itemsIndexed (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/util/List;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function5;)V
-	public static synthetic fun itemsIndexed$default (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/util/List;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function5;ILjava/lang/Object;)V
+	public static final fun SelectableLazyItemScope (Landroidx/compose/foundation/lazy/LazyItemScope;ZZLandroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyItemScope;
+	public static final fun items (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;)V
+	public static synthetic fun items$default (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;ILjava/lang/Object;)V
+	public static final fun itemsIndexed (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/util/List;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function5;)V
+	public static synthetic fun itemsIndexed$default (Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListScope;Ljava/util/List;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function5;ILjava/lang/Object;)V
 }
 
 public final class org/jetbrains/jewel/foundation/lazy/SelectableLazyListState : androidx/compose/foundation/gestures/ScrollableState, org/jetbrains/jewel/foundation/lazy/SelectableScope {
@@ -343,8 +356,8 @@ public final class org/jetbrains/jewel/foundation/lazy/tree/ChildrenGeneratorSco
 	public static final field $stable I
 	public fun <init> (Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element$Node;)V
 	public fun add (Lorg/jetbrains/jewel/foundation/lazy/tree/TreeBuilder$Element;)V
-	public fun addLeaf (Ljava/lang/Object;Ljava/lang/Object;)V
-	public fun addNode (Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
+	public fun addLeaf (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V
+	public fun addNode (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
 	public final fun getParent ()Lorg/jetbrains/jewel/foundation/lazy/tree/ChildrenGeneratorScope$ParentInfo;
 }
 
@@ -483,10 +496,11 @@ public abstract interface class org/jetbrains/jewel/foundation/lazy/tree/Tree$El
 	public abstract fun getChildIndex ()I
 	public abstract fun getData ()Ljava/lang/Object;
 	public abstract fun getDepth ()I
-	public abstract fun getId ()Ljava/lang/Object;
 	public abstract fun getNext ()Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;
 	public abstract fun getParent ()Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;
 	public abstract fun getPrevious ()Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;
+	public abstract fun getSelectionId ()Ljava/lang/Object;
+	public abstract fun getUiId ()Ljava/lang/Object;
 	public abstract fun nextElementsIterable ()Ljava/lang/Iterable;
 	public abstract fun path ()Ljava/util/List;
 	public abstract fun previousElementsIterable ()Ljava/lang/Iterable;
@@ -502,14 +516,15 @@ public final class org/jetbrains/jewel/foundation/lazy/tree/Tree$Element$Default
 
 public final class org/jetbrains/jewel/foundation/lazy/tree/Tree$Element$Leaf : org/jetbrains/jewel/foundation/lazy/tree/Tree$Element {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/Object;IILorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Ljava/lang/Object;)V
+	public fun <init> (Ljava/lang/Object;IILorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Ljava/lang/Object;Ljava/lang/Object;)V
 	public fun getChildIndex ()I
 	public fun getData ()Ljava/lang/Object;
 	public fun getDepth ()I
-	public fun getId ()Ljava/lang/Object;
 	public fun getNext ()Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;
 	public fun getParent ()Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;
 	public fun getPrevious ()Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;
+	public fun getSelectionId ()Ljava/lang/Object;
+	public fun getUiId ()Ljava/lang/Object;
 	public fun nextElementsIterable ()Ljava/lang/Iterable;
 	public fun path ()Ljava/util/List;
 	public fun previousElementsIterable ()Ljava/lang/Iterable;
@@ -519,16 +534,17 @@ public final class org/jetbrains/jewel/foundation/lazy/tree/Tree$Element$Leaf : 
 
 public final class org/jetbrains/jewel/foundation/lazy/tree/Tree$Element$Node : org/jetbrains/jewel/foundation/lazy/tree/Tree$Element {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/Object;IILorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Lkotlin/jvm/functions/Function1;Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Ljava/lang/Object;)V
+	public fun <init> (Ljava/lang/Object;IILorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Lkotlin/jvm/functions/Function1;Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Ljava/lang/Object;Ljava/lang/Object;)V
 	public final fun close ()V
 	public fun getChildIndex ()I
 	public final fun getChildren ()Ljava/util/List;
 	public fun getData ()Ljava/lang/Object;
 	public fun getDepth ()I
-	public fun getId ()Ljava/lang/Object;
 	public fun getNext ()Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;
 	public fun getParent ()Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;
 	public fun getPrevious ()Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;
+	public fun getSelectionId ()Ljava/lang/Object;
+	public fun getUiId ()Ljava/lang/Object;
 	public fun nextElementsIterable ()Ljava/lang/Iterable;
 	public final fun open (Z)V
 	public static synthetic fun open$default (Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element$Node;ZILjava/lang/Object;)V
@@ -542,33 +558,36 @@ public final class org/jetbrains/jewel/foundation/lazy/tree/TreeBuilder : org/je
 	public static final field $stable I
 	public fun <init> ()V
 	public fun add (Lorg/jetbrains/jewel/foundation/lazy/tree/TreeBuilder$Element;)V
-	public fun addLeaf (Ljava/lang/Object;Ljava/lang/Object;)V
-	public fun addNode (Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
+	public fun addLeaf (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V
+	public fun addNode (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
 	public final fun build ()Lorg/jetbrains/jewel/foundation/lazy/tree/Tree;
 }
 
-public abstract class org/jetbrains/jewel/foundation/lazy/tree/TreeBuilder$Element {
-	public static final field $stable I
-	public abstract fun getId ()Ljava/lang/Object;
+public abstract interface class org/jetbrains/jewel/foundation/lazy/tree/TreeBuilder$Element {
+	public abstract fun getData ()Ljava/lang/Object;
+	public abstract fun getSelectionId ()Ljava/lang/Object;
+	public abstract fun getUiId ()Ljava/lang/Object;
 }
 
 public final class org/jetbrains/jewel/foundation/lazy/tree/TreeBuilder$Element$Leaf : org/jetbrains/jewel/foundation/lazy/tree/TreeBuilder$Element {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/Object;Ljava/lang/Object;)V
+	public fun <init> (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getData ()Ljava/lang/Object;
-	public fun getId ()Ljava/lang/Object;
+	public fun getData ()Ljava/lang/Object;
+	public fun getSelectionId ()Ljava/lang/Object;
+	public fun getUiId ()Ljava/lang/Object;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class org/jetbrains/jewel/foundation/lazy/tree/TreeBuilder$Element$Node : org/jetbrains/jewel/foundation/lazy/tree/TreeBuilder$Element {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
+	public fun <init> (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getChildrenGenerator ()Lkotlin/jvm/functions/Function1;
-	public final fun getData ()Ljava/lang/Object;
-	public fun getId ()Ljava/lang/Object;
+	public fun getData ()Ljava/lang/Object;
+	public fun getSelectionId ()Ljava/lang/Object;
+	public fun getUiId ()Ljava/lang/Object;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -612,13 +631,13 @@ public final class org/jetbrains/jewel/foundation/lazy/tree/TreeElementState$Com
 
 public abstract interface class org/jetbrains/jewel/foundation/lazy/tree/TreeGeneratorScope {
 	public abstract fun add (Lorg/jetbrains/jewel/foundation/lazy/tree/TreeBuilder$Element;)V
-	public abstract fun addLeaf (Ljava/lang/Object;Ljava/lang/Object;)V
-	public abstract fun addNode (Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
+	public abstract fun addLeaf (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V
+	public abstract fun addNode (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class org/jetbrains/jewel/foundation/lazy/tree/TreeGeneratorScope$DefaultImpls {
-	public static synthetic fun addLeaf$default (Lorg/jetbrains/jewel/foundation/lazy/tree/TreeGeneratorScope;Ljava/lang/Object;Ljava/lang/Object;ILjava/lang/Object;)V
-	public static synthetic fun addNode$default (Lorg/jetbrains/jewel/foundation/lazy/tree/TreeGeneratorScope;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static synthetic fun addLeaf$default (Lorg/jetbrains/jewel/foundation/lazy/tree/TreeGeneratorScope;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;ILjava/lang/Object;)V
+	public static synthetic fun addNode$default (Lorg/jetbrains/jewel/foundation/lazy/tree/TreeGeneratorScope;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
 public final class org/jetbrains/jewel/foundation/lazy/tree/TreeKt {

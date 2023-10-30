@@ -11,15 +11,19 @@ interface SelectableLazyListScope {
 
     /**
      * Represents an item in a selectable lazy list.
+     * By default `[selectionKey] = [uiKey]`, but you can assign [uiKey] if you need to
+     * recompose the item while keeping the selection unchanged.
      *
-     * @param key The unique identifier for the item.
+     * @param selectionKey The unique identifier for the item used for selection.
+     * @param uiKey The unique identifier for the item used for triggering recompositions.
      * @param contentType The type of content displayed in the item.
      * @param selectable Determines if the item is selectable. Default is
      *     `true`.
      * @param content The content of the item as a composable function.
      */
     fun item(
-        key: Any,
+        selectionKey: Any,
+        uiKey: Any = selectionKey,
         contentType: Any? = null,
         selectable: Boolean = true,
         content: @Composable SelectableLazyItemScope.() -> Unit,
@@ -27,10 +31,14 @@ interface SelectableLazyListScope {
 
     /**
      * Represents a list of items based on the provided parameters.
+     * By default `[selectionKey] = [uiKey]`, but you can assign [uiKey] if you need to
+     * recompose the item while keeping the selection unchanged.
      *
      * @param count The number of items in the list.
-     * @param key A function that generates a unique key for each item based on
-     *     its index.
+     * @param selectionKey A function that generates a unique key for each item based on
+     *     its index. It is used for selection.
+     * @param uiKey A function that generates a unique key for each item based on
+     *    its index. It is used for triggering recompositions.
      * @param contentType A function that returns the content type of an item
      *     based on its index. Defaults to `null`.
      * @param selectable A function that determines if an item is selectable
@@ -40,7 +48,8 @@ interface SelectableLazyListScope {
      */
     fun items(
         count: Int,
-        key: (index: Int) -> Any,
+        selectionKey: (index: Int) -> Any,
+        uiKey: (index: Int) -> Any = selectionKey,
         contentType: (index: Int) -> Any? = { null },
         selectable: (index: Int) -> Boolean = { true },
         itemContent: @Composable SelectableLazyItemScope.(index: Int) -> Unit,
@@ -48,15 +57,19 @@ interface SelectableLazyListScope {
 
     /**
      * A method that enables sticky header behavior in a list or grid view.
+     * By default `[selectionKey] = [uiKey]`, but you can assign [uiKey] if you need to
+     * recompose the item while keeping the selection unchanged.
      *
-     * @param key The unique identifier for the sticky header.
+     * @param selectionKey The unique identifier for the sticky header used for selection.
+     * @param uiKey The unique identifier for the sticky header used for triggering recompositions.
      * @param contentType The type of content in the sticky header.
      * @param selectable Specifies whether the sticky header is selectable.
      * @param content The content to be displayed in the sticky header,
      *     provided as a composable function
      */
     fun stickyHeader(
-        key: Any,
+        selectionKey: Any,
+        uiKey: Any = selectionKey,
         contentType: Any? = null,
         selectable: Boolean = false,
         content: @Composable SelectableLazyItemScope.() -> Unit,
@@ -67,15 +80,16 @@ internal class SelectableLazyListScopeContainer : SelectableLazyListScope {
 
     private var entriesCount = 0
 
-    private val keys = mutableListOf<SelectableLazyListKey>()
+    private val selectionKeys = mutableListOf<SelectableLazyListKey>()
     private val entries = mutableListOf<Entry>()
 
     fun getEntries() = entries.toList()
-    fun getKeys() = keys.toList()
+    fun getSelectionKeys() = selectionKeys.toList()
 
     internal sealed interface Entry {
         data class Item(
-            val key: Any,
+            val selectionKey: Any,
+            val uiKey: Any,
             val contentType: Any?,
             val content: @Composable (SelectableLazyItemScope.() -> Unit),
             val index: Int,
@@ -83,14 +97,16 @@ internal class SelectableLazyListScopeContainer : SelectableLazyListScope {
 
         data class Items(
             val count: Int,
-            val key: (index: Int) -> Any,
+            val selectionKey: (index: Int) -> Any,
+            val uiKey: (index: Int) -> Any,
             val contentType: (index: Int) -> Any?,
             val itemContent: @Composable (SelectableLazyItemScope.(index: Int) -> Unit),
             val startIndex: Int,
         ) : Entry
 
         data class StickyHeader(
-            val key: Any,
+            val selectionKey: Any,
+            val uiKey: Any,
             val contentType: Any?,
             val content: @Composable (SelectableLazyItemScope.() -> Unit),
             val index: Int,
@@ -98,58 +114,63 @@ internal class SelectableLazyListScopeContainer : SelectableLazyListScope {
     }
 
     override fun item(
-        key: Any,
+        selectionKey: Any,
+        uiKey: Any,
         contentType: Any?,
         selectable: Boolean,
         content: @Composable (SelectableLazyItemScope.() -> Unit),
     ) {
-        keys.add(if (selectable) Selectable(key) else NotSelectable(key))
-        entries.add(Entry.Item(key, contentType, content, entriesCount))
+        selectionKeys.add(if (selectable) Selectable(selectionKey) else NotSelectable(selectionKey))
+        entries.add(Entry.Item(selectionKey, uiKey, contentType, content, entriesCount))
         entriesCount++
     }
 
     override fun items(
         count: Int,
-        key: (index: Int) -> Any,
+        selectionKey: (index: Int) -> Any,
+        uiKey: (index: Int) -> Any,
         contentType: (index: Int) -> Any?,
         selectable: (index: Int) -> Boolean,
         itemContent: @Composable (SelectableLazyItemScope.(index: Int) -> Unit),
     ) {
         val selectableKeys: List<SelectableLazyListKey> = List(count) {
             if (selectable(it)) {
-                Selectable(key(it))
+                Selectable(selectionKey(it))
             } else {
-                NotSelectable(key(it))
+                NotSelectable(selectionKey(it))
             }
         }
-        keys.addAll(selectableKeys)
-        entries.add(Entry.Items(count, key, contentType, itemContent, entriesCount))
+        selectionKeys.addAll(selectableKeys)
+        entries.add(Entry.Items(count, selectionKey, uiKey, contentType, itemContent, entriesCount))
         entriesCount += count
     }
 
     @ExperimentalFoundationApi
     override fun stickyHeader(
-        key: Any,
+        selectionKey: Any,
+        uiKey: Any,
         contentType: Any?,
         selectable: Boolean,
         content: @Composable (SelectableLazyItemScope.() -> Unit),
     ) {
-        keys.add(if (selectable) Selectable(key) else NotSelectable(key))
-        entries.add(Entry.StickyHeader(key, contentType, content, entriesCount))
+        selectionKeys.add(if (selectable) Selectable(selectionKey) else NotSelectable(selectionKey))
+        entries.add(Entry.StickyHeader(selectionKey, uiKey, contentType, content, entriesCount))
         entriesCount++
     }
 }
 
 fun <T : Any> SelectableLazyListScope.items(
     items: List<T>,
-    key: (item: T) -> Any = { it },
+    selectionKey: (item: T) -> Any = { it },
+    uiKey: (item: T) -> Any = { it },
     contentType: (item: T) -> Any? = { it },
     selectable: (item: T) -> Boolean = { true },
     itemContent: @Composable SelectableLazyItemScope.(item: T) -> Unit,
 ) {
     items(
         count = items.size,
-        key = { key(items[it]) },
+        selectionKey = { selectionKey(items[it]) },
+        uiKey = { uiKey(items[it]) },
         contentType = { contentType(items[it]) },
         selectable = { selectable(items[it]) },
         itemContent = { itemContent(items[it]) },
@@ -158,14 +179,16 @@ fun <T : Any> SelectableLazyListScope.items(
 
 fun <T : Any> SelectableLazyListScope.itemsIndexed(
     items: List<T>,
-    key: (index: Int, item: T) -> Any = { _, item -> item },
+    selectionKey: (index: Int, item: T) -> Any = { _, item -> item },
+    uiKey: (index: Int, item: T) -> Any = { _, item -> item },
     contentType: (index: Int, item: T) -> Any? = { _, item -> item },
     selectable: (index: Int, item: T) -> Boolean = { _, _ -> true },
     itemContent: @Composable SelectableLazyItemScope.(index: Int, item: T) -> Unit,
 ) {
     items(
         count = items.size,
-        key = { key(it, items[it]) },
+        selectionKey = { selectionKey(it, items[it]) },
+        uiKey = { uiKey(it, items[it]) },
         contentType = { contentType(it, items[it]) },
         selectable = { selectable(it, items[it]) },
         itemContent = { itemContent(it, items[it]) },
@@ -174,8 +197,8 @@ fun <T : Any> SelectableLazyListScope.itemsIndexed(
 
 @Composable
 fun LazyItemScope.SelectableLazyItemScope(
-    isSelected: Boolean = false,
-    isActive: Boolean = false,
+    isSelected: Boolean,
+    isActive: Boolean,
 ): SelectableLazyItemScope =
     SelectableLazyItemScopeDelegate(this, isSelected, isActive)
 

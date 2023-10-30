@@ -104,7 +104,7 @@ fun <T> BasicLazyTree(
         onSelectionChange(
             flattenedTree
                 .asSequence()
-                .filter { it.id in treeState.delegate.selectedKeys }
+                .filter { it.selectionId in treeState.delegate.selectedKeys }
                 .map { element -> element as Tree.Element<T> }
                 .toList(),
         )
@@ -123,13 +123,14 @@ fun <T> BasicLazyTree(
     ) {
         itemsIndexed(
             items = flattenedTree,
-            key = { _, item -> item.id },
+            selectionKey = { _, item -> item.selectionId },
+            uiKey = { _, item -> item.uiId },
             contentType = { _, item -> item.data },
         ) { index, element ->
             val elementState = TreeElementState.of(
                 active = isActive,
                 selected = isSelected,
-                expanded = (element as? Tree.Element.Node)?.let { it.id in treeState.openNodes } ?: false,
+                expanded = (element as? Tree.Element.Node)?.let { it.selectionId in treeState.openNodes } ?: false,
             )
 
             val backgroundShape by remember { mutableStateOf(RoundedCornerShape(elementBackgroundCornerSize)) }
@@ -166,7 +167,7 @@ fun <T> BasicLazyTree(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
                         ) {
-                            treeState.toggleNode(element.id)
+                            treeState.toggleNode(element.selectionId)
                             onElementDoubleClick(element as Tree.Element<T>)
                         },
                     ) {
@@ -281,9 +282,9 @@ private fun Tree.Element<*>.flattenTree(state: TreeState): MutableList<Tree.Elem
     val orderedChildren = mutableListOf<Tree.Element<*>>()
     when (this) {
         is Tree.Element.Node<*> -> {
-            if (id !in state.allNodes.map { it.first }) state.allNodes.add(id to depth)
+            if (selectionId !in state.allNodes.map { it.first }) state.allNodes.add(selectionId to depth)
             orderedChildren.add(this)
-            if (id !in state.openNodes) {
+            if (selectionId !in state.openNodes) {
                 return orderedChildren.also {
                     close()
                     // remove all children key from openNodes
@@ -292,7 +293,7 @@ private fun Tree.Element<*>.flattenTree(state: TreeState): MutableList<Tree.Elem
                     }
                 }
             }
-            Log.w("the node is open, loading children for $id")
+            Log.w("the node is open, loading children for $selectionId")
             Log.w("children size: ${children?.size}")
             open(true)
             children?.forEach { child ->
@@ -311,7 +312,7 @@ private infix fun MutableSet<Any>.getAllSubNodes(node: Tree.Element.Node<*>) {
     node.children
         ?.filterIsInstance<Tree.Element.Node<*>>()
         ?.forEach {
-            add(it.id)
+            add(it.selectionId)
             this@getAllSubNodes getAllSubNodes (it)
         }
 }

@@ -40,7 +40,8 @@ class Tree<T> internal constructor(val roots: List<Element<T>>) {
         val childIndex: Int
         var next: Element<T>?
         var previous: Element<T>?
-        val id: Any
+        val selectionId: Any
+        val uiId: Any
 
         fun path() = buildList {
             var next: Element<T>? = this@Element
@@ -60,7 +61,8 @@ class Tree<T> internal constructor(val roots: List<Element<T>>) {
             override val parent: Element<T>?,
             override var previous: Element<T>?,
             override var next: Element<T>?,
-            override val id: Any,
+            override val selectionId: Any,
+            override val uiId: Any,
         ) : Element<T>
 
         class Node<T>(
@@ -71,7 +73,8 @@ class Tree<T> internal constructor(val roots: List<Element<T>>) {
             private val childrenGenerator: (parent: Node<T>) -> List<Element<T>>,
             override var next: Element<T>?,
             override var previous: Element<T>?,
-            override val id: Any,
+            override val selectionId: Any,
+            override val uiId: Any,
         ) : Element<T> {
 
             var children: List<Element<T>>? = null

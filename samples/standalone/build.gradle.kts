@@ -37,3 +37,14 @@ compose.desktop {
         }
     }
 }
+
+afterEvaluate {
+    tasks {
+        named<JavaExec>("run") {
+            javaLauncher = project.javaToolchains.launcherFor {
+                languageVersion = JavaLanguageVersion.of(17)
+                vendor = JvmVendorSpec.JETBRAINS
+            }
+        }
+    }
+}

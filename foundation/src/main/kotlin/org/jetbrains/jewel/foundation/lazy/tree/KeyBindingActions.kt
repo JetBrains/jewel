@@ -62,7 +62,7 @@ interface PointerEventActions {
                 else -> {
                     Log.i("single click")
                     selectableLazyListState.selectedKeys = listOf(key)
-                    selectableLazyListState.lastActiveItemIndex = allKeys.indexOfFirst { it.key == key }
+                    selectableLazyListState.lastActiveItemIndex = allKeys.indexOfFirst { it.value == key }
                 }
             }
         }
@@ -93,7 +93,7 @@ interface PointerEventActions {
         if (selectionMode == SelectionMode.Single) {
             state.selectedKeys = listOf(key)
         } else {
-            val currentIndex = allKeys.indexOfFirst { it.key == key }.coerceAtLeast(0)
+            val currentIndex = allKeys.indexOfFirst { it.value == key }.coerceAtLeast(0)
             val lastFocussed = state.lastActiveItemIndex ?: currentIndex
             val indexInterval = if (currentIndex > lastFocussed) {
                 lastFocussed..currentIndex
@@ -103,13 +103,13 @@ interface PointerEventActions {
             val keys = buildList {
                 for (i in indexInterval) {
                     val currentKey = allKeys[i]
-                    if (currentKey is SelectableLazyListKey.Selectable && !state.selectedKeys.contains(allKeys[i].key)) {
-                        add(currentKey.key)
+                    if (currentKey is SelectableLazyListKey.Selectable && !state.selectedKeys.contains(allKeys[i].value)) {
+                        add(currentKey.value)
                     }
                 }
             }
             state.selectedKeys = state.selectedKeys.toMutableList().also { it.addAll(keys) }
-            state.lastActiveItemIndex = allKeys.indexOfFirst { it.key == key }
+            state.lastActiveItemIndex = allKeys.indexOfFirst { it.value == key }
         }
     }
 }
@@ -161,21 +161,21 @@ class DefaultTreeViewPointerEventAction(
         onElementClick: (Tree.Element<T>) -> Unit,
         onElementDoubleClick: (Tree.Element<T>) -> Unit,
     ) {
-        if (elementClickedTmpHolder == item.id) {
+        if (elementClickedTmpHolder == item.selectionId) {
             // is a double click
             if (item is Tree.Element.Node) {
-                treeState.toggleNode(item.id)
+                treeState.toggleNode(item.selectionId)
             }
             onElementDoubleClick(item)
             elementClickedTmpHolder = null
             Log.d("doubleClicked!")
         } else {
-            elementClickedTmpHolder = item.id
+            elementClickedTmpHolder = item.selectionId
             // is a single click
             onElementClick(item)
             scope.launch {
                 delay(doubleClickTimeDelayMillis)
-                if (elementClickedTmpHolder == item.id) elementClickedTmpHolder = null
+                if (elementClickedTmpHolder == item.selectionId) elementClickedTmpHolder = null
             }
 
             Log.d("singleClicked!")

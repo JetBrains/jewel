@@ -246,41 +246,32 @@ private suspend fun LazyListState.scrollToItem(index: Int, animate: Boolean, scr
 /**
  * Represents a selectable key used in a selectable lazy list.
  */
-sealed class SelectableLazyListKey {
+sealed interface SelectableLazyListKey {
 
     /**
      * The key associated with the item.
      */
-    abstract val key: Any
+    val value: Any
 
     /**
      * Represents a selectable item key.
      *
-     * @param key The key associated with the item.
+     * @param value The key associated with the item.
      */
-    class Selectable(
-        override val key: Any,
-    ) : SelectableLazyListKey()
+    @JvmInline
+    value class Selectable(
+        override val value: Any,
+    ) : SelectableLazyListKey
 
     /**
      * Represents a non-selectable item key.
      *
-     * @param key The key associated with the item.
+     * @param value The key associated with the item.
      */
-    class NotSelectable(
-        override val key: Any,
-    ) : SelectableLazyListKey()
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as SelectableLazyListKey
-
-        return key == other.key
-    }
-
-    override fun hashCode(): Int = key.hashCode()
+    @JvmInline
+    value class NotSelectable(
+        override val value: Any,
+    ) : SelectableLazyListKey
 }
 
 interface SelectableLazyItemScope : LazyItemScope {

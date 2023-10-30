@@ -2,9 +2,6 @@ package org.jetbrains.jewel.samples.standalone.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.tree.buildTree
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -32,6 +31,8 @@ import org.jetbrains.jewel.ui.component.RadioButtonChip
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.ToggleableChip
 import org.jetbrains.jewel.ui.theme.colorPalette
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun ChipsAndTree() {
@@ -55,36 +56,41 @@ fun ChipsAndTree() {
 
 @Composable
 fun SelectableLazyColumnSample() {
-    val listOfItems = remember {
-        List((5000..10000).random()) { "Item $it" }
+    var listOfItems by remember {
+        mutableStateOf(List((5000..10000).random()) { "Item $it" })
     }
-    val interactionSource = remember { MutableInteractionSource() }
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(1.seconds)
+            listOfItems = listOfItems.mapIndexed { index, s ->
+                if (index != 2) s else "WHOOO ${Random.nextInt(0, 10)}"
+            }
+        }
+    }
     SelectableLazyColumn(
-        modifier = Modifier
-            .size(200.dp, 200.dp)
-            .focusable(interactionSource = interactionSource),
-        content = {
-            items(
-                count = listOfItems.size,
-                key = { index -> listOfItems[index] },
-            ) { index ->
-                Text(
-                    text = listOfItems[index],
-                    modifier =
-                    Modifier.then(
+        modifier = Modifier.size(200.dp, 200.dp),
+        onSelectedIndexesChanged = { indexes ->
+            println(indexes.joinToString { listOfItems[it] })
+        },
+    ) {
+        items(
+            count = listOfItems.size,
+            selectionKey = { index -> index },
+            uiKey = { index -> listOfItems[index] },
+        ) { index ->
+            Text(
+                text = listOfItems[index],
+                modifier = Modifier
+                    .then(
                         when {
                             isSelected && isActive -> Modifier.background(Color.Blue)
                             isSelected && !isActive -> Modifier.background(Color.Gray)
                             else -> Modifier
                         },
-                    ).clickable {
-                        println("click on $index")
-                    },
-                )
-            }
-        },
-        interactionSource = remember { MutableInteractionSource() },
-    )
+                    ),
+            )
+        }
+    }
 }
 
 @Composable

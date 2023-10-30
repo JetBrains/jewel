@@ -9,7 +9,7 @@ open class DefaultTreeViewOnKeyEvent(
 ) : TreeViewOnKeyEvent {
 
     override fun onSelectParent(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
-        val currentKey = keys[state.lastActiveItemIndex ?: 0].key
+        val currentKey = keys[state.lastActiveItemIndex ?: 0].value
         val keyNodeList = treeState.allNodes.map { it.first }
 
         if (currentKey !in keyNodeList) {
@@ -34,11 +34,11 @@ open class DefaultTreeViewOnKeyEvent(
                 .reversed()
                 .firstOrNull { it.second < currentNode.second }
                 ?.let { (parentNodeKey, _) ->
-                    keys.first { it.key == parentNodeKey }
+                    keys.first { it.value == parentNodeKey }
                         .takeIf { it is SelectableLazyListKey.Selectable }
                         ?.let {
                             state.lastActiveItemIndex =
-                                keys.indexOfFirst { selectableKey -> selectableKey.key == parentNodeKey }
+                                keys.indexOfFirst { selectableKey -> selectableKey.value == parentNodeKey }
                             state.selectedKeys = listOf(parentNodeKey)
                         }
                 }
@@ -54,10 +54,10 @@ open class DefaultTreeViewOnKeyEvent(
         val index = keys.indexOf(currentKey)
         if (index < 0) return
         for (i in index downTo 0) {
-            if (keys[i].key in keyNodeList) {
+            if (keys[i].value in keyNodeList) {
                 if (keys[i] is SelectableLazyListKey.Selectable) {
                     state.lastActiveItemIndex = i
-                    state.selectedKeys = listOf(keys[i].key)
+                    state.selectedKeys = listOf(keys[i].value)
                 }
                 break
             }
@@ -65,7 +65,7 @@ open class DefaultTreeViewOnKeyEvent(
     }
 
     override fun onSelectChild(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
-        val currentKey = keys[state.lastActiveItemIndex ?: 0].key
+        val currentKey = keys[state.lastActiveItemIndex ?: 0].value
         if (currentKey in treeState.allNodes.map { it.first } && currentKey !in treeState.openNodes) {
             treeState.toggleNode(currentKey)
         } else {
