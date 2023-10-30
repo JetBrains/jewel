@@ -39,4 +39,12 @@ class TreeState(
     fun openNodes(nodes: List<Any>) {
         openNodes += nodes
     }
+
+    fun expandTree() {
+        if (allNodes.size != openNodes.size) openNodes = allNodes.toSet()
+    }
+
+    fun collapseTree() {
+        if (openNodes.isNotEmpty()) openNodes = emptySet()
+    }
 }
