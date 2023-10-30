@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.standalone.components
+package org.jetbrains.jewel.samples.standalone.view.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -9,13 +9,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.Outline
-import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.RadioButtonRow
 
 @Composable
+@View("RadioButtons", 2)
 fun RadioButtons() {
-    GroupHeader("RadioButtons")
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically,

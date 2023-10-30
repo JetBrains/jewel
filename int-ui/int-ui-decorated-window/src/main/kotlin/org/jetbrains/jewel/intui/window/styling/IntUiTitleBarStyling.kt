@@ -11,6 +11,7 @@ import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
 import org.jetbrains.jewel.intui.standalone.styling.defaults
+import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.intui.standalone.styling.undecorated
 import org.jetbrains.jewel.intui.window.decoratedWindowPainterProvider
 import org.jetbrains.jewel.ui.component.styling.DropdownColors
@@ -19,6 +20,7 @@ import org.jetbrains.jewel.ui.component.styling.DropdownStyle
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
+import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.painter.PainterProvider
 import org.jetbrains.jewel.window.styling.TitleBarColors
 import org.jetbrains.jewel.window.styling.TitleBarIcons
@@ -35,8 +37,8 @@ fun TitleBarStyle.Companion.light(
         colors = colors,
         metrics = metrics,
         icons = icons,
-        dropdownStyle = DropdownStyle.Undecorated.light(
-            colors = DropdownColors.Undecorated.light(
+        dropdownStyle = DropdownStyle.Undecorated.dark(
+            colors = DropdownColors.Undecorated.dark(
                 content = colors.content,
                 contentFocused = colors.content,
                 contentHovered = colors.content,
@@ -51,6 +53,7 @@ fun TitleBarStyle.Companion.light(
                 cornerSize = CornerSize(6.dp),
                 contentPadding = PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
             ),
+            menuStyle = MenuStyle.light(),
         ),
         iconButtonStyle = titleBarIconButtonStyle(
             colors.iconButtonHoveredBackground,
@@ -163,14 +166,21 @@ private fun titleBarIconButtonStyle(
     metrics: IconButtonMetrics,
 ) = IconButtonStyle(
     IconButtonColors(
-        background = Color.Transparent,
-        backgroundDisabled = Color.Transparent,
+        foregroundSelectedActivated = Color.Unspecified,
+        background = Color.Unspecified,
+        backgroundDisabled = Color.Unspecified,
+        backgroundSelected = Color.Unspecified,
+        backgroundSelectedActivated = Color.Unspecified,
+        backgroundFocused = Color.Unspecified,
         backgroundPressed = hoveredBackground,
         backgroundHovered = pressedBackground,
-        border = Color.Transparent,
-        borderDisabled = Color.Transparent,
-        borderPressed = Color.Transparent,
-        borderHovered = Color.Transparent,
+        border = Color.Unspecified,
+        borderDisabled = Color.Unspecified,
+        borderSelected = Color.Unspecified,
+        borderSelectedActivated = Color.Unspecified,
+        borderFocused = hoveredBackground,
+        borderPressed = pressedBackground,
+        borderHovered = Color.Unspecified,
     ),
     metrics,
 )

@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.standalone.components
+package org.jetbrains.jewel.samples.standalone.view.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
-import org.jetbrains.jewel.ui.component.GroupHeader
+import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.painter.badge.DotBadgeShape
 import org.jetbrains.jewel.ui.painter.hints.Badge
@@ -27,9 +27,8 @@ import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.ui.theme.colorPalette
 
 @Composable
+@View("Icons", 6)
 internal fun Icons() {
-    GroupHeader("Icons")
-
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),

@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.standalone.components
+package org.jetbrains.jewel.samples.standalone.view.component
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -18,16 +18,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.component.CircularProgressIndicator
 import org.jetbrains.jewel.ui.component.CircularProgressIndicatorBig
-import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.HorizontalProgressBar
 import org.jetbrains.jewel.ui.component.IndeterminateHorizontalProgressBar
 import org.jetbrains.jewel.ui.component.Text
 
 @Composable
+@View("ProgressBar", 5)
 fun ProgressBar() {
-    GroupHeader("Progress bars")
     val transition = rememberInfiniteTransition()
     val currentOffset by transition.animateFloat(
         initialValue = 0f,

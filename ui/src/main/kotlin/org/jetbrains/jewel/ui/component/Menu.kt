@@ -73,6 +73,7 @@ import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.state.SelectableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
+import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.ui.component.styling.MenuItemColors
@@ -118,14 +119,16 @@ fun PopupMenu(
         focusManager = LocalFocusManager.current
         inputModeManager = LocalInputModeManager.current
 
-        CompositionLocalProvider(
-            LocalMenuManager provides menuManager,
-            LocalMenuStyle provides style,
-        ) {
-            MenuContent(
-                modifier = modifier,
-                content = content,
-            )
+        OverrideDarkMode(style.colors.isDark) {
+            CompositionLocalProvider(
+                LocalMenuManager provides menuManager,
+                LocalMenuStyle provides style,
+            ) {
+                MenuContent(
+                    modifier = modifier,
+                    content = content,
+                )
+            }
         }
     }
 }

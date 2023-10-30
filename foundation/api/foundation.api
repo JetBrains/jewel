@@ -682,6 +682,15 @@ public final class org/jetbrains/jewel/foundation/lazy/tree/TreeViewOnKeyEvent$D
 	public static fun onSelectPreviousItem (Lorg/jetbrains/jewel/foundation/lazy/tree/TreeViewOnKeyEvent;Ljava/util/List;Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListState;)V
 }
 
+public final class org/jetbrains/jewel/foundation/modifier/ActivationKt {
+	public static final fun getModifierLocalActivated ()Landroidx/compose/ui/modifier/ProvidableModifierLocal;
+	public static final fun onActivated (Landroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun onActivated$default (Landroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static final fun trackActivation (Landroidx/compose/ui/Modifier;)Landroidx/compose/ui/Modifier;
+	public static final fun trackComponentActivation (Landroidx/compose/ui/Modifier;Ljava/awt/Component;)Landroidx/compose/ui/Modifier;
+	public static final fun trackWindowActivation (Landroidx/compose/ui/Modifier;Ljava/awt/Window;)Landroidx/compose/ui/Modifier;
+}
+
 public final class org/jetbrains/jewel/foundation/modifier/BorderKt {
 	public static final fun border (Landroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/foundation/Stroke;Landroidx/compose/ui/graphics/Shape;)Landroidx/compose/ui/Modifier;
 	public static final fun border-AkepmR4 (Landroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/foundation/Stroke$Alignment;FLandroidx/compose/ui/graphics/Brush;Landroidx/compose/ui/graphics/Shape;F)Landroidx/compose/ui/Modifier;

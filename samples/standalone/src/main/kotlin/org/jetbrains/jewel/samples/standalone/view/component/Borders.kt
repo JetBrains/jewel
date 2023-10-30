@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.standalone.components
+package org.jetbrains.jewel.samples.standalone.view.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

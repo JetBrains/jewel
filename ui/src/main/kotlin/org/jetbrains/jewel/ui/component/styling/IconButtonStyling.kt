@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
-import org.jetbrains.jewel.ui.component.ButtonState
+import org.jetbrains.jewel.ui.component.IconButtonState
 
 @Stable
 @GenerateDataFunctions
@@ -26,30 +26,51 @@ class IconButtonStyle(
 @Immutable
 @GenerateDataFunctions
 class IconButtonColors(
+    val foregroundSelectedActivated: Color,
     val background: Color,
     val backgroundDisabled: Color,
+    val backgroundSelected: Color,
+    val backgroundSelectedActivated: Color,
+    val backgroundFocused: Color,
     val backgroundPressed: Color,
     val backgroundHovered: Color,
     val border: Color,
     val borderDisabled: Color,
+    val borderSelected: Color,
+    val borderSelectedActivated: Color,
+    val borderFocused: Color,
     val borderPressed: Color,
     val borderHovered: Color,
 ) {
 
     @Composable
-    fun backgroundFor(state: ButtonState) = rememberUpdatedState(
+    fun foregroundFor(state: IconButtonState) = rememberUpdatedState(
+        when {
+            state.isActive && state.isSelected -> foregroundSelectedActivated
+            else -> Color.Unspecified
+        },
+    )
+
+    @Composable
+    fun backgroundFor(state: IconButtonState) = rememberUpdatedState(
         when {
             !state.isEnabled -> backgroundDisabled
+            state.isActive && state.isSelected -> backgroundSelectedActivated
+            state.isSelected -> backgroundSelected
             state.isPressed -> backgroundPressed
             state.isHovered -> backgroundHovered
+            state.isFocused -> backgroundFocused
             else -> background
         },
     )
 
     @Composable
-    fun borderFor(state: ButtonState) = rememberUpdatedState(
+    fun borderFor(state: IconButtonState) = rememberUpdatedState(
         when {
             !state.isEnabled -> borderDisabled
+            state.isActive && state.isSelected -> borderSelectedActivated
+            state.isSelected -> borderSelected
+            state.isFocused -> borderFocused
             state.isPressed -> borderPressed
             state.isHovered -> borderHovered
             else -> border

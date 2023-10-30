@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.standalone.components
+package org.jetbrains.jewel.samples.standalone.view.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.tree.buildTree
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.component.Chip
 import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.LazyTree
@@ -34,6 +35,7 @@ import org.jetbrains.jewel.ui.component.ToggleableChip
 import org.jetbrains.jewel.ui.theme.colorPalette
 
 @Composable
+@View("ChipsAndTree", 11)
 fun ChipsAndTree() {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
