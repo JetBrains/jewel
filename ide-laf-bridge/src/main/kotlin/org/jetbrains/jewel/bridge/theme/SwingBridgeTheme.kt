@@ -20,7 +20,6 @@ private val bridgeService
 fun SwingBridgeTheme(content: @Composable () -> Unit) {
     val themeData by bridgeService.currentBridgeThemeData.collectAsState()
 
-    // TODO handle non-Int UI themes, too
     BaseJewelTheme(
         themeData.themeDefinition,
         ComponentStyling.with(themeData.componentStyling),
