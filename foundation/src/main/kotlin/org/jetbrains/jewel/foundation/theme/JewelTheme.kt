@@ -2,6 +2,7 @@ package org.jetbrains.jewel.foundation.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -11,44 +12,38 @@ import org.jetbrains.jewel.foundation.GlobalMetrics
 import org.jetbrains.jewel.foundation.LocalGlobalColors
 import org.jetbrains.jewel.foundation.LocalGlobalMetrics
 
-interface JewelTheme {
+public interface JewelTheme {
 
-    companion object {
+    public companion object {
 
-        val globalColors: GlobalColors
-            @Composable
-            @ReadOnlyComposable
+        public val globalColors: GlobalColors
+            @Composable @ReadOnlyComposable
             get() = LocalGlobalColors.current
 
-        val globalMetrics: GlobalMetrics
-            @Composable
-            @ReadOnlyComposable
+        public val globalMetrics: GlobalMetrics
+            @Composable @ReadOnlyComposable
             get() = LocalGlobalMetrics.current
 
-        val textStyle: TextStyle
-            @Composable
-            @ReadOnlyComposable
+        public val textStyle: TextStyle
+            @Composable @ReadOnlyComposable
             get() = LocalTextStyle.current
 
-        val contentColor: Color
-            @Composable
-            @ReadOnlyComposable
+        public val contentColor: Color
+            @Composable @ReadOnlyComposable
             get() = LocalContentColor.current
 
-        val isDark: Boolean
-            @Composable
-            @ReadOnlyComposable
+        public val isDark: Boolean
+            @Composable @ReadOnlyComposable
             get() = LocalIsDarkTheme.current
 
-        val isSwingCompatMode
-            @Composable
-            @ReadOnlyComposable
+        public val isSwingCompatMode: Boolean
+            @Composable @ReadOnlyComposable
             get() = LocalSwingCompatMode.current
     }
 }
 
 @Composable
-fun JewelTheme(
+public fun JewelTheme(
     theme: ThemeDefinition,
     swingCompatMode: Boolean,
     content: @Composable () -> Unit,
@@ -59,7 +54,7 @@ fun JewelTheme(
 }
 
 @Composable
-fun JewelTheme(theme: ThemeDefinition, content: @Composable () -> Unit) {
+public fun JewelTheme(theme: ThemeDefinition, content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalIsDarkTheme provides theme.isDark,
         LocalContentColor provides theme.contentColor,
@@ -70,33 +65,31 @@ fun JewelTheme(theme: ThemeDefinition, content: @Composable () -> Unit) {
     )
 }
 
-val LocalContentColor = staticCompositionLocalOf<Color> {
-    error("No ContentColor provided")
-}
+public val LocalContentColor: ProvidableCompositionLocal<Color> =
+    staticCompositionLocalOf<Color> { error("No ContentColor provided") }
 
-internal val LocalIsDarkTheme = staticCompositionLocalOf<Boolean> {
-    error("No IsDarkTheme provided")
-}
+internal val LocalIsDarkTheme =
+    staticCompositionLocalOf<Boolean> { error("No IsDarkTheme provided") }
 
 internal val LocalSwingCompatMode = staticCompositionLocalOf {
     // By default, Swing compat is not enabled
     false
 }
 
-val LocalColorPalette = staticCompositionLocalOf {
-    ThemeColorPalette.Empty
-}
+public val LocalColorPalette: ProvidableCompositionLocal<ThemeColorPalette> =
+    staticCompositionLocalOf {
+        ThemeColorPalette.Empty
+    }
 
-val LocalIconData = staticCompositionLocalOf {
+public val LocalIconData: ProvidableCompositionLocal<ThemeIconData> = staticCompositionLocalOf {
     ThemeIconData.Empty
 }
 
-val LocalTextStyle = staticCompositionLocalOf<TextStyle> {
-    error("No TextStyle provided")
-}
+public val LocalTextStyle: ProvidableCompositionLocal<TextStyle> =
+    staticCompositionLocalOf<TextStyle> { error("No TextStyle provided") }
 
 /** Overrides the dark mode for the current composition scope. */
 @Composable
-fun OverrideDarkMode(isDark: Boolean, content: @Composable () -> Unit) {
+public fun OverrideDarkMode(isDark: Boolean, content: @Composable () -> Unit) {
     CompositionLocalProvider(LocalIsDarkTheme provides isDark, content = content)
 }

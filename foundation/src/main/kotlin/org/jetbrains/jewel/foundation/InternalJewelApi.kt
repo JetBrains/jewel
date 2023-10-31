@@ -10,4 +10,4 @@ package org.jetbrains.jewel.foundation
     AnnotationTarget.CONSTRUCTOR,
     AnnotationTarget.PROPERTY,
 )
-annotation class InternalJewelApi
+public annotation class InternalJewelApi

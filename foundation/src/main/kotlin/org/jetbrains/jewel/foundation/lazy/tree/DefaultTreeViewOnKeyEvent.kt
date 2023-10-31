@@ -3,7 +3,7 @@ package org.jetbrains.jewel.foundation.lazy.tree
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListKey
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListState
 
-open class DefaultTreeViewOnKeyEvent(
+public open class DefaultTreeViewOnKeyEvent(
     override val keybindings: TreeViewKeybindings,
     private val treeState: TreeState,
 ) : TreeViewOnKeyEvent {
@@ -28,21 +28,24 @@ open class DefaultTreeViewOnKeyEvent(
             treeState.toggleNode(currentKey)
             return
         }
-        treeState.allNodes.first { it.first == currentKey }.let { currentNode ->
-            treeState.allNodes
-                .subList(0, treeState.allNodes.indexOf(currentNode))
-                .reversed()
-                .firstOrNull { it.second < currentNode.second }
-                ?.let { (parentNodeKey, _) ->
-                    keys.first { it.key == parentNodeKey }
-                        .takeIf { it is SelectableLazyListKey.Selectable }
-                        ?.let {
-                            state.lastActiveItemIndex =
-                                keys.indexOfFirst { selectableKey -> selectableKey.key == parentNodeKey }
-                            state.selectedKeys = listOf(parentNodeKey)
-                        }
-                }
-        }
+        treeState.allNodes
+            .first { it.first == currentKey }
+            .let { currentNode ->
+                treeState.allNodes
+                    .subList(0, treeState.allNodes.indexOf(currentNode))
+                    .reversed()
+                    .firstOrNull { it.second < currentNode.second }
+                    ?.let { (parentNodeKey, _) ->
+                        keys
+                            .first { it.key == parentNodeKey }
+                            .takeIf { it is SelectableLazyListKey.Selectable }
+                            ?.let {
+                                state.lastActiveItemIndex =
+                                    keys.indexOfFirst { selectableKey -> selectableKey.key == parentNodeKey }
+                                state.selectedKeys = listOf(parentNodeKey)
+                            }
+                    }
+            }
     }
 
     private fun handleLeafCase(

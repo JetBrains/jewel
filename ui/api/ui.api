@@ -2219,7 +2219,7 @@ public final class org/jetbrains/jewel/ui/theme/JewelThemeKt {
 }
 
 public final class org/jetbrains/jewel/ui/util/ColorExtensionsKt {
-	public static final fun fromRGBAHexString (Landroidx/compose/ui/graphics/Color$Companion;Ljava/lang/String;)Landroidx/compose/ui/graphics/Color;
+	public static final fun fromRGBAHexStringOrNull (Landroidx/compose/ui/graphics/Color$Companion;Ljava/lang/String;)Landroidx/compose/ui/graphics/Color;
 	public static final fun isDark-8_81llA (J)Z
 	public static final fun toRgbaHexString-8_81llA (J)Ljava/lang/String;
 }

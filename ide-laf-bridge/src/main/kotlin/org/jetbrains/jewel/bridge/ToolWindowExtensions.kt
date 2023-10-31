@@ -5,7 +5,7 @@ import androidx.compose.ui.awt.ComposePanel
 import com.intellij.openapi.wm.ToolWindow
 import org.jetbrains.jewel.foundation.enableNewSwingCompositing
 
-fun ToolWindow.addComposeTab(
+public fun ToolWindow.addComposeTab(
     tabDisplayName: String,
     isLockable: Boolean = true,
     isCloseable: Boolean = false,

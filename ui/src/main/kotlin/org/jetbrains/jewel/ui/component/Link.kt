@@ -55,7 +55,7 @@ import org.jetbrains.jewel.ui.util.thenIf
 import java.awt.Cursor
 
 @Composable
-fun Link(
+public fun Link(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -91,7 +91,7 @@ fun Link(
 }
 
 @Composable
-fun ExternalLink(
+public fun ExternalLink(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -127,7 +127,7 @@ fun ExternalLink(
 }
 
 @Composable
-fun DropdownLink(
+public fun DropdownLink(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -209,28 +209,25 @@ private fun LinkImpl(
     interactionSource: MutableInteractionSource,
     icon: PainterProvider?,
 ) {
-    var linkState by remember(interactionSource, enabled) {
-        mutableStateOf(LinkState.of(enabled = enabled))
-    }
-    remember(enabled) {
-        linkState = linkState.copy(enabled = enabled)
-    }
+    var linkState by
+        remember(interactionSource, enabled) { mutableStateOf(LinkState.of(enabled = enabled)) }
+    remember(enabled) { linkState = linkState.copy(enabled = enabled) }
 
     val inputModeManager = LocalInputModeManager.current
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> linkState = linkState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release -> linkState = linkState.copy(pressed = false)
+                is PressInteraction.Cancel,
+                is PressInteraction.Release,
+                -> linkState = linkState.copy(pressed = false)
                 is HoverInteraction.Enter -> linkState = linkState.copy(hovered = true)
                 is HoverInteraction.Exit -> linkState = linkState.copy(hovered = false)
-
                 is FocusInteraction.Focus -> {
                     if (inputModeManager.inputMode == InputMode.Keyboard) {
                         linkState = linkState.copy(focused = true)
                     }
                 }
-
                 is FocusInteraction.Unfocus -> linkState = linkState.copy(focused = false, pressed = false)
             }
         }
@@ -238,24 +235,28 @@ private fun LinkImpl(
 
     val textColor by style.colors.contentFor(linkState)
 
-    val mergedStyle = style.textStyles.styleFor(linkState).value
-        .merge(
-            TextStyle(
-                color = textColor,
-                fontSize = fontSize,
-                fontWeight = fontWeight,
-                textAlign = textAlign,
-                lineHeight = lineHeight,
-                fontFamily = fontFamily,
-                fontStyle = fontStyle,
-                letterSpacing = letterSpacing,
-            ),
-        )
+    val mergedStyle =
+        style.textStyles
+            .styleFor(linkState)
+            .value
+            .merge(
+                TextStyle(
+                    color = textColor,
+                    fontSize = fontSize,
+                    fontWeight = fontWeight,
+                    textAlign = textAlign,
+                    lineHeight = lineHeight,
+                    fontFamily = fontFamily,
+                    fontStyle = fontStyle,
+                    letterSpacing = letterSpacing,
+                ),
+            )
 
     val pointerChangeModifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
 
     Row(
-        modifier = modifier
+        modifier =
+        modifier
             .thenIf(linkState.isEnabled) { pointerChangeModifier }
             .clickable(
                 onClick = {
@@ -294,7 +295,7 @@ private fun LinkImpl(
 
 @Immutable
 @JvmInline
-value class LinkState(val state: ULong) : FocusableComponentState {
+public value class LinkState(public val state: ULong) : FocusableComponentState {
 
     @Stable
     override val isActive: Boolean
@@ -309,7 +310,7 @@ value class LinkState(val state: ULong) : FocusableComponentState {
         get() = state and Focused != 0UL
 
     @Stable
-    val isVisited: Boolean
+    public val isVisited: Boolean
         get() = state and Visited != 0UL
 
     @Stable
@@ -324,24 +325,25 @@ value class LinkState(val state: ULong) : FocusableComponentState {
         "${javaClass.simpleName}(enabled=$isEnabled, focused=$isFocused, visited=$isVisited, " +
             "pressed=$isPressed, hovered=$isHovered, isActive=$isActive)"
 
-    fun copy(
+    public fun copy(
         enabled: Boolean = isEnabled,
         focused: Boolean = isFocused,
         visited: Boolean = isVisited,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
-    ) = of(
-        enabled = enabled,
-        focused = focused,
-        visited = visited,
-        pressed = pressed,
-        hovered = hovered,
-        active = active,
-    )
+    ): LinkState =
+        of(
+            enabled = enabled,
+            focused = focused,
+            visited = visited,
+            pressed = pressed,
+            hovered = hovered,
+            active = active,
+        )
 
     @Composable
-    fun <T> chooseValueWithVisited(
+    public fun <T> chooseValueWithVisited(
         normal: T,
         disabled: T,
         focused: T,
@@ -360,26 +362,27 @@ value class LinkState(val state: ULong) : FocusableComponentState {
             else -> normal
         }
 
-    companion object {
+    public companion object {
 
         private const val VISITED_BIT_OFFSET = CommonStateBitMask.FIRST_AVAILABLE_OFFSET
 
         private val Visited = 1UL shl VISITED_BIT_OFFSET
 
-        fun of(
+        public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,
             visited: Boolean = false,
             hovered: Boolean = false,
             pressed: Boolean = false,
             active: Boolean = false,
-        ) = LinkState(
-            (if (visited) Visited else 0UL) or
-                (if (enabled) Enabled else 0UL) or
-                (if (focused) Focused else 0UL) or
-                (if (pressed) Pressed else 0UL) or
-                (if (hovered) Hovered else 0UL) or
-                (if (active) Active else 0UL),
-        )
+        ): LinkState =
+            LinkState(
+                (if (visited) Visited else 0UL) or
+                    (if (enabled) Enabled else 0UL) or
+                    (if (focused) Focused else 0UL) or
+                    (if (pressed) Pressed else 0UL) or
+                    (if (hovered) Hovered else 0UL) or
+                    (if (active) Active else 0UL),
+            )
     }
 }

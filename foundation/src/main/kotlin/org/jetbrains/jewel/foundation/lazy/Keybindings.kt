@@ -11,13 +11,13 @@ import androidx.compose.ui.input.pointer.isCtrlPressed
 import androidx.compose.ui.input.pointer.isMetaPressed
 import androidx.compose.ui.input.pointer.isShiftPressed
 
-interface SelectableColumnKeybindings {
+public interface SelectableColumnKeybindings {
 
-    val KeyEvent.isContiguousSelectionKeyPressed: Boolean
+    public val KeyEvent.isContiguousSelectionKeyPressed: Boolean
 
-    val PointerKeyboardModifiers.isContiguousSelectionKeyPressed: Boolean
+    public val PointerKeyboardModifiers.isContiguousSelectionKeyPressed: Boolean
 
-    val KeyEvent.isMultiSelectionKeyPressed: Boolean
+    public val KeyEvent.isMultiSelectionKeyPressed: Boolean
 
     val PointerKeyboardModifiers.isMultiSelectionKeyPressed: Boolean
 

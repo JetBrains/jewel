@@ -42,7 +42,9 @@ internal class SwingBridgeService : Disposable {
             delay(20.milliseconds)
             counter++
             runCatching { readThemeData() }
-                .onSuccess { return it }
+                .onSuccess {
+                    return it
+                }
         }
         return readThemeData()
     }
@@ -72,13 +74,14 @@ internal class SwingBridgeService : Disposable {
         val density: Density,
     ) {
 
-        companion object {
+        public companion object {
 
             val DEFAULT = run {
                 val themeDefinition = createBridgeThemeDefinition(TextStyle.Default)
                 BridgeThemeData(
                     themeDefinition = createBridgeThemeDefinition(TextStyle.Default),
-                    componentStyling = createBridgeComponentStyling(
+                    componentStyling =
+                    createBridgeComponentStyling(
                         theme = themeDefinition,
                         textFieldTextStyle = TextStyle.Default,
                         textAreaTextStyle = TextStyle.Default,

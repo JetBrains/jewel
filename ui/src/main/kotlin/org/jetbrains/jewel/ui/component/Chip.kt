@@ -42,7 +42,7 @@ import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.theme.chipStyle
 
 @Composable
-fun Chip(
+public fun Chip(
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     enabled: Boolean = true,
@@ -56,7 +56,8 @@ fun Chip(
         enabled = enabled,
         selected = selected,
         style = style,
-        modifier = modifier.clickable(
+        modifier =
+        modifier.clickable(
             onClick = onClick,
             enabled = enabled,
             role = Role.Button,
@@ -68,7 +69,7 @@ fun Chip(
 }
 
 @Composable
-fun ToggleableChip(
+public fun ToggleableChip(
     checked: Boolean,
     onClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
@@ -82,7 +83,8 @@ fun ToggleableChip(
         enabled = enabled,
         selected = checked,
         style = style,
-        modifier = modifier.toggleable(
+        modifier =
+        modifier.toggleable(
             onValueChange = onClick,
             enabled = enabled,
             role = Role.Checkbox,
@@ -95,7 +97,7 @@ fun ToggleableChip(
 }
 
 @Composable
-fun RadioButtonChip(
+public fun RadioButtonChip(
     selected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -130,18 +132,19 @@ private fun ChipImpl(
     modifier: Modifier,
     content: @Composable () -> Unit,
 ) {
-    var chipState by remember(interactionSource) {
-        mutableStateOf(ChipState.of(enabled = enabled, selected = selected))
-    }
-    remember(enabled, selected) {
-        chipState = chipState.copy(enabled = enabled, selected = selected)
-    }
+    var chipState by
+        remember(interactionSource) {
+            mutableStateOf(ChipState.of(enabled = enabled, selected = selected))
+        }
+    remember(enabled, selected) { chipState = chipState.copy(enabled = enabled, selected = selected) }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> chipState = chipState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release -> chipState = chipState.copy(pressed = false)
+                is PressInteraction.Cancel,
+                is PressInteraction.Release,
+                -> chipState = chipState.copy(pressed = false)
                 is HoverInteraction.Enter -> chipState = chipState.copy(hovered = true)
                 is HoverInteraction.Exit -> chipState = chipState.copy(hovered = false)
                 is FocusInteraction.Focus -> chipState = chipState.copy(focused = true)
@@ -154,14 +157,16 @@ private fun ChipImpl(
     val colors = style.colors
     val borderColor by colors.borderFor(chipState)
 
-    val borderWidth = if (chipState.isSelected) {
-        style.metrics.borderWidthSelected
-    } else {
-        style.metrics.borderWidth
-    }
+    val borderWidth =
+        if (chipState.isSelected) {
+            style.metrics.borderWidthSelected
+        } else {
+            style.metrics.borderWidth
+        }
 
     Row(
-        modifier = modifier
+        modifier =
+        modifier
             .background(colors.backgroundFor(chipState).value, shape)
             .border(Stroke.Alignment.Center, borderWidth, borderColor, shape)
             .focusOutline(chipState, shape)
@@ -170,13 +175,11 @@ private fun ChipImpl(
         horizontalArrangement = Arrangement.Center,
     ) {
         CompositionLocalProvider(
-            LocalContentColor provides (
-                colors
-                    .contentFor(state = chipState)
-                    .value
-                    .takeIf { !it.isUnspecified }
-                    ?: LocalContentColor.current
-                ),
+            LocalContentColor provides
+                (
+                    colors.contentFor(state = chipState).value.takeIf { !it.isUnspecified }
+                        ?: LocalContentColor.current
+                    ),
         ) {
             content()
         }
@@ -185,7 +188,8 @@ private fun ChipImpl(
 
 @Immutable
 @JvmInline
-value class ChipState(val state: ULong) : FocusableComponentState, SelectableComponentState {
+public value class ChipState(public val state: ULong) :
+    FocusableComponentState, SelectableComponentState {
 
     @Stable
     override val isActive: Boolean
@@ -211,42 +215,44 @@ value class ChipState(val state: ULong) : FocusableComponentState, SelectableCom
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 
-    fun copy(
+    public fun copy(
         enabled: Boolean = isEnabled,
         focused: Boolean = isFocused,
         selected: Boolean = isSelected,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
-    ): ChipState = of(
-        enabled = enabled,
-        focused = focused,
-        pressed = pressed,
-        hovered = hovered,
-        active = active,
-        selected = selected,
-    )
+    ): ChipState =
+        of(
+            enabled = enabled,
+            focused = focused,
+            pressed = pressed,
+            hovered = hovered,
+            active = active,
+            selected = selected,
+        )
 
-    override fun toString() =
+    override fun toString(): String =
         "ChipState(isEnabled=$isEnabled, isFocused=$isFocused, isSelected=$isSelected, " +
             "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
-    companion object {
+    public companion object {
 
-        fun of(
+        public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,
             selected: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
             active: Boolean = false,
-        ) = ChipState(
-            state = (if (enabled) Enabled else 0UL) or
-                (if (focused) Focused else 0UL) or
-                (if (selected) Selected else 0UL) or
-                (if (hovered) Hovered else 0UL) or
-                (if (pressed) Pressed else 0UL) or
-                (if (active) Active else 0UL),
-        )
+        ): ChipState =
+            ChipState(
+                (if (enabled) Enabled else 0UL) or
+                    (if (focused) Focused else 0UL) or
+                    (if (selected) Selected else 0UL) or
+                    (if (hovered) Hovered else 0UL) or
+                    (if (pressed) Pressed else 0UL) or
+                    (if (active) Active else 0UL),
+            )
     }
 }

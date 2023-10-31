@@ -1,8 +1,10 @@
 package icons
 
 import com.intellij.openapi.util.IconLoader
+import javax.swing.Icon
 
-object JewelIcons {
+public object JewelIcons {
 
-    @JvmField val ToolWindowIcon = IconLoader.getIcon("/icons/jewel-tool-window.svg", javaClass)
+    @JvmField
+    public val ToolWindowIcon: Icon = IconLoader.getIcon("/icons/jewel-tool-window.svg", javaClass)
 }

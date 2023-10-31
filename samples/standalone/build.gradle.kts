@@ -11,9 +11,7 @@ dependencies {
     implementation(libs.kotlin.reflect)
     implementation(projects.intUi.intUiStandalone)
     implementation(projects.intUi.intUiDecoratedWindow)
-    implementation(compose.desktop.currentOs) {
-        exclude(group = "org.jetbrains.compose.material")
-    }
+    implementation(compose.desktop.currentOs) { exclude(group = "org.jetbrains.compose.material") }
 }
 
 compose.desktop {

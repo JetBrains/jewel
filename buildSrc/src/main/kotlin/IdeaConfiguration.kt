@@ -4,38 +4,43 @@ import org.gradle.api.provider.Property
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 
 enum class SupportedIJVersion {
-    IJ_232,
-    IJ_233
+  IJ_232,
+  IJ_233
 }
 
 private var warned = AtomicBoolean(false)
 
 fun Project.supportedIJVersion(): SupportedIJVersion {
-    val prop = kotlin.runCatching {
-        rootProject.findProperty("supported.ij.version")?.toString() ?:
-            localProperty("supported.ij.version")
-    }.getOrNull()
+  val prop =
+    kotlin
+      .runCatching {
+        rootProject.findProperty("supported.ij.version")?.toString()
+          ?: localProperty("supported.ij.version")
+      }
+      .getOrNull()
 
-    if (prop == null) {
-        if (!warned.getAndSet(true)) {
-            logger.warn(
-                """
+  if (prop == null) {
+    if (!warned.getAndSet(true)) {
+      logger.warn(
+        """
                     No 'supported.ij.version' property provided. Falling back to IJ 233.
                     It is recommended to provide it using local.properties file or -Psupported.ij.version to avoid unexpected behavior.
-                """.trimIndent()
-            )
-        }
-        return SupportedIJVersion.IJ_233
+                """
+          .trimIndent()
+      )
     }
+    return SupportedIJVersion.IJ_233
+  }
 
-    return when (prop) {
-        "232" -> SupportedIJVersion.IJ_232
-        "233" -> SupportedIJVersion.IJ_233
-        else -> error(
-            "Invalid 'supported.ij.version' with value '$prop' is provided. " +
-                "It should be in set of these values: ('232', '233')"
-        )
-    }
+  return when (prop) {
+    "232" -> SupportedIJVersion.IJ_232
+    "233" -> SupportedIJVersion.IJ_233
+    else ->
+      error(
+        "Invalid 'supported.ij.version' with value '$prop' is provided. " +
+          "It should be in set of these values: ('232', '233')"
+      )
+  }
 }
 
 fun Property<JavaLanguageVersion>.assign(version: Int) =

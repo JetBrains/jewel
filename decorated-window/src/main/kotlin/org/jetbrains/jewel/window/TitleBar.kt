@@ -56,7 +56,8 @@ internal const val TITLE_BAR_LAYOUT_ID = "__TITLE_BAR_CONTENT__"
 
 internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
 
-@Composable fun DecoratedWindowScope.TitleBar(
+@Composable
+public fun DecoratedWindowScope.TitleBar(
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = JewelTheme.defaultTitleBarStyle,
@@ -66,7 +67,8 @@ internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
         DesktopPlatform.Linux -> TitleBarOnLinux(modifier, gradientStartColor, style, content)
         DesktopPlatform.Windows -> TitleBarOnWindows(modifier, gradientStartColor, style, content)
         DesktopPlatform.MacOS -> TitleBarOnMacOs(modifier, gradientStartColor, style, content)
-        DesktopPlatform.Unknown -> error("TitleBar is not supported on this platform(${System.getProperty("os.name")})")
+        DesktopPlatform.Unknown ->
+            error("TitleBar is not supported on this platform(${System.getProperty("os.name")})")
     }
 }
 
@@ -84,21 +86,22 @@ internal fun DecoratedWindowScope.TitleBarImpl(
 
     val density = LocalDensity.current
 
-    val backgroundBrush = remember(background, gradientStartColor) {
-        if (gradientStartColor.isUnspecified) {
-            SolidColor(background)
-        } else {
-            with(density) {
-                Brush.horizontalGradient(
-                    0.0f to background,
-                    0.5f to gradientStartColor,
-                    1.0f to background,
-                    startX = style.metrics.gradientStartX.toPx(),
-                    endX = style.metrics.gradientEndX.toPx(),
-                )
+    val backgroundBrush =
+        remember(background, gradientStartColor) {
+            if (gradientStartColor.isUnspecified) {
+                SolidColor(background)
+            } else {
+                with(density) {
+                    Brush.horizontalGradient(
+                        0.0f to background,
+                        0.5f to gradientStartColor,
+                        1.0f to background,
+                        startX = style.metrics.gradientStartX.toPx(),
+                        endX = style.metrics.gradientEndX.toPx(),
+                    )
+                }
             }
         }
-    }
 
     Layout(
         {
@@ -113,24 +116,27 @@ internal fun DecoratedWindowScope.TitleBarImpl(
                 }
             }
         },
-        modifier.background(backgroundBrush)
+        modifier
+            .background(backgroundBrush)
             .focusProperties { canFocus = false }
             .layoutId(TITLE_BAR_LAYOUT_ID)
             .height(style.metrics.height)
-            .onSizeChanged {
-                with(density) {
-                    applyTitleBar(it.height.toDp(), state)
-                }
-            }
+            .onSizeChanged { with(density) { applyTitleBar(it.height.toDp(), state) } }
             .fillMaxWidth(),
-        measurePolicy = rememberTitleBarMeasurePolicy(
+        measurePolicy =
+        rememberTitleBarMeasurePolicy(
             window,
             state,
             applyTitleBar,
         ),
     )
 
-    Spacer(Modifier.layoutId(TITLE_BAR_BORDER_LAYOUT_ID).height(1.dp).fillMaxWidth().background(style.colors.border))
+    Spacer(
+        Modifier.layoutId(TITLE_BAR_BORDER_LAYOUT_ID)
+            .height(1.dp)
+            .fillMaxWidth()
+            .background(style.colors.border),
+    )
 }
 
 internal class TitleBarMeasurePolicy(
@@ -139,7 +145,10 @@ internal class TitleBarMeasurePolicy(
     private val applyTitleBar: (Dp, DecoratedWindowState) -> PaddingValues,
 ) : MeasurePolicy {
 
-    override fun MeasureScope.measure(measurables: List<Measurable>, constraints: Constraints): MeasureResult {
+    override fun MeasureScope.measure(
+        measurables: List<Measurable>,
+        constraints: Constraints,
+    ): MeasureResult {
         if (measurables.isEmpty()) {
             return layout(
                 constraints.minWidth,
@@ -179,9 +188,11 @@ internal class TitleBarMeasurePolicy(
             if (state.isFullscreen) {
                 MacUtil.updateFullScreenButtons(window)
             }
-            val placeableGroups = measuredPlaceable.groupBy { (measurable, _) ->
-                (measurable.parentData as? TitleBarChildDataNode)?.horizontalAlignment ?: Alignment.CenterHorizontally
-            }
+            val placeableGroups =
+                measuredPlaceable.groupBy { (measurable, _) ->
+                    (measurable.parentData as? TitleBarChildDataNode)?.horizontalAlignment
+                        ?: Alignment.CenterHorizontally
+                }
 
             var headUsedSpace = leftInset
             var trailerUsedSpace = rightInset
@@ -240,13 +251,13 @@ internal fun rememberTitleBarMeasurePolicy(
     }
 }
 
-interface TitleBarScope {
+public interface TitleBarScope {
 
-    val title: String
+    public val title: String
 
-    val icon: Painter?
+    public val icon: Painter?
 
-    @Stable fun Modifier.align(alignment: Alignment.Horizontal): Modifier
+    @Stable public fun Modifier.align(alignment: Alignment.Horizontal): Modifier
 }
 
 private class TitleBarScopeImpl(
@@ -258,7 +269,8 @@ private class TitleBarScopeImpl(
         return then(
             TitleBarChildDataElement(
                 alignment,
-                inspectorInfo = debugInspectorInfo {
+                inspectorInfo =
+                debugInspectorInfo {
                     name = "align"
                     value = alignment
                 },

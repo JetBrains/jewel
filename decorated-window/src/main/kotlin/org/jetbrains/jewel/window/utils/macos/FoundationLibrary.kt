@@ -5,11 +5,16 @@ import com.sun.jna.Library
 import com.sun.jna.Pointer
 
 internal interface FoundationLibrary : Library {
-    fun NSLog(pString: Pointer?, thing: Any?)
-    fun NSFullUserName(): ID?
-    fun objc_allocateClassPair(supercls: ID?, name: String?, extraBytes: Int): ID?
-    fun objc_registerClassPair(cls: ID?)
-    fun CFStringCreateWithBytes(
+
+    public fun NSLog(pString: Pointer?, thing: Any?)
+
+    public fun NSFullUserName(): ID?
+
+    public fun objc_allocateClassPair(supercls: ID?, name: String?, extraBytes: Int): ID?
+
+    public fun objc_registerClassPair(cls: ID?)
+
+    public fun CFStringCreateWithBytes(
         allocator: Pointer?,
         bytes: ByteArray?,
         byteCount: Int,
@@ -17,36 +22,65 @@ internal interface FoundationLibrary : Library {
         isExternalRepresentation: Byte,
     ): ID?
 
-    fun CFStringGetCString(theString: ID?, buffer: ByteArray?, bufferSize: Int, encoding: Int): Byte
-    fun CFStringGetLength(theString: ID?): Int
-    fun CFStringConvertNSStringEncodingToEncoding(nsEncoding: Long): Long
-    fun CFStringConvertEncodingToIANACharSetName(cfEncoding: Long): ID?
-    fun CFStringConvertIANACharSetNameToEncoding(encodingName: ID?): Long
-    fun CFStringConvertEncodingToNSStringEncoding(cfEncoding: Long): Long
-    fun CFRetain(cfTypeRef: ID?)
-    fun CFRelease(cfTypeRef: ID?)
-    fun CFGetRetainCount(cfTypeRef: Pointer?): Int
-    fun objc_getClass(className: String?): ID?
-    fun objc_getProtocol(name: String?): ID?
-    fun class_createInstance(pClass: ID?, extraBytes: Int): ID?
-    fun sel_registerName(selectorName: String?): Pointer?
-    fun class_replaceMethod(cls: ID?, selName: Pointer?, impl: Callback?, types: String?): ID?
-    fun objc_getMetaClass(name: String?): ID?
+    public fun CFStringGetCString(
+        theString: ID?,
+        buffer: ByteArray?,
+        bufferSize: Int,
+        encoding: Int,
+    ): Byte
+
+    public fun CFStringGetLength(theString: ID?): Int
+
+    public fun CFStringConvertNSStringEncodingToEncoding(nsEncoding: Long): Long
+
+    public fun CFStringConvertEncodingToIANACharSetName(cfEncoding: Long): ID?
+
+    public fun CFStringConvertIANACharSetNameToEncoding(encodingName: ID?): Long
+
+    public fun CFStringConvertEncodingToNSStringEncoding(cfEncoding: Long): Long
+
+    public fun CFRetain(cfTypeRef: ID?)
+
+    public fun CFRelease(cfTypeRef: ID?)
+
+    public fun CFGetRetainCount(cfTypeRef: Pointer?): Int
+
+    public fun objc_getClass(className: String?): ID?
+
+    public fun objc_getProtocol(name: String?): ID?
+
+    public fun class_createInstance(pClass: ID?, extraBytes: Int): ID?
+
+    public fun sel_registerName(selectorName: String?): Pointer?
+
+    public fun class_replaceMethod(cls: ID?, selName: Pointer?, impl: Callback?, types: String?): ID?
+
+    public fun objc_getMetaClass(name: String?): ID?
 
     /**
-     * Note: Vararg version. Should only be used only for selectors with a single fixed argument followed by varargs.
+     * Note: Vararg version. Should only be used only for selectors with a single fixed argument
+     * followed by varargs.
      */
-    fun objc_msgSend(receiver: ID?, selector: Pointer?, firstArg: Any?, vararg args: Any?): ID?
-    fun class_respondsToSelector(cls: ID?, selName: Pointer?): Boolean
-    fun class_addMethod(cls: ID?, selName: Pointer?, imp: Callback?, types: String?): Boolean
-    fun class_addMethod(cls: ID?, selName: Pointer?, imp: ID?, types: String?): Boolean
-    fun class_addProtocol(aClass: ID?, protocol: ID?): Boolean
-    fun class_isMetaClass(cls: ID?): Boolean
-    fun NSStringFromSelector(selector: Pointer?): ID?
-    fun NSStringFromClass(aClass: ID?): ID?
-    fun objc_getClass(clazz: Pointer?): Pointer?
+    public fun objc_msgSend(receiver: ID?, selector: Pointer?, firstArg: Any?, vararg args: Any?): ID?
 
-    companion object {
+    public fun class_respondsToSelector(cls: ID?, selName: Pointer?): Boolean
+
+    public fun class_addMethod(cls: ID?, selName: Pointer?, imp: Callback?, types: String?): Boolean
+
+    public fun class_addMethod(cls: ID?, selName: Pointer?, imp: ID?, types: String?): Boolean
+
+    public fun class_addProtocol(aClass: ID?, protocol: ID?): Boolean
+
+    public fun class_isMetaClass(cls: ID?): Boolean
+
+    public fun NSStringFromSelector(selector: Pointer?): ID?
+
+    public fun NSStringFromClass(aClass: ID?): ID?
+
+    public fun objc_getClass(clazz: Pointer?): Pointer?
+
+    public companion object {
+
         const val kCFStringEncodingMacRoman = 0
         const val kCFStringEncodingWindowsLatin1 = 0x0500
         const val kCFStringEncodingISOLatin1 = 0x0201

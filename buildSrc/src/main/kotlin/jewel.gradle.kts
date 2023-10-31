@@ -6,14 +6,15 @@ plugins {
 group = "org.jetbrains.jewel"
 
 val gitHubRef: String? = System.getenv("GITHUB_REF")
-version = when {
-    gitHubRef?.startsWith("refs/tags/") == true -> {
-        gitHubRef.substringAfter("refs/tags/")
-            .removePrefix("v")
-    }
 
-    else -> "1.0.0-SNAPSHOT"
-}
+version =
+    when {
+        gitHubRef?.startsWith("refs/tags/") == true -> {
+            gitHubRef.substringAfter("refs/tags/").removePrefix("v")
+        }
+
+        else -> "1.0.0-SNAPSHOT"
+    }
 
 java {
     toolchain {
@@ -31,11 +32,7 @@ kotlin {
     explicitApi()
 
     target {
-        compilations.all {
-            kotlinOptions {
-                freeCompilerArgs += "-Xcontext-receivers"
-            }
-        }
+        compilations.all { kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" } }
         sourceSets.all {
             languageSettings {
                 optIn("androidx.compose.foundation.ExperimentalFoundationApi")
@@ -54,8 +51,8 @@ detekt {
     buildUponDefaultConfig = true
 }
 
-val sarifReport: Provider<RegularFile> = layout.buildDirectory
-    .file("reports/ktlint-${project.name}.sarif")
+val sarifReport: Provider<RegularFile> =
+    layout.buildDirectory.file("reports/ktlint-${project.name}.sarif")
 
 tasks {
     detektMain {
@@ -67,9 +64,7 @@ tasks {
         }
     }
 
-    formatKotlinMain {
-        exclude { it.file.absolutePath.contains("build/generated") }
-    }
+    formatKotlinMain { exclude { it.file.absolutePath.contains("build/generated") } }
 
     lintKotlinMain {
         exclude { it.file.absolutePath.contains("build/generated") }
@@ -86,20 +81,18 @@ tasks {
 
 configurations.named("sarif") {
     outgoing {
-        artifact(tasks.detektMain.flatMap { it.sarifReportFile }) {
-            builtBy(tasks.detektMain)
-        }
-        artifact(sarifReport) {
-            builtBy(tasks.lintKotlinMain)
-        }
+        artifact(tasks.detektMain.flatMap { it.sarifReportFile }) { builtBy(tasks.detektMain) }
+        artifact(sarifReport) { builtBy(tasks.lintKotlinMain) }
     }
 }
 
 fun Task.removeAssembleDependency() {
-    setDependsOn(dependsOn.filter {
-        when {
-            it is Task && it.name == "assemble" -> false
-            else -> true
+    setDependsOn(
+        dependsOn.filter {
+            when {
+                it is Task && it.name == "assemble" -> false
+                else -> true
+            }
         }
-    })
+    )
 }

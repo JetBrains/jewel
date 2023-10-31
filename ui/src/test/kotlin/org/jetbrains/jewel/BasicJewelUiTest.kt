@@ -9,8 +9,7 @@ import org.junit.Rule
 
 open class BasicJewelUiTest {
 
-    @get:Rule
-    val composeRule = createComposeRule()
+    @get:Rule val composeRule = createComposeRule()
 
     @Suppress("ImplicitUnitReturnType")
     protected fun runComposeTest(

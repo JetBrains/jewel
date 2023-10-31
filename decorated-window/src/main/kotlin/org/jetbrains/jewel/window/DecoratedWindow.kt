@@ -42,7 +42,8 @@ import java.awt.event.ComponentListener
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 
-@Composable fun DecoratedWindow(
+@Composable
+public fun DecoratedWindow(
     onCloseRequest: () -> Unit,
     state: WindowState = rememberWindowState(),
     visible: Boolean = true,
@@ -87,43 +88,44 @@ import java.awt.event.WindowEvent
         var decoratedWindowState by remember { mutableStateOf(DecoratedWindowState.of(window)) }
 
         DisposableEffect(window) {
-            val adapter = object : WindowAdapter(), ComponentListener {
-                override fun windowActivated(e: WindowEvent?) {
-                    decoratedWindowState = DecoratedWindowState.of(window)
-                }
+            val adapter =
+                object : WindowAdapter(), ComponentListener {
+                    override fun windowActivated(e: WindowEvent?) {
+                        decoratedWindowState = DecoratedWindowState.of(window)
+                    }
 
-                override fun windowDeactivated(e: WindowEvent?) {
-                    decoratedWindowState = DecoratedWindowState.of(window)
-                }
+                    override fun windowDeactivated(e: WindowEvent?) {
+                        decoratedWindowState = DecoratedWindowState.of(window)
+                    }
 
-                override fun windowIconified(e: WindowEvent?) {
-                    decoratedWindowState = DecoratedWindowState.of(window)
-                }
+                    override fun windowIconified(e: WindowEvent?) {
+                        decoratedWindowState = DecoratedWindowState.of(window)
+                    }
 
-                override fun windowDeiconified(e: WindowEvent?) {
-                    decoratedWindowState = DecoratedWindowState.of(window)
-                }
+                    override fun windowDeiconified(e: WindowEvent?) {
+                        decoratedWindowState = DecoratedWindowState.of(window)
+                    }
 
-                override fun windowStateChanged(e: WindowEvent) {
-                    decoratedWindowState = DecoratedWindowState.of(window)
-                }
+                    override fun windowStateChanged(e: WindowEvent) {
+                        decoratedWindowState = DecoratedWindowState.of(window)
+                    }
 
-                override fun componentResized(e: ComponentEvent?) {
-                    decoratedWindowState = DecoratedWindowState.of(window)
-                }
+                    override fun componentResized(e: ComponentEvent?) {
+                        decoratedWindowState = DecoratedWindowState.of(window)
+                    }
 
-                override fun componentMoved(e: ComponentEvent?) {
-                    // Empty
-                }
+                    override fun componentMoved(e: ComponentEvent?) {
+                        // Empty
+                    }
 
-                override fun componentShown(e: ComponentEvent?) {
-                    // Empty
-                }
+                    override fun componentShown(e: ComponentEvent?) {
+                        // Empty
+                    }
 
-                override fun componentHidden(e: ComponentEvent?) {
-                    // Empty
+                    override fun componentHidden(e: ComponentEvent?) {
+                        // Empty
+                    }
                 }
-            }
             window.addWindowListener(adapter)
             window.addWindowStateListener(adapter)
             window.addComponentListener(adapter)
@@ -134,43 +136,55 @@ import java.awt.event.WindowEvent
             }
         }
 
-        val undecoratedWindowBorder = if (undecorated && !decoratedWindowState.isMaximized) {
-            Modifier.border(
-                Stroke.Alignment.Inside,
-                style.metrics.borderWidth,
-                style.colors.borderFor(decoratedWindowState).value,
-                RectangleShape,
-            ).padding(style.metrics.borderWidth)
-        } else {
-            Modifier
-        }
+        val undecoratedWindowBorder =
+            if (undecorated && !decoratedWindowState.isMaximized) {
+                Modifier.border(
+                    Stroke.Alignment.Inside,
+                    style.metrics.borderWidth,
+                    style.colors.borderFor(decoratedWindowState).value,
+                    RectangleShape,
+                )
+                    .padding(style.metrics.borderWidth)
+            } else {
+                Modifier
+            }
 
         CompositionLocalProvider(
             LocalTitleBarInfo provides TitleBarInfo(title, icon),
         ) {
-            Layout({
-                val scope = object : DecoratedWindowScope {
-                    override val state: DecoratedWindowState
-                        get() = decoratedWindowState
+            Layout(
+                {
+                    val scope =
+                        object : DecoratedWindowScope {
+                            override val state: DecoratedWindowState
+                                get() = decoratedWindowState
 
-                    override val window: ComposeWindow get() = this@Window.window
-                }
-                scope.content()
-            }, modifier = undecoratedWindowBorder.trackWindowActivation(window), measurePolicy = DecoratedWindowMeasurePolicy)
+                            override val window: ComposeWindow
+                                get() = this@Window.window
+                        }
+                    scope.content()
+                },
+                modifier = undecoratedWindowBorder.trackWindowActivation(window),
+                measurePolicy = DecoratedWindowMeasurePolicy,
+            )
         }
     }
 }
 
-@Stable interface DecoratedWindowScope : FrameWindowScope {
+@Stable
+public interface DecoratedWindowScope : FrameWindowScope {
 
     override val window: ComposeWindow
 
-    val state: DecoratedWindowState
+    public val state: DecoratedWindowState
 }
 
 private object DecoratedWindowMeasurePolicy : MeasurePolicy {
 
-    override fun MeasureScope.measure(measurables: List<Measurable>, constraints: Constraints): MeasureResult {
+    override fun MeasureScope.measure(
+        measurables: List<Measurable>,
+        constraints: Constraints,
+    ): MeasureResult {
         if (measurables.isEmpty()) {
             return layout(
                 constraints.minWidth,
@@ -197,7 +211,8 @@ private object DecoratedWindowMeasurePolicy : MeasurePolicy {
 
         for (it in measurables) {
             if (it.layoutId.toString().startsWith(TITLE_BAR_COMPONENT_LAYOUT_ID_PREFIX)) continue
-            val placeable = it.measure(contentConstraints.offset(vertical = -titleBarHeight - titleBarBorderHeight))
+            val placeable =
+                it.measure(contentConstraints.offset(vertical = -titleBarHeight - titleBarBorderHeight))
             measuredPlaceable += placeable
         }
 
@@ -205,69 +220,70 @@ private object DecoratedWindowMeasurePolicy : MeasurePolicy {
             titleBarPlaceable?.placeRelative(0, 0)
             titleBarBorderPlaceable?.placeRelative(0, titleBarHeight)
 
-            measuredPlaceable.forEach {
-                it.placeRelative(0, titleBarHeight + titleBarBorderHeight)
-            }
+            measuredPlaceable.forEach { it.placeRelative(0, titleBarHeight + titleBarBorderHeight) }
         }
     }
 }
 
-@Immutable @JvmInline
-value class DecoratedWindowState(val state: ULong) {
+@Immutable
+@JvmInline
+public value class DecoratedWindowState(public val state: ULong) {
 
-    @Stable val isActive: Boolean
+    public val isActive: Boolean
         get() = state and Active != 0UL
 
-    @Stable val isFullscreen: Boolean
+    public val isFullscreen: Boolean
         get() = state and Fullscreen != 0UL
 
-    @Stable val isMinimized: Boolean
+    public val isMinimized: Boolean
         get() = state and Minimize != 0UL
 
-    @Stable val isMaximized: Boolean
+    public val isMaximized: Boolean
         get() = state and Maximize != 0UL
 
-    fun copy(
+    public fun copy(
         fullscreen: Boolean = isFullscreen,
         minimized: Boolean = isMinimized,
         maximized: Boolean = isMaximized,
         active: Boolean = isActive,
-    ) = of(
-        fullscreen = fullscreen,
-        minimized = minimized,
-        maximized = maximized,
-        active = active,
-    )
+    ): DecoratedWindowState =
+        of(
+            fullscreen = fullscreen,
+            minimized = minimized,
+            maximized = maximized,
+            active = active,
+        )
 
-    override fun toString() = "${javaClass.simpleName}(isFullscreen=$isFullscreen, isActive=$isActive)"
+    override fun toString(): String =
+        "${javaClass.simpleName}(isFullscreen=$isFullscreen, isActive=$isActive)"
 
-    companion object {
+    public companion object {
 
-        val Active = 1UL shl 0
-        val Fullscreen = 1UL shl 1
-        val Minimize = 1UL shl 2
-        val Maximize = 1UL shl 3
+        public val Active: ULong = 1UL shl 0
+        public val Fullscreen: ULong = 1UL shl 1
+        public val Minimize: ULong = 1UL shl 2
+        public val Maximize: ULong = 1UL shl 3
 
-        fun of(
+        public fun of(
             fullscreen: Boolean = false,
             minimized: Boolean = false,
             maximized: Boolean = false,
             active: Boolean = true,
-        ) = DecoratedWindowState(
-            state = (if (fullscreen) Fullscreen else 0UL) or
-                (if (minimized) Minimize else 0UL) or
-                (if (maximized) Maximize else 0UL) or
-                (if (active) Active else 0UL),
-        )
+        ): DecoratedWindowState =
+            DecoratedWindowState(
+                (if (fullscreen) Fullscreen else 0UL) or
+                    (if (minimized) Minimize else 0UL) or
+                    (if (maximized) Maximize else 0UL) or
+                    (if (active) Active else 0UL),
+            )
 
-        fun of(
-            window: ComposeWindow,
-        ) = of(
-            window.placement == WindowPlacement.Fullscreen,
-            window.isMinimized,
-            window.placement == WindowPlacement.Maximized,
-            window.isActive,
-        )
+        public fun of(window: ComposeWindow): DecoratedWindowState =
+            of(
+                fullscreen = window.placement == WindowPlacement.Fullscreen,
+                minimized = window.isMinimized,
+                maximized = window.placement == WindowPlacement.Maximized,
+                active = window.isActive,
+            )
     }
 }
 
@@ -276,6 +292,9 @@ internal data class TitleBarInfo(
     val icon: Painter?,
 )
 
-internal val LocalTitleBarInfo = compositionLocalOf<TitleBarInfo> {
-    error("CompositionLocal LocalTitleBarInfo not provided, TitleBar must be used in DecoratedWindow")
-}
+internal val LocalTitleBarInfo =
+    compositionLocalOf<TitleBarInfo> {
+        error(
+            "CompositionLocal LocalTitleBarInfo not provided, TitleBar must be used in DecoratedWindow",
+        )
+    }

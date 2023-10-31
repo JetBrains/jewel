@@ -30,7 +30,7 @@ import kotlin.math.roundToInt
 import androidx.compose.foundation.gestures.Orientation as ComposeOrientation
 
 @Composable
-fun HorizontalSplitLayout(
+public fun HorizontalSplitLayout(
     first: @Composable (Modifier) -> Unit,
     second: @Composable (Modifier) -> Unit,
     modifier: Modifier = Modifier,
@@ -43,79 +43,92 @@ fun HorizontalSplitLayout(
     initialDividerPosition: Dp = 300.dp,
 ) {
     val density = LocalDensity.current
-    var dividerX by remember {
-        mutableStateOf(with(density) { initialDividerPosition.roundToPx() })
-    }
+    var dividerX by remember { mutableStateOf(with(density) { initialDividerPosition.roundToPx() }) }
 
-    Layout(modifier = modifier, content = {
-        val dividerInteractionSource = remember { MutableInteractionSource() }
-        first(Modifier.layoutId("first"))
+    Layout(
+        modifier = modifier,
+        content = {
+            val dividerInteractionSource = remember { MutableInteractionSource() }
+            first(Modifier.layoutId("first"))
 
-        Divider(
-            orientation = Orientation.Vertical,
-            modifier = Modifier.fillMaxHeight().layoutId("divider"),
-            color = dividerColor,
-            thickness = dividerThickness,
-            startIndent = dividerIndent,
-        )
+            Divider(
+                orientation = Orientation.Vertical,
+                modifier = Modifier.fillMaxHeight().layoutId("divider"),
+                color = dividerColor,
+                thickness = dividerThickness,
+                startIndent = dividerIndent,
+            )
 
-        second(Modifier.layoutId("second"))
+            second(Modifier.layoutId("second"))
 
-        Box(
-            Modifier.fillMaxHeight()
-                .width(draggableWidth)
-                .draggable(
-                    interactionSource = dividerInteractionSource,
-                    orientation = ComposeOrientation.Horizontal,
-                    state = rememberDraggableState { delta ->
-                        dividerX += delta.toInt()
-                    },
-                )
-                .pointerHoverIcon(PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR)))
-                .layoutId("divider-handle"),
-        )
-    }) { measurables, incomingConstraints ->
+            Box(
+                Modifier.fillMaxHeight()
+                    .width(draggableWidth)
+                    .draggable(
+                        interactionSource = dividerInteractionSource,
+                        orientation = ComposeOrientation.Horizontal,
+                        state = rememberDraggableState { delta -> dividerX += delta.toInt() },
+                    )
+                    .pointerHoverIcon(PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR)))
+                    .layoutId("divider-handle"),
+            )
+        },
+    ) { measurables, incomingConstraints ->
         val availableWidth = incomingConstraints.maxWidth
-        val actualDividerX = dividerX.coerceIn(0, availableWidth)
-            .coerceIn((availableWidth * minRatio).roundToInt(), (availableWidth * maxRatio).roundToInt())
+        val actualDividerX =
+            dividerX
+                .coerceIn(0, availableWidth)
+                .coerceIn(
+                    (availableWidth * minRatio).roundToInt(),
+                    (availableWidth * maxRatio).roundToInt(),
+                )
 
         val dividerMeasurable = measurables.single { it.layoutId == "divider" }
-        val dividerPlaceable = dividerMeasurable
-            .measure(Constraints.fixed(dividerThickness.roundToPx(), incomingConstraints.maxHeight))
+        val dividerPlaceable =
+            dividerMeasurable.measure(
+                Constraints.fixed(dividerThickness.roundToPx(), incomingConstraints.maxHeight),
+            )
 
         val firstComponentConstraints =
             Constraints.fixed((actualDividerX).coerceAtLeast(0), incomingConstraints.maxHeight)
-        val firstPlaceable = (
-            measurables.find { it.layoutId == "first" }
-                ?: error("No first component found. Have you applied the provided Modifier to it?")
-            )
-            .measure(firstComponentConstraints)
+        val firstPlaceable =
+            (
+                measurables.find { it.layoutId == "first" }
+                    ?: error("No first component found. Have you applied the provided Modifier to it?")
+                )
+                .measure(firstComponentConstraints)
 
         val secondComponentConstraints =
             Constraints.fixed(
                 availableWidth - actualDividerX + dividerPlaceable.width,
                 incomingConstraints.maxHeight,
             )
-        val secondPlaceable = (
-            measurables.find { it.layoutId == "second" }
-                ?: error("No second component found. Have you applied the provided Modifier to it?")
-            )
-            .measure(secondComponentConstraints)
+        val secondPlaceable =
+            (
+                measurables.find { it.layoutId == "second" }
+                    ?: error("No second component found. Have you applied the provided Modifier to it?")
+                )
+                .measure(secondComponentConstraints)
 
-        val dividerHandlePlaceable = measurables.single { it.layoutId == "divider-handle" }
-            .measure(Constraints.fixedHeight(incomingConstraints.maxHeight))
+        val dividerHandlePlaceable =
+            measurables
+                .single { it.layoutId == "divider-handle" }
+                .measure(Constraints.fixedHeight(incomingConstraints.maxHeight))
 
         layout(availableWidth, incomingConstraints.maxHeight) {
             firstPlaceable.placeRelative(0, 0)
             dividerPlaceable.placeRelative(actualDividerX - dividerPlaceable.width / 2, 0)
             secondPlaceable.placeRelative(actualDividerX + dividerPlaceable.width, 0)
-            dividerHandlePlaceable.placeRelative(actualDividerX - dividerHandlePlaceable.measuredWidth / 2, 0)
+            dividerHandlePlaceable.placeRelative(
+                actualDividerX - dividerHandlePlaceable.measuredWidth / 2,
+                0,
+            )
         }
     }
 }
 
 @Composable
-fun VerticalSplitLayout(
+public fun VerticalSplitLayout(
     first: @Composable (Modifier) -> Unit,
     second: @Composable (Modifier) -> Unit,
     modifier: Modifier = Modifier,
@@ -128,73 +141,86 @@ fun VerticalSplitLayout(
     initialDividerPosition: Dp = 300.dp,
 ) {
     val density = LocalDensity.current
-    var dividerY by remember {
-        mutableStateOf(with(density) { initialDividerPosition.roundToPx() })
-    }
+    var dividerY by remember { mutableStateOf(with(density) { initialDividerPosition.roundToPx() }) }
 
-    Layout(modifier = modifier, content = {
-        val dividerInteractionSource = remember { MutableInteractionSource() }
-        first(Modifier.layoutId("first"))
+    Layout(
+        modifier = modifier,
+        content = {
+            val dividerInteractionSource = remember { MutableInteractionSource() }
+            first(Modifier.layoutId("first"))
 
-        Divider(
-            orientation = Orientation.Horizontal,
-            modifier = Modifier.fillMaxHeight().layoutId("divider"),
-            color = dividerColor,
-            thickness = dividerThickness,
-            startIndent = dividerIndent,
-        )
+            Divider(
+                orientation = Orientation.Horizontal,
+                modifier = Modifier.fillMaxHeight().layoutId("divider"),
+                color = dividerColor,
+                thickness = dividerThickness,
+                startIndent = dividerIndent,
+            )
 
-        second(Modifier.layoutId("second"))
+            second(Modifier.layoutId("second"))
 
-        Box(
-            Modifier.fillMaxWidth()
-                .height(draggableWidth)
-                .draggable(
-                    interactionSource = dividerInteractionSource,
-                    orientation = ComposeOrientation.Vertical,
-                    state = rememberDraggableState { delta ->
-                        dividerY += delta.toInt()
-                    },
-                )
-                .pointerHoverIcon(PointerIcon(Cursor(Cursor.N_RESIZE_CURSOR)))
-                .layoutId("divider-handle"),
-        )
-    }) { measurables, incomingConstraints ->
+            Box(
+                Modifier.fillMaxWidth()
+                    .height(draggableWidth)
+                    .draggable(
+                        interactionSource = dividerInteractionSource,
+                        orientation = ComposeOrientation.Vertical,
+                        state = rememberDraggableState { delta -> dividerY += delta.toInt() },
+                    )
+                    .pointerHoverIcon(PointerIcon(Cursor(Cursor.N_RESIZE_CURSOR)))
+                    .layoutId("divider-handle"),
+            )
+        },
+    ) { measurables, incomingConstraints ->
         val availableHeight = incomingConstraints.maxHeight
-        val actualDividerY = dividerY.coerceIn(0, availableHeight)
-            .coerceIn((availableHeight * minRatio).roundToInt(), (availableHeight * maxRatio).roundToInt())
+        val actualDividerY =
+            dividerY
+                .coerceIn(0, availableHeight)
+                .coerceIn(
+                    (availableHeight * minRatio).roundToInt(),
+                    (availableHeight * maxRatio).roundToInt(),
+                )
 
         val dividerMeasurable = measurables.single { it.layoutId == "divider" }
-        val dividerPlaceable = dividerMeasurable
-            .measure(Constraints.fixed(incomingConstraints.maxWidth, dividerThickness.roundToPx()))
+        val dividerPlaceable =
+            dividerMeasurable.measure(
+                Constraints.fixed(incomingConstraints.maxWidth, dividerThickness.roundToPx()),
+            )
 
         val firstComponentConstraints =
             Constraints.fixed(incomingConstraints.maxWidth, (actualDividerY - 1).coerceAtLeast(0))
-        val firstPlaceable = (
-            measurables.find { it.layoutId == "first" }
-                ?: error("No first component found. Have you applied the provided Modifier to it?")
-            )
-            .measure(firstComponentConstraints)
+        val firstPlaceable =
+            (
+                measurables.find { it.layoutId == "first" }
+                    ?: error("No first component found. Have you applied the provided Modifier to it?")
+                )
+                .measure(firstComponentConstraints)
 
         val secondComponentConstraints =
             Constraints.fixed(
                 incomingConstraints.maxWidth,
                 availableHeight - actualDividerY + dividerPlaceable.height,
             )
-        val secondPlaceable = (
-            measurables.find { it.layoutId == "second" }
-                ?: error("No second component found. Have you applied the provided Modifier to it?")
-            )
-            .measure(secondComponentConstraints)
+        val secondPlaceable =
+            (
+                measurables.find { it.layoutId == "second" }
+                    ?: error("No second component found. Have you applied the provided Modifier to it?")
+                )
+                .measure(secondComponentConstraints)
 
-        val dividerHandlePlaceable = measurables.single { it.layoutId == "divider-handle" }
-            .measure(Constraints.fixedWidth(incomingConstraints.maxWidth))
+        val dividerHandlePlaceable =
+            measurables
+                .single { it.layoutId == "divider-handle" }
+                .measure(Constraints.fixedWidth(incomingConstraints.maxWidth))
 
         layout(incomingConstraints.maxWidth, availableHeight) {
             firstPlaceable.placeRelative(0, 0)
             dividerPlaceable.placeRelative(0, actualDividerY - dividerPlaceable.height / 2)
             secondPlaceable.placeRelative(0, actualDividerY + dividerPlaceable.height)
-            dividerHandlePlaceable.placeRelative(0, actualDividerY - dividerHandlePlaceable.measuredHeight / 2)
+            dividerHandlePlaceable.placeRelative(
+                0,
+                actualDividerY - dividerHandlePlaceable.measuredHeight / 2,
+            )
         }
     }
 }

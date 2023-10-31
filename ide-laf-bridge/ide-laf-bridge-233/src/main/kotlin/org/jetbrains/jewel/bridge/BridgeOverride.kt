@@ -22,8 +22,9 @@ internal object BridgeOverride : PainterPathHint {
         val fallbackPath = path.removePrefix(dirProvider.dir())
 
         for (classLoader in classLoaders) {
-            val patchedPath = patchIconPath(path.removePrefix("/"), classLoader)?.first
-                ?: patchIconPath(fallbackPath, classLoader)?.first
+            val patchedPath =
+                patchIconPath(path.removePrefix("/"), classLoader)?.first
+                    ?: patchIconPath(fallbackPath, classLoader)?.first
 
             // 233 EAP 4 broke path patching horribly; now it can return a
             // "reflective path", which is a FQN to an ExpUIIcons entry.
@@ -45,7 +46,8 @@ internal object BridgeOverride : PainterPathHint {
 
         return buildString {
             append("expui/")
-            iconPath.split('.')
+            iconPath
+                .split('.')
                 .map { it.trim() }
                 .filter { it.isNotEmpty() }
                 .forEach {

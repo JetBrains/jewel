@@ -40,25 +40,26 @@ internal fun DecoratedWindowScope.TitleBarOnWindows(
     )
 }
 
-internal fun Modifier.customTitleBarMouseEventHandler(titleBar: CustomTitleBar): Modifier = this.pointerInput(Unit) {
-    val currentContext = currentCoroutineContext()
-    awaitPointerEventScope {
-        var inUserControl = false
-        while (currentContext.isActive) {
-            val event = awaitPointerEvent(PointerEventPass.Main)
-            event.changes.forEach {
-                if (!it.isConsumed && !inUserControl) {
-                    titleBar.forceHitTest(false)
-                } else {
-                    if (event.type == PointerEventType.Press) {
-                        inUserControl = true
+internal fun Modifier.customTitleBarMouseEventHandler(titleBar: CustomTitleBar): Modifier =
+    this.pointerInput(Unit) {
+        val currentContext = currentCoroutineContext()
+        awaitPointerEventScope {
+            var inUserControl = false
+            while (currentContext.isActive) {
+                val event = awaitPointerEvent(PointerEventPass.Main)
+                event.changes.forEach {
+                    if (!it.isConsumed && !inUserControl) {
+                        titleBar.forceHitTest(false)
+                    } else {
+                        if (event.type == PointerEventType.Press) {
+                            inUserControl = true
+                        }
+                        if (event.type == PointerEventType.Release) {
+                            inUserControl = false
+                        }
+                        titleBar.forceHitTest(true)
                     }
-                    if (event.type == PointerEventType.Release) {
-                        inUserControl = false
-                    }
-                    titleBar.forceHitTest(true)
                 }
             }
         }
     }
-}

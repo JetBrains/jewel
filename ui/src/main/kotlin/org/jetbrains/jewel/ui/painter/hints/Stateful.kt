@@ -36,4 +36,4 @@ private class StatefulImpl(private val state: InteractiveComponentState) : Paint
     }
 }
 
-fun Stateful(state: InteractiveComponentState): PainterHint = StatefulImpl(state)
+public fun Stateful(state: InteractiveComponentState): PainterHint = StatefulImpl(state)

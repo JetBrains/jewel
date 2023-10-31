@@ -29,22 +29,24 @@ import javax.xml.parsers.DocumentBuilderFactory
 class PainterHintTest : BasicJewelUiTest() {
 
     @Test
-    fun `empty hint should be ignored`() = runComposeTest({
-        OverrideDarkMode(isDark = false) {
-            val provider = rememberResourcePainterProvider("icons/github.svg", PainterHintTest::class.java)
+    fun `empty hint should be ignored`() =
+        runComposeTest({
+            OverrideDarkMode(isDark = false) {
+                val provider =
+                    rememberResourcePainterProvider("icons/github.svg", PainterHintTest::class.java)
 
-            val painter1 by provider.getPainter()
-            // must be ignored the None and hit cache
-            val painter2 by provider.getPainter(PainterHint.None)
-            // must be ignored the None and hit cache too
-            val painter3 by provider.getPainter(PainterHint.None, PainterHint.None)
+                val painter1 by provider.getPainter()
+                // must be ignored the None and hit cache
+                val painter2 by provider.getPainter(PainterHint.None)
+                // must be ignored the None and hit cache too
+                val painter3 by provider.getPainter(PainterHint.None, PainterHint.None)
 
-            Assert.assertEquals(painter1, painter2)
-            Assert.assertEquals(painter3, painter2)
+                Assert.assertEquals(painter1, painter2)
+                Assert.assertEquals(painter3, painter2)
+            }
+        }) {
+            awaitIdle()
         }
-    }) {
-        awaitIdle()
-    }
 
     private class TestPainterProviderScope(
         density: Density,
@@ -60,20 +62,18 @@ class PainterHintTest : BasicJewelUiTest() {
             var result = rawPath
             hints.forEach {
                 if (it !is PainterPathHint) return@forEach
-                with(it) {
+                with (it) {
                     if (!canApply()) return@forEach
                     result = patch()
                 }
-            }
-            return result
         }
+        return result
+    }
 
         fun applyPaletteHints(svg: String, vararg hints: PainterHint): String {
             val doc = documentBuilderFactory.newDocumentBuilder().parse(svg.toByteArray().inputStream())
 
-            hints.filterIsInstance<PainterSvgPatchHint>()
-                .onEach {
-                    with(it) {
+        hints.filterIsInstance<PainterSvgPatchHint>().onEach { with(it) {
                         if (!canApply()) return@onEach
                         patch(doc.documentElement)
                     }
@@ -103,7 +103,8 @@ class PainterHintTest : BasicJewelUiTest() {
     @Test
     fun `override painter hint should replace path entirely`() {
         val basePath = "icons/github.svg"
-        val patchedPath = testScope(basePath).applyPathHints(Override(mapOf("icons/github.svg" to "icons/search.svg")))
+        val patchedPath =
+            testScope(basePath).applyPathHints(Override(mapOf("icons/github.svg" to "icons/search.svg")))
         Assert.assertEquals("icons/search.svg", patchedPath)
     }
 
@@ -274,23 +275,26 @@ class PainterHintTest : BasicJewelUiTest() {
 
     @Test
     fun `palette painter hint should patch colors correctly in SVG`() {
-        val baseSvg = """
+        val baseSvg =
+            """
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <rect fill="#000000" height="20" stroke="#000000" stroke-opacity="0.5" width="20" x="2" y="2"/>
                 <rect fill="#00ff00" height="16" width="16" x="4" y="4"/>
                 <rect fill="#123456" height="12" width="12" x="6" y="6"/>
             </svg>
-        """.trimIndent()
-        val patchedSvg = testScope("fake_icon.svg").applyPaletteHints(
+        """
+                .trimIndent()
+        val patchedSvg =
+            testScope("fake_icon.svg").applyPaletteHints(
             baseSvg,
-            Palette(
-                mapOf(
-                    Color(0x80000000) to Color(0xFF123456),
-                    Color.Black to Color.White,
-                    Color.Green to Color.Red,
+                Palette(
+                    mapOf(
+                        Color(0x80000000) to Color(0xFF123456),
+                        Color.Black to Color.White,
+                        Color.Green to Color.Red,
+                    ),
                 ),
-            ),
-        )
+            )
         Assert.assertEquals(
             """
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -298,7 +302,8 @@ class PainterHintTest : BasicJewelUiTest() {
                 <rect fill="#ff0000" height="16" width="16" x="4" y="4"/>
                 <rect fill="#123456" height="12" width="12" x="6" y="6"/>
             </svg>
-            """.trimIndent(),
+            """
+                .trimIndent(),
             patchedSvg,
         )
     }

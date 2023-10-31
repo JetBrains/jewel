@@ -33,15 +33,16 @@ import org.jetbrains.jewel.ui.theme.tooltipStyle
 import org.jetbrains.jewel.ui.util.isDark
 
 @Composable
-fun Tooltip(
+public fun Tooltip(
     tooltip: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     style: TooltipStyle = JewelTheme.tooltipStyle,
-    tooltipPlacement: TooltipPlacement = TooltipPlacement(
-        contentOffset = style.metrics.tooltipOffset,
-        alignment = style.metrics.tooltipAlignment,
-        density = LocalDensity.current,
-    ),
+    tooltipPlacement: TooltipPlacement =
+        TooltipPlacement(
+            contentOffset = style.metrics.tooltipOffset,
+            alignment = style.metrics.tooltipAlignment,
+            density = LocalDensity.current,
+        ),
     content: @Composable () -> Unit,
 ) {
     TooltipArea(
@@ -50,13 +51,13 @@ fun Tooltip(
                 LocalContentColor provides style.colors.content,
             ) {
                 Box(
-                    modifier = Modifier
-                        .shadow(
-                            elevation = style.metrics.shadowSize,
-                            shape = RoundedCornerShape(style.metrics.cornerSize),
-                            ambientColor = style.colors.shadow,
-                            spotColor = Color.Transparent,
-                        )
+                    modifier =
+                    Modifier.shadow(
+                        elevation = style.metrics.shadowSize,
+                        shape = RoundedCornerShape(style.metrics.cornerSize),
+                        ambientColor = style.colors.shadow,
+                        spotColor = Color.Transparent,
+                    )
                         .background(
                             color = style.colors.background,
                             shape = RoundedCornerShape(style.metrics.cornerSize),
@@ -68,9 +69,7 @@ fun Tooltip(
                         )
                         .padding(style.metrics.contentPadding),
                 ) {
-                    OverrideDarkMode(style.colors.background.isDark()) {
-                        tooltip()
-                    }
+                    OverrideDarkMode(style.colors.background.isDark()) { tooltip() }
                 }
             }
         },
@@ -81,7 +80,7 @@ fun Tooltip(
     )
 }
 
-class TooltipPlacement(
+public class TooltipPlacement(
     private val contentOffset: DpOffset,
     private val alignment: Alignment.Horizontal,
     private val density: Density,
@@ -112,20 +111,21 @@ private fun rememberTooltipPositionProvider(
     alignment: Alignment.Horizontal,
     density: Density,
     windowMargin: Dp = 4.dp,
-) = remember(
-    contentOffset,
-    alignment,
-    density,
-    windowMargin,
-) {
-    TooltipPositionProvider(
-        cursorPosition = cursorPosition,
-        contentOffset = contentOffset,
-        alignment = alignment,
-        density = density,
-        windowMargin = windowMargin,
-    )
-}
+) =
+    remember(
+        contentOffset,
+        alignment,
+        density,
+        windowMargin,
+    ) {
+        TooltipPositionProvider(
+            cursorPosition = cursorPosition,
+            contentOffset = contentOffset,
+            alignment = alignment,
+            density = density,
+            windowMargin = windowMargin,
+        )
+    }
 
 private class TooltipPositionProvider(
     private val cursorPosition: Offset,
@@ -140,34 +140,38 @@ private class TooltipPositionProvider(
         windowSize: IntSize,
         layoutDirection: LayoutDirection,
         popupContentSize: IntSize,
-    ): IntOffset = with(density) {
-        val windowSpaceBounds = IntRect(
-            left = windowMargin.roundToPx(),
-            top = windowMargin.roundToPx(),
-            right = windowSize.width - windowMargin.roundToPx(),
-            bottom = windowSize.height - windowMargin.roundToPx(),
-        )
+    ): IntOffset =
+        with(density) {
+            val windowSpaceBounds =
+                IntRect(
+                    left = windowMargin.roundToPx(),
+                    top = windowMargin.roundToPx(),
+                    right = windowSize.width - windowMargin.roundToPx(),
+                    bottom = windowSize.height - windowMargin.roundToPx(),
+                )
 
-        val contentOffsetX = contentOffset.x.roundToPx()
-        val contentOffsetY = contentOffset.y.roundToPx()
+            val contentOffsetX = contentOffset.x.roundToPx()
+            val contentOffsetY = contentOffset.y.roundToPx()
 
-        val posX = cursorPosition.x.toInt() + anchorBounds.left
-        val posY = cursorPosition.y.toInt() + anchorBounds.top
+            val posX = cursorPosition.x.toInt() + anchorBounds.left
+            val posY = cursorPosition.y.toInt() + anchorBounds.top
 
-        val x = posX + alignment.align(popupContentSize.width, 0, layoutDirection) + contentOffsetX
+            val x = posX + alignment.align(popupContentSize.width, 0, layoutDirection) + contentOffsetX
 
-        val aboveSpacing = cursorPosition.y - contentOffsetY - windowSpaceBounds.top
-        val belowSpacing = windowSpaceBounds.bottom - cursorPosition.y - contentOffsetY
+            val aboveSpacing = cursorPosition.y - contentOffsetY - windowSpaceBounds.top
+            val belowSpacing = windowSpaceBounds.bottom - cursorPosition.y - contentOffsetY
 
-        val y = if (belowSpacing > popupContentSize.height || belowSpacing >= aboveSpacing) {
-            posY + contentOffsetY
-        } else {
-            posY - contentOffsetY - popupContentSize.height
+            val y =
+                if (belowSpacing > popupContentSize.height || belowSpacing >= aboveSpacing) {
+                    posY + contentOffsetY
+                } else {
+                    posY - contentOffsetY - popupContentSize.height
+                }
+
+            val popupBounds =
+                IntRect(x, y, x + popupContentSize.width, y + popupContentSize.height)
+                    .constrainedIn(windowSpaceBounds)
+
+            IntOffset(popupBounds.left, popupBounds.top)
         }
-
-        val popupBounds = IntRect(x, y, x + popupContentSize.width, y + popupContentSize.height)
-            .constrainedIn(windowSpaceBounds)
-
-        IntOffset(popupBounds.left, popupBounds.top)
-    }
 }

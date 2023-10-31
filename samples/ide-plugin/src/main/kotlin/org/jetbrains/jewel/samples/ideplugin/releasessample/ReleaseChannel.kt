@@ -4,19 +4,21 @@ import com.intellij.ui.JBColor
 import java.awt.Color
 
 @Suppress("UnregisteredNamedColor") // They exist at runtime
-enum class ReleaseChannel(
-    val background: Color,
-    val foreground: Color,
+public enum class ReleaseChannel(
+    public val background: Color,
+    public val foreground: Color,
 ) {
 
     Stable(
-        background = JBColor(
+        background =
+        JBColor(
             /* regular = */
             JBColor.namedColor("ColorPalette.Green10", 0xE6F7E9),
             /* dark  = */
             JBColor.namedColor("ColorPalette.Green3", 0x436946),
         ),
-        foreground = JBColor(
+        foreground =
+        JBColor(
             /* regular = */
             JBColor.namedColor("ColorPalette.Green5", 0x369650),
             /* dark  = */
@@ -24,13 +26,15 @@ enum class ReleaseChannel(
         ),
     ),
     Beta(
-        background = JBColor(
+        background =
+        JBColor(
             /* regular = */
             JBColor.namedColor("ColorPalette.Yellow10", 0xFCEBA4),
             /* dark  = */
             JBColor.namedColor("ColorPalette.Yellow3", 0x826A41),
         ),
-        foreground = JBColor(
+        foreground =
+        JBColor(
             /* regular = */
             JBColor.namedColor("ColorPalette.Yellow4", 0xFFAF0F),
             /* dark  = */
@@ -38,13 +42,15 @@ enum class ReleaseChannel(
         ),
     ),
     Canary(
-        background = JBColor(
+        background =
+        JBColor(
             /* regular = */
             JBColor.namedColor("ColorPalette.Orange8", 0xEC8F4C),
             /* dark  = */
             JBColor.namedColor("ColorPalette.Orange3", 0x825845),
         ),
-        foreground = JBColor(
+        foreground =
+        JBColor(
             /* regular = */
             JBColor.namedColor("ColorPalette.Orange5", 0xEC8F4C),
             /* dark  = */
@@ -52,13 +58,15 @@ enum class ReleaseChannel(
         ),
     ),
     Other(
-        background = JBColor(
+        background =
+        JBColor(
             /* regular = */
             JBColor.namedColor("ColorPalette.Grey12", 0xEBECF0),
             /* dark  = */
             JBColor.namedColor("ColorPalette.Grey5", 0x4E5157),
         ),
-        foreground = JBColor(
+        foreground =
+        JBColor(
             /* regular = */
             JBColor.namedColor("ColorPalette.Grey6", 0x6C707E),
             /* dark  = */

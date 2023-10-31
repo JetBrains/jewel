@@ -7,9 +7,13 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
-interface BadgeShape : Shape {
+public interface BadgeShape : Shape {
 
-    fun createHoleOutline(size: Size, layoutDirection: LayoutDirection, density: Density): Outline
+    public fun createHoleOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density,
+    ): Outline
 }
 
 internal val emptyOutline = Outline.Rectangle(Rect.Zero)

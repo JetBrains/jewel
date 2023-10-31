@@ -24,7 +24,7 @@ internal object MacUtil {
         }
     }
 
-    fun getWindowFromJavaWindow(w: Window?): ID {
+    public fun getWindowFromJavaWindow(w: Window?): ID {
         if (w == null) {
             return ID.NIL
         }
@@ -43,11 +43,12 @@ internal object MacUtil {
         return ID.NIL
     }
 
-    fun getPlatformWindow(w: Window): Any? {
+    public fun getPlatformWindow(w: Window): Any? {
         try {
             val awtAccessor = Class.forName("sun.awt.AWTAccessor")
             val componentAccessor = awtAccessor.getMethod("getComponentAccessor").invoke(null)
-            val getPeer = componentAccessor.javaClass.getMethod("getPeer", Component::class.java).accessible()
+            val getPeer =
+                componentAccessor.javaClass.getMethod("getPeer", Component::class.java).accessible()
             val peer = getPeer.invoke(componentAccessor, w)
             if (peer != null) {
                 val cWindowPeerClass: Class<*> = peer.javaClass
@@ -69,11 +70,16 @@ internal object MacUtil {
         return null
     }
 
-    fun updateColors(w: Window) {
+    public fun updateColors(w: Window) {
         SwingUtilities.invokeLater {
             val window = getWindowFromJavaWindow(w)
             val delegate = Foundation.invoke(window, "delegate")
-            if (Foundation.invoke(delegate, "respondsToSelector:", Foundation.createSelector("updateColors"))
+            if (
+                Foundation.invoke(
+                    delegate,
+                    "respondsToSelector:",
+                    Foundation.createSelector("updateColors"),
+                )
                     .booleanValue()
             ) {
                 Foundation.invoke(delegate, "updateColors")
@@ -81,7 +87,7 @@ internal object MacUtil {
         }
     }
 
-    fun updateFullScreenButtons(w: Window) {
+    public fun updateFullScreenButtons(w: Window) {
         SwingUtilities.invokeLater {
             val selector = Foundation.createSelector("updateFullScreenButtons")
             val window = getWindowFromJavaWindow(w)

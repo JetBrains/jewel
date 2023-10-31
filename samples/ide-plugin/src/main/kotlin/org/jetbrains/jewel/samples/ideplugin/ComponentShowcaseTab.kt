@@ -50,11 +50,13 @@ import org.jetbrains.jewel.ui.component.Tooltip
 @Composable
 internal fun ToolWindowScope.ComponentShowcaseTab() {
     SwingBridgeTheme {
-        val bgColor by remember(JewelTheme.isDark) { mutableStateOf(JBColor.PanelBackground.toComposeColor()) }
+        val bgColor by
+            remember(JewelTheme.isDark) { mutableStateOf(JBColor.PanelBackground.toComposeColor()) }
 
         val scrollState = rememberScrollState()
         Row(
-            modifier = Modifier.trackComponentActivation(panel)
+            modifier =
+            Modifier.trackComponentActivation(panel)
                 .fillMaxSize()
                 .background(bgColor)
                 .verticalScroll(scrollState)
@@ -86,20 +88,12 @@ private fun RowScope.ColumnOne() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             var clicks1 by remember { mutableStateOf(0) }
-            OutlinedButton({ clicks1++ }) {
-                Text("Outlined: $clicks1")
-            }
-            OutlinedButton({ }, enabled = false) {
-                Text("Outlined")
-            }
+            OutlinedButton({ clicks1++ }) { Text("Outlined: $clicks1") }
+            OutlinedButton({}, enabled = false) { Text("Outlined") }
 
             var clicks2 by remember { mutableStateOf(0) }
-            DefaultButton({ clicks2++ }) {
-                Text("Default: $clicks2")
-            }
-            DefaultButton({ }, enabled = false) {
-                Text("Default")
-            }
+            DefaultButton({ clicks2++ }) { Text("Default: $clicks2") }
+            DefaultButton({}, enabled = false) { Text("Default") }
         }
 
         var textFieldValue by remember { mutableStateOf("") }
@@ -120,12 +114,8 @@ private fun RowScope.ColumnOne() {
 
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             var index by remember { mutableStateOf(0) }
-            RadioButtonRow(selected = index == 0, onClick = { index = 0 }) {
-                Text("I am number one")
-            }
-            RadioButtonRow(selected = index == 1, onClick = { index = 1 }) {
-                Text("Sad second")
-            }
+            RadioButtonRow(selected = index == 0, onClick = { index = 0 }) { Text("I am number one") }
+            RadioButtonRow(selected = index == 1, onClick = { index = 1 }) { Text("Sad second") }
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -142,10 +132,10 @@ private fun RowScope.ColumnOne() {
                 contentDescription = "An icon",
             )
 
-            IconButton(onClick = { }) {
+            IconButton(onClick = {}) {
                 Icon("actions/close.svg", contentDescription = "An icon", AllIcons::class.java)
             }
-            IconButton(onClick = { }) {
+            IconButton(onClick = {}) {
                 Icon("actions/addList.svg", contentDescription = "An icon", AllIcons::class.java)
             }
         }
@@ -167,15 +157,18 @@ private fun RowScope.ColumnOne() {
         }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Tooltip(tooltip = {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Icon("general/showInfos.svg", contentDescription = null, AllIcons::class.java)
+            Tooltip(
+                tooltip = {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Icon("general/showInfos.svg", contentDescription = null, AllIcons::class.java)
 
-                    Text("This is a tooltip")
-                }
-            }) {
+                        Text("This is a tooltip")
+                    }
+                },
+            ) {
                 Text(
-                    modifier = Modifier.border(1.dp, JewelTheme.globalColors.borders.normal).padding(12.dp, 8.dp),
+                    modifier =
+                    Modifier.border(1.dp, JewelTheme.globalColors.borders.normal).padding(12.dp, 8.dp),
                     text = "Hover Me!",
                 )
             }
@@ -224,9 +217,7 @@ private fun RowScope.ColumnTwo() {
             onElementClick = {},
             onElementDoubleClick = {},
         ) { element ->
-            Box(Modifier.fillMaxWidth()) {
-                Text(element.data, Modifier.padding(2.dp))
-            }
+            Box(Modifier.fillMaxWidth()) { Text(element.data, Modifier.padding(2.dp)) }
         }
     }
 }

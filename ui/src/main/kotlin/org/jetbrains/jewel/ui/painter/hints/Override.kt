@@ -22,8 +22,9 @@ private class OverrideImpl(private val iconOverride: Map<String, String>) : Pain
     }
 }
 
-fun Override(override: Map<String, String>): PainterHint = if (override.isEmpty()) {
-    PainterHint.None
-} else {
-    OverrideImpl(override)
-}
+public fun Override(override: Map<String, String>): PainterHint =
+    if (override.isEmpty()) {
+        PainterHint.None
+    } else {
+        OverrideImpl(override)
+    }

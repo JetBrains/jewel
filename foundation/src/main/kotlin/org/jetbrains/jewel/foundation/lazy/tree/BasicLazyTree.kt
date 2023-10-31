@@ -48,7 +48,8 @@ import kotlin.time.Duration.Companion.milliseconds
  * @param selectionMode The selection mode for the tree nodes.
  * @param onElementClick Callback function triggered when a tree node is clicked.
  * @param elementBackgroundFocused The background color of a tree node when focused.
- * @param elementBackgroundSelectedFocused The background color of a selected tree node when focused.
+ * @param elementBackgroundSelectedFocused The background color of a selected tree node when
+ *   focused.
  * @param elementBackgroundSelected The background color of a selected tree node.
  * @param indentSize The size of the indent for each level of the tree node.
  * @param elementBackgroundCornerSize The corner size of the background shape of a tree node.
@@ -60,18 +61,20 @@ import kotlin.time.Duration.Companion.milliseconds
  * @param modifier Optional modifier for styling or positioning the tree view.
  * @param onElementDoubleClick Callback function triggered when a tree node is double-clicked.
  * @param onSelectionChange Callback function triggered when the selected tree nodes change.
- * @param platformDoubleClickDelay The duration between two consecutive clicks to be considered a double-click.
+ * @param platformDoubleClickDelay The duration between two consecutive clicks to be considered a
+ *   double-click.
  * @param keyActions The key binding actions for the tree view.
  * @param pointerEventScopedActions The pointer event actions for the tree view.
  * @param chevronContent The composable function responsible for rendering the chevron icon.
  * @param nodeContent The composable function responsible for rendering the content of a tree node.
  *
  * @suppress("UNCHECKED_CAST")
- * @Composable
+ *
+ * @composable
  */
 @Suppress("UNCHECKED_CAST")
 @Composable
-fun <T> BasicLazyTree(
+public fun <T> BasicLazyTree(
     tree: Tree<T>,
     selectionMode: SelectionMode = SelectionMode.Multiple,
     onElementClick: (Tree.Element<T>) -> Unit,
@@ -99,7 +102,9 @@ fun <T> BasicLazyTree(
     val scope = rememberCoroutineScope()
 
     val flattenedTree =
-        remember(tree, treeState.openNodes, treeState.allNodes) { tree.roots.flatMap { it.flattenTree(treeState) } }
+        remember(tree, treeState.openNodes, treeState.allNodes) {
+            tree.roots.flatMap { it.flattenTree(treeState) }
+        }
 
     remember(tree) { // if tree changes we need to update selection changes
         onSelectionChange(
@@ -127,16 +132,20 @@ fun <T> BasicLazyTree(
             key = { _, item -> item.id },
             contentType = { _, item -> item.data },
         ) { index, element ->
-            val elementState = TreeElementState.of(
-                active = isActive,
-                selected = isSelected,
-                expanded = (element as? Tree.Element.Node)?.let { it.id in treeState.openNodes } ?: false,
-            )
+            val elementState =
+                TreeElementState.of(
+                    active = isActive,
+                    selected = isSelected,
+                    expanded = (element as? Tree.Element.Node)?.let { it.id in treeState.openNodes } ?: false,
+                )
 
-            val backgroundShape by remember { mutableStateOf(RoundedCornerShape(elementBackgroundCornerSize)) }
+            val backgroundShape by remember {
+                mutableStateOf(RoundedCornerShape(elementBackgroundCornerSize))
+            }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.defaultMinSize(minHeight = elementMinHeight)
+                modifier =
+                Modifier.defaultMinSize(minHeight = elementMinHeight)
                     .padding(elementPadding)
                     .elementBackground(
                         state = elementState,
@@ -163,7 +172,8 @@ fun <T> BasicLazyTree(
             ) {
                 if (element is Tree.Element.Node) {
                     Box(
-                        modifier = Modifier.clickable(
+                        modifier =
+                        Modifier.clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
                         ) {
@@ -189,7 +199,8 @@ private fun Modifier.elementBackground(
     backgroundShape: RoundedCornerShape,
 ) =
     background(
-        color = when {
+        color =
+        when {
             state.isActive && state.isSelected -> selectedFocused
             state.isActive && !state.isSelected -> focused
             state.isSelected && !state.isActive -> selected
@@ -200,7 +211,8 @@ private fun Modifier.elementBackground(
 
 @Immutable
 @JvmInline
-value class TreeElementState(val state: ULong) : FocusableComponentState, SelectableComponentState {
+public value class TreeElementState(public val state: ULong) :
+    FocusableComponentState, SelectableComponentState {
 
     @Stable
     override val isActive: Boolean
@@ -227,14 +239,14 @@ value class TreeElementState(val state: ULong) : FocusableComponentState, Select
         get() = state and Selected != 0UL
 
     @Stable
-    val isExpanded: Boolean
+    public val isExpanded: Boolean
         get() = state and Expanded != 0UL
 
     override fun toString(): String =
         "${javaClass.simpleName}(enabled=$isEnabled, focused=$isFocused, expanded=$isExpanded, " +
             "pressed=$isPressed, hovered=$isHovered, active=$isActive, selected=$isSelected)"
 
-    fun copy(
+    public fun copy(
         enabled: Boolean = isEnabled,
         focused: Boolean = isFocused,
         expanded: Boolean = isExpanded,
@@ -242,23 +254,24 @@ value class TreeElementState(val state: ULong) : FocusableComponentState, Select
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
         selected: Boolean = isSelected,
-    ) = of(
-        enabled = enabled,
-        focused = focused,
-        expanded = expanded,
-        pressed = pressed,
-        hovered = hovered,
-        active = active,
-        selected = selected,
-    )
+    ): TreeElementState =
+        of(
+            enabled = enabled,
+            focused = focused,
+            expanded = expanded,
+            pressed = pressed,
+            hovered = hovered,
+            active = active,
+            selected = selected,
+        )
 
-    companion object {
+    public companion object {
 
         private const val EXPANDED_BIT_OFFSET = CommonStateBitMask.FIRST_AVAILABLE_OFFSET
 
         private val Expanded = 1UL shl EXPANDED_BIT_OFFSET
 
-        fun of(
+        public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,
             expanded: Boolean = false,
@@ -266,15 +279,16 @@ value class TreeElementState(val state: ULong) : FocusableComponentState, Select
             pressed: Boolean = false,
             active: Boolean = false,
             selected: Boolean = false,
-        ) = TreeElementState(
-            (if (expanded) Expanded else 0UL) or
-                (if (enabled) Enabled else 0UL) or
-                (if (focused) Focused else 0UL) or
-                (if (pressed) Pressed else 0UL) or
-                (if (hovered) Hovered else 0UL) or
-                (if (selected) Selected else 0UL) or
-                (if (active) Active else 0UL),
-        )
+        ): TreeElementState =
+            TreeElementState(
+                (if (expanded) Expanded else 0UL) or
+                    (if (enabled) Enabled else 0UL) or
+                    (if (focused) Focused else 0UL) or
+                    (if (pressed) Pressed else 0UL) or
+                    (if (hovered) Hovered else 0UL) or
+                    (if (selected) Selected else 0UL) or
+                    (if (active) Active else 0UL),
+            )
     }
 }
 
@@ -288,19 +302,14 @@ private fun Tree.Element<*>.flattenTree(state: TreeState): MutableList<Tree.Elem
                 return orderedChildren.also {
                     close()
                     // remove all children key from openNodes
-                    state.openNodes -= buildSet {
-                        getAllSubNodes(this@flattenTree)
-                    }
+                    state.openNodes -= buildSet { getAllSubNodes(this@flattenTree) }
                 }
             }
             Log.w("the node is open, loading children for $id")
             Log.w("children size: ${children?.size}")
             open(true)
-            children?.forEach { child ->
-                orderedChildren.addAll(child.flattenTree(state))
-            }
+            children?.forEach { child -> orderedChildren.addAll(child.flattenTree(state)) }
         }
-
         is Tree.Element.Leaf<*> -> {
             orderedChildren.add(this)
         }
@@ -309,10 +318,8 @@ private fun Tree.Element<*>.flattenTree(state: TreeState): MutableList<Tree.Elem
 }
 
 private infix fun MutableSet<Any>.getAllSubNodes(node: Tree.Element.Node<*>) {
-    node.children
-        ?.filterIsInstance<Tree.Element.Node<*>>()
-        ?.forEach {
-            add(it.id)
-            this@getAllSubNodes getAllSubNodes (it)
-        }
+    node.children?.filterIsInstance<Tree.Element.Node<*>>()?.forEach {
+        add(it.id)
+        this@getAllSubNodes getAllSubNodes (it)
+    }
 }

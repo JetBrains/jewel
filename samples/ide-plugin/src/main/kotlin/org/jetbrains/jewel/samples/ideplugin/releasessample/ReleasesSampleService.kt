@@ -20,7 +20,8 @@ internal class ReleasesSampleService : CoroutineScope, Disposable {
 
     private val dispatcher = AppExecutorUtil.getAppExecutorService().asCoroutineDispatcher()
 
-    override val coroutineContext = SupervisorJob() + CoroutineName("ReleasesSampleService") + dispatcher
+    override val coroutineContext =
+        SupervisorJob() + CoroutineName("ReleasesSampleService") + dispatcher
 
     private val originalContentSource = MutableStateFlow<ContentSource<*>>(AndroidStudioReleases)
 
@@ -35,8 +36,7 @@ internal class ReleasesSampleService : CoroutineScope, Disposable {
             val normalizedFilter = filter.trim()
             if (normalizedFilter.isBlank()) return@combine source
 
-            val filteredContentItems = source.items
-                .filter { it.matches(normalizedFilter) }
+            val filteredContentItems = source.items.filter { it.matches(normalizedFilter) }
 
             FilteredContentSource(filteredContentItems, source)
         }
@@ -44,18 +44,18 @@ internal class ReleasesSampleService : CoroutineScope, Disposable {
             .launchIn(this)
     }
 
-    fun setContentSource(contentSource: ContentSource<*>) {
+    public fun setContentSource(contentSource: ContentSource<*>) {
         if (contentSource != originalContentSource.value) {
             originalContentSource.tryEmit(contentSource)
             resetFilter()
         }
     }
 
-    fun resetFilter() {
+    public fun resetFilter() {
         filterContent("")
     }
 
-    fun filterContent(filter: String) {
+    public fun filterContent(filter: String) {
         _filter.tryEmit(filter)
     }
 

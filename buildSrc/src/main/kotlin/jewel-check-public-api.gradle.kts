@@ -14,18 +14,15 @@ apiValidation {
     nonPublicMarkers.add("org.jetbrains.jewel.InternalJewelApi")
 }
 
-poko {
-    pokoAnnotation = "org.jetbrains.jewel.foundation.GenerateDataFunctions"
-}
+poko { pokoAnnotation = "org.jetbrains.jewel.foundation.GenerateDataFunctions" }
 
 tasks {
-    val validatePublicApi = register<ValidatePublicApiTask>("validatePublicApi") {
-        include { it.file.extension == "api" }
-        source(project.fileTree("api"))
-        dependsOn(named("apiCheck"))
-    }
+    val validatePublicApi =
+        register<ValidatePublicApiTask>("validatePublicApi") {
+            include { it.file.extension == "api" }
+            source(project.fileTree("api"))
+            dependsOn(named("apiCheck"))
+        }
 
-    named("check") {
-        dependsOn(validatePublicApi)
-    }
+    named("check") { dependsOn(validatePublicApi) }
 }

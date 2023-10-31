@@ -54,14 +54,13 @@ internal fun InputField(
     interactionSource: MutableInteractionSource,
     style: InputFieldStyle,
     textStyle: TextStyle,
-    decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
+    decorationBox:
+    @Composable
+    (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
 ) {
-    var inputState by remember(interactionSource) {
-        mutableStateOf(InputFieldState.of(enabled = enabled))
-    }
-    remember(enabled) {
-        inputState = inputState.copy(enabled = enabled)
-    }
+    var inputState by
+        remember(interactionSource) { mutableStateOf(InputFieldState.of(enabled = enabled)) }
+    remember(enabled) { inputState = inputState.copy(enabled = enabled) }
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
@@ -75,20 +74,22 @@ internal fun InputField(
     val backgroundColor by colors.backgroundFor(inputState)
     val shape = RoundedCornerShape(style.metrics.cornerSize)
 
-    val backgroundModifier = Modifier.thenIf(!undecorated && backgroundColor.isSpecified) {
-        background(backgroundColor, shape)
-    }
+    val backgroundModifier =
+        Modifier.thenIf(!undecorated && backgroundColor.isSpecified) {
+            background(backgroundColor, shape)
+        }
 
     val borderColor by style.colors.borderFor(inputState)
     val hasNoOutline = outline == Outline.None
-    val borderModifier = Modifier.thenIf(!undecorated && borderColor.isSpecified && hasNoOutline) {
-        Modifier.border(
-            alignment = Stroke.Alignment.Center,
-            width = style.metrics.borderWidth,
-            color = borderColor,
-            shape = shape,
-        )
-    }
+    val borderModifier =
+        Modifier.thenIf(!undecorated && borderColor.isSpecified && hasNoOutline) {
+            Modifier.border(
+                alignment = Stroke.Alignment.Center,
+                width = style.metrics.borderWidth,
+                color = borderColor,
+                shape = shape,
+            )
+        }
 
     val contentColor by colors.contentFor(inputState)
     val mergedTextStyle = style.textStyle.merge(textStyle).copy(color = contentColor)
@@ -96,7 +97,9 @@ internal fun InputField(
 
     BasicTextField(
         value = value,
-        modifier = modifier.then(backgroundModifier)
+        modifier =
+        modifier
+            .then(backgroundModifier)
             .then(borderModifier)
             .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
             .outline(inputState, outline, shape, Stroke.Alignment.Center),
@@ -112,7 +115,8 @@ internal fun InputField(
         interactionSource = interactionSource,
         singleLine = singleLine,
         maxLines = maxLines,
-        decorationBox = @Composable { innerTextField: @Composable () -> Unit ->
+        decorationBox =
+        @Composable { innerTextField: @Composable () -> Unit ->
             decorationBox(innerTextField, inputState)
         },
     )
@@ -120,7 +124,7 @@ internal fun InputField(
 
 @Immutable
 @JvmInline
-value class InputFieldState(val state: ULong) : FocusableComponentState {
+public value class InputFieldState(public val state: ULong) : FocusableComponentState {
 
     @Stable
     override val isActive: Boolean
@@ -142,38 +146,41 @@ value class InputFieldState(val state: ULong) : FocusableComponentState {
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 
-    fun copy(
+    public fun copy(
         enabled: Boolean = isEnabled,
         focused: Boolean = isFocused,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
-    ) = of(
-        enabled = enabled,
-        focused = focused,
-        pressed = pressed,
-        hovered = hovered,
-        active = active,
-    )
+    ): InputFieldState =
+        of(
+            enabled = enabled,
+            focused = focused,
+            pressed = pressed,
+            hovered = hovered,
+            active = active,
+        )
 
-    override fun toString() =
+    override fun toString(): String =
         "${javaClass.simpleName}(isEnabled=$isEnabled, isFocused=$isFocused, " +
             "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
-    companion object {
+    public companion object {
 
-        fun of(
+        public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
             active: Boolean = false,
-        ) = InputFieldState(
-            state = (if (enabled) Enabled else 0UL) or
-                (if (focused) Focused else 0UL) or
-                (if (hovered) Hovered else 0UL) or
-                (if (pressed) Pressed else 0UL) or
-                (if (active) Active else 0UL),
-        )
+        ): InputFieldState =
+            InputFieldState(
+                state =
+                (if (enabled) Enabled else 0UL) or
+                    (if (focused) Focused else 0UL) or
+                    (if (hovered) Hovered else 0UL) or
+                    (if (pressed) Pressed else 0UL) or
+                    (if (active) Active else 0UL),
+            )
     }
 }

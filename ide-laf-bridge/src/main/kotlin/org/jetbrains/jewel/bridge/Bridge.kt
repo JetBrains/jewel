@@ -19,17 +19,12 @@ internal val IntelliJApplication: Application
     get() = ApplicationManager.getApplication()
 
 private val Application.lookAndFeelFlow: Flow<Unit>
-    get() = messageBus.flow(LafManagerListener.TOPIC) {
-        LafManagerListener { trySend(Unit) }
-    }
+    get() = messageBus.flow(LafManagerListener.TOPIC) { LafManagerListener { trySend(Unit) } }
 
 internal fun Application.lookAndFeelChangedFlow(
     scope: CoroutineScope,
     sharingStarted: SharingStarted = SharingStarted.Eagerly,
-): Flow<Unit> =
-    lookAndFeelFlow
-        .onStart { emit(Unit) }
-        .shareIn(scope, sharingStarted, replay = 1)
+): Flow<Unit> = lookAndFeelFlow.onStart { emit(Unit) }.shareIn(scope, sharingStarted, replay = 1)
 
 internal fun <L : Any, K> MessageBus.flow(
     topic: Topic<L>,

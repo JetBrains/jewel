@@ -17,8 +17,7 @@ import org.junit.Test
 
 class ProvideDataTest {
 
-    @JvmField
-    @Rule
+    @JvmField @Rule
     val rule = createComposeRule()
 
     @Test
@@ -29,8 +28,8 @@ class ProvideDataTest {
             rule.setContent {
                 focusManager = LocalFocusManager.current
                 Box(
-                    modifier = Modifier
-                        .then(rootDataProviderModifier)
+                    modifier =
+                    Modifier.then(rootDataProviderModifier)
                         .testTag("provider")
                         .provideData {
                             when (it) {
@@ -60,8 +59,8 @@ class ProvideDataTest {
             rule.setContent {
                 focusManager = LocalFocusManager.current
                 Box(
-                    modifier = Modifier
-                        .then(rootDataProviderModifier)
+                    modifier =
+                    Modifier.then(rootDataProviderModifier)
                         .testTag("root_provider")
                         .provideData {
                             when (it) {
@@ -73,14 +72,15 @@ class ProvideDataTest {
                 ) {
                     Box(modifier = Modifier.testTag("non_data_provider").focusable()) {
                         Box(
-                            modifier = Modifier
-                                .testTag("data_provider_item")
+                            modifier =
+                            Modifier.testTag("data_provider_item")
                                 .provideData {
                                     when (it) {
                                         "data" -> "ok"
                                         else -> null
                                     }
-                                }.focusable(),
+                                }
+                                .focusable(),
                         )
                     }
                 }

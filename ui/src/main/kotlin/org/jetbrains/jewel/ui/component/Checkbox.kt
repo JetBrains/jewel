@@ -57,7 +57,7 @@ import org.jetbrains.jewel.ui.painter.hints.Stateful
 import org.jetbrains.jewel.ui.theme.checkboxStyle
 
 @Composable
-fun Checkbox(
+public fun Checkbox(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
@@ -86,7 +86,7 @@ fun Checkbox(
 }
 
 @Composable
-fun TriStateCheckbox(
+public fun TriStateCheckbox(
     state: ToggleableState,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -114,7 +114,7 @@ fun TriStateCheckbox(
 }
 
 @Composable
-fun TriStateCheckboxRow(
+public fun TriStateCheckboxRow(
     text: String,
     state: ToggleableState,
     onClick: () -> Unit,
@@ -144,7 +144,7 @@ fun TriStateCheckboxRow(
 }
 
 @Composable
-fun CheckboxRow(
+public fun CheckboxRow(
     text: String,
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit)?,
@@ -176,7 +176,7 @@ fun CheckboxRow(
 }
 
 @Composable
-fun CheckboxRow(
+public fun CheckboxRow(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
@@ -191,9 +191,7 @@ fun CheckboxRow(
 ) {
     CheckboxImpl(
         state = ToggleableState(checked),
-        onClick = {
-            onCheckedChange?.invoke(!checked)
-        },
+        onClick = { onCheckedChange?.invoke(!checked) },
         modifier = modifier,
         enabled = enabled,
         outline = outline,
@@ -207,7 +205,7 @@ fun CheckboxRow(
 }
 
 @Composable
-fun TriStateCheckboxRow(
+public fun TriStateCheckboxRow(
     state: ToggleableState,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -249,9 +247,8 @@ private fun CheckboxImpl(
     textStyle: TextStyle,
     content: (@Composable RowScope.() -> Unit)?,
 ) {
-    var checkboxState by remember(interactionSource) {
-        mutableStateOf(CheckboxState.of(state, enabled = enabled))
-    }
+    var checkboxState by
+        remember(interactionSource) { mutableStateOf(CheckboxState.of(state, enabled = enabled)) }
     remember(state, enabled) {
         checkboxState = checkboxState.copy(toggleableState = state, enabled = enabled)
     }
@@ -260,10 +257,9 @@ private fun CheckboxImpl(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> checkboxState = checkboxState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release ->
-                    checkboxState =
-                        checkboxState.copy(pressed = false)
-
+                is PressInteraction.Cancel,
+                is PressInteraction.Release,
+                -> checkboxState = checkboxState.copy(pressed = false)
                 is HoverInteraction.Enter -> checkboxState = checkboxState.copy(hovered = true)
                 is HoverInteraction.Exit -> checkboxState = checkboxState.copy(hovered = false)
                 is FocusInteraction.Focus -> checkboxState = checkboxState.copy(focused = true)
@@ -276,34 +272,37 @@ private fun CheckboxImpl(
         checkboxState = checkboxState.copy(hovered = false, pressed = false)
     }
 
-    val wrapperModifier = modifier.triStateToggleable(
-        state = state,
-        onClick = onClick,
-        enabled = enabled,
-        role = Role.Checkbox,
-        interactionSource = interactionSource,
-        indication = null,
-    )
-
-    val checkBoxImageModifier = Modifier.size(metrics.checkboxSize)
-    val outlineModifier = Modifier.size(metrics.outlineSize)
-        .offset(metrics.outlineOffset.x, metrics.outlineOffset.y)
-        .outline(
-            state = checkboxState,
-            outline = outline,
-            outlineShape = RoundedCornerShape(metrics.checkboxCornerSize),
-            alignment = Stroke.Alignment.Center,
+    val wrapperModifier =
+        modifier.triStateToggleable(
+            state = state,
+            onClick = onClick,
+            enabled = enabled,
+            role = Role.Checkbox,
+            interactionSource = interactionSource,
+            indication = null,
         )
 
-    val checkboxPainter by icons.checkbox.getPainter(
-        if (checkboxState.toggleableState == ToggleableState.Indeterminate) {
-            CheckBoxIndeterminate
-        } else {
-            PainterHint.None
-        },
-        Selected(checkboxState),
-        Stateful(checkboxState),
-    )
+    val checkBoxImageModifier = Modifier.size(metrics.checkboxSize)
+    val outlineModifier =
+        Modifier.size(metrics.outlineSize)
+            .offset(metrics.outlineOffset.x, metrics.outlineOffset.y)
+            .outline(
+                state = checkboxState,
+                outline = outline,
+                outlineShape = RoundedCornerShape(metrics.checkboxCornerSize),
+                alignment = Stroke.Alignment.Center,
+            )
+
+    val checkboxPainter by
+        icons.checkbox.getPainter(
+            if (checkboxState.toggleableState == ToggleableState.Indeterminate) {
+                CheckBoxIndeterminate
+            } else {
+                PainterHint.None
+            },
+            Selected(checkboxState),
+            Stateful(checkboxState),
+        )
 
     if (content == null) {
         Box(contentAlignment = Alignment.TopStart) {
@@ -338,7 +337,11 @@ private object CheckBoxIndeterminate : PainterSuffixHint() {
 }
 
 @Composable
-private fun CheckBoxImage(outerModifier: Modifier, checkboxPainter: Painter, checkBoxModifier: Modifier) {
+private fun CheckBoxImage(
+    outerModifier: Modifier,
+    checkboxPainter: Painter,
+    checkBoxModifier: Modifier,
+) {
     Box(outerModifier, contentAlignment = Alignment.Center) {
         Image(checkboxPainter, contentDescription = null, modifier = checkBoxModifier)
     }
@@ -346,7 +349,7 @@ private fun CheckBoxImage(outerModifier: Modifier, checkboxPainter: Painter, che
 
 @Immutable
 @JvmInline
-value class CheckboxState(private val state: ULong) : ToggleableComponentState, FocusableComponentState {
+public value class CheckboxState(private val state: ULong) : ToggleableComponentState, FocusableComponentState {
 
     @Stable
     override val toggleableState: ToggleableState
@@ -376,43 +379,45 @@ value class CheckboxState(private val state: ULong) : ToggleableComponentState, 
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 
-    fun copy(
+    public fun copy(
         toggleableState: ToggleableState = this.toggleableState,
         enabled: Boolean = isEnabled,
         focused: Boolean = isFocused,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
-    ) = of(
-        toggleableState = toggleableState,
-        enabled = enabled,
-        focused = focused,
-        pressed = pressed,
-        hovered = hovered,
-        active = active,
-    )
+    ): CheckboxState =
+        of(
+            toggleableState = toggleableState,
+            enabled = enabled,
+            focused = focused,
+            pressed = pressed,
+            hovered = hovered,
+            active = active,
+        )
 
-    override fun toString() =
+    override fun toString(): String =
         "${javaClass.simpleName}(toggleableState=$toggleableState, isEnabled=$isEnabled, isFocused=$isFocused, " +
             "isHovered=$isHovered, isPressed=$isPressed, isSelected=$isSelected, isActive=$isActive)"
 
-    companion object {
+    public companion object {
 
-        fun of(
+        public fun of(
             toggleableState: ToggleableState,
             enabled: Boolean = true,
             focused: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
             active: Boolean = false,
-        ) = CheckboxState(
-            state = (if (enabled) Enabled else 0UL) or
-                (if (focused) Focused else 0UL) or
-                (if (hovered) Hovered else 0UL) or
-                (if (pressed) Pressed else 0UL) or
-                (if (toggleableState != ToggleableState.Off) Selected else 0UL) or
-                (if (toggleableState == ToggleableState.Indeterminate) Indeterminate else 0UL) or
-                (if (active) Active else 0UL),
-        )
+        ): CheckboxState =
+            CheckboxState(
+                (if (enabled) Enabled else 0UL) or
+                    (if (focused) Focused else 0UL) or
+                    (if (hovered) Hovered else 0UL) or
+                    (if (pressed) Pressed else 0UL) or
+                    (if (toggleableState != ToggleableState.Off) Selected else 0UL) or
+                    (if (toggleableState == ToggleableState.Indeterminate) Indeterminate else 0UL) or
+                    (if (active) Active else 0UL),
+            )
     }
 }

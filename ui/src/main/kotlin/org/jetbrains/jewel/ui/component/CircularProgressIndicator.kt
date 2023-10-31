@@ -23,7 +23,7 @@ import org.jetbrains.jewel.ui.theme.circularProgressStyle
 import org.jetbrains.jewel.ui.util.toRgbaHexString
 
 @Composable
-fun CircularProgressIndicator(
+public fun CircularProgressIndicator(
     modifier: Modifier = Modifier,
     style: CircularProgressStyle = JewelTheme.circularProgressStyle,
 ) {
@@ -31,12 +31,14 @@ fun CircularProgressIndicator(
         modifier = modifier,
         iconSize = DpSize(16.dp, 16.dp),
         style = style,
-        frameRetriever = { color -> SpinnerProgressIconGenerator.Small.generateSvgFrames(color.toRgbaHexString()) },
+        frameRetriever = { color ->
+            SpinnerProgressIconGenerator.Small.generateSvgFrames(color.toRgbaHexString())
+        },
     )
 }
 
 @Composable
-fun CircularProgressIndicatorBig(
+public fun CircularProgressIndicatorBig(
     modifier: Modifier = Modifier,
     style: CircularProgressStyle = JewelTheme.circularProgressStyle,
 ) {
@@ -44,7 +46,9 @@ fun CircularProgressIndicatorBig(
         modifier = modifier,
         iconSize = DpSize(32.dp, 32.dp),
         style = style,
-        frameRetriever = { color -> SpinnerProgressIconGenerator.Big.generateSvgFrames(color.toRgbaHexString()) },
+        frameRetriever = { color ->
+            SpinnerProgressIconGenerator.Big.generateSvgFrames(color.toRgbaHexString())
+        },
     )
 }
 
@@ -72,8 +76,8 @@ private fun CircularProgressIndicatorImpl(
 
     val density = LocalDensity.current
     LaunchedEffect(density, style.color) {
-        val frames = frameRetriever(style.color.takeOrElse { defaultColor })
-            .map {
+        val frames =
+            frameRetriever(style.color.takeOrElse { defaultColor }).map {
                 loadSvgPainter(it.byteInputStream(), density)
             }
         while (true) {
@@ -86,29 +90,30 @@ private fun CircularProgressIndicatorImpl(
     }
 }
 
-object SpinnerProgressIconGenerator {
+public object SpinnerProgressIconGenerator {
 
     private val opacityList = listOf(1.0f, 0.93f, 0.78f, 0.69f, 0.62f, 0.48f, 0.38f, 0.0f)
 
     private fun StringBuilder.closeRoot() = append("</svg>")
-    private fun StringBuilder.openRoot(sizePx: Int) = append(
-        "<svg width=\"$sizePx\" height=\"$sizePx\" viewBox=\"0 0 16 16\" fill=\"none\" " +
-            "xmlns=\"http://www.w3.org/2000/svg\">",
-    )
+
+    private fun StringBuilder.openRoot(sizePx: Int) =
+        append(
+            "<svg width=\"$sizePx\" height=\"$sizePx\" viewBox=\"0 0 16 16\" fill=\"none\" " +
+                "xmlns=\"http://www.w3.org/2000/svg\">",
+        )
 
     private fun generateSvgIcon(
         size: Int,
         opacityListShifted: List<Float>,
         colorHex: String,
-    ) =
-        buildString {
-            openRoot(size)
-            elements(
-                colorHex = colorHex,
-                opacityList = opacityListShifted,
-            )
-            closeRoot()
-        }
+    ) = buildString {
+        openRoot(size)
+        elements(
+            colorHex = colorHex,
+            opacityList = opacityListShifted,
+        )
+        closeRoot()
+    }
 
     private fun StringBuilder.elements(
         colorHex: String,
@@ -131,9 +136,9 @@ object SpinnerProgressIconGenerator {
         )
     }
 
-    object Small {
+    public object Small {
 
-        fun generateSvgFrames(colorHex: String) = buildList {
+        public fun generateSvgFrames(colorHex: String): List<String> = buildList {
             val opacityListShifted = opacityList.toMutableList()
             repeat(opacityList.count()) {
                 add(
@@ -148,9 +153,9 @@ object SpinnerProgressIconGenerator {
         }
     }
 
-    object Big {
+    public object Big {
 
-        fun generateSvgFrames(colorHex: String) = buildList {
+        public fun generateSvgFrames(colorHex: String): List<String> = buildList {
             val opacityListShifted = opacityList.toMutableList()
             repeat(opacityList.count()) {
                 add(

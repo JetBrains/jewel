@@ -11,9 +11,9 @@ import org.jetbrains.jewel.foundation.lazy.DefaultSelectableColumnKeybindings
 import org.jetbrains.jewel.foundation.lazy.SelectableColumnKeybindings
 import org.jetbrains.skiko.hostOs
 
-open class DefaultTreeViewKeybindings : DefaultSelectableColumnKeybindings(), TreeViewKeybindings {
+public open class DefaultTreeViewKeybindings : DefaultSelectableColumnKeybindings(), TreeViewKeybindings {
 
-    companion object : DefaultTreeViewKeybindings()
+    public companion object : DefaultTreeViewKeybindings()
 
     override val KeyEvent.isSelectParent
         get() = key == Key.DirectionLeft && !isContiguousSelectionKeyPressed
@@ -36,41 +36,41 @@ open class DefaultTreeViewKeybindings : DefaultSelectableColumnKeybindings(), Tr
     override val KeyEvent.isEdit get() = key == Key.F2 && !isContiguousSelectionKeyPressed
 }
 
-interface TreeViewKeybindings : SelectableColumnKeybindings {
+public interface TreeViewKeybindings : SelectableColumnKeybindings {
 
     /**
      * Select Parent Node
      */
-    val KeyEvent.isSelectParent: Boolean
+    public val KeyEvent.isSelectParent: Boolean
 
     /**
      * Extend Selection to Parent Node inherited from Left with Selection
      */
-    val KeyEvent.isExtendSelectionToParent: Boolean
+    public val KeyEvent.isExtendSelectionToParent: Boolean
 
     /**
      * Select Child Node inherited from Right
      */
-    val KeyEvent.isSelectChild: Boolean
+    public val KeyEvent.isSelectChild: Boolean
 
     /**
      * Extend Selection to Child Node inherited from Right with Selection
      */
-    val KeyEvent.isExtendSelectionToChild: Boolean
+    public val KeyEvent.isExtendSelectionToChild: Boolean
 
     /**
      * Select Next Sibling Node
      */
-    val KeyEvent.isSelectNextSibling: Boolean
+    public val KeyEvent.isSelectNextSibling: Boolean
 
     /**
      * Select Previous Sibling Node
      */
-    val KeyEvent.isSelectPreviousSibling: Boolean
+    public val KeyEvent.isSelectPreviousSibling: Boolean
 }
 
 @Suppress("unused")
-val DefaultWindowsTreeViewClickModifierHandler: TreeViewClickModifierHandler
+public val DefaultWindowsTreeViewClickModifierHandler: TreeViewClickModifierHandler
     get() = {
         when {
             hostOs.isWindows || hostOs.isLinux -> isCtrlPressed
@@ -79,10 +79,10 @@ val DefaultWindowsTreeViewClickModifierHandler: TreeViewClickModifierHandler
         }
     }
 
-typealias TreeViewClickModifierHandler = PointerKeyboardModifiers.() -> Boolean
+public typealias TreeViewClickModifierHandler = PointerKeyboardModifiers.() -> Boolean
 
-open class DefaultMacOsTreeColumnKeybindings : DefaultTreeViewKeybindings() {
-    companion object : DefaultMacOsTreeColumnKeybindings()
+public open class DefaultMacOsTreeColumnKeybindings : DefaultTreeViewKeybindings() {
+    public companion object : DefaultMacOsTreeColumnKeybindings()
 
     override val KeyEvent.isMultiSelectionKeyPressed: Boolean
         get() = isMetaPressed

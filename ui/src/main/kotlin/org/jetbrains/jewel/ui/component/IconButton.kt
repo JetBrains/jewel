@@ -35,7 +35,7 @@ import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.theme.iconButtonStyle
 
 @Composable
-fun IconButton(
+public fun IconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -43,12 +43,10 @@ fun IconButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable (BoxScope.(IconButtonState) -> Unit),
 ) {
-    val buttonState = remember(interactionSource) {
-        mutableStateOf(IconButtonState.of(enabled = enabled))
-    }
+    val buttonState =
+        remember(interactionSource) { mutableStateOf(IconButtonState.of(enabled = enabled)) }
 
-    remember(enabled) {
-        buttonState.value = buttonState.value.copy(enabled = enabled)
+    remember(enabled) { buttonState .value = buttonState.value.copy(enabled = enabled)
     }
 
     IconButtonImpl(
@@ -95,8 +93,7 @@ fun SelectableIconButton(
             indication = null,
             selected = selected,
         ).onActivated(enabled = enabled) {
-            buttonState.value = buttonState.value.copy(active = it)
-        },
+            buttonState.value = buttonState.value.copy(active = it) },
         style = style,
         interactionSource = interactionSource,
         content = content,
@@ -117,13 +114,11 @@ private fun IconButtonImpl(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> buttonState = buttonState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release ->
-                    buttonState =
-                        buttonState.copy(pressed = false)
-
+                is PressInteraction.Cancel,
+                is PressInteraction.Release,
+                -> buttonState = buttonState.copy(pressed = false)
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
-
                 is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
                 is FocusInteraction.Unfocus -> buttonState = buttonState.copy(focused = false)
             }
@@ -133,15 +128,14 @@ private fun IconButtonImpl(
     val background by style.colors.backgroundFor(buttonState)
     val border by style.colors.borderFor(buttonState)
     Box(
-        modifier = modifier
+        modifier =
+        modifier
             .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
             .padding(style.metrics.padding)
             .background(background, shape)
             .border(style.metrics.borderWidth, border, shape),
         contentAlignment = Alignment.Center,
-        content = {
-            content(buttonState)
-        },
+        content = { content(buttonState) },
     )
 }
 

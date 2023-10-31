@@ -44,7 +44,7 @@ import org.jetbrains.jewel.ui.theme.defaultButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 
 @Composable
-fun DefaultButton(
+public fun DefaultButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -65,7 +65,7 @@ fun DefaultButton(
 }
 
 @Composable
-fun OutlinedButton(
+public fun OutlinedButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -95,22 +95,18 @@ private fun ButtonImpl(
     textStyle: TextStyle,
     content: @Composable RowScope.() -> Unit,
 ) {
-    var buttonState by remember(interactionSource) {
-        mutableStateOf(ButtonState.of(enabled = enabled))
-    }
+    var buttonState by
+        remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled)) }
 
-    remember(enabled) {
-        buttonState = buttonState.copy(enabled = enabled)
-    }
+    remember(enabled) { buttonState = buttonState.copy(enabled = enabled) }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> buttonState = buttonState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release ->
-                    buttonState =
-                        buttonState.copy(pressed = false)
-
+                is PressInteraction.Cancel,
+                is PressInteraction.Release,
+                -> buttonState = buttonState.copy(pressed = false)
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
                 is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
@@ -124,7 +120,8 @@ private fun ButtonImpl(
     val borderColor by colors.borderFor(buttonState)
 
     Box(
-        modifier = modifier
+        modifier =
+        modifier
             .clickable(
                 onClick = onClick,
                 enabled = enabled,
@@ -144,8 +141,7 @@ private fun ButtonImpl(
             LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
         ) {
             Row(
-                Modifier
-                    .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
+                Modifier.defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
                     .padding(style.metrics.padding),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
@@ -157,7 +153,7 @@ private fun ButtonImpl(
 
 @Immutable
 @JvmInline
-value class ButtonState(val state: ULong) : FocusableComponentState {
+public value class ButtonState(public val state: ULong) : FocusableComponentState {
 
     @Stable
     override val isActive: Boolean
@@ -179,38 +175,40 @@ value class ButtonState(val state: ULong) : FocusableComponentState {
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 
-    fun copy(
+    public fun copy(
         enabled: Boolean = isEnabled,
         focused: Boolean = isFocused,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
-    ) = of(
-        enabled = enabled,
-        focused = focused,
-        pressed = pressed,
-        hovered = hovered,
-        active = active,
-    )
+    ): ButtonState =
+        of(
+            enabled = enabled,
+            focused = focused,
+            pressed = pressed,
+            hovered = hovered,
+            active = active,
+        )
 
-    override fun toString() =
+    override fun toString(): String =
         "${javaClass.simpleName}(isEnabled=$isEnabled, isFocused=$isFocused, isHovered=$isHovered, " +
             "isPressed=$isPressed, isActive=$isActive)"
 
-    companion object {
+    public companion object {
 
-        fun of(
+        public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
             active: Boolean = true,
-        ) = ButtonState(
-            state = (if (enabled) Enabled else 0UL) or
-                (if (focused) Focused else 0UL) or
-                (if (hovered) Hovered else 0UL) or
-                (if (pressed) Pressed else 0UL) or
-                (if (active) Active else 0UL),
-        )
+        ): ButtonState =
+            ButtonState(
+                (if (enabled) Enabled else 0UL) or
+                    (if (focused) Focused else 0UL) or
+                    (if (hovered) Hovered else 0UL) or
+                    (if (pressed) Pressed else 0UL) or
+                    (if (active) Active else 0UL),
+            )
     }
 }

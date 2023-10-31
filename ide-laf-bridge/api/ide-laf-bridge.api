@@ -43,10 +43,6 @@ public final class org/jetbrains/jewel/bridge/JewelBridgeException$KeysNotFoundE
 	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
 }
 
-public abstract interface annotation class org/jetbrains/jewel/bridge/SwingLafKey : java/lang/annotation/Annotation {
-	public abstract fun key ()Ljava/lang/String;
-}
-
 public final class org/jetbrains/jewel/bridge/ToolWindowExtensionsKt {
 	public static final fun addComposeTab (Lcom/intellij/openapi/wm/ToolWindow;Ljava/lang/String;ZZLkotlin/jvm/functions/Function3;)V
 	public static synthetic fun addComposeTab$default (Lcom/intellij/openapi/wm/ToolWindow;Ljava/lang/String;ZZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)V

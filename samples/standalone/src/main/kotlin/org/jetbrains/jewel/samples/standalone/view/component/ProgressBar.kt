@@ -27,19 +27,22 @@ import org.jetbrains.jewel.ui.component.Text
 
 @Composable
 @View(title = "ProgressBar", position = 5)
-fun ProgressBar() {
+public fun ProgressBar() {
     val transition = rememberInfiniteTransition()
-    val currentOffset by transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = keyframes {
-                durationMillis = 4000
-                0f at 1000
-                1f at 3000
-            },
-        ),
-    )
+    val currentOffset by
+        transition.animateFloat(
+            initialValue = 0f,
+            targetValue = 1f,
+            animationSpec =
+            infiniteRepeatable(
+                animation =
+                keyframes {
+                    durationMillis = 4000
+                    0f at 1000
+                    1f at 3000
+                },
+            ),
+        )
     var intermittentProgress by remember { mutableStateOf(0f) }
     LaunchedEffect(Unit) {
         while (true) {
@@ -80,7 +83,8 @@ fun ProgressBar() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            val smoothedProgress by androidx.compose.animation.core.animateFloatAsState(intermittentProgress)
+            val smoothedProgress by
+                androidx.compose.animation.core.animateFloatAsState(intermittentProgress)
             HorizontalProgressBar(modifier = Modifier.width(500.dp), progress = smoothedProgress)
             Text("${(intermittentProgress * 100).toInt()} %")
         }

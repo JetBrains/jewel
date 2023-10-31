@@ -10,7 +10,7 @@ import org.jetbrains.jewel.ui.component.styling.GroupHeaderStyle
 import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
 
 @Composable
-fun GroupHeader(
+public fun GroupHeader(
     text: String,
     modifier: Modifier = Modifier,
     textColor: Color = Color.Unspecified,

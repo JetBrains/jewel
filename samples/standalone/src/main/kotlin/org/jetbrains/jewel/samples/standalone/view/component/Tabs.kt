@@ -37,7 +37,7 @@ import kotlin.math.max
 
 @Composable
 @View(title = "Tabs", position = 7)
-fun Tabs() {
+public fun Tabs() {
     Text("Default tabs", Modifier.fillMaxWidth())
     DefaultTabShowcase()
 
@@ -62,8 +62,7 @@ private fun DefaultTabShowcase() {
                     tabIds = tabIds.toMutableList().apply { removeAt(index) }
                     if (selectedTabIndex >= index) {
                         val maxPossibleIndex = max(0, tabIds.lastIndex)
-                        selectedTabIndex = (selectedTabIndex - 1)
-                            .coerceIn(0..maxPossibleIndex)
+                        selectedTabIndex = (selectedTabIndex - 1).coerceIn(0..maxPossibleIndex)
                     }
                 },
                 onClick = { selectedTabIndex = index },
@@ -75,8 +74,7 @@ private fun DefaultTabShowcase() {
         val insertionIndex = (selectedTabIndex + 1).coerceIn(0..tabIds.size)
         val nextTabId = maxId + 1
 
-        tabIds = tabIds.toMutableList()
-            .apply { add(insertionIndex, nextTabId) }
+        tabIds = tabIds.toMutableList().apply { add(insertionIndex, nextTabId) }
         selectedTabIndex = insertionIndex
     }
 }
@@ -97,8 +95,7 @@ private fun EditorTabShowcase() {
                     tabIds = tabIds.toMutableList().apply { removeAt(index) }
                     if (selectedTabIndex >= index) {
                         val maxPossibleIndex = max(0, tabIds.lastIndex)
-                        selectedTabIndex = (selectedTabIndex - 1)
-                            .coerceIn(0..maxPossibleIndex)
+                        selectedTabIndex = (selectedTabIndex - 1).coerceIn(0..maxPossibleIndex)
                     }
                 },
                 onClick = { selectedTabIndex = index },
@@ -110,8 +107,7 @@ private fun EditorTabShowcase() {
         val insertionIndex = (selectedTabIndex + 1).coerceIn(0..tabIds.size)
         val nextTabId = maxId + 1
 
-        tabIds = tabIds.toMutableList()
-            .apply { add(insertionIndex, nextTabId) }
+        tabIds = tabIds.toMutableList().apply { add(insertionIndex, nextTabId) }
         selectedTabIndex = insertionIndex
     }
 }
@@ -139,14 +135,16 @@ private fun TabStripWithAddButton(
         }
 
         // TODO create an IconButton instead of this hack
-        val backgroundColor = if (isHovered) {
-            JewelTheme.defaultTabStyle.colors.backgroundHovered
-        } else {
-            JewelTheme.defaultTabStyle.colors.background
-        }
+        val backgroundColor =
+            if (isHovered) {
+                JewelTheme.defaultTabStyle.colors.backgroundHovered
+            } else {
+                JewelTheme.defaultTabStyle.colors.background
+            }
 
         Box(
-            modifier = Modifier.size(JewelTheme.defaultTabStyle.metrics.tabHeight)
+            modifier =
+            Modifier.size(JewelTheme.defaultTabStyle.metrics.tabHeight)
                 .clickable(
                     onClick = onAddClick,
                     onClickLabel = "Add a tab",

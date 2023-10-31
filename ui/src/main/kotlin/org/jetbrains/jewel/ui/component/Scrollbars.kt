@@ -21,7 +21,7 @@ import kotlin.time.DurationUnit
 import androidx.compose.foundation.ScrollbarStyle as ComposeScrollbarStyle
 
 @Composable
-fun VerticalScrollbar(
+public fun VerticalScrollbar(
     adapter: ScrollbarAdapter,
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
@@ -32,14 +32,15 @@ fun VerticalScrollbar(
     val hoverDurationMillis by remember { mutableStateOf(style.hoverDuration.inWholeMilliseconds) }
 
     CompositionLocalProvider(
-        LocalScrollbarStyle provides ComposeScrollbarStyle(
-            minimalHeight = style.metrics.minThumbLength,
-            thickness = style.metrics.thumbThickness,
-            shape = shape,
-            hoverDurationMillis = hoverDurationMillis.toInt(),
-            unhoverColor = style.colors.thumbBackground,
-            hoverColor = style.colors.thumbBackgroundHovered,
-        ),
+        LocalScrollbarStyle provides
+            ComposeScrollbarStyle(
+                minimalHeight = style.metrics.minThumbLength,
+                thickness = style.metrics.thumbThickness,
+                shape = shape,
+                hoverDurationMillis = hoverDurationMillis.toInt(),
+                unhoverColor = style.colors.thumbBackground,
+                hoverColor = style.colors.thumbBackgroundHovered,
+            ),
     ) {
         VerticalScrollbar(
             adapter = adapter,
@@ -52,7 +53,7 @@ fun VerticalScrollbar(
 }
 
 @Composable
-fun HorizontalScrollbar(
+public fun HorizontalScrollbar(
     adapter: ScrollbarAdapter,
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
@@ -60,17 +61,20 @@ fun HorizontalScrollbar(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
 ) {
     val shape by remember { mutableStateOf(RoundedCornerShape(style.metrics.thumbCornerSize)) }
-    val hoverDurationMillis by remember { mutableStateOf(style.hoverDuration.toInt(DurationUnit.MILLISECONDS)) }
+    val hoverDurationMillis by remember {
+        mutableStateOf(style.hoverDuration.toInt(DurationUnit.MILLISECONDS))
+    }
 
     CompositionLocalProvider(
-        LocalScrollbarStyle provides ComposeScrollbarStyle(
-            minimalHeight = style.metrics.minThumbLength,
-            thickness = style.metrics.thumbThickness,
-            shape = shape,
-            hoverDurationMillis = hoverDurationMillis,
-            unhoverColor = style.colors.thumbBackground,
-            hoverColor = style.colors.thumbBackgroundHovered,
-        ),
+        LocalScrollbarStyle provides
+            ComposeScrollbarStyle(
+                minimalHeight = style.metrics.minThumbLength,
+                thickness = style.metrics.thumbThickness,
+                shape = shape,
+                hoverDurationMillis = hoverDurationMillis,
+                unhoverColor = style.colors.thumbBackground,
+                hoverColor = style.colors.thumbBackgroundHovered,
+            ),
     ) {
         HorizontalScrollbar(
             adapter = adapter,
@@ -83,7 +87,7 @@ fun HorizontalScrollbar(
 }
 
 @Composable
-fun TabStripHorizontalScrollbar(
+public fun TabStripHorizontalScrollbar(
     adapter: ScrollbarAdapter,
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
@@ -91,17 +95,20 @@ fun TabStripHorizontalScrollbar(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
 ) {
     val shape by remember { mutableStateOf(RoundedCornerShape(style.metrics.thumbCornerSize)) }
-    val hoverDurationMillis by remember { mutableStateOf(style.hoverDuration.inWholeMilliseconds.toInt()) }
+    val hoverDurationMillis by remember {
+        mutableStateOf(style.hoverDuration.inWholeMilliseconds.toInt())
+    }
 
     CompositionLocalProvider(
-        LocalScrollbarStyle provides ComposeScrollbarStyle(
-            minimalHeight = style.metrics.minThumbLength,
-            thickness = 3.dp,
-            shape = shape,
-            hoverDurationMillis = hoverDurationMillis,
-            unhoverColor = style.colors.thumbBackground,
-            hoverColor = style.colors.thumbBackgroundHovered,
-        ),
+        LocalScrollbarStyle provides
+            ComposeScrollbarStyle(
+                minimalHeight = style.metrics.minThumbLength,
+                thickness = 3.dp,
+                shape = shape,
+                hoverDurationMillis = hoverDurationMillis,
+                unhoverColor = style.colors.thumbBackground,
+                hoverColor = style.colors.thumbBackgroundHovered,
+            ),
     ) {
         HorizontalScrollbar(
             adapter = adapter,

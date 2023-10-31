@@ -32,7 +32,7 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
 
 @Composable
-fun TabStrip(
+public fun TabStrip(
     tabs: List<TabData>,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -43,16 +43,17 @@ fun TabStrip(
 
     val scrollState = rememberScrollState()
     Box(
-        modifier
-            .focusable(true, remember { MutableInteractionSource() })
-            .onHover { tabStripState = tabStripState.copy(hovered = it) },
+        modifier.focusable(true, remember { MutableInteractionSource() }).onHover {
+            tabStripState = tabStripState.copy(hovered = it)
+        },
     ) {
         Row(
-            modifier = Modifier
-                .horizontalScroll(scrollState)
+            modifier =
+            Modifier.horizontalScroll(scrollState)
                 .scrollable(
                     orientation = Orientation.Vertical,
-                    reverseDirection = ScrollableDefaults.reverseDirection(
+                    reverseDirection =
+                    ScrollableDefaults.reverseDirection(
                         LocalLayoutDirection.current,
                         Orientation.Vertical,
                         false,
@@ -62,21 +63,23 @@ fun TabStrip(
                 )
                 .selectableGroup(),
         ) {
-            tabs.forEach {
-                TabImpl(isActive = tabStripState.isActive, tabData = it)
-            }
+            tabs.forEach { TabImpl(isActive = tabStripState.isActive, tabData = it) }
         }
         AnimatedVisibility(
             visible = tabStripState.isHovered,
-            enter = fadeIn(
-                animationSpec = tween(
+            enter =
+            fadeIn(
+                animationSpec =
+                tween(
                     durationMillis = 125,
                     delayMillis = 0,
                     easing = LinearEasing,
                 ),
             ),
-            exit = fadeOut(
-                animationSpec = tween(
+            exit =
+            fadeOut(
+                animationSpec =
+                tween(
                     durationMillis = 125,
                     delayMillis = 700,
                     easing = LinearEasing,
@@ -92,17 +95,17 @@ fun TabStrip(
 }
 
 @Immutable
-sealed class TabData {
+public sealed class TabData {
 
-    abstract val selected: Boolean
-    abstract val label: String
-    abstract val icon: Painter?
-    abstract val closable: Boolean
-    abstract val onClose: () -> Unit
-    abstract val onClick: () -> Unit
+    public abstract val selected: Boolean
+    public abstract val label: String
+    public abstract val icon: Painter?
+    public abstract val closable: Boolean
+    public abstract val onClose: () -> Unit
+    public abstract val onClick: () -> Unit
 
     @Immutable
-    class Default(
+    public class Default(
         override val selected: Boolean,
         override val label: String,
         override val icon: Painter? = null,
@@ -139,7 +142,7 @@ sealed class TabData {
     }
 
     @Immutable
-    class Editor(
+    public class Editor(
         override val selected: Boolean,
         override val label: String,
         override val icon: Painter? = null,
@@ -178,7 +181,7 @@ sealed class TabData {
 
 @Immutable
 @JvmInline
-value class TabStripState(val state: ULong) : FocusableComponentState {
+public value class TabStripState(public val state: ULong) : FocusableComponentState {
 
     @Stable
     override val isActive: Boolean
@@ -200,38 +203,40 @@ value class TabStripState(val state: ULong) : FocusableComponentState {
     override val isPressed: Boolean
         get() = state and CommonStateBitMask.Pressed != 0UL
 
-    fun copy(
+    public fun copy(
         enabled: Boolean = isEnabled,
         focused: Boolean = isFocused,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
-    ) = of(
-        enabled = enabled,
-        focused = focused,
-        pressed = pressed,
-        hovered = hovered,
-        active = active,
-    )
+    ): TabStripState =
+        of(
+            enabled = enabled,
+            focused = focused,
+            pressed = pressed,
+            hovered = hovered,
+            active = active,
+        )
 
-    override fun toString() =
+    override fun toString(): String =
         "${javaClass.simpleName}(isEnabled=$isEnabled, isFocused=$isFocused, isHovered=$isHovered, " +
             "isPressed=$isPressed, isActive=$isActive)"
 
-    companion object {
+    public companion object {
 
-        fun of(
+        public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
             active: Boolean = false,
-        ) = TabStripState(
-            state = (if (enabled) CommonStateBitMask.Enabled else 0UL) or
-                (if (focused) CommonStateBitMask.Focused else 0UL) or
-                (if (hovered) CommonStateBitMask.Hovered else 0UL) or
-                (if (pressed) CommonStateBitMask.Pressed else 0UL) or
-                (if (active) CommonStateBitMask.Active else 0UL),
-        )
+        ): TabStripState =
+            TabStripState(
+                (if (enabled) CommonStateBitMask.Enabled else 0UL) or
+                    (if (focused) CommonStateBitMask.Focused else 0UL) or
+                    (if (hovered) CommonStateBitMask.Hovered else 0UL) or
+                    (if (pressed) CommonStateBitMask.Pressed else 0UL) or
+                    (if (active) CommonStateBitMask.Active else 0UL),
+            )
     }
 }
