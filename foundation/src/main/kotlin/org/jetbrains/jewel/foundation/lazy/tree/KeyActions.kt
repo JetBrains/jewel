@@ -20,7 +20,7 @@ import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.utils.Log
 import org.jetbrains.skiko.hostOs
 
-interface KeyBindingActions {
+interface KeyActions {
 
     val keybindings: SelectableColumnKeybindings
     val actions: SelectableColumnOnKeyEvent
@@ -249,7 +249,7 @@ class DefaultTreeViewKeyActions(
 open class DefaultSelectableLazyColumnKeyActions(
     override val keybindings: SelectableColumnKeybindings,
     override val actions: SelectableColumnOnKeyEvent = DefaultSelectableOnKeyEvent(keybindings),
-) : KeyBindingActions {
+) : KeyActions {
 
     companion object : DefaultSelectableLazyColumnKeyActions(
         when {
