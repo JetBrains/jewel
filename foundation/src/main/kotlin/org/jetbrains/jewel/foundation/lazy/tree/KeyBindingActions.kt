@@ -233,8 +233,8 @@ class DefaultTreeViewKeyActions(
                 Log.d(keyEvent.key.keyCode.toString())
                 if (selectionMode == SelectionMode.None) return@lambda false
                 when {
-                    selectParent() ?: false -> onSelectParent(keys, state)
-                    selectChild() ?: false -> onSelectChild(keys, state)
+                    isSelectParent -> onSelectParent(keys, state)
+                    isSelectChild -> onSelectChild(keys, state)
                     super.handleOnKeyEvent(event, keys, state, selectionMode)
                         .invoke(keyEvent) -> return@lambda true
 
@@ -280,51 +280,25 @@ open class DefaultSelectableLazyColumnKeyActions(
         selectionMode: SelectionMode,
     ): Boolean {
         when {
-            selectNextItem() ?: false -> {
-                onSelectNextItem(keys, state)
+            isSelectNextItem -> onSelectNextItem(keys, state)
+            isSelectPreviousItem -> onSelectPreviousItem(keys, state)
+            isSelectFirstItem -> onSelectFirstItem(keys, state)
+            isSelectLastItem -> onSelectLastItem(keys, state)
+            isEdit -> onEdit()
+        }
+        if (selectionMode == SelectionMode.Single) {
+            when {
+                isExtendSelectionToFirstItem -> onExtendSelectionToFirst(keys, state)
+                isExtendSelectionToLastItem -> onExtendSelectionToLastItem(keys, state)
+                isExtendSelectionWithNextItem -> onExtendSelectionWithNextItem(keys, state)
+                isExtendSelectionWithPreviousItem -> onExtendSelectionWithPreviousItem(keys, state)
+                isScrollPageDownAndExtendSelection -> onScrollPageDownAndExtendSelection(keys, state)
+                isScrollPageDownAndSelectItem -> onScrollPageDownAndSelectItem(keys, state)
+                isScrollPageUpAndExtendSelection -> onScrollPageUpAndExtendSelection(keys, state)
+                isScrollPageUpAndSelectItem -> onScrollPageUpAndSelectItem(keys, state)
+                isSelectAll -> onSelectAll(keys, state)
+                else -> return false
             }
-
-            selectPreviousItem() ?: false -> onSelectPreviousItem(keys, state)
-            selectFirstItem() ?: false -> onSelectFirstItem(keys, state)
-            selectLastItem() ?: false -> onSelectLastItem(keys, state)
-            edit() ?: false -> onEdit()
-            extendSelectionToFirstItem() ?: false -> {
-                if (selectionMode == SelectionMode.Multiple) onExtendSelectionToFirst(keys, state)
-            }
-
-            extendSelectionToLastItem() ?: false -> {
-                if (selectionMode == SelectionMode.Multiple) onExtendSelectionToLastItem(keys, state)
-            }
-
-            extendSelectionWithNextItem() ?: false -> {
-                if (selectionMode == SelectionMode.Multiple) onExtendSelectionWithNextItem(keys, state)
-            }
-
-            extendSelectionWithPreviousItem() ?: false -> {
-                if (selectionMode == SelectionMode.Multiple) onExtendSelectionWithPreviousItem(keys, state)
-            }
-
-            scrollPageDownAndExtendSelection() ?: false -> {
-                if (selectionMode == SelectionMode.Multiple) onScrollPageDownAndExtendSelection(keys, state)
-            }
-
-            scrollPageDownAndSelectItem() ?: false -> {
-                if (selectionMode == SelectionMode.Multiple) onScrollPageDownAndSelectItem(keys, state)
-            }
-
-            scrollPageUpAndExtendSelection() ?: false -> {
-                if (selectionMode == SelectionMode.Multiple) onScrollPageUpAndExtendSelection(keys, state)
-            }
-
-            scrollPageUpAndSelectItem() ?: false -> {
-                if (selectionMode == SelectionMode.Multiple) onScrollPageUpAndSelectItem(keys, state)
-            }
-
-            selectAll() ?: false -> {
-                if (selectionMode == SelectionMode.Multiple) onSelectAll(keys, state)
-            }
-
-            else -> return false
         }
         return true
     }

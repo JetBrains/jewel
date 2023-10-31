@@ -24,72 +24,72 @@ interface SelectableColumnKeybindings {
     /**
      * Select First Node
      */
-    fun KeyEvent.selectFirstItem(): Boolean?
+    val KeyEvent.isSelectFirstItem: Boolean
 
     /**
      * Extend Selection to First Node inherited from Move Caret to Text Start with Selection
      */
-    fun KeyEvent.extendSelectionToFirstItem(): Boolean?
+    val KeyEvent.isExtendSelectionToFirstItem: Boolean
 
     /**
      * Select Last Node inherited from Move Caret to Text End
      */
-    fun KeyEvent.selectLastItem(): Boolean?
+    val KeyEvent.isSelectLastItem: Boolean
 
     /**
      * Extend Selection to Last Node inherited from Move Caret to Text End with Selection
      */
-    fun KeyEvent.extendSelectionToLastItem(): Boolean?
+    val KeyEvent.isExtendSelectionToLastItem: Boolean
 
     /**
      * Select Previous Node inherited from Up
      */
-    fun KeyEvent.selectPreviousItem(): Boolean?
+    val KeyEvent.isSelectPreviousItem: Boolean
 
     /**
      * Extend Selection with Previous Node inherited from Up with Selection
      */
-    fun KeyEvent.extendSelectionWithPreviousItem(): Boolean?
+    val KeyEvent.isExtendSelectionWithPreviousItem: Boolean
 
     /**
      * Select Next Node inherited from Down
      */
-    fun KeyEvent.selectNextItem(): Boolean?
+    val KeyEvent.isSelectNextItem: Boolean
 
     /**
      * Extend Selection with Next Node inherited from Down with Selection
      */
-    fun KeyEvent.extendSelectionWithNextItem(): Boolean?
+    val KeyEvent.isExtendSelectionWithNextItem: Boolean
 
     /**
      * Scroll Page Up and Select Node inherited from Page Up
      */
-    fun KeyEvent.scrollPageUpAndSelectItem(): Boolean?
+    val KeyEvent.isScrollPageUpAndSelectItem: Boolean
 
     /**
      * Scroll Page Up and Extend Selection inherited from Page Up with Selection
      */
-    fun KeyEvent.scrollPageUpAndExtendSelection(): Boolean?
+    val KeyEvent.isScrollPageUpAndExtendSelection: Boolean
 
     /**
      * Scroll Page Down and Select Node inherited from Page Down
      */
-    fun KeyEvent.scrollPageDownAndSelectItem(): Boolean?
+    val KeyEvent.isScrollPageDownAndSelectItem: Boolean
 
     /**
      * Scroll Page Down and Extend Selection inherited from Page Down with Selection
      */
-    fun KeyEvent.scrollPageDownAndExtendSelection(): Boolean?
+    val KeyEvent.isScrollPageDownAndExtendSelection: Boolean
 
     /**
      * Edit item
      */
-    fun KeyEvent.edit(): Boolean?
+    val KeyEvent.isEdit: Boolean
 
     /**
      * SelectAll
      */
-    fun KeyEvent.selectAll(): Boolean?
+    val KeyEvent.isSelectAll: Boolean
 }
 
 open class DefaultMacOsSelectableColumnKeybindings : DefaultSelectableColumnKeybindings() {
@@ -119,44 +119,45 @@ open class DefaultSelectableColumnKeybindings : SelectableColumnKeybindings {
 
     companion object : DefaultSelectableColumnKeybindings()
 
-    override fun KeyEvent.selectFirstItem() =
-        key == Key.Home && !isContiguousSelectionKeyPressed
+    override val KeyEvent.isSelectFirstItem
+        get() = key == Key.Home && !isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.extendSelectionToFirstItem() =
-        key == Key.Home && isContiguousSelectionKeyPressed
+    override val KeyEvent.isExtendSelectionToFirstItem
+        get() = key == Key.Home && isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.selectLastItem() =
-        key == Key.MoveEnd && !isContiguousSelectionKeyPressed
+    override val KeyEvent.isSelectLastItem
+        get() = key == Key.MoveEnd && !isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.extendSelectionToLastItem() =
-        key == Key.MoveEnd && isContiguousSelectionKeyPressed
+    override val KeyEvent.isExtendSelectionToLastItem
+        get() = key == Key.MoveEnd && isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.selectPreviousItem() =
-        key == Key.DirectionUp && !isContiguousSelectionKeyPressed
+    override val KeyEvent.isSelectPreviousItem
+        get() = key == Key.DirectionUp && !isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.extendSelectionWithPreviousItem() =
-        key == Key.DirectionUp && isContiguousSelectionKeyPressed
+    override val KeyEvent.isExtendSelectionWithPreviousItem
+        get() = key == Key.DirectionUp && isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.selectNextItem() =
-        key == Key.DirectionDown && !isContiguousSelectionKeyPressed
+    override val KeyEvent.isSelectNextItem
+        get() = key == Key.DirectionDown && !isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.extendSelectionWithNextItem() =
-        key == Key.DirectionDown && isContiguousSelectionKeyPressed
+    override val KeyEvent.isExtendSelectionWithNextItem
+        get() = key == Key.DirectionDown && isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.scrollPageUpAndSelectItem() =
-        key == Key.PageUp && !isContiguousSelectionKeyPressed
+    override val KeyEvent.isScrollPageUpAndSelectItem
+        get() = key == Key.PageUp && !isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.scrollPageUpAndExtendSelection() =
-        key == Key.PageUp && isContiguousSelectionKeyPressed
+    override val KeyEvent.isScrollPageUpAndExtendSelection
+        get() = key == Key.PageUp && isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.scrollPageDownAndSelectItem() =
-        key == Key.PageDown && !isContiguousSelectionKeyPressed
+    override val KeyEvent.isScrollPageDownAndSelectItem
+        get() = key == Key.PageDown && !isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.scrollPageDownAndExtendSelection() =
-        key == Key.PageDown && isContiguousSelectionKeyPressed
+    override val KeyEvent.isScrollPageDownAndExtendSelection
+        get() = key == Key.PageDown && isContiguousSelectionKeyPressed
 
-    override fun KeyEvent.edit() = false
+    override val KeyEvent.isEdit
+        get() = false
 
-    override fun KeyEvent.selectAll(): Boolean? =
-        key == Key.A && isMultiSelectionKeyPressed
+    override val KeyEvent.isSelectAll: Boolean
+        get() = key == Key.A && isMultiSelectionKeyPressed
 }
