@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,8 +43,16 @@ fun IconButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable (BoxScope.(IconButtonState) -> Unit),
 ) {
+    val buttonState = remember(interactionSource) {
+        mutableStateOf(IconButtonState.of(enabled = enabled))
+    }
+
+    remember(enabled) {
+        buttonState.value = buttonState.value.copy(enabled = enabled)
+    }
+
     IconButtonImpl(
-        selected = false,
+        state = buttonState,
         modifier = modifier
             .clickable(
                 onClick = onClick,
@@ -52,8 +61,6 @@ fun IconButton(
                 interactionSource = interactionSource,
                 indication = NoIndication,
             ),
-        enabled = enabled,
-        canActivate = false,
         style = style,
         interactionSource = interactionSource,
         content = content,
@@ -70,8 +77,16 @@ fun SelectableIconButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable (BoxScope.(IconButtonState) -> Unit),
 ) {
+    val buttonState = remember(interactionSource) {
+        mutableStateOf(IconButtonState.of(enabled = enabled))
+    }
+
+    remember(enabled, selected) {
+        buttonState.value = buttonState.value.copy(enabled = enabled, selected = selected)
+    }
+
     IconButtonImpl(
-        selected = selected,
+        state = buttonState,
         modifier = modifier.selectable(
             onClick = onClick,
             enabled = enabled,
@@ -79,9 +94,9 @@ fun SelectableIconButton(
             interactionSource = interactionSource,
             indication = null,
             selected = selected,
-        ),
-        enabled = enabled,
-        canActivate = true,
+        ).onActivated(enabled = enabled) {
+            buttonState.value = buttonState.value.copy(active = it)
+        },
         style = style,
         interactionSource = interactionSource,
         content = content,
@@ -90,21 +105,13 @@ fun SelectableIconButton(
 
 @Composable
 private fun IconButtonImpl(
-    selected: Boolean,
+    state: MutableState<IconButtonState>,
     modifier: Modifier,
-    enabled: Boolean,
-    canActivate: Boolean,
     style: IconButtonStyle,
     interactionSource: MutableInteractionSource,
     content: @Composable (BoxScope.(IconButtonState) -> Unit),
 ) {
-    var buttonState by remember(interactionSource) {
-        mutableStateOf(IconButtonState.of(enabled = enabled))
-    }
-
-    remember(enabled, selected) {
-        buttonState = buttonState.copy(enabled = enabled, selected = selected)
-    }
+    var buttonState by state
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
@@ -128,9 +135,6 @@ private fun IconButtonImpl(
     Box(
         modifier = modifier
             .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
-            .onActivated(enabled = canActivate) {
-                buttonState = buttonState.copy(active = it)
-            }
             .padding(style.metrics.padding)
             .background(background, shape)
             .border(style.metrics.borderWidth, border, shape),
