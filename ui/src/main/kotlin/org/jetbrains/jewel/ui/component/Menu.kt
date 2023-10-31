@@ -119,7 +119,7 @@ fun PopupMenu(
         focusManager = LocalFocusManager.current
         inputModeManager = LocalInputModeManager.current
 
-        OverrideDarkMode(style.colors.isDark) {
+        OverrideDarkMode(style.isDark) {
             CompositionLocalProvider(
                 LocalMenuManager provides menuManager,
                 LocalMenuStyle provides style,

@@ -7,6 +7,8 @@ interface PainterProviderScope : Density {
     val rawPath: String
 
     val path: String
+
+    val acceptedHints: List<PainterHint>
 }
 
 interface ResourcePainterProviderScope : PainterProviderScope {

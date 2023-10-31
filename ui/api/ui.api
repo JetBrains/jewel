@@ -50,10 +50,12 @@ public final class org/jetbrains/jewel/ui/DefaultComponentStyling : org/jetbrain
 	public final fun getTooltipStyle ()Lorg/jetbrains/jewel/ui/component/styling/TooltipStyle;
 	public final fun getUndecoratedDropdownStyle ()Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;
 	public fun hashCode ()I
+	public synthetic fun provide (Lkotlin/jvm/functions/Function0;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun provide (Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun provide ([Landroidx/compose/runtime/ProvidedValue;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun styles (Landroidx/compose/runtime/Composer;I)[Landroidx/compose/runtime/ProvidedValue;
 	public fun toString ()Ljava/lang/String;
+	public synthetic fun with (Lkotlin/jvm/functions/Function0;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun with (Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun with (Lorg/jetbrains/jewel/ui/ComponentStyling;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 }
@@ -1526,15 +1528,13 @@ public final class org/jetbrains/jewel/ui/component/styling/LinkTextStyles$Compa
 public final class org/jetbrains/jewel/ui/component/styling/MenuColors {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/MenuColors$Companion;
-	public synthetic fun <init> (JJJLorg/jetbrains/jewel/ui/component/styling/MenuItemColors;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (JJJLorg/jetbrains/jewel/ui/component/styling/MenuItemColors;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJJLorg/jetbrains/jewel/ui/component/styling/MenuItemColors;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBackground-0d7_KjU ()J
 	public final fun getBorder-0d7_KjU ()J
 	public final fun getItemColors ()Lorg/jetbrains/jewel/ui/component/styling/MenuItemColors;
 	public final fun getShadow-0d7_KjU ()J
 	public fun hashCode ()I
-	public final fun isDark ()Z
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1625,12 +1625,13 @@ public final class org/jetbrains/jewel/ui/component/styling/MenuMetrics$Companio
 public final class org/jetbrains/jewel/ui/component/styling/MenuStyle {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/MenuStyle$Companion;
-	public fun <init> (Lorg/jetbrains/jewel/ui/component/styling/MenuColors;Lorg/jetbrains/jewel/ui/component/styling/MenuMetrics;Lorg/jetbrains/jewel/ui/component/styling/MenuIcons;)V
+	public fun <init> (ZLorg/jetbrains/jewel/ui/component/styling/MenuColors;Lorg/jetbrains/jewel/ui/component/styling/MenuMetrics;Lorg/jetbrains/jewel/ui/component/styling/MenuIcons;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getColors ()Lorg/jetbrains/jewel/ui/component/styling/MenuColors;
 	public final fun getIcons ()Lorg/jetbrains/jewel/ui/component/styling/MenuIcons;
 	public final fun getMetrics ()Lorg/jetbrains/jewel/ui/component/styling/MenuMetrics;
 	public fun hashCode ()I
+	public final fun isDark ()Z
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2167,6 +2168,7 @@ public abstract interface class org/jetbrains/jewel/ui/painter/PainterProvider {
 }
 
 public abstract interface class org/jetbrains/jewel/ui/painter/PainterProviderScope : androidx/compose/ui/unit/Density {
+	public abstract fun getAcceptedHints ()Ljava/util/List;
 	public abstract fun getPath ()Ljava/lang/String;
 	public abstract fun getRawPath ()Ljava/lang/String;
 }
@@ -2260,9 +2262,10 @@ public final class org/jetbrains/jewel/ui/painter/hints/BadgeKt {
 	public static final fun Badge-DxMtmZc (JLorg/jetbrains/jewel/ui/painter/badge/BadgeShape;)Lorg/jetbrains/jewel/ui/painter/PainterHint;
 }
 
-public final class org/jetbrains/jewel/ui/painter/hints/DarkKt {
+public final class org/jetbrains/jewel/ui/painter/hints/DarkOrStrokeKt {
 	public static final fun Dark (Z)Lorg/jetbrains/jewel/ui/painter/PainterHint;
 	public static synthetic fun Dark$default (ZILjava/lang/Object;)Lorg/jetbrains/jewel/ui/painter/PainterHint;
+	public static final fun Stroke-8_81llA (J)Lorg/jetbrains/jewel/ui/painter/PainterHint;
 }
 
 public final class org/jetbrains/jewel/ui/painter/hints/HiDpiKt {
@@ -2290,10 +2293,6 @@ public final class org/jetbrains/jewel/ui/painter/hints/SizeKt {
 
 public final class org/jetbrains/jewel/ui/painter/hints/StatefulKt {
 	public static final fun Stateful (Lorg/jetbrains/jewel/foundation/state/InteractiveComponentState;)Lorg/jetbrains/jewel/ui/painter/PainterHint;
-}
-
-public final class org/jetbrains/jewel/ui/painter/hints/StrokeKt {
-	public static final fun Stroke-8_81llA (J)Lorg/jetbrains/jewel/ui/painter/PainterHint;
 }
 
 public final class org/jetbrains/jewel/ui/theme/JewelThemeKt {

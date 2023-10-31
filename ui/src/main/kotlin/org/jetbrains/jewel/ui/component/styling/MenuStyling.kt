@@ -13,11 +13,11 @@ import androidx.compose.ui.unit.DpOffset
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.MenuItemState
 import org.jetbrains.jewel.ui.painter.PainterProvider
-import org.jetbrains.jewel.ui.util.isDark
 
 @Stable
 @GenerateDataFunctions
 class MenuStyle(
+    val isDark: Boolean,
     val colors: MenuColors,
     val metrics: MenuMetrics,
     val icons: MenuIcons,
@@ -33,7 +33,6 @@ class MenuColors(
     val border: Color,
     val shadow: Color,
     val itemColors: MenuItemColors,
-    val isDark: Boolean = background.isDark(),
 ) {
 
     companion object

@@ -621,6 +621,7 @@ private fun readMenuStyle(): MenuStyle {
     )
 
     return MenuStyle(
+        isDark = !JBColor.isBright(),
         colors = colors,
         metrics = MenuMetrics(
             cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),

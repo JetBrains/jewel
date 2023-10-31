@@ -10,6 +10,16 @@ import org.jetbrains.jewel.ui.painter.PainterSvgPatchHint
 import org.w3c.dom.Element
 
 @Immutable
+private object DarkImpl : PainterSuffixHint() {
+
+    override fun PainterProviderScope.suffix(): String = "_dark"
+
+    override fun PainterProviderScope.canApply(): Boolean = acceptedHints.all { it !is StrokeImpl }
+
+    override fun toString(): String = "Dark"
+}
+
+@Immutable
 private class StrokeImpl(private val color: Color) : PainterSuffixHint(), PainterSvgPatchHint {
 
     override fun PainterProviderScope.suffix(): String = "_stroke"
@@ -65,6 +75,12 @@ private class StrokeImpl(private val color: Color) : PainterSuffixHint(), Painte
 
 fun Stroke(color: Color): PainterHint = if (color.isSpecified) {
     StrokeImpl(color)
+} else {
+    PainterHint.None
+}
+
+fun Dark(isDark: Boolean = true): PainterHint = if (isDark) {
+    DarkImpl
 } else {
     PainterHint.None
 }

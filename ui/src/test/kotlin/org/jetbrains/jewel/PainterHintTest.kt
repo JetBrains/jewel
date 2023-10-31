@@ -50,6 +50,7 @@ class PainterHintTest : BasicJewelUiTest() {
         density: Density,
         override val rawPath: String,
         override val path: String = rawPath,
+        override val acceptedHints: List<PainterHint> = listOf(),
     ) : PainterProviderScope, Density by density {
 
         private val documentBuilderFactory = DocumentBuilderFactory.newDefaultInstance()
@@ -109,7 +110,8 @@ class PainterHintTest : BasicJewelUiTest() {
     @Test
     fun `override painter hint should not replace path when not matched`() {
         val basePath = "icons/github.svg"
-        val patchedPath = testScope(basePath).applyPathHints(Override(mapOf("icons/settings.svg" to "icons/search.svg")))
+        val patchedPath =
+            testScope(basePath).applyPathHints(Override(mapOf("icons/settings.svg" to "icons/search.svg")))
         Assert.assertEquals(basePath, patchedPath)
     }
 
@@ -182,7 +184,16 @@ class PainterHintTest : BasicJewelUiTest() {
         val patchedPath = testScope(basePath).applyPathHints(Stateful(state.copy(enabled = false)))
         Assert.assertEquals("icons/checkboxDisabled.svg", patchedPath)
 
-        testScope(basePath).applyPathHints(Stateful(state.copy(enabled = false, pressed = true, hovered = true, focused = true)))
+        testScope(basePath).applyPathHints(
+            Stateful(
+                state.copy(
+                    enabled = false,
+                    pressed = true,
+                    hovered = true,
+                    focused = true
+                )
+            )
+        )
             .let {
                 Assert.assertEquals("icons/checkboxDisabled.svg", it)
             }
@@ -218,7 +229,8 @@ class PainterHintTest : BasicJewelUiTest() {
     fun `stateful painter hint focused state takes higher priority over pressed and hovered states`() {
         val basePath = "icons/checkbox.svg"
         val state = CheckboxState.of(toggleableState = ToggleableState.Off)
-        val patchedPath = testScope(basePath).applyPathHints(Stateful(state.copy(pressed = true, hovered = true, focused = true)))
+        val patchedPath =
+            testScope(basePath).applyPathHints(Stateful(state.copy(pressed = true, hovered = true, focused = true)))
         Assert.assertEquals("icons/checkboxFocused.svg", patchedPath)
     }
 

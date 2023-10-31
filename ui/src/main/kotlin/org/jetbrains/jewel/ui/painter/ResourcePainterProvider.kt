@@ -60,10 +60,10 @@ class ResourcePainterProvider(
     private val documentBuilderFactory = DocumentBuilderFactory.newDefaultInstance()
         .apply { setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true) }
 
-    private fun MutableList<PainterHint>.resolveHint(scope: Scope, hint: PainterHint) {
+    private fun Scope.resolveHint(hint: PainterHint) {
         with(hint) {
-            if (scope.canApply()) {
-                add(hint)
+            if (canApply()) {
+                acceptedHints += hint
             }
         }
     }
@@ -74,39 +74,37 @@ class ResourcePainterProvider(
         val scope = Scope(density, basePath, classLoaders)
 
         val currentHintsProvider = LocalPainterHintsProvider.current
-        val resolvedHints = buildList {
-            currentHintsProvider.priorityHints(basePath).forEach {
-                resolveHint(scope, it)
-            }
-            hints.forEach {
-                resolveHint(scope, it)
-            }
-            currentHintsProvider.hints(basePath).forEach {
-                resolveHint(scope, it)
-            }
+        currentHintsProvider.priorityHints(basePath).forEach {
+            scope.resolveHint(it)
+        }
+        hints.forEach {
+            scope.resolveHint(it)
+        }
+        currentHintsProvider.hints(basePath).forEach {
+            scope.resolveHint(it)
         }
 
-        val cacheKey = resolvedHints.hashCode()
+        val cacheKey = scope.acceptedHints.hashCode()
 
         if (inDebugMode && cache[cacheKey] != null) {
-            println("Cache hit for $basePath(${resolvedHints.joinToString()})")
+            println("Cache hit for $basePath(${scope.acceptedHints.joinToString()})")
         }
 
         val painter = cache.getOrPut(cacheKey) {
             if (inDebugMode) {
-                println("Cache miss for $basePath(${resolvedHints.joinToString()})")
+                println("Cache miss for $basePath(${scope.acceptedHints.joinToString()})")
             }
-            loadPainter(scope, resolvedHints)
+            loadPainter(scope)
         }
 
         return rememberUpdatedState(painter)
     }
 
     @Composable
-    private fun loadPainter(scope: Scope, hints: List<PainterHint>): Painter {
+    private fun loadPainter(scope: Scope): Painter {
         var scopes = listOf(scope)
 
-        for (hint in hints) {
+        for (hint in scope.acceptedHints) {
             if (hint !is PainterPathHint) continue
             scopes = scopes.flatMap {
                 listOfNotNull(it.apply(hint), it)
@@ -117,7 +115,7 @@ class ResourcePainterProvider(
             resolveResource(it)
         } ?: run {
             if (inDebugMode) {
-                error("Resource '$basePath(${hints.joinToString()})' not found")
+                error("Resource '$basePath(${scope.acceptedHints.joinToString()})' not found")
             } else {
                 return errorPainter
             }
@@ -126,12 +124,12 @@ class ResourcePainterProvider(
         val extension = basePath.substringAfterLast(".").lowercase()
 
         var painter = when (extension) {
-            "svg" -> createSvgPainter(chosenScope, url, hints)
+            "svg" -> createSvgPainter(chosenScope, url)
             "xml" -> createVectorDrawablePainter(chosenScope, url)
             else -> createBitmapPainter(chosenScope, url)
         }
 
-        for (hint in hints) {
+        for (hint in scope.acceptedHints) {
             if (hint !is PainterWrapperHint) continue
             with(hint) {
                 painter = chosenScope.wrap(painter)
@@ -156,18 +154,18 @@ class ResourcePainterProvider(
     }
 
     @Composable
-    private fun createSvgPainter(scope: Scope, url: URL, hints: List<PainterHint>): Painter =
+    private fun createSvgPainter(scope: Scope, url: URL): Painter =
         tryLoadingResource(
             url = url,
             loadingAction = { resourceUrl ->
-                patchSvg(scope, url.openStream(), hints).use { inputStream ->
+                patchSvg(scope, url.openStream(), scope.acceptedHints).use { inputStream ->
                     if (inDebugMode) {
-                        println("Loading icon $basePath(${hints.joinToString()}) from $resourceUrl")
+                        println("Loading icon $basePath(${scope.acceptedHints.joinToString()}) from $resourceUrl")
                     }
                     loadSvgPainter(inputStream, scope)
                 }
             },
-            rememberAction = { remember(url, scope.density, hints) { it } },
+            rememberAction = { remember(url, scope.density) { it } },
         )
 
     private fun patchSvg(scope: Scope, inputStream: InputStream, hints: List<PainterHint>): InputStream {
@@ -242,6 +240,7 @@ class ResourcePainterProvider(
         override val rawPath: String,
         override val classLoaders: Set<ClassLoader>,
         override val path: String = rawPath,
+        override val acceptedHints: MutableList<PainterHint> = mutableListOf(),
     ) : ResourcePainterProviderScope, Density by localDensity {
 
         fun apply(pathHint: PainterPathHint): Scope? {
@@ -255,6 +254,7 @@ class ResourcePainterProvider(
                     rawPath = rawPath,
                     classLoaders = classLoaders,
                     path = patched,
+                    acceptedHints = acceptedHints,
                 )
             }
         }
