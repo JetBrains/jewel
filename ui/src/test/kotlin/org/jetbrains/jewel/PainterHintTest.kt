@@ -62,22 +62,23 @@ class PainterHintTest : BasicJewelUiTest() {
             var result = rawPath
             hints.forEach {
                 if (it !is PainterPathHint) return@forEach
-                with (it) {
+                with(it) {
                     if (!canApply()) return@forEach
                     result = patch()
                 }
+            }
+            return result
         }
-        return result
-    }
 
         fun applyPaletteHints(svg: String, vararg hints: PainterHint): String {
             val doc = documentBuilderFactory.newDocumentBuilder().parse(svg.toByteArray().inputStream())
 
-        hints.filterIsInstance<PainterSvgPatchHint>().onEach { with(it) {
-                        if (!canApply()) return@onEach
-                        patch(doc.documentElement)
-                    }
+            hints.filterIsInstance<PainterSvgPatchHint>().onEach {
+                with(it) {
+                    if (!canApply()) return@onEach
+                    patch(doc.documentElement)
                 }
+            }
 
             return doc.writeToString()
         }
@@ -286,7 +287,7 @@ class PainterHintTest : BasicJewelUiTest() {
                 .trimIndent()
         val patchedSvg =
             testScope("fake_icon.svg").applyPaletteHints(
-            baseSvg,
+                baseSvg,
                 Palette(
                     mapOf(
                         Color(0x80000000) to Color(0xFF123456),

@@ -19,7 +19,7 @@ public enum class IntUiThemes {
 
     public companion object {
 
-        public fun fromSystemTheme(systemTheme: SystemTheme) =
+        public fun fromSystemTheme(systemTheme: SystemTheme): IntUiThemes =
             if (systemTheme == SystemTheme.LIGHT) Light else Dark
     }
 }

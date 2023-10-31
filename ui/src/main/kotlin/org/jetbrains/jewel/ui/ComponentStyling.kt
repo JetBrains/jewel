@@ -35,7 +35,7 @@ public interface ComponentStyling {
         @Composable
         override fun styles(): Array<out ProvidedValue<*>> = emptyArray()
 
-        override fun toString() = "ComponentStyleProvider"
+        override fun toString(): String = "ComponentStyleProvider"
     }
 }
 

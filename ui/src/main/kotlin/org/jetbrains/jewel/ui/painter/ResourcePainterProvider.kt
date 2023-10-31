@@ -78,10 +78,10 @@ public class ResourcePainterProvider(
         currentHintsProvider.priorityHints(basePath).forEach {
             scope.resolveHint(it)
         }
-                hints.forEach {
+        hints.forEach {
             scope.resolveHint(it)
         }
-                currentHintsProvider.hints(basePath).forEach {
+        currentHintsProvider.hints(basePath).forEach {
             scope.resolveHint(it)
         }
 

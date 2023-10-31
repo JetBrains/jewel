@@ -68,7 +68,7 @@ public interface PainterPathHint : PainterHint {
     /**
      * Replace the entire path with the given value.
      */
-    fun PainterProviderScope.patch(): String
+    public fun PainterProviderScope.patch(): String
 }
 
 /**

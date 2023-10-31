@@ -46,7 +46,8 @@ public fun IconButton(
     val buttonState =
         remember(interactionSource) { mutableStateOf(IconButtonState.of(enabled = enabled)) }
 
-    remember(enabled) { buttonState .value = buttonState.value.copy(enabled = enabled)
+    remember(enabled) {
+        buttonState.value = buttonState.value.copy(enabled = enabled)
     }
 
     IconButtonImpl(
@@ -66,7 +67,7 @@ public fun IconButton(
 }
 
 @Composable
-fun SelectableIconButton(
+public fun SelectableIconButton(
     selected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -93,7 +94,8 @@ fun SelectableIconButton(
             indication = null,
             selected = selected,
         ).onActivated(enabled = enabled) {
-            buttonState.value = buttonState.value.copy(active = it) },
+            buttonState.value = buttonState.value.copy(active = it)
+        },
         style = style,
         interactionSource = interactionSource,
         content = content,
@@ -117,6 +119,7 @@ private fun IconButtonImpl(
                 is PressInteraction.Cancel,
                 is PressInteraction.Release,
                 -> buttonState = buttonState.copy(pressed = false)
+
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
                 is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
@@ -141,7 +144,7 @@ private fun IconButtonImpl(
 
 @Immutable
 @JvmInline
-value class IconButtonState(val state: ULong) : FocusableComponentState, SelectableComponentState {
+public value class IconButtonState(public val state: ULong) : FocusableComponentState, SelectableComponentState {
 
     @Stable
     override val isSelected: Boolean
@@ -167,43 +170,45 @@ value class IconButtonState(val state: ULong) : FocusableComponentState, Selecta
     override val isPressed: Boolean
         get() = state and CommonStateBitMask.Pressed != 0UL
 
-    fun copy(
+    public fun copy(
         enabled: Boolean = isEnabled,
         selected: Boolean = isSelected,
         focused: Boolean = isFocused,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
-    ) = of(
-        enabled = enabled,
-        selected = selected,
-        focused = focused,
-        pressed = pressed,
-        hovered = hovered,
-        active = active,
-    )
+    ): IconButtonState =
+        of(
+            enabled = enabled,
+            selected = selected,
+            focused = focused,
+            pressed = pressed,
+            hovered = hovered,
+            active = active,
+        )
 
-    override fun toString() =
+    override fun toString(): String =
         "${javaClass.simpleName}(isEnabled=$isEnabled, isSelected=$isSelected, " +
             "isFocused=$isFocused, isHovered=$isHovered, isPressed=$isPressed, " +
             "isActive=$isActive)"
 
-    companion object {
+    public companion object {
 
-        fun of(
+        public fun of(
             enabled: Boolean = true,
             selected: Boolean = false,
             focused: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
             active: Boolean = false,
-        ) = IconButtonState(
-            state = (if (enabled) CommonStateBitMask.Enabled else 0UL) or
-                (if (selected) CommonStateBitMask.Selected else 0UL) or
-                (if (focused) CommonStateBitMask.Focused else 0UL) or
-                (if (hovered) CommonStateBitMask.Hovered else 0UL) or
-                (if (pressed) CommonStateBitMask.Pressed else 0UL) or
-                (if (active) CommonStateBitMask.Active else 0UL),
-        )
+        ): IconButtonState =
+            IconButtonState(
+                (if (enabled) CommonStateBitMask.Enabled else 0UL) or
+                    (if (selected) CommonStateBitMask.Selected else 0UL) or
+                    (if (focused) CommonStateBitMask.Focused else 0UL) or
+                    (if (hovered) CommonStateBitMask.Hovered else 0UL) or
+                    (if (pressed) CommonStateBitMask.Pressed else 0UL) or
+                    (if (active) CommonStateBitMask.Active else 0UL),
+            )
     }
 }

@@ -20,7 +20,7 @@ import org.jetbrains.jewel.ui.painter.PainterProvider
 @GenerateDataFunctions
 public class MenuStyle(
     public val isDark: Boolean,
-    val colors: MenuColors,
+    public val colors: MenuColors,
     public val metrics: MenuMetrics,
     public val icons: MenuIcons,
 ) {

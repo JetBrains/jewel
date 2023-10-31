@@ -51,7 +51,7 @@ private class SizeImpl(
     }
 }
 
-fun Size(width: Int, height: Int = width): PainterHint {
+public fun Size(width: Int, height: Int = width): PainterHint {
     require(width > 0 && height > 0) {
         "Width and height must be positive"
     }

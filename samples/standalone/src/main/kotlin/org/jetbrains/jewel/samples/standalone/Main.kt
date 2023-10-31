@@ -34,7 +34,7 @@ public fun main() {
             themeDefinition,
             ComponentStyling.decoratedWindow(
                 titleBarStyle =
-                    when (MainViewModel.theme) {
+                when (MainViewModel.theme) {
                     IntUiThemes.Light -> TitleBarStyle.light()
                     IntUiThemes.LightWithLightHeader -> TitleBarStyle.lightWithLightHeader()
                     IntUiThemes.Dark -> TitleBarStyle.dark()

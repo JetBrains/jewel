@@ -72,35 +72,35 @@ private fun fromHexOrNull(rawColor: String, alpha: Float): Color? {
     val length = rawColor.length - startPos
     val alphaOverride = alpha.takeIf { it != 1.0f }?.let { (it * 255).roundToInt() }
 
-        return when (length) {
-            3 ->
-                Color(
-                    red = rawColor.substring(startPos, startPos + 1).toInt(16),
-                    green = rawColor.substring(startPos + 1, startPos + 2).toInt(16),
-                    blue = rawColor.substring(startPos + 2, startPos + 3).toInt(16),
-                    alpha = alphaOverride ?: 255,
-                )
-            4 ->
-                Color(
-                    red = rawColor.substring(startPos, startPos + 1).toInt(16),
-                    green = rawColor.substring(startPos + 1, startPos + 2).toInt(16),
-                    blue = rawColor.substring(startPos + 2, startPos + 3).toInt(16),
-                    alpha = alphaOverride ?: rawColor.substring(startPos + 3, startPos + 4).toInt(16),
-                )
-            6 ->
-                Color(
-                    red = rawColor.substring(startPos, startPos + 2).toInt(16),
-                    green = rawColor.substring(startPos + 2, startPos + 4).toInt(16),
-                    blue = rawColor.substring(startPos + 4, startPos + 6).toInt(16),
-                    alpha = alphaOverride ?: 255,
-                )
-            8 ->
-                Color(
-                    red = rawColor.substring(startPos, startPos + 2).toInt(16),
-                    green = rawColor.substring(startPos + 2, startPos + 4).toInt(16),
-                    blue = rawColor.substring(startPos + 4, startPos + 6).toInt(16),
-                    alpha = alphaOverride ?: rawColor.substring(startPos + 6, startPos + 8).toInt(16),
-                )
+    return when (length) {
+        3 ->
+            Color(
+                red = rawColor.substring(startPos, startPos + 1).toInt(16),
+                green = rawColor.substring(startPos + 1, startPos + 2).toInt(16),
+                blue = rawColor.substring(startPos + 2, startPos + 3).toInt(16),
+                alpha = alphaOverride ?: 255,
+            )
+        4 ->
+            Color(
+                red = rawColor.substring(startPos, startPos + 1).toInt(16),
+                green = rawColor.substring(startPos + 1, startPos + 2).toInt(16),
+                blue = rawColor.substring(startPos + 2, startPos + 3).toInt(16),
+                alpha = alphaOverride ?: rawColor.substring(startPos + 3, startPos + 4).toInt(16),
+            )
+        6 ->
+            Color(
+                red = rawColor.substring(startPos, startPos + 2).toInt(16),
+                green = rawColor.substring(startPos + 2, startPos + 4).toInt(16),
+                blue = rawColor.substring(startPos + 4, startPos + 6).toInt(16),
+                alpha = alphaOverride ?: 255,
+            )
+        8 ->
+            Color(
+                red = rawColor.substring(startPos, startPos + 2).toInt(16),
+                green = rawColor.substring(startPos + 2, startPos + 4).toInt(16),
+                blue = rawColor.substring(startPos + 4, startPos + 6).toInt(16),
+                alpha = alphaOverride ?: rawColor.substring(startPos + 6, startPos + 8).toInt(16),
+            )
         else -> null
     }
 }

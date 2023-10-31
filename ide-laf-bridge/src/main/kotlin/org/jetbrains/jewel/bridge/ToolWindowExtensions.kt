@@ -30,9 +30,9 @@ public fun ToolWindow.addComposeTab(
     contentManager.addContent(tabContent)
 }
 
-interface ToolWindowScope {
+public interface ToolWindowScope {
 
-    val toolWindow: ToolWindow
+    public val toolWindow: ToolWindow
 
-    val panel: ComposePanel
+    public val panel: ComposePanel
 }

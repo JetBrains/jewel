@@ -73,14 +73,16 @@ private class StrokeImpl(private val color: Color) : PainterSuffixHint(), Painte
     )
 }
 
-fun Stroke(color: Color): PainterHint = if (color.isSpecified) {
-    StrokeImpl(color)
-} else {
-    PainterHint.None
-}
+public fun Stroke(color: Color): PainterHint =
+    if (color.isSpecified) {
+        StrokeImpl(color)
+    } else {
+        PainterHint.None
+    }
 
-fun Dark(isDark: Boolean = true): PainterHint = if (isDark) {
-    DarkImpl
-} else {
-    PainterHint.None
-}
+public fun Dark(isDark: Boolean = true): PainterHint =
+    if (isDark) {
+        DarkImpl
+    } else {
+        PainterHint.None
+    }

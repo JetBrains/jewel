@@ -28,77 +28,80 @@ import java.awt.event.FocusListener
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 
-fun Modifier.trackWindowActivation(window: Window) = composed(
-    inspectorInfo = debugInspectorInfo {
-        name = "activateRoot"
-        properties["window"] = window
-    },
-) {
-    var parentActivated by remember { mutableStateOf(false) }
+public fun Modifier.trackWindowActivation(window: Window): Modifier =
+    composed(
+        inspectorInfo = debugInspectorInfo {
+            name = "activateRoot"
+            properties["window"] = window
+        },
+    ) {
+        var parentActivated by remember { mutableStateOf(false) }
 
-    DisposableEffect(window) {
-        val listener = object : WindowAdapter() {
-            override fun windowActivated(e: WindowEvent?) {
-                parentActivated = true
+        DisposableEffect(window) {
+            val listener = object : WindowAdapter() {
+                override fun windowActivated(e: WindowEvent?) {
+                    parentActivated = true
+                }
+
+                override fun windowDeactivated(e: WindowEvent?) {
+                    parentActivated = false
+                }
             }
-
-            override fun windowDeactivated(e: WindowEvent?) {
-                parentActivated = false
-            }
-        }
-        window.addWindowListener(listener)
-        onDispose {
-            window.removeWindowListener(listener)
-        }
-    }
-    Modifier.modifierLocalProvider(ModifierLocalActivated) {
-        parentActivated
-    }
-}
-
-fun Modifier.trackComponentActivation(awtParent: Component) = composed(
-    inspectorInfo = debugInspectorInfo {
-        name = "activateRoot"
-        properties["parent"] = awtParent
-    },
-) {
-    var parentActivated by remember { mutableStateOf(false) }
-
-    DisposableEffect(awtParent) {
-        val listener = object : FocusListener {
-            override fun focusGained(e: FocusEvent?) {
-                parentActivated = true
-            }
-
-            override fun focusLost(e: FocusEvent?) {
-                parentActivated = false
+            window.addWindowListener(listener)
+            onDispose {
+                window.removeWindowListener(listener)
             }
         }
-        awtParent.addFocusListener(listener)
-        onDispose {
-            awtParent.removeFocusListener(listener)
+        Modifier.modifierLocalProvider(ModifierLocalActivated) {
+            parentActivated
         }
     }
-    Modifier.modifierLocalProvider(ModifierLocalActivated) {
-        parentActivated
+
+public fun Modifier.trackComponentActivation(awtParent: Component): Modifier =
+    composed(
+        inspectorInfo = debugInspectorInfo {
+            name = "activateRoot"
+            properties["parent"] = awtParent
+        },
+    ) {
+        var parentActivated by remember { mutableStateOf(false) }
+
+        DisposableEffect(awtParent) {
+            val listener = object : FocusListener {
+                override fun focusGained(e: FocusEvent?) {
+                    parentActivated = true
+                }
+
+                override fun focusLost(e: FocusEvent?) {
+                    parentActivated = false
+                }
+            }
+            awtParent.addFocusListener(listener)
+            onDispose {
+                awtParent.removeFocusListener(listener)
+            }
+        }
+        Modifier.modifierLocalProvider(ModifierLocalActivated) {
+            parentActivated
+        }
     }
-}
 
 @Stable
-fun Modifier.trackActivation() = composed(
-    inspectorInfo = debugInspectorInfo {
-        name = "trackActivation"
-    },
-) {
-    val activatedModifierLocal = remember { ActivatedModifierLocal() }
-    Modifier.focusGroup().onFocusChanged {
-        if (it.hasFocus) {
-            activatedModifierLocal.childGainedFocus()
-        } else {
-            activatedModifierLocal.childLostFocus()
-        }
-    }.then(activatedModifierLocal)
-}
+public fun Modifier.trackActivation(): Modifier =
+    composed(
+        inspectorInfo = debugInspectorInfo {
+            name = "trackActivation"
+        },
+    ) {
+        val activatedModifierLocal = remember { ActivatedModifierLocal() }
+        Modifier.focusGroup().onFocusChanged {
+            if (it.hasFocus) {
+                activatedModifierLocal.childGainedFocus()
+            } else {
+                activatedModifierLocal.childLostFocus()
+            }
+        }.then(activatedModifierLocal)
+    }
 
 private class ActivatedModifierLocal : ModifierLocalProvider<Boolean>, ModifierLocalConsumer {
 
@@ -126,15 +129,14 @@ private class ActivatedModifierLocal : ModifierLocalProvider<Boolean>, ModifierL
     }
 }
 
-val ModifierLocalActivated = modifierLocalOf {
-    false
-}
+public val ModifierLocalActivated: ProvidableModifierLocal<Boolean> =
+    modifierLocalOf { false }
 
-fun Modifier.onActivated(
+public fun Modifier.onActivated(
     enabled: Boolean = true,
     onChanged: (Boolean) -> Unit,
-) = then(
-    if (enabled) {
+): Modifier =
+    this then if (enabled) {
         ActivateChangedModifierElement(
             onChanged,
             inspectorInfo = debugInspectorInfo {
@@ -144,8 +146,7 @@ fun Modifier.onActivated(
         )
     } else {
         Modifier
-    },
-)
+    }
 
 private class ActivateChangedModifierElement(
     private val onChanged: (Boolean) -> Unit,

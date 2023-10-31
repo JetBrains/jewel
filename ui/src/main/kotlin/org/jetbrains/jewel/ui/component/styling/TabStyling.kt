@@ -74,7 +74,7 @@ public class TabColors(
                     state.chooseValueIgnoreCompat(
                         normal = content,
                         disabled = contentDisabled,
-                        
+
                         pressed = contentPressed,
                         hovered = contentHovered,
                         active = content,
@@ -89,7 +89,7 @@ public class TabColors(
                 !state.isEnabled -> backgroundDisabled
                 state.isPressed -> backgroundPressed
                 state.isHovered -> backgroundHovered
-                
+
                 state.isActive -> background
                 state.isSelected -> backgroundSelected
                 else -> background
@@ -105,7 +105,7 @@ public class TabColors(
                     state.chooseValueIgnoreCompat(
                         normal = underline,
                         disabled = underlineDisabled,
-                        
+
                         pressed = underlinePressed,
                         hovered = underlineHovered,
                         active = underline,
@@ -140,7 +140,7 @@ public class TabContentAlpha(
                     state.chooseValueIgnoreCompat(
                         normal = iconNormal,
                         disabled = iconDisabled,
-                        
+
                         pressed = iconPressed,
                         hovered = iconHovered,
                         active = iconNormal,
@@ -157,7 +157,7 @@ public class TabContentAlpha(
                     state.chooseValueIgnoreCompat(
                         normal = labelNormal,
                         disabled = labelDisabled,
-                        
+
                         pressed = labelPressed,
                         hovered = labelHovered,
                         active = labelNormal,

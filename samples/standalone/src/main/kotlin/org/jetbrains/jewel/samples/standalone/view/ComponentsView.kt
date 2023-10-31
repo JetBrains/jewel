@@ -33,7 +33,7 @@ import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 
 @Composable
 @View(title = "Components", position = 1, icon = "icons/structure.svg")
-fun ComponentsView() {
+public fun ComponentsView() {
     Row(Modifier.trackActivation().fillMaxSize().background(JewelTheme.globalColors.paneBackground)) {
         ComponentsToolBar()
         Divider(Orientation.Vertical)
@@ -42,7 +42,7 @@ fun ComponentsView() {
 }
 
 @Composable
-fun ComponentsToolBar() {
+public fun ComponentsToolBar() {
     Column(Modifier.fillMaxHeight().width(40.dp)) {
         ComponentsViewModel.views.forEach {
             Tooltip({
@@ -62,7 +62,7 @@ fun ComponentsToolBar() {
 }
 
 @Composable
-fun ComponentView(view: ViewInfo) {
+public fun ComponentView(view: ViewInfo) {
     Column(Modifier.fillMaxSize().padding(24.dp), verticalArrangement = Arrangement.spacedBy(24.dp)) {
         Text(view.title, fontSize = 20.sp)
         view.content()

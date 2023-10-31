@@ -29,50 +29,52 @@ public class IconButtonStyle(
 @GenerateDataFunctions
 public class IconButtonColors(
     public val foregroundSelectedActivated: Color,
-    val background: Color,
+    public val background: Color,
     public val backgroundDisabled: Color,
     public val backgroundSelected: Color,
-    val backgroundSelectedActivated: Color,
-    val backgroundFocused: Color,
+    public val backgroundSelectedActivated: Color,
+    public val backgroundFocused: Color,
     public val backgroundPressed: Color,
     public val backgroundHovered: Color,
     public val border: Color,
     public val borderDisabled: Color,
-    val borderSelected: Color,
-    val borderSelectedActivated: Color,
+    public val borderSelected: Color,
+    public val borderSelectedActivated: Color,
     public val borderFocused: Color,
     public val borderPressed: Color,
     public val borderHovered: Color,
 ) {
 
     @Composable
-    public fun foregroundFor(state: IconButtonState) = rememberUpdatedState(
-        when {
-            state.isActive && state.isSelected -> foregroundSelectedActivated
-            else -> Color.Unspecified
-        },
-    )
+    public fun foregroundFor(state: IconButtonState): State<Color> =
+        rememberUpdatedState(
+            when {
+                state.isActive && state.isSelected -> foregroundSelectedActivated
+                else -> Color.Unspecified
+            },
+        )
 
     @Composable
-    public fun backgroundFor(state: IconButtonState) = rememberUpdatedState(
-        when {
-            !state.isEnabled -> backgroundDisabled
-            state.isActive && state.isSelected -> backgroundSelectedActivated
-            state.isSelected -> backgroundSelected
-            state.isPressed -> backgroundPressed
-            state.isHovered -> backgroundHovered
-            state.isFocused -> backgroundFocused
-            else -> background
-        },
-    )
+    public fun backgroundFor(state: IconButtonState): State<Color> =
+        rememberUpdatedState(
+            when {
+                !state.isEnabled -> backgroundDisabled
+                state.isActive && state.isSelected -> backgroundSelectedActivated
+                state.isSelected -> backgroundSelected
+                state.isPressed -> backgroundPressed
+                state.isHovered -> backgroundHovered
+                state.isFocused -> backgroundFocused
+                else -> background
+            },
+        )
 
     @Composable
     public fun borderFor(state: IconButtonState): State<Color> =
         rememberUpdatedState(
             when {
                 !state.isEnabled -> borderDisabled
-            state.isActive && state.isSelected -> borderSelectedActivated
-            state.isSelected -> borderSelected
+                state.isActive && state.isSelected -> borderSelectedActivated
+                state.isSelected -> borderSelected
                 state.isFocused -> borderFocused
                 state.isPressed -> borderPressed
                 state.isHovered -> borderHovered
