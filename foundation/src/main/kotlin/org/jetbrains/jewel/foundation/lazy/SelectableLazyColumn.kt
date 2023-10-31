@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.foundation.lazy
 
-import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
@@ -73,10 +72,7 @@ fun SelectableLazyColumn(
     val focusRequester = remember { FocusRequester() }
     LazyColumn(
         modifier = modifier
-            .onFocusChanged {
-                isFocused = it.isFocused || it.hasFocus
-            }
-            .focusGroup()
+            .onFocusChanged { isFocused = it.hasFocus }
             .focusRequester(focusRequester)
             .focusable(interactionSource = interactionSource)
             .onPreviewKeyEvent { event ->
