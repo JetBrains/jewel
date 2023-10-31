@@ -71,9 +71,7 @@ class ResourcePainterProvider(
     @Composable
     override fun getPainter(vararg hints: PainterHint): State<Painter> {
         val density = LocalDensity.current
-        val scope = remember(density) {
-            Scope(density, basePath, classLoaders)
-        }
+        val scope = Scope(density, basePath, classLoaders)
 
         val currentHintsProvider = LocalPainterHintsProvider.current
         val resolvedHints = buildList {

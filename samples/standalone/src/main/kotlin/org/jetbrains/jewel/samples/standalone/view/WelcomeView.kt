@@ -23,6 +23,7 @@ import org.jetbrains.jewel.ui.component.CheckboxRow
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.RadioButtonChip
 import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.styling.LocalCheckboxStyle
 import org.jetbrains.jewel.ui.painter.hints.Selected
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 
@@ -57,10 +58,16 @@ fun WelcomeView() {
             }
 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Swing compat:")
-                CheckboxRow("Swing compatibility", MainViewModel.swingCompat, {
-                    MainViewModel.swingCompat = it
-                })
+                CheckboxRow(
+                    text = "Swing compatibility",
+                    checked = MainViewModel.swingCompat,
+                    onCheckedChange = {
+                        MainViewModel.swingCompat = it
+                    },
+                    colors = LocalCheckboxStyle.current.colors,
+                    metrics = LocalCheckboxStyle.current.metrics,
+                    icons = LocalCheckboxStyle.current.icons,
+                )
             }
         }
     }
