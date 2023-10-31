@@ -51,7 +51,7 @@ class ResourcePainterProvider(
     vararg classLoaders: ClassLoader,
 ) : PainterProvider {
 
-    private val scope = Scope(basePath, classLoaders.toSet())
+    private val classLoaders = classLoaders.toSet()
 
     private val cache = ConcurrentHashMap<Int, Painter>()
 
@@ -60,7 +60,7 @@ class ResourcePainterProvider(
     private val documentBuilderFactory = DocumentBuilderFactory.newDefaultInstance()
         .apply { setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true) }
 
-    private fun MutableList<PainterHint>.resolveHint(hint: PainterHint) {
+    private fun MutableList<PainterHint>.resolveHint(scope: Scope, hint: PainterHint) {
         with(hint) {
             if (scope.canApply()) {
                 add(hint)
@@ -70,16 +70,21 @@ class ResourcePainterProvider(
 
     @Composable
     override fun getPainter(vararg hints: PainterHint): State<Painter> {
+        val density = LocalDensity.current
+        val scope = remember(density) {
+            Scope(density, basePath, classLoaders)
+        }
+
         val currentHintsProvider = LocalPainterHintsProvider.current
         val resolvedHints = buildList {
             currentHintsProvider.priorityHints(basePath).forEach {
-                resolveHint(it)
+                resolveHint(scope, it)
             }
             hints.forEach {
-                resolveHint(it)
+                resolveHint(scope, it)
             }
             currentHintsProvider.hints(basePath).forEach {
-                resolveHint(it)
+                resolveHint(scope, it)
             }
         }
 
@@ -93,14 +98,14 @@ class ResourcePainterProvider(
             if (inDebugMode) {
                 println("Cache miss for $basePath(${resolvedHints.joinToString()})")
             }
-            loadPainter(resolvedHints)
+            loadPainter(scope, resolvedHints)
         }
 
         return rememberUpdatedState(painter)
     }
 
     @Composable
-    private fun loadPainter(hints: List<PainterHint>): Painter {
+    private fun loadPainter(scope: Scope, hints: List<PainterHint>): Painter {
         var scopes = listOf(scope)
 
         for (hint in hints) {
@@ -120,14 +125,12 @@ class ResourcePainterProvider(
             }
         }
 
-        val density = LocalDensity.current
-
         val extension = basePath.substringAfterLast(".").lowercase()
 
         var painter = when (extension) {
-            "svg" -> createSvgPainter(chosenScope, url, density, hints)
-            "xml" -> createVectorDrawablePainter(url, density)
-            else -> createBitmapPainter(url, density)
+            "svg" -> createSvgPainter(chosenScope, url, hints)
+            "xml" -> createVectorDrawablePainter(chosenScope, url)
+            else -> createBitmapPainter(chosenScope, url)
         }
 
         for (hint in hints) {
@@ -155,7 +158,7 @@ class ResourcePainterProvider(
     }
 
     @Composable
-    private fun createSvgPainter(scope: Scope, url: URL, density: Density, hints: List<PainterHint>): Painter =
+    private fun createSvgPainter(scope: Scope, url: URL, hints: List<PainterHint>): Painter =
         tryLoadingResource(
             url = url,
             loadingAction = { resourceUrl ->
@@ -163,10 +166,10 @@ class ResourcePainterProvider(
                     if (inDebugMode) {
                         println("Loading icon $basePath(${hints.joinToString()}) from $resourceUrl")
                     }
-                    loadSvgPainter(inputStream, density)
+                    loadSvgPainter(inputStream, scope)
                 }
             },
-            rememberAction = { remember(url, density, hints) { it } },
+            rememberAction = { remember(url, scope.density, hints) { it } },
         )
 
     private fun patchSvg(scope: Scope, inputStream: InputStream, hints: List<PainterHint>): InputStream {
@@ -190,19 +193,19 @@ class ResourcePainterProvider(
     }
 
     @Composable
-    private fun createVectorDrawablePainter(url: URL, density: Density): Painter =
+    private fun createVectorDrawablePainter(scope: Scope, url: URL): Painter =
         tryLoadingResource(
             url = url,
             loadingAction = { resourceUrl ->
                 resourceUrl.openStream().use {
-                    loadXmlImageVector(InputSource(it), density)
+                    loadXmlImageVector(InputSource(it), scope)
                 }
             },
             rememberAction = { rememberVectorPainter(it) },
         )
 
     @Composable
-    private fun createBitmapPainter(url: URL, density: Density) =
+    private fun createBitmapPainter(scope: Scope, url: URL) =
         tryLoadingResource(
             url = url,
             loadingAction = { resourceUrl ->
@@ -211,7 +214,7 @@ class ResourcePainterProvider(
                 }
                 BitmapPainter(bitmap)
             },
-            rememberAction = { remember(url, density) { it } },
+            rememberAction = { remember(url, scope.density) { it } },
         )
 
     @Composable
@@ -237,18 +240,20 @@ class ResourcePainterProvider(
     }
 
     private class Scope(
+        private val localDensity: Density,
         override val rawPath: String,
         override val classLoaders: Set<ClassLoader>,
         override val path: String = rawPath,
-    ) : ResourcePainterProviderScope {
+    ) : ResourcePainterProviderScope, Density by localDensity {
 
         fun apply(pathHint: PainterPathHint): Scope? {
             with(pathHint) {
-                val patched = patch(path)
+                val patched = patch()
                 if (patched == path) {
                     return null
                 }
                 return Scope(
+                    localDensity = localDensity,
                     rawPath = rawPath,
                     classLoaders = classLoaders,
                     path = patched,

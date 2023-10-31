@@ -16,7 +16,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.separator
 
 @Composable
-@View("Dropdowns", 3)
+@View(title = "Dropdowns", position = 3)
 fun Dropdowns() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),

@@ -26,7 +26,7 @@ import org.jetbrains.jewel.ui.component.IndeterminateHorizontalProgressBar
 import org.jetbrains.jewel.ui.component.Text
 
 @Composable
-@View("ProgressBar", 5)
+@View(title = "ProgressBar", position = 5)
 fun ProgressBar() {
     val transition = rememberInfiniteTransition()
     val currentOffset by transition.animateFloat(

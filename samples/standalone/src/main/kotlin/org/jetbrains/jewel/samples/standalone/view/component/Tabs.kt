@@ -36,7 +36,7 @@ import org.jetbrains.jewel.ui.theme.defaultTabStyle
 import kotlin.math.max
 
 @Composable
-@View("Tabs", 7)
+@View(title = "Tabs", position = 7)
 fun Tabs() {
     Text("Default tabs", Modifier.fillMaxWidth())
     DefaultTabShowcase()

@@ -20,7 +20,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 
 @Composable
-@View("TextFields", 9)
+@View(title = "TextFields", position = 9)
 fun TextFields() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),

@@ -41,11 +41,14 @@ internal fun findViews(packageName: String): List<ViewInfo> {
                 try {
                     result += Class.forName(fullyQualifiedClassName).methods.mapNotNull {
                         val annotation = it.getAnnotation(View::class.java) ?: return@mapNotNull null
+                        val kFunc = it.kotlinFunction ?: return@mapNotNull null
+                        if (kFunc.parameters.isNotEmpty() || kFunc.returnType.classifier != Unit::class) return@mapNotNull null
+
                         ViewInfo(
-                            annotation.title,
-                            annotation.sort,
-                            annotation.icon,
-                            it.kotlinFunction as @Composable () -> Unit,
+                            title = annotation.title,
+                            position = annotation.position,
+                            icon = annotation.icon,
+                            content = it.kotlinFunction as @Composable () -> Unit,
                         )
                     }
                 } catch (e: ClassNotFoundException) {
@@ -60,5 +63,5 @@ internal fun findViews(packageName: String): List<ViewInfo> {
             }
     }
 
-    return result.sortedBy { it.sort }
+    return result.sortedBy { it.position }
 }

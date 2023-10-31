@@ -11,7 +11,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Tooltip
 
 @Composable
-@View("Tooltips", 10)
+@View(title = "Tooltips", position = 10)
 fun Tooltips() {
     Tooltip(tooltip = {
         Text("This is a tooltip")

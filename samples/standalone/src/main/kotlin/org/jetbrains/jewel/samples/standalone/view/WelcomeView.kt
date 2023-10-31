@@ -27,7 +27,7 @@ import org.jetbrains.jewel.ui.painter.hints.Selected
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 
 @Composable
-@View("Welcome", 0, "icons/meetNewUi.svg")
+@View(title = "Welcome", position = 0, icon = "icons/meetNewUi.svg")
 fun WelcomeView() {
     Box(
         Modifier.trackActivation().fillMaxSize()

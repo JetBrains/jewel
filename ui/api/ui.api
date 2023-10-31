@@ -2149,7 +2149,7 @@ public final class org/jetbrains/jewel/ui/painter/PainterHintsProviderKt {
 }
 
 public abstract interface class org/jetbrains/jewel/ui/painter/PainterPathHint : org/jetbrains/jewel/ui/painter/PainterHint {
-	public abstract fun patch (Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;Ljava/lang/String;)Ljava/lang/String;
+	public abstract fun patch (Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;)Ljava/lang/String;
 }
 
 public final class org/jetbrains/jewel/ui/painter/PainterPathHint$DefaultImpls {
@@ -2160,7 +2160,7 @@ public abstract class org/jetbrains/jewel/ui/painter/PainterPrefixHint : org/jet
 	public static final field $stable I
 	public fun <init> ()V
 	public fun canApply (Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;)Z
-	public fun patch (Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;Ljava/lang/String;)Ljava/lang/String;
+	public fun patch (Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;)Ljava/lang/String;
 	public abstract fun prefix (Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;)Ljava/lang/String;
 }
 
@@ -2168,7 +2168,7 @@ public abstract interface class org/jetbrains/jewel/ui/painter/PainterProvider {
 	public abstract fun getPainter ([Lorg/jetbrains/jewel/ui/painter/PainterHint;Landroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/State;
 }
 
-public abstract interface class org/jetbrains/jewel/ui/painter/PainterProviderScope {
+public abstract interface class org/jetbrains/jewel/ui/painter/PainterProviderScope : androidx/compose/ui/unit/Density {
 	public abstract fun getPath ()Ljava/lang/String;
 	public abstract fun getRawPath ()Ljava/lang/String;
 }
@@ -2177,7 +2177,7 @@ public abstract class org/jetbrains/jewel/ui/painter/PainterSuffixHint : org/jet
 	public static final field $stable I
 	public fun <init> ()V
 	public fun canApply (Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;)Z
-	public fun patch (Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;Ljava/lang/String;)Ljava/lang/String;
+	public fun patch (Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;)Ljava/lang/String;
 	public abstract fun suffix (Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;)Ljava/lang/String;
 }
 
@@ -2195,6 +2195,12 @@ public abstract interface class org/jetbrains/jewel/ui/painter/PainterWrapperHin
 
 public final class org/jetbrains/jewel/ui/painter/PainterWrapperHint$DefaultImpls {
 	public static fun canApply (Lorg/jetbrains/jewel/ui/painter/PainterWrapperHint;Lorg/jetbrains/jewel/ui/painter/PainterProviderScope;)Z
+}
+
+public final class org/jetbrains/jewel/ui/painter/ResizedPainter : org/jetbrains/jewel/ui/painter/DelegatePainter {
+	public static final field $stable I
+	public synthetic fun <init> (Landroidx/compose/ui/graphics/painter/Painter;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getIntrinsicSize-NH-jbRc ()J
 }
 
 public final class org/jetbrains/jewel/ui/painter/ResourcePainterProvider : org/jetbrains/jewel/ui/painter/PainterProvider {
@@ -2262,8 +2268,7 @@ public final class org/jetbrains/jewel/ui/painter/hints/DarkKt {
 }
 
 public final class org/jetbrains/jewel/ui/painter/hints/HiDpiKt {
-	public static final fun HiDpi (Landroidx/compose/ui/unit/Density;)Lorg/jetbrains/jewel/ui/painter/PainterHint;
-	public static final fun HiDpi (Z)Lorg/jetbrains/jewel/ui/painter/PainterHint;
+	public static final fun HiDpi ()Lorg/jetbrains/jewel/ui/painter/PainterHint;
 }
 
 public final class org/jetbrains/jewel/ui/painter/hints/OverrideKt {
@@ -2282,7 +2287,6 @@ public final class org/jetbrains/jewel/ui/painter/hints/SelectedKt {
 
 public final class org/jetbrains/jewel/ui/painter/hints/SizeKt {
 	public static final fun Size (II)Lorg/jetbrains/jewel/ui/painter/PainterHint;
-	public static final fun Size (Ljava/lang/String;)Lorg/jetbrains/jewel/ui/painter/PainterHint;
 	public static synthetic fun Size$default (IIILjava/lang/Object;)Lorg/jetbrains/jewel/ui/painter/PainterHint;
 }
 
@@ -2291,8 +2295,7 @@ public final class org/jetbrains/jewel/ui/painter/hints/StatefulKt {
 }
 
 public final class org/jetbrains/jewel/ui/painter/hints/StrokeKt {
-	public static final fun Stroke (Z)Lorg/jetbrains/jewel/ui/painter/PainterHint;
-	public static synthetic fun Stroke$default (ZILjava/lang/Object;)Lorg/jetbrains/jewel/ui/painter/PainterHint;
+	public static final fun Stroke-8_81llA (J)Lorg/jetbrains/jewel/ui/painter/PainterHint;
 }
 
 public final class org/jetbrains/jewel/ui/theme/JewelThemeKt {

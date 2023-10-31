@@ -14,7 +14,7 @@ import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.RadioButtonRow
 
 @Composable
-@View("RadioButtons", 2)
+@View(title = "RadioButtons", position = 2)
 fun RadioButtons() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),

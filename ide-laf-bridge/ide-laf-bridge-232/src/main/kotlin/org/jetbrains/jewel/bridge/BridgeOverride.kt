@@ -16,7 +16,7 @@ internal object BridgeOverride : PainterPathHint {
         patchIconPath
     }
 
-    override fun PainterProviderScope.patch(path: String): String {
+    override fun PainterProviderScope.patch(): String {
         if (this !is ResourcePainterProviderScope) return path
 
         // For all provided classloaders, we try to get the patched path, both using

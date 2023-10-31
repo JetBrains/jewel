@@ -74,7 +74,7 @@ interface PainterPathHint : PainterHint {
     /**
      * Replace the entire path with the given value.
      */
-    fun PainterProviderScope.patch(path: String): String
+    fun PainterProviderScope.patch(): String
 }
 
 /**
@@ -105,7 +105,7 @@ interface PainterWrapperHint : PainterHint {
 @Immutable
 abstract class PainterPrefixHint : PainterPathHint {
 
-    override fun PainterProviderScope.patch(path: String): String = buildString {
+    override fun PainterProviderScope.patch(): String = buildString {
         append(path.substringBeforeLast('/', ""))
         append('/')
         append(prefix())
@@ -127,7 +127,7 @@ abstract class PainterPrefixHint : PainterPathHint {
 @Immutable
 abstract class PainterSuffixHint : PainterPathHint {
 
-    override fun PainterProviderScope.patch(path: String): String = buildString {
+    override fun PainterProviderScope.patch(): String = buildString {
         append(path.substringBeforeLast('/', ""))
         append('/')
         append(path.substringBeforeLast('.').substringAfterLast('/'))

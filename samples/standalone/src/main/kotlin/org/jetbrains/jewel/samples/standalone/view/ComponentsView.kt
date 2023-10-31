@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.jewel.foundation.modifier.trackActivation
@@ -33,7 +32,7 @@ import org.jetbrains.jewel.ui.painter.hints.Stroke
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 
 @Composable
-@View("Components", 1, "icons/structure.svg")
+@View(title = "Components", position = 1, icon = "icons/structure.svg")
 fun ComponentsView() {
     Row(Modifier.trackActivation().fillMaxSize().background(JewelTheme.globalColors.paneBackground)) {
         ComponentsToolBar()
@@ -54,8 +53,8 @@ fun ComponentsToolBar() {
                 }, Modifier.size(40.dp).padding(5.dp)) { state ->
                     val tint by LocalIconButtonStyle.current.colors.foregroundFor(state)
                     val painterProvider = rememberResourcePainterProvider(it.icon, StandaloneSampleIcons::class.java)
-                    val painter by painterProvider.getPainter(Size(20), Stroke(tint.isSpecified))
-                    Icon(painter = painter, "icon", tint = tint)
+                    val painter by painterProvider.getPainter(Size(20), Stroke(tint))
+                    Icon(painter = painter, "icon")
                 }
             }
         }

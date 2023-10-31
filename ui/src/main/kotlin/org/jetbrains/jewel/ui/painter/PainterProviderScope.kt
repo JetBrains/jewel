@@ -1,6 +1,8 @@
 package org.jetbrains.jewel.ui.painter
 
-interface PainterProviderScope {
+import androidx.compose.ui.unit.Density
+
+interface PainterProviderScope : Density {
 
     val rawPath: String
 

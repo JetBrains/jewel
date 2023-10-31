@@ -16,10 +16,7 @@ enum class IntUiThemes {
 
     companion object {
 
-        fun fromSystemTheme(systemTheme: SystemTheme) = if (systemTheme == SystemTheme.LIGHT) {
-            Light
-        } else {
-            Dark
-        }
+        fun fromSystemTheme(systemTheme: SystemTheme) =
+            if (systemTheme == SystemTheme.LIGHT) Light else Dark
     }
 }
