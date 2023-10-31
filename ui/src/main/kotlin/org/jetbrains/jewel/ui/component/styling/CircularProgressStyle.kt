@@ -16,4 +16,4 @@ public class CircularProgressStyle(
 }
 
 public val LocalCircularProgressStyle: ProvidableCompositionLocal<CircularProgressStyle> =
-    staticCompositionLocalOf<CircularProgressStyle> { error("No CircularProgressStyle provided") }
+    staticCompositionLocalOf<CircularProgressStyle> { error("No CircularProgressStyle provided. Have you forgotten the theme?") }

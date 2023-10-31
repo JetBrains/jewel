@@ -47,4 +47,4 @@ public class MenuManager(
 }
 
 public val LocalMenuManager: ProvidableCompositionLocal<MenuManager> =
-    staticCompositionLocalOf<MenuManager> { error("No MenuManager provided") }
+    staticCompositionLocalOf<MenuManager> { error("No MenuManager provided. Have you forgotten the theme?") }

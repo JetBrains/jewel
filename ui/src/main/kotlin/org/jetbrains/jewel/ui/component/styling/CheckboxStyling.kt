@@ -69,4 +69,4 @@ public class CheckboxIcons(public val checkbox: PainterProvider) {
 }
 
 public val LocalCheckboxStyle: ProvidableCompositionLocal<CheckboxStyle> =
-    staticCompositionLocalOf<CheckboxStyle> { error("No CheckboxStyle provided") }
+    staticCompositionLocalOf<CheckboxStyle> { error("No CheckboxStyle provided. Have you forgotten the theme?") }

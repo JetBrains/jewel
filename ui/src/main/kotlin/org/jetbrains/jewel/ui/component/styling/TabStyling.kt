@@ -186,7 +186,7 @@ private fun <T> TabState.chooseValueIgnoreCompat(
     }
 
 public val LocalDefaultTabStyle: ProvidableCompositionLocal<TabStyle> =
-    staticCompositionLocalOf<TabStyle> { error("No LocalTabStyle provided") }
+    staticCompositionLocalOf<TabStyle> { error("No LocalTabStyle provided. Have you forgotten the theme?") }
 
 public val LocalEditorTabStyle: ProvidableCompositionLocal<TabStyle> =
-    staticCompositionLocalOf<TabStyle> { error("No LocalTabStyle provided") }
+    staticCompositionLocalOf<TabStyle> { error("No LocalTabStyle provided. Have you forgotten the theme?") }

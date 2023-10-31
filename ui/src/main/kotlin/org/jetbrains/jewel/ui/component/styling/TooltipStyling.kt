@@ -72,4 +72,4 @@ public class TooltipMetrics(
 }
 
 public val LocalTooltipStyle: ProvidableCompositionLocal<TooltipStyle> =
-    staticCompositionLocalOf<TooltipStyle> { error("No TooltipStyle provided") }
+    staticCompositionLocalOf<TooltipStyle> { error("No TooltipStyle provided. Have you forgotten the theme?") }

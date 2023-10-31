@@ -131,7 +131,7 @@ public class DropdownIcons(public val chevronDown: PainterProvider) {
 }
 
 public val LocalDefaultDropdownStyle: ProvidableCompositionLocal<DropdownStyle> =
-    staticCompositionLocalOf<DropdownStyle> { error("No DefaultDropdownStyle provided") }
+    staticCompositionLocalOf<DropdownStyle> { error("No DefaultDropdownStyle provided. Have you forgotten the theme?") }
 
 public val LocalUndecoratedDropdownStyle: ProvidableCompositionLocal<DropdownStyle> =
-    staticCompositionLocalOf<DropdownStyle> { error("No UndecoratedDropdownStyle provided") }
+    staticCompositionLocalOf<DropdownStyle> { error("No UndecoratedDropdownStyle provided. Have you forgotten the theme?") }

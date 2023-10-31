@@ -35,4 +35,4 @@ public class DividerMetrics(
 }
 
 public val LocalDividerStyle: ProvidableCompositionLocal<DividerStyle> =
-    staticCompositionLocalOf<DividerStyle> { error("No DividerStyle provided") }
+    staticCompositionLocalOf<DividerStyle> { error("No DividerStyle provided. Have you forgotten the theme?") }

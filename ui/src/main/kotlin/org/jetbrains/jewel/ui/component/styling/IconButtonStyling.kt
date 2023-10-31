@@ -96,4 +96,4 @@ public class IconButtonMetrics(
 }
 
 public val LocalIconButtonStyle: ProvidableCompositionLocal<IconButtonStyle> =
-    staticCompositionLocalOf<IconButtonStyle> { error("No IconButtonStyle provided") }
+    staticCompositionLocalOf<IconButtonStyle> { error("No IconButtonStyle provided. Have you forgotten the theme?") }

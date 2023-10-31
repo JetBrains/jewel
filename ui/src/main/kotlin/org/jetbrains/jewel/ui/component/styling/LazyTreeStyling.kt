@@ -88,4 +88,4 @@ public class LazyTreeIcons(
 }
 
 public val LocalLazyTreeStyle: ProvidableCompositionLocal<LazyTreeStyle> =
-    staticCompositionLocalOf<LazyTreeStyle> { error("No LazyTreeStyle provided") }
+    staticCompositionLocalOf<LazyTreeStyle> { error("No LazyTreeStyle provided. Have you forgotten the theme?") }

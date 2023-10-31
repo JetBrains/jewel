@@ -147,4 +147,4 @@ public class MenuIcons(public val submenuChevron: PainterProvider) {
 }
 
 public val LocalMenuStyle: ProvidableCompositionLocal<MenuStyle> =
-    staticCompositionLocalOf<MenuStyle> { error("No MenuStyle provided") }
+    staticCompositionLocalOf<MenuStyle> { error("No MenuStyle provided. Have you forgotten the theme?") }

@@ -66,10 +66,10 @@ public fun JewelTheme(theme: ThemeDefinition, content: @Composable () -> Unit) {
 }
 
 public val LocalContentColor: ProvidableCompositionLocal<Color> =
-    staticCompositionLocalOf<Color> { error("No ContentColor provided") }
+    staticCompositionLocalOf<Color> { error("No ContentColor provided. Have you forgotten the theme?") }
 
 internal val LocalIsDarkTheme =
-    staticCompositionLocalOf<Boolean> { error("No IsDarkTheme provided") }
+    staticCompositionLocalOf<Boolean> { error("No IsDarkTheme provided. Have you forgotten the theme?") }
 
 internal val LocalSwingCompatMode = staticCompositionLocalOf {
     // By default, Swing compat is not enabled
@@ -86,7 +86,7 @@ public val LocalIconData: ProvidableCompositionLocal<ThemeIconData> = staticComp
 }
 
 public val LocalTextStyle: ProvidableCompositionLocal<TextStyle> =
-    staticCompositionLocalOf<TextStyle> { error("No TextStyle provided") }
+    staticCompositionLocalOf<TextStyle> { error("No TextStyle provided. Have you forgotten the theme?") }
 
 /** Overrides the dark mode for the current composition scope. */
 @Composable
