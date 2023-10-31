@@ -33,9 +33,9 @@ internal fun findViews(packageName: String): List<ViewInfo> {
     if (Files.exists(directory)) {
         Files.list(directory)
             .filter { f -> Files.isRegularFile(f) && !f.name.contains('$') && f.name.endsWith("Kt.class") }
-            .forEach {
+            .forEach { f ->
                 val fullyQualifiedClassName = packageName +
-                    it.absolutePathString().removePrefix(directory.absolutePathString())
+                    f.absolutePathString().removePrefix(directory.absolutePathString())
                         .dropLast(6) // remove .class
                         .replace('/', '.')
                 try {
