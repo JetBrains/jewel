@@ -16,23 +16,23 @@ open class DefaultTreeViewKeybindings : DefaultSelectableColumnKeybindings(), Tr
     companion object : DefaultTreeViewKeybindings()
 
     override fun KeyEvent.selectParent() =
-        key == Key.DirectionLeft && !isKeyboardMultiSelectionKeyPressed
+        key == Key.DirectionLeft && !isContiguousSelectionKeyPressed
 
     override fun KeyEvent.extendSelectionToParent() =
-        key == Key.DirectionLeft && isKeyboardMultiSelectionKeyPressed
+        key == Key.DirectionLeft && isContiguousSelectionKeyPressed
 
     override fun KeyEvent.selectChild() =
-        key == Key.DirectionRight && !isKeyboardMultiSelectionKeyPressed
+        key == Key.DirectionRight && !isContiguousSelectionKeyPressed
 
     override fun KeyEvent.extendSelectionToChild() =
-        key == Key.DirectionRight && isKeyboardMultiSelectionKeyPressed
+        key == Key.DirectionRight && isContiguousSelectionKeyPressed
 
     override fun KeyEvent.selectNextSibling() = null
 
     override fun KeyEvent.selectPreviousSibling() = null
 
     override fun KeyEvent.edit() =
-        key == Key.F2 && !isKeyboardMultiSelectionKeyPressed
+        key == Key.F2 && !isContiguousSelectionKeyPressed
 }
 
 interface TreeViewKeybindings : SelectableColumnKeybindings {
@@ -83,9 +83,9 @@ typealias TreeViewClickModifierHandler = PointerKeyboardModifiers.() -> Boolean
 open class DefaultMacOsTreeColumnKeybindings : DefaultTreeViewKeybindings() {
     companion object : DefaultMacOsTreeColumnKeybindings()
 
-    override val KeyEvent.isKeyboardMultiSelectionKeyPressed: Boolean
+    override val KeyEvent.isMultiSelectionKeyPressed: Boolean
         get() = isMetaPressed
 
-    override val PointerKeyboardModifiers.isKeyboardMultiSelectionKeyPressed: Boolean
+    override val PointerKeyboardModifiers.isMultiSelectionKeyPressed: Boolean
         get() = isMetaPressed
 }

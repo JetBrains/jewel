@@ -7,18 +7,19 @@ import androidx.compose.ui.input.key.isMetaPressed
 import androidx.compose.ui.input.key.isShiftPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.pointer.PointerKeyboardModifiers
+import androidx.compose.ui.input.pointer.isCtrlPressed
+import androidx.compose.ui.input.pointer.isMetaPressed
 import androidx.compose.ui.input.pointer.isShiftPressed
 
 interface SelectableColumnKeybindings {
 
-    val KeyEvent.isKeyboardMultiSelectionKeyPressed: Boolean
-        get() = isShiftPressed
+    val KeyEvent.isContiguousSelectionKeyPressed: Boolean
 
-    val PointerKeyboardModifiers.isKeyboardMultiSelectionKeyPressed: Boolean
-        get() = isShiftPressed
+    val PointerKeyboardModifiers.isContiguousSelectionKeyPressed: Boolean
 
-    val KeyEvent.isKeyboardCtrlMetaKeyPressed: Boolean
-        get() = isCtrlPressed || isMetaPressed
+    val KeyEvent.isMultiSelectionKeyPressed: Boolean
+
+    val PointerKeyboardModifiers.isMultiSelectionKeyPressed: Boolean
 
     /**
      * Select First Node
@@ -91,53 +92,71 @@ interface SelectableColumnKeybindings {
     fun KeyEvent.selectAll(): Boolean?
 }
 
+open class DefaultMacOsSelectableColumnKeybindings : DefaultSelectableColumnKeybindings() {
+
+    companion object : DefaultMacOsSelectableColumnKeybindings()
+
+    override val KeyEvent.isMultiSelectionKeyPressed: Boolean
+        get() = isMetaPressed
+
+    override val PointerKeyboardModifiers.isMultiSelectionKeyPressed: Boolean
+        get() = isMetaPressed
+}
+
 open class DefaultSelectableColumnKeybindings : SelectableColumnKeybindings {
+
+    override val KeyEvent.isContiguousSelectionKeyPressed: Boolean
+        get() = isShiftPressed
+
+    override val PointerKeyboardModifiers.isContiguousSelectionKeyPressed: Boolean
+        get() = isShiftPressed
+
+    override val KeyEvent.isMultiSelectionKeyPressed: Boolean
+        get() = isCtrlPressed
+
+    override val PointerKeyboardModifiers.isMultiSelectionKeyPressed: Boolean
+        get() = isCtrlPressed
+
     companion object : DefaultSelectableColumnKeybindings()
 
-    override val KeyEvent.isKeyboardMultiSelectionKeyPressed: Boolean
-        get() = isShiftPressed
-
-    override val PointerKeyboardModifiers.isKeyboardMultiSelectionKeyPressed: Boolean
-        get() = isShiftPressed
-
     override fun KeyEvent.selectFirstItem() =
-        key == Key.Home && !isKeyboardMultiSelectionKeyPressed
+        key == Key.Home && !isContiguousSelectionKeyPressed
 
     override fun KeyEvent.extendSelectionToFirstItem() =
-        key == Key.Home && isKeyboardMultiSelectionKeyPressed
+        key == Key.Home && isContiguousSelectionKeyPressed
 
     override fun KeyEvent.selectLastItem() =
-        key == Key.MoveEnd && !isKeyboardMultiSelectionKeyPressed
+        key == Key.MoveEnd && !isContiguousSelectionKeyPressed
 
     override fun KeyEvent.extendSelectionToLastItem() =
-        key == Key.MoveEnd && isKeyboardMultiSelectionKeyPressed
+        key == Key.MoveEnd && isContiguousSelectionKeyPressed
 
     override fun KeyEvent.selectPreviousItem() =
-        key == Key.DirectionUp && !isKeyboardMultiSelectionKeyPressed
+        key == Key.DirectionUp && !isContiguousSelectionKeyPressed
 
     override fun KeyEvent.extendSelectionWithPreviousItem() =
-        key == Key.DirectionUp && isKeyboardMultiSelectionKeyPressed
+        key == Key.DirectionUp && isContiguousSelectionKeyPressed
 
     override fun KeyEvent.selectNextItem() =
-        key == Key.DirectionDown && !isKeyboardMultiSelectionKeyPressed
+        key == Key.DirectionDown && !isContiguousSelectionKeyPressed
 
     override fun KeyEvent.extendSelectionWithNextItem() =
-        key == Key.DirectionDown && isKeyboardMultiSelectionKeyPressed
+        key == Key.DirectionDown && isContiguousSelectionKeyPressed
 
     override fun KeyEvent.scrollPageUpAndSelectItem() =
-        key == Key.PageUp && !isKeyboardMultiSelectionKeyPressed
+        key == Key.PageUp && !isContiguousSelectionKeyPressed
 
     override fun KeyEvent.scrollPageUpAndExtendSelection() =
-        key == Key.PageUp && isKeyboardMultiSelectionKeyPressed
+        key == Key.PageUp && isContiguousSelectionKeyPressed
 
     override fun KeyEvent.scrollPageDownAndSelectItem() =
-        key == Key.PageDown && !isKeyboardMultiSelectionKeyPressed
+        key == Key.PageDown && !isContiguousSelectionKeyPressed
 
     override fun KeyEvent.scrollPageDownAndExtendSelection() =
-        key == Key.PageDown && isKeyboardMultiSelectionKeyPressed
+        key == Key.PageDown && isContiguousSelectionKeyPressed
 
     override fun KeyEvent.edit() = false
 
     override fun KeyEvent.selectAll(): Boolean? =
-        key == Key.A && isKeyboardCtrlMetaKeyPressed
+        key == Key.A && isMultiSelectionKeyPressed
 }
