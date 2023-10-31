@@ -124,7 +124,7 @@ fun <T> BasicLazyTree(
         itemsIndexed(
             items = flattenedTree,
             selectionKey = { _, item -> item.selectionId },
-            uiKey = { _, item -> item.uiId },
+            itemKey = { _, item -> item.uiId },
             contentType = { _, item -> item.data },
         ) { index, element ->
             val elementState = TreeElementState.of(

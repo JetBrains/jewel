@@ -76,7 +76,7 @@ fun SelectableLazyColumnSample() {
         items(
             count = listOfItems.size,
             selectionKey = { index -> index },
-            uiKey = { index -> listOfItems[index] },
+            itemKey = { index -> listOfItems[index] },
         ) { index ->
             Text(
                 text = listOfItems[index],
