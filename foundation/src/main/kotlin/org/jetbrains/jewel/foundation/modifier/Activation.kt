@@ -106,8 +106,10 @@ private class ActivatedModifierLocal : ModifierLocalProvider<Boolean>, ModifierL
 
     private var hasFocus: Boolean by mutableStateOf(false)
 
-    override fun onModifierLocalsUpdated(scope: ModifierLocalReadScope) = with(scope) {
-        parentActivated = ModifierLocalActivated.current
+    override fun onModifierLocalsUpdated(scope: ModifierLocalReadScope) {
+        with(scope) {
+            parentActivated = ModifierLocalActivated.current
+        }
     }
 
     override val key: ProvidableModifierLocal<Boolean> = ModifierLocalActivated
@@ -163,11 +165,13 @@ private class ActivateChangedModifierElement(
 
     private var currentActivated = false
 
-    override fun onModifierLocalsUpdated(scope: ModifierLocalReadScope) = with(scope) {
-        val activated = ModifierLocalActivated.current
-        if (activated != currentActivated) {
-            currentActivated = activated
-            onChanged(activated)
+    override fun onModifierLocalsUpdated(scope: ModifierLocalReadScope) {
+        with(scope) {
+            val activated = ModifierLocalActivated.current
+            if (activated != currentActivated) {
+                currentActivated = activated
+                onChanged(activated)
+            }
         }
     }
 }

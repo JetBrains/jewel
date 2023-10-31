@@ -82,9 +82,8 @@ class PainterHintTest : BasicJewelUiTest() {
         }
     }
 
-    private fun testScope(path: String, density: Float = 1f): TestPainterProviderScope {
-        return TestPainterProviderScope(Density(density), path)
-    }
+    private fun testScope(path: String, density: Float = 1f): TestPainterProviderScope =
+        TestPainterProviderScope(Density(density), path)
 
     @Test
     fun `dark painter hint should append suffix when isDark is true`() {
