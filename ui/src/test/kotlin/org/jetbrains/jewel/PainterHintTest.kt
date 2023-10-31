@@ -190,9 +190,9 @@ class PainterHintTest : BasicJewelUiTest() {
                     enabled = false,
                     pressed = true,
                     hovered = true,
-                    focused = true
-                )
-            )
+                    focused = true,
+                ),
+            ),
         )
             .let {
                 Assert.assertEquals("icons/checkboxDisabled.svg", it)
