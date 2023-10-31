@@ -27,6 +27,9 @@ kotlin {
         vendor = JvmVendorSpec.JETBRAINS
         languageVersion = 17
     }
+
+    explicitApi()
+
     target {
         compilations.all {
             kotlinOptions {
