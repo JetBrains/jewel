@@ -104,7 +104,7 @@ fun SelectableLazyColumn(
                         isSelected = entry.key in state.selectedKeys,
                         isActive = isFocused,
                     )
-                    if (keys.any { it.key == entry.key && it is SelectableLazyListKey.Selectable }) {
+                    if (container.isKeySelectable(entry.key)) {
                         Box(
                             modifier = Modifier.selectable(
                                 requester = focusRequester,
@@ -128,8 +128,9 @@ fun SelectableLazyColumn(
                     key = { entry.key(it) },
                     contentType = { entry.contentType(it) },
                 ) { index ->
-                    val itemScope = SelectableLazyItemScope(entry.key(index) in state.selectedKeys, isFocused)
-                    if (keys.any { it.key == entry.key(index) && it is SelectableLazyListKey.Selectable }) {
+                    val key = remember(entry, index) { entry.key(index) }
+                    val itemScope = SelectableLazyItemScope(key in state.selectedKeys, isFocused)
+                    if (container.isKeySelectable(key)) {
                         Box(
                             modifier = Modifier.selectable(
                                 requester = focusRequester,
@@ -150,7 +151,7 @@ fun SelectableLazyColumn(
 
                 is Entry.StickyHeader -> stickyHeader(entry.key, entry.contentType) {
                     val itemScope = SelectableLazyItemScope(entry.key in state.selectedKeys, isFocused)
-                    if (keys.any { it.key == entry.key && it is SelectableLazyListKey.Selectable }) {
+                    if (container.isKeySelectable(entry.key)) {
                         Box(
                             modifier = Modifier.selectable(
                                 keybindings = keyActions.keybindings,
