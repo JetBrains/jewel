@@ -20,7 +20,7 @@ import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import java.io.InputStream
 
-public fun main() {
+fun main() {
     val icon = svgResource("icons/jewel-logo.svg")
     application {
         val themeDefinition =
@@ -33,8 +33,7 @@ public fun main() {
         IntUiTheme(
             themeDefinition,
             ComponentStyling.decoratedWindow(
-                titleBarStyle =
-                when (MainViewModel.theme) {
+                titleBarStyle = when (MainViewModel.theme) {
                     IntUiThemes.Light -> TitleBarStyle.light()
                     IntUiThemes.LightWithLightHeader -> TitleBarStyle.lightWithLightHeader()
                     IntUiThemes.Dark -> TitleBarStyle.dark()
@@ -63,4 +62,7 @@ private fun svgResource(
     resourcePath: String,
     loader: ResourceLoader = ResourceLoader.Default,
 ): Painter =
-    loader.load(resourcePath).use { stream: InputStream -> loadSvgPainter(stream, Density(1f)) }
+    loader.load(resourcePath)
+        .use { stream: InputStream ->
+            loadSvgPainter(stream, Density(1f))
+        }

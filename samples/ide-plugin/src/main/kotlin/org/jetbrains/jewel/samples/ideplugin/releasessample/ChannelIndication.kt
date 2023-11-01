@@ -9,8 +9,7 @@ import java.awt.Graphics
 import java.awt.Graphics2D
 import javax.swing.JLabel
 
-internal class ChannelIndication(private val channel: ReleaseChannel) :
-    JLabel(channel.name.lowercase()) {
+internal class ChannelIndication(private val channel: ReleaseChannel) : JLabel(channel.name.lowercase()) {
 
     init {
         border = JBUI.Borders.empty(2, 4)
@@ -24,16 +23,7 @@ internal class ChannelIndication(private val channel: ReleaseChannel) :
             val graphicsConfig = GraphicsConfig(this)
             graphicsConfig.setupRoundedBorderAntialiasing()
 
-            RectanglePainter.paint(
-                this,
-                x,
-                y,
-                width,
-                height - y,
-                JBUIScale.scale(8),
-                channel.background,
-                null,
-            )
+            RectanglePainter.paint(this, x, y, width, height - y, JBUIScale.scale(8), channel.background, null)
 
             graphicsConfig.restore()
         }

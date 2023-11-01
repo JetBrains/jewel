@@ -11,11 +11,10 @@ plugins {
 intellij {
     pluginName.set("Jewel Demo")
     plugins.set(listOf("org.jetbrains.kotlin"))
-    val versionRaw =
-        when (supportedIJVersion()) {
-            IJ_232 -> libs.versions.idea232.get()
-            IJ_233 -> libs.versions.idea233.get()
-        }
+    val versionRaw = when (supportedIJVersion()) {
+        IJ_232 -> libs.versions.idea232.get()
+        IJ_233 -> libs.versions.idea233.get()
+    }
     version.set(versionRaw)
 }
 
@@ -30,7 +29,9 @@ repositories {
 }
 
 dependencies {
-    implementation(projects.ideLafBridge) { exclude(group = "org.jetbrains.kotlinx") }
+    implementation(projects.ideLafBridge) {
+        exclude(group = "org.jetbrains.kotlinx")
+    }
 
     implementation(compose.desktop.currentOs) {
         exclude(group = "org.jetbrains.compose.material")
@@ -40,7 +41,11 @@ dependencies {
 
 tasks {
     // We don't have any settings in the demo plugin
-    buildSearchableOptions { enabled = false }
+    buildSearchableOptions {
+        enabled = false
+    }
 
-    runIde { systemProperties["org.jetbrains.jewel.debug"] = "true" }
+    runIde {
+        systemProperties["org.jetbrains.jewel.debug"] = "true"
+    }
 }

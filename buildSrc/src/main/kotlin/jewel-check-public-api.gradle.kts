@@ -3,6 +3,7 @@
 plugins {
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
     id("dev.drewhamilton.poko")
+    kotlin("jvm")
 }
 
 apiValidation {
@@ -14,7 +15,13 @@ apiValidation {
     nonPublicMarkers.add("org.jetbrains.jewel.InternalJewelApi")
 }
 
-poko { pokoAnnotation = "org.jetbrains.jewel.foundation.GenerateDataFunctions" }
+poko {
+    pokoAnnotation = "org.jetbrains.jewel.foundation.GenerateDataFunctions"
+}
+
+kotlin {
+    explicitApi()
+}
 
 tasks {
     val validatePublicApi =

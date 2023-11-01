@@ -20,18 +20,16 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import javax.swing.ScrollPaneConstants
 
-internal class DetailsPanel(private val scope: CoroutineScope) :
-    JBPanelWithEmptyText(BorderLayout()), ComponentWithEmptyText {
+internal class DetailsPanel(private val scope: CoroutineScope) : JBPanelWithEmptyText(BorderLayout()), ComponentWithEmptyText {
 
-    public fun display(contentItem: ContentItem?) {
+    fun display(contentItem: ContentItem?) {
         removeAll()
 
-        val content =
-            when (contentItem) {
-                is ContentItem.AndroidRelease -> ItemDetailsPanel(contentItem, scope)
-                is ContentItem.AndroidStudio -> ItemDetailsPanel(contentItem, scope)
-                null -> return
-            }
+        val content = when (contentItem) {
+            is ContentItem.AndroidRelease -> ItemDetailsPanel(contentItem, scope)
+            is ContentItem.AndroidStudio -> ItemDetailsPanel(contentItem, scope)
+            null -> return
+        }
         add(content, BorderLayout.CENTER)
     }
 }
@@ -44,17 +42,15 @@ private class ItemDetailsPanel(
     private val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
 
     init {
-        val bufferedImage =
-            contentItem.imagePath
-                ?.let { ImageLoader.loadFromResource(it, javaClass) }
-                ?.let { ImageUtil.toBufferedImage(it) }
+        val bufferedImage = contentItem.imagePath
+            ?.let { ImageLoader.loadFromResource(it, javaClass) }
+            ?.let { ImageUtil.toBufferedImage(it) }
 
         if (bufferedImage != null) {
-            val imageContainer =
-                ImageComponent(scope).apply {
-                    maximumHeight = scale(200)
-                    image = bufferedImage
-                }
+            val imageContainer = ImageComponent(scope).apply {
+                maximumHeight = scale(200)
+                image = bufferedImage
+            }
 
             addToTop(imageContainer)
         }
@@ -91,10 +87,8 @@ private class ItemDetailsPanel(
                         it
                     }
                 }
-                .component
-                .font = JBFont.h1()
-        }
-            .bottomGap(BottomGap.MEDIUM)
+                .component.font = JBFont.h1()
+        }.bottomGap(BottomGap.MEDIUM)
     }
 
     private fun Panel.androidReleaseContent(contentItem: ContentItem.AndroidRelease) {

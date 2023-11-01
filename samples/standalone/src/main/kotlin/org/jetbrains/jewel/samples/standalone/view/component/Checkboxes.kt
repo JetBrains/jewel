@@ -16,50 +16,33 @@ import org.jetbrains.jewel.ui.component.TriStateCheckboxRow
 
 @Composable
 @View(title = "Checkboxes", position = 1)
-public fun Checkboxes() {
+fun Checkboxes() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         var checked by remember { mutableStateOf(ToggleableState.On) }
-        TriStateCheckboxRow(
-            "Checkbox",
-            checked,
-            {
-                checked =
-                    when (checked) {
-                        ToggleableState.On -> ToggleableState.Off
-                        ToggleableState.Off -> ToggleableState.Indeterminate
-                        ToggleableState.Indeterminate -> ToggleableState.On
-                    }
-            },
-        )
-        TriStateCheckboxRow(
-            "Error",
-            checked,
-            {
-                checked =
-                    when (checked) {
-                        ToggleableState.On -> ToggleableState.Off
-                        ToggleableState.Off -> ToggleableState.Indeterminate
-                        ToggleableState.Indeterminate -> ToggleableState.On
-                    }
-            },
-            outline = Outline.Error,
-        )
-        TriStateCheckboxRow(
-            "Warning",
-            checked,
-            {
-                checked =
-                    when (checked) {
-                        ToggleableState.On -> ToggleableState.Off
-                        ToggleableState.Off -> ToggleableState.Indeterminate
-                        ToggleableState.Indeterminate -> ToggleableState.On
-                    }
-            },
-            outline = Outline.Warning,
-        )
+        TriStateCheckboxRow("Checkbox", checked, {
+            checked = when (checked) {
+                ToggleableState.On -> ToggleableState.Off
+                ToggleableState.Off -> ToggleableState.Indeterminate
+                ToggleableState.Indeterminate -> ToggleableState.On
+            }
+        })
+        TriStateCheckboxRow("Error", checked, {
+            checked = when (checked) {
+                ToggleableState.On -> ToggleableState.Off
+                ToggleableState.Off -> ToggleableState.Indeterminate
+                ToggleableState.Indeterminate -> ToggleableState.On
+            }
+        }, outline = Outline.Error)
+        TriStateCheckboxRow("Warning", checked, {
+            checked = when (checked) {
+                ToggleableState.On -> ToggleableState.Off
+                ToggleableState.Off -> ToggleableState.Indeterminate
+                ToggleableState.Indeterminate -> ToggleableState.On
+            }
+        }, outline = Outline.Warning)
         TriStateCheckboxRow("Disabled", checked, {}, enabled = false)
     }
 }

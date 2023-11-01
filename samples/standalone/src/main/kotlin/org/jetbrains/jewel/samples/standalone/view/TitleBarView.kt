@@ -27,7 +27,7 @@ import java.awt.Desktop
 import java.net.URI
 
 @Composable
-public fun DecoratedWindowScope.TitleBarView() {
+fun DecoratedWindowScope.TitleBarView() {
     TitleBar(Modifier.newFullscreenControls(), gradientStartColor = MainViewModel.projectColor) {
         Row(Modifier.align(Alignment.Start)) {
             Dropdown(Modifier.height(30.dp), menuContent = {

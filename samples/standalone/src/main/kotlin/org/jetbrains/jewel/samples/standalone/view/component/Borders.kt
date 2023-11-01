@@ -55,10 +55,26 @@ internal fun Borders() {
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        OutlinedButton({ width += 1.dp }) { Text("+width") }
-        OutlinedButton({ width -= 1.dp }, enabled = width > 1.dp) { Text("-width") }
-        OutlinedButton({ expand += 1.dp }) { Text("+expand") }
-        OutlinedButton({ expand -= 1.dp }) { Text("-expand") }
+        OutlinedButton({
+            width += 1.dp
+        }) {
+            Text("+width")
+        }
+        OutlinedButton({
+            width -= 1.dp
+        }, enabled = width > 1.dp) {
+            Text("-width")
+        }
+        OutlinedButton({
+            expand += 1.dp
+        }) {
+            Text("+expand")
+        }
+        OutlinedButton({
+            expand -= 1.dp
+        }) {
+            Text("-expand")
+        }
     }
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),

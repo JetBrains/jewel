@@ -12,7 +12,7 @@ import org.jetbrains.jewel.ui.component.Tooltip
 
 @Composable
 @View(title = "Tooltips", position = 10)
-public fun Tooltips() {
+fun Tooltips() {
     Tooltip(tooltip = {
         Text("This is a tooltip")
     }) {

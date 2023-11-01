@@ -29,8 +29,6 @@ kotlin {
         languageVersion = 17
     }
 
-    explicitApi()
-
     target {
         compilations.all { kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" } }
         sourceSets.all {

@@ -18,7 +18,7 @@ import org.jetbrains.jewel.ui.component.separator
 
 @Composable
 @View(title = "Links", position = 4)
-public fun Links() {
+fun Links() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -43,7 +43,11 @@ public fun Links() {
                 if (it == "---") {
                     separator()
                 } else {
-                    selectableItem(selected == it, { selected = it }) { Text(it) }
+                    selectableItem(selected == it, {
+                        selected = it
+                    }) {
+                        Text(it)
+                    }
                 }
             }
         }
@@ -56,6 +60,7 @@ public fun Links() {
 
         ExternalLink("ExternalLink", {}, enabled = false)
 
-        DropdownLink("DropdownLink", enabled = false) {}
+        DropdownLink("DropdownLink", enabled = false) {
+        }
     }
 }

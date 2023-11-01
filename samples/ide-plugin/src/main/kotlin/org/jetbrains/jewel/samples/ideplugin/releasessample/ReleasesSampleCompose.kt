@@ -102,7 +102,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @OptIn(DependsOnJBR::class)
 @Composable
-public fun ReleasesSampleCompose(project: Project) {
+fun ReleasesSampleCompose(project: Project) {
     SwingBridgeTheme {
         var selectedItem: ContentItem? by remember { mutableStateOf(null) }
         HorizontalSplitLayout(
@@ -138,7 +138,9 @@ private fun LeftColumn(
 
     Column(modifier) {
         Row(
-            modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min).padding(4.dp, 6.dp),
+            modifier = Modifier.fillMaxWidth()
+                .height(IntrinsicSize.Min)
+                .padding(4.dp, 6.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text("Filter elements:")
@@ -149,7 +151,9 @@ private fun LeftColumn(
 
             Spacer(Modifier.width(4.dp))
 
-            OverflowMenu(currentContentSource) { service.setContentSource(it) }
+            OverflowMenu(currentContentSource) {
+                service.setContentSource(it)
+            }
         }
 
         val listState = rememberSelectableLazyListState()
@@ -159,12 +163,11 @@ private fun LeftColumn(
                 state = listState,
                 selectionMode = SelectionMode.Single,
                 onSelectedIndexesChanged = {
-                    val selectedItem =
-                        if (it.isNotEmpty()) {
-                            currentContentSource.items[it.first()]
-                        } else {
-                            null
-                        }
+                    val selectedItem = if (it.isNotEmpty()) {
+                        currentContentSource.items[it.first()]
+                    } else {
+                        null
+                    }
 
                     onSelectedItemChange(selectedItem)
                 },
@@ -179,7 +182,9 @@ private fun LeftColumn(
                         }
                     },
                 ) {
-                    ContentItemRow(it, isSelected, isActive) { newFilter -> service.filterContent(newFilter) }
+                    ContentItemRow(it, isSelected, isActive) { newFilter ->
+                        service.filterContent(newFilter)
+                    }
                 }
             }
 
@@ -198,15 +203,13 @@ private fun ContentItemRow(
     isActive: Boolean,
     onTagClick: (String) -> Unit,
 ) {
-    val color =
-        when {
-            isSelected && isActive -> retrieveColorOrUnspecified("List.selectionBackground")
-            isSelected && !isActive -> retrieveColorOrUnspecified("List.selectionInactiveBackground")
-            else -> Transparent
-        }
+    val color = when {
+        isSelected && isActive -> retrieveColorOrUnspecified("List.selectionBackground")
+        isSelected && !isActive -> retrieveColorOrUnspecified("List.selectionInactiveBackground")
+        else -> Transparent
+    }
     Row(
-        modifier =
-        Modifier.height(JewelTheme.globalMetrics.rowHeight)
+        modifier = Modifier.height(JewelTheme.globalMetrics.rowHeight)
             .background(color)
             .padding(start = 4.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -229,6 +232,7 @@ private fun ContentItemRow(
                     modifier = pointerModifier.onClick { onTagClick(item.apiLevel.toString()) },
                 )
             }
+
             is ContentItem.AndroidStudio -> {
                 val channel = item.channel
                 ItemTag(
@@ -255,13 +259,14 @@ private fun ItemTag(
         text = text,
         fontSize = JBFont.medium().size2D.sp,
         color = foregroundColor,
-        modifier = modifier.background(backgroundColor, shape).padding(padding),
+        modifier = modifier
+            .background(backgroundColor, shape)
+            .padding(padding),
     )
 }
 
 private enum class ItemType {
-    AndroidRelease,
-    AndroidStudio,
+    AndroidRelease, AndroidStudio
 }
 
 @Composable
@@ -273,7 +278,9 @@ private fun SearchBar(
 
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     TextField(
         value = filterText,
@@ -316,14 +323,13 @@ private fun CloseIconButton(
     Icon(
         painter = if (hovered) hoveredCloseIcon else closeIcon,
         contentDescription = "Clear",
-        modifier =
-        Modifier.pointerHoverIcon(PointerIcon.Default).clickable(
-            interactionSource = interactionSource,
-            indication = null,
-            role = Role.Button,
-        ) {
-            service.resetFilter()
-        },
+        modifier = Modifier
+            .pointerHoverIcon(PointerIcon.Default)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                role = Role.Button,
+            ) { service.resetFilter() },
     )
 }
 
@@ -342,9 +348,7 @@ private fun OverflowMenu(
                 is HoverInteraction.Enter -> hovered = true
                 is HoverInteraction.Exit -> hovered = false
                 is PressInteraction.Press -> pressed = true
-                is PressInteraction.Release,
-                is PressInteraction.Cancel,
-                -> pressed = false
+                is PressInteraction.Release, is PressInteraction.Cancel -> pressed = false
             }
         }
     }
@@ -353,18 +357,17 @@ private fun OverflowMenu(
 
     // Emulates Swing actions that pop up menus — they stay pressed while the menu is open
     IconButton(
-        modifier =
-        Modifier.fillMaxHeight().thenIf(menuVisible) {
-            background(
-                color = JewelTheme.iconButtonStyle.colors.backgroundPressed,
-                shape = RoundedCornerShape(JewelTheme.iconButtonStyle.metrics.cornerSize),
-            )
-                .border(
+        modifier = Modifier.fillMaxHeight()
+            .thenIf(menuVisible) {
+                background(
+                    color = JewelTheme.iconButtonStyle.colors.backgroundPressed,
+                    shape = RoundedCornerShape(JewelTheme.iconButtonStyle.metrics.cornerSize),
+                ).border(
                     width = JewelTheme.iconButtonStyle.metrics.borderWidth,
                     color = JewelTheme.iconButtonStyle.colors.backgroundPressed,
                     shape = RoundedCornerShape(JewelTheme.iconButtonStyle.metrics.cornerSize),
                 )
-        },
+            },
         onClick = { menuVisible = !menuVisible },
     ) {
         Icon(
@@ -374,11 +377,12 @@ private fun OverflowMenu(
         )
     }
 
-    val contentSources = remember { listOf(AndroidStudioReleases, AndroidReleases) }
+    val contentSources = remember {
+        listOf(AndroidStudioReleases, AndroidReleases)
+    }
 
     if (menuVisible) {
-        val checkedIconProvider =
-            rememberResourcePainterProvider("actions/checked.svg", AllIcons::class.java)
+        val checkedIconProvider = rememberResourcePainterProvider("actions/checked.svg", AllIcons::class.java)
         val checkedIcon by checkedIconProvider.getPainter()
 
         PopupMenu(
@@ -425,10 +429,7 @@ private fun RightColumn(
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
         if (selectedItem == null) {
-            Text(
-                "Nothing to see here",
-                color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor(),
-            )
+            Text("Nothing to see here", color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor())
         } else {
             val scrollState = rememberScrollState()
             VerticalScrollbarContainer(scrollState, modifier = modifier) {
@@ -454,20 +455,15 @@ private fun ReleaseImage(imagePath: String) {
     val painterProvider = rememberResourcePainterProvider(imagePath, JewelIcons::class.java)
     val painter by painterProvider.getPainter()
     val transition = rememberInfiniteTransition("HoloFoil")
-    val offset by
-        transition.animateFloat(
-            initialValue = -1f,
-            targetValue = 1f,
-            animationSpec =
-            infiniteRepeatable(
-                tween(
-                    durationMillis = 2.seconds.inWholeMilliseconds.toInt(),
-                    easing = FastOutSlowInEasing,
-                ),
-                repeatMode = RepeatMode.Reverse,
-            ),
-            "holoFoil offset",
-        )
+    val offset by transition.animateFloat(
+        initialValue = -1f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            tween(durationMillis = 2.seconds.inWholeMilliseconds.toInt(), easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse,
+        ),
+        "holoFoil offset",
+    )
     var isHovered by remember { mutableStateOf(false) }
     var applyModifier by remember { mutableStateOf(false) }
     val intensity by animateFloatAsState(if (isHovered) 1f else 0f, animationSpec = tween(300))
@@ -477,8 +473,7 @@ private fun ReleaseImage(imagePath: String) {
     Image(
         painter = painter,
         contentDescription = null,
-        modifier =
-        Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
             .sizeIn(minHeight = 150.dp, maxHeight = 250.dp)
             .onHover { newIsHovered ->
                 scope.launch {
@@ -517,8 +512,7 @@ private fun ItemDetailsText(selectedItem: ContentItem) {
     ) {
         Text(
             selectedItem.displayText,
-            style =
-            runBlocking {
+            style = runBlocking {
                 retrieveTextStyle(
                     key = "Label.font",
                     bold = true,
@@ -575,11 +569,10 @@ private fun TextWithLabel(labelText: String, valueText: String) {
 
 // Logic from com.intellij.openapi.ui.panel.ComponentPanelBuilder#getCommentFont
 private fun getCommentFontSize(font: Font = JBFont.label()): TextUnit {
-    val commentFont =
-        if (NewUI.isEnabled()) {
-            JBFont.medium()
-        } else {
-            RelativeFont.NORMAL.fromResource("ContextHelp.fontSizeOffset", -2).derive(font)
-        }
+    val commentFont = if (NewUI.isEnabled()) {
+        JBFont.medium()
+    } else {
+        RelativeFont.NORMAL.fromResource("ContextHelp.fontSizeOffset", -2).derive(font)
+    }
     return commentFont.size2D.sp
 }

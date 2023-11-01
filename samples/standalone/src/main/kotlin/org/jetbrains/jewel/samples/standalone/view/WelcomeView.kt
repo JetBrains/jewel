@@ -29,7 +29,7 @@ import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 
 @Composable
 @View(title = "Welcome", position = 0, icon = "icons/meetNewUi.svg")
-public fun WelcomeView() {
+fun WelcomeView() {
     Box(
         Modifier.trackActivation().fillMaxSize()
             .background(JewelTheme.globalColors.paneBackground)
@@ -74,7 +74,7 @@ public fun WelcomeView() {
 }
 
 @Composable
-public fun ThemeSelectionChip(theme: IntUiThemes, name: String, icon: String) {
+fun ThemeSelectionChip(theme: IntUiThemes, name: String, icon: String) {
     RadioButtonChip(
         selected = MainViewModel.theme == theme,
         onClick = { MainViewModel.theme = theme },

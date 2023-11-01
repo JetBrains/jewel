@@ -17,7 +17,7 @@ import org.jetbrains.jewel.ui.component.separator
 
 @Composable
 @View(title = "Dropdowns", position = 3)
-public fun Dropdowns() {
+fun Dropdowns() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -36,7 +36,8 @@ public fun Dropdowns() {
 
         Dropdown(
             enabled = false,
-            menuContent = {},
+            menuContent = {
+            },
         ) {
             Text("Disabled")
         }
@@ -46,35 +47,43 @@ public fun Dropdowns() {
                     if (it == "---") {
                         separator()
                     } else {
-                        selectableItem(selected == it, { selected = it }) { Text(it) }
+                        selectableItem(selected == it, {
+                            selected = it
+                        }) {
+                            Text(it)
+                        }
                     }
                 }
                 separator()
-                submenu(
-                    submenu = {
+                submenu(submenu = {
+                    items.forEach {
+                        if (it == "---") {
+                            separator()
+                        } else {
+                            selectableItem(selected == it, {
+                                selected = it
+                            }) {
+                                Text(it)
+                            }
+                        }
+                    }
+                    separator()
+                    submenu(submenu = {
                         items.forEach {
                             if (it == "---") {
                                 separator()
                             } else {
-                                selectableItem(selected == it, { selected = it }) { Text(it) }
+                                selectableItem(selected == it, {
+                                    selected = it
+                                }) {
+                                    Text(it)
+                                }
                             }
                         }
-                        separator()
-                        submenu(
-                            submenu = {
-                                items.forEach {
-                                    if (it == "---") {
-                                        separator()
-                                    } else {
-                                        selectableItem(selected == it, { selected = it }) { Text(it) }
-                                    }
-                                }
-                            },
-                        ) {
-                            Text("Submenu2")
-                        }
-                    },
-                ) {
+                    }) {
+                        Text("Submenu2")
+                    }
+                }) {
                     Text("Submenu")
                 }
             },
@@ -88,7 +97,11 @@ public fun Dropdowns() {
                     if (it == "---") {
                         separator()
                     } else {
-                        selectableItem(selected == it, { selected = it }) { Text(it) }
+                        selectableItem(selected == it, {
+                            selected = it
+                        }) {
+                            Text(it)
+                        }
                     }
                 }
             },

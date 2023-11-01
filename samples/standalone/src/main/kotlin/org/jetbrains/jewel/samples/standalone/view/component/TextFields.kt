@@ -33,7 +33,7 @@ import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 
 @Composable
 @View(title = "TextFields", position = 9)
-public fun TextFields() {
+fun TextFields() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -45,20 +45,10 @@ public fun TextFields() {
         TextField(text2, { text2 = it }, placeholder = { Text("Placeholder") })
 
         var text3 by remember { mutableStateOf("") }
-        TextField(
-            text3,
-            { text3 = it },
-            outline = Outline.Error,
-            placeholder = { Text("Error outline") },
-        )
+        TextField(text3, { text3 = it }, outline = Outline.Error, placeholder = { Text("Error outline") })
 
         var text4 by remember { mutableStateOf("") }
-        TextField(
-            text4,
-            { text4 = it },
-            outline = Outline.Warning,
-            placeholder = { Text("Warning outline") },
-        )
+        TextField(text4, { text4 = it }, outline = Outline.Warning, placeholder = { Text("Warning outline") })
 
         var text5 by remember { mutableStateOf("Disabled") }
         TextField(text5, { text5 = it }, enabled = false)

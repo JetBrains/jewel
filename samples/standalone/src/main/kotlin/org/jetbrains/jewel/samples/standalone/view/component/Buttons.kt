@@ -17,19 +17,27 @@ import org.jetbrains.jewel.ui.component.Text
 
 @Composable
 @View(title = "Buttons", position = 0)
-public fun Buttons() {
+fun Buttons() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        OutlinedButton(onClick = {}) { Text("Outlined") }
+        OutlinedButton(onClick = { }) {
+            Text("Outlined")
+        }
 
-        OutlinedButton(onClick = {}, enabled = false) { Text("Outlined Disabled") }
+        OutlinedButton(onClick = {}, enabled = false) {
+            Text("Outlined Disabled")
+        }
 
-        DefaultButton(onClick = {}) { Text("Default") }
+        DefaultButton(onClick = {}) {
+            Text("Default")
+        }
 
-        DefaultButton(onClick = {}, enabled = false) { Text("Default disabled") }
+        DefaultButton(onClick = {}, enabled = false) {
+            Text("Default disabled")
+        }
 
         IconButton(onClick = {}) {
             Icon(

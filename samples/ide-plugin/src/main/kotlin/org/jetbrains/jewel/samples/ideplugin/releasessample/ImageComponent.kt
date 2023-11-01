@@ -39,31 +39,28 @@ internal class ImageComponent(
     private var scaledImage: Image? = null
 
     init {
-        addComponentListener(
-            object : ComponentListener {
-                override fun componentResized(e: ComponentEvent?) {
-                    updateScaledImage()
-                }
+        addComponentListener(object : ComponentListener {
+            override fun componentResized(e: ComponentEvent?) {
+                updateScaledImage()
+            }
 
-                override fun componentMoved(e: ComponentEvent?) {
-                    // No-op
-                }
+            override fun componentMoved(e: ComponentEvent?) {
+                // No-op
+            }
 
-                override fun componentShown(e: ComponentEvent?) {
-                    // No-op
-                }
+            override fun componentShown(e: ComponentEvent?) {
+                // No-op
+            }
 
-                override fun componentHidden(e: ComponentEvent?) {
-                    // No-op
-                }
-            },
-        )
+            override fun componentHidden(e: ComponentEvent?) {
+                // No-op
+            }
+        })
 
         registerUiInspectorInfoProvider {
             mapOf(
                 "image" to image,
-                "imageSize" to
-                    image?.let { Dimension(ImageUtil.getUserWidth(it), ImageUtil.getUserHeight(it)) },
+                "imageSize" to image?.let { Dimension(ImageUtil.getUserWidth(it), ImageUtil.getUserHeight(it)) },
             )
         }
     }
@@ -74,31 +71,29 @@ internal class ImageComponent(
 
         val currentImage = image ?: return
 
-        resizeJob =
-            scope.launch(Dispatchers.Default) {
-                val imageWidth = currentImage.width
+        resizeJob = scope.launch(Dispatchers.Default) {
+            val imageWidth = currentImage.width
 
-                val componentWidth = width
-                val ratioToFit = componentWidth.toDouble() / imageWidth
+            val componentWidth = width
+            val ratioToFit = componentWidth.toDouble() / imageWidth
 
-                val newImage = ImageUtil.scaleImage(currentImage, ratioToFit)
+            val newImage = ImageUtil.scaleImage(currentImage, ratioToFit)
 
-                launch(Dispatchers.EDT) {
-                    scaledImage = newImage
-                    revalidate()
-                }
+            launch(Dispatchers.EDT) {
+                scaledImage = newImage
+                revalidate()
             }
+        }
     }
 
     override fun getPreferredSize(): Dimension {
         val currentImage = scaledImage
 
         return if (!isPreferredSizeSet && currentImage != null) {
-            val dimension =
-                Dimension(
-                    ImageUtil.getRealWidth(currentImage).coerceAtMost(maximumWidth),
-                    ImageUtil.getRealHeight(currentImage).coerceAtMost(maximumHeight),
-                )
+            val dimension = Dimension(
+                ImageUtil.getRealWidth(currentImage).coerceAtMost(maximumWidth),
+                ImageUtil.getRealHeight(currentImage).coerceAtMost(maximumHeight),
+            )
             dimension
         } else {
             super.getPreferredSize()

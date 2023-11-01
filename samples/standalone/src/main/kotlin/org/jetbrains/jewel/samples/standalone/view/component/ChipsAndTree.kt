@@ -36,7 +36,7 @@ import org.jetbrains.jewel.ui.theme.colorPalette
 
 @Composable
 @View(title = "ChipsAndTree", position = 11)
-public fun ChipsAndTree() {
+fun ChipsAndTree() {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             GroupHeader(text = "Chips", modifier = Modifier.fillMaxWidth())
@@ -56,11 +56,15 @@ public fun ChipsAndTree() {
 }
 
 @Composable
-public fun SelectableLazyColumnSample() {
-    val listOfItems = remember { List((5000..10000).random()) { "Item $it" } }
+fun SelectableLazyColumnSample() {
+    val listOfItems = remember {
+        List((5000..10000).random()) { "Item $it" }
+    }
     val interactionSource = remember { MutableInteractionSource() }
     SelectableLazyColumn(
-        modifier = Modifier.size(200.dp, 200.dp).focusable(interactionSource = interactionSource),
+        modifier = Modifier
+            .size(200.dp, 200.dp)
+            .focusable(interactionSource = interactionSource),
         content = {
             items(
                 count = listOfItems.size,
@@ -75,8 +79,9 @@ public fun SelectableLazyColumnSample() {
                             isSelected && !isActive -> Modifier.background(Color.Gray)
                             else -> Modifier
                         },
-                    )
-                        .clickable { println("click on $index") },
+                    ).clickable {
+                        println("click on $index")
+                    },
                 )
             }
         },
@@ -85,7 +90,7 @@ public fun SelectableLazyColumnSample() {
 }
 
 @Composable
-public fun ChipsSample(modifier: Modifier = Modifier) {
+fun ChipsSample(modifier: Modifier = Modifier) {
     Column(modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             var selectedIndex by remember { mutableStateOf(-1) }
@@ -118,7 +123,9 @@ public fun ChipsSample(modifier: Modifier = Modifier) {
             var isChecked by remember { mutableStateOf(false) }
             ToggleableChip(
                 checked = isChecked,
-                onClick = { isChecked = it },
+                onClick = {
+                    isChecked = it
+                },
                 enabled = true,
             ) {
                 Text("Toggleable")
@@ -145,7 +152,7 @@ public fun ChipsSample(modifier: Modifier = Modifier) {
 }
 
 @Composable
-public fun TreeSample(modifier: Modifier = Modifier) {
+fun TreeSample(modifier: Modifier = Modifier) {
     val tree = remember {
         buildTree {
             addNode("root 1") {
@@ -180,7 +187,9 @@ public fun TreeSample(modifier: Modifier = Modifier) {
             onElementClick = {},
             onElementDoubleClick = {},
         ) { element ->
-            Box(Modifier.fillMaxWidth()) { Text(element.data, Modifier.padding(2.dp)) }
+            Box(Modifier.fillMaxWidth()) {
+                Text(element.data, Modifier.padding(2.dp))
+            }
         }
     }
 }
