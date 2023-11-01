@@ -192,7 +192,7 @@ suspend fun retrieveTextStyle(
 
     return TextStyle(
         color = color,
-        fontSize = size.takeOrElse { derivedFont.size.sp },
+        fontSize = size.takeOrElse { derivedFont.size.sp / UISettingsUtils.getInstance().currentIdeScale },
         fontWeight = if (bold) FontWeight.Bold else FontWeight.Normal,
         fontStyle = fontStyle,
         fontFamily = FontFamily(Typeface(typeface)),
@@ -229,5 +229,5 @@ fun retrieveDensity(): Density {
         .defaultTransform
         .scaleX * ideaScale
 
-    return Density(scale.toFloat(), 1f / ideaScale)
+    return Density(scale.toFloat(), 1f)
 }
