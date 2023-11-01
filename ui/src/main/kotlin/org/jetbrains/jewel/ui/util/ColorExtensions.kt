@@ -4,7 +4,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import kotlin.math.roundToInt
 
-/** Converts a [Color] to a RGBA formatted color('#RRGGBBAA') hex string, etc. #FFFFFF1A. */
+/**
+ * Converts a [Color] to a RGBA formatted color `#RRGGBBAA` hex string;
+ * e.g., `#FFFFFF1A` (a translucent white).
+ */
 public fun Color.toRgbaHexString(): String {
     val r = Integer.toHexString((red * 255).roundToInt())
     val g = Integer.toHexString((green * 255).roundToInt())
@@ -23,7 +26,10 @@ public fun Color.toRgbaHexString(): String {
     }
 }
 
-/** Converts a RGBA formatted color('#RRGGBBAA') hex string to a [Color], etc. #FFFFFF1A. */
+/**
+ * Converts a RGBA formatted color `#RRGGBBAA` hex string to a [Color];
+ * e.g., `#FFFFFF1A` (a translucent white).
+ */
 public fun Color.Companion.fromRGBAHexStringOrNull(rgba: String): Color? =
     rgba
         .lowercase()
@@ -40,4 +46,8 @@ public fun Color.Companion.fromRGBAHexStringOrNull(rgba: String): Color? =
         ?.toLongOrNull(radix = 16)
         ?.let { Color(it) }
 
-public fun Color.isDark(): Boolean = (luminance() + 0.05) / 0.05 < 4.5
+/**
+ * Heuristically determines if the color can be thought of as "dark".
+ */
+public fun Color.isDark(): Boolean =
+    (luminance() + 0.05) / 0.05 < 4.5

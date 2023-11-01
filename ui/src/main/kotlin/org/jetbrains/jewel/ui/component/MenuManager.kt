@@ -12,8 +12,9 @@ public class MenuManager(
     private var isHovered: Boolean = false
 
     /**
-     * Called when the hovered state of the menu changes. This is used to abort parent menu closing in
-     * unforced mode when submenu closed by click parent menu's item.
+     * Called when the hovered state of the menu changes. This is used to abort
+     * parent menu closing in unforced mode when submenu closed by click parent
+     * menu's item.
      *
      * @param hovered true if the menu is hovered, false otherwise.
      */
@@ -25,7 +26,8 @@ public class MenuManager(
      * Close all menus in the hierarchy.
      *
      * @param mode the input mode, menus close by pointer or keyboard event.
-     * @param force true to force close all menus ignore parent hover state, false otherwise.
+     * @param force true to force close all menus ignore parent hover state,
+     *     false otherwise.
      */
     public fun closeAll(mode: InputMode, force: Boolean) {
         // We ignore the pointer event if the menu is hovered in unforced mode.

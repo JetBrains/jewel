@@ -24,7 +24,7 @@ internal object MacUtil {
         }
     }
 
-    public fun getWindowFromJavaWindow(w: Window?): ID {
+    fun getWindowFromJavaWindow(w: Window?): ID {
         if (w == null) {
             return ID.NIL
         }
@@ -43,12 +43,11 @@ internal object MacUtil {
         return ID.NIL
     }
 
-    public fun getPlatformWindow(w: Window): Any? {
+    fun getPlatformWindow(w: Window): Any? {
         try {
             val awtAccessor = Class.forName("sun.awt.AWTAccessor")
             val componentAccessor = awtAccessor.getMethod("getComponentAccessor").invoke(null)
-            val getPeer =
-                componentAccessor.javaClass.getMethod("getPeer", Component::class.java).accessible()
+            val getPeer = componentAccessor.javaClass.getMethod("getPeer", Component::class.java).accessible()
             val peer = getPeer.invoke(componentAccessor, w)
             if (peer != null) {
                 val cWindowPeerClass: Class<*> = peer.javaClass
@@ -70,15 +69,11 @@ internal object MacUtil {
         return null
     }
 
-    public fun updateColors(w: Window) {
+    fun updateColors(w: Window) {
         SwingUtilities.invokeLater {
             val window = getWindowFromJavaWindow(w)
             val delegate = Foundation.invoke(window, "delegate")
-            if (Foundation.invoke(
-                    delegate,
-                    "respondsToSelector:",
-                    Foundation.createSelector("updateColors"),
-                )
+            if (Foundation.invoke(delegate, "respondsToSelector:", Foundation.createSelector("updateColors"))
                     .booleanValue()
             ) {
                 Foundation.invoke(delegate, "updateColors")
@@ -86,7 +81,7 @@ internal object MacUtil {
         }
     }
 
-    public fun updateFullScreenButtons(w: Window) {
+    fun updateFullScreenButtons(w: Window) {
         SwingUtilities.invokeLater {
             val selector = Foundation.createSelector("updateFullScreenButtons")
             val window = getWindowFromJavaWindow(w)

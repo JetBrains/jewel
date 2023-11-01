@@ -41,14 +41,16 @@ public fun BorderColors.Companion.light(
     normal: Color = IntUiLightTheme.colors.grey(9),
     focused: Color = IntUiLightTheme.colors.grey(14),
     disabled: Color = IntUiLightTheme.colors.grey(11),
-): BorderColors = BorderColors(normal, focused, disabled)
+): BorderColors =
+    BorderColors(normal, focused, disabled)
 
 @Composable
 public fun BorderColors.Companion.dark(
     normal: Color = IntUiDarkTheme.colors.grey(5),
     focused: Color = IntUiDarkTheme.colors.grey(2),
     disabled: Color = IntUiDarkTheme.colors.grey(4),
-): BorderColors = BorderColors(normal, focused, disabled)
+): BorderColors =
+    BorderColors(normal, focused, disabled)
 
 @Composable
 public fun OutlineColors.Companion.light(
@@ -57,7 +59,8 @@ public fun OutlineColors.Companion.light(
     focusedError: Color = IntUiLightTheme.colors.red(4),
     warning: Color = IntUiLightTheme.colors.yellow(7),
     error: Color = IntUiLightTheme.colors.red(9),
-): OutlineColors = OutlineColors(focused, focusedWarning, focusedError, warning, error)
+): OutlineColors =
+    OutlineColors(focused, focusedWarning, focusedError, warning, error)
 
 @Composable
 public fun OutlineColors.Companion.dark(
@@ -66,4 +69,5 @@ public fun OutlineColors.Companion.dark(
     focusedError: Color = IntUiDarkTheme.colors.red(4),
     warning: Color = IntUiDarkTheme.colors.yellow(2),
     error: Color = IntUiDarkTheme.colors.red(2),
-): OutlineColors = OutlineColors(focused, focusedWarning, focusedError, warning, error)
+): OutlineColors =
+    OutlineColors(focused, focusedWarning, focusedError, warning, error)

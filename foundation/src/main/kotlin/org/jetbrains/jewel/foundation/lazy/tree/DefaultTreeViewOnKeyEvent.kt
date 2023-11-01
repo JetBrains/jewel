@@ -36,8 +36,7 @@ public open class DefaultTreeViewOnKeyEvent(
                     .reversed()
                     .firstOrNull { it.second < currentNode.second }
                     ?.let { (parentNodeKey, _) ->
-                        keys
-                            .first { it.key == parentNodeKey }
+                        keys.first { it.key == parentNodeKey }
                             .takeIf { it is SelectableLazyListKey.Selectable }
                             ?.let {
                                 state.lastActiveItemIndex =

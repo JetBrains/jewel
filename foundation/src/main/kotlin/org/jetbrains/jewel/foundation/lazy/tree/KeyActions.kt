@@ -75,14 +75,17 @@ public open class DefaultSelectableLazyColumnEventAction : PointerEventActions {
                     Log.i("ctrl and shift pressed on click")
                     // do nothing
                 }
+
                 pointerEvent.keyboardModifiers.isContiguousSelectionKeyPressed -> {
                     Log.i("shift pressed on click")
                     onExtendSelectionToKey(key, allKeys, selectableLazyListState, selectionMode)
                 }
+
                 pointerEvent.keyboardModifiers.isMultiSelectionKeyPressed -> {
                     Log.i("ctrl pressed on click")
                     toggleKeySelection(key, allKeys, selectableLazyListState)
                 }
+
                 else -> {
                     Log.i("single click")
                     selectableLazyListState.selectedKeys = listOf(key)
@@ -160,14 +163,17 @@ public class DefaultTreeViewPointerEventAction(
                     pointerEvent.keyboardModifiers.isCtrlPressed -> {
                     Log.t("ctrl and shift pressed on click")
                 }
+
                 pointerEvent.keyboardModifiers.isContiguousSelectionKeyPressed -> {
                     super.onExtendSelectionToKey(key, allKeys, selectableLazyListState, selectionMode)
                 }
+
                 pointerEvent.keyboardModifiers.isMultiSelectionKeyPressed -> {
                     Log.t("multi selection pressed")
                     selectableLazyListState.lastKeyEventUsedMouse = false
                     super.toggleKeySelection(key, allKeys, selectableLazyListState)
                 }
+
                 else -> {
                     selectableLazyListState.selectedKeys = listOf(key)
                 }
@@ -238,6 +244,7 @@ public class DefaultTreeViewKeyActions(
                     isSelectChild -> onSelectChild(keys, state)
                     super.handleOnKeyEvent(event, keys, state, selectionMode).invoke(keyEvent) ->
                         return@lambda true
+
                     else -> return@lambda false
                 }
             }

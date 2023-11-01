@@ -10,7 +10,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,13 +53,11 @@ internal fun InputField(
     interactionSource: MutableInteractionSource,
     style: InputFieldStyle,
     textStyle: TextStyle,
-    decorationBox:
-    @Composable
-    (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
+    decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
 ) {
-    var inputState by
-        remember(interactionSource) { mutableStateOf(InputFieldState.of(enabled = enabled)) }
+    var inputState by remember(interactionSource) { mutableStateOf(InputFieldState.of(enabled = enabled)) }
     remember(enabled) { inputState = inputState.copy(enabled = enabled) }
+
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
@@ -74,22 +71,20 @@ internal fun InputField(
     val backgroundColor by colors.backgroundFor(inputState)
     val shape = RoundedCornerShape(style.metrics.cornerSize)
 
-    val backgroundModifier =
-        Modifier.thenIf(!undecorated && backgroundColor.isSpecified) {
-            background(backgroundColor, shape)
-        }
+    val backgroundModifier = Modifier.thenIf(!undecorated && backgroundColor.isSpecified) {
+        background(backgroundColor, shape)
+    }
 
     val borderColor by style.colors.borderFor(inputState)
     val hasNoOutline = outline == Outline.None
-    val borderModifier =
-        Modifier.thenIf(!undecorated && borderColor.isSpecified && hasNoOutline) {
-            Modifier.border(
-                alignment = Stroke.Alignment.Center,
-                width = style.metrics.borderWidth,
-                color = borderColor,
-                shape = shape,
-            )
-        }
+    val borderModifier = Modifier.thenIf(!undecorated && borderColor.isSpecified && hasNoOutline) {
+        border(
+            alignment = Stroke.Alignment.Center,
+            width = style.metrics.borderWidth,
+            color = borderColor,
+            shape = shape,
+        )
+    }
 
     val contentColor by colors.contentFor(inputState)
     val mergedTextStyle = style.textStyle.merge(textStyle).copy(color = contentColor)
@@ -97,8 +92,7 @@ internal fun InputField(
 
     BasicTextField(
         value = value,
-        modifier =
-        modifier
+        modifier = modifier
             .then(backgroundModifier)
             .then(borderModifier)
             .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
@@ -115,8 +109,7 @@ internal fun InputField(
         interactionSource = interactionSource,
         singleLine = singleLine,
         maxLines = maxLines,
-        decorationBox =
-        @Composable { innerTextField: @Composable () -> Unit ->
+        decorationBox = @Composable { innerTextField: @Composable () -> Unit ->
             decorationBox(innerTextField, inputState)
         },
     )
@@ -126,23 +119,18 @@ internal fun InputField(
 @JvmInline
 public value class InputFieldState(public val state: ULong) : FocusableComponentState {
 
-    @Stable
     override val isActive: Boolean
         get() = state and Active != 0UL
 
-    @Stable
     override val isEnabled: Boolean
         get() = state and Enabled != 0UL
 
-    @Stable
     override val isFocused: Boolean
         get() = state and Focused != 0UL
 
-    @Stable
     override val isHovered: Boolean
         get() = state and Hovered != 0UL
 
-    @Stable
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 

@@ -14,7 +14,6 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -209,8 +208,7 @@ private fun LinkImpl(
     interactionSource: MutableInteractionSource,
     icon: PainterProvider?,
 ) {
-    var linkState by
-        remember(interactionSource, enabled) { mutableStateOf(LinkState.of(enabled = enabled)) }
+    var linkState by remember(interactionSource, enabled) { mutableStateOf(LinkState.of(enabled = enabled)) }
     remember(enabled) { linkState = linkState.copy(enabled = enabled) }
 
     val inputModeManager = LocalInputModeManager.current
@@ -221,6 +219,7 @@ private fun LinkImpl(
                 is PressInteraction.Cancel,
                 is PressInteraction.Release,
                 -> linkState = linkState.copy(pressed = false)
+
                 is HoverInteraction.Enter -> linkState = linkState.copy(hovered = true)
                 is HoverInteraction.Exit -> linkState = linkState.copy(hovered = false)
                 is FocusInteraction.Focus -> {
@@ -228,6 +227,7 @@ private fun LinkImpl(
                         linkState = linkState.copy(focused = true)
                     }
                 }
+
                 is FocusInteraction.Unfocus -> linkState = linkState.copy(focused = false, pressed = false)
             }
         }
@@ -255,8 +255,7 @@ private fun LinkImpl(
     val pointerChangeModifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
 
     Row(
-        modifier =
-        modifier
+        modifier = modifier
             .thenIf(linkState.isEnabled) { pointerChangeModifier }
             .clickable(
                 onClick = {
@@ -297,27 +296,21 @@ private fun LinkImpl(
 @JvmInline
 public value class LinkState(public val state: ULong) : FocusableComponentState {
 
-    @Stable
     override val isActive: Boolean
         get() = state and Active != 0UL
 
-    @Stable
     override val isEnabled: Boolean
         get() = state and Enabled != 0UL
 
-    @Stable
     override val isFocused: Boolean
         get() = state and Focused != 0UL
 
-    @Stable
     public val isVisited: Boolean
         get() = state and Visited != 0UL
 
-    @Stable
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 
-    @Stable
     override val isHovered: Boolean
         get() = state and Hovered != 0UL
 

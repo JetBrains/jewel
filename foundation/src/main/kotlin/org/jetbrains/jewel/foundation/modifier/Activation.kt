@@ -82,7 +82,7 @@ public fun Modifier.trackComponentActivation(awtParent: Component): Modifier =
 @Stable
 public fun Modifier.trackActivation(): Modifier =
     composed(
-        inspectorInfo = debugInspectorInfo { name = "trackActivation" },
+        debugInspectorInfo { name = "trackActivation" },
     ) {
         val activatedModifierLocal = remember { ActivatedModifierLocal() }
         Modifier.focusGroup()
@@ -129,7 +129,7 @@ public fun Modifier.onActivated(
     this then if (enabled) {
         ActivateChangedModifierElement(
             onChanged,
-            inspectorInfo = debugInspectorInfo {
+            debugInspectorInfo {
                 name = "onActivated"
                 properties["onChanged"] = onChanged
             },

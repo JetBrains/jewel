@@ -37,12 +37,11 @@ public fun Tooltip(
     tooltip: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     style: TooltipStyle = JewelTheme.tooltipStyle,
-    tooltipPlacement: TooltipPlacement =
-        TooltipPlacement(
-            contentOffset = style.metrics.tooltipOffset,
-            alignment = style.metrics.tooltipAlignment,
-            density = LocalDensity.current,
-        ),
+    tooltipPlacement: TooltipPlacement = TooltipPlacement(
+        contentOffset = style.metrics.tooltipOffset,
+        alignment = style.metrics.tooltipAlignment,
+        density = LocalDensity.current,
+    ),
     content: @Composable () -> Unit,
 ) {
     TooltipArea(
@@ -51,13 +50,13 @@ public fun Tooltip(
                 LocalContentColor provides style.colors.content,
             ) {
                 Box(
-                    modifier =
-                    Modifier.shadow(
-                        elevation = style.metrics.shadowSize,
-                        shape = RoundedCornerShape(style.metrics.cornerSize),
-                        ambientColor = style.colors.shadow,
-                        spotColor = Color.Transparent,
-                    )
+                    modifier = Modifier
+                        .shadow(
+                            elevation = style.metrics.shadowSize,
+                            shape = RoundedCornerShape(style.metrics.cornerSize),
+                            ambientColor = style.colors.shadow,
+                            spotColor = Color.Transparent,
+                        )
                         .background(
                             color = style.colors.background,
                             shape = RoundedCornerShape(style.metrics.cornerSize),
@@ -69,7 +68,9 @@ public fun Tooltip(
                         )
                         .padding(style.metrics.contentPadding),
                 ) {
-                    OverrideDarkMode(style.colors.background.isDark()) { tooltip() }
+                    OverrideDarkMode(style.colors.background.isDark()) {
+                        tooltip()
+                    }
                 }
             }
         },
@@ -112,12 +113,7 @@ private fun rememberTooltipPositionProvider(
     density: Density,
     windowMargin: Dp = 4.dp,
 ) =
-    remember(
-        contentOffset,
-        alignment,
-        density,
-        windowMargin,
-    ) {
+    remember(contentOffset, alignment, density, windowMargin) {
         TooltipPositionProvider(
             cursorPosition = cursorPosition,
             contentOffset = contentOffset,
@@ -142,13 +138,12 @@ private class TooltipPositionProvider(
         popupContentSize: IntSize,
     ): IntOffset =
         with(density) {
-            val windowSpaceBounds =
-                IntRect(
-                    left = windowMargin.roundToPx(),
-                    top = windowMargin.roundToPx(),
-                    right = windowSize.width - windowMargin.roundToPx(),
-                    bottom = windowSize.height - windowMargin.roundToPx(),
-                )
+            val windowSpaceBounds = IntRect(
+                left = windowMargin.roundToPx(),
+                top = windowMargin.roundToPx(),
+                right = windowSize.width - windowMargin.roundToPx(),
+                bottom = windowSize.height - windowMargin.roundToPx(),
+            )
 
             val contentOffsetX = contentOffset.x.roundToPx()
             val contentOffsetY = contentOffset.y.roundToPx()

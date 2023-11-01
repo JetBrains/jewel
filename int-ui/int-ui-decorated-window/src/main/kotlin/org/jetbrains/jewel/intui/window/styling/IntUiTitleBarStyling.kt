@@ -37,10 +37,8 @@ public fun TitleBarStyle.Companion.light(
         colors = colors,
         metrics = metrics,
         icons = icons,
-        dropdownStyle =
-        DropdownStyle.Undecorated.dark(
-            colors =
-            DropdownColors.Undecorated.dark(
+        dropdownStyle = DropdownStyle.Undecorated.dark(
+            colors = DropdownColors.Undecorated.dark(
                 content = colors.content,
                 contentFocused = colors.content,
                 contentHovered = colors.content,
@@ -57,20 +55,17 @@ public fun TitleBarStyle.Companion.light(
             ),
             menuStyle = MenuStyle.light(),
         ),
-        iconButtonStyle =
-        titleBarIconButtonStyle(
+        iconButtonStyle = titleBarIconButtonStyle(
             colors.iconButtonHoveredBackground,
             colors.iconButtonPressedBackground,
             IconButtonMetrics.defaults(borderWidth = 0.dp),
         ),
-        paneButtonStyle =
-        titleBarIconButtonStyle(
+        paneButtonStyle = titleBarIconButtonStyle(
             colors.titlePaneButtonHoveredBackground,
             colors.titlePaneButtonPressedBackground,
             IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
         ),
-        paneCloseButtonStyle =
-        titleBarIconButtonStyle(
+        paneCloseButtonStyle = titleBarIconButtonStyle(
             colors.titlePaneCloseButtonHoveredBackground,
             colors.titlePaneCloseButtonPressedBackground,
             IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
@@ -87,10 +82,8 @@ public fun TitleBarStyle.Companion.lightWithLightHeader(
         colors = colors,
         metrics = metrics,
         icons = icons,
-        dropdownStyle =
-        DropdownStyle.Undecorated.light(
-            colors =
-            DropdownColors.Undecorated.light(
+        dropdownStyle = DropdownStyle.Undecorated.light(
+            colors = DropdownColors.Undecorated.light(
                 content = colors.content,
                 contentFocused = colors.content,
                 contentHovered = colors.content,
@@ -106,20 +99,17 @@ public fun TitleBarStyle.Companion.lightWithLightHeader(
                 contentPadding = PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
             ),
         ),
-        iconButtonStyle =
-        titleBarIconButtonStyle(
+        iconButtonStyle = titleBarIconButtonStyle(
             colors.iconButtonHoveredBackground,
             colors.iconButtonPressedBackground,
             IconButtonMetrics.defaults(borderWidth = 0.dp),
         ),
-        paneButtonStyle =
-        titleBarIconButtonStyle(
+        paneButtonStyle = titleBarIconButtonStyle(
             colors.titlePaneButtonHoveredBackground,
             colors.titlePaneButtonPressedBackground,
             IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
         ),
-        paneCloseButtonStyle =
-        titleBarIconButtonStyle(
+        paneCloseButtonStyle = titleBarIconButtonStyle(
             colors.titlePaneCloseButtonHoveredBackground,
             colors.titlePaneCloseButtonPressedBackground,
             IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
@@ -136,10 +126,8 @@ public fun TitleBarStyle.Companion.dark(
         colors = colors,
         metrics = metrics,
         icons = icons,
-        dropdownStyle =
-        DropdownStyle.Undecorated.dark(
-            colors =
-            DropdownColors.Undecorated.dark(
+        dropdownStyle = DropdownStyle.Undecorated.dark(
+            colors = DropdownColors.Undecorated.dark(
                 content = colors.content,
                 contentFocused = colors.content,
                 contentHovered = colors.content,
@@ -155,20 +143,17 @@ public fun TitleBarStyle.Companion.dark(
                 contentPadding = PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
             ),
         ),
-        iconButtonStyle =
-        titleBarIconButtonStyle(
+        iconButtonStyle = titleBarIconButtonStyle(
             colors.iconButtonHoveredBackground,
             colors.iconButtonPressedBackground,
             IconButtonMetrics.defaults(borderWidth = 0.dp),
         ),
-        paneButtonStyle =
-        titleBarIconButtonStyle(
+        paneButtonStyle = titleBarIconButtonStyle(
             colors.titlePaneButtonHoveredBackground,
             colors.titlePaneButtonPressedBackground,
             IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
         ),
-        paneCloseButtonStyle =
-        titleBarIconButtonStyle(
+        paneCloseButtonStyle = titleBarIconButtonStyle(
             colors.titlePaneCloseButtonHoveredBackground,
             colors.titlePaneCloseButtonPressedBackground,
             IconButtonMetrics.defaults(cornerSize = CornerSize(0.dp), borderWidth = 0.dp),
@@ -320,10 +305,8 @@ public fun TitleBarMetrics.Companion.defaults(
 ): TitleBarMetrics = TitleBarMetrics(height, gradientStartX, gradientEndX, titlePaneButtonSize)
 
 public fun TitleBarIcons.Companion.defaults(
-    minimizeButton: PainterProvider =
-        decoratedWindowPainterProvider("icons/intui/window/minimize.svg"),
-    maximizeButton: PainterProvider =
-        decoratedWindowPainterProvider("icons/intui/window/maximize.svg"),
+    minimizeButton: PainterProvider = decoratedWindowPainterProvider("icons/intui/window/minimize.svg"),
+    maximizeButton: PainterProvider = decoratedWindowPainterProvider("icons/intui/window/maximize.svg"),
     restoreButton: PainterProvider = decoratedWindowPainterProvider("icons/intui/window/restore.svg"),
     closeButton: PainterProvider = decoratedWindowPainterProvider("icons/intui/window/close.svg"),
 ): TitleBarIcons = TitleBarIcons(minimizeButton, maximizeButton, restoreButton, closeButton)

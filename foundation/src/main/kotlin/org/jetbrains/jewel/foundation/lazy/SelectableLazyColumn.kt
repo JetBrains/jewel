@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -86,84 +87,93 @@ public fun SelectableLazyColumn(
         flingBehavior = flingBehavior,
     ) {
         container.getEntries().forEach { entry ->
-            when (entry) {
-                is Entry.Item ->
-                    item(entry.key, entry.contentType) {
-                        val itemScope =
-                            SelectableLazyItemScope(
-                                isSelected = entry.key in state.selectedKeys,
-                                isActive = isFocused,
-                            )
-                        if (keys.any { it.key == entry.key && it is SelectableLazyListKey.Selectable }) {
-                            Box(
-                                modifier =
-                                Modifier.selectable(
-                                    requester = focusRequester,
-                                    keybindings = keyActions.keybindings,
-                                    actionHandler = pointerEventActions,
-                                    selectionMode = selectionMode,
-                                    selectableState = state,
-                                    allKeys = keys,
-                                    itemKey = entry.key,
-                                ),
-                            ) {
-                                entry.content.invoke(itemScope)
-                            }
-                        } else {
-                            entry.content.invoke(itemScope)
-                        }
-                    }
-                is Entry.Items ->
-                    items(
-                        count = entry.count,
-                        key = { entry.key(it) },
-                        contentType = { entry.contentType(it) },
-                    ) { index ->
-                        val itemScope =
-                            SelectableLazyItemScope(entry.key(index) in state.selectedKeys, isFocused)
+            AppendEntry(entry, state, isFocused, keys, focusRequester, keyActions, pointerEventActions, selectionMode)
+        }
+    }
+}
 
-                        if (keys.any { it.key == entry.key(index) && it is SelectableLazyListKey.Selectable }) {
-                            Box(
-                                modifier =
-                                Modifier.selectable(
-                                    requester = focusRequester,
-                                    keybindings = keyActions.keybindings,
-                                    actionHandler = pointerEventActions,
-                                    selectionMode = selectionMode,
-                                    selectableState = state,
-                                    allKeys = keys,
-                                    itemKey = entry.key(index),
-                                ),
-                            ) {
-                                entry.itemContent.invoke(itemScope, index)
-                            }
-                        } else {
-                            entry.itemContent.invoke(itemScope, index)
-                        }
-                    }
-                is Entry.StickyHeader ->
-                    stickyHeader(entry.key, entry.contentType) {
-                        val itemScope = SelectableLazyItemScope(entry.key in state.selectedKeys, isFocused)
+private fun LazyListScope.AppendEntry(
+    entry: Entry,
+    state: SelectableLazyListState,
+    isFocused: Boolean,
+    keys: List<SelectableLazyListKey>,
+    focusRequester: FocusRequester,
+    keyActions: KeyActions,
+    pointerEventActions: PointerEventActions,
+    selectionMode: SelectionMode,
+) {
+    when (entry) {
+        is Entry.Item -> item(entry.key, entry.contentType) {
+            val itemScope =
+                SelectableLazyItemScope(
+                    isSelected = entry.key in state.selectedKeys,
+                    isActive = isFocused,
+                )
+            if (keys.any { it.key == entry.key && it is SelectableLazyListKey.Selectable }) {
+                Box(
+                    modifier = Modifier.selectable(
+                        requester = focusRequester,
+                        keybindings = keyActions.keybindings,
+                        actionHandler = pointerEventActions,
+                        selectionMode = selectionMode,
+                        selectableState = state,
+                        allKeys = keys,
+                        itemKey = entry.key,
+                    ),
+                ) {
+                    entry.content.invoke(itemScope)
+                }
+            } else {
+                entry.content.invoke(itemScope)
+            }
+        }
 
-                        if (keys.any { it.key == entry.key && it is SelectableLazyListKey.Selectable }) {
-                            Box(
-                                modifier =
-                                Modifier.selectable(
-                                    keybindings = keyActions.keybindings,
-                                    actionHandler = pointerEventActions,
-                                    selectionMode = selectionMode,
-                                    selectableState = state,
-                                    allKeys = keys,
-                                    itemKey = entry.key,
-                                ),
-                            ) {
-                                entry.content.invoke(itemScope)
-                            }
-                        } else {
-                            SelectableLazyItemScope(entry.key in state.selectedKeys, isFocused)
-                                .apply { entry.content.invoke(itemScope) }
-                        }
-                    }
+        is Entry.Items -> items(
+            count = entry.count,
+            key = { entry.key(it) },
+            contentType = { entry.contentType(it) },
+        ) { index ->
+            val itemScope =
+                SelectableLazyItemScope(entry.key(index) in state.selectedKeys, isFocused)
+
+            if (keys.any { it.key == entry.key(index) && it is SelectableLazyListKey.Selectable }) {
+                Box(
+                    modifier = Modifier.selectable(
+                        requester = focusRequester,
+                        keybindings = keyActions.keybindings,
+                        actionHandler = pointerEventActions,
+                        selectionMode = selectionMode,
+                        selectableState = state,
+                        allKeys = keys,
+                        itemKey = entry.key(index),
+                    ),
+                ) {
+                    entry.itemContent.invoke(itemScope, index)
+                }
+            } else {
+                entry.itemContent.invoke(itemScope, index)
+            }
+        }
+
+        is Entry.StickyHeader -> stickyHeader(entry.key, entry.contentType) {
+            val itemScope = SelectableLazyItemScope(entry.key in state.selectedKeys, isFocused)
+
+            if (keys.any { it.key == entry.key && it is SelectableLazyListKey.Selectable }) {
+                Box(
+                    modifier = Modifier.selectable(
+                        keybindings = keyActions.keybindings,
+                        actionHandler = pointerEventActions,
+                        selectionMode = selectionMode,
+                        selectableState = state,
+                        allKeys = keys,
+                        itemKey = entry.key,
+                    ),
+                ) {
+                    entry.content.invoke(itemScope)
+                }
+            } else {
+                SelectableLazyItemScope(entry.key in state.selectedKeys, isFocused)
+                    .apply { entry.content.invoke(itemScope) }
             }
         }
     }

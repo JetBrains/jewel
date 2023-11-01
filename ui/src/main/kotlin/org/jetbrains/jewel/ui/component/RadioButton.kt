@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -133,10 +132,10 @@ private fun RadioButtonImpl(
     textStyle: TextStyle,
     content: (@Composable RowScope.() -> Unit)?,
 ) {
-    var radioButtonState by
-        remember(interactionSource) {
-            mutableStateOf(RadioButtonState.of(selected = selected, enabled = enabled))
-        }
+    var radioButtonState by remember(interactionSource) {
+        mutableStateOf(RadioButtonState.of(selected = selected, enabled = enabled))
+    }
+
     remember(selected, enabled) {
         radioButtonState = radioButtonState.copy(selected = selected, enabled = enabled)
     }
@@ -148,6 +147,7 @@ private fun RadioButtonImpl(
                 is PressInteraction.Cancel, is PressInteraction.Release -> {
                     radioButtonState = radioButtonState.copy(pressed = false)
                 }
+
                 is HoverInteraction.Enter -> radioButtonState = radioButtonState.copy(hovered = true)
                 is HoverInteraction.Exit -> radioButtonState = radioButtonState.copy(hovered = false)
                 is FocusInteraction.Focus -> radioButtonState = radioButtonState.copy(focused = true)
@@ -172,19 +172,17 @@ private fun RadioButtonImpl(
 
     val colors = style.colors
     val metrics = style.metrics
-    val radioButtonModifier =
-        Modifier.size(metrics.radioButtonSize)
-            .outline(
-                radioButtonState,
-                outline,
-                outlineShape = CircleShape,
-                alignment = Stroke.Alignment.Inside,
-            )
-    val radioButtonPainter by
-        style.icons.radioButton.getPainter(
-            Selected(radioButtonState),
-            Stateful(radioButtonState),
+    val radioButtonModifier = Modifier.size(metrics.radioButtonSize)
+        .outline(
+            radioButtonState,
+            outline,
+            outlineShape = CircleShape,
+            alignment = Stroke.Alignment.Inside,
         )
+    val radioButtonPainter by style.icons.radioButton.getPainter(
+        Selected(radioButtonState),
+        Stateful(radioButtonState),
+    )
 
     if (content == null) {
         RadioButtonImage(wrapperModifier, radioButtonPainter, radioButtonModifier)
@@ -216,7 +214,6 @@ private fun RadioButtonImage(
     radioButtonPainter: Painter,
     radioButtonModifier: Modifier,
 ) {
-    // TODO tint icon painter
     Box(outerModifier) {
         Image(radioButtonPainter, contentDescription = null, modifier = radioButtonModifier)
     }
@@ -226,27 +223,21 @@ private fun RadioButtonImage(
 @JvmInline
 public value class RadioButtonState(public val state: ULong) : SelectableComponentState, FocusableComponentState {
 
-    @Stable
     override val isActive: Boolean
         get() = state and Active != 0UL
 
-    @Stable
     override val isSelected: Boolean
         get() = state and Selected != 0UL
 
-    @Stable
     override val isEnabled: Boolean
         get() = state and Enabled != 0UL
 
-    @Stable
     override val isFocused: Boolean
         get() = state and Focused != 0UL
 
-    @Stable
     override val isHovered: Boolean
         get() = state and Hovered != 0UL
 
-    @Stable
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 

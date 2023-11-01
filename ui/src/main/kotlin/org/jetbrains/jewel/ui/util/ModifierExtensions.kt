@@ -2,15 +2,10 @@ package org.jetbrains.jewel.ui.util
 
 import androidx.compose.ui.Modifier
 
-@Deprecated(
-    "Use thenIf instead",
-    ReplaceWith("thenIf(precondition, action)"),
-)
-public inline fun Modifier.appendIf(
-    precondition: Boolean,
-    action: Modifier.() -> Modifier,
-): Modifier = thenIf(precondition, action)
-
+/**
+ * Conditionally applies the [action] to the receiver [Modifier], if
+ * [precondition] is true. Returns the receiver as-is otherwise.
+ */
 public inline fun Modifier.thenIf(
     precondition: Boolean,
     action: Modifier.() -> Modifier,

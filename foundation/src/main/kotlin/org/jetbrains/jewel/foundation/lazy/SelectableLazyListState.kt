@@ -25,7 +25,8 @@ public interface SelectableScope {
 }
 
 /**
- * State object for a selectable lazy list, which extends [ScrollableState].
+ * State object for a selectable lazy list, which extends
+ * [ScrollableState].
  *
  * @param lazyListState The state object for the underlying lazy list.
  */
@@ -36,6 +37,7 @@ public class SelectableLazyListState(
     internal var lastKeyEventUsedMouse: Boolean = false
 
     override var selectedKeys: List<Any> by mutableStateOf(emptyList<Any>())
+
     public var lastActiveItemIndex: Int? = null
 
     /**
@@ -51,19 +53,17 @@ public class SelectableLazyListState(
         val visibleRange = visibleItemsRange.drop(2).dropLast(4)
         if (itemIndex !in visibleRange && visibleRange.isNotEmpty()) {
             when {
-                itemIndex < visibleRange.first() ->
-                    lazyListState.scrollToItem(
-                        max(0, itemIndex - 2),
-                        animateScroll,
-                        scrollOffset,
-                    )
-                itemIndex > visibleRange.last() -> {
-                    lazyListState.scrollToItem(
-                        index = max(itemIndex - (visibleRange.size + 2), 0),
-                        animate = animateScroll,
-                        scrollOffset = 0,
-                    )
-                }
+                itemIndex < visibleRange.first() -> lazyListState.scrollToItem(
+                    max(0, itemIndex - 2),
+                    animateScroll,
+                    scrollOffset,
+                )
+
+                itemIndex > visibleRange.last() -> lazyListState.scrollToItem(
+                    index = max(itemIndex - (visibleRange.size + 2), 0),
+                    animate = animateScroll,
+                    scrollOffset = 0,
+                )
             }
         }
         lastActiveItemIndex = itemIndex
@@ -73,14 +73,14 @@ public class SelectableLazyListState(
         get() = lazyListState.layoutInfo
 
     /**
-     * The index of the first item that is visible
+     * The index of the first item that is visible.
      */
     public val firstVisibleItemIndex: Int
         get() = lazyListState.firstVisibleItemIndex
 
     /**
-     * The scroll offset of the first visible item. Scrolling forward is positive - i.e., the amount
-     * that the item is offset backwards
+     * The scroll offset of the first visible item. Scrolling forward is
+     * positive - i.e., the amount that the item is offset backwards.
      */
     @Suppress("unused")
     public val firstVisibleItemScrollOffset: Int
@@ -178,7 +178,8 @@ public enum class SelectionMode {
  * Remembers the state of a selectable lazy list.
  *
  * @param firstVisibleItemIndex The index of the first visible item.
- * @param firstVisibleItemScrollOffset The scroll offset of the first visible item.
+ * @param firstVisibleItemScrollOffset The scroll offset of the first
+ *     visible item.
  * @return The remembered state of the selectable lazy list.
  */
 @Composable

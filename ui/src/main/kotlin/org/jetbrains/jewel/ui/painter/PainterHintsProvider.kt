@@ -19,21 +19,22 @@ import org.jetbrains.jewel.ui.painter.hints.HiDpi
 public interface PainterHintsProvider {
 
     /**
-     * These hints will be consumed before the hints which are passed as a parameter to
-     * [PainterProvider.getPainter].
+     * These hints will be consumed before the hints which are passed as a
+     * parameter to [PainterProvider.getPainter].
      */
     @Composable public fun priorityHints(path: String): List<PainterHint> = emptyList()
 
     /**
-     * These hints will be consumed after the hints which are passed as a parameter to
-     * [PainterProvider.getPainter].
+     * These hints will be consumed after the hints which are passed as a
+     * parameter to [PainterProvider.getPainter].
      */
     @Composable public fun hints(path: String): List<PainterHint>
 }
 
 /**
- * The default [PainterHintsProvider] to load dark theme icon variants. It will provide the [Dark]
- * hint when [LocalIsDarkTheme][org.jetbrains.jewel.LocalIsDarkTheme] is true.
+ * The default [PainterHintsProvider] to load dark theme
+ * icon variants. It will provide the [Dark] hint when
+ * [LocalIsDarkTheme][org.jetbrains.jewel.LocalIsDarkTheme] is true.
  */
 public object CommonPainterHintsProvider : PainterHintsProvider {
 
@@ -43,4 +44,4 @@ public object CommonPainterHintsProvider : PainterHintsProvider {
 }
 
 public val LocalPainterHintsProvider: ProvidableCompositionLocal<PainterHintsProvider> =
-    staticCompositionLocalOf<PainterHintsProvider> { CommonPainterHintsProvider }
+    staticCompositionLocalOf { CommonPainterHintsProvider }

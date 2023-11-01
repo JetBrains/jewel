@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.ui.painter.badge
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
@@ -8,7 +9,10 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
-/** @see com.intellij.ui.BadgeDotProvider */
+/**
+ * @see com.intellij.ui.BadgeDotProvider
+ */
+@Immutable
 @GenerateDataFunctions
 public class DotBadgeShape(
     public val x: Float = 16.5f / 20,

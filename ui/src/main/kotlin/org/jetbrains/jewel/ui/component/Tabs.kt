@@ -1,7 +1,6 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.HoverInteraction
@@ -18,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -77,6 +75,7 @@ internal fun TabImpl(
                 is PressInteraction.Cancel,
                 is PressInteraction.Release,
                 -> tabState = tabState.copy(pressed = false)
+
                 is HoverInteraction.Enter -> tabState = tabState.copy(hovered = true)
                 is HoverInteraction.Exit -> tabState = tabState.copy(hovered = false)
             }
@@ -87,17 +86,15 @@ internal fun TabImpl(
     val lineThickness = tabStyle.metrics.underlineThickness
     val backgroundColor by tabStyle.colors.backgroundFor(state = tabState)
 
-    CompositionLocalProvider(
-        LocalIndication provides NoIndication,
-        LocalContentColor provides
-            tabStyle.colors.contentFor(tabState).value.takeOrElse { LocalContentColor.current },
-    ) {
+    val resolvedContentColor = tabStyle.colors.contentFor(tabState)
+        .value.takeOrElse { LocalContentColor.current }
+
+    CompositionLocalProvider(LocalContentColor provides resolvedContentColor) {
         val labelAlpha by tabStyle.contentAlpha.labelFor(tabState)
         val iconAlpha by tabStyle.contentAlpha.iconFor(tabState)
 
         Row(
-            modifier
-                .height(tabStyle.metrics.tabHeight)
+            modifier.height(tabStyle.metrics.tabHeight)
                 .background(backgroundColor)
                 .focusProperties { canFocus = false }
                 .selectable(
@@ -140,6 +137,7 @@ internal fun TabImpl(
                     is TabData.Default -> tabData.closable
                     is TabData.Editor -> tabData.closable && (tabState.isHovered || tabState.isSelected)
                 }
+
             if (showCloseIcon) {
                 val closeActionInteractionSource = remember { MutableInteractionSource() }
                 LaunchedEffect(closeActionInteractionSource) {
@@ -156,15 +154,16 @@ internal fun TabImpl(
                         }
                     }
                 }
+
                 val closePainter by tabStyle.icons.close.getPainter(Stateful(closeButtonState))
                 Image(
-                    modifier =
-                    Modifier.clickable(
-                        interactionSource = closeActionInteractionSource,
-                        indication = null,
-                        onClick = tabData.onClose,
-                        role = Role.Button,
-                    )
+                    modifier = Modifier
+                        .clickable(
+                            interactionSource = closeActionInteractionSource,
+                            indication = null,
+                            onClick = tabData.onClose,
+                            role = Role.Button,
+                        )
                         .size(16.dp),
                     painter = closePainter,
                     contentDescription = "Close tab ${tabData.label}",
@@ -180,23 +179,18 @@ internal fun TabImpl(
 @JvmInline
 public value class TabState(public val state: ULong) : SelectableComponentState {
 
-    @Stable
     override val isActive: Boolean
         get() = state and Active != 0UL
 
-    @Stable
     override val isSelected: Boolean
         get() = state and Selected != 0UL
 
-    @Stable
     override val isEnabled: Boolean
         get() = state and Enabled != 0UL
 
-    @Stable
     override val isHovered: Boolean
         get() = state and Hovered != 0UL
 
-    @Stable
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 

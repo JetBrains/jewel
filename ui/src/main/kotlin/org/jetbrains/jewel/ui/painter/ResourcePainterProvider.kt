@@ -35,14 +35,15 @@ import javax.xml.transform.stream.StreamResult
 private val errorPainter = ColorPainter(Color.Magenta)
 
 /**
- * Provide [Painter] by resources in the module and jars, it use the ResourceResolver to load
- * resources.
+ * Provide [Painter] by resources in the module and jars, it use the
+ * ResourceResolver to load resources.
  *
- * It will cache the painter by [PainterHint]s, so it is safe to call [getPainter] multiple times.
+ * It will cache the painter by [PainterHint]s, so it is safe to call
+ * [getPainter] multiple times.
  *
- * If a resource fails to load, it will be silently replaced by a magenta color painter, and the
- * exception logged. If Jewel is in [debug mode][inDebugMode], however, exceptions will not be
- * suppressed.
+ * If a resource fails to load, it will be silently replaced by a
+ * magenta color painter, and the exception logged. If Jewel is in
+ * [debug mode][inDebugMode], however, exceptions will not be suppressed.
  */
 @Immutable
 public class ResourcePainterProvider(

@@ -33,8 +33,8 @@ import org.jetbrains.jewel.ui.theme.textFieldStyle
 import kotlin.math.max
 
 /**
- * @param placeholder the optional placeholder to be displayed over the component when the [value]
- *   is empty.
+ * @param placeholder the optional placeholder to be displayed over the
+ *     component when the [value] is empty.
  */
 @Composable
 public fun TextField(
@@ -89,8 +89,8 @@ public fun TextField(
 }
 
 /**
- * @param placeholder the optional placeholder to be displayed over the component when the [value]
- *   is empty.
+ * @param placeholder the optional placeholder to be displayed over the
+ *     component when the [value] is empty.
  */
 @Composable
 public fun TextField(
@@ -133,8 +133,7 @@ public fun TextField(
         val minSize = style.metrics.minSize
 
         TextFieldDecorationBox(
-            modifier =
-            Modifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height)
+            modifier = Modifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height)
                 .padding(style.metrics.contentPadding),
             innerTextField = innerTextField,
             textStyle = textStyle,
@@ -196,46 +195,33 @@ private fun TextFieldDecorationBox(
         occupiedSpaceHorizontally += trailingPlaceable?.width ?: 0
         occupiedSpaceHorizontally += leadingPlaceable?.width ?: 0
 
-        val textFieldConstraints =
-            incomingConstraints
-                .offset(
-                    horizontal = -occupiedSpaceHorizontally,
-                )
-                .copy(minHeight = 0)
-        val textFieldPlaceable =
-            measurables.first { it.layoutId == TEXT_FIELD_ID }.measure(textFieldConstraints)
+        val textFieldConstraints = incomingConstraints.offset(horizontal = -occupiedSpaceHorizontally)
+            .copy(minHeight = 0)
+        val textFieldPlaceable = measurables.single { it.layoutId == TEXT_FIELD_ID }
+            .measure(textFieldConstraints)
 
         // measure placeholder
         val placeholderConstraints = textFieldConstraints.copy(minWidth = 0)
-        val placeholderPlaceable =
-            measurables.find { it.layoutId == PLACEHOLDER_ID }?.measure(placeholderConstraints)
+        val placeholderPlaceable = measurables.find { it.layoutId == PLACEHOLDER_ID }
+            ?.measure(placeholderConstraints)
 
-        val width =
-            calculateWidth(
-                trailingPlaceable,
-                leadingPlaceable,
-                textFieldPlaceable,
-                placeholderPlaceable,
-                incomingConstraints,
-            )
-        val height =
-            calculateHeight(
-                trailingPlaceable,
-                leadingPlaceable,
-                textFieldPlaceable,
-                placeholderPlaceable,
-                incomingConstraints,
-            )
+        val width = calculateWidth(
+            trailingPlaceable,
+            leadingPlaceable,
+            textFieldPlaceable,
+            placeholderPlaceable,
+            incomingConstraints,
+        )
+        val height = calculateHeight(
+            trailingPlaceable,
+            leadingPlaceable,
+            textFieldPlaceable,
+            placeholderPlaceable,
+            incomingConstraints,
+        )
 
         layout(width, height) {
-            place(
-                height,
-                width,
-                trailingPlaceable,
-                leadingPlaceable,
-                textFieldPlaceable,
-                placeholderPlaceable,
-            )
+            place(height, width, trailingPlaceable, leadingPlaceable, textFieldPlaceable, placeholderPlaceable)
         }
     }
 }
@@ -248,10 +234,7 @@ private fun calculateWidth(
     constraints: Constraints,
 ): Int {
     val middleSection =
-        maxOf(
-            textFieldPlaceable.width,
-            placeholderPlaceable?.width ?: 0,
-        )
+        maxOf(textFieldPlaceable.width, placeholderPlaceable?.width ?: 0)
     val wrappedWidth =
         middleSection + (trailingPlaceable?.width ?: 0) + (leadingPlaceable?.width ?: 0)
     return max(wrappedWidth, constraints.minWidth)

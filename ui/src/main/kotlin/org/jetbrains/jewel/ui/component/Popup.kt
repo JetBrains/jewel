@@ -27,22 +27,26 @@ internal fun handlePopupMenuOnKeyEvent(
     menuManager: MenuManager,
 ): Boolean {
     if (keyEvent.type != KeyEventType.KeyDown) return false
+
     return when (keyEvent.key) {
         Key.DirectionDown -> {
             inputModeManager.requestInputMode(InputMode.Keyboard)
             focusManager.moveFocus(FocusDirection.Next)
             true
         }
+
         Key.DirectionUp -> {
             inputModeManager.requestInputMode(InputMode.Keyboard)
             focusManager.moveFocus(FocusDirection.Previous)
             true
         }
+
         Key.Escape -> {
             inputModeManager.requestInputMode(InputMode.Keyboard)
             menuManager.closeAll(InputMode.Keyboard, true)
             true
         }
+
         Key.DirectionLeft -> {
             if (menuManager.isSubmenu()) {
                 inputModeManager.requestInputMode(InputMode.Keyboard)
@@ -52,6 +56,7 @@ internal fun handlePopupMenuOnKeyEvent(
                 false
             }
         }
+
         else -> false
     }
 }
@@ -72,31 +77,26 @@ internal data class AnchorVerticalMenuPositionProvider(
     ): IntOffset {
         val topMargin = with(density) { contentMargin.calculateTopPadding().roundToPx() }
         val bottomMargin = with(density) { contentMargin.calculateBottomPadding().roundToPx() }
-        val leftMargin =
-            with(density) { contentMargin.calculateLeftPadding(layoutDirection).roundToPx() }
-        val rightMargin =
-            with(density) { contentMargin.calculateRightPadding(layoutDirection).roundToPx() }
+        val leftMargin = with(density) { contentMargin.calculateLeftPadding(layoutDirection).roundToPx() }
+        val rightMargin = with(density) { contentMargin.calculateRightPadding(layoutDirection).roundToPx() }
 
-        val windowSpaceBounds =
-            IntRect(
-                left = leftMargin,
-                top = topMargin,
-                right = windowSize.width - rightMargin,
-                bottom = windowSize.height - bottomMargin,
-            )
+        val windowSpaceBounds = IntRect(
+            left = leftMargin,
+            top = topMargin,
+            right = windowSize.width - rightMargin,
+            bottom = windowSize.height - bottomMargin,
+        )
 
         // The content offset specified using the dropdown offset parameter.
-        val contentOffsetX =
-            with(density) {
-                contentOffset.x.roundToPx() * if (layoutDirection == LayoutDirection.Ltr) 1 else -1
-            }
+        val contentOffsetX = with(density) {
+            contentOffset.x.roundToPx() * if (layoutDirection == LayoutDirection.Ltr) 1 else -1
+        }
         val contentOffsetY = with(density) { contentOffset.y.roundToPx() }
 
         // Compute horizontal position.
-        val x =
-            anchorBounds.left +
-                alignment.align(popupContentSize.width, anchorBounds.width, layoutDirection) +
-                contentOffsetX
+        val x = anchorBounds.left +
+            alignment.align(popupContentSize.width, anchorBounds.width, layoutDirection) +
+            contentOffsetX
 
         // Compute vertical position.
         val aboveSpacing = anchorBounds.top - contentOffsetY - topMargin
@@ -136,31 +136,26 @@ internal data class AnchorHorizontalMenuPositionProvider(
     ): IntOffset {
         val topMargin = with(density) { contentMargin.calculateTopPadding().roundToPx() }
         val bottomMargin = with(density) { contentMargin.calculateBottomPadding().roundToPx() }
-        val leftMargin =
-            with(density) { contentMargin.calculateLeftPadding(layoutDirection).roundToPx() }
-        val rightMargin =
-            with(density) { contentMargin.calculateRightPadding(layoutDirection).roundToPx() }
+        val leftMargin = with(density) { contentMargin.calculateLeftPadding(layoutDirection).roundToPx() }
+        val rightMargin = with(density) { contentMargin.calculateRightPadding(layoutDirection).roundToPx() }
 
-        val windowSpaceBounds =
-            IntRect(
-                left = leftMargin,
-                top = topMargin,
-                right = windowSize.width - rightMargin,
-                bottom = windowSize.height - bottomMargin,
-            )
+        val windowSpaceBounds = IntRect(
+            left = leftMargin,
+            top = topMargin,
+            right = windowSize.width - rightMargin,
+            bottom = windowSize.height - bottomMargin,
+        )
 
         // The content offset specified using the dropdown offset parameter.
-        val contentOffsetX =
-            with(density) {
-                contentOffset.x.roundToPx() * if (layoutDirection == LayoutDirection.Ltr) 1 else -1
-            }
+        val contentOffsetX = with(density) {
+            contentOffset.x.roundToPx() * if (layoutDirection == LayoutDirection.Ltr) 1 else -1
+        }
         val contentOffsetY = with(density) { contentOffset.y.roundToPx() }
 
         // Compute horizontal position.
-        val y =
-            anchorBounds.top +
-                alignment.align(popupContentSize.height, anchorBounds.height) +
-                contentOffsetY
+        val y = anchorBounds.top +
+            alignment.align(popupContentSize.height, anchorBounds.height) +
+            contentOffsetY
 
         // Compute vertical position.
         val leftSpacing = anchorBounds.left - contentOffsetX - windowSpaceBounds.left
@@ -197,5 +192,6 @@ internal fun IntRect.constrainedIn(rect: IntRect): IntRect {
     if (y < rect.top) {
         y = rect.top
     }
+
     return IntRect(x, y, x + width, y + height)
 }

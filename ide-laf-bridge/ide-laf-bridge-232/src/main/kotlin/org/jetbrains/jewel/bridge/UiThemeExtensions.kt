@@ -12,20 +12,18 @@ private val logger = Logger.getInstance("UiThemeExtensions")
 private val classUITheme
     get() = UITheme::class.java
 
-@Suppress("UnstableApiUsage")
 @InternalJewelApi
 internal fun currentUiThemeOrNull() =
     (LafManager.getInstance().currentLookAndFeel as? UIThemeBasedLookAndFeelInfo)?.theme
 
 @InternalJewelApi
 public val UITheme.icons: Map<String, String>
-    get() =
-        readMapField<String>(classUITheme.getDeclaredField("icons")).filterKeys { it != "ColorPalette" }
+    get() = readMapField<String>(classUITheme.getDeclaredField("icons"))
+        .filterKeys { it != "ColorPalette" }
 
 internal val UITheme.iconColorPalette: Map<String, String>
-    get() =
-        readMapField<Map<String, String>>(classUITheme.getDeclaredField("icons"))["ColorPalette"]
-            .orEmpty()
+    get() = readMapField<Map<String, String>>(classUITheme.getDeclaredField("icons"))["ColorPalette"]
+        .orEmpty()
 
 internal val UITheme.selectedIconColorPalette: Map<String, String>
     get() = readMapField(classUITheme.getDeclaredField("iconColorsOnSelection"))

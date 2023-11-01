@@ -25,12 +25,7 @@ public fun MenuStyle.Companion.light(
     metrics: MenuMetrics = MenuMetrics.defaults(),
     icons: MenuIcons = MenuIcons.defaults(),
 ): MenuStyle =
-    MenuStyle(
-        isDark = false,
-        colors = colors,
-        metrics = metrics,
-        icons = icons,
-    )
+    MenuStyle(isDark = false, colors, metrics, icons)
 
 @Composable
 public fun MenuStyle.Companion.dark(
@@ -38,12 +33,7 @@ public fun MenuStyle.Companion.dark(
     metrics: MenuMetrics = MenuMetrics.defaults(),
     icons: MenuIcons = MenuIcons.defaults(),
 ): MenuStyle =
-    MenuStyle(
-        isDark = true,
-        colors = colors,
-        metrics = metrics,
-        icons = icons,
-    )
+    MenuStyle(isDark = true, colors, metrics, icons)
 
 @Composable
 public fun MenuColors.Companion.light(
@@ -187,8 +177,10 @@ public fun MenuItemMetrics.Companion.defaults(
 
 public fun SubmenuMetrics.Companion.defaults(
     offset: DpOffset = DpOffset(0.dp, (-8).dp),
-): SubmenuMetrics = SubmenuMetrics(offset)
+): SubmenuMetrics =
+    SubmenuMetrics(offset)
 
 public fun MenuIcons.Companion.defaults(
     submenuChevron: PainterProvider = standalonePainterProvider("expui/general/chevronRight.svg"),
-): MenuIcons = MenuIcons(submenuChevron)
+): MenuIcons =
+    MenuIcons(submenuChevron)

@@ -5,7 +5,11 @@ plugins {
 
 kotlin {
     sourceSets {
-        all { languageSettings { optIn("kotlinx.serialization.ExperimentalSerializationApi") } }
+        all {
+            languageSettings {
+                optIn("kotlinx.serialization.ExperimentalSerializationApi")
+            }
+        }
     }
 }
 

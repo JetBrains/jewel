@@ -16,14 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.isUnspecified
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
@@ -56,8 +55,7 @@ public fun Chip(
         enabled = enabled,
         selected = selected,
         style = style,
-        modifier =
-        modifier.clickable(
+        modifier = modifier.clickable(
             onClick = onClick,
             enabled = enabled,
             role = Role.Button,
@@ -83,8 +81,7 @@ public fun ToggleableChip(
         enabled = enabled,
         selected = checked,
         style = style,
-        modifier =
-        modifier.toggleable(
+        modifier = modifier.toggleable(
             onValueChange = onClick,
             enabled = enabled,
             role = Role.Checkbox,
@@ -111,7 +108,7 @@ public fun RadioButtonChip(
         enabled,
         selected,
         style,
-        modifier.selectable(
+        modifier = modifier.selectable(
             onClick = onClick,
             enabled = enabled,
             role = Role.RadioButton,
@@ -132,19 +129,17 @@ private fun ChipImpl(
     modifier: Modifier,
     content: @Composable () -> Unit,
 ) {
-    var chipState by
-        remember(interactionSource) {
-            mutableStateOf(ChipState.of(enabled = enabled, selected = selected))
-        }
+    var chipState by remember(interactionSource) {
+        mutableStateOf(ChipState.of(enabled = enabled, selected = selected))
+    }
+
     remember(enabled, selected) { chipState = chipState.copy(enabled = enabled, selected = selected) }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> chipState = chipState.copy(pressed = true)
-                is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                -> chipState = chipState.copy(pressed = false)
+                is PressInteraction.Cancel, is PressInteraction.Release -> chipState = chipState.copy(pressed = false)
                 is HoverInteraction.Enter -> chipState = chipState.copy(hovered = true)
                 is HoverInteraction.Exit -> chipState = chipState.copy(hovered = false)
                 is FocusInteraction.Focus -> chipState = chipState.copy(focused = true)
@@ -165,8 +160,7 @@ private fun ChipImpl(
         }
 
     Row(
-        modifier =
-        modifier
+        modifier = modifier
             .background(colors.backgroundFor(chipState).value, shape)
             .border(Stroke.Alignment.Center, borderWidth, borderColor, shape)
             .focusOutline(chipState, shape)
@@ -174,13 +168,10 @@ private fun ChipImpl(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        CompositionLocalProvider(
-            LocalContentColor provides
-                (
-                    colors.contentFor(state = chipState).value.takeIf { !it.isUnspecified }
-                        ?: LocalContentColor.current
-                    ),
-        ) {
+        val resolvedContentColor = colors.contentFor(state = chipState).value
+            .takeOrElse { LocalContentColor.current }
+
+        CompositionLocalProvider(LocalContentColor provides resolvedContentColor) {
             content()
         }
     }
@@ -191,27 +182,21 @@ private fun ChipImpl(
 public value class ChipState(public val state: ULong) :
     FocusableComponentState, SelectableComponentState {
 
-    @Stable
     override val isActive: Boolean
         get() = state and Active != 0UL
 
-    @Stable
     override val isEnabled: Boolean
         get() = state and Enabled != 0UL
 
-    @Stable
     override val isFocused: Boolean
         get() = state and Focused != 0UL
 
-    @Stable
     override val isSelected: Boolean
         get() = state and Selected != 0UL
 
-    @Stable
     override val isHovered: Boolean
         get() = state and Hovered != 0UL
 
-    @Stable
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 

@@ -26,7 +26,8 @@ public object IntUiDefaultTabStyleFactory {
         metrics: TabMetrics = TabMetrics.defaults(),
         icons: TabIcons = TabIcons.defaults(),
         contentAlpha: TabContentAlpha = TabContentAlpha.default(),
-    ): TabStyle = TabStyle(colors, metrics, icons, contentAlpha)
+    ): TabStyle =
+        TabStyle(colors, metrics, icons, contentAlpha)
 
     @Composable
     public fun dark(
@@ -34,7 +35,8 @@ public object IntUiDefaultTabStyleFactory {
         metrics: TabMetrics = TabMetrics.defaults(),
         icons: TabIcons = TabIcons.defaults(),
         contentAlpha: TabContentAlpha = TabContentAlpha.default(),
-    ): TabStyle = TabStyle(colors, metrics, icons, contentAlpha)
+    ): TabStyle =
+        TabStyle(colors, metrics, icons, contentAlpha)
 }
 
 public val TabStyle.Companion.Editor: IntUiEditorTabStyleFactory
@@ -48,7 +50,8 @@ public object IntUiEditorTabStyleFactory {
         metrics: TabMetrics = TabMetrics.defaults(),
         icons: TabIcons = TabIcons.defaults(),
         contentAlpha: TabContentAlpha = TabContentAlpha.editor(),
-    ): TabStyle = TabStyle(colors, metrics, icons, contentAlpha)
+    ): TabStyle =
+        TabStyle(colors, metrics, icons, contentAlpha)
 
     @Composable
     public fun dark(
@@ -56,7 +59,8 @@ public object IntUiEditorTabStyleFactory {
         metrics: TabMetrics = TabMetrics.defaults(),
         icons: TabIcons = TabIcons.defaults(),
         contentAlpha: TabContentAlpha = TabContentAlpha.editor(),
-    ): TabStyle = TabStyle(colors, metrics, icons, contentAlpha)
+    ): TabStyle =
+        TabStyle(colors, metrics, icons, contentAlpha)
 }
 
 public val TabColors.Companion.Default: IntUiDefaultTabColorsFactory
@@ -216,7 +220,8 @@ public fun TabMetrics.Companion.defaults(
     tabPadding: PaddingValues = PaddingValues(horizontal = 8.dp),
     closeContentGap: Dp = 8.dp,
     tabHeight: Dp = 40.dp,
-): TabMetrics = TabMetrics(underlineThickness, tabPadding, tabHeight, closeContentGap)
+): TabMetrics =
+    TabMetrics(underlineThickness, tabPadding, tabHeight, closeContentGap)
 
 public fun TabContentAlpha.Companion.default(
     iconNormal: Float = 1f,
@@ -270,4 +275,5 @@ public fun TabContentAlpha.Companion.editor(
 
 public fun TabIcons.Companion.defaults(
     close: PainterProvider = standalonePainterProvider("expui/general/closeSmall.svg"),
-): TabIcons = TabIcons(close)
+): TabIcons =
+    TabIcons(close)

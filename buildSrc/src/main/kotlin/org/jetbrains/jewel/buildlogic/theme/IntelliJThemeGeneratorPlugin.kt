@@ -59,12 +59,11 @@ open class IntelliJThemeGeneratorTask : DefaultTask() {
         }
 
         logger.lifecycle("Fetching theme descriptor from $url...")
-        val themeDescriptor =
-            URL(url).openStream().use { json.decodeFromStream<IntellijThemeDescriptor>(it) }
+        val themeDescriptor = URL(url).openStream()
+            .use { json.decodeFromStream<IntellijThemeDescriptor>(it) }
 
         val className = ClassName.bestGuess(themeClassName.get())
-        val file =
-            IntUiThemeDescriptorReader.readThemeFrom(themeDescriptor, className, ideaVersion.get(), url)
+        val file = IntUiThemeDescriptorReader.readThemeFrom(themeDescriptor, className, ideaVersion.get(), url)
 
         val outputFile = outputFile.get().asFile
         logger.lifecycle(

@@ -34,6 +34,7 @@ public fun <T> LazyTree(
 ) {
     val colors = style.colors
     val metrics = style.metrics
+
     BasicLazyTree(
         tree = tree,
         onElementClick = onElementClick,
@@ -57,21 +58,11 @@ public fun <T> LazyTree(
             Icon(painter = painter, contentDescription = null)
         },
     ) {
-        CompositionLocalProvider(
-            LocalContentColor provides
-                (
-                    style.colors
-                        .contentFor(
-                            TreeElementState.of(
-                                focused = isActive,
-                                selected = isSelected,
-                                expanded = false,
-                            ),
-                        )
-                        .value
-                        .takeOrElse { LocalContentColor.current }
-                    ),
-        ) {
+        val resolvedContentColor = style.colors
+            .contentFor(TreeElementState.of(focused = isActive, selected = isSelected, expanded = false))
+            .value.takeOrElse { LocalContentColor.current }
+
+        CompositionLocalProvider(LocalContentColor provides resolvedContentColor) {
             nodeContent(it)
         }
     }

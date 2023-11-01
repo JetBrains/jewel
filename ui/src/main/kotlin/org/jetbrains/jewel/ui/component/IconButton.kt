@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,21 +42,19 @@ public fun IconButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable (BoxScope.(IconButtonState) -> Unit),
 ) {
-    val buttonState =
-        remember(interactionSource) { mutableStateOf(IconButtonState.of(enabled = enabled)) }
+    val buttonState = remember(interactionSource) { mutableStateOf(IconButtonState.of(enabled = enabled)) }
 
     remember(enabled) { buttonState.value = buttonState.value.copy(enabled = enabled) }
 
     IconButtonImpl(
         state = buttonState,
-        modifier = modifier
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = NoIndication,
-            ),
+        modifier = modifier.clickable(
+            onClick = onClick,
+            enabled = enabled,
+            role = Role.Button,
+            interactionSource = interactionSource,
+            indication = NoIndication,
+        ),
         style = style,
         interactionSource = interactionSource,
         content = content,
@@ -84,16 +81,18 @@ public fun SelectableIconButton(
 
     IconButtonImpl(
         state = buttonState,
-        modifier = modifier.selectable(
-            onClick = onClick,
-            enabled = enabled,
-            role = Role.RadioButton,
-            interactionSource = interactionSource,
-            indication = null,
-            selected = selected,
-        ).onActivated(enabled = enabled) {
-            buttonState.value = buttonState.value.copy(active = it)
-        },
+        modifier = modifier
+            .selectable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.RadioButton,
+                interactionSource = interactionSource,
+                indication = null,
+                selected = selected,
+            )
+            .onActivated(enabled = enabled) {
+                buttonState.value = buttonState.value.copy(active = it)
+            },
         style = style,
         interactionSource = interactionSource,
         content = content,
@@ -117,6 +116,7 @@ private fun IconButtonImpl(
                 is PressInteraction.Cancel,
                 is PressInteraction.Release,
                 -> buttonState = buttonState.copy(pressed = false)
+
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
                 is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
@@ -128,9 +128,7 @@ private fun IconButtonImpl(
     val background by style.colors.backgroundFor(buttonState)
     val border by style.colors.borderFor(buttonState)
     Box(
-        modifier =
-        modifier
-            .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
+        modifier = modifier.defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
             .padding(style.metrics.padding)
             .background(background, shape)
             .border(style.metrics.borderWidth, border, shape),
@@ -143,27 +141,21 @@ private fun IconButtonImpl(
 @JvmInline
 public value class IconButtonState(public val state: ULong) : FocusableComponentState, SelectableComponentState {
 
-    @Stable
     override val isSelected: Boolean
         get() = state and CommonStateBitMask.Selected != 0UL
 
-    @Stable
     override val isActive: Boolean
         get() = state and CommonStateBitMask.Active != 0UL
 
-    @Stable
     override val isEnabled: Boolean
         get() = state and CommonStateBitMask.Enabled != 0UL
 
-    @Stable
     override val isFocused: Boolean
         get() = state and CommonStateBitMask.Focused != 0UL
 
-    @Stable
     override val isHovered: Boolean
         get() = state and CommonStateBitMask.Hovered != 0UL
 
-    @Stable
     override val isPressed: Boolean
         get() = state and CommonStateBitMask.Pressed != 0UL
 

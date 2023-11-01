@@ -15,11 +15,13 @@ import org.jetbrains.annotations.VisibleForTesting
 import javax.swing.JComponent
 
 /**
- * Layout composable that create the bridge between [Modifier.provideData] used inside [content] and
- * [component]. So, IntelliJ's [DataManager] can use [component] as [DataProvider].
+ * Layout composable that create the bridge between [Modifier.provideData]
+ * used inside [content] and [component]. So, IntelliJ's [DataManager] can
+ * use [component] as [DataProvider].
  *
- * When IntelliJ requests [getData] from [component] Compose will traverse [DataProviderNode]
- * hierarchy and collect it according [DataProvider] rules (see javadoc).
+ * When IntelliJ requests [getData] from [component] Compose will traverse
+ * [DataProviderNode] hierarchy and collect it according [DataProvider]
+ * rules (see javadoc).
  */
 // TODO: choose better naming?
 @Suppress("unused", "FunctionName")
@@ -31,7 +33,9 @@ public fun ComponentDataProviderBridge(
 ) {
     val rootDataProviderModifier = remember { RootDataProviderModifier() }
 
-    Box(modifier = Modifier.then(rootDataProviderModifier).then(modifier)) { content() }
+    Box(modifier = Modifier.then(rootDataProviderModifier).then(modifier)) {
+        content()
+    }
 
     DisposableEffect(component) {
         DataManager.registerDataProvider(component, rootDataProviderModifier.dataProvider)
@@ -43,11 +47,12 @@ public fun ComponentDataProviderBridge(
 /**
  * Configure component to provide data for IntelliJ Actions system.
  *
- * Use this modifier to provide context related data that can be used by IntelliJ Actions
- * functionality such as Search Everywhere, Action Popups etc.
+ * Use this modifier to provide context related data that can be used by
+ * IntelliJ Actions functionality such as Search Everywhere, Action Popups
+ * etc.
  *
- * Important note: modifiers order is important, so be careful with order of [focusable] and
- * [provideData] (see [FocusEventModifierNode]).
+ * Important note: modifiers order is important, so be careful with order
+ * of [focusable] and [provideData] (see [FocusEventModifierNode]).
  *
  * @see DataProvider
  * @see DataContext

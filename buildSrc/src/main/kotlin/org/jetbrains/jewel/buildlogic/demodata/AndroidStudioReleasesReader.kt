@@ -99,18 +99,17 @@ internal object AndroidStudioReleasesReader {
         resourceDirs: Set<File>,
     ): String? {
         // Take the release animal from the name, remove spaces and voila'
-        val releaseAnimal =
-            release.name
-                .substringBefore(" | ")
-                .substringAfter("Android Studio")
-                .trim()
-                .replace(" ", "")
+        val releaseAnimal = release.name
+            .substringBefore(" | ")
+            .substringAfter("Android Studio")
+            .trim()
+            .replace(" ", "")
 
         if (releaseAnimal.isEmpty() || releaseAnimal.any { it.isDigit() }) return null
 
         // We only have stable and canary splash screens. Betas use the stable ones.
-        val channel =
-            release.channel.lowercase().let {
+        val channel = release.channel.lowercase()
+            .let {
                 when (it) {
                     "release", "rc", "stable", "beta", "patch" -> "stable"
                     "canary", "preview", "alpha" -> "canary"
@@ -135,8 +134,8 @@ internal object AndroidStudioReleasesReader {
     private fun translateDate(rawDate: String): String {
         val month = rawDate.substringBefore(" ").trimStart('0')
         val year = rawDate.substringAfterLast(" ".trimStart('0'))
-        val day =
-            rawDate.substring(month.length + 1, rawDate.length - year.length - 1).trimStart('0')
+        val day = rawDate.substring(month.length + 1, rawDate.length - year.length - 1)
+            .trimStart('0')
 
         if (day.isEmpty()) {
             println("$rawDate\nMonth: '$month'\nYear: '$year'")

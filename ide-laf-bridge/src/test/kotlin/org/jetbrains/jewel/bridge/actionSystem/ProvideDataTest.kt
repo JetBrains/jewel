@@ -28,9 +28,7 @@ class ProvideDataTest {
             rule.setContent {
                 focusManager = LocalFocusManager.current
                 Box(
-                    modifier =
-                    Modifier.then(rootDataProviderModifier)
-                        .testTag("provider")
+                    modifier = rootDataProviderModifier.testTag("provider")
                         .provideData {
                             when (it) {
                                 "data" -> "ok"
@@ -59,9 +57,7 @@ class ProvideDataTest {
             rule.setContent {
                 focusManager = LocalFocusManager.current
                 Box(
-                    modifier =
-                    Modifier.then(rootDataProviderModifier)
-                        .testTag("root_provider")
+                    modifier = rootDataProviderModifier.testTag("root_provider")
                         .provideData {
                             when (it) {
                                 "isRoot" -> "yes"

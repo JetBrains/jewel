@@ -11,13 +11,12 @@ import org.jetbrains.jewel.ui.painter.hints.Override
 
 public class StandalonePainterHintsProvider(
     theme: ThemeDefinition,
-) :
-    BasePainterHintsProvider(
-        theme.isDark,
-        intellijColorPalette,
-        theme.iconData.colorPalette,
-        theme.colorPalette.rawMap,
-    ) {
+) : BasePainterHintsProvider(
+    theme.isDark,
+    intellijColorPalette,
+    theme.iconData.colorPalette,
+    theme.colorPalette.rawMap,
+) {
 
     private val overrideHint: PainterHint =
         Override(

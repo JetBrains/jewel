@@ -24,7 +24,9 @@ private val Application.lookAndFeelFlow: Flow<Unit>
 internal fun Application.lookAndFeelChangedFlow(
     scope: CoroutineScope,
     sharingStarted: SharingStarted = SharingStarted.Eagerly,
-): Flow<Unit> = lookAndFeelFlow.onStart { emit(Unit) }.shareIn(scope, sharingStarted, replay = 1)
+): Flow<Unit> =
+    lookAndFeelFlow.onStart { emit(Unit) }
+        .shareIn(scope, sharingStarted, replay = 1)
 
 internal fun <L : Any, K> MessageBus.flow(
     topic: Topic<L>,

@@ -6,15 +6,13 @@ plugins {
     id("org.jetbrains.dokka")
 }
 
-val sourcesJar by
-tasks.registering(Jar::class) {
+val sourcesJar by tasks.registering(Jar::class) {
     from(kotlin.sourceSets.main.map { it.kotlin })
     archiveClassifier = "sources"
     destinationDirectory = layout.buildDirectory.dir("artifacts")
 }
 
-val javadocJar by
-tasks.registering(Jar::class) {
+val javadocJar by tasks.registering(Jar::class) {
     from(tasks.dokkaHtml)
     archiveClassifier = "javadoc"
     destinationDirectory = layout.buildDirectory.dir("artifacts")

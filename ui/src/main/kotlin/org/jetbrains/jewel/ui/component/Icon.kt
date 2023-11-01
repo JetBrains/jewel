@@ -32,6 +32,7 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
+import org.jetbrains.jewel.ui.util.thenIf
 import org.xml.sax.InputSource
 import java.io.InputStream
 
@@ -74,15 +75,17 @@ public fun Icon(
 }
 
 /**
- * Icon component that draws [imageVector] using [tint], defaulting to [Color.Unspecified].
+ * Icon component that draws [imageVector] using [tint], defaulting to
+ * [Color.Unspecified].
  *
  * @param imageVector [ImageVector] to draw inside this Icon
- * @param contentDescription text used by accessibility services to describe what this icon
- *   represents. This should always be provided unless this icon is used for decorative purposes,
- *   and does not represent a meaningful action that a user can take.
+ * @param contentDescription text used by accessibility services to
+ *     describe what this icon represents. This should always be provided
+ *     unless this icon is used for decorative purposes, and does not
+ *     represent a meaningful action that a user can take.
  * @param modifier optional [Modifier] for this Icon
- * @param tint tint to be applied to [imageVector]. If [Color.Unspecified] is provided, then no tint
- *   is applied
+ * @param tint tint to be applied to [imageVector]. If [Color.Unspecified]
+ *     is provided, then no tint is applied
  */
 @Composable
 public fun Icon(
@@ -100,15 +103,17 @@ public fun Icon(
 }
 
 /**
- * Icon component that draws [bitmap] using [tint], defaulting to [Color.Unspecified].
+ * Icon component that draws [bitmap] using [tint], defaulting to
+ * [Color.Unspecified].
  *
  * @param bitmap [ImageBitmap] to draw inside this Icon
- * @param contentDescription text used by accessibility services to describe what this icon
- *   represents. This should always be provided unless this icon is used for decorative purposes,
- *   and does not represent a meaningful action that a user can take.
+ * @param contentDescription text used by accessibility services to
+ *     describe what this icon represents. This should always be provided
+ *     unless this icon is used for decorative purposes, and does not
+ *     represent a meaningful action that a user can take.
  * @param modifier optional [Modifier] for this Icon
- * @param tint tint to be applied to [bitmap]. If [Color.Unspecified] is provided, then no tint is
- *   applied
+ * @param tint tint to be applied to [bitmap]. If [Color.Unspecified] is
+ *     provided, then no tint is applied
  */
 @Composable
 public fun Icon(
@@ -127,15 +132,17 @@ public fun Icon(
 }
 
 /**
- * Icon component that draws a [painter] using [tint], defaulting to [Color.Unspecified]
+ * Icon component that draws a [painter] using [tint], defaulting to
+ * [Color.Unspecified]
  *
  * @param painter [Painter] to draw inside this Icon
- * @param contentDescription text used by accessibility services to describe what this icon
- *   represents. This should always be provided unless this icon is used for decorative purposes,
- *   and does not represent a meaningful action that a user can take.
+ * @param contentDescription text used by accessibility services to
+ *     describe what this icon represents. This should always be provided
+ *     unless this icon is used for decorative purposes, and does not
+ *     represent a meaningful action that a user can take.
  * @param modifier optional [Modifier] for this Icon
- * @param tint tint to be applied to [painter]. If [Color.Unspecified] is provided, then no tint is
- *   applied
+ * @param tint tint to be applied to [painter]. If [Color.Unspecified] is
+ *     provided, then no tint is applied
  */
 @Composable
 public fun Icon(
@@ -152,11 +159,12 @@ public fun Icon(
  * Icon component that draws a [painter] using a [colorFilter]
  *
  * @param painter [Painter] to draw inside this Icon
- * @param contentDescription text used by accessibility services to describe what this icon
- *   represents. This should always be provided unless this icon is used for decorative purposes,
- *   and does not represent a meaningful action that a user can take.
- * @param modifier optional [Modifier] for this Icon
+ * @param contentDescription text used by accessibility services to
+ *     describe what this icon represents. This should always be provided
+ *     unless this icon is used for decorative purposes, and does not
+ *     represent a meaningful action that a user can take.
  * @param colorFilter color filter to be applied to [painter]
+ * @param modifier optional [Modifier] for this Icon
  */
 @Composable
 public fun Icon(
@@ -175,8 +183,7 @@ public fun Icon(
             Modifier
         }
     Box(
-        modifier
-            .toolingGraphicsLayer()
+        modifier.toolingGraphicsLayer()
             .defaultSizeFor(painter)
             .paint(
                 painter,
@@ -215,10 +222,9 @@ private fun rememberVectorXmlResource(
     loader: ResourceLoader = ResourceLoader.Default,
 ): Painter {
     val density = LocalDensity.current
-    val image =
-        remember(resourcePath, density, loader) {
-            useResource(resourcePath, loader) { loadXmlImageVector(InputSource(it), density) }
-        }
+    val image = remember(resourcePath, density, loader) {
+        useResource(resourcePath, loader) { loadXmlImageVector(InputSource(it), density) }
+    }
     return rememberVectorPainter(image)
 }
 
@@ -238,13 +244,9 @@ private inline fun <T> useResource(
 ): T = loader.load(resourcePath).use(block)
 
 private fun Modifier.defaultSizeFor(painter: Painter) =
-    then(
-        if (painter.intrinsicSize == Size.Unspecified || painter.intrinsicSize.isInfinite()) {
-            DefaultIconSizeModifier
-        } else {
-            Modifier
-        },
-    )
+    thenIf(painter.intrinsicSize == Size.Unspecified || painter.intrinsicSize.isInfinite()) {
+        DefaultIconSizeModifier
+    }
 
 private fun Size.isInfinite() = width.isInfinite() && height.isInfinite()
 

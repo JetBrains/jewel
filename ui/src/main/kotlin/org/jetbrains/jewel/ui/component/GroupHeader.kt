@@ -18,6 +18,7 @@ public fun GroupHeader(
 ) {
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
         Text(text, color = textColor)
+
         Divider(
             orientation = Orientation.Horizontal,
             color = style.colors.divider,

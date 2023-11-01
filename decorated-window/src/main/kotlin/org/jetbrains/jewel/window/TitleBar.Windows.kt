@@ -27,21 +27,21 @@ internal fun DecoratedWindowScope.TitleBarOnWindows(
     val titleBar = remember { JBR.getWindowDecorations().createCustomTitleBar() }
 
     TitleBarImpl(
-        modifier.customTitleBarMouseEventHandler(titleBar),
-        gradientStartColor,
-        style,
-        { height, _ ->
+        modifier = modifier.customTitleBarMouseEventHandler(titleBar),
+        gradientStartColor = gradientStartColor,
+        style = style,
+        applyTitleBar = { height, _ ->
             titleBar.height = height.value
             titleBar.putProperty("controls.dark", style.colors.background.isDark())
             JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
             PaddingValues(start = titleBar.leftInset.dp, end = titleBar.rightInset.dp)
         },
-        content,
+        content = content,
     )
 }
 
 internal fun Modifier.customTitleBarMouseEventHandler(titleBar: CustomTitleBar): Modifier =
-    this.pointerInput(Unit) {
+    pointerInput(Unit) {
         val currentContext = currentCoroutineContext()
         awaitPointerEventScope {
             var inUserControl = false

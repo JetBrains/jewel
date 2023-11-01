@@ -32,7 +32,8 @@ public object IntUiDefaultDropdownStyleFactory {
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = JewelTheme.defaultTextStyle,
         menuStyle: MenuStyle = MenuStyle.light(),
-    ): DropdownStyle = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
+    ): DropdownStyle =
+        DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
 
     @Composable
     public fun dark(
@@ -41,7 +42,8 @@ public object IntUiDefaultDropdownStyleFactory {
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = JewelTheme.defaultTextStyle,
         menuStyle: MenuStyle = MenuStyle.dark(),
-    ): DropdownStyle = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
+    ): DropdownStyle =
+        DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
 }
 
 public val DropdownStyle.Companion.Undecorated: IntUiUndecoratedDropdownStyleFactory
@@ -56,7 +58,8 @@ public object IntUiUndecoratedDropdownStyleFactory {
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = JewelTheme.defaultTextStyle,
         menuStyle: MenuStyle = MenuStyle.light(),
-    ): DropdownStyle = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
+    ): DropdownStyle =
+        DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
 
     @Composable
     public fun dark(
@@ -65,7 +68,8 @@ public object IntUiUndecoratedDropdownStyleFactory {
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = JewelTheme.defaultTextStyle,
         menuStyle: MenuStyle = MenuStyle.dark(),
-    ): DropdownStyle = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
+    ): DropdownStyle =
+        DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
 }
 
 public val DropdownColors.Companion.Default: IntUiDefaultDropdownColorsFactory
@@ -260,7 +264,8 @@ public fun DropdownMetrics.Companion.default(
     cornerSize: CornerSize = CornerSize(4.dp),
     contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 3.dp),
     borderWidth: Dp = 1.dp,
-): DropdownMetrics = DropdownMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
+): DropdownMetrics =
+    DropdownMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
 
 public fun DropdownMetrics.Companion.undecorated(
     arrowMinSize: DpSize = DpSize((23 + 3).dp, 24.dp),
@@ -268,8 +273,10 @@ public fun DropdownMetrics.Companion.undecorated(
     cornerSize: CornerSize = CornerSize(4.dp),
     contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 3.dp),
     borderWidth: Dp = 0.dp,
-): DropdownMetrics = DropdownMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
+): DropdownMetrics =
+    DropdownMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
 
 public fun DropdownIcons.Companion.defaults(
     chevronDown: PainterProvider = standalonePainterProvider("expui/general/chevronDown.svg"),
-): DropdownIcons = DropdownIcons(chevronDown)
+): DropdownIcons =
+    DropdownIcons(chevronDown)

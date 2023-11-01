@@ -1,12 +1,9 @@
 package org.jetbrains.jewel.bridge
 
-public sealed class JewelBridgeException(override val message: String?) :
-    RuntimeException(message) {
+public sealed class JewelBridgeException(override val message: String?) : RuntimeException(message) {
 
     public class KeyNotFoundException(key: String, type: String) :
-        JewelBridgeException(
-            "Key '$key' not found in Swing LaF, was expecting a value of type $type",
-        )
+        JewelBridgeException("Key '$key' not found in Swing LaF, was expecting a value of type $type")
 
     public class KeysNotFoundException(keys: List<String>, type: String) :
         JewelBridgeException(

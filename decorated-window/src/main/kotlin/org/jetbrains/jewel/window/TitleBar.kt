@@ -67,8 +67,7 @@ public fun DecoratedWindowScope.TitleBar(
         DesktopPlatform.Linux -> TitleBarOnLinux(modifier, gradientStartColor, style, content)
         DesktopPlatform.Windows -> TitleBarOnWindows(modifier, gradientStartColor, style, content)
         DesktopPlatform.MacOS -> TitleBarOnMacOs(modifier, gradientStartColor, style, content)
-        DesktopPlatform.Unknown ->
-            error("TitleBar is not supported on this platform(${System.getProperty("os.name")})")
+        DesktopPlatform.Unknown -> error("TitleBar is not supported on this platform(${System.getProperty("os.name")})")
     }
 }
 
@@ -86,25 +85,24 @@ internal fun DecoratedWindowScope.TitleBarImpl(
 
     val density = LocalDensity.current
 
-    val backgroundBrush =
-        remember(background, gradientStartColor) {
-            if (gradientStartColor.isUnspecified) {
-                SolidColor(background)
-            } else {
-                with(density) {
-                    Brush.horizontalGradient(
-                        0.0f to background,
-                        0.5f to gradientStartColor,
-                        1.0f to background,
-                        startX = style.metrics.gradientStartX.toPx(),
-                        endX = style.metrics.gradientEndX.toPx(),
-                    )
-                }
+    val backgroundBrush = remember(background, gradientStartColor) {
+        if (gradientStartColor.isUnspecified) {
+            SolidColor(background)
+        } else {
+            with(density) {
+                Brush.horizontalGradient(
+                    0.0f to background,
+                    0.5f to gradientStartColor,
+                    1.0f to background,
+                    startX = style.metrics.gradientStartX.toPx(),
+                    endX = style.metrics.gradientEndX.toPx(),
+                )
             }
         }
+    }
 
     Layout(
-        {
+        content = {
             CompositionLocalProvider(
                 LocalContentColor provides style.colors.content,
                 LocalIconButtonStyle provides style.iconButtonStyle,
@@ -116,15 +114,13 @@ internal fun DecoratedWindowScope.TitleBarImpl(
                 }
             }
         },
-        modifier
-            .background(backgroundBrush)
+        modifier = modifier.background(backgroundBrush)
             .focusProperties { canFocus = false }
             .layoutId(TITLE_BAR_LAYOUT_ID)
             .height(style.metrics.height)
             .onSizeChanged { with(density) { applyTitleBar(it.height.toDp(), state) } }
             .fillMaxWidth(),
-        measurePolicy =
-        rememberTitleBarMeasurePolicy(
+        measurePolicy = rememberTitleBarMeasurePolicy(
             window,
             state,
             applyTitleBar,
@@ -145,15 +141,9 @@ internal class TitleBarMeasurePolicy(
     private val applyTitleBar: (Dp, DecoratedWindowState) -> PaddingValues,
 ) : MeasurePolicy {
 
-    override fun MeasureScope.measure(
-        measurables: List<Measurable>,
-        constraints: Constraints,
-    ): MeasureResult {
+    override fun MeasureScope.measure(measurables: List<Measurable>, constraints: Constraints): MeasureResult {
         if (measurables.isEmpty()) {
-            return layout(
-                constraints.minWidth,
-                constraints.minHeight,
-            ) {}
+            return layout(width = constraints.minWidth, height = constraints.minHeight) {}
         }
 
         var occupiedSpaceHorizontally = 0
@@ -241,15 +231,10 @@ internal fun rememberTitleBarMeasurePolicy(
     window: Window,
     state: DecoratedWindowState,
     applyTitleBar: (Dp, DecoratedWindowState) -> PaddingValues,
-): MeasurePolicy {
-    return remember(window, state, applyTitleBar) {
-        TitleBarMeasurePolicy(
-            window,
-            state,
-            applyTitleBar,
-        )
+): MeasurePolicy =
+    remember(window, state, applyTitleBar) {
+        TitleBarMeasurePolicy(window, state, applyTitleBar)
     }
-}
 
 public interface TitleBarScope {
 
@@ -257,7 +242,8 @@ public interface TitleBarScope {
 
     public val icon: Painter?
 
-    @Stable public fun Modifier.align(alignment: Alignment.Horizontal): Modifier
+    @Stable
+    public fun Modifier.align(alignment: Alignment.Horizontal): Modifier
 }
 
 private class TitleBarScopeImpl(
@@ -265,18 +251,14 @@ private class TitleBarScopeImpl(
     override val icon: Painter?,
 ) : TitleBarScope {
 
-    override fun Modifier.align(alignment: Alignment.Horizontal): Modifier {
-        return then(
-            TitleBarChildDataElement(
-                alignment,
-                inspectorInfo =
-                debugInspectorInfo {
-                    name = "align"
-                    value = alignment
-                },
-            ),
+    override fun Modifier.align(alignment: Alignment.Horizontal): Modifier =
+        this then TitleBarChildDataElement(
+            alignment,
+            debugInspectorInfo {
+                name = "align"
+                value = alignment
+            },
         )
-    }
 }
 
 private class TitleBarChildDataElement(
@@ -307,5 +289,6 @@ private class TitleBarChildDataNode(
     var horizontalAlignment: Alignment.Horizontal,
 ) : ParentDataModifierNode, Modifier.Node() {
 
-    override fun Density.modifyParentData(parentData: Any?) = this@TitleBarChildDataNode
+    override fun Density.modifyParentData(parentData: Any?) =
+        this@TitleBarChildDataNode
 }

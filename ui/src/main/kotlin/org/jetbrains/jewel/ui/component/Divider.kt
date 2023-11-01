@@ -27,7 +27,7 @@ public fun Divider(
     startIndent: Dp = Dp.Unspecified,
     style: DividerStyle = JewelTheme.dividerStyle,
 ) {
-    val indentMod =
+    val indentModifier =
         if (startIndent.value != 0f) {
             Modifier.padding(start = startIndent.takeOrElse { style.metrics.startIndent })
         } else {
@@ -43,6 +43,8 @@ public fun Divider(
 
     val lineColor = color.takeOrElse { style.color }
     Box(
-        modifier.then(indentMod).then(orientationModifier).background(color = lineColor),
+        modifier.then(indentModifier)
+            .then(orientationModifier)
+            .background(color = lineColor),
     )
 }

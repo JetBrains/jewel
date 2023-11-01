@@ -22,13 +22,17 @@ public class BadgePainter(
 ) : DelegatePainter(source) {
 
     /**
-     * Optional [Paint] used to draw contents into an offscreen layer in order to apply alpha or
-     * [ColorFilter] parameters accordingly. If no alpha or [ColorFilter] is provided or the [Painter]
-     * implementation implements [applyAlpha] and [applyColorFilter] then this paint is not used
+     * Optional [Paint] used to draw contents into an offscreen layer to
+     * apply alpha or [ColorFilter] parameters accordingly. If no alpha or
+     * [ColorFilter] is provided or the [Painter] implementation implements
+     * [applyAlpha] and [applyColorFilter] then this paint is not used.
      */
     private var layerPaint: Paint? = null
 
-    /** Lazily create a [Paint] object or return the existing instance if it is already allocated */
+    /**
+     * Lazily create a [Paint] object or return the existing instance if it is
+     * already allocated.
+     */
     private fun obtainPaint(): Paint {
         var target = layerPaint
         if (target == null) {

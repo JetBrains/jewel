@@ -27,7 +27,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -111,8 +110,7 @@ public fun PopupMenu(
         onPreviewKeyEvent = { false },
         onKeyEvent = {
             val currentFocusManager = checkNotNull(focusManager) { "FocusManager must not be null" }
-            val currentInputModeManager =
-                checkNotNull(inputModeManager) { "InputModeManager must not be null" }
+            val currentInputModeManager = checkNotNull(inputModeManager) { "InputModeManager must not be null" }
             handlePopupMenuOnKeyEvent(it, currentFocusManager, currentInputModeManager, menuManager)
         },
     ) {
@@ -147,8 +145,7 @@ internal fun MenuContent(
     val menuShape = RoundedCornerShape(style.metrics.cornerSize)
 
     Box(
-        modifier =
-        modifier
+        modifier = modifier
             .shadow(
                 elevation = style.metrics.shadowSize,
                 shape = menuShape,
@@ -160,38 +157,36 @@ internal fun MenuContent(
             .width(IntrinsicSize.Max)
             .onHover { localMenuManager.onHoveredChange(it) },
     ) {
-        Column(
-            modifier = Modifier.verticalScroll(scrollState).padding(style.metrics.contentPadding),
-        ) {
-            items.forEach {
-                when (it) {
-                    is MenuSelectableItem -> {
-                        MenuItem(
-                            selected = it.isSelected,
-                            onClick = it.onClick,
-                            enabled = it.isEnabled,
-                            content = it.content,
-                        )
-                    }
-                    is SubmenuItem -> {
-                        MenuSubmenuItem(
-                            enabled = it.isEnabled,
-                            submenu = it.submenu,
-                            content = it.content,
-                        )
-                    }
-                    else -> {
-                        it.content()
-                    }
-                }
-            }
+        Column(Modifier.verticalScroll(scrollState).padding(style.metrics.contentPadding)) {
+            items.forEach { ShowMenuItem(it) }
         }
+
         Box(modifier = Modifier.matchParentSize()) {
             VerticalScrollbar(
                 rememberScrollbarAdapter(scrollState),
                 modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
             )
         }
+    }
+}
+
+@Composable
+private fun ShowMenuItem(item: MenuItem) {
+    when (item) {
+        is MenuSelectableItem -> MenuItem(
+            selected = item.isSelected,
+            onClick = item.onClick,
+            enabled = item.isEnabled,
+            content = item.content,
+        )
+
+        is SubmenuItem -> MenuSubmenuItem(
+            enabled = item.isEnabled,
+            submenu = item.submenu,
+            content = item.content,
+        )
+
+        else -> item.content()
     }
 }
 
@@ -223,7 +218,9 @@ public fun MenuScope.items(
     onItemClick: (Int) -> Unit,
     content: @Composable (Int) -> Unit,
 ) {
-    repeat(count) { selectableItem(isSelected(it), onClick = { onItemClick(it) }) { content(it) } }
+    repeat(count) {
+        selectableItem(isSelected(it), onClick = { onItemClick(it) }) { content(it) }
+    }
 }
 
 public fun <T> MenuScope.items(
@@ -312,10 +309,9 @@ public fun MenuItem(
     style: MenuStyle = JewelTheme.menuStyle,
     content: @Composable () -> Unit,
 ) {
-    var itemState by
-        remember(interactionSource) {
-            mutableStateOf(MenuItemState.of(selected = selected, enabled = enabled))
-        }
+    var itemState by remember(interactionSource) {
+        mutableStateOf(MenuItemState.of(selected = selected, enabled = enabled))
+    }
 
     remember(enabled, selected) { itemState = itemState.copy(selected = selected, enabled = enabled) }
 
@@ -325,13 +321,13 @@ public fun MenuItem(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> itemState = itemState.copy(pressed = true)
-                is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                -> itemState = itemState.copy(pressed = false)
+                is PressInteraction.Cancel, is PressInteraction.Release -> itemState = itemState.copy(pressed = false)
+
                 is HoverInteraction.Enter -> {
                     itemState = itemState.copy(hovered = true)
                     focusRequester.requestFocus()
                 }
+
                 is HoverInteraction.Exit -> itemState = itemState.copy(hovered = false)
                 is FocusInteraction.Focus -> itemState = itemState.copy(focused = true)
                 is FocusInteraction.Unfocus -> itemState = itemState.copy(focused = false)
@@ -343,8 +339,7 @@ public fun MenuItem(
     val localInputModeManager = LocalInputModeManager.current
 
     Box(
-        modifier =
-        modifier
+        modifier = modifier
             .focusRequester(focusRequester)
             .selectable(
                 selected = selected,
@@ -408,13 +403,13 @@ public fun MenuSubmenuItem(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> itemState = itemState.copy(pressed = true)
-                is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                -> itemState = itemState.copy(pressed = false)
+                is PressInteraction.Cancel, is PressInteraction.Release -> itemState = itemState.copy(pressed = false)
+
                 is HoverInteraction.Enter -> {
                     itemState = itemState.copy(hovered = true, selected = true)
                     focusRequester.requestFocus()
                 }
+
                 is HoverInteraction.Exit -> itemState = itemState.copy(hovered = false)
                 is FocusInteraction.Focus -> itemState = itemState.copy(focused = true)
                 is FocusInteraction.Unfocus -> itemState = itemState.copy(focused = false)
@@ -427,8 +422,7 @@ public fun MenuSubmenuItem(
 
     val backgroundColor by itemColors.backgroundFor(itemState)
     Box(
-        modifier =
-        modifier
+        modifier = modifier
             .fillMaxWidth()
             .drawItemBackground(menuMetrics.itemMetrics, backgroundColor)
             .focusRequester(focusRequester)
@@ -539,10 +533,9 @@ internal fun Submenu(
     var focusManager: FocusManager? by remember { mutableStateOf(null) }
     var inputModeManager: InputModeManager? by remember { mutableStateOf(null) }
     val parentMenuManager = LocalMenuManager.current
-    val menuManager =
-        remember(parentMenuManager, onDismissRequest) {
-            parentMenuManager.submenuManager(onDismissRequest)
-        }
+    val menuManager = remember(parentMenuManager, onDismissRequest) {
+        parentMenuManager.submenuManager(onDismissRequest)
+    }
 
     Popup(
         popupPositionProvider = popupPositionProvider,
@@ -572,27 +565,21 @@ internal fun Submenu(
 @JvmInline
 public value class MenuItemState(public val state: ULong) : SelectableComponentState, FocusableComponentState {
 
-    @Stable
     override val isActive: Boolean
         get() = state and Selected != 0UL
 
-    @Stable
     override val isSelected: Boolean
         get() = state and Selected != 0UL
 
-    @Stable
     override val isEnabled: Boolean
         get() = state and Enabled != 0UL
 
-    @Stable
     override val isFocused: Boolean
         get() = state and Focused != 0UL
 
-    @Stable
     override val isHovered: Boolean
         get() = state and Hovered != 0UL
 
-    @Stable
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 

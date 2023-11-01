@@ -15,10 +15,6 @@ private object SelectedImpl : PainterSuffixHint() {
 }
 
 public fun Selected(selected: Boolean = true): PainterHint =
-    if (selected) {
-        SelectedImpl
-    } else {
-        PainterHint.None
-    }
+    if (selected) SelectedImpl else PainterHint.None
 
 public fun Selected(state: SelectableComponentState): PainterHint = Selected(state.isSelected)

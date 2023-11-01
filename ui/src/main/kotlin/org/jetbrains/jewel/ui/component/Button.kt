@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -120,8 +119,7 @@ private fun ButtonImpl(
     val borderColor by colors.borderFor(buttonState)
 
     Box(
-        modifier =
-        modifier
+        modifier = modifier
             .clickable(
                 onClick = onClick,
                 enabled = enabled,
@@ -155,23 +153,18 @@ private fun ButtonImpl(
 @JvmInline
 public value class ButtonState(public val state: ULong) : FocusableComponentState {
 
-    @Stable
     override val isActive: Boolean
         get() = state and Active != 0UL
 
-    @Stable
     override val isEnabled: Boolean
         get() = state and Enabled != 0UL
 
-    @Stable
     override val isFocused: Boolean
         get() = state and Focused != 0UL
 
-    @Stable
     override val isHovered: Boolean
         get() = state and Hovered != 0UL
 
-    @Stable
     override val isPressed: Boolean
         get() = state and Pressed != 0UL
 

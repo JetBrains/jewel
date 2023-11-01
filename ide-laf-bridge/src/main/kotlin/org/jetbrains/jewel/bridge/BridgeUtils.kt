@@ -100,8 +100,9 @@ public fun retrieveInsetsAsPaddingValues(key: String): PaddingValues =
     UIManager.getInsets(key)?.toPaddingValues() ?: keyNotFound(key, "Insets")
 
 /**
- * Converts a [Insets] to [PaddingValues]. If the receiver is a [JBInsets] instance, this function
- * delegates to the specific [toPaddingValues] for it, which is scaling-aware.
+ * Converts a [Insets] to [PaddingValues]. If the receiver is a [JBInsets]
+ * instance, this function delegates to the specific [toPaddingValues] for
+ * it, which is scaling-aware.
  */
 public fun Insets.toPaddingValues(): PaddingValues =
     if (this is JBInsets) {
@@ -111,22 +112,25 @@ public fun Insets.toPaddingValues(): PaddingValues =
     }
 
 /**
- * Converts a [JBInsets] to [PaddingValues], in a scaling-aware way. This means that the resulting
- * [PaddingValues] will be constructed from the [JBInsets.getUnscaled] values, treated as [Dp]. This
- * avoids double scaling.
+ * Converts a [JBInsets] to [PaddingValues], in a scaling-aware way. This
+ * means that the resulting [PaddingValues] will be constructed from the
+ * [JBInsets.getUnscaled] values, treated as [Dp]. This avoids double
+ * scaling.
  */
 public fun JBInsets.toPaddingValues(): PaddingValues =
     PaddingValues(unscaled.left.dp, unscaled.top.dp, unscaled.right.dp, unscaled.bottom.dp)
 
 /**
- * Converts a [Dimension] to [DpSize]. If the receiver is a [JBDimension] instance, this function
- * delegates to the specific [toDpSize] for it, which is scaling-aware.
+ * Converts a [Dimension] to [DpSize]. If the receiver is a [JBDimension]
+ * instance, this function delegates to the specific [toDpSize] for it,
+ * which is scaling-aware.
  */
 public fun Dimension.toDpSize(): DpSize = DpSize(width.dp, height.dp)
 
 /**
- * Converts a [JBDimension] to [DpSize], in a scaling-aware way. This means that the resulting
- * [DpSize] will be constructed by first obtaining the unscaled values. This avoids double scaling.
+ * Converts a [JBDimension] to [DpSize], in a scaling-aware way. This means
+ * that the resulting [DpSize] will be constructed by first obtaining the
+ * unscaled values. This avoids double scaling.
  */
 public fun JBDimension.toDpSize(): DpSize {
     val scaleFactor = scale(1f)
@@ -173,25 +177,19 @@ public suspend fun retrieveTextStyle(
     fontStyle: FontStyle = FontStyle.Normal,
     size: TextUnit = TextUnit.Unspecified,
 ): TextStyle {
-    val font =
-        JBFont.create(
-            UIManager.getFont(key) ?: keyNotFound(key, "Font"),
-            false,
-        )
+    val lafFont = UIManager.getFont(key) ?: keyNotFound(key, "Font")
+    val jbFont = JBFont.create(lafFont, false)
 
-    val derivedFont =
-        font
-            .let { if (bold) it.asBold() else it.asPlain() }
-            .let { if (fontStyle == FontStyle.Italic) it.asItalic() else it }
+    val derivedFont = jbFont.let { if (bold) it.asBold() else it.asPlain() }
+        .let { if (fontStyle == FontStyle.Italic) it.asItalic() else it }
 
-    val typeface =
-        derivedFont.toSkikoTypefaceOrNull(awtFontManager)
-            ?: Typeface.makeDefault().also {
-                logger.warn(
-                    "Unable to convert font ${font.fontName} into a Skiko typeface, " +
-                        "fallback to 'Typeface.makeDefault()'",
-                )
-            }
+    val typeface = derivedFont.toSkikoTypefaceOrNull(awtFontManager)
+        ?: Typeface.makeDefault().also {
+            logger.warn(
+                "Unable to convert font ${jbFont.fontName} into a Skiko typeface, " +
+                    "fallback to 'Typeface.makeDefault()'",
+            )
+        }
 
     return TextStyle(
         color = color,
@@ -206,9 +204,8 @@ public suspend fun retrieveTextStyle(
 
 @DependsOnJBR
 public fun Font.toFontFamily(): FontFamily {
-    val typeface =
-        runBlocking { toSkikoTypefaceOrNull(awtFontManager) }
-            ?: error("Can't turn $this into a Typeface")
+    val typeface = runBlocking { toSkikoTypefaceOrNull(awtFontManager) }
+        ?: error("Can't turn $this into a Typeface")
 
     return FontFamily(Typeface(typeface))
 }

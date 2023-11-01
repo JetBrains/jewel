@@ -34,7 +34,8 @@ public fun TooltipColors.Companion.light(
     contentColor: Color = IntUiLightTheme.colors.grey(12),
     borderColor: Color = backgroundColor,
     shadow: Color = Color(0x78919191), // Not a palette color
-): TooltipColors = TooltipColors(backgroundColor, contentColor, borderColor, shadow)
+): TooltipColors =
+    TooltipColors(backgroundColor, contentColor, borderColor, shadow)
 
 @Composable
 public fun TooltipColors.Companion.dark(
@@ -42,4 +43,5 @@ public fun TooltipColors.Companion.dark(
     contentColor: Color = IntUiDarkTheme.colors.grey(12),
     borderColor: Color = IntUiDarkTheme.colors.grey(3),
     shadow: Color = Color(0x66000000), // Not a palette color
-): TooltipColors = TooltipColors(backgroundColor, contentColor, borderColor, shadow)
+): TooltipColors =
+    TooltipColors(backgroundColor, contentColor, borderColor, shadow)

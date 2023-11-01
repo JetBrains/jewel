@@ -6,7 +6,9 @@ import androidx.compose.runtime.Composable
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListKey.NotSelectable
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListKey.Selectable
 
-/** Interface defining the scope for building a selectable lazy list. */
+/**
+ * Interface defining the scope for building a selectable lazy list.
+ */
 public interface SelectableLazyListScope {
 
     /**
@@ -14,7 +16,8 @@ public interface SelectableLazyListScope {
      *
      * @param key The unique identifier for the item.
      * @param contentType The type of content displayed in the item.
-     * @param selectable Determines if the item is selectable. Default is `true`.
+     * @param selectable Determines if the item is selectable. Default is
+     *     `true`.
      * @param content The content of the item as a composable function.
      */
     public fun item(
@@ -51,8 +54,8 @@ public interface SelectableLazyListScope {
      * @param key The unique identifier for the sticky header.
      * @param contentType The type of content in the sticky header.
      * @param selectable Specifies whether the sticky header is selectable.
-     * @param content The content to be displayed in the sticky header, provided as a composable
-     *   function
+     * @param content The content to be displayed in the sticky header,
+     *     provided as a composable function
      */
     public fun stickyHeader(
         key: Any,
@@ -63,12 +66,13 @@ public interface SelectableLazyListScope {
 }
 
 internal class SelectableLazyListScopeContainer : SelectableLazyListScope {
+
     private val keys = mutableListOf<SelectableLazyListKey>()
     private val entries = mutableListOf<Entry>()
 
-    public fun getEntries() = entries.toList()
+    fun getEntries() = entries.toList()
 
-    public fun getKeys() = keys.toList()
+    fun getKeys() = keys.toList()
 
     internal sealed interface Entry {
         data class Item(

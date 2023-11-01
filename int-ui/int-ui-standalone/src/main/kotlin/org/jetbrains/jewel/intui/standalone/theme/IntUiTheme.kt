@@ -48,13 +48,12 @@ import org.jetbrains.jewel.ui.painter.LocalPainterHintsProvider
 import org.jetbrains.jewel.ui.theme.BaseJewelTheme
 
 public val JewelTheme.Companion.defaultTextStyle: TextStyle
-    get() =
-        TextStyle.Default.copy(
-            fontFamily = FontFamily.Inter,
-            fontSize = 13.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal,
-        )
+    get() = TextStyle.Default.copy(
+        fontFamily = FontFamily.Inter,
+        fontSize = 13.sp,
+        fontWeight = FontWeight.Normal,
+        fontStyle = FontStyle.Normal,
+    )
 
 @Composable
 public fun JewelTheme.Companion.lightThemeDefinition(
@@ -65,15 +64,7 @@ public fun JewelTheme.Companion.lightThemeDefinition(
     defaultTextStyle: TextStyle = JewelTheme.defaultTextStyle,
     contentColor: Color = IntUiLightTheme.colors.grey(1),
 ): ThemeDefinition =
-    ThemeDefinition(
-        isDark = false,
-        colors,
-        metrics,
-        defaultTextStyle,
-        contentColor,
-        palette,
-        iconData,
-    )
+    ThemeDefinition(isDark = false, colors, metrics, defaultTextStyle, contentColor, palette, iconData)
 
 @Composable
 public fun JewelTheme.Companion.darkThemeDefinition(
@@ -199,11 +190,7 @@ public fun IntUiTheme(
     content: @Composable () -> Unit,
 ) {
     val themeDefinition =
-        if (isDark) {
-            JewelTheme.darkThemeDefinition()
-        } else {
-            JewelTheme.lightThemeDefinition()
-        }
+        if (isDark) JewelTheme.darkThemeDefinition() else JewelTheme.lightThemeDefinition()
 
     IntUiTheme(
         theme = themeDefinition,

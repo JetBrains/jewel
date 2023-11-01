@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
@@ -61,7 +62,7 @@ public fun DecoratedWindow(
     remember {
         if (!JBR.isAvailable()) {
             error(
-                "DecoratedWindow only can be used on JetBrainsRuntime(JBR) platform, " +
+                "DecoratedWindow can only be used on JetBrainsRuntime(JBR) platform, " +
                     "please check the document https://github.com/JetBrains/jewel#int-ui-standalone-theme",
             )
         }
@@ -77,7 +78,7 @@ public fun DecoratedWindow(
         title,
         icon,
         undecorated,
-        false,
+        transparent = false,
         resizable,
         enabled,
         focusable,
@@ -88,47 +89,48 @@ public fun DecoratedWindow(
         var decoratedWindowState by remember { mutableStateOf(DecoratedWindowState.of(window)) }
 
         DisposableEffect(window) {
-            val adapter =
-                object : WindowAdapter(), ComponentListener {
-                    override fun windowActivated(e: WindowEvent?) {
-                        decoratedWindowState = DecoratedWindowState.of(window)
-                    }
-
-                    override fun windowDeactivated(e: WindowEvent?) {
-                        decoratedWindowState = DecoratedWindowState.of(window)
-                    }
-
-                    override fun windowIconified(e: WindowEvent?) {
-                        decoratedWindowState = DecoratedWindowState.of(window)
-                    }
-
-                    override fun windowDeiconified(e: WindowEvent?) {
-                        decoratedWindowState = DecoratedWindowState.of(window)
-                    }
-
-                    override fun windowStateChanged(e: WindowEvent) {
-                        decoratedWindowState = DecoratedWindowState.of(window)
-                    }
-
-                    override fun componentResized(e: ComponentEvent?) {
-                        decoratedWindowState = DecoratedWindowState.of(window)
-                    }
-
-                    override fun componentMoved(e: ComponentEvent?) {
-                        // Empty
-                    }
-
-                    override fun componentShown(e: ComponentEvent?) {
-                        // Empty
-                    }
-
-                    override fun componentHidden(e: ComponentEvent?) {
-                        // Empty
-                    }
+            val adapter = object : WindowAdapter(), ComponentListener {
+                override fun windowActivated(e: WindowEvent?) {
+                    decoratedWindowState = DecoratedWindowState.of(window)
                 }
+
+                override fun windowDeactivated(e: WindowEvent?) {
+                    decoratedWindowState = DecoratedWindowState.of(window)
+                }
+
+                override fun windowIconified(e: WindowEvent?) {
+                    decoratedWindowState = DecoratedWindowState.of(window)
+                }
+
+                override fun windowDeiconified(e: WindowEvent?) {
+                    decoratedWindowState = DecoratedWindowState.of(window)
+                }
+
+                override fun windowStateChanged(e: WindowEvent) {
+                    decoratedWindowState = DecoratedWindowState.of(window)
+                }
+
+                override fun componentResized(e: ComponentEvent?) {
+                    decoratedWindowState = DecoratedWindowState.of(window)
+                }
+
+                override fun componentMoved(e: ComponentEvent?) {
+                    // Empty
+                }
+
+                override fun componentShown(e: ComponentEvent?) {
+                    // Empty
+                }
+
+                override fun componentHidden(e: ComponentEvent?) {
+                    // Empty
+                }
+            }
+
             window.addWindowListener(adapter)
             window.addWindowStateListener(adapter)
             window.addComponentListener(adapter)
+
             onDispose {
                 window.removeWindowListener(adapter)
                 window.removeWindowStateListener(adapter)
@@ -143,8 +145,7 @@ public fun DecoratedWindow(
                     style.metrics.borderWidth,
                     style.colors.borderFor(decoratedWindowState).value,
                     RectangleShape,
-                )
-                    .padding(style.metrics.borderWidth)
+                ).padding(style.metrics.borderWidth)
             } else {
                 Modifier
             }
@@ -153,15 +154,14 @@ public fun DecoratedWindow(
             LocalTitleBarInfo provides TitleBarInfo(title, icon),
         ) {
             Layout(
-                {
-                    val scope =
-                        object : DecoratedWindowScope {
-                            override val state: DecoratedWindowState
-                                get() = decoratedWindowState
+                content = {
+                    val scope = object : DecoratedWindowScope {
+                        override val state: DecoratedWindowState
+                            get() = decoratedWindowState
 
-                            override val window: ComposeWindow
-                                get() = this@Window.window
-                        }
+                        override val window: ComposeWindow
+                            get() = this@Window.window
+                    }
                     scope.content()
                 },
                 modifier = undecoratedWindowBorder.trackWindowActivation(window),
@@ -181,15 +181,9 @@ public interface DecoratedWindowScope : FrameWindowScope {
 
 private object DecoratedWindowMeasurePolicy : MeasurePolicy {
 
-    override fun MeasureScope.measure(
-        measurables: List<Measurable>,
-        constraints: Constraints,
-    ): MeasureResult {
+    override fun MeasureScope.measure(measurables: List<Measurable>, constraints: Constraints): MeasureResult {
         if (measurables.isEmpty()) {
-            return layout(
-                constraints.minWidth,
-                constraints.minHeight,
-            ) {}
+            return layout(width = constraints.minWidth, height = constraints.minHeight) {}
         }
 
         val titleBars = measurables.filter { it.layoutId == TITLE_BAR_LAYOUT_ID }
@@ -211,8 +205,8 @@ private object DecoratedWindowMeasurePolicy : MeasurePolicy {
 
         for (it in measurables) {
             if (it.layoutId.toString().startsWith(TITLE_BAR_COMPONENT_LAYOUT_ID_PREFIX)) continue
-            val placeable =
-                it.measure(contentConstraints.offset(vertical = -titleBarHeight - titleBarBorderHeight))
+            val offsetConstraints = contentConstraints.offset(vertical = -titleBarHeight - titleBarBorderHeight)
+            val placeable = it.measure(offsetConstraints)
             measuredPlaceable += placeable
         }
 
@@ -287,14 +281,9 @@ public value class DecoratedWindowState(public val state: ULong) {
     }
 }
 
-internal data class TitleBarInfo(
-    val title: String,
-    val icon: Painter?,
-)
+internal data class TitleBarInfo(val title: String, val icon: Painter?)
 
-internal val LocalTitleBarInfo =
-    compositionLocalOf<TitleBarInfo> {
-        error(
-            "CompositionLocal LocalTitleBarInfo not provided, TitleBar must be used in DecoratedWindow",
-        )
+internal val LocalTitleBarInfo: ProvidableCompositionLocal<TitleBarInfo> =
+    compositionLocalOf {
+        error("LocalTitleBarInfo not provided, TitleBar must be used in DecoratedWindow")
     }

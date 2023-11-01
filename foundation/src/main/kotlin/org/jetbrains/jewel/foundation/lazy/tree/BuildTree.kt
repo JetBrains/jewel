@@ -57,30 +57,26 @@ public class TreeBuilder<T> : TreeGeneratorScope<T> {
 
     private fun getCurrentTreeElement(index: Int, previous: Tree.Element<T>?) =
         when (val elementBuilder = heads[index]) {
-            is Element.Leaf ->
-                Tree.Element.Leaf(
-                    data = elementBuilder.data,
-                    depth = 0,
-                    childIndex = index,
-                    parent = null,
-                    previous = previous,
-                    next = null,
-                    id = elementBuilder.id ?: "$index",
-                )
+            is Element.Leaf -> Tree.Element.Leaf(
+                data = elementBuilder.data,
+                depth = 0,
+                childIndex = index,
+                parent = null,
+                previous = previous,
+                next = null,
+                id = elementBuilder.id ?: "$index",
+            )
 
-            is Element.Node ->
-                Tree.Element.Node(
-                    data = elementBuilder.data,
-                    depth = 0,
-                    childIndex = index,
-                    parent = null,
-                    childrenGenerator = { parent ->
-                        generateElements(parent, elementBuilder)
-                    },
-                    previous = previous,
-                    next = null,
-                    id = elementBuilder.id ?: "$index",
-                )
+            is Element.Node -> Tree.Element.Node(
+                data = elementBuilder.data,
+                depth = 0,
+                childIndex = index,
+                parent = null,
+                childrenGenerator = { parent -> generateElements(parent, elementBuilder) },
+                previous = previous,
+                next = null,
+                id = elementBuilder.id ?: "$index",
+            )
         }
 }
 
@@ -95,27 +91,26 @@ private fun <T> generateElements(
         val previous = if (index == 0) parent else elements[index - 1]
         val current =
             when (val elementBuilder = childrenGeneratorScope.elements[index]) {
-                is TreeBuilder.Element.Leaf ->
-                    Tree.Element.Leaf(
-                        data = elementBuilder.data,
-                        depth = parent.depth + 1,
-                        childIndex = index,
-                        parent = parent,
-                        previous = previous,
-                        next = null,
-                        id = elementBuilder.id ?: (parent.id.toString() + "." + index),
-                    )
-                is TreeBuilder.Element.Node ->
-                    Tree.Element.Node(
-                        data = elementBuilder.data,
-                        depth = parent.depth + 1,
-                        childIndex = index,
-                        parent = parent,
-                        childrenGenerator = { generateElements(it, elementBuilder) },
-                        previous = previous,
-                        next = null,
-                        id = elementBuilder.id ?: (parent.id.toString() + "." + index),
-                    )
+                is TreeBuilder.Element.Leaf -> Tree.Element.Leaf(
+                    data = elementBuilder.data,
+                    depth = parent.depth + 1,
+                    childIndex = index,
+                    parent = parent,
+                    previous = previous,
+                    next = null,
+                    id = elementBuilder.id ?: (parent.id.toString() + "." + index),
+                )
+
+                is TreeBuilder.Element.Node -> Tree.Element.Node(
+                    data = elementBuilder.data,
+                    depth = parent.depth + 1,
+                    childIndex = index,
+                    parent = parent,
+                    childrenGenerator = { generateElements(it, elementBuilder) },
+                    previous = previous,
+                    next = null,
+                    id = elementBuilder.id ?: (parent.id.toString() + "." + index),
+                )
             }
         previous.next = current
         elements.add(current)
@@ -146,8 +141,7 @@ public interface TreeGeneratorScope<T> {
     public fun add(element: TreeBuilder.Element<T>)
 }
 
-public class ChildrenGeneratorScope<T>(private val parentElement: Tree.Element.Node<T>) :
-    TreeGeneratorScope<T> {
+public class ChildrenGeneratorScope<T>(private val parentElement: Tree.Element.Node<T>) : TreeGeneratorScope<T> {
 
     @GenerateDataFunctions
     public class ParentInfo<T>(public val data: T, public val depth: Int, public val index: Int)
@@ -175,16 +169,19 @@ public class ChildrenGeneratorScope<T>(private val parentElement: Tree.Element.N
     }
 }
 
-public fun Path.asTree(isOpen: (File) -> Boolean = { false }): Tree<File> = toFile().asTree(isOpen)
+public fun Path.asTree(isOpen: (File) -> Boolean = { false }): Tree<File> =
+    toFile().asTree(isOpen)
 
-public fun File.asTree(isOpen: (File) -> Boolean = { false }): Tree<File> = buildTree {
-    addNode(this@asTree, isOpen(this@asTree)) { generateFileNodes(isOpen) }
-}
+public fun File.asTree(isOpen: (File) -> Boolean = { false }): Tree<File> =
+    buildTree {
+        addNode(this@asTree, isOpen(this@asTree)) {
+            generateFileNodes(isOpen)
+        }
+    }
 
 private fun ChildrenGeneratorScope<File>.generateFileNodes(isOpen: (File) -> Boolean) {
     val files = parent.data.listFiles() ?: return
-    files
-        .sortedBy { if (it.isDirectory) "a" else "b" }
+    files.sortedBy { if (it.isDirectory) "a" else "b" }
         .forEach { file ->
             when {
                 file.isFile -> addLeaf(file, file.absolutePath)

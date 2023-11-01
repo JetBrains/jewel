@@ -26,7 +26,8 @@ public fun LinkStyle.Companion.light(
     metrics: LinkMetrics = LinkMetrics.defaults(),
     icons: LinkIcons = LinkIcons.defaults(),
     textStyles: LinkTextStyles = LinkTextStyles.light(),
-): LinkStyle = LinkStyle(colors, metrics, icons, textStyles)
+): LinkStyle =
+    LinkStyle(colors, metrics, icons, textStyles)
 
 @Composable
 public fun LinkStyle.Companion.dark(
@@ -34,7 +35,8 @@ public fun LinkStyle.Companion.dark(
     metrics: LinkMetrics = LinkMetrics.defaults(),
     icons: LinkIcons = LinkIcons.defaults(),
     textStyles: LinkTextStyles = LinkTextStyles.dark(),
-): LinkStyle = LinkStyle(colors, metrics, icons, textStyles)
+): LinkStyle =
+    LinkStyle(colors, metrics, icons, textStyles)
 
 @Composable
 public fun LinkColors.Companion.light(
@@ -76,12 +78,14 @@ public fun LinkMetrics.Companion.defaults(
     focusHaloCornerSize: CornerSize = CornerSize(2.dp),
     textIconGap: Dp = 0.dp,
     iconSize: DpSize = DpSize(16.dp, 16.dp),
-): LinkMetrics = LinkMetrics(focusHaloCornerSize, textIconGap, iconSize)
+): LinkMetrics =
+    LinkMetrics(focusHaloCornerSize, textIconGap, iconSize)
 
 public fun LinkIcons.Companion.defaults(
     dropdownChevron: PainterProvider = standalonePainterProvider("expui/general/chevronDown.svg"),
     externalLink: PainterProvider = standalonePainterProvider("expui/ide/externalLink.svg"),
-): LinkIcons = LinkIcons(dropdownChevron, externalLink)
+): LinkIcons =
+    LinkIcons(dropdownChevron, externalLink)
 
 @Composable
 public fun LinkTextStyles.Companion.light(
@@ -91,7 +95,8 @@ public fun LinkTextStyles.Companion.light(
     pressed: TextStyle = normal,
     hovered: TextStyle = normal,
     visited: TextStyle = normal,
-): LinkTextStyles = LinkTextStyles(normal, disabled, focused, pressed, hovered, visited)
+): LinkTextStyles =
+    LinkTextStyles(normal, disabled, focused, pressed, hovered, visited)
 
 @Composable
 public fun LinkTextStyles.Companion.dark(
@@ -101,4 +106,5 @@ public fun LinkTextStyles.Companion.dark(
     pressed: TextStyle = normal,
     hovered: TextStyle = normal,
     visited: TextStyle = normal,
-): LinkTextStyles = LinkTextStyles(normal, disabled, focused, pressed, hovered, visited)
+): LinkTextStyles =
+    LinkTextStyles(normal, disabled, focused, pressed, hovered, visited)

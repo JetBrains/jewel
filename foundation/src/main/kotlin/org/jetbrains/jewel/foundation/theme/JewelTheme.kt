@@ -17,27 +17,33 @@ public interface JewelTheme {
     public companion object {
 
         public val globalColors: GlobalColors
-            @Composable @ReadOnlyComposable
+            @Composable
+            @ReadOnlyComposable
             get() = LocalGlobalColors.current
 
         public val globalMetrics: GlobalMetrics
-            @Composable @ReadOnlyComposable
+            @Composable
+            @ReadOnlyComposable
             get() = LocalGlobalMetrics.current
 
         public val textStyle: TextStyle
-            @Composable @ReadOnlyComposable
+            @Composable
+            @ReadOnlyComposable
             get() = LocalTextStyle.current
 
         public val contentColor: Color
-            @Composable @ReadOnlyComposable
+            @Composable
+            @ReadOnlyComposable
             get() = LocalContentColor.current
 
         public val isDark: Boolean
-            @Composable @ReadOnlyComposable
+            @Composable
+            @ReadOnlyComposable
             get() = LocalIsDarkTheme.current
 
         public val isSwingCompatMode: Boolean
-            @Composable @ReadOnlyComposable
+            @Composable
+            @ReadOnlyComposable
             get() = LocalSwingCompatMode.current
     }
 }
