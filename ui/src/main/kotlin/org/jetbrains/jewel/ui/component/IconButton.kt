@@ -46,9 +46,7 @@ public fun IconButton(
     val buttonState =
         remember(interactionSource) { mutableStateOf(IconButtonState.of(enabled = enabled)) }
 
-    remember(enabled) {
-        buttonState.value = buttonState.value.copy(enabled = enabled)
-    }
+    remember(enabled) { buttonState.value = buttonState.value.copy(enabled = enabled) }
 
     IconButtonImpl(
         state = buttonState,
@@ -119,7 +117,6 @@ private fun IconButtonImpl(
                 is PressInteraction.Cancel,
                 is PressInteraction.Release,
                 -> buttonState = buttonState.copy(pressed = false)
-
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
                 is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)

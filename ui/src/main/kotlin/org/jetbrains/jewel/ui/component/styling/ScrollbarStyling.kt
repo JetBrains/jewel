@@ -45,4 +45,6 @@ public class ScrollbarMetrics(
 }
 
 public val LocalScrollbarStyle: ProvidableCompositionLocal<ScrollbarStyle> =
-    staticCompositionLocalOf<ScrollbarStyle> { error("No ScrollbarStyle provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No ScrollbarStyle provided. Have you forgotten the theme?")
+    }

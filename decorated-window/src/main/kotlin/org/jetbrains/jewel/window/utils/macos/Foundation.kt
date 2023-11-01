@@ -66,11 +66,12 @@ internal object Foundation {
         ID(myObjcMsgSend?.invokeLong(prepInvoke(id, selector, args)) ?: 0)
 
     /**
-     * Invokes the given vararg selector. Expects `NSArray arrayWithObjects:(id), ...` like signature,
-     * i.e. exactly one fixed argument, followed by varargs.
+     * Invokes the given vararg selector. Expects `NSArray arrayWithObjects:(id), ...` like signature, i.e.,
+     * exactly one fixed argument, followed by varargs.
      */
     public fun invokeVarArg(id: ID?, selector: Pointer?, vararg args: Any?): ID {
-        // c functions and objc methods have at least 1 fixed argument, we therefore need to separate
+        // c functions and objc methods have at least 1 fixed argument, we therefore need to
+        // separate
         // out the first argument
         return myFoundationLibrary?.objc_msgSend(
             id,

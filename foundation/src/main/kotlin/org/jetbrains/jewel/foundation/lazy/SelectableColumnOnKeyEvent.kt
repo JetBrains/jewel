@@ -38,7 +38,8 @@ public interface SelectableColumnOnKeyEvent {
             }
             if (list.isNotEmpty()) {
                 state.selectedKeys =
-                    state.selectedKeys.toMutableList().also { selectionList -> selectionList.addAll(list) }
+                    state.selectedKeys.toMutableList()
+                        .also { selectionList -> selectionList.addAll(list) }
             }
         }
     }
@@ -192,9 +193,9 @@ public interface SelectableColumnOnKeyEvent {
         val visibleSize = state.layoutInfo.visibleItemsInfo.size
         val targetIndex = min((state.lastActiveItemIndex ?: 0) + visibleSize, keys.lastIndex)
         val newSelectionList =
-            keys.subList(state.lastActiveItemIndex ?: 0, targetIndex).filterIsInstance<Selectable>().let {
-                state.selectedKeys + it.map { selectableKey -> selectableKey.key }
-            }
+            keys.subList(state.lastActiveItemIndex ?: 0, targetIndex)
+                .filterIsInstance<Selectable>()
+                .let { state.selectedKeys + it.map { selectableKey -> selectableKey.key } }
         state.selectedKeys = newSelectionList
         state.lastActiveItemIndex = targetIndex
     }

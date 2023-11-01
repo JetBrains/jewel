@@ -70,7 +70,8 @@ public fun SelectableLazyColumn(
             .onPreviewKeyEvent { event ->
                 if (state.lastActiveItemIndex != null) {
                     val actionHandled =
-                        keyActions.handleOnKeyEvent(event, keys, state, selectionMode).invoke(event)
+                        keyActions.handleOnKeyEvent(event, keys, state, selectionMode)
+                            .invoke(event)
                     if (actionHandled) {
                         scope.launch { state.lastActiveItemIndex?.let { state.scrollToItem(it) } }
                     }
@@ -120,6 +121,7 @@ public fun SelectableLazyColumn(
                     ) { index ->
                         val itemScope =
                             SelectableLazyItemScope(entry.key(index) in state.selectedKeys, isFocused)
+
                         if (keys.any { it.key == entry.key(index) && it is SelectableLazyListKey.Selectable }) {
                             Box(
                                 modifier =
@@ -142,6 +144,7 @@ public fun SelectableLazyColumn(
                 is Entry.StickyHeader ->
                     stickyHeader(entry.key, entry.contentType) {
                         val itemScope = SelectableLazyItemScope(entry.key in state.selectedKeys, isFocused)
+
                         if (keys.any { it.key == entry.key && it is SelectableLazyListKey.Selectable }) {
                             Box(
                                 modifier =
@@ -157,9 +160,8 @@ public fun SelectableLazyColumn(
                                 entry.content.invoke(itemScope)
                             }
                         } else {
-                            SelectableLazyItemScope(entry.key in state.selectedKeys, isFocused).apply {
-                                entry.content.invoke(itemScope)
-                            }
+                            SelectableLazyItemScope(entry.key in state.selectedKeys, isFocused)
+                                .apply { entry.content.invoke(itemScope) }
                         }
                     }
             }

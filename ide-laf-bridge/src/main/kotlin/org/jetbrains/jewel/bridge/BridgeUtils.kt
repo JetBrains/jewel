@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.takeOrElse
 import com.intellij.ide.ui.UISettingsUtils
@@ -133,6 +134,12 @@ public fun JBDimension.toDpSize(): DpSize {
 }
 
 public fun retrieveArcAsCornerSize(key: String): CornerSize = CornerSize(retrieveIntAsDp(key) / 2)
+
+public fun retrieveArcAsCornerSizeOrDefault(key: String, default: CornerSize): CornerSize {
+    val intValue = retrieveIntAsDpOrUnspecified(key)
+    if (intValue.isUnspecified) return default
+    return CornerSize(intValue / 2)
+}
 
 public fun retrieveArcAsCornerSizeWithFallbacks(vararg keys: String): CornerSize {
     for (key in keys) {

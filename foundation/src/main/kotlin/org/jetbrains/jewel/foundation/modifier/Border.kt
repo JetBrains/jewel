@@ -186,10 +186,11 @@ private class BorderCache(
         var targetImageBitmap = imageBitmap
         var targetCanvas = canvas
         val compatibleConfig =
-            targetImageBitmap?.config == ImageBitmapConfig.Argb8888 || config == targetImageBitmap?.config
+            targetImageBitmap?.config == ImageBitmapConfig.Argb8888 ||
+                config == targetImageBitmap?.config
+
         @Suppress("ComplexCondition")
-        if (
-            targetImageBitmap == null ||
+        if (targetImageBitmap == null ||
             targetCanvas == null ||
             size.width > targetImageBitmap.width ||
             size.height > targetImageBitmap.height ||

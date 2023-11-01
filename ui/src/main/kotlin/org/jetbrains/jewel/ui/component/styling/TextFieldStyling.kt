@@ -65,4 +65,6 @@ public class TextFieldMetrics(
 }
 
 public val LocalTextFieldStyle: ProvidableCompositionLocal<TextFieldStyle> =
-    staticCompositionLocalOf<TextFieldStyle> { error("No TextFieldStyle provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No TextFieldStyle provided. Have you forgotten the theme?")
+    }

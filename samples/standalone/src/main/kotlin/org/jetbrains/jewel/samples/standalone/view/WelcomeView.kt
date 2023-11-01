@@ -50,10 +50,10 @@ fun WelcomeView() {
                     ThemeSelectionChip(IntUiThemes.Light, "Light", "icons/lightTheme.svg")
                     ThemeSelectionChip(
                         IntUiThemes.LightWithLightHeader,
-                        "Light(Header)",
+                        "Light with Light Header",
                         "icons/lightWithLightHeaderTheme.svg",
                     )
-                    ThemeSelectionChip(IntUiThemes.SYSTEM, "System", "icons/systemTheme.svg")
+                    ThemeSelectionChip(IntUiThemes.System, "System", "icons/systemTheme.svg")
                 }
             }
 

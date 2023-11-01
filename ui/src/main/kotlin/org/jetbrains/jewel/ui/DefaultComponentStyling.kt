@@ -73,28 +73,29 @@ public class DefaultComponentStyling(
 ) : ComponentStyling {
 
     @Composable
-    override fun styles(): Array<out ProvidedValue<*>> = arrayOf(
-        LocalCheckboxStyle provides checkboxStyle,
-        LocalChipStyle provides chipStyle,
-        LocalCircularProgressStyle provides circularProgressStyle,
-        LocalContextMenuRepresentation provides ContextMenuRepresentation,
-        LocalDefaultButtonStyle provides defaultButtonStyle,
-        LocalDefaultDropdownStyle provides defaultDropdownStyle,
-        LocalDefaultTabStyle provides defaultTabStyle,
-        LocalDividerStyle provides dividerStyle,
-        LocalEditorTabStyle provides editorTabStyle,
-        LocalGroupHeaderStyle provides groupHeaderStyle,
-        LocalHorizontalProgressBarStyle provides horizontalProgressBarStyle,
-        LocalIconButtonStyle provides iconButtonStyle,
-        LocalLazyTreeStyle provides lazyTreeStyle,
-        LocalLinkStyle provides linkStyle,
-        LocalMenuStyle provides menuStyle,
-        LocalOutlinedButtonStyle provides outlinedButtonStyle,
-        LocalRadioButtonStyle provides radioButtonStyle,
-        LocalScrollbarStyle provides scrollbarStyle,
-        LocalTextAreaStyle provides textAreaStyle,
-        LocalTextFieldStyle provides textFieldStyle,
-        LocalTooltipStyle provides tooltipStyle,
-        LocalUndecoratedDropdownStyle provides undecoratedDropdownStyle,
-    )
+    override fun styles(): Array<out ProvidedValue<*>> =
+        arrayOf(
+            LocalCheckboxStyle provides checkboxStyle,
+            LocalChipStyle provides chipStyle,
+            LocalCircularProgressStyle provides circularProgressStyle,
+            LocalContextMenuRepresentation provides ContextMenuRepresentation,
+            LocalDefaultButtonStyle provides defaultButtonStyle,
+            LocalDefaultDropdownStyle provides defaultDropdownStyle,
+            LocalDefaultTabStyle provides defaultTabStyle,
+            LocalDividerStyle provides dividerStyle,
+            LocalEditorTabStyle provides editorTabStyle,
+            LocalGroupHeaderStyle provides groupHeaderStyle,
+            LocalHorizontalProgressBarStyle provides horizontalProgressBarStyle,
+            LocalIconButtonStyle provides iconButtonStyle,
+            LocalLazyTreeStyle provides lazyTreeStyle,
+            LocalLinkStyle provides linkStyle,
+            LocalMenuStyle provides menuStyle,
+            LocalOutlinedButtonStyle provides outlinedButtonStyle,
+            LocalRadioButtonStyle provides radioButtonStyle,
+            LocalScrollbarStyle provides scrollbarStyle,
+            LocalTextAreaStyle provides textAreaStyle,
+            LocalTextFieldStyle provides textFieldStyle,
+            LocalTooltipStyle provides tooltipStyle,
+            LocalUndecoratedDropdownStyle provides undecoratedDropdownStyle,
+        )
 }

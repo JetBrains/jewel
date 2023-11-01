@@ -145,9 +145,9 @@ private fun RadioButtonImpl(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> radioButtonState = radioButtonState.copy(pressed = true)
-                is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                -> radioButtonState = radioButtonState.copy(pressed = false)
+                is PressInteraction.Cancel, is PressInteraction.Release -> {
+                    radioButtonState = radioButtonState.copy(pressed = false)
+                }
                 is HoverInteraction.Enter -> radioButtonState = radioButtonState.copy(hovered = true)
                 is HoverInteraction.Exit -> radioButtonState = radioButtonState.copy(hovered = false)
                 is FocusInteraction.Focus -> radioButtonState = radioButtonState.copy(focused = true)
@@ -197,10 +197,12 @@ private fun RadioButtonImpl(
             RadioButtonImage(Modifier, radioButtonPainter, radioButtonModifier)
 
             val contentColor by colors.contentFor(radioButtonState)
+            val resolvedContentColor = contentColor.takeOrElse { textStyle.color }
+                .takeOrElse { LocalContentColor.current }
+
             CompositionLocalProvider(
                 LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
-                LocalContentColor provides
-                    contentColor.takeOrElse { textStyle.color.takeOrElse { LocalContentColor.current } },
+                LocalContentColor provides resolvedContentColor,
             ) {
                 content()
             }

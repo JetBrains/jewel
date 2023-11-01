@@ -35,7 +35,8 @@ public sealed interface PainterHint {
 @Immutable
 public interface SvgPainterHint : PainterHint {
 
-    override fun PainterProviderScope.canApply(): Boolean = path.substringAfterLast('.').lowercase() == "svg"
+    override fun PainterProviderScope.canApply(): Boolean =
+        path.substringAfterLast('.').lowercase() == "svg"
 }
 
 /** Mark this [PainterHint] just available with Bitmap images. */
@@ -55,7 +56,8 @@ public interface BitmapPainterHint : PainterHint {
 @Immutable
 public interface XmlPainterHint : PainterHint {
 
-    override fun PainterProviderScope.canApply(): Boolean = path.substringAfterLast('.').lowercase() == "xml"
+    override fun PainterProviderScope.canApply(): Boolean =
+        path.substringAfterLast('.').lowercase() == "xml"
 }
 
 /**

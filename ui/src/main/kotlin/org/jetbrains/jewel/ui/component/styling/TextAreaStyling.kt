@@ -65,4 +65,6 @@ public class TextAreaMetrics(
 }
 
 public val LocalTextAreaStyle: ProvidableCompositionLocal<TextAreaStyle> =
-    staticCompositionLocalOf<TextAreaStyle> { error("No TextAreaStyle provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No TextAreaStyle provided. Have you forgotten the theme?")
+    }

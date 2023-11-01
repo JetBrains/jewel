@@ -19,11 +19,7 @@ public interface ComponentStyling {
     }
 
     public fun with(styling: @Composable () -> ComponentStyling): ComponentStyling =
-        with(
-            LazyComponentStyling {
-                styling().styles()
-            },
-        )
+        with(LazyComponentStyling { styling().styles() })
 
     @Composable
     public fun styles(): Array<out ProvidedValue<*>>

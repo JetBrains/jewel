@@ -30,7 +30,7 @@ import java.awt.event.WindowEvent
 
 public fun Modifier.trackWindowActivation(window: Window): Modifier =
     composed(
-        inspectorInfo = debugInspectorInfo {
+        debugInspectorInfo {
             name = "activateRoot"
             properties["window"] = window
         },
@@ -48,18 +48,14 @@ public fun Modifier.trackWindowActivation(window: Window): Modifier =
                 }
             }
             window.addWindowListener(listener)
-            onDispose {
-                window.removeWindowListener(listener)
-            }
+            onDispose { window.removeWindowListener(listener) }
         }
-        Modifier.modifierLocalProvider(ModifierLocalActivated) {
-            parentActivated
-        }
+        Modifier.modifierLocalProvider(ModifierLocalActivated) { parentActivated }
     }
 
 public fun Modifier.trackComponentActivation(awtParent: Component): Modifier =
     composed(
-        inspectorInfo = debugInspectorInfo {
+        debugInspectorInfo {
             name = "activateRoot"
             properties["parent"] = awtParent
         },
@@ -77,30 +73,27 @@ public fun Modifier.trackComponentActivation(awtParent: Component): Modifier =
                 }
             }
             awtParent.addFocusListener(listener)
-            onDispose {
-                awtParent.removeFocusListener(listener)
-            }
+            onDispose { awtParent.removeFocusListener(listener) }
         }
-        Modifier.modifierLocalProvider(ModifierLocalActivated) {
-            parentActivated
-        }
+
+        Modifier.modifierLocalProvider(ModifierLocalActivated) { parentActivated }
     }
 
 @Stable
 public fun Modifier.trackActivation(): Modifier =
     composed(
-        inspectorInfo = debugInspectorInfo {
-            name = "trackActivation"
-        },
+        inspectorInfo = debugInspectorInfo { name = "trackActivation" },
     ) {
         val activatedModifierLocal = remember { ActivatedModifierLocal() }
-        Modifier.focusGroup().onFocusChanged {
-            if (it.hasFocus) {
-                activatedModifierLocal.childGainedFocus()
-            } else {
-                activatedModifierLocal.childLostFocus()
+        Modifier.focusGroup()
+            .onFocusChanged {
+                if (it.hasFocus) {
+                    activatedModifierLocal.childGainedFocus()
+                } else {
+                    activatedModifierLocal.childLostFocus()
+                }
             }
-        }.then(activatedModifierLocal)
+            .then(activatedModifierLocal)
     }
 
 private class ActivatedModifierLocal : ModifierLocalProvider<Boolean>, ModifierLocalConsumer {
@@ -110,9 +103,7 @@ private class ActivatedModifierLocal : ModifierLocalProvider<Boolean>, ModifierL
     private var hasFocus: Boolean by mutableStateOf(false)
 
     override fun onModifierLocalsUpdated(scope: ModifierLocalReadScope) {
-        with(scope) {
-            parentActivated = ModifierLocalActivated.current
-        }
+        with(scope) { parentActivated = ModifierLocalActivated.current }
     }
 
     override val key: ProvidableModifierLocal<Boolean> = ModifierLocalActivated
@@ -129,8 +120,7 @@ private class ActivatedModifierLocal : ModifierLocalProvider<Boolean>, ModifierL
     }
 }
 
-public val ModifierLocalActivated: ProvidableModifierLocal<Boolean> =
-    modifierLocalOf { false }
+public val ModifierLocalActivated: ProvidableModifierLocal<Boolean> = modifierLocalOf { false }
 
 public fun Modifier.onActivated(
     enabled: Boolean = true,

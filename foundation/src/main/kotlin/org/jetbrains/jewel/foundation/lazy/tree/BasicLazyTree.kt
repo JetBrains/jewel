@@ -136,7 +136,9 @@ public fun <T> BasicLazyTree(
                 TreeElementState.of(
                     active = isActive,
                     selected = isSelected,
-                    expanded = (element as? Tree.Element.Node)?.let { it.id in treeState.openNodes } ?: false,
+                    expanded = (element as? Tree.Element.Node)
+                        ?.let { it.id in treeState.openNodes }
+                        ?: false,
                 )
 
             val backgroundShape by remember {
@@ -160,13 +162,14 @@ public fun <T> BasicLazyTree(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
                     ) {
-                        (pointerEventScopedActions as? DefaultTreeViewPointerEventAction)?.notifyItemClicked(
-                            item = flattenedTree[index] as Tree.Element<T>,
-                            scope = scope,
-                            doubleClickTimeDelayMillis = platformDoubleClickDelay.inWholeMilliseconds,
-                            onElementClick = onElementClick,
-                            onElementDoubleClick = onElementDoubleClick,
-                        )
+                        (pointerEventScopedActions as? DefaultTreeViewPointerEventAction)
+                            ?.notifyItemClicked(
+                                item = flattenedTree[index] as Tree.Element<T>,
+                                scope = scope,
+                                doubleClickTimeDelayMillis = platformDoubleClickDelay.inWholeMilliseconds,
+                                onElementClick = onElementClick,
+                                onElementDoubleClick = onElementDoubleClick,
+                            )
                         treeState.delegate.lastActiveItemIndex = index
                     },
             ) {

@@ -146,11 +146,12 @@ internal fun TabImpl(
                     closeActionInteractionSource.interactions.collect { interaction ->
                         when (interaction) {
                             is PressInteraction.Press -> closeButtonState = closeButtonState.copy(pressed = true)
-                            is PressInteraction.Cancel,
-                            is PressInteraction.Release,
-                            ->
+                            is PressInteraction.Cancel, is PressInteraction.Release -> {
                                 closeButtonState = closeButtonState.copy(pressed = false)
+                            }
+
                             is HoverInteraction.Enter -> closeButtonState = closeButtonState.copy(hovered = true)
+
                             is HoverInteraction.Exit -> closeButtonState = closeButtonState.copy(hovered = false)
                         }
                     }
@@ -209,7 +210,6 @@ public value class TabState(public val state: ULong) : SelectableComponentState 
         of(
             selected = selected,
             enabled = enabled,
-
             pressed = pressed,
             hovered = hovered,
             active = active,

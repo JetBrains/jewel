@@ -22,9 +22,7 @@ public fun ToolWindow.addComposeTab(
         override val panel: ComposePanel = composePanel
     }
 
-    composePanel.setContent {
-        scope.content()
-    }
+    composePanel.setContent { scope.content() }
     val tabContent = contentManager.factory.createContent(composePanel, tabDisplayName, isLockable)
     tabContent.isCloseable = isCloseable
     contentManager.addContent(tabContent)

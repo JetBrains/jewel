@@ -35,4 +35,6 @@ public class GroupHeaderMetrics(
 }
 
 public val LocalGroupHeaderStyle: ProvidableCompositionLocal<GroupHeaderStyle> =
-    staticCompositionLocalOf<GroupHeaderStyle> { error("No GroupHeaderStyle provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No GroupHeaderStyle provided. Have you forgotten the theme?")
+    }

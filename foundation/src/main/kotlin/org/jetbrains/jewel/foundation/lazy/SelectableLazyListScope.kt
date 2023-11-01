@@ -28,13 +28,14 @@ public interface SelectableLazyListScope {
      * Represents a list of items based on the provided parameters.
      *
      * @param count The number of items in the list.
-     * @param key A function that generates a unique key for each item based on its index.
-     * @param contentType A function that returns the content type of an item based on its index.
-     *   Defaults to `null`.
-     * @param selectable A function that determines if an item is selectable based on its index.
-     *   Defaults to `true`.
-     * @param itemContent The content of each individual item, specified as a composable function that
-     *   takes the item's index as a parameter.
+     * @param key A function that generates a unique key for each item based on
+     *     its index.
+     * @param contentType A function that returns the content type of an item
+     *     based on its index. Defaults to `null`.
+     * @param selectable A function that determines if an item is selectable
+     *     based on its index. Defaults to `true`.
+     * @param itemContent The content of each individual item, specified as a
+     *     composable function that takes the item's index as a parameter.
      */
     public fun items(
         count: Int,

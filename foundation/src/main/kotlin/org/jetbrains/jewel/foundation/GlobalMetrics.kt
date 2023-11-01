@@ -16,4 +16,6 @@ public class GlobalMetrics(
 }
 
 public val LocalGlobalMetrics: ProvidableCompositionLocal<GlobalMetrics> =
-    staticCompositionLocalOf<GlobalMetrics> { error("No GlobalMetrics provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No GlobalMetrics provided. Have you forgotten the theme?")
+    }

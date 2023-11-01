@@ -75,15 +75,13 @@ public class ResourcePainterProvider(
         val scope = Scope(density, basePath, classLoaders)
 
         val currentHintsProvider = LocalPainterHintsProvider.current
-        currentHintsProvider.priorityHints(basePath).forEach {
-            scope.resolveHint(it)
-        }
-        hints.forEach {
-            scope.resolveHint(it)
-        }
-        currentHintsProvider.hints(basePath).forEach {
-            scope.resolveHint(it)
-        }
+        currentHintsProvider.priorityHints(basePath)
+            .forEach { scope.resolveHint(it) }
+
+        hints.forEach { scope.resolveHint(it) }
+
+        currentHintsProvider.hints(basePath)
+            .forEach { scope.resolveHint(it) }
 
         val cacheKey = scope.acceptedHints.hashCode()
 
@@ -108,20 +106,17 @@ public class ResourcePainterProvider(
 
         for (hint in scope.acceptedHints) {
             if (hint !is PainterPathHint) continue
-            scopes = scopes.flatMap {
-                listOfNotNull(it.apply(hint), it)
-            }
+            scopes = scopes.flatMap { listOfNotNull(it.apply(hint), it) }
         }
 
-        val (chosenScope, url) = scopes.firstNotNullOfOrNull {
-            resolveResource(it)
-        } ?: run {
-            if (inDebugMode) {
-                error("Resource '$basePath(${scope.acceptedHints.joinToString()})' not found")
-            } else {
-                return errorPainter
+        val (chosenScope, url) = scopes.firstNotNullOfOrNull { resolveResource(it) }
+            ?: run {
+                if (inDebugMode) {
+                    error("Resource '$basePath(${scope.acceptedHints.joinToString()})' not found")
+                } else {
+                    return errorPainter
+                }
             }
-        }
 
         val extension = basePath.substringAfterLast(".").lowercase()
 
@@ -134,9 +129,7 @@ public class ResourcePainterProvider(
 
         for (hint in scope.acceptedHints) {
             if (hint !is PainterWrapperHint) continue
-            with(hint) {
-                painter = chosenScope.wrap(painter)
-            }
+            with(hint) { painter = chosenScope.wrap(painter) }
         }
 
         return painter
@@ -182,9 +175,7 @@ public class ResourcePainterProvider(
 
             hints.forEach { hint ->
                 if (hint !is PainterSvgPatchHint) return@forEach
-                with(hint) {
-                    scope.patch(document.documentElement)
-                }
+                with(hint) { scope.patch(document.documentElement) }
             }
 
             return document.writeToString().byteInputStream()

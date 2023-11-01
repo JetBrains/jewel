@@ -38,13 +38,11 @@ internal fun DecoratedWindowScope.TitleBarOnLinux(
     val viewConfig = LocalViewConfiguration.current
     TitleBarImpl(
         modifier.onPointerEvent(PointerEventType.Press, PointerEventPass.Main) {
-            if (
-                this.currentEvent.button == PointerButton.Primary &&
+            if (this.currentEvent.button == PointerButton.Primary &&
                 this.currentEvent.changes.any { changed -> !changed.isConsumed }
             ) {
                 JBR.getWindowMove()?.startMovingTogetherWithMouse(window, MouseEvent.BUTTON1)
-                if (
-                    System.currentTimeMillis() - lastPress in
+                if (System.currentTimeMillis() - lastPress in
                     viewConfig.doubleTapMinTimeMillis..viewConfig.doubleTapTimeoutMillis
                 ) {
                     if (state.isMaximized) {
@@ -97,7 +95,14 @@ private fun TitleBarScope.CloseButton(
     state: DecoratedWindowState,
     style: TitleBarStyle = JewelTheme.defaultTitleBarStyle,
 ) {
-    ControlButton(onClick, state, style.icons.closeButton, "Close", style, style.paneCloseButtonStyle)
+    ControlButton(
+        onClick,
+        state,
+        style.icons.closeButton,
+        "Close",
+        style,
+        style.paneCloseButtonStyle,
+    )
 }
 
 @Composable

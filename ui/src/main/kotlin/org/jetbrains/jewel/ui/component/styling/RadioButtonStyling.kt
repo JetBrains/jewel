@@ -69,4 +69,6 @@ public class RadioButtonIcons(public val radioButton: PainterProvider) {
 }
 
 public val LocalRadioButtonStyle: ProvidableCompositionLocal<RadioButtonStyle> =
-    staticCompositionLocalOf<RadioButtonStyle> { error("No RadioButtonStyle provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No RadioButtonStyle provided. Have you forgotten the theme?")
+    }

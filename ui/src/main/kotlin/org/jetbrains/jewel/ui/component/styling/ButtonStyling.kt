@@ -101,7 +101,11 @@ public class ButtonMetrics(
 }
 
 public val LocalDefaultButtonStyle: ProvidableCompositionLocal<ButtonStyle> =
-    staticCompositionLocalOf<ButtonStyle> { error("No default ButtonStyle provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No default ButtonStyle provided. Have you forgotten the theme?")
+    }
 
 public val LocalOutlinedButtonStyle: ProvidableCompositionLocal<ButtonStyle> =
-    staticCompositionLocalOf<ButtonStyle> { error("No outlined ButtonStyle provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No outlined ButtonStyle provided. Have you forgotten the theme?")
+    }

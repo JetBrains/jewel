@@ -105,8 +105,5 @@ private fun fromHexOrNull(rawColor: String, alpha: Float): Color? {
     }
 }
 
-public fun Palette(map: Map<Color, Color>): PainterHint = if (map.isEmpty()) {
-    PainterHint.None
-} else {
-    PaletteImpl(map)
-}
+public fun Palette(map: Map<Color, Color>): PainterHint =
+    if (map.isEmpty()) PainterHint.None else PaletteImpl(map)

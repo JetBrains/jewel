@@ -105,4 +105,6 @@ public class LinkTextStyles(
 }
 
 public val LocalLinkStyle: ProvidableCompositionLocal<LinkStyle> =
-    staticCompositionLocalOf<LinkStyle> { error("No LinkStyle provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No LinkStyle provided. Have you forgotten the theme?")
+    }

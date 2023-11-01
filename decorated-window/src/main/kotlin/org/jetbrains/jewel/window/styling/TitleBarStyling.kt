@@ -97,4 +97,6 @@ public class TitleBarIcons(
 }
 
 public val LocalTitleBarStyle: ProvidableCompositionLocal<TitleBarStyle> =
-    staticCompositionLocalOf<TitleBarStyle> { error("No TitleBarStyle provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No TitleBarStyle provided. Have you forgotten the theme?")
+    }

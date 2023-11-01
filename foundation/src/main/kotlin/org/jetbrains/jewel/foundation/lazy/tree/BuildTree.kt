@@ -45,36 +45,43 @@ public class TreeBuilder<T> : TreeGeneratorScope<T> {
     public fun build(): Tree<T> {
         val elements = mutableListOf<Tree.Element<T>>()
         for (index in heads.indices) {
-            val previous: Tree.Element<T>? = elements.getOrNull(index - 1)?.let { evaluatePrevious(it) }
-            val current =
-                when (val elementBuilder = heads[index]) {
-                    is Element.Leaf ->
-                        Tree.Element.Leaf(
-                            data = elementBuilder.data,
-                            depth = 0,
-                            childIndex = index,
-                            parent = null,
-                            previous = previous,
-                            next = null,
-                            id = elementBuilder.id ?: "$index",
-                        )
-                    is Element.Node ->
-                        Tree.Element.Node(
-                            data = elementBuilder.data,
-                            depth = 0,
-                            childIndex = index,
-                            parent = null,
-                            childrenGenerator = { parent -> generateElements(parent, elementBuilder) },
-                            previous = previous,
-                            next = null,
-                            id = elementBuilder.id ?: "$index",
-                        )
-                }
+            val previous: Tree.Element<T>? = elements.getOrNull(index - 1)
+                ?.let { evaluatePrevious(it) }
+
+            val current = getCurrentTreeElement(index, previous)
             elements.add(current)
             previous?.also { it.next = current }
         }
         return Tree(elements)
     }
+
+    private fun getCurrentTreeElement(index: Int, previous: Tree.Element<T>?) =
+        when (val elementBuilder = heads[index]) {
+            is Element.Leaf ->
+                Tree.Element.Leaf(
+                    data = elementBuilder.data,
+                    depth = 0,
+                    childIndex = index,
+                    parent = null,
+                    previous = previous,
+                    next = null,
+                    id = elementBuilder.id ?: "$index",
+                )
+
+            is Element.Node ->
+                Tree.Element.Node(
+                    data = elementBuilder.data,
+                    depth = 0,
+                    childIndex = index,
+                    parent = null,
+                    childrenGenerator = { parent ->
+                        generateElements(parent, elementBuilder)
+                    },
+                    previous = previous,
+                    next = null,
+                    id = elementBuilder.id ?: "$index",
+                )
+        }
 }
 
 private fun <T> generateElements(

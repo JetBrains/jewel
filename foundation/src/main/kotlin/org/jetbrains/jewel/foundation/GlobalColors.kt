@@ -42,4 +42,6 @@ public class OutlineColors(
 }
 
 public val LocalGlobalColors: ProvidableCompositionLocal<GlobalColors> =
-    staticCompositionLocalOf<GlobalColors> { error("No GlobalColors provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No GlobalColors provided. Have you forgotten the theme?")
+    }

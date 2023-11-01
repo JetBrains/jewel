@@ -58,7 +58,11 @@ public class SelectableLazyListState(
                         scrollOffset,
                     )
                 itemIndex > visibleRange.last() -> {
-                    lazyListState.scrollToItem(max(itemIndex - (visibleRange.size + 2), 0), animateScroll, 0)
+                    lazyListState.scrollToItem(
+                        index = max(itemIndex - (visibleRange.size + 2), 0),
+                        animate = animateScroll,
+                        scrollOffset = 0,
+                    )
                 }
             }
         }
@@ -68,7 +72,9 @@ public class SelectableLazyListState(
     public val layoutInfo: LazyListLayoutInfo
         get() = lazyListState.layoutInfo
 
-    /** The index of the first item that is visible */
+    /**
+     * The index of the first item that is visible
+     */
     public val firstVisibleItemIndex: Int
         get() = lazyListState.firstVisibleItemIndex
 
@@ -81,168 +87,12 @@ public class SelectableLazyListState(
         get() = lazyListState.firstVisibleItemScrollOffset
 
     /**
-     * [InteractionSource] that will be used to dispatch drag events when this list is being dragged.
-     * If you want to know whether the fling (or animated scroll) is in progress, use
-     * [isScrollInProgress].
+     * [InteractionSource] that will be used to dispatch drag events when
+     * this list is being dragged. If you want to know whether the fling
+     * (or animated scroll) is in progress, use [isScrollInProgress].
      */
     public val interactionSource: InteractionSource
         get() = lazyListState.interactionSource
-
-    // selection handling
-    //    fun indexOfNextSelectable(currentIndex: Int): Int? {
-    //        if (currentIndex + 1 > internalKeys.lastIndex) return null
-    //        for (i in currentIndex + 1..internalKeys.lastIndex) { // todo iterate with instanceOF
-    //            if (internalKeys[i] is Key.Selectable) return i
-    //        }
-    //        return null
-    //    }
-    //
-    //    fun indexOfPreviousSelectable(currentIndex: Int): Int? {
-    //        if (currentIndex - 1 < 0) return null
-    //        for (i in currentIndex - 1 downTo 0) {
-    //            if (internalKeys[i] is Key.Selectable) return i
-    //        }
-    //        return null
-    //    }
-    //
-    //    /**
-    //     * Selects a single item at the specified index within the lazy list.
-    //     *
-    //     * @param itemIndex The index of the item to select.
-    //     * @param changeFocus Whether to change the focus to the selected item.
-    //     * @param skipScroll Whether to skip the scroll to the selected item.
-    //     */
-    //    suspend fun selectSingleItem(itemIndex: Int, changeFocus: Boolean = true, skipScroll:
-    // Boolean = false) {
-    //        if (changeFocus) scrollToItem(itemIndex, skipScroll = skipScroll)
-    //        selectedIdsMap.clear()
-    //        selectedIdsMap[keys[itemIndex]] = itemIndex
-    //        lastSelectedIndex = itemIndex
-    //    }
-    //
-    //    /**
-    //     * Selects a single item with the specified key within the lazy list.
-    //     *
-    //     * @param key The key of the item to select.
-    //     * @param changeFocus Whether to change the focus to the selected item.
-    //     * @param skipScroll Whether to skip the scroll to the selected item.
-    //     */
-    //    suspend fun selectSingleKey(key: Any, changeFocus: Boolean = true, skipScroll: Boolean =
-    // false) {
-    //        val index = internalKeys.indexOfFirst { it.key == key }
-    //        if (index >= 0 && internalKeys[index] is Key.Selectable) selectSingleItem(index,
-    // changeFocus, skipScroll = skipScroll)
-    //            lastSelectedIndex = index
-    //    }
-    //
-    //    suspend fun deselectSingleElement(itemIndex: Int, changeFocus: Boolean = true, skipScroll:
-    // Boolean = false) {
-    //        if (changeFocus) scrollToItem(itemIndex, skipScroll = skipScroll)
-    //        selectedIdsMap.remove(keys[itemIndex])
-    //    }
-    //
-    //    suspend fun toggleSelection(itemIndex: Int, skipScroll: Boolean = false) {
-    //        if (selectionMode == SelectionMode.None) return
-    //        selectedIdsMap[keys[itemIndex]]?.let {
-    //            deselectSingleElement(itemIndex)
-    //        } ?: if (!isMultiSelectionAllowed) {
-    //            selectSingleItem(itemIndex, skipScroll = skipScroll)
-    //        } else {
-    //            addElementToSelection(itemIndex, skipScroll = skipScroll)
-    //        }
-    //    }
-    //
-    //    suspend fun toggleSelectionKey(key: Any, skipScroll: Boolean = false) {
-    //        if (selectionMode == SelectionMode.None) return
-    //        val index = internalKeys.indexOfFirst { it.key == key }
-    //        if (index > 0 && internalKeys[index] is Key.Selectable) toggleSelection(index,
-    // skipScroll = skipScroll)
-    //        lastSelectedIndex = index
-    //    }
-    //
-    //    suspend fun onExtendSelectionToIndex(itemIndex: Int, changeFocus: Boolean = true,
-    // skipScroll: Boolean = false) {
-    //        if (selectionMode == SelectionMode.None) return
-    //        if (!isMultiSelectionAllowed) {
-    //            selectSingleItem(itemIndex, skipScroll = skipScroll)
-    //        } else {
-    //            val lastFocussed = lastSelectedIndex ?: itemIndex
-    //            val indexInterval = if (itemIndex > lastFocussed) {
-    //                lastFocussed..itemIndex
-    //            } else {
-    //                lastFocussed downTo itemIndex
-    //            }
-    //            addElementsToSelection(indexInterval.toList())
-    //            if (changeFocus) scrollToItem(itemIndex, skipScroll = skipScroll)
-    //        }
-    //    }
-    //
-    //    @Suppress("unused")
-    //    internal fun addKeyToSelectionMap(keyIndex: Int) {
-    //        if (selectionMode == SelectionMode.None) return
-    //        if (internalKeys[keyIndex] is Key.Selectable) {
-    //            selectedIdsMap[keys[keyIndex]] = keyIndex
-    //        }
-    //    }
-    //
-    //    suspend fun addElementToSelection(itemIndex: Int, changeFocus: Boolean = true, skipScroll:
-    // Boolean = false) {
-    //        if (selectionMode == SelectionMode.None) return
-    //        if (!isMultiSelectionAllowed) {
-    //            selectSingleItem(itemIndex, false)
-    //        } else {
-    //            selectedIdsMap[keys[itemIndex]] = itemIndex
-    //        }
-    //        if (changeFocus) scrollToItem(itemIndex, skipScroll = skipScroll)
-    //        lastSelectedIndex = itemIndex
-    //    }
-    //
-    //    fun deselectAll() {
-    //        if (selectionMode == SelectionMode.None) return
-    //        selectedIdsMap.clear()
-    //        lastSelectedIndex = null
-    //    }
-    //
-    //    suspend fun addElementsToSelection(itemIndexes: List<Int>, itemToFocus: Int? =
-    // itemIndexes.lastOrNull()) {
-    //        if (selectionMode == SelectionMode.None) return
-    //        if (!isMultiSelectionAllowed) {
-    //            itemIndexes.lastOrNull()?.let { selectSingleItem(it) }
-    //        } else {
-    //            itemIndexes.forEach {
-    //                selectedIdsMap[keys[it]] = it
-    //            }
-    //            itemToFocus?.let { scrollToItem(it) }
-    //            lastSelectedIndex = itemIndexes.lastOrNull()
-    //        }
-    //    }
-    //
-    //    @Suppress("unused")
-    //    suspend fun removeElementsToSelection(itemIndexes: List<Int>, itemToFocus: Int? =
-    // itemIndexes.lastOrNull()) {
-    //        if (selectionMode == SelectionMode.None) return
-    //        itemIndexes.forEach {
-    //            selectedIdsMap.remove(keys[it])
-    //        }
-    //        itemToFocus?.let { scrollToItem(it) }
-    //    }
-    //
-    //    @Suppress("Unused")
-    //    suspend fun toggleElementsToSelection(itemIndexes: List<Int>, itemToFocus: Int? =
-    // itemIndexes.lastOrNull()) {
-    //        if (selectionMode == SelectionMode.None) return
-    //        if (!isMultiSelectionAllowed) {
-    //            toggleSelection(itemIndexes.last())
-    //        } else {
-    //            itemIndexes.forEach { index ->
-    //                selectedIdsMap[keys[index]]?.let {
-    //                    selectedIdsMap.remove(keys[index])
-    //                } ?: { selectedIdsMap[keys[index]] = index }
-    //            }
-    //            itemToFocus?.let { scrollToItem(it) }
-    //            lastSelectedIndex = itemIndexes.lastOrNull()
-    //        }
-    //    }
 }
 
 private suspend fun LazyListState.scrollToItem(
@@ -257,10 +107,14 @@ private suspend fun LazyListState.scrollToItem(
     }
 }
 
-/** Represents a selectable key used in a selectable lazy list. */
+/**
+ * Represents a selectable key used in a selectable lazy list.
+ */
 public sealed class SelectableLazyListKey {
 
-    /** The key associated with the item. */
+    /**
+     * The key associated with the item.
+     */
     public abstract val key: Any
 
     /**
@@ -299,16 +153,24 @@ public interface SelectableLazyItemScope : LazyItemScope {
     public val isActive: Boolean
 }
 
-/** Specifies the selection mode for a selectable lazy list. */
+/**
+ * Specifies the selection mode for a selectable lazy list.
+ */
 public enum class SelectionMode {
 
-    /** No selection is allowed. */
+    /**
+     * No selection is allowed.
+     */
     None,
 
-    /** Only a single item can be selected. */
+    /**
+     * Only a single item can be selected.
+     */
     Single,
 
-    /** Multiple items can be selected. */
+    /**
+     * Multiple items can be selected.
+     */
     Multiple,
 }
 

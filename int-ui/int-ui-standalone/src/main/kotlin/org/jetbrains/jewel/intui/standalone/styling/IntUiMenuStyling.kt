@@ -24,24 +24,26 @@ public fun MenuStyle.Companion.light(
     colors: MenuColors = MenuColors.light(),
     metrics: MenuMetrics = MenuMetrics.defaults(),
     icons: MenuIcons = MenuIcons.defaults(),
-): MenuStyle = MenuStyle(
-    isDark = false,
-    colors = colors,
-    metrics = metrics,
-    icons = icons,
-)
+): MenuStyle =
+    MenuStyle(
+        isDark = false,
+        colors = colors,
+        metrics = metrics,
+        icons = icons,
+    )
 
 @Composable
 public fun MenuStyle.Companion.dark(
     colors: MenuColors = MenuColors.dark(),
     metrics: MenuMetrics = MenuMetrics.defaults(),
     icons: MenuIcons = MenuIcons.defaults(),
-): MenuStyle = MenuStyle(
-    isDark = true,
-    colors = colors,
-    metrics = metrics,
-    icons = icons,
-)
+): MenuStyle =
+    MenuStyle(
+        isDark = true,
+        colors = colors,
+        metrics = metrics,
+        icons = icons,
+    )
 
 @Composable
 public fun MenuColors.Companion.light(

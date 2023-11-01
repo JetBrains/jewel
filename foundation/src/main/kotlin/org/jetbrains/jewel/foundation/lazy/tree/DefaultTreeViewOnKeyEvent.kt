@@ -69,7 +69,10 @@ public open class DefaultTreeViewOnKeyEvent(
 
     override fun onSelectChild(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
         val currentKey = keys[state.lastActiveItemIndex ?: 0].key
-        if (currentKey in treeState.allNodes.map { it.first } && currentKey !in treeState.openNodes) {
+        if (
+            currentKey in treeState.allNodes.map { it.first } &&
+            currentKey !in treeState.openNodes
+        ) {
             treeState.toggleNode(currentKey)
         } else {
             super.onSelectNextItem(keys, state)

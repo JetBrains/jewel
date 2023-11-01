@@ -48,4 +48,6 @@ public class DecoratedWindowMetrics(public val borderWidth: Dp) {
 }
 
 public val LocalDecoratedWindowStyle: ProvidableCompositionLocal<DecoratedWindowStyle> =
-    staticCompositionLocalOf<DecoratedWindowStyle> { error("No DecoratedWindowStyle provided. Have you forgotten the theme?") }
+    staticCompositionLocalOf {
+        error("No DecoratedWindowStyle provided. Have you forgotten the theme?")
+    }
