@@ -44,13 +44,13 @@ public interface PointerEventActions {
         key: Any,
     )
 
-    fun toggleKeySelection(
+    public fun toggleKeySelection(
         key: Any,
         allKeys: List<SelectableLazyListKey>,
         selectableLazyListState: SelectableLazyListState,
     )
 
-    fun onExtendSelectionToKey(
+    public fun onExtendSelectionToKey(
         key: Any,
         allKeys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -58,7 +58,7 @@ public interface PointerEventActions {
     )
 }
 
-open class DefaultSelectableLazyColumnEventAction : PointerEventActions {
+public open class DefaultSelectableLazyColumnEventAction : PointerEventActions {
 
     override fun handlePointerEventPress(
         pointerEvent: PointerEvent,
@@ -251,7 +251,7 @@ public open class DefaultSelectableLazyColumnKeyActions(
     override val actions: SelectableColumnOnKeyEvent = DefaultSelectableOnKeyEvent(keybindings),
 ) : KeyActions {
 
-    companion object : DefaultSelectableLazyColumnKeyActions(
+    public companion object : DefaultSelectableLazyColumnKeyActions(
         when {
             hostOs.isMacOS -> DefaultMacOsSelectableColumnKeybindings
             else -> DefaultSelectableColumnKeybindings
@@ -292,7 +292,8 @@ public open class DefaultSelectableLazyColumnKeyActions(
                 isScrollPageUpAndExtendSelection -> onScrollPageUpAndExtendSelection(keys, state)
                 isScrollPageUpAndSelectItem -> onScrollPageUpAndSelectItem(keys, state)
                 isSelectAll -> onSelectAll(keys, state)
-            else -> return false}
+                else -> return false
+            }
         }
         return true
     }

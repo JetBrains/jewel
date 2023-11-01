@@ -15,25 +15,26 @@ public open class DefaultTreeViewKeybindings : DefaultSelectableColumnKeybinding
 
     public companion object : DefaultTreeViewKeybindings()
 
-    override val KeyEvent.isSelectParent
+    override val KeyEvent.isSelectParent: Boolean
         get() = key == Key.DirectionLeft && !isContiguousSelectionKeyPressed
 
-    override val KeyEvent.isExtendSelectionToParent
+    override val KeyEvent.isExtendSelectionToParent: Boolean
         get() = key == Key.DirectionLeft && isContiguousSelectionKeyPressed
 
-    override val KeyEvent.isSelectChild
+    override val KeyEvent.isSelectChild: Boolean
         get() = key == Key.DirectionRight && !isContiguousSelectionKeyPressed
 
-    override val KeyEvent.isExtendSelectionToChild
+    override val KeyEvent.isExtendSelectionToChild: Boolean
         get() = key == Key.DirectionRight && isContiguousSelectionKeyPressed
 
-    override val KeyEvent.isSelectNextSibling
+    override val KeyEvent.isSelectNextSibling: Boolean
         get() = false
 
-    override val KeyEvent.isSelectPreviousSibling
+    override val KeyEvent.isSelectPreviousSibling: Boolean
         get() = false
 
-    override val KeyEvent.isEdit get() = key == Key.F2 && !isContiguousSelectionKeyPressed
+    override val KeyEvent.isEdit: Boolean
+        get() = key == Key.F2 && !isContiguousSelectionKeyPressed
 }
 
 public interface TreeViewKeybindings : SelectableColumnKeybindings {

@@ -48,7 +48,7 @@ import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 
 @Stable
 @GenerateDataFunctions
-class DefaultComponentStyling(
+public class DefaultComponentStyling(
     public val checkboxStyle: CheckboxStyle,
     public val chipStyle: ChipStyle,
     public val circularProgressStyle: CircularProgressStyle,
