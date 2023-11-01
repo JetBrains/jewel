@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -23,6 +26,7 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListScopeContainer.Entry
 import org.jetbrains.jewel.foundation.lazy.tree.DefaultSelectableLazyColumnEventAction
@@ -59,15 +63,12 @@ fun SelectableLazyColumn(
     }
     var isFocused by remember { mutableStateOf(false) }
 
-    fun evaluateIndexes(): List<Int> {
-        val keyToIndexMap = keys.withIndex().associateBy({ it.value.key }, { it.index })
-        return state.selectedKeys
-            .mapNotNull { selected -> keyToIndexMap[selected] }
-            .sorted()
-    }
-
-    remember(state.selectedKeys) {
-        onSelectedIndexesChanged(evaluateIndexes())
+    val latestOnSelectedIndexesChanged = rememberUpdatedState(onSelectedIndexesChanged)
+    LaunchedEffect(state, container) {
+        snapshotFlow { state.selectedKeys }.collect { selectedKeys ->
+            val indices = selectedKeys.map { key -> container.getKeyIndex(key) }
+            latestOnSelectedIndexesChanged.value.invoke(indices)
+        }
     }
     val focusRequester = remember { FocusRequester() }
     LazyColumn(
