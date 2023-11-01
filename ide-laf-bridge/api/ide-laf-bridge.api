@@ -11,7 +11,6 @@ public final class org/jetbrains/jewel/bridge/BridgeUtilsKt {
 	public static final fun retrieveColorOrNull (Ljava/lang/String;)Landroidx/compose/ui/graphics/Color;
 	public static final fun retrieveColorOrUnspecified (Ljava/lang/String;)J
 	public static final fun retrieveColorsOrUnspecified ([Ljava/lang/String;)Ljava/util/List;
-	public static final fun retrieveDensity ()Landroidx/compose/ui/unit/Density;
 	public static final fun retrieveInsetsAsPaddingValues (Ljava/lang/String;)Landroidx/compose/foundation/layout/PaddingValues;
 	public static final fun retrieveIntAsDp (Ljava/lang/String;)F
 	public static final fun retrieveIntAsDpOrUnspecified (Ljava/lang/String;)F

@@ -221,7 +221,7 @@ internal operator fun TextUnit.plus(delta: Float) =
         else -> this
     }
 
-fun retrieveDensity(): Density {
+internal fun retrieveDensity(): Density {
     val ideaScale = UISettingsUtils.getInstance().currentIdeScale
     val scale = GraphicsEnvironment.getLocalGraphicsEnvironment()
         .defaultScreenDevice
