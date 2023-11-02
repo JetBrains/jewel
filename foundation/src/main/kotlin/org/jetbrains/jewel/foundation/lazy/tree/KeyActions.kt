@@ -286,7 +286,7 @@ open class DefaultSelectableLazyColumnKeyActions(
             isSelectLastItem -> onSelectLastItem(keys, state)
             isEdit -> onEdit()
         }
-        if (selectionMode == SelectionMode.Single) {
+        if (selectionMode == SelectionMode.Multiple) {
             when {
                 isExtendSelectionToFirstItem -> onExtendSelectionToFirst(keys, state)
                 isExtendSelectionToLastItem -> onExtendSelectionToLastItem(keys, state)

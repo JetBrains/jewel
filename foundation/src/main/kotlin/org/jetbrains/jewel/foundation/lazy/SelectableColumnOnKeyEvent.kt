@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.foundation.lazy
 
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListKey.Selectable
+import java.util.Collections.addAll
 import kotlin.math.max
 import kotlin.math.min
 
@@ -26,25 +27,18 @@ interface SelectableColumnOnKeyEvent {
      * Extend Selection to First Node inherited from Move Caret to Text Start with Selection
      */
     fun onExtendSelectionToFirst(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
-        state.lastActiveItemIndex
-            ?.let {
-                val iterator = keys.listIterator(it)
-                val list = buildList {
-                    while (iterator.hasPrevious()) {
-                        val previous = iterator.previous()
-                        if (previous is Selectable) {
-                            add(previous.key)
-                            state.lastActiveItemIndex = (iterator.previousIndex() + 1).coerceAtMost(keys.size)
-                        }
-                    }
-                }
-                if (list.isNotEmpty()) {
-                    state.selectedKeys =
-                        state.selectedKeys
-                            .toMutableList()
-                            .also { selectionList -> selectionList.addAll(list) }
-                }
+        val initialIndex = state.lastActiveItemIndex ?: return
+        val newSelection = ArrayList<Any>(max(initialIndex, state.selectedKeys.size)).apply {
+            addAll(state.selectedKeys)
+        }
+        for (index in initialIndex - 1 downTo 0) {
+            val key = keys[index]
+            if (key is Selectable) {
+                newSelection.add(key.key)
+                state.lastActiveItemIndex = index
             }
+        }
+        state.selectedKeys = newSelection
     }
 
     /**
@@ -65,16 +59,18 @@ interface SelectableColumnOnKeyEvent {
      * Extend Selection to Last Node inherited from Move Caret to Text End with Selection
      */
     fun onExtendSelectionToLastItem(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
-        state.lastActiveItemIndex?.let {
-            val list = mutableListOf<Any>(state.selectedKeys)
-            keys.subList(it, keys.lastIndex).forEachIndexed { index, selectableLazyListKey ->
-                if (selectableLazyListKey is Selectable) {
-                    list.add(selectableLazyListKey.key)
-                }
+        val initialIndex = state.lastActiveItemIndex ?: return
+        val newSelection = ArrayList<Any>(max(keys.size - initialIndex, state.selectedKeys.size)).apply {
+            addAll(state.selectedKeys)
+        }
+        for (index in initialIndex + 1..keys.lastIndex) {
+            val key = keys[index]
+            if (key is Selectable) {
+                newSelection.add(key.key)
                 state.lastActiveItemIndex = index
             }
-            state.selectedKeys = list
         }
+        state.selectedKeys = newSelection
     }
 
     /**
@@ -96,18 +92,15 @@ interface SelectableColumnOnKeyEvent {
      * Extend Selection with Previous Node inherited from Up with Selection
      */
     fun onExtendSelectionWithPreviousItem(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
-        state.lastActiveItemIndex?.let { lastActiveIndex ->
-            if (lastActiveIndex == 0) return@let
-            keys
-                .withIndex()
-                .toList()
-                .dropLastWhile { it.index >= lastActiveIndex }
-                .reversed()
-                .firstOrNull { it.value is Selectable }
-                ?.let { (index, selectableKey) ->
-                    state.selectedKeys = state.selectedKeys + selectableKey.key
-                    state.lastActiveItemIndex = index
-                }
+        // todo we need deselect if we are changing direction
+        val initialIndex = state.lastActiveItemIndex ?: return
+        for (index in initialIndex - 1 downTo 0) {
+            val key = keys[index]
+            if (key is Selectable) {
+                state.selectedKeys += key.key
+                state.lastActiveItemIndex = index
+                return
+            }
         }
     }
 
@@ -131,16 +124,14 @@ interface SelectableColumnOnKeyEvent {
      */
     fun onExtendSelectionWithNextItem(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
         // todo we need deselect if we are changing direction
-        state.lastActiveItemIndex?.let { lastActiveIndex ->
-            if (lastActiveIndex == keys.lastIndex) return@let
-            keys
-                .withIndex()
-                .dropWhile { it.index <= lastActiveIndex }
-                .firstOrNull { it.value is Selectable }
-                ?.let { (index, selectableKey) ->
-                    state.selectedKeys = state.selectedKeys + selectableKey.key
-                    state.lastActiveItemIndex = index
-                }
+        val initialIndex = state.lastActiveItemIndex ?: return
+        for (index in initialIndex + 1..keys.lastIndex) {
+            val key = keys[index]
+            if (key is Selectable) {
+                state.selectedKeys += key.key
+                state.lastActiveItemIndex = index
+                return
+            }
         }
     }
 
