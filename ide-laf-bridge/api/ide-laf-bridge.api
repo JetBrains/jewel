@@ -28,6 +28,10 @@ public final class org/jetbrains/jewel/bridge/BridgeUtilsKt {
 	public static final fun toPaddingValues (Ljava/awt/Insets;)Landroidx/compose/foundation/layout/PaddingValues;
 }
 
+public abstract interface class org/jetbrains/jewel/bridge/ComposePanelScope {
+	public abstract fun getPanel ()Ljavax/swing/JComponent;
+}
+
 public abstract class org/jetbrains/jewel/bridge/JewelBridgeException : java/lang/RuntimeException {
 	public static final field $stable I
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -44,13 +48,18 @@ public final class org/jetbrains/jewel/bridge/JewelBridgeException$KeysNotFoundE
 	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
 }
 
+public final class org/jetbrains/jewel/bridge/JewelComposePanelKt {
+	public static final fun JewelComposePanel (Lkotlin/jvm/functions/Function3;)Ljavax/swing/JComponent;
+	public static final fun getLocalComponent ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
 public final class org/jetbrains/jewel/bridge/ToolWindowExtensionsKt {
 	public static final fun addComposeTab (Lcom/intellij/openapi/wm/ToolWindow;Ljava/lang/String;ZZLkotlin/jvm/functions/Function3;)V
 	public static synthetic fun addComposeTab$default (Lcom/intellij/openapi/wm/ToolWindow;Ljava/lang/String;ZZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
 }
 
 public abstract interface class org/jetbrains/jewel/bridge/ToolWindowScope {
-	public abstract fun getPanel ()Landroidx/compose/ui/awt/ComposePanel;
+	public abstract fun getPanel ()Ljava/awt/Component;
 	public abstract fun getToolWindow ()Lcom/intellij/openapi/wm/ToolWindow;
 }
 

@@ -1,9 +1,9 @@
 package org.jetbrains.jewel.bridge
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.awt.ComposePanel
 import com.intellij.openapi.wm.ToolWindow
 import org.jetbrains.jewel.foundation.enableNewSwingCompositing
+import java.awt.Component
 
 public fun ToolWindow.addComposeTab(
     tabDisplayName: String,
@@ -15,15 +15,19 @@ public fun ToolWindow.addComposeTab(
     // The operation is idempotent, so we can safely do it every time.
     enableNewSwingCompositing()
 
-    val composePanel = ComposePanel()
-
-    val scope = object : ToolWindowScope {
-        override val toolWindow: ToolWindow = this@addComposeTab
-        override val panel: ComposePanel = composePanel
-    }
-
-    composePanel.setContent { scope.content() }
-    val tabContent = contentManager.factory.createContent(composePanel, tabDisplayName, isLockable)
+    val tabContent = contentManager.factory.createContent(
+        JewelComposePanel {
+            val scope = object : ToolWindowScope {
+                override val toolWindow: ToolWindow
+                    get() = this@addComposeTab
+                override val panel: Component
+                    get() = this@JewelComposePanel.panel
+            }
+            scope.content()
+        },
+        tabDisplayName,
+        isLockable,
+    )
     tabContent.isCloseable = isCloseable
     contentManager.addContent(tabContent)
 }
@@ -32,5 +36,5 @@ public interface ToolWindowScope {
 
     public val toolWindow: ToolWindow
 
-    public val panel: ComposePanel
+    public val panel: Component
 }
