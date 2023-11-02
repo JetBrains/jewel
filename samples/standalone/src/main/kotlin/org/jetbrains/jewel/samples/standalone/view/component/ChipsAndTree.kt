@@ -67,7 +67,7 @@ fun SelectableLazyColumnSample() {
     val interactionSource = remember { MutableInteractionSource() }
     val state = rememberSelectableLazyListState()
     Box(
-        modifier = Modifier.size(200.dp, 200.dp)
+        modifier = Modifier.size(200.dp, 200.dp),
     ) {
         SelectableLazyColumn(
             modifier = Modifier.focusable(interactionSource = interactionSource),

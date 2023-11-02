@@ -237,7 +237,6 @@ internal class SelectableLazyColumnTest {
         assertEquals(expectedElementsAfterPageUp.size, state.selectedKeys.size)
         assertEquals(expectedElementsAfterPageUp.toSet(), state.selectedKeys.toSet())
 
-
         // select item 5 by click
         composeRule.onNodeWithTag("Item 5").assertExists()
         composeRule.onNodeWithTag("Item 5").performClick()

@@ -1,7 +1,6 @@
 package org.jetbrains.jewel.foundation.lazy
 
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListKey.Selectable
-import java.util.Collections.addAll
 import kotlin.math.max
 import kotlin.math.min
 

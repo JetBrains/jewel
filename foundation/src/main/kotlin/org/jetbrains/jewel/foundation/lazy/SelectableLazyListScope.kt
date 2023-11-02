@@ -104,13 +104,9 @@ internal class SelectableLazyListScopeContainer : SelectableLazyListScope {
         ) : Entry
     }
 
-    internal fun getKeyIndex(key: Any): Int {
-        return keyToIndex[key] ?: error("Cannot find index of '$key'")
-    }
+    internal fun getKeyIndex(key: Any): Int = keyToIndex[key] ?: error("Cannot find index of '$key'")
 
-    internal fun isKeySelectable(key: Any): Boolean {
-        return key !in nonSelectableKeys
-    }
+    internal fun isKeySelectable(key: Any): Boolean = key !in nonSelectableKeys
 
     override fun item(
         key: Any,
