@@ -258,7 +258,7 @@ internal class SelectableLazyColumnTest {
     }
 
     @Test
-    fun `changing items model with seleciton shouldn't fail`() = runBlocking<Unit> {
+    fun `changing items model with selection shouldn't fail`() = runBlocking {
         val items1 = (0..50).toList()
         val items2 = (70..80).toList()
         val currentItems = mutableStateOf(items1)
