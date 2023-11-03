@@ -11,28 +11,17 @@ import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import javax.swing.JComponent
 
 public fun JewelComposePanel(
-    content: @Composable ComposePanelScope.() -> Unit,
+    content: @Composable () -> Unit,
 ): JComponent {
     return ComposePanel().apply {
-        val scope = object : ComposePanelScope {
-            override val panel: JComponent
-                get() = this@apply
-        }
         setContent {
             SwingBridgeTheme {
                 CompositionLocalProvider(LocalComponent provides this@apply) {
-                    ComponentDataProviderBridge(this@apply) {
-                        scope.content()
-                    }
+                    ComponentDataProviderBridge(this@apply, content = content)
                 }
             }
         }
     }
-}
-
-public interface ComposePanelScope {
-
-    public val panel: JComponent
 }
 
 @ExperimentalJewelApi

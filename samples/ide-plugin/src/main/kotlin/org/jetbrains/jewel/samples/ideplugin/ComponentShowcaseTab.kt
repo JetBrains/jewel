@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.intellij.icons.AllIcons
 import com.intellij.ui.JBColor
 import icons.JewelIcons
+import org.jetbrains.jewel.bridge.LocalComponent
 import org.jetbrains.jewel.bridge.ToolWindowScope
 import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.foundation.lazy.tree.buildTree
@@ -52,7 +53,7 @@ internal fun ToolWindowScope.ComponentShowcaseTab() {
 
     val scrollState = rememberScrollState()
     Row(
-        modifier = Modifier.trackComponentActivation(panel)
+        modifier = Modifier.trackComponentActivation(LocalComponent.current)
             .fillMaxSize()
             .background(bgColor)
             .verticalScroll(scrollState)

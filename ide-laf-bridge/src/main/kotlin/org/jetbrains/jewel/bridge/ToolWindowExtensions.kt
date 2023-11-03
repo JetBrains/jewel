@@ -3,7 +3,6 @@ package org.jetbrains.jewel.bridge
 import androidx.compose.runtime.Composable
 import com.intellij.openapi.wm.ToolWindow
 import org.jetbrains.jewel.foundation.enableNewSwingCompositing
-import java.awt.Component
 
 public fun ToolWindow.addComposeTab(
     tabDisplayName: String,
@@ -20,8 +19,6 @@ public fun ToolWindow.addComposeTab(
             val scope = object : ToolWindowScope {
                 override val toolWindow: ToolWindow
                     get() = this@addComposeTab
-                override val panel: Component
-                    get() = this@JewelComposePanel.panel
             }
             scope.content()
         },
@@ -35,6 +32,4 @@ public fun ToolWindow.addComposeTab(
 public interface ToolWindowScope {
 
     public val toolWindow: ToolWindow
-
-    public val panel: Component
 }
