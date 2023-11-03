@@ -100,7 +100,7 @@ public fun SelectableLazyColumn(
                 keyActions,
                 pointerEventActions,
                 selectionMode,
-                container::isKeySelectable
+                container::isKeySelectable,
             )
         }
     }

@@ -136,8 +136,8 @@ internal class SelectableLazyListScopeContainer : SelectableLazyListScope {
         for (index in 0 until count) {
             val isSelectable = selectable(index)
             val currentKey = key(index)
-                if (!isSelectable) {
-                    nonSelectableKeys.add(currentKey)
+            if (!isSelectable) {
+                nonSelectableKeys.add(currentKey)
             }
             keyToIndex[currentKey] = keys.size
             keys.add(if (isSelectable) Selectable(currentKey) else NotSelectable(currentKey))
