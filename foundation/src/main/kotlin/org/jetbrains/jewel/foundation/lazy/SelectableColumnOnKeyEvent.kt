@@ -37,13 +37,15 @@ public interface SelectableColumnOnKeyEvent {
         val newSelection = ArrayList<Any>(max(initialIndex, state.selectedKeys.size)).apply {
             addAll(state.selectedKeys)
         }
+        var lastActiveItemIndex = initialIndex
         for (index in initialIndex - 1 downTo 0) {
             val key = keys[index]
             if (key is Selectable) {
                 newSelection.add(key.key)
-                state.lastActiveItemIndex = index
+                lastActiveItemIndex = index
             }
         }
+        state.lastActiveItemIndex = lastActiveItemIndex
         state.selectedKeys = newSelection
     }
 
@@ -76,13 +78,15 @@ public interface SelectableColumnOnKeyEvent {
         val newSelection = ArrayList<Any>(max(keys.size - initialIndex, state.selectedKeys.size)).apply {
             addAll(state.selectedKeys)
         }
+        var lastActiveItemIndex = initialIndex
         for (index in initialIndex + 1..keys.lastIndex) {
             val key = keys[index]
             if (key is Selectable) {
                 newSelection.add(key.key)
-                state.lastActiveItemIndex = index
+                lastActiveItemIndex = index
             }
         }
+        state.lastActiveItemIndex = lastActiveItemIndex
         state.selectedKeys = newSelection
     }
 
