@@ -29,7 +29,7 @@ public interface SelectableColumnOnKeyEvent {
      * Extend Selection to First Node inherited from Move Caret to Text Start
      * with Selection.
      */
-    fun onExtendSelectionToFirst(
+    public fun onExtendSelectionToFirst(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
     ) {
