@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyItemScope
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
@@ -89,6 +90,7 @@ import kotlin.time.Duration.Companion.milliseconds
 public fun <T> BasicLazyTree(
     tree: Tree<T>,
     selectionMode: SelectionMode = SelectionMode.Multiple,
+    stickyNodes: Boolean,
     onElementClick: (Tree.Element<T>) -> Unit,
     elementBackgroundFocused: Color,
     elementBackgroundSelectedFocused: Color,
@@ -111,7 +113,7 @@ public fun <T> BasicLazyTree(
 ) {
     val scope = rememberCoroutineScope()
 
-    val flattenedTree = remember(tree, treeState.openNodes, treeState.allNodes) {
+    val flattenedTree = remember(tree, treeState.openNodes, treeState.allNodes, stickyNodes) {
         tree.roots.flatMap { it.flattenTree(treeState) }
     }
 
@@ -135,82 +137,185 @@ public fun <T> BasicLazyTree(
         },
         interactionSource = remember { MutableInteractionSource() },
     ) {
-        itemsIndexed(
-            items = flattenedTree,
-            key = { _, item -> item.id },
-            contentType = { _, item -> item.data },
-        ) { index, element ->
-            val elementState =
-                TreeElementState.of(
-                    active = isActive,
-                    selected = isSelected,
-                    expanded = (element as? Tree.Element.Node)
-                        ?.let { it.id in treeState.openNodes }
-                        ?: false,
-                )
-
-            val backgroundShape by derivedStateOf {
-                val hasRoundedTopCorners = flattenedTree.getOrNull(index - 1)?.id?.let {
-                    it !in treeState.delegate.selectedKeys
-                } ?: true
-                val hasRoundedBottomCorners = flattenedTree.getOrNull(index + 1)?.id?.let {
-                    it !in treeState.delegate.selectedKeys
-                } ?: true
-                val topCornerSize = computerCornerSize(hasRoundedTopCorners, elementBackgroundCornerSize)
-                val bottomCornerSize = computerCornerSize(hasRoundedBottomCorners, elementBackgroundCornerSize)
-                RoundedCornerShape(
-                    topStart = topCornerSize,
-                    topEnd = topCornerSize,
-                    bottomEnd = bottomCornerSize,
-                    bottomStart = bottomCornerSize,
-                )
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier =
-                Modifier.defaultMinSize(minHeight = elementMinHeight)
-                    .padding(elementPadding)
-                    .elementBackground(
-                        state = elementState,
-                        selectedFocused = elementBackgroundSelectedFocused,
-                        focused = elementBackgroundFocused,
-                        selected = elementBackgroundSelected,
-                        backgroundShape = backgroundShape,
-                    )
-                    .padding(elementContentPadding)
-                    .padding(start = (element.depth * indentSize.value).dp)
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null,
-                    ) {
-                        (pointerEventScopedActions as? DefaultTreeViewPointerEventAction)
-                            ?.notifyItemClicked(
-                                item = flattenedTree[index] as Tree.Element<T>,
-                                scope = scope,
-                                doubleClickTimeDelayMillis = platformDoubleClickDelay.inWholeMilliseconds,
-                                onElementClick = onElementClick,
-                                onElementDoubleClick = onElementDoubleClick,
-                            )
-                        treeState.delegate.lastActiveItemIndex = index
-                    },
-            ) {
+        if (stickyNodes) {
+            flattenedTree.forEachIndexed { index, element ->
                 if (element is Tree.Element.Node) {
-                    Box(
-                        modifier = Modifier.clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null,
-                        ) {
-                            treeState.toggleNode(element.id)
-                            onElementDoubleClick(element as Tree.Element<T>)
-                        },
-                    ) {
-                        chevronContent(elementState)
+                    stickyHeader(key = element.id) {
+                        boxedElement(
+                            element = element,
+                            treeState = treeState,
+                            flattenedTree = flattenedTree,
+                            index = index,
+                            elementBackgroundCornerSize = elementBackgroundCornerSize,
+                            elementMinHeight = elementMinHeight,
+                            elementPadding = elementPadding,
+                            elementBackgroundSelectedFocused = elementBackgroundSelectedFocused,
+                            elementBackgroundFocused = elementBackgroundFocused,
+                            elementBackgroundSelected = elementBackgroundSelected,
+                            elementContentPadding = elementContentPadding,
+                            indentSize = indentSize,
+                            pointerEventScopedActions = pointerEventScopedActions,
+                            scope = scope,
+                            platformDoubleClickDelay = platformDoubleClickDelay,
+                            onElementClick = onElementClick,
+                            onElementDoubleClick = onElementDoubleClick,
+                            chevronContent = chevronContent,
+                            chevronContentGap = chevronContentGap,
+                            nodeContent = nodeContent
+                        )
                     }
-                    Spacer(Modifier.width(chevronContentGap))
+                } else {
+                    item(key = element.id) {
+                        boxedElement(
+                            element = element,
+                            treeState = treeState,
+                            flattenedTree = flattenedTree,
+                            index = index,
+                            elementBackgroundCornerSize = elementBackgroundCornerSize,
+                            elementMinHeight = elementMinHeight,
+                            elementPadding = elementPadding,
+                            elementBackgroundSelectedFocused = elementBackgroundSelectedFocused,
+                            elementBackgroundFocused = elementBackgroundFocused,
+                            elementBackgroundSelected = elementBackgroundSelected,
+                            elementContentPadding = elementContentPadding,
+                            indentSize = indentSize,
+                            pointerEventScopedActions = pointerEventScopedActions,
+                            scope = scope,
+                            platformDoubleClickDelay = platformDoubleClickDelay,
+                            onElementClick = onElementClick,
+                            onElementDoubleClick = onElementDoubleClick,
+                            chevronContent = chevronContent,
+                            chevronContentGap = chevronContentGap,
+                            nodeContent = nodeContent
+                        )
+                    }
                 }
-                nodeContent(element as Tree.Element<T>)
+            }
+        } else {
+            itemsIndexed(
+                items = flattenedTree,
+                key = { _, item -> item.id },
+                contentType = { _, item -> item.data },
+            ) { index, element ->
+                boxedElement(
+                    element = element,
+                    treeState = treeState,
+                    flattenedTree = flattenedTree,
+                    index = index,
+                    elementBackgroundCornerSize = elementBackgroundCornerSize,
+                    elementMinHeight = elementMinHeight,
+                    elementPadding = elementPadding,
+                    elementBackgroundSelectedFocused = elementBackgroundSelectedFocused,
+                    elementBackgroundFocused = elementBackgroundFocused,
+                    elementBackgroundSelected = elementBackgroundSelected,
+                    elementContentPadding = elementContentPadding,
+                    indentSize = indentSize,
+                    pointerEventScopedActions = pointerEventScopedActions,
+                    scope = scope,
+                    platformDoubleClickDelay = platformDoubleClickDelay,
+                    onElementClick = onElementClick,
+                    onElementDoubleClick = onElementDoubleClick,
+                    chevronContent = chevronContent,
+                    chevronContentGap = chevronContentGap,
+                    nodeContent = nodeContent
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun <T> SelectableLazyItemScope.boxedElement(
+    element: Tree.Element<*>,
+    treeState: TreeState,
+    flattenedTree: List<Tree.Element<*>>,
+    index: Int,
+    elementBackgroundCornerSize: CornerSize,
+    elementMinHeight: Dp,
+    elementPadding: PaddingValues,
+    elementBackgroundSelectedFocused: Color,
+    elementBackgroundFocused: Color,
+    elementBackgroundSelected: Color,
+    elementContentPadding: PaddingValues,
+    indentSize: Dp,
+    pointerEventScopedActions: PointerEventActions,
+    scope: CoroutineScope,
+    platformDoubleClickDelay: Duration,
+    onElementClick: (Tree.Element<T>) -> Unit,
+    onElementDoubleClick: (Tree.Element<T>) -> Unit,
+    chevronContent: @Composable (nodeState: TreeElementState) -> Unit,
+    chevronContentGap: Dp,
+    nodeContent: @Composable() (SelectableLazyItemScope.(Tree.Element<T>) -> Unit),
+) {
+    val elementState =
+        TreeElementState.of(
+            active = isActive,
+            selected = isSelected,
+            expanded = (element as? Tree.Element.Node)
+                ?.let { it.id in treeState.openNodes }
+                ?: false,
+        )
+
+    val backgroundShape by derivedStateOf {
+        val hasRoundedTopCorners = flattenedTree.getOrNull(index - 1)?.id?.let {
+            it !in treeState.delegate.selectedKeys
+        } ?: true
+        val hasRoundedBottomCorners = flattenedTree.getOrNull(index + 1)?.id?.let {
+            it !in treeState.delegate.selectedKeys
+        } ?: true
+        val topCornerSize = computerCornerSize(hasRoundedTopCorners, elementBackgroundCornerSize)
+        val bottomCornerSize = computerCornerSize(hasRoundedBottomCorners, elementBackgroundCornerSize)
+        RoundedCornerShape(
+            topStart = topCornerSize,
+            topEnd = topCornerSize,
+            bottomEnd = bottomCornerSize,
+            bottomStart = bottomCornerSize,
+        )
+    }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier =
+        Modifier.defaultMinSize(minHeight = elementMinHeight)
+            .padding(elementPadding)
+            .elementBackground(
+                state = elementState,
+                selectedFocused = elementBackgroundSelectedFocused,
+                focused = elementBackgroundFocused,
+                selected = elementBackgroundSelected,
+                backgroundShape = backgroundShape,
+            )
+            .padding(elementContentPadding)
+            .padding(start = (element.depth * indentSize.value).dp)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            ) {
+                (pointerEventScopedActions as? DefaultTreeViewPointerEventAction)
+                    ?.notifyItemClicked(
+                        item = flattenedTree[index] as Tree.Element<T>,
+                        scope = scope,
+                        doubleClickTimeDelayMillis = platformDoubleClickDelay.inWholeMilliseconds,
+                        onElementClick = onElementClick,
+                        onElementDoubleClick = onElementDoubleClick,
+                    )
+                treeState.delegate.lastActiveItemIndex = index
+            },
+    ) {
+        if (element is Tree.Element.Node) {
+            Box(
+                modifier = Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                ) {
+                    treeState.toggleNode(element.id)
+                    onElementDoubleClick(element as Tree.Element<T>)
+                },
+            ) {
+                chevronContent(elementState)
+            }
+            Spacer(Modifier.width(chevronContentGap))
+        }
+        nodeContent(element as Tree.Element<T>)
     }
 }
 

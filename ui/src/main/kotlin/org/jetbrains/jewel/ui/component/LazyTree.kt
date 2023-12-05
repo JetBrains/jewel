@@ -26,6 +26,7 @@ public fun <T> LazyTree(
     modifier: Modifier = Modifier,
     onElementClick: (Tree.Element<T>) -> Unit = {},
     treeState: TreeState = rememberTreeState(),
+    stickyNodes: Boolean = false,
     onElementDoubleClick: (Tree.Element<T>) -> Unit = {},
     onSelectionChange: (List<Tree.Element<T>>) -> Unit = {},
     keyActions: KeyActions = DefaultTreeViewKeyActions(treeState),
@@ -38,6 +39,7 @@ public fun <T> LazyTree(
     BasicLazyTree(
         tree = tree,
         onElementClick = onElementClick,
+        stickyNodes = stickyNodes,
         elementBackgroundFocused = colors.elementBackgroundFocused,
         elementBackgroundSelectedFocused = colors.elementBackgroundSelectedFocused,
         elementBackgroundSelected = colors.elementBackgroundSelected,

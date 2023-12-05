@@ -28,9 +28,11 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.rememberSelectableLazyListState
+import org.jetbrains.jewel.foundation.lazy.tree.Tree
 import org.jetbrains.jewel.foundation.lazy.tree.buildTree
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.samples.standalone.viewmodel.View
+import org.jetbrains.jewel.ui.component.CheckboxRow
 import org.jetbrains.jewel.ui.component.Chip
 import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.LazyTree
@@ -38,6 +40,7 @@ import org.jetbrains.jewel.ui.component.RadioButtonChip
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.ToggleableChip
 import org.jetbrains.jewel.ui.theme.colorPalette
+import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable
 @View(title = "ChipsAndTree", position = 11)
@@ -180,6 +183,47 @@ fun TreeSample(modifier: Modifier = Modifier) {
             addNode("root 3") {
                 addLeaf("leaf 3.1")
                 addLeaf("leaf 3.2")
+                addLeaf("leaf 3.3")
+                addLeaf("leaf 3.4")
+                addLeaf("leaf 3.5")
+                addLeaf("leaf 3.6")
+                addLeaf("leaf 3.7")
+                addLeaf("leaf 3.8")
+                addLeaf("leaf 3.9")
+                addLeaf("leaf 3.10")
+                addLeaf("leaf 3.11")
+                addLeaf("leaf 3.12")
+                addLeaf("leaf 3.13")
+                addLeaf("leaf 3.14")
+                addLeaf("leaf 3.15")
+            }
+            addNode("root 4") {
+                addLeaf("leaf 4.1")
+                addLeaf("leaf 4.2")
+            }
+            addNode("root 5") {
+                addLeaf("leaf 5.1")
+                addLeaf("leaf 5.2")
+            }
+            addNode("root 6") {
+                addLeaf("leaf 6.1")
+                addLeaf("leaf 6.2")
+            }
+            addNode("root 7") {
+                addLeaf("leaf 7.1")
+                addLeaf("leaf 7.2")
+            }
+            addNode("root 8") {
+                addLeaf("leaf 8.1")
+                addLeaf("leaf 8.2")
+            }
+            addNode("root 9") {
+                addLeaf("leaf 9.1")
+                addLeaf("leaf 9.2")
+            }
+            addNode("root 10") {
+                addLeaf("leaf 10.1")
+                addLeaf("leaf 10.2")
             }
         }
     }
@@ -191,16 +235,33 @@ fun TreeSample(modifier: Modifier = Modifier) {
             JewelTheme.colorPalette.grey(12)
         }
 
-    Box(modifier.border(1.dp, borderColor, RoundedCornerShape(2.dp))) {
-        LazyTree(
-            tree = tree,
-            modifier = Modifier.size(200.dp, 200.dp),
-            onElementClick = {},
-            onElementDoubleClick = {},
-        ) { element ->
-            Box(Modifier.fillMaxWidth()) {
-                Text(element.data, Modifier.padding(2.dp))
+    var stickyNodes by remember { mutableStateOf(false) }
+    Column {
+        CheckboxRow(
+            checked = stickyNodes,
+            onCheckedChange = { stickyNodes = !stickyNodes },
+            modifier = Modifier.padding(bottom = 8.dp)
+        ) {
+            Text("Sticky nodes")
+        }
+
+        Box(modifier.border(1.dp, borderColor, RoundedCornerShape(2.dp))) {
+            LazyTree(
+                tree = tree,
+                stickyNodes = stickyNodes,
+                modifier = Modifier.size(200.dp, 200.dp),
+                onElementClick = {},
+                onElementDoubleClick = {},
+            ) { element ->
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .thenIf(element is Tree.Element.Node && stickyNodes) { Modifier.background(Color.LightGray) }
+                ) {
+                    Text(element.data, Modifier.padding(2.dp))
+                }
             }
         }
     }
 }
+
