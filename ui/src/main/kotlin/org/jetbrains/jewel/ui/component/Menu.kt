@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -139,6 +140,11 @@ internal fun MenuContent(
 ) {
     val items by remember(content) { derivedStateOf { content.asList() } }
 
+    val selectableItems = remember { items.filterIsInstance<MenuSelectableItem>() }
+
+    val anyIconItem = remember { selectableItems.any { it.iconResource != null } }
+    val anyKeyBinding = remember { selectableItems.any { it.keybinding != null } }
+
     val localMenuManager = LocalMenuManager.current
     val scrollState = rememberScrollState()
     val colors = style.colors
@@ -158,7 +164,9 @@ internal fun MenuContent(
             .onHover { localMenuManager.onHoveredChange(it) },
     ) {
         Column(Modifier.verticalScroll(scrollState).padding(style.metrics.contentPadding)) {
-            items.forEach { ShowMenuItem(it) }
+            items.forEach {
+                ShowMenuItem(it, anyIconItem, anyKeyBinding)
+            }
         }
 
         Box(modifier = Modifier.matchParentSize()) {
@@ -171,18 +179,26 @@ internal fun MenuContent(
 }
 
 @Composable
-private fun ShowMenuItem(item: MenuItem) {
+private fun ShowMenuItem(item: MenuItem, iconGap: Boolean = false, keybindingGap: Boolean = false) {
     when (item) {
         is MenuSelectableItem -> MenuItem(
             selected = item.isSelected,
             onClick = item.onClick,
             enabled = item.isEnabled,
+            iconGap = iconGap,
+            keybindingGap = keybindingGap,
+            iconResource = item.iconResource,
+            iconClass = item.iconClass,
+            keybinding = item.keybinding,
             content = item.content,
         )
 
         is SubmenuItem -> MenuSubmenuItem(
             enabled = item.isEnabled,
             submenu = item.submenu,
+            iconGap = iconGap,
+            iconResource = item.iconResource,
+            iconClass = item.iconClass,
             content = item.content,
         )
 
@@ -194,6 +210,9 @@ public interface MenuScope {
 
     public fun selectableItem(
         selected: Boolean,
+        iconResource: String? = null,
+        iconClass: Class<*> = this::class.java,
+        keybinding: Set<Char>? = null,
         onClick: () -> Unit,
         enabled: Boolean = true,
         content: @Composable () -> Unit,
@@ -201,6 +220,8 @@ public interface MenuScope {
 
     public fun submenu(
         enabled: Boolean = true,
+        iconResource: String? = null,
+        iconClass: Class<*> = this::class.java,
         submenu: MenuScope.() -> Unit,
         content: @Composable () -> Unit,
     )
@@ -241,11 +262,24 @@ private fun (MenuScope.() -> Unit).asList() = buildList {
         object : MenuScope {
             override fun selectableItem(
                 selected: Boolean,
+                iconResource: String?,
+                iconClass: Class<*>,
+                keybinding: Set<Char>?,
                 onClick: () -> Unit,
                 enabled: Boolean,
                 content: @Composable () -> Unit,
             ) {
-                add(MenuSelectableItem(selected, enabled, onClick, content))
+                add(
+                    MenuSelectableItem(
+                        isSelected = selected,
+                        isEnabled = enabled,
+                        iconResource = iconResource,
+                        iconClass = iconClass,
+                        keybinding = keybinding,
+                        onClick = onClick,
+                        content = content,
+                    ),
+                )
             }
 
             override fun passiveItem(content: @Composable () -> Unit) {
@@ -254,10 +288,12 @@ private fun (MenuScope.() -> Unit).asList() = buildList {
 
             override fun submenu(
                 enabled: Boolean,
+                iconResource: String?,
+                iconClass: Class<*>,
                 submenu: MenuScope.() -> Unit,
                 content: @Composable () -> Unit,
             ) {
-                add(SubmenuItem(enabled, submenu, content))
+                add(SubmenuItem(enabled, iconResource, iconClass, submenu, content))
             }
         },
     )
@@ -270,7 +306,10 @@ private interface MenuItem {
 
 private data class MenuSelectableItem(
     val isSelected: Boolean,
-    val isEnabled: Boolean = true,
+    val isEnabled: Boolean,
+    val iconResource: String?,
+    val iconClass: Class<*>,
+    val keybinding: Set<Char>?,
     val onClick: () -> Unit = {},
     override val content: @Composable () -> Unit,
 ) : MenuItem
@@ -281,6 +320,8 @@ private data class MenuPassiveItem(
 
 private data class SubmenuItem(
     val isEnabled: Boolean = true,
+    val iconResource: String?,
+    val iconClass: Class<*>,
     val submenu: MenuScope.() -> Unit,
     override val content: @Composable () -> Unit,
 ) : MenuItem
@@ -300,11 +341,16 @@ public fun MenuSeparator(
 }
 
 @Composable
-public fun MenuItem(
+internal fun MenuItem(
     selected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    iconResource: String?,
+    iconClass: Class<*>,
+    keybinding: Set<Char>?,
+    iconGap: Boolean,
+    keybindingGap: Boolean,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: MenuStyle = JewelTheme.menuStyle,
     content: @Composable () -> Unit,
@@ -370,12 +416,30 @@ public fun MenuItem(
         ) {
             val backgroundColor by itemColors.backgroundFor(itemState)
 
-            Box(
-                Modifier.fillMaxWidth()
+            Row(
+                modifier = Modifier.fillMaxWidth()
                     .drawItemBackground(itemMetrics, backgroundColor)
                     .padding(itemMetrics.contentPadding),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                content()
+                if (iconGap) {
+                    if (iconResource != null) {
+                        Icon(resource = iconResource, contentDescription = null, iconClass = iconClass)
+                    } else {
+                        Box(modifier = Modifier.size(style.metrics.itemMetrics.iconSize))
+                    }
+                }
+                Box(modifier = Modifier.weight(1f, true)) {
+                    content()
+                }
+                if (keybindingGap) {
+                    val keybindingText = remember { keybinding?.joinToString("") { it.toString() }.orEmpty() }
+                    Text(
+                        modifier = Modifier.padding(style.metrics.itemMetrics.keybindingsPadding),
+                        text = keybindingText,
+                        color = itemColors.keybindingTintFor(itemState).value,
+                    )
+                }
             }
         }
     }
@@ -385,15 +449,17 @@ public fun MenuItem(
 public fun MenuSubmenuItem(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    iconGap: Boolean,
+    iconResource: String?,
+    iconClass: Class<*>,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: MenuStyle = JewelTheme.menuStyle,
     submenu: MenuScope.() -> Unit,
     content: @Composable () -> Unit,
 ) {
-    var itemState by
-        remember(interactionSource) {
-            mutableStateOf(MenuItemState.of(selected = false, enabled = enabled))
-        }
+    var itemState by remember(interactionSource) {
+        mutableStateOf(MenuItemState.of(selected = false, enabled = enabled))
+    }
 
     remember(enabled) { itemState = itemState.copy(selected = false, enabled = enabled) }
 
@@ -446,9 +512,18 @@ public fun MenuSubmenuItem(
             LocalContentColor provides itemColors.contentFor(itemState).value,
         ) {
             Row(
-                Modifier.fillMaxWidth().padding(menuMetrics.itemMetrics.contentPadding),
+                Modifier.fillMaxWidth()
+                    .padding(menuMetrics.itemMetrics.contentPadding),
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
+                if (iconGap) {
+                    if (iconResource != null) {
+                        Icon(resource = iconResource, iconClass = iconClass, contentDescription = "")
+                    } else {
+                        Box(Modifier.size(style.metrics.itemMetrics.iconSize))
+                    }
+                }
                 Box(Modifier.weight(1f)) { content() }
 
                 val chevronPainter by style.icons.submenuChevron.getPainter(Stateful(itemState))
@@ -456,7 +531,7 @@ public fun MenuSubmenuItem(
                     painter = chevronPainter,
                     tint = itemColors.iconTintFor(itemState).value,
                     contentDescription = null,
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(style.metrics.itemMetrics.iconSize),
                 )
             }
         }
