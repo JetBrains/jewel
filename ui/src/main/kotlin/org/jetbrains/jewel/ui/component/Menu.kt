@@ -142,8 +142,8 @@ internal fun MenuContent(
 
     val selectableItems = remember { items.filterIsInstance<MenuSelectableItem>() }
 
-    val anyIconItem = remember { selectableItems.any { it.iconResource != null } }
-    val anyKeyBinding = remember { selectableItems.any { it.keybinding != null } }
+    val anyItemHasIcon = remember { selectableItems.any { it.iconResource != null } }
+    val anyItemHasKeybinding = remember { selectableItems.any { it.keybinding != null } }
 
     val localMenuManager = LocalMenuManager.current
     val scrollState = rememberScrollState()
@@ -165,7 +165,7 @@ internal fun MenuContent(
     ) {
         Column(Modifier.verticalScroll(scrollState).padding(style.metrics.contentPadding)) {
             items.forEach {
-                ShowMenuItem(it, anyIconItem, anyKeyBinding)
+                ShowMenuItem(it, anyItemHasIcon, anyItemHasKeybinding)
             }
         }
 
@@ -179,14 +179,18 @@ internal fun MenuContent(
 }
 
 @Composable
-private fun ShowMenuItem(item: MenuItem, iconGap: Boolean = false, keybindingGap: Boolean = false) {
+private fun ShowMenuItem(
+    item: MenuItem,
+    canShowIcon: Boolean = false,
+    canShowKeybinding: Boolean = false,
+) {
     when (item) {
         is MenuSelectableItem -> MenuItem(
             selected = item.isSelected,
             onClick = item.onClick,
             enabled = item.isEnabled,
-            iconGap = iconGap,
-            keybindingGap = keybindingGap,
+            canShowIcon = canShowIcon,
+            canShowKeybinding = canShowKeybinding,
             iconResource = item.iconResource,
             iconClass = item.iconClass,
             keybinding = item.keybinding,
@@ -196,7 +200,7 @@ private fun ShowMenuItem(item: MenuItem, iconGap: Boolean = false, keybindingGap
         is SubmenuItem -> MenuSubmenuItem(
             enabled = item.isEnabled,
             submenu = item.submenu,
-            iconGap = iconGap,
+            canShowIcon = canShowIcon,
             iconResource = item.iconResource,
             iconClass = item.iconClass,
             content = item.content,
@@ -349,8 +353,8 @@ internal fun MenuItem(
     iconResource: String?,
     iconClass: Class<*>,
     keybinding: Set<Char>?,
-    iconGap: Boolean,
-    keybindingGap: Boolean,
+    canShowIcon: Boolean,
+    canShowKeybinding: Boolean,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: MenuStyle = JewelTheme.menuStyle,
     content: @Composable () -> Unit,
@@ -422,18 +426,28 @@ internal fun MenuItem(
                     .padding(itemMetrics.contentPadding),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                if (iconGap) {
+                if (canShowIcon) {
+                    val iconModifier = Modifier.size(style.metrics.itemMetrics.iconSize)
                     if (iconResource != null) {
-                        Icon(resource = iconResource, contentDescription = null, iconClass = iconClass)
+                        Icon(
+                            resource = iconResource,
+                            contentDescription = null,
+                            iconClass = iconClass,
+                            modifier = iconModifier,
+                        )
                     } else {
-                        Box(modifier = Modifier.size(style.metrics.itemMetrics.iconSize))
+                        Box(modifier = iconModifier)
                     }
                 }
+
                 Box(modifier = Modifier.weight(1f, true)) {
                     content()
                 }
-                if (keybindingGap) {
-                    val keybindingText = remember { keybinding?.joinToString("") { it.toString() }.orEmpty() }
+
+                if (canShowKeybinding) {
+                    val keybindingText = remember(keybinding) {
+                        keybinding?.joinToString("") { it.toString() }.orEmpty()
+                    }
                     Text(
                         modifier = Modifier.padding(style.metrics.itemMetrics.keybindingsPadding),
                         text = keybindingText,
@@ -449,7 +463,7 @@ internal fun MenuItem(
 public fun MenuSubmenuItem(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    iconGap: Boolean,
+    canShowIcon: Boolean,
     iconResource: String?,
     iconClass: Class<*>,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -517,13 +531,14 @@ public fun MenuSubmenuItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                if (iconGap) {
+                if (canShowIcon) {
                     if (iconResource != null) {
                         Icon(resource = iconResource, iconClass = iconClass, contentDescription = "")
                     } else {
                         Box(Modifier.size(style.metrics.itemMetrics.iconSize))
                     }
                 }
+
                 Box(Modifier.weight(1f)) { content() }
 
                 val chevronPainter by style.icons.submenuChevron.getPainter(Stateful(itemState))

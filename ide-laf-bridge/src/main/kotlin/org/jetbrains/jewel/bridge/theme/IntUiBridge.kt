@@ -533,8 +533,8 @@ private fun readLinkStyle(
 private fun readMenuStyle(): MenuStyle {
     val backgroundSelected = retrieveColorOrUnspecified("MenuItem.selectionBackground")
     val foregroundSelected = retrieveColorOrUnspecified("MenuItem.selectionForeground")
-    val keybingingTint = retrieveColorOrUnspecified("MenuItem.acceleratorForeground")
-    val keybingingTintSelected = Color.Unspecified
+    val keybindingTint = retrieveColorOrUnspecified("MenuItem.acceleratorForeground")
+    val keybindingTintSelected = Color.Unspecified
 
     val colors = MenuColors(
         background = retrieveColorOrUnspecified("PopupMenu.background"),
@@ -557,11 +557,11 @@ private fun readMenuStyle(): MenuStyle {
             iconTintFocused = Color.Unspecified,
             iconTintPressed = Color.Unspecified,
             iconTintHovered = Color.Unspecified,
-            keybindingTint = keybingingTint,
-            keybindingTintDisabled = keybingingTint,
-            keybindingTintFocused = keybingingTintSelected,
-            keybindingTintPressed = keybingingTintSelected,
-            keybindingTintHovered = keybingingTintSelected,
+            keybindingTint = keybindingTint,
+            keybindingTintDisabled = keybindingTint,
+            keybindingTintFocused = keybindingTintSelected,
+            keybindingTintPressed = keybindingTintSelected,
+            keybindingTintHovered = keybindingTintSelected,
             separator = retrieveColorOrUnspecified("Menu.separatorColor"),
         ),
     )
