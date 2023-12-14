@@ -50,10 +50,12 @@ public final class org/jetbrains/jewel/ui/DefaultComponentStyling : org/jetbrain
 	public final fun getTooltipStyle ()Lorg/jetbrains/jewel/ui/component/styling/TooltipStyle;
 	public final fun getUndecoratedDropdownStyle ()Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;
 	public fun hashCode ()I
+	public synthetic fun provide (Lkotlin/jvm/functions/Function0;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun provide (Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun provide ([Landroidx/compose/runtime/ProvidedValue;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun styles (Landroidx/compose/runtime/Composer;I)[Landroidx/compose/runtime/ProvidedValue;
 	public fun toString ()Ljava/lang/String;
+	public synthetic fun with (Lkotlin/jvm/functions/Function0;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun with (Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun with (Lorg/jetbrains/jewel/ui/ComponentStyling;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 }
@@ -2329,3 +2331,4 @@ public final class org/jetbrains/jewel/ui/util/DebugKt {
 public final class org/jetbrains/jewel/ui/util/ModifierExtensionsKt {
 	public static final fun thenIf (Landroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
 }
+
