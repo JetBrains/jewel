@@ -21,7 +21,6 @@ import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.TabData
-import org.jetbrains.jewel.ui.component.TabData.Default
 import org.jetbrains.jewel.ui.component.TabStrip
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.theme.defaultTabStyle
@@ -47,7 +46,7 @@ private fun DefaultTabShowcase() {
 
     val tabs = remember(tabIds, selectedTabIndex) {
         tabIds.mapIndexed { index, id ->
-            Default(
+            TabData.Default(
                 selected = index == selectedTabIndex,
                 content = { Text(text = "Default tab $id") },
                 onClose = {

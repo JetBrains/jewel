@@ -88,7 +88,7 @@ internal fun TabImpl(
         .value.takeOrElse { LocalContentColor.current }
 
     CompositionLocalProvider(LocalContentColor provides resolvedContentColor) {
-        val labelAlpha by tabStyle.contentAlpha.labelFor(tabState)
+        val contentAlpha by tabStyle.contentAlpha.contentFor(tabState)
         val iconAlpha by tabStyle.contentAlpha.iconFor(tabState)
 
         Row(
@@ -125,7 +125,7 @@ internal fun TabImpl(
                 Image(modifier = Modifier.alpha(iconAlpha), painter = icon, contentDescription = null)
             }
 
-            Box(Modifier.alpha(labelAlpha)) {
+            Box(Modifier.alpha(contentAlpha)) {
                 tabData.content(tabState)
             }
 

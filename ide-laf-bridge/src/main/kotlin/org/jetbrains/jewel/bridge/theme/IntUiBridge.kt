@@ -816,11 +816,11 @@ private fun readDefaultTabStyle(): TabStyle {
             iconPressed = 1f,
             iconHovered = 1f,
             iconSelected = 1f,
-            labelNormal = 1f,
-            labelDisabled = 1f,
-            labelPressed = 1f,
-            labelHovered = 1f,
-            labelSelected = 1f,
+            contentNormal = 1f,
+            contentDisabled = 1f,
+            contentPressed = 1f,
+            contentHovered = 1f,
+            contentSelected = 1f,
         ),
     )
 }
@@ -866,11 +866,11 @@ private fun readEditorTabStyle(): TabStyle {
             iconPressed = 1f,
             iconHovered = 1f,
             iconSelected = 1f,
-            labelNormal = .7f,
-            labelDisabled = .7f,
-            labelPressed = 1f,
-            labelHovered = 1f,
-            labelSelected = 1f,
+            contentNormal = .7f,
+            contentDisabled = .7f,
+            contentPressed = 1f,
+            contentHovered = 1f,
+            contentSelected = 1f,
         ),
     )
 }

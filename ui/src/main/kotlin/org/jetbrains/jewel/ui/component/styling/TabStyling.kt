@@ -121,11 +121,11 @@ public class TabContentAlpha(
     public val iconPressed: Float,
     public val iconHovered: Float,
     public val iconSelected: Float,
-    public val labelNormal: Float,
-    public val labelDisabled: Float,
-    public val labelPressed: Float,
-    public val labelHovered: Float,
-    public val labelSelected: Float,
+    public val contentNormal: Float,
+    public val contentDisabled: Float,
+    public val contentPressed: Float,
+    public val contentHovered: Float,
+    public val contentSelected: Float,
 ) {
 
     @Composable
@@ -145,17 +145,17 @@ public class TabContentAlpha(
         )
 
     @Composable
-    public fun labelFor(state: TabState): State<Float> =
+    public fun contentFor(state: TabState): State<Float> =
         rememberUpdatedState(
             when {
-                state.isSelected -> labelSelected
+                state.isSelected -> contentSelected
                 else ->
                     state.chooseValueIgnoreCompat(
-                        normal = labelNormal,
-                        disabled = labelDisabled,
-                        pressed = labelPressed,
-                        hovered = labelHovered,
-                        active = labelNormal,
+                        normal = contentNormal,
+                        disabled = contentDisabled,
+                        pressed = contentPressed,
+                        hovered = contentHovered,
+                        active = contentNormal,
                     )
             },
         )

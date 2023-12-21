@@ -229,11 +229,11 @@ public fun TabContentAlpha.Companion.default(
     iconPressed: Float = iconNormal,
     iconHovered: Float = iconNormal,
     iconSelected: Float = iconNormal,
-    labelNormal: Float = iconNormal,
-    labelDisabled: Float = iconNormal,
-    labelPressed: Float = iconNormal,
-    labelHovered: Float = iconNormal,
-    labelSelected: Float = iconNormal,
+    contentNormal: Float = iconNormal,
+    contentDisabled: Float = iconNormal,
+    contentPressed: Float = iconNormal,
+    contentHovered: Float = iconNormal,
+    contentSelected: Float = iconNormal,
 ): TabContentAlpha =
     TabContentAlpha(
         iconNormal = iconNormal,
@@ -241,11 +241,11 @@ public fun TabContentAlpha.Companion.default(
         iconPressed = iconPressed,
         iconHovered = iconHovered,
         iconSelected = iconSelected,
-        labelNormal = labelNormal,
-        labelDisabled = labelDisabled,
-        labelPressed = labelPressed,
-        labelHovered = labelHovered,
-        labelSelected = labelSelected,
+        contentNormal = contentNormal,
+        contentDisabled = contentDisabled,
+        contentPressed = contentPressed,
+        contentHovered = contentHovered,
+        contentSelected = contentSelected,
     )
 
 public fun TabContentAlpha.Companion.editor(
@@ -254,11 +254,11 @@ public fun TabContentAlpha.Companion.editor(
     iconPressed: Float = 1f,
     iconHovered: Float = iconPressed,
     iconSelected: Float = iconPressed,
-    labelNormal: Float = .9f,
-    labelDisabled: Float = labelNormal,
-    labelPressed: Float = 1f,
-    labelHovered: Float = labelPressed,
-    labelSelected: Float = labelPressed,
+    contentNormal: Float = .9f,
+    contentDisabled: Float = contentNormal,
+    contentPressed: Float = 1f,
+    contentHovered: Float = contentPressed,
+    contentSelected: Float = contentPressed,
 ): TabContentAlpha =
     TabContentAlpha(
         iconNormal = iconNormal,
@@ -266,11 +266,11 @@ public fun TabContentAlpha.Companion.editor(
         iconPressed = iconPressed,
         iconHovered = iconHovered,
         iconSelected = iconSelected,
-        labelNormal = labelNormal,
-        labelDisabled = labelDisabled,
-        labelPressed = labelPressed,
-        labelHovered = labelHovered,
-        labelSelected = labelSelected,
+        contentNormal = contentNormal,
+        contentDisabled = contentDisabled,
+        contentPressed = contentPressed,
+        contentHovered = contentHovered,
+        contentSelected = contentSelected,
     )
 
 public fun TabIcons.Companion.defaults(
