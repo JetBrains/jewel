@@ -137,7 +137,7 @@ public sealed class TabData {
             "Use the primary constructor instead",
             ReplaceWith(
                 "Editor(selected = selected, content = { Text(text) }, icon = icon, closable = closable, onClose = onClose, onClick = onClick)",
-                "org.jetbrains.jewel.ui.component.TabData.Default",
+                "org.jetbrains.jewel.ui.component.TabData.Editor",
             ),
         )
         public constructor(
