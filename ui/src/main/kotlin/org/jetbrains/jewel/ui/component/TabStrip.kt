@@ -30,6 +30,7 @@ import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
+import org.jetbrains.jewel.foundation.state.InteractiveComponentState
 
 @Composable
 public fun TabStrip(
@@ -47,19 +48,16 @@ public fun TabStrip(
             .onHover { tabStripState = tabStripState.copy(hovered = it) },
     ) {
         Row(
-            modifier = Modifier.horizontalScroll(scrollState)
-                .scrollable(
-                    orientation = Orientation.Vertical,
-                    reverseDirection =
-                    ScrollableDefaults.reverseDirection(
-                        LocalLayoutDirection.current,
-                        Orientation.Vertical,
-                        false,
-                    ),
-                    state = scrollState,
-                    interactionSource = remember { MutableInteractionSource() },
-                )
-                .selectableGroup(),
+            modifier = Modifier.horizontalScroll(scrollState).scrollable(
+                orientation = Orientation.Vertical,
+                reverseDirection = ScrollableDefaults.reverseDirection(
+                    LocalLayoutDirection.current,
+                    Orientation.Vertical,
+                    false,
+                ),
+                state = scrollState,
+                interactionSource = remember { MutableInteractionSource() },
+            ).selectableGroup(),
         ) {
             tabs.forEach { TabImpl(isActive = tabStripState.isActive, tabData = it) }
         }
@@ -81,7 +79,7 @@ public fun TabStrip(
 public sealed class TabData {
 
     public abstract val selected: Boolean
-    public abstract val label: String
+    public abstract val content: @Composable (tabState: InteractiveComponentState) -> Unit
     public abstract val icon: Painter?
     public abstract val closable: Boolean
     public abstract val onClose: () -> Unit
@@ -91,23 +89,71 @@ public sealed class TabData {
     @GenerateDataFunctions
     public class Default(
         override val selected: Boolean,
-        override val label: String,
+        override val content: @Composable (tabState: InteractiveComponentState) -> Unit,
         override val icon: Painter? = null,
         override val closable: Boolean = true,
         override val onClose: () -> Unit = {},
         override val onClick: () -> Unit = {},
-    ) : TabData()
+    ) : TabData() {
+
+        @Deprecated(
+            "Use the primary constructor instead",
+            ReplaceWith(
+                "Default(selected = selected, content = { Text(text) }, icon = icon, closable = closable, onClose = onClose, onClick = onClick)",
+                "org.jetbrains.jewel.ui.component.TabData.Default",
+            ),
+        )
+        public constructor(
+            selected: Boolean,
+            text: String,
+            icon: Painter? = null,
+            closable: Boolean = true,
+            onClose: () -> Unit,
+            onClick: () -> Unit,
+        ) : this(
+            selected = selected,
+            content = { Text(text) },
+            icon = icon,
+            closable = closable,
+            onClose = onClose,
+            onClick = onClick,
+        )
+    }
 
     @Immutable
     @GenerateDataFunctions
     public class Editor(
         override val selected: Boolean,
-        override val label: String,
+        override val content: @Composable (tabState: InteractiveComponentState) -> Unit,
         override val icon: Painter? = null,
         override val closable: Boolean = true,
         override val onClose: () -> Unit = {},
         override val onClick: () -> Unit = {},
-    ) : TabData()
+    ) : TabData() {
+
+        @Deprecated(
+            "Use the primary constructor instead",
+            ReplaceWith(
+                "Editor(selected = selected, content = { Text(text) }, icon = icon, closable = closable, onClose = onClose, onClick = onClick)",
+                "org.jetbrains.jewel.ui.component.TabData.Default",
+            ),
+        )
+        public constructor(
+            selected: Boolean,
+            text: String,
+            icon: Painter?,
+            closable: Boolean,
+            onClose: () -> Unit,
+            onClick: () -> Unit,
+        ) : this(
+            selected = selected,
+            content = { Text(text) },
+            icon = icon,
+            closable = closable,
+            onClose = onClose,
+            onClick = onClick,
+        )
+    }
 }
 
 @Immutable
@@ -135,14 +181,13 @@ public value class TabStripState(public val state: ULong) : FocusableComponentSt
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
-    ): TabStripState =
-        of(
-            enabled = enabled,
-            focused = focused,
-            pressed = pressed,
-            hovered = hovered,
-            active = active,
-        )
+    ): TabStripState = of(
+        enabled = enabled,
+        focused = focused,
+        pressed = pressed,
+        hovered = hovered,
+        active = active,
+    )
 
     override fun toString(): String =
         "${javaClass.simpleName}(isEnabled=$isEnabled, isFocused=$isFocused, isHovered=$isHovered, " +

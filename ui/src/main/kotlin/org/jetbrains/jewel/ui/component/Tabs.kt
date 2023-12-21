@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -72,10 +73,7 @@ internal fun TabImpl(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> tabState = tabState.copy(pressed = true)
-                is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                -> tabState = tabState.copy(pressed = false)
-
+                is PressInteraction.Cancel, is PressInteraction.Release -> tabState = tabState.copy(pressed = false)
                 is HoverInteraction.Enter -> tabState = tabState.copy(hovered = true)
                 is HoverInteraction.Exit -> tabState = tabState.copy(hovered = false)
             }
@@ -127,11 +125,10 @@ internal fun TabImpl(
                 Image(modifier = Modifier.alpha(iconAlpha), painter = icon, contentDescription = null)
             }
 
-            Text(
-                modifier = Modifier.alpha(labelAlpha),
-                text = tabData.label,
-                color = tabStyle.colors.contentFor(tabState).value,
-            )
+            Box(Modifier.alpha(labelAlpha)) {
+                tabData.content(tabState)
+            }
+
             val showCloseIcon =
                 when (tabData) {
                     is TabData.Default -> tabData.closable
@@ -166,7 +163,7 @@ internal fun TabImpl(
                         )
                         .size(16.dp),
                     painter = closePainter,
-                    contentDescription = "Close tab ${tabData.label}",
+                    contentDescription = "Close tab",
                 )
             } else if (tabData.closable) {
                 Spacer(Modifier.size(16.dp))

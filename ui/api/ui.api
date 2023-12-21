@@ -50,10 +50,12 @@ public final class org/jetbrains/jewel/ui/DefaultComponentStyling : org/jetbrain
 	public final fun getTooltipStyle ()Lorg/jetbrains/jewel/ui/component/styling/TooltipStyle;
 	public final fun getUndecoratedDropdownStyle ()Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;
 	public fun hashCode ()I
+	public synthetic fun provide (Lkotlin/jvm/functions/Function0;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun provide (Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun provide ([Landroidx/compose/runtime/ProvidedValue;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun styles (Landroidx/compose/runtime/Composer;I)[Landroidx/compose/runtime/ProvidedValue;
 	public fun toString ()Ljava/lang/String;
+	public synthetic fun with (Lkotlin/jvm/functions/Function0;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun with (Lkotlin/jvm/functions/Function2;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 	public fun with (Lorg/jetbrains/jewel/ui/ComponentStyling;)Lorg/jetbrains/jewel/ui/ComponentStyling;
 }
@@ -597,8 +599,8 @@ public final class org/jetbrains/jewel/ui/component/SplitLayoutKt {
 public abstract class org/jetbrains/jewel/ui/component/TabData {
 	public static final field $stable I
 	public abstract fun getClosable ()Z
+	public abstract fun getContent ()Lkotlin/jvm/functions/Function3;
 	public abstract fun getIcon ()Landroidx/compose/ui/graphics/painter/Painter;
-	public abstract fun getLabel ()Ljava/lang/String;
 	public abstract fun getOnClick ()Lkotlin/jvm/functions/Function0;
 	public abstract fun getOnClose ()Lkotlin/jvm/functions/Function0;
 	public abstract fun getSelected ()Z
@@ -608,10 +610,12 @@ public final class org/jetbrains/jewel/ui/component/TabData$Default : org/jetbra
 	public static final field $stable I
 	public fun <init> (ZLjava/lang/String;Landroidx/compose/ui/graphics/painter/Painter;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;)V
 	public synthetic fun <init> (ZLjava/lang/String;Landroidx/compose/ui/graphics/painter/Painter;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (ZLkotlin/jvm/functions/Function3;Landroidx/compose/ui/graphics/painter/Painter;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;)V
+	public synthetic fun <init> (ZLkotlin/jvm/functions/Function3;Landroidx/compose/ui/graphics/painter/Painter;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getClosable ()Z
+	public fun getContent ()Lkotlin/jvm/functions/Function3;
 	public fun getIcon ()Landroidx/compose/ui/graphics/painter/Painter;
-	public fun getLabel ()Ljava/lang/String;
 	public fun getOnClick ()Lkotlin/jvm/functions/Function0;
 	public fun getOnClose ()Lkotlin/jvm/functions/Function0;
 	public fun getSelected ()Z
@@ -622,11 +626,12 @@ public final class org/jetbrains/jewel/ui/component/TabData$Default : org/jetbra
 public final class org/jetbrains/jewel/ui/component/TabData$Editor : org/jetbrains/jewel/ui/component/TabData {
 	public static final field $stable I
 	public fun <init> (ZLjava/lang/String;Landroidx/compose/ui/graphics/painter/Painter;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;)V
-	public synthetic fun <init> (ZLjava/lang/String;Landroidx/compose/ui/graphics/painter/Painter;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (ZLkotlin/jvm/functions/Function3;Landroidx/compose/ui/graphics/painter/Painter;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;)V
+	public synthetic fun <init> (ZLkotlin/jvm/functions/Function3;Landroidx/compose/ui/graphics/painter/Painter;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getClosable ()Z
+	public fun getContent ()Lkotlin/jvm/functions/Function3;
 	public fun getIcon ()Landroidx/compose/ui/graphics/painter/Painter;
-	public fun getLabel ()Ljava/lang/String;
 	public fun getOnClick ()Lkotlin/jvm/functions/Function0;
 	public fun getOnClose ()Lkotlin/jvm/functions/Function0;
 	public fun getSelected ()Z

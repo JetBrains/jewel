@@ -21,6 +21,7 @@ import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.TabData
+import org.jetbrains.jewel.ui.component.TabData.Default
 import org.jetbrains.jewel.ui.component.TabStrip
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.theme.defaultTabStyle
@@ -46,9 +47,9 @@ private fun DefaultTabShowcase() {
 
     val tabs = remember(tabIds, selectedTabIndex) {
         tabIds.mapIndexed { index, id ->
-            TabData.Default(
+            Default(
                 selected = index == selectedTabIndex,
-                label = "Default tab $id",
+                content = { Text(text = "Default tab $id") },
                 onClose = {
                     tabIds = tabIds.toMutableList().apply { removeAt(index) }
                     if (selectedTabIndex >= index) {
@@ -83,7 +84,7 @@ private fun EditorTabShowcase() {
         tabIds.mapIndexed { index, id ->
             TabData.Editor(
                 selected = index == selectedTabIndex,
-                label = "Editor tab $id",
+                content = { Text("Editor tab $id") },
                 onClose = {
                     tabIds = tabIds.toMutableList().apply { removeAt(index) }
                     if (selectedTabIndex >= index) {
