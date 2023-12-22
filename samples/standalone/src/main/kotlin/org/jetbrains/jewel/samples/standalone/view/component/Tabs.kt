@@ -110,9 +110,9 @@ private fun EditorTabShowcase() {
                                     contentDescription = "SearchIcon",
                                     iconClass = StandaloneSampleIcons::class.java,
                                     modifier = Modifier.size(16.dp).tabContentAlpha(state = tabState),
-                                    tint = Color.Magenta
+                                    tint = Color.Magenta,
                                 )
-                            }
+                            },
                         )
                     }
                     Box(
@@ -124,7 +124,7 @@ private fun EditorTabShowcase() {
                                         drawCircle(color = Color.Magenta.copy(alpha = .4f), radius = 6.dp.toPx())
                                     }
                                 }
-                            }
+                            },
                     )
                 },
                 onClose = {
