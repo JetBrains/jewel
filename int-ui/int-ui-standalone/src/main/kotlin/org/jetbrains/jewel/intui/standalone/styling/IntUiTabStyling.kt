@@ -219,9 +219,10 @@ public fun TabMetrics.Companion.defaults(
     underlineThickness: Dp = 3.dp,
     tabPadding: PaddingValues = PaddingValues(horizontal = 8.dp),
     closeContentGap: Dp = 8.dp,
+    tabContentSpacing: Dp = 4.dp,
     tabHeight: Dp = 40.dp,
 ): TabMetrics =
-    TabMetrics(underlineThickness, tabPadding, tabHeight, closeContentGap)
+    TabMetrics(underlineThickness, tabPadding, tabHeight, tabContentSpacing, closeContentGap)
 
 public fun TabContentAlpha.Companion.default(
     iconNormal: Float = 1f,

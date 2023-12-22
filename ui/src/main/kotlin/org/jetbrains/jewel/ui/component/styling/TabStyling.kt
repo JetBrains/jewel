@@ -32,6 +32,7 @@ public class TabMetrics(
     public val underlineThickness: Dp,
     public val tabPadding: PaddingValues,
     public val tabHeight: Dp,
+    public val tabContentSpacing: Dp,
     public val closeContentGap: Dp,
 ) {
 

@@ -807,6 +807,7 @@ private fun readDefaultTabStyle(): TabStyle {
                 .takeOrElse { 2.dp },
             tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
             closeContentGap = 4.dp,
+            tabContentSpacing = 4.dp,
             tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
         ),
         icons = TabIcons(close = bridgePainterProvider("expui/general/closeSmall.svg")),
@@ -856,6 +857,7 @@ private fun readEditorTabStyle(): TabStyle {
                 .takeOrElse { 2.dp },
             tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
             closeContentGap = 4.dp,
+            tabContentSpacing = 4.dp,
             tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight")
                 .takeOrElse { 24.dp },
         ),

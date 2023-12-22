@@ -24,13 +24,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalLayoutDirection
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
-import org.jetbrains.jewel.foundation.state.InteractiveComponentState
 
 @Composable
 public fun TabStrip(
@@ -81,8 +79,7 @@ public fun TabStrip(
 public sealed class TabData {
 
     public abstract val selected: Boolean
-    public abstract val content: @Composable (tabState: InteractiveComponentState) -> Unit
-    public abstract val icon: Painter?
+    public abstract val content: @Composable TabContentScope.(tabState: TabState) -> Unit
     public abstract val closable: Boolean
     public abstract val onClose: () -> Unit
     public abstract val onClick: () -> Unit
@@ -91,71 +88,21 @@ public sealed class TabData {
     @GenerateDataFunctions
     public class Default(
         override val selected: Boolean,
-        override val content: @Composable (tabState: InteractiveComponentState) -> Unit,
-        override val icon: Painter? = null,
+        override val content: @Composable TabContentScope.(tabState: TabState) -> Unit,
         override val closable: Boolean = true,
         override val onClose: () -> Unit = {},
         override val onClick: () -> Unit = {},
-    ) : TabData() {
-
-        @Deprecated(
-            "Use the primary constructor instead",
-            ReplaceWith(
-                "Default(selected = selected, content = { Text(text) }, icon = icon, closable = closable, onClose = onClose, onClick = onClick)",
-                "org.jetbrains.jewel.ui.component.TabData.Default",
-            ),
-        )
-        public constructor(
-            selected: Boolean,
-            text: String,
-            icon: Painter? = null,
-            closable: Boolean = true,
-            onClose: () -> Unit,
-            onClick: () -> Unit,
-        ) : this(
-            selected = selected,
-            content = { Text(text) },
-            icon = icon,
-            closable = closable,
-            onClose = onClose,
-            onClick = onClick,
-        )
-    }
+    ) : TabData()
 
     @Immutable
     @GenerateDataFunctions
     public class Editor(
         override val selected: Boolean,
-        override val content: @Composable (tabState: InteractiveComponentState) -> Unit,
-        override val icon: Painter? = null,
+        override val content: @Composable TabContentScope.(tabState: TabState) -> Unit,
         override val closable: Boolean = true,
         override val onClose: () -> Unit = {},
         override val onClick: () -> Unit = {},
-    ) : TabData() {
-
-        @Deprecated(
-            "Use the primary constructor instead",
-            ReplaceWith(
-                "Editor(selected = selected, content = { Text(text) }, icon = icon, closable = closable, onClose = onClose, onClick = onClick)",
-                "org.jetbrains.jewel.ui.component.TabData.Editor",
-            ),
-        )
-        public constructor(
-            selected: Boolean,
-            text: String,
-            icon: Painter?,
-            closable: Boolean,
-            onClose: () -> Unit,
-            onClick: () -> Unit,
-        ) : this(
-            selected = selected,
-            content = { Text(text) },
-            icon = icon,
-            closable = closable,
-            onClose = onClose,
-            onClick = onClick,
-        )
-    }
+    ) : TabData()
 }
 
 @Immutable

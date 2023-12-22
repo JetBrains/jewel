@@ -7,7 +7,6 @@ import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -30,6 +29,7 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.isTertiary
@@ -48,6 +48,49 @@ import org.jetbrains.jewel.ui.NoIndication
 import org.jetbrains.jewel.ui.painter.hints.Stateful
 import org.jetbrains.jewel.ui.theme.defaultTabStyle
 import org.jetbrains.jewel.ui.theme.editorTabStyle
+
+public interface TabContentScope {
+
+    @Composable
+    public fun Modifier.tabContentAlpha(state: TabState): Modifier =
+        this.alpha(JewelTheme.editorTabStyle.contentAlpha.contentFor(state).value)
+}
+
+internal class TabContentScopeContainer : TabContentScope
+
+@Composable
+public fun TabContentScope.SimpleTabContent(
+    title: String,
+    state: TabState,
+    icon: Painter?,
+    modifier: Modifier = Modifier,
+) {
+    SimpleTabContent(
+        modifier = modifier,
+        label = { Text(title) },
+        icon = icon?.let { { Icon(painter = icon, contentDescription = null) } },
+        state = state,
+    )
+}
+
+@Composable
+public fun TabContentScope.SimpleTabContent(
+    modifier: Modifier = Modifier,
+    state: TabState,
+    icon: (@Composable () -> Unit)? = null,
+    label: @Composable () -> Unit,
+) {
+    Row(
+        modifier.tabContentAlpha(state),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(space = JewelTheme.defaultTabStyle.metrics.tabContentSpacing),
+    ) {
+        if (icon != null) {
+            icon()
+        }
+        label()
+    }
+}
 
 @Composable
 internal fun TabImpl(
@@ -88,9 +131,6 @@ internal fun TabImpl(
         .value.takeOrElse { LocalContentColor.current }
 
     CompositionLocalProvider(LocalContentColor provides resolvedContentColor) {
-        val contentAlpha by tabStyle.contentAlpha.contentFor(tabState)
-        val iconAlpha by tabStyle.contentAlpha.iconFor(tabState)
-
         Row(
             modifier.height(tabStyle.metrics.tabHeight)
                 .background(backgroundColor)
@@ -121,13 +161,7 @@ internal fun TabImpl(
             horizontalArrangement = Arrangement.spacedBy(tabStyle.metrics.closeContentGap),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            tabData.icon?.let { icon ->
-                Image(modifier = Modifier.alpha(iconAlpha), painter = icon, contentDescription = null)
-            }
-
-            Box(Modifier.alpha(contentAlpha)) {
-                tabData.content(tabState)
-            }
+            tabData.content(TabContentScopeContainer(), tabState)
 
             val showCloseIcon =
                 when (tabData) {
