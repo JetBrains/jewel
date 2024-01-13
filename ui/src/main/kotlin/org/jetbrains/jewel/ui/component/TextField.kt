@@ -209,14 +209,12 @@ private fun TextFieldDecorationBox(
             leadingPlaceable,
             trailingPlaceable,
             textFieldPlaceable,
-            placeholderPlaceable,
             incomingConstraints,
         )
         val height = calculateHeight(
             leadingPlaceable,
             trailingPlaceable,
             textFieldPlaceable,
-            placeholderPlaceable,
             incomingConstraints,
         )
 
@@ -249,14 +247,12 @@ private fun calculateHeight(
     leadingPlaceable: Placeable?,
     trailingPlaceable: Placeable?,
     textFieldPlaceable: Placeable,
-    placeholderPlaceable: Placeable?,
     constraints: Constraints,
 ): Int =
     maxOf(
         textFieldPlaceable.height,
-        placeholderPlaceable?.height ?: 0,
-        trailingPlaceable?.height ?: 0,
         leadingPlaceable?.height ?: 0,
+        trailingPlaceable?.height ?: 0,
         constraints.minHeight,
     )
 

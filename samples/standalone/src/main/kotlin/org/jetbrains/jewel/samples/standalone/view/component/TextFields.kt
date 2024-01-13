@@ -16,16 +16,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.intui.standalone.styling.dark
+import org.jetbrains.jewel.intui.standalone.styling.defaults
+import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
 import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
+import org.jetbrains.jewel.ui.component.styling.IconButtonColors
+import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
+import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
+import org.jetbrains.jewel.ui.painter.hints.Stateful
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 
 @Composable
@@ -80,48 +89,65 @@ fun TextFields() {
                 Text("With trailing button")
             },
             trailingIcon = {
-                AnimatedVisibility(
-                    visible = text2.isNotEmpty(),
-                    enter = fadeIn() + slideInHorizontally { it / 2 },
-                    exit = fadeOut() + slideOutHorizontally { it / 2 },
-                ) {
-                    CloseIconButton { text2 = "" }
-                }
+                CloseIconButton(text2.isNotEmpty()) { text2 = "" }
             },
         )
     }
 }
 
 @Composable
-private fun CloseIconButton(onClick: () -> Unit) {
-    val interactionSource = remember { MutableInteractionSource() }
-    var hovered by remember { mutableStateOf(false) }
+private fun CloseIconButton(
+    isVisible: Boolean,
+    onClick: () -> Unit,
+) {
+    Box(Modifier.size(16.dp)) {
+        AnimatedVisibility(
+            visible = isVisible,
+            enter = fadeIn() + slideInHorizontally { it / 2 },
+            exit = fadeOut() + slideOutHorizontally { it / 2 },
+        ) {
+            // TODO replace when IconButton supports no-background style
+            val isDark = JewelTheme.isDark
 
-    LaunchedEffect(interactionSource) {
-        interactionSource.interactions.collect {
-            when (it) {
-                is HoverInteraction.Enter -> hovered = true
-                is HoverInteraction.Exit -> hovered = false
+            val colors = noBackgroundIconButtonColors(isDark)
+            val style = remember(isDark, colors) {
+                IconButtonStyle(colors, IconButtonMetrics.defaults())
+            }
+
+            IconButton(
+                onClick,
+                style = style,
+                modifier = Modifier.pointerHoverIcon(PointerIcon.Default),
+            ) { state ->
+                val painterProvider =
+                    rememberResourcePainterProvider("icons/close.svg", StandaloneSampleIcons::class.java)
+                val painter by painterProvider.getPainter(Stateful(state))
+
+                Icon(painter, contentDescription = "Clear")
             }
         }
     }
+}
 
-    val closeIconProvider = rememberResourcePainterProvider("icons/close.svg", StandaloneSampleIcons::class.java)
-    val closeIcon by closeIconProvider.getPainter()
-
-    val hoveredCloseIconProvider =
-        rememberResourcePainterProvider("icons/closeHovered.svg", StandaloneSampleIcons::class.java)
-    val hoveredCloseIcon by hoveredCloseIconProvider.getPainter()
-
-    Icon(
-        painter = if (hovered) hoveredCloseIcon else closeIcon,
-        contentDescription = "Clear",
-        modifier = Modifier
-            .pointerHoverIcon(PointerIcon.Default)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                role = Role.Button,
-            ) { onClick() },
+@Composable
+private fun noBackgroundIconButtonColors(isDark: Boolean) = if (isDark) {
+    IconButtonColors.dark(
+        background = Color.Unspecified,
+        backgroundDisabled = Color.Unspecified,
+        backgroundSelected = Color.Unspecified,
+        backgroundSelectedActivated = Color.Unspecified,
+        backgroundFocused = Color.Unspecified,
+        backgroundPressed = Color.Unspecified,
+        backgroundHovered = Color.Unspecified,
+    )
+} else {
+    IconButtonColors.light(
+        background = Color.Unspecified,
+        backgroundDisabled = Color.Unspecified,
+        backgroundSelected = Color.Unspecified,
+        backgroundSelectedActivated = Color.Unspecified,
+        backgroundFocused = Color.Unspecified,
+        backgroundPressed = Color.Unspecified,
+        backgroundHovered = Color.Unspecified,
     )
 }
