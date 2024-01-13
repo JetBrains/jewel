@@ -5,14 +5,11 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.HoverInteraction
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -60,9 +57,11 @@ fun TextFields() {
     ) {
         var text1 by remember { mutableStateOf("") }
         TextField(
-            text1,
-            { text1 = it },
-            enabled = true,
+            value = text1,
+            onValueChange = { text1 = it },
+            placeholder = {
+                Text("With leading icon")
+            },
             leadingIcon = {
                 Icon(
                     resource = "icons/search.svg",
@@ -71,16 +70,15 @@ fun TextFields() {
                     modifier = Modifier.size(16.dp),
                 )
             },
-            placeholder = {
-                Text("With leading icon")
-            },
         )
 
         var text2 by remember { mutableStateOf("") }
         TextField(
-            text2,
-            { text2 = it },
-            enabled = true,
+            value = text2,
+            onValueChange = { text2 = it },
+            placeholder = {
+                Text("With trailing button")
+            },
             trailingIcon = {
                 AnimatedVisibility(
                     visible = text2.isNotEmpty(),
@@ -89,9 +87,6 @@ fun TextFields() {
                 ) {
                     CloseIconButton { text2 = "" }
                 }
-            },
-            placeholder = {
-                Text("With trailing button")
             },
         )
     }
