@@ -1,5 +1,6 @@
 [versions]
 composeDesktop = "1.6.0-dev1369"
+construo = "1.0.1"
 detekt = "1.23.1"
 dokka = "1.8.20"
 idea232 = "232.10227.8"
@@ -13,7 +14,7 @@ kotlinterGradlePlugin = "3.16.0"
 kotlinxSerialization = "1.5.1"
 kotlinxBinaryCompat = "0.13.2"
 poko = "0.13.1"
-
+shadow = "8.1.1"
 [libraries]
 kotlinSarif = { module = "io.github.detekt.sarif4k:sarif4k", version.ref = "kotlinSarif" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -44,6 +45,7 @@ idea233 = ["ij-platform-ide-core-233", "ij-platform-ide-impl-233", "ij-platform-
 
 [plugins]
 composeDesktop = { id = "org.jetbrains.compose", version.ref = "composeDesktop" }
+construo = { id = "io.github.fourlastor.construo", version.ref = "construo"}
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 ideaGradlePlugin = { id = "org.jetbrains.intellij", version.ref = "ideaGradlePlugin" }
@@ -52,3 +54,4 @@ kotlinx-binaryCompatValidator = { id = "org.jetbrains.kotlinx.binary-compatibili
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinterGradlePlugin" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow"}
