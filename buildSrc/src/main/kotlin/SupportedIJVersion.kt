@@ -5,9 +5,11 @@ enum class SupportedIJVersion(
     val rawPlatformVersion: String,
     /** If true, this platform version has its dedicated bridge artifact. */
     val hasBridgeArtifact: Boolean,
+    /** The JDK version to use. */
+    val jdkVersion: Int,
 ) {
 
-    IJ_232("2023.2", "232", true),
-    IJ_233("2023.3", "233", true),
-    IJ_241("2024.1", "241", false),
+    IJ_232("2023.2", "232", true, 17),
+    IJ_233("2023.3", "233", true, 17),
+    IJ_241("2024.1", "241", false, 17),
 }
