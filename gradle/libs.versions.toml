@@ -1,6 +1,6 @@
 [versions]
 composeDesktop = "1.6.0-dev1369"
-detekt = "1.23.1"
+detekt = "1.23.4"
 dokka = "1.8.20"
 idea232 = "232.10227.8"
 idea233 = "233.14015.106"
