@@ -24,7 +24,6 @@ intellij {
 // See https://github.com/JetBrains/gradle-intellij-plugin/issues/776
 repositories {
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    maven("https://androidx.dev/storage/compose-compiler/repository/")
     maven("https://www.jetbrains.com/intellij-repository/releases")
     maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
     mavenCentral()
