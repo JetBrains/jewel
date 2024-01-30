@@ -225,6 +225,11 @@ bring in the necessary transitive dependencies.
 | 2023.2                       | `ide-laf-bridge-232` |
 | 2023.1 or older              | **Not supported**    |
 
+> [!CAUTION]
+> In the IntelliJ Platform 2024.1, in order to be able to use Jewel, you need to shadow both Jewel and Compose, due to
+> potential clashes with the versions bundled in the platform. You can use the
+> [Package Search plugin](https://github.com/JetBrains/package-search-intellij-plugin) as a reference on how to do it.
+
 Your setup in `build.gradle.kts` should look something like this, assuming you use version catalogs:
 
 ```kotlin
@@ -269,7 +274,7 @@ dependencies {
     }
 }
 ```
- 
+
 For further information, you can refer to the [`ide-plugin` sample](samples/ide-plugin/build.gradle.kts).
 
 #### Accessing icons
