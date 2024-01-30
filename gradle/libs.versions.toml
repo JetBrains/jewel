@@ -12,7 +12,7 @@ kotlinSarif = "0.4.0"
 kotlinpoet = "1.14.2"
 kotlinterGradlePlugin = "3.16.0"
 kotlinxSerialization = "1.5.1"
-kotlinxBinaryCompat = "0.13.2"
+kotlinxBinaryCompat = "0.14.0"
 poko = "0.13.1"
 
 [libraries]
