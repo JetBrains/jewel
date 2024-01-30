@@ -226,7 +226,7 @@ bring in the necessary transitive dependencies.
 | 2023.1 or older              | **Not supported**    |
 
 > [!CAUTION]
-> In the IntelliJ Platform 2024.1, in order to be able to use Jewel, you need to shadow both Jewel and Compose, due to
+> In the IntelliJ Platform 2024.1, to be able to use Jewel, you need to shadow both Jewel and Compose, due to
 > potential clashes with the versions bundled in the platform. You can use the
 > [Package Search plugin](https://github.com/JetBrains/package-search-intellij-plugin) as a reference on how to do it.
 
