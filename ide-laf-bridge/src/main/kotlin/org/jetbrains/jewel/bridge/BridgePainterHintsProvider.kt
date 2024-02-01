@@ -31,7 +31,7 @@ public class BridgePainterHintsProvider private constructor(
 
         private val logger = thisLogger()
 
-        @Suppress("UnstableApiUsage") // We need to call @Internal APIs
+        @Suppress("UnstableApiUsage") // These APIs have been opened for us but are still @Internal
         public operator fun invoke(isDark: Boolean): BasePainterHintsProvider {
             val uiTheme = currentUiThemeOrNull() ?: return BridgePainterHintsProvider(isDark)
             logger.info("Parsing theme info from theme ${uiTheme.name} (id: ${uiTheme.id}, isDark: ${uiTheme.isDark})")
