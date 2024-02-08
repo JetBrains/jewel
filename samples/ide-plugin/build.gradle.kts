@@ -1,6 +1,3 @@
-import SupportedIJVersion.IJ_232
-import SupportedIJVersion.IJ_233
-
 plugins {
     jewel
     alias(libs.plugins.composeDesktop)
@@ -9,20 +6,15 @@ plugins {
 }
 
 intellij {
-    pluginName.set("Jewel Demo")
-    plugins.set(listOf("org.jetbrains.kotlin"))
-    val versionRaw = when (supportedIJVersion()) {
-        IJ_232 -> libs.versions.idea232.get()
-        IJ_233 -> libs.versions.idea233.get()
-    }
-    version.set(versionRaw)
+    pluginName = "Jewel Demo"
+    plugins = listOf("org.jetbrains.kotlin")
+    version = libs.versions.idea.get()
 }
 
 // TODO remove this once the IJ Gradle plugin fixes their repositories bug
 // See https://github.com/JetBrains/gradle-intellij-plugin/issues/776
 repositories {
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    maven("https://androidx.dev/storage/compose-compiler/repository/")
     maven("https://www.jetbrains.com/intellij-repository/releases")
     maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
     mavenCentral()

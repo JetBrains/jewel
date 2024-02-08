@@ -50,7 +50,7 @@ tasks {
         // register the task in the afterEvaluate block
         afterEvaluate {
             javaLauncher = project.javaToolchains.launcherFor {
-                languageVersion = 17
+                languageVersion = JavaLanguageVersion.of(17)
                 vendor = JvmVendorSpec.JETBRAINS
             }
             setExecutable(javaLauncher.map { it.executablePath.asFile.absolutePath }.get())

@@ -1,14 +1,12 @@
 package org.jetbrains.jewel.buildlogic.ideversion
 
-import SupportedIJVersion
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import supportedIJVersion
 import java.io.IOException
-import java.net.URL
+import java.net.URI
 
 open class CheckIdeaVersionTask : DefaultTask() {
 
@@ -20,18 +18,11 @@ open class CheckIdeaVersionTask : DefaultTask() {
     private val versionRegex =
         "2\\d{2}\\.\\d+\\.\\d+(?:-EAP-SNAPSHOT)?".toRegex(RegexOption.IGNORE_CASE)
 
+    private val currentIjpVersion = project.currentIjpVersion
+
     init {
         group = "jewel"
-
-        val currentPlatformVersion = project.supportedIJVersion()
-        enabled = project.name.endsWith(getPlatformSuffix(currentPlatformVersion))
     }
-
-    private fun getPlatformSuffix(currentPlatformVersion: SupportedIJVersion) =
-        when (currentPlatformVersion) {
-            SupportedIJVersion.IJ_232 -> "232"
-            SupportedIJVersion.IJ_233 -> "233"
-        }
 
     @TaskAction
     fun generate() {
@@ -43,7 +34,7 @@ open class CheckIdeaVersionTask : DefaultTask() {
         logger.lifecycle("Fetching IntelliJ Platform releases from $releasesUrl...")
         val icReleases =
             try {
-                URL(releasesUrl)
+                URI.create(releasesUrl).toURL()
                     .openStream()
                     .use { json.decodeFromStream<List<ApiIdeaReleasesItem>>(it) }
                     .first()
@@ -61,9 +52,8 @@ open class CheckIdeaVersionTask : DefaultTask() {
         check(icReleases.code == "IIC") { "Was expecting code IIC but was ${icReleases.code}" }
         check(icReleases.releases.isNotEmpty()) { "Was expecting to have releases but the list is empty" }
 
-        val currentPlatformVersion = project.supportedIJVersion()
-        val majorPlatformVersion = getRawPlatformVersion(currentPlatformVersion)
-        val rawPlatformBuild = readPlatformBuild(currentPlatformVersion)
+        val majorPlatformVersion = asMajorPlatformVersion(currentIjpVersion)
+        val rawPlatformBuild = readPlatformBuild()
 
         val isCurrentBuildStable = !rawPlatformBuild.contains("EAP")
         val latestAvailableBuild =
@@ -92,19 +82,12 @@ open class CheckIdeaVersionTask : DefaultTask() {
         logger.lifecycle("No IntelliJ Platform version updates available. Current: $currentPlatformBuild")
     }
 
-    private fun getRawPlatformVersion(currentPlatformVersion: SupportedIJVersion) =
-        when (currentPlatformVersion) {
-            SupportedIJVersion.IJ_232 -> "2023.2"
-            SupportedIJVersion.IJ_233 -> "2023.3"
-        }
+    private fun asMajorPlatformVersion(rawVersion: String) =
+        "20${rawVersion.take(2)}.${rawVersion.last()}"
 
-    private fun readPlatformBuild(platformVersion: SupportedIJVersion): String {
+    private fun readPlatformBuild(): String {
         val catalogFile = project.rootProject.file("gradle/libs.versions.toml")
-        val dependencyName =
-            when (platformVersion) {
-                SupportedIJVersion.IJ_232 -> "idea232"
-                SupportedIJVersion.IJ_233 -> "idea233"
-            }
+        val dependencyName = "idea"
 
         val catalogDependencyLine =
             catalogFile.useLines { lines -> lines.find { it.startsWith(dependencyName) } }

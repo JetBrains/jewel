@@ -19,14 +19,14 @@ version = when {
 java {
     toolchain {
         vendor = JvmVendorSpec.JETBRAINS
-        languageVersion = 17
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
 kotlin {
     jvmToolchain {
         vendor = JvmVendorSpec.JETBRAINS
-        languageVersion = 17
+        languageVersion = JavaLanguageVersion.of(17)
     }
 
     target {
@@ -65,7 +65,7 @@ tasks {
     formatKotlinMain { exclude { it.file.absolutePath.contains("build/generated") } }
 
     lintKotlinMain {
-        exclude { it.file.absolutePath.contains("build/generated") }
+        exclude { it.file.absolutePath.replace('\\', '/').contains("build/generated") }
 
         reports = provider {
             mapOf(
