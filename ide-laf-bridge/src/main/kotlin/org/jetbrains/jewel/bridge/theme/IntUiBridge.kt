@@ -726,7 +726,7 @@ private fun readTextFieldStyle(textFieldStyle: TextStyle): TextFieldStyle {
     return TextFieldStyle(
         colors = colors,
         metrics = TextFieldMetrics(
-            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp),
+            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2),
             contentPadding = PaddingValues(horizontal = 9.dp, vertical = 2.dp),
             minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
             borderWidth = DarculaUIUtil.LW.dp,

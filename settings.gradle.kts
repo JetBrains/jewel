@@ -33,6 +33,8 @@ include(
     ":ui",
     ":foundation",
     ":ide-laf-bridge",
+    ":markdown:core",
+    ":markdown:extension-gfm-alerts",
     ":samples:ide-plugin",
 )
 

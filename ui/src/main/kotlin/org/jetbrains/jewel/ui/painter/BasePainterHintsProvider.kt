@@ -1,7 +1,7 @@
 package org.jetbrains.jewel.ui.painter
 
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.jewel.ui.painter.hints.Palette
+import org.jetbrains.jewel.ui.painter.hints.ColorBasedPaletteReplacement
 import org.jetbrains.jewel.ui.util.fromRGBAHexStringOrNull
 
 public abstract class BasePainterHintsProvider(
@@ -36,9 +36,9 @@ public abstract class BasePainterHintsProvider(
             map[keyAsColor] = resolvedColor
         }
 
-        checkBoxPaletteHint = Palette(checkBoxes)
-        treePaletteHint = Palette(trees)
-        uiPaletteHint = Palette(ui)
+        checkBoxPaletteHint = ColorBasedPaletteReplacement(checkBoxes)
+        treePaletteHint = ColorBasedPaletteReplacement(trees)
+        uiPaletteHint = ColorBasedPaletteReplacement(ui)
     }
 
     private fun selectMap(
