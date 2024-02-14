@@ -3,6 +3,7 @@ import org.jetbrains.compose.ComposeBuildConfig
 plugins {
     jewel
     `jewel-check-public-api`
+    `jewel-publish`
     alias(libs.plugins.composeDesktop)
 }
 

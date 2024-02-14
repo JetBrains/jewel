@@ -21,13 +21,14 @@ val javadocJar by tasks.registering(Jar::class) {
 publishing {
     configureJewelRepositories(project)
 
+    val bridgeIjpTarget = project.property("bridge.ijp.target") as String
     publications {
         register<MavenPublication>("main") {
             from(components["kotlin"])
             artifact(javadocJar)
             artifact(sourcesJar)
-            version = project.version.toString()
-            artifactId = "jewel-${project.name}"
+            version = project.properties["jewel.release.version"] as String
+            artifactId = "jewel-${project.name}-$bridgeIjpTarget"
             pom { configureJewelPom() }
         }
     }
