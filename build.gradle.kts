@@ -6,8 +6,6 @@ plugins {
 dependencies {
     sarif(projects.foundation)
     sarif(projects.ideLafBridge)
-    sarif(projects.markdown.core)
-    sarif(projects.markdown.extensionGfmAlerts)
     sarif(projects.samples.idePlugin)
     sarif(projects.ui)
 }
