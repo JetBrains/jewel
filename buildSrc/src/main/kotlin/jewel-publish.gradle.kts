@@ -19,14 +19,14 @@ val javadocJar by tasks.registering(Jar::class) {
 }
 
 publishing {
-    configureJewelRepositories()
+    configureJewelRepositories(project)
 
     publications {
         register<MavenPublication>("main") {
             from(components["kotlin"])
             artifact(javadocJar)
             artifact(sourcesJar)
-            version = project.version.toString()
+            version = project.properties["jewel.release.version"] as String
             artifactId = "jewel-${project.name}"
             pom { configureJewelPom() }
         }
