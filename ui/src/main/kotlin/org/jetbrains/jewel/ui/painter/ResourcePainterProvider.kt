@@ -126,7 +126,7 @@ public class ResourcePainterProvider(
             when (extension) {
                 "svg" -> createSvgPainter(chosenScope, url)
                 "xml" -> createVectorDrawablePainter(chosenScope, url)
-                else -> createBitmapPainter(chosenScope, url)
+                else -> createBitmapPainter(url)
             }
 
         for (hint in scope.acceptedHints) {
@@ -210,7 +210,6 @@ public class ResourcePainterProvider(
 
     @Composable
     private fun createBitmapPainter(
-        scope: Scope,
         url: URL,
     ) = tryLoadingResource(
         url = url,
