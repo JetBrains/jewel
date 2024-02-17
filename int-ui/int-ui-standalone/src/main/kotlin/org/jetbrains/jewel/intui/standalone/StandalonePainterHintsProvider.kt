@@ -11,7 +11,7 @@ import org.jetbrains.jewel.ui.painter.hints.Dark
 import org.jetbrains.jewel.ui.painter.hints.HiDpi
 import org.jetbrains.jewel.ui.painter.hints.KeyBasedPaletteReplacement
 import org.jetbrains.jewel.ui.painter.hints.PathOverride
-import org.jetbrains.jewel.ui.util.inDebugMode
+import org.jetbrains.jewel.foundation.util.inDebugMode
 
 /** Provides the default [PainterHint]s to use to load images. */
 public class StandalonePainterHintsProvider(

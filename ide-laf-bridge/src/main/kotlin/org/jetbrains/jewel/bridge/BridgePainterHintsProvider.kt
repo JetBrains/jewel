@@ -14,7 +14,7 @@ import org.jetbrains.jewel.ui.painter.hints.ColorBasedPaletteReplacement
 import org.jetbrains.jewel.ui.painter.hints.Dark
 import org.jetbrains.jewel.ui.painter.hints.HiDpi
 import org.jetbrains.jewel.ui.painter.hints.KeyBasedPaletteReplacement
-import org.jetbrains.jewel.ui.util.inDebugMode
+import org.jetbrains.jewel.foundation.util.inDebugMode
 import org.jetbrains.jewel.ui.util.toRgbaHexString
 
 /**
