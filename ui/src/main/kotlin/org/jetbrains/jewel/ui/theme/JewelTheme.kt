@@ -21,6 +21,7 @@ import org.jetbrains.jewel.ui.component.styling.DropdownStyle
 import org.jetbrains.jewel.ui.component.styling.GroupHeaderStyle
 import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
+import org.jetbrains.jewel.ui.component.styling.LazyTableStyle
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.LocalCheckboxStyle
@@ -34,6 +35,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalEditorTabStyle
 import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
 import org.jetbrains.jewel.ui.component.styling.LocalHorizontalProgressBarStyle
 import org.jetbrains.jewel.ui.component.styling.LocalIconButtonStyle
+import org.jetbrains.jewel.ui.component.styling.LocalLazyTableStyle
 import org.jetbrains.jewel.ui.component.styling.LocalLazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LocalLinkStyle
 import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
@@ -171,6 +173,11 @@ public val JewelTheme.Companion.sliderStyle: SliderStyle
     @Composable
     @ReadOnlyComposable
     get() = LocalSliderStyle.current
+
+public val JewelTheme.Companion.tableStyle: LazyTableStyle
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalLazyTableStyle.current
 
 @Composable
 public fun BaseJewelTheme(

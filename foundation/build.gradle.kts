@@ -12,6 +12,7 @@ private val composeVersion
 
 dependencies {
     api("org.jetbrains.compose.foundation:foundation-desktop:$composeVersion")
+    implementation("org.jetbrains.compose.ui:ui-util-desktop:$composeVersion")
 
     testImplementation(compose.desktop.uiTestJUnit4)
     testImplementation(compose.desktop.currentOs) {
