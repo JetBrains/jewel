@@ -94,12 +94,12 @@ internal fun measureLazyTable(
 
         if (currentFirstFloatingColumn == pinnedColumns && currentFirstFloatingColumnScrollOffset < 0) {
             scrollDeltaX += currentFirstFloatingColumnScrollOffset
-            currentFirstFloatingColumnScrollOffset = pinnedColumns
+            currentFirstFloatingColumnScrollOffset = 0
         }
 
         if (currentFirstFloatingRow == pinnedRows && currentFirstFloatingRowScrollOffset < 0) {
             scrollDeltaY += currentFirstFloatingRowScrollOffset
-            currentFirstFloatingRowScrollOffset = pinnedRows
+            currentFirstFloatingRowScrollOffset = 0
         }
 
         // measuredItemProvider.getAndMeasure(0, 0)
@@ -172,7 +172,7 @@ internal fun measureLazyTable(
                 currentCellAxisOffsetX += columnWidth + horizontalSpacing
                 currentLastFloatingColumn++
 
-                if (currentCellAxisOffsetX <= minOffsetX && currentLastFloatingColumn != columns - 1) {
+                if (currentCellAxisOffsetX <= minOffsetX && currentLastFloatingColumn < columns - 1) {
                     currentFirstFloatingColumn = currentLastFloatingColumn
                     currentFirstFloatingColumnScrollOffset -= (columnWidth + horizontalSpacing)
                 }
@@ -183,7 +183,7 @@ internal fun measureLazyTable(
                 currentCellAxisOffsetY += rowHeight + verticalSpacing
                 currentLastFloatingRow++
 
-                if (currentCellAxisOffsetY <= minOffsetY && currentLastFloatingRow != rows - 1) {
+                if (currentCellAxisOffsetY <= minOffsetY && currentLastFloatingRow < rows - 1) {
                     currentFirstFloatingRow = currentLastFloatingRow
                     currentFirstFloatingRowScrollOffset -= (rowHeight + verticalSpacing)
                 }
@@ -317,7 +317,7 @@ internal fun measureLazyTable(
             firstVisibleCellPosition = IntOffset(currentFirstFloatingColumn, currentFirstFloatingRow),
             cellsScrollOffset = IntOffset(
                 -currentFirstFloatingColumnScrollOffset,
-                -currentFirstFloatingRowScrollOffset
+                -currentFirstFloatingRowScrollOffset,
             ),
             pinnedColumns = pinnedColumns,
             pinnedRows = pinnedRows,
@@ -330,10 +330,10 @@ internal fun measureLazyTable(
         )
 
         return LazyTableMeasureResult(
-            firstFloatingCell = measuredItemProvider.getAndMeasure(currentFirstFloatingColumn, currentFirstFloatingRow),
+            firstFloatingCell = measuredItemProvider.getAndMeasureOrNull(currentFirstFloatingColumn, currentFirstFloatingRow),
             firstFloatingCellScrollOffset = IntOffset(
                 currentFirstFloatingColumnScrollOffset,
-                currentFirstFloatingRowScrollOffset
+                currentFirstFloatingRowScrollOffset,
             ),
             canVerticalScrollForward = currentLastFloatingRow < rows || currentCellAxisOffsetY > maxOffsetY,
             canVerticalScrollBackward = currentFirstFloatingRowScrollOffset > 0 || currentFirstFloatingRow > 0,

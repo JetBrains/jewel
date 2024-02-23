@@ -26,21 +26,22 @@ internal interface LazyTableItemProvider : LazyLayoutItemProvider {
 }
 
 @Composable
-internal fun rememberLazyTableItemProvider(
+internal fun rememberLazyTableItemProviderLambda(
     state: LazyTableState,
     pinnedColumns: Int,
     pinnedRows: Int,
-    content: LazyTableScope.() -> Unit,
-): LazyTableItemProvider {
+    content: LazyTableScope.() -> LazyTableCells,
+): () -> LazyTableItemProvider {
     val latestContent = rememberUpdatedState(content)
-    val itemProvider = remember(state, pinnedColumns, pinnedRows) {
+
+    return remember(state, pinnedColumns, pinnedRows) {
         val scope = LazyTableItemScopeImpl()
 
         val intervalContentState = derivedStateOf(referentialEqualityPolicy()) {
             LazyTableIntervalContent(latestContent.value)
         }
 
-        derivedStateOf(referentialEqualityPolicy()) {
+        val itemProvider = derivedStateOf(referentialEqualityPolicy()) {
             val intervalContent = intervalContentState.value
 
             val map = NearestRangeKeyPositionMap(
@@ -57,9 +58,8 @@ internal fun rememberLazyTableItemProvider(
                 keyPositionMap = map,
             )
         }
+        itemProvider::value
     }
-
-    return itemProvider.value
 }
 
 private class LazyTableItemProviderImpl(

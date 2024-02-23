@@ -6,22 +6,13 @@ import androidx.compose.foundation.lazy.layout.getDefaultLazyLayoutKey
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.IntOffset
 
-internal class LazyTableIntervalContent(content: LazyTableScope.() -> Unit) : LazyTableScope, LazyTableContent {
+internal class LazyTableIntervalContent(content: LazyTableScope.() -> LazyTableCells) : LazyTableScope, LazyTableContent {
 
     private val columnIntervals: MutableIntervalList<LazyTableLineInterval> = MutableIntervalList()
 
     private val rowIntervals: MutableIntervalList<LazyTableLineInterval> = MutableIntervalList()
 
-    private var type: (columnKey: Any, rowKey: Any) -> Any? = { _, _ ->
-        null
-    }
-
-    private var content: @Composable LazyTableItemScope.(columnKey: Any, rowKey: Any) -> Any? = { _, _ ->
-    }
-
-    init {
-        content()
-    }
+    private val cells: LazyTableCells = content()
 
     override val columnCount: Int
         get() = columnIntervals.size
@@ -49,9 +40,15 @@ internal class LazyTableIntervalContent(content: LazyTableScope.() -> Unit) : La
     override fun cells(
         type: (columnKey: Any, rowKey: Any) -> Any?,
         content: @Composable LazyTableItemScope.(columnKey: Any, rowKey: Any) -> Unit,
-    ) {
-        this.type = type
-        this.content = content
+    ): LazyTableCells {
+        return object : LazyTableCells {
+            override fun type(columnKey: Any, rowKey: Any): Any? = type(columnKey, rowKey)
+
+            @Composable
+            override fun LazyTableItemScope.content(columnKey: Any, rowKey: Any) {
+                content(columnKey, rowKey)
+            }
+        }
     }
 
     override fun getKey(position: IntOffset): Pair<Any, Any> {
@@ -70,13 +67,13 @@ internal class LazyTableIntervalContent(content: LazyTableScope.() -> Unit) : La
     override fun getContentType(position: IntOffset): Any? {
         val (columnKey, rowKey) = getKey(position)
 
-        return type(columnKey, rowKey)
+        return cells.type(columnKey, rowKey)
     }
 
     override fun getContentType(index: Int): Any? {
         val (columnKey, rowKey) = getKey(index)
 
-        return type(columnKey, rowKey)
+        return cells.type(columnKey, rowKey)
     }
 
     override fun getPosition(index: Int): IntOffset {
@@ -90,6 +87,8 @@ internal class LazyTableIntervalContent(content: LazyTableScope.() -> Unit) : La
     @Composable
     override fun Item(scope: LazyTableItemScope, index: Int) {
         val (columnKey, rowKey) = getKey(index)
-        content(scope, columnKey, rowKey)
+        with(cells) {
+            scope.content(columnKey, rowKey)
+        }
     }
 }

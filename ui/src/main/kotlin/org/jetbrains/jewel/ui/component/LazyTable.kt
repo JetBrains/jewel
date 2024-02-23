@@ -31,7 +31,7 @@ public fun LazyTableHeader(
                 width = 1.dp,
                 color = style.colors.headerSeparatorColor,
             ),
-        contentAlignment = contentAlignment
+        contentAlignment = contentAlignment,
     ) {
         CompositionLocalProvider(
             LocalContentColor provides style.colors.headerForeground,
@@ -57,7 +57,7 @@ public fun LazyTableCell(
                 width = 1.dp,
                 color = style.colors.gridColor,
             ),
-        contentAlignment = contentAlignment
+        contentAlignment = contentAlignment,
     ) {
         CompositionLocalProvider(
             LocalContentColor provides style.colors.foreground,

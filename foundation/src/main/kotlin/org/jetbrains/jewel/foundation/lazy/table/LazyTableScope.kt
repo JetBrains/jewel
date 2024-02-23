@@ -13,7 +13,15 @@ public interface LazyTableScope {
     public fun cells(
         type: (columnKey: Any, rowKey: Any) -> Any? = { _, _ -> null },
         content: @Composable LazyTableItemScope.(columnKey: Any, rowKey: Any) -> Unit,
-    )
+    ): LazyTableCells
+}
+
+public interface LazyTableCells {
+
+    public fun type(columnKey: Any, rowKey: Any): Any?
+
+    @Composable
+    public fun LazyTableItemScope.content(columnKey: Any, rowKey: Any)
 }
 
 public fun LazyTableScope.columnDefinition(key: Any) {

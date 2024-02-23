@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.samples.standalone.view.component
 
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -16,9 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import org.jetbrains.jewel.foundation.lazy.draggable.draggableItem
+import org.jetbrains.jewel.foundation.lazy.draggable.draggableLayout
 import org.jetbrains.jewel.foundation.lazy.table.LazyTable
 import org.jetbrains.jewel.foundation.lazy.table.LazyTableCellSize
 import org.jetbrains.jewel.foundation.lazy.table.fixedHeight
+import org.jetbrains.jewel.foundation.lazy.table.rememberLazyTableColumnDraggingState
+import org.jetbrains.jewel.foundation.lazy.table.rememberLazyTableRowDraggingState
 import org.jetbrains.jewel.foundation.lazy.table.rememberLazyTableState
 import org.jetbrains.jewel.foundation.lazy.table.rememberTableHorizontalScrollbarAdapter
 import org.jetbrains.jewel.foundation.lazy.table.rememberTableVerticalScrollbarAdapter
@@ -31,31 +37,74 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.VerticalScrollbar
 
+data class RowKey(val row: Int) {
+
+    override fun toString(): String {
+        return row.toString()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return other is RowKey && other.row == row
+    }
+}
+
+data class ColumnKey(val column: Int) {
+
+    override fun toString(): String {
+        return column.toString()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return other is ColumnKey && other.column == column
+    }
+}
+
 @Composable
 @View(title = "Tables", position = 12, icon = "icons/dataTables.svg")
 fun Tables() {
-    var columns by remember { mutableStateOf(1000) }
-    var rows by remember { mutableStateOf(1000) }
+    var columns = remember {
+        mutableStateListOf<Int>().apply {
+            repeat(1000) { add(it) }
+        }
+    }
+    var rows = remember {
+        mutableStateListOf<Int>().apply {
+            repeat(1000) { add(it) }
+        }
+    }
+
     val state = rememberLazyTableState()
+    val draggableColumnState = rememberLazyTableColumnDraggingState(
+        state,
+        onMove = { from, to ->
+            columns.add(to, columns.removeAt(from))
+        },
+    )
+    val draggableRowState = rememberLazyTableRowDraggingState(
+        state,
+        onMove = { from, to ->
+            rows.add(to, rows.removeAt(from))
+        },
+    )
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        OutlinedButton(onClick = { columns++ }) {
+        OutlinedButton(onClick = { columns.add(columns.size) }) {
             Text("Add column")
         }
 
-        OutlinedButton(onClick = { if (columns > 0) columns-- }) {
+        OutlinedButton(onClick = { if (columns.isNotEmpty()) columns.removeLast() }) {
             Text("Remove column")
         }
 
-        OutlinedButton(onClick = { rows++ }) {
+        OutlinedButton(onClick = { rows.add(rows.size) }) {
             Text("Add row")
         }
 
-        OutlinedButton(onClick = { if (rows > 0) rows-- }) {
+        OutlinedButton(onClick = { if (rows.isNotEmpty()) rows.removeLast() }) {
             Text("Remove row")
         }
     }
@@ -66,15 +115,19 @@ fun Tables() {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         OutlinedButton(onClick = {
-            rows = 0
-            columns = 0
+            rows.clear()
+            columns.clear()
         }) {
             Text("Clear")
         }
 
         OutlinedButton(onClick = {
-            rows = 1000
-            columns = 1000
+            rows.clear()
+            columns.clear()
+            repeat(1000) {
+                rows.add(it)
+                columns.add(it)
+            }
         }) {
             Text("Init")
         }
@@ -121,7 +174,7 @@ fun Tables() {
 
     Box(Modifier.fillMaxSize()) {
         LazyTable(
-            modifier = Modifier,
+            modifier = Modifier.draggableLayout(),
             state = state,
             cellSize = LazyTableCellSize.fixedHeight(24.dp, minWidth = 24.dp),
             verticalArrangement = Arrangement.spacedBy(1.dp),
@@ -129,24 +182,64 @@ fun Tables() {
             pinnedColumns = 1,
             pinnedRows = 1,
         ) {
-            columnDefinitions(columns) {
-                it
+            columnDefinitions(columns.size) {
+                ColumnKey(columns[it])
             }
 
-            rowDefinitions(rows) {
-                it
+            rowDefinitions(rows.size) {
+                RowKey(rows[it])
             }
 
             cells { columnKey, rowKey ->
-                val column = columnKey as? Int ?: return@cells
-                val row = rowKey as? Int ?: return@cells
+                val column = columnKey as? ColumnKey ?: return@cells
+                val row = rowKey as? RowKey ?: return@cells
 
-                if (column == 1 || row == 1) {
-                    LazyTableHeader {
-                        Text("$column, $row", Modifier.align(Alignment.CenterStart), maxLines = 1)
+                if (column.column == columns.first() || row.row == rows.first()) {
+                    if (column.column == columns.first() && row.row != rows.first()) {
+                        LazyTableHeader(
+                            modifier = Modifier.draggableItem(
+                                state = draggableColumnState,
+                                key = column,
+                                draggable = false,
+                                orientation = Orientation.Horizontal,
+                            ).draggableItem(
+                                state = draggableRowState,
+                                key = row,
+                                orientation = Orientation.Vertical,
+                            ),
+                        ) {
+                            Text("$column, $row", Modifier.align(Alignment.CenterStart), maxLines = 1)
+                        }
+                    } else {
+                        LazyTableHeader(
+                            modifier = Modifier.draggableItem(
+                                state = draggableColumnState,
+                                key = column,
+                                orientation = Orientation.Horizontal,
+                            ).draggableItem(
+                                state = draggableRowState,
+                                key = row,
+                                draggable = false,
+                                orientation = Orientation.Vertical,
+                            ),
+                        ) {
+                            Text("$column, $row", Modifier.align(Alignment.CenterStart), maxLines = 1)
+                        }
                     }
                 } else {
-                    LazyTableCell {
+                    LazyTableCell(
+                        modifier = Modifier.draggableItem(
+                            state = draggableColumnState,
+                            key = column,
+                            draggable = false,
+                            orientation = Orientation.Horizontal,
+                        ).draggableItem(
+                            state = draggableRowState,
+                            key = row,
+                            draggable = false,
+                            orientation = Orientation.Vertical,
+                        ),
+                    ) {
                         Text("$column, $row", Modifier.align(Alignment.CenterStart), maxLines = 1)
                     }
                 }

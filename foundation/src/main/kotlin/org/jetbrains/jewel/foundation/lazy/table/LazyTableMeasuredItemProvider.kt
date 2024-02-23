@@ -84,6 +84,14 @@ internal abstract class LazyTableMeasuredItemProvider(
         }
     }
 
+    fun getAndMeasureOrNull(column: Int, row: Int): LazyTableMeasuredItem? {
+        if (column >= columns - 1 || row >= rows - 1) {
+            return null
+        }
+
+        return getAndMeasure(column, row)
+    }
+
     fun getRowHeight(row: Int): Int = getAndMeasure(0, row).size.height
 
     fun getColumnWidth(column: Int): Int = getAndMeasure(column, 0).size.width

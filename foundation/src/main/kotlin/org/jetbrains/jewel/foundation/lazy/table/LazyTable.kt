@@ -43,12 +43,12 @@ public fun LazyTable(
     beyondBoundsItemCount: Int = 0,
     horizontalArrangement: Arrangement.Horizontal? = null,
     verticalArrangement: Arrangement.Vertical? = null,
-    content: LazyTableScope.() -> Unit,
+    content: LazyTableScope.() -> LazyTableCells,
 ) {
-    val itemProvider = rememberLazyTableItemProvider(state, pinnedColumns, pinnedRows, content)
+    val itemProviderLambda = rememberLazyTableItemProviderLambda(state, pinnedColumns, pinnedRows, content)
 
     val measurePolicy = rememberLazyTabletMeasurePolicy(
-        itemProvider = itemProvider,
+        itemProviderLambda = itemProviderLambda,
         cellSize = cellSize,
         state = state,
         pinnedColumns = pinnedColumns,
@@ -94,13 +94,13 @@ public fun LazyTable(
             .clip(RectangleShape),
         prefetchState = state.prefetchState,
         measurePolicy = measurePolicy,
-        itemProvider = itemProvider,
+        itemProvider = itemProviderLambda,
     )
 }
 
 @Composable
 private fun rememberLazyTabletMeasurePolicy(
-    itemProvider: LazyTableItemProvider,
+    itemProviderLambda: () -> LazyTableItemProvider,
     cellSize: LazyTableCellSize,
     state: LazyTableState,
     pinnedColumns: Int,
@@ -111,7 +111,6 @@ private fun rememberLazyTabletMeasurePolicy(
     verticalArrangement: Arrangement.Vertical? = null,
 ): LazyLayoutMeasureScope.(Constraints) -> MeasureResult =
     remember<LazyLayoutMeasureScope.(Constraints) -> MeasureResult>(
-        itemProvider,
         state,
         pinnedColumns,
         pinnedRows,
@@ -146,6 +145,7 @@ private fun rememberLazyTabletMeasurePolicy(
             val horizontalSpacing = horizontalArrangement?.spacing?.roundToPx() ?: 0
             val verticalSpacing = verticalArrangement?.spacing?.roundToPx() ?: 0
 
+            val itemProvider = itemProviderLambda()
             val measuredItemProvider = object : LazyTableMeasuredItemProvider(
                 availableSize = availableSize,
                 rows = itemProvider.rowCount,
@@ -155,7 +155,7 @@ private fun rememberLazyTabletMeasurePolicy(
                 verticalSpacing = verticalSpacing,
                 itemProvider = itemProvider,
                 measureScope = this,
-                density = this
+                density = this,
             ) {
                 override fun createItem(
                     column: Int,

@@ -8,8 +8,9 @@ import androidx.compose.foundation.gestures.ScrollScope
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
+import androidx.compose.ui.util.fastMaxOfOrNull
 import androidx.compose.ui.util.fastSumBy
-import org.jetbrains.jewel.foundation.utils.debugLog
+import org.jetbrains.jewel.foundation.util.debugLog
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.math.abs
 
@@ -26,6 +27,8 @@ internal interface LazyTableAnimateScrollScope {
     val lineCount: Int
 
     fun getTargetLineOffset(index: Int): Int?
+
+    fun getStartLineOffset(): Int
 
     fun ScrollScope.snapToLine(index: Int, scrollOffset: Int)
 
@@ -206,7 +209,7 @@ internal suspend fun LazyTableAnimateScrollScope.animateScrollToItem(
             // We found it, animate to it
             // Bring to the requested position - will be automatically stopped if not possible
             val anim = itemFound.previousAnimation.copy(value = 0f)
-            val target = (itemFound.lineOffset + scrollOffset).toFloat()
+            val target = (itemFound.lineOffset + scrollOffset - getStartLineOffset()).toFloat()
             var prevValue = 0f
             debugLog {
                 "Seeking by $target at velocity ${itemFound.previousAnimation.velocity}"
@@ -275,6 +278,14 @@ internal class LazyTableAnimateHorizontalScrollScope(
         return null
     }
 
+    override fun getStartLineOffset(): Int {
+        return (
+            state.layoutInfo.pinnedItemsInfo.fastMaxOfOrNull {
+                it.offset.x + it.size.width
+            } ?: 0
+            ) + state.layoutInfo.horizontalSpacing
+    }
+
     override fun ScrollScope.snapToLine(index: Int, scrollOffset: Int) {
         state.snapToColumnInternal(index, scrollOffset)
     }
@@ -323,6 +334,14 @@ internal class LazyTableAnimateVerticalScrollScope(
             }
         }
         return null
+    }
+
+    override fun getStartLineOffset(): Int {
+        return (
+            state.layoutInfo.pinnedItemsInfo.fastMaxOfOrNull {
+                it.offset.y + it.size.height
+            } ?: 0
+            ) + state.layoutInfo.verticalSpacing
     }
 
     override fun ScrollScope.snapToLine(index: Int, scrollOffset: Int) {

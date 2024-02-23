@@ -51,6 +51,6 @@ public fun OverflowBox(
             showOverflow = it
         }.then(modifier),
         contentAlignment = contentAlignment,
-        content = content
+        content = content,
     )
 }

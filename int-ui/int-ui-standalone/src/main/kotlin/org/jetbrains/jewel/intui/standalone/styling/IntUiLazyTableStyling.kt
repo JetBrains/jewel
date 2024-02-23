@@ -7,8 +7,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.ui.component.styling.LazyTableColors
 import org.jetbrains.jewel.ui.component.styling.LazyTableMetrics
 import org.jetbrains.jewel.ui.component.styling.LazyTableStyle
-import kotlin.math.max
-import kotlin.math.min
 
 @Composable
 public fun LazyTableStyle.Companion.light(): LazyTableStyle =
