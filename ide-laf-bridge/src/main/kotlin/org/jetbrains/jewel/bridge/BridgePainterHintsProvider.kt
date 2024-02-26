@@ -22,8 +22,8 @@ public class BridgePainterHintsProvider private constructor(
 
     @Composable
     override fun hints(path: String): List<PainterHint> = buildList {
-        add(getPaletteHint(path))
         add(BridgeOverride)
+        add(getPaletteHint(path))
         add(HiDpi())
         add(Dark(JewelTheme.isDark))
     }
