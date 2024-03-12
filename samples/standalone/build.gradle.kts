@@ -95,7 +95,7 @@ construo {
             macIcon.set(file("icons/jewel.icns"))
         }
         // Windows x64
-        create<Target.Windows>("winx64") {
+        create<Target.Windows>("winX64") {
             useGpuHint.set(false)
             architecture.set(Target.Architecture.X86_64)
         }
