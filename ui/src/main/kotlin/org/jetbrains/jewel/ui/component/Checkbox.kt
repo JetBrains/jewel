@@ -67,6 +67,7 @@ public fun Checkbox(
     metrics: CheckboxMetrics = JewelTheme.checkboxStyle.metrics,
     icons: CheckboxIcons = JewelTheme.checkboxStyle.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 ) {
     val state by remember(checked) { mutableStateOf(ToggleableState(checked)) }
     CheckboxImpl(
@@ -80,6 +81,7 @@ public fun Checkbox(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
         content = null,
     )
 }
@@ -96,6 +98,7 @@ public fun TriStateCheckbox(
     metrics: CheckboxMetrics = LocalCheckboxStyle.current.metrics,
     icons: CheckboxIcons = LocalCheckboxStyle.current.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 ) {
     CheckboxImpl(
         state = state,
@@ -108,6 +111,7 @@ public fun TriStateCheckbox(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
         content = null,
     )
 }
@@ -125,6 +129,7 @@ public fun TriStateCheckboxRow(
     metrics: CheckboxMetrics = LocalCheckboxStyle.current.metrics,
     icons: CheckboxIcons = LocalCheckboxStyle.current.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 ) {
     CheckboxImpl(
         state = state,
@@ -137,6 +142,7 @@ public fun TriStateCheckboxRow(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
     ) {
         Text(text)
     }
@@ -155,6 +161,7 @@ public fun CheckboxRow(
     metrics: CheckboxMetrics = LocalCheckboxStyle.current.metrics,
     icons: CheckboxIcons = LocalCheckboxStyle.current.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 ) {
     val state by remember(checked) { mutableStateOf(ToggleableState(checked)) }
 
@@ -169,6 +176,7 @@ public fun CheckboxRow(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
     ) {
         Text(text)
     }
@@ -186,6 +194,7 @@ public fun CheckboxRow(
     metrics: CheckboxMetrics = LocalCheckboxStyle.current.metrics,
     icons: CheckboxIcons = LocalCheckboxStyle.current.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     content: @Composable RowScope.() -> Unit,
 ) {
     CheckboxImpl(
@@ -199,6 +208,7 @@ public fun CheckboxRow(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
         content = content,
     )
 }
@@ -215,6 +225,7 @@ public fun TriStateCheckboxRow(
     metrics: CheckboxMetrics = LocalCheckboxStyle.current.metrics,
     icons: CheckboxIcons = LocalCheckboxStyle.current.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     content: @Composable RowScope.() -> Unit,
 ) {
     CheckboxImpl(
@@ -228,6 +239,7 @@ public fun TriStateCheckboxRow(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
         content = content,
     )
 }
@@ -244,6 +256,7 @@ private fun CheckboxImpl(
     outline: Outline,
     interactionSource: MutableInteractionSource,
     textStyle: TextStyle,
+    verticalAlignment: Alignment.Vertical,
     content: (@Composable RowScope.() -> Unit)?,
 ) {
     var checkboxState by remember(interactionSource) {
@@ -312,7 +325,7 @@ private fun CheckboxImpl(
         Row(
             wrapperModifier,
             horizontalArrangement = Arrangement.spacedBy(metrics.iconContentGap),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = verticalAlignment,
         ) {
             Box(contentAlignment = Alignment.TopStart) {
                 CheckBoxImage(Modifier, checkboxPainter, checkBoxImageModifier)
