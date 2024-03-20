@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.bridge
 
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.ui.icons.patchIconPath
 import com.intellij.util.ui.DirProvider
 import org.jetbrains.jewel.ui.painter.PainterPathHint
@@ -14,6 +13,7 @@ import org.jetbrains.jewel.ui.painter.ResourcePainterProviderScope
  */
 internal object BridgeOverride : PainterPathHint {
 
+    private const val REFLECTIVE_PATH_PROPERTY = "ide.experimental.ui.use.reflective.path"
     private val dirProvider = DirProvider()
 
     @Suppress("UnstableApiUsage") // patchIconPath() is explicitly open to us
@@ -27,16 +27,9 @@ internal object BridgeOverride : PainterPathHint {
         val fallbackPath = path.removePrefix(dirProvider.dir())
 
         for (classLoader in classLoaders) {
-            val patchedPath = patchIconPath(path.removePrefix("/"), classLoader)?.first
-                ?: patchIconPath(fallbackPath, classLoader)?.first
-
-            // 233 EAP 4 broke path patching horribly; now it can return a
-            // "reflective path", which is a FQN to an ExpUIIcons entry.
-            // As a (hopefully) temporary solution, we undo this transformation
-            // back into the original path. The initial transform is lossy, and
-            // this attempt might fail.
-            if (patchedPath?.startsWith("com.intellij.icons.ExpUiIcons") == true) {
-                return inferActualPathFromReflectivePath(patchedPath)
+            val patchedPath = withoutReflectivePath {
+                patchIconPath(path.removePrefix("/"), classLoader)?.first
+                    ?: patchIconPath(fallbackPath, classLoader)?.first
             }
 
             if (patchedPath != null) {
@@ -46,28 +39,13 @@ internal object BridgeOverride : PainterPathHint {
         return path
     }
 
-    private fun inferActualPathFromReflectivePath(patchedPath: String): String {
-        val iconPath = patchedPath.removePrefix("com.intellij.icons.ExpUiIcons.")
-
-        return buildString {
-            append("expui/")
-            iconPath.split('.')
-                .map { it.trim() }
-                .filter { it.isNotEmpty() }
-                .forEach {
-                    append(it.first().lowercaseChar())
-                    append(it.drop(1))
-                    append('/')
-                }
-            replace(length - 1, length, "") // Drop last '/'
-            if (iconPath.contains("_dark")) append("_dark")
-            append(".svg")
-
-            Logger.getInstance("IconsPathPatching")
-                .warn(
-                    "IntelliJ returned a reflective path: $patchedPath for $iconPath." +
-                        " We reverted that to a plausible-looking resource path: ${toString()}",
-                )
+    private inline fun <T> withoutReflectivePath(action: () -> T): T {
+        val prevPropertyValue: String? = System.getProperty(REFLECTIVE_PATH_PROPERTY)
+        System.setProperty(REFLECTIVE_PATH_PROPERTY, "false")
+        try {
+            return action()
+        } finally {
+            prevPropertyValue?.let { System.setProperty(REFLECTIVE_PATH_PROPERTY, it) }
         }
     }
 
