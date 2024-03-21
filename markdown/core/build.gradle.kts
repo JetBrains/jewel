@@ -8,6 +8,7 @@ plugins {
 dependencies {
     compileOnly(projects.ui)
     api(libs.commonmark.core)
+    api(libs.commonmark.extGfmStrikethrough)
 
     testImplementation(compose.desktop.uiTestJUnit4)
     testImplementation(projects.ui)

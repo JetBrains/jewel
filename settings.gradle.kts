@@ -37,6 +37,7 @@ include(
     ":int-ui:int-ui-standalone",
     ":markdown:core",
     ":markdown:extension-gfm-alerts",
+    ":markdown:commonmark-extensions",
     ":samples:ide-plugin",
     ":samples:standalone",
     ":ui",
@@ -49,3 +50,5 @@ gradleEnterprise {
         termsOfServiceAgree = "yes"
     }
 }
+include("markdown:commonmark-extensions")
+findProject(":markdown:commonmark-extensions")?.name = "commonmark-extensions"
