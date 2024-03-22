@@ -95,10 +95,17 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
         when (this) {
             is BlockQuote -> toMarkdownBlockQuote()
             is Heading -> toMarkdownHeadingOrNull()
-            is Paragraph -> toMarkdownParagraphOrNull()
+            is Paragraph -> {
+                val child = firstChild
+                if (child is Image && child === lastChild) {
+                    // only render standalone images as blocks
+                    child.toMarkdownImageOrNull()
+                } else {
+                    toMarkdownParagraphOrNull()
+                }
+            }
             is FencedCodeBlock -> toMarkdownCodeBlockOrNull()
             is IndentedCodeBlock -> toMarkdownCodeBlockOrNull()
-            is Image -> toMarkdownImageOrNull()
             is BulletList -> toMarkdownListOrNull()
             is OrderedList -> toMarkdownListOrNull()
             is ThematicBreak -> MarkdownBlock.ThematicBreak
@@ -144,7 +151,7 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
     private fun Image.toMarkdownImageOrNull(): MarkdownBlock.Image? {
         if (destination.isBlank()) return null
 
-        return MarkdownBlock.Image(destination.trim(), title.trim())
+        return MarkdownBlock.Image(destination.trim(), (title?:"").trim())
     }
 
     private fun BulletList.toMarkdownListOrNull(): UnorderedList? {

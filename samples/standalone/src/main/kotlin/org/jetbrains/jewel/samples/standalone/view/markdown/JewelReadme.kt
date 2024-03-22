@@ -8,6 +8,8 @@ internal val JewelReadme = """
 
 <img alt="Jewel logo" src="art/jewel-logo.svg" width="20%"/>
 
+![Some IMG](https://hellorse.fr/images/p/media/image/products/product_76409_2b3beddbf246765581c5e91a9fd6.webp?p=product_thumbnail&type=product)
+
 Jewel aims at recreating the IntelliJ Platform's _New UI_ Swing Look and Feel in Compose for Desktop, providing a
 desktop-optimized theme and set of components.
 
