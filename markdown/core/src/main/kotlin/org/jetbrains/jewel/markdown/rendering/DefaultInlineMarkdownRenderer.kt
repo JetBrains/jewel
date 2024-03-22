@@ -7,6 +7,8 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.UrlAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
+import org.commonmark.ext.gfm.strikethrough.Strikethrough
+import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
 import org.commonmark.node.Block
 import org.commonmark.node.Code
 import org.commonmark.node.Emphasis
@@ -30,11 +32,16 @@ public open class DefaultInlineMarkdownRenderer(rendererExtensions: List<Markdow
 
     public constructor(vararg extensions: MarkdownProcessorExtension) : this(extensions.toList())
 
+    private val strikethroughExtension = StrikethroughExtension.create()
+
     private val commonMarkParser =
-        Parser.builder().extensions(rendererExtensions.map { it.parserExtension }).build()
+        Parser.builder()
+            .extensions(listOf(strikethroughExtension))
+            .extensions(rendererExtensions.map { it.parserExtension }).build()
 
     private val plainTextRenderer =
         TextContentRenderer.builder()
+            .extensions(listOf(strikethroughExtension))
             .extensions(rendererExtensions.map { it.textRendererExtension })
             .build()
 
@@ -68,6 +75,10 @@ public open class DefaultInlineMarkdownRenderer(rendererExtensions: List<Markdow
 
                 is StrongEmphasis -> {
                     withStyles(styling.strongEmphasis, child) { appendInlineMarkdownFrom(it, styling) }
+                }
+
+                is Strikethrough -> {
+                    withStyles(styling.strikethrough, child) { appendInlineMarkdownFrom(it, styling) }
                 }
 
                 is Code -> {

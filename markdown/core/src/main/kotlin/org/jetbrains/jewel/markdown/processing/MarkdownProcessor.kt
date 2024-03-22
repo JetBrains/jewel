@@ -1,5 +1,7 @@
 package org.jetbrains.jewel.markdown.processing
 
+import org.commonmark.ext.gfm.strikethrough.Strikethrough
+import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
 import org.commonmark.node.BlockQuote
 import org.commonmark.node.BulletList
 import org.commonmark.node.Code
@@ -46,11 +48,16 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
 
     public constructor(vararg extensions: MarkdownProcessorExtension) : this(extensions.toList())
 
+    private val strikethroughExtension = StrikethroughExtension.create()
+
     private val commonMarkParser =
-        Parser.builder().extensions(extensions.map { it.parserExtension }).build()
+        Parser.builder()
+            .extensions(listOf(strikethroughExtension))
+            .extensions(extensions.map { it.parserExtension }).build()
 
     private val textContentRenderer =
         TextContentRenderer.builder()
+            .extensions(listOf(strikethroughExtension))
             .extensions(extensions.map { it.textRendererExtension })
             .build()
 
@@ -211,6 +218,12 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
                 }
 
                 is StrongEmphasis -> {
+                    append(child.openingDelimiter)
+                    appendInlineMarkdownFrom(child)
+                    append(child.closingDelimiter)
+                }
+
+                is Strikethrough -> {
                     append(child.openingDelimiter)
                     appendInlineMarkdownFrom(child)
                     append(child.closingDelimiter)

@@ -61,4 +61,56 @@ class MarkdownProcessorDocumentParsingExtraTest {
          */
         parsed.assertEquals(paragraph("*_*foo *bar* a*_*"))
     }
+
+    @Test
+    fun `should parse gfm spec example 491 correctly (Strikethrough)`() {
+        val parsed = processor.processMarkdownDocument("~~Hi~~ Hello, ~~there~~ world!")
+
+        /*
+         * Expected HTML:
+         * <p><del>Hi</del> Hello, <del>there</del> world!</p>
+         */
+        parsed.assertEquals(paragraph("~~Hi~~ Hello, ~~there~~ world\\!"))
+    }
+
+    @org.junit.Ignore("Strikethrough is any text wrapped in a pair of one tildes, but our implementation assumes two")
+    @Test
+    fun `should parse gfm spec example 491b correctly (Strikethrough)`() {
+        val parsed = processor.processMarkdownDocument("~there~ world!")
+
+        parsed.assertEquals(paragraph("~there~ world\\!"))
+    }
+
+    /** As with regular emphasis delimiters, a new paragraph will cause strikethrough parsing to cease */
+    @Test
+    fun `should parse gfm spec example 492 correctly (Strikethrough)`() {
+        val parsed = processor.processMarkdownDocument(
+            """
+            |This ~~has a
+            |
+            |new paragraph~~.
+            """.trimMargin(),
+        )
+
+        /*
+         * Expected HTML:
+         * <p>This ~~has a</p>
+         * <p>new paragraph~~.</p>
+         */
+        parsed.assertEquals(
+            paragraph("This \\~\\~has a"),
+            paragraph("new paragraph\\~\\~."),
+        )
+    }
+
+    @Test
+    fun `should parse gfm spec example 493 correctly (Strikethrough)`() {
+        val parsed = processor.processMarkdownDocument("This will ~~~not~~~ strike.")
+
+        /*
+         * Expected HTML:
+         * <p>This will ~~~not~~~ strike.</p>
+         */
+        parsed.assertEquals(paragraph("This will \\~\\~\\~not\\~\\~\\~ strike."))
+    }
 }

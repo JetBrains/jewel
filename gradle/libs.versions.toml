@@ -16,6 +16,7 @@ poko = "0.13.1"
 
 [libraries]
 commonmark-core = { module = "org.commonmark:commonmark", version.ref = "commonmark" }
+commonmark-extGfmStrikethrough = { module = "org.commonmark:commonmark-ext-gfm-strikethrough", version.ref = "commonmark" }
 
 filePicker = { module = "com.darkrockstudios:mpfilepicker", version = "3.1.0" }
 

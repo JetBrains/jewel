@@ -596,6 +596,7 @@ public fun InlinesStyling.Companion.light(
         textStyle.copy(color = Color(0xFF0969DA), textDecoration = TextDecoration.Underline).toSpanStyle(),
     emphasis: SpanStyle = textStyle.copy(fontStyle = FontStyle.Italic).toSpanStyle(),
     strongEmphasis: SpanStyle = textStyle.copy(fontWeight = FontWeight.Bold).toSpanStyle(),
+    strikethrough: SpanStyle = textStyle.copy(textDecoration = TextDecoration.LineThrough).toSpanStyle().copy(),
     inlineHtml: SpanStyle = textStyle.toSpanStyle(),
     renderInlineHtml: Boolean = false,
 ): InlinesStyling =
@@ -605,6 +606,7 @@ public fun InlinesStyling.Companion.light(
         link,
         emphasis,
         strongEmphasis,
+        strikethrough,
         inlineHtml,
         renderInlineHtml,
     )
@@ -625,6 +627,7 @@ public fun InlinesStyling.Companion.dark(
             .toSpanStyle(),
     emphasis: SpanStyle = textStyle.copy(fontStyle = FontStyle.Italic).toSpanStyle(),
     strongEmphasis: SpanStyle = textStyle.copy(fontWeight = FontWeight.Bold).toSpanStyle(),
+    strikethrough: SpanStyle = textStyle.copy(textDecoration = TextDecoration.LineThrough).toSpanStyle().copy(),
     inlineHtml: SpanStyle = textStyle.toSpanStyle(),
     renderInlineHtml: Boolean = false,
 ): InlinesStyling =
@@ -634,6 +637,7 @@ public fun InlinesStyling.Companion.dark(
         link,
         emphasis,
         strongEmphasis,
+        strikethrough,
         inlineHtml,
         renderInlineHtml,
     )

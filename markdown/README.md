@@ -11,13 +11,13 @@ Currently supports the [CommonMark 0.31.2](https://spec.commonmark.org/0.31.2/) 
 Additional supported Markdown, via extensions:
 
 * Alerts ([GitHub Flavored Markdown][alerts-specs]) — see [`extension-gfm-alerts`](extension-gfm-alerts)
+* Strikethrough(builtin) ([GitHub Flavored Markdown](https://github.github.com/gfm/#strikethrough-extension-))
 
 [alerts-specs]: https://github.com/orgs/community/discussions/16925
 
 On the roadmap, but not currently supported — in no particular order:
 
 * Tables ([GitHub Flavored Markdown](https://github.github.com/gfm/#tables-extension-))
-* Strikethrough ([GitHub Flavored Markdown](https://github.github.com/gfm/#strikethrough-extension-))
 * Image loading (via [Coil 3](https://coil-kt.github.io/coil/upgrading_to_coil3/))
 * Auto-linking ([GitHub Flavored Markdown](https://github.github.com/gfm/#autolinks-extension-))
 * Task list items ([GitHub Flavored Markdown](https://github.github.com/gfm/#task-list-items-extension-))
