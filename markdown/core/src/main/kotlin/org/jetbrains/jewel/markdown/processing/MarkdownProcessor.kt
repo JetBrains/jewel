@@ -189,8 +189,7 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
         return MarkdownBlock.HtmlBlock(content = literal.trimEnd('\n'))
     }
 
-    private fun Node.contentsAsInlineMarkdown() =
-        InlineMarkdown(buildString { appendInlineMarkdownFrom(this@contentsAsInlineMarkdown) })
+    private fun Node.contentsAsInlineMarkdown() = InlineMarkdown(this)
 
     private fun StringBuilder.appendInlineMarkdownFrom(
         node: Node,
@@ -341,7 +340,7 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
         return "$backticks$this$backticks"
     }
 
-    private fun InlineMarkdown.isBlank(): Boolean = content.isBlank()
+    private fun InlineMarkdown.isBlank(): Boolean = content.firstChild == null
 
     private fun plainTextContents(node: Node): String = textContentRenderer.render(node)
 }

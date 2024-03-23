@@ -30,9 +30,6 @@ public open class DefaultInlineMarkdownRenderer(rendererExtensions: List<Markdow
 
     public constructor(vararg extensions: MarkdownProcessorExtension) : this(extensions.toList())
 
-    private val commonMarkParser =
-        Parser.builder().extensions(rendererExtensions.map { it.parserExtension }).build()
-
     private val plainTextRenderer =
         TextContentRenderer.builder()
             .extensions(rendererExtensions.map { it.textRendererExtension })
@@ -43,7 +40,7 @@ public open class DefaultInlineMarkdownRenderer(rendererExtensions: List<Markdow
         styling: InlinesStyling,
     ): AnnotatedString =
         buildAnnotatedString {
-            val node = commonMarkParser.parse(inlineMarkdown.content)
+            val node = inlineMarkdown.content
             appendInlineMarkdownFrom(node, styling)
         }
 

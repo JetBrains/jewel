@@ -1,6 +1,6 @@
 package org.jetbrains.jewel.markdown
 
-import org.intellij.lang.annotations.Language
+import org.commonmark.node.Node
 
 public sealed interface MarkdownBlock {
 
@@ -80,4 +80,4 @@ public interface BlockWithInlineMarkdown {
  * [block-level elements][MarkdownBlock].
  */
 @JvmInline
-public value class InlineMarkdown(@Language("Markdown") public val content: String)
+public value class InlineMarkdown(public val content: Node)
