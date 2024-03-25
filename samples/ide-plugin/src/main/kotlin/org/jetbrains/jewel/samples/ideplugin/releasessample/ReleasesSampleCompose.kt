@@ -57,23 +57,18 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
-import com.intellij.ui.NewUI
-import com.intellij.ui.RelativeFont
-import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
 import icons.JewelIcons
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.toJavaLocalDate
+import org.jetbrains.jewel.bridge.medium
+import org.jetbrains.jewel.bridge.regular
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
-import org.jetbrains.jewel.bridge.retrieveTextStyle
 import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
@@ -87,13 +82,13 @@ import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.PopupMenu
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
+import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.VerticalScrollbar
 import org.jetbrains.jewel.ui.component.items
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.ui.theme.iconButtonStyle
 import org.jetbrains.jewel.ui.util.thenIf
 import org.jetbrains.skiko.DependsOnJBR
-import java.awt.Font
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.time.Duration.Companion.seconds
@@ -253,7 +248,7 @@ private fun ItemTag(
 ) {
     Text(
         text = text,
-        fontSize = JBFont.medium().size2D.sp,
+        style = Typography.medium(),
         color = foregroundColor,
         modifier = modifier
             .background(backgroundColor, shape)
@@ -506,16 +501,7 @@ private fun ItemDetailsText(selectedItem: ContentItem) {
         Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Text(
-            selectedItem.displayText,
-            style = runBlocking {
-                retrieveTextStyle(
-                    key = "Label.font",
-                    bold = true,
-                    size = JBFont.h1().size2D.sp,
-                )
-            },
-        )
+        Text(selectedItem.displayText, style = Typography.h1TextStyle())
 
         val formatter =
             remember(Locale.current) { DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM) }
@@ -523,7 +509,7 @@ private fun ItemDetailsText(selectedItem: ContentItem) {
         if (releaseDate != null) {
             Text(
                 text = "Released on ${formatter.format(releaseDate.toJavaLocalDate())}",
-                fontSize = getCommentFontSize(),
+                style = Typography.medium(),
                 color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor(),
             )
         }
@@ -553,21 +539,10 @@ private fun AndroidStudioReleaseDetails(item: ContentItem.AndroidStudio) {
     TextWithLabel("Full build number:", item.build)
 }
 
-@OptIn(DependsOnJBR::class)
 @Composable
 private fun TextWithLabel(labelText: String, valueText: String) {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(labelText)
-        Text(valueText, fontWeight = FontWeight.W600)
+        Text(valueText, style = Typography.regular().copy(fontWeight = FontWeight.Bold))
     }
-}
-
-// Logic from com.intellij.openapi.ui.panel.ComponentPanelBuilder#getCommentFont
-private fun getCommentFontSize(font: Font = JBFont.label()): TextUnit {
-    val commentFont = if (NewUI.isEnabled()) {
-        JBFont.medium()
-    } else {
-        RelativeFont.NORMAL.fromResource("ContextHelp.fontSizeOffset", -2).derive(font)
-    }
-    return commentFont.size2D.sp
 }

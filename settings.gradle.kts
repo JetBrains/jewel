@@ -30,10 +30,10 @@ plugins {
 }
 
 include(
-    ":ui",
     ":foundation",
     ":ide-laf-bridge",
     ":samples:ide-plugin",
+    ":ui",
 )
 
 gradleEnterprise {
