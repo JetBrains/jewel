@@ -32,9 +32,11 @@ public interface PainterHintsProvider {
 }
 
 /**
- * The default [PainterHintsProvider] to load dark theme
- * icon variants. It will provide the [Dark] hint when
- * [LocalIsDarkTheme][org.jetbrains.jewel.LocalIsDarkTheme] is true.
+ * The default [PainterHintsProvider] to load dark theme icon variants.
+ *
+ * It will provide the [Dark] hint when
+ * [LocalIsDarkTheme][org.jetbrains.jewel.foundation.theme.LocalIsDarkTheme]
+ * is true.
  */
 public object CommonPainterHintsProvider : PainterHintsProvider {
 

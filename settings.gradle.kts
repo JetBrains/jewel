@@ -30,9 +30,15 @@ plugins {
 }
 
 include(
+    ":decorated-window",
     ":foundation",
     ":ide-laf-bridge",
+    ":int-ui:int-ui-decorated-window",
+    ":int-ui:int-ui-standalone",
+    ":markdown:core",
+    ":markdown:extension-gfm-alerts",
     ":samples:ide-plugin",
+    ":samples:standalone",
     ":ui",
 )
 
