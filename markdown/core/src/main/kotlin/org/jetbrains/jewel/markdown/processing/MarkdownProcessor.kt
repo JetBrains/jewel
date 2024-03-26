@@ -34,16 +34,10 @@ import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.markdown.InlineMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H1
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H2
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H3
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H4
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H5
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H6
-import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock.UnorderedList
 import org.jetbrains.jewel.markdown.MimeType
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 import org.jetbrains.jewel.markdown.rendering.DefaultInlineMarkdownRenderer
+import org.jetbrains.jewel.markdown.toInlineNode
 
 /**
  * @param optimizeEdits Optional. Indicates whether the processing should only update the changed blocks
@@ -205,7 +199,6 @@ public class MarkdownProcessor(
             is Paragraph -> toMarkdownParagraphOrNull()
             is FencedCodeBlock -> toMarkdownCodeBlockOrNull()
             is IndentedCodeBlock -> toMarkdownCodeBlockOrNull()
-            is Image -> toMarkdownImageOrNull()
             is BulletList -> toMarkdownListOrNull()
             is OrderedList -> toMarkdownListOrNull()
             is ThematicBreak -> MarkdownBlock.ThematicBreak
@@ -214,28 +207,20 @@ public class MarkdownProcessor(
                 extensions.find { it.processorExtension.canProcess(this) }
                     ?.processorExtension?.processMarkdownBlock(this, this@MarkdownProcessor)
             }
-
+            // TODO: add support for LinkReferenceDefinition
             else -> null
         }
 
     private fun BlockQuote.toMarkdownBlockQuote(): MarkdownBlock.BlockQuote =
         MarkdownBlock.BlockQuote(processChildren(this))
 
-    private fun Heading.toMarkdownHeadingOrNull(): MarkdownBlock.Heading? =
-        when (level) {
-            1 -> H1(contentsAsInlineMarkdown())
-            2 -> H2(contentsAsInlineMarkdown())
-            3 -> H3(contentsAsInlineMarkdown())
-            4 -> H4(contentsAsInlineMarkdown())
-            5 -> H5(contentsAsInlineMarkdown())
-            6 -> H6(contentsAsInlineMarkdown())
-            else -> null
-        }
+    private fun Heading.toMarkdownHeadingOrNull(): MarkdownBlock.Heading =
+        MarkdownBlock.Heading(contentsAsInlineMarkdown(), level)
 
-    private fun Paragraph.toMarkdownParagraphOrNull(): MarkdownBlock.Paragraph? {
+    private fun Paragraph.toMarkdownParagraphOrNull(): MarkdownBlock.Paragraph {
         val inlineMarkdown = contentsAsInlineMarkdown()
 
-        if (inlineMarkdown.isBlank()) return null
+//        if (inlineMarkdown.isEmpty()) return null
         return MarkdownBlock.Paragraph(inlineMarkdown)
     }
 
@@ -248,17 +233,11 @@ public class MarkdownProcessor(
     private fun IndentedCodeBlock.toMarkdownCodeBlockOrNull(): CodeBlock.IndentedCodeBlock =
         CodeBlock.IndentedCodeBlock(literal.trimEnd('\n'))
 
-    private fun Image.toMarkdownImageOrNull(): MarkdownBlock.Image? {
-        if (destination.isBlank()) return null
-
-        return MarkdownBlock.Image(destination.trim(), title.trim())
-    }
-
-    private fun BulletList.toMarkdownListOrNull(): UnorderedList? {
+    private fun BulletList.toMarkdownListOrNull(): MarkdownBlock.ListBlock.BulletList? {
         val children = processListItems()
         if (children.isEmpty()) return null
 
-        return UnorderedList(children, isTight, bulletMarker)
+        return org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock.BulletList(children, isTight, bulletMarker)
     }
 
     private fun OrderedList.toMarkdownListOrNull(): MarkdownBlock.ListBlock.OrderedList? {
@@ -278,7 +257,9 @@ public class MarkdownProcessor(
     public fun processChildren(node: Node): List<MarkdownBlock> = buildList {
         node.forEachChild { child ->
             val parsedBlock = child.tryProcessMarkdownBlock()
-            if (parsedBlock != null) this.add(parsedBlock)
+            if (parsedBlock != null) {
+                this.add(parsedBlock)
+            }
         }
     }
 
@@ -296,8 +277,11 @@ public class MarkdownProcessor(
         return MarkdownBlock.HtmlBlock(content = literal.trimEnd('\n'))
     }
 
-    private fun Node.contentsAsInlineMarkdown() =
-        InlineMarkdown(buildString { appendInlineMarkdownFrom(this@contentsAsInlineMarkdown) })
+    private fun Node.contentsAsInlineMarkdown() = buildList {
+        forEachChild {
+            add(it.toInlineNode())
+        }
+    }
 
     private fun StringBuilder.appendInlineMarkdownFrom(
         node: Node,
@@ -447,8 +431,6 @@ public class MarkdownProcessor(
         val backticks = "`".repeat(longestCount + 1)
         return "$backticks$this$backticks"
     }
-
-    private fun InlineMarkdown.isBlank(): Boolean = content.isBlank()
 
     private fun plainTextContents(node: Node): String = textContentRenderer.render(node)
 }
