@@ -28,9 +28,9 @@ public class StandalonePainterHintsProvider(
             },
         )
 
-    override protected val checkBoxByColorPaletteHint: PainterHint
-    override protected val treePaletteHint: PainterHint
-    override protected val uiPaletteHint: PainterHint
+    protected override val checkBoxByColorPaletteHint: PainterHint
+    protected override val treePaletteHint: PainterHint
+    protected override val uiPaletteHint: PainterHint
 
     init {
         val ui = mutableMapOf<Color, Color>()
