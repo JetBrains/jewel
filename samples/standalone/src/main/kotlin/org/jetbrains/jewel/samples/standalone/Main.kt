@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.window.application
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.intui.standalone.Inter
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.theme.darkThemeDefinition
 import org.jetbrains.jewel.intui.standalone.theme.lightThemeDefinition
@@ -28,7 +29,7 @@ fun main() {
     val icon = svgResource("icons/jewel-logo.svg")
 
     application {
-        val textStyle = TextStyle(fontFamily = FontFamily("Inter"))
+        val textStyle = TextStyle(fontFamily = FontFamily.Inter)
 
         val themeDefinition =
             if (MainViewModel.theme.isDark()) {
