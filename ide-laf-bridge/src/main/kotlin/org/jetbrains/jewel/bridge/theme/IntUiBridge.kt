@@ -106,7 +106,6 @@ import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipColors
 import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
-import org.jetbrains.skiko.DependsOnJBR
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -118,11 +117,13 @@ internal val uiDefaults
 private val iconsBasePath
     get() = DirProvider().dir()
 
-@OptIn(DependsOnJBR::class)
 internal fun createBridgeThemeDefinition(): ThemeDefinition {
-    val textStyle = retrieveTextStyle("Label.font", "Label.foreground")
+    val textStyle = retrieveDefaultTextStyle()
     return createBridgeThemeDefinition(textStyle)
 }
+
+public fun retrieveDefaultTextStyle(): TextStyle =
+    retrieveTextStyle("Label.font", "Label.foreground")
 
 internal fun createBridgeThemeDefinition(textStyle: TextStyle): ThemeDefinition {
     val isDark = !JBColor.isBright()
@@ -140,7 +141,6 @@ internal fun createBridgeThemeDefinition(textStyle: TextStyle): ThemeDefinition 
     )
 }
 
-@OptIn(DependsOnJBR::class)
 internal fun createBridgeComponentStyling(
     theme: ThemeDefinition,
 ) =

@@ -6,6 +6,12 @@ plugins {
 dependencies {
     sarif(projects.foundation)
     sarif(projects.ideLafBridge)
+    sarif(projects.intUi.intUiDecoratedWindow)
+    sarif(projects.intUi.intUiStandalone)
+    sarif(projects.markdown.core)
+    sarif(projects.markdown.extension.gfmAlerts)
+    sarif(projects.markdown.ideLafBridgeStyling)
+    sarif(projects.markdown.intUiStandaloneStyling)
     sarif(projects.samples.idePlugin)
     sarif(projects.ui)
 }
