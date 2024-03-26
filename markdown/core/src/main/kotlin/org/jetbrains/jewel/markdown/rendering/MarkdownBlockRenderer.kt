@@ -17,7 +17,7 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.ListItem
 public interface MarkdownBlockRenderer {
 
     @Composable
-    public fun render(blocks: List<MarkdownBlock>)
+    public fun render(blocks: Iterator<MarkdownBlock>)
 
     @Composable
     public fun render(block: MarkdownBlock)

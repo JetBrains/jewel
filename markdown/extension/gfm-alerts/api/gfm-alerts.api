@@ -1,67 +1,3 @@
-public abstract interface class org/jetbrains/jewel/markdown/extensions/github/alerts/Alert : org/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock {
-	public abstract fun getContent ()Ljava/util/List;
-}
-
-public final class org/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Caution : org/jetbrains/jewel/markdown/extensions/github/alerts/Alert {
-	public static final field $stable I
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Caution;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Caution;Ljava/util/List;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Caution;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getContent ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class org/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Important : org/jetbrains/jewel/markdown/extensions/github/alerts/Alert {
-	public static final field $stable I
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Important;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Important;Ljava/util/List;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Important;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getContent ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class org/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Note : org/jetbrains/jewel/markdown/extensions/github/alerts/Alert {
-	public static final field $stable I
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Note;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Note;Ljava/util/List;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Note;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getContent ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class org/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Tip : org/jetbrains/jewel/markdown/extensions/github/alerts/Alert {
-	public static final field $stable I
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Tip;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Tip;Ljava/util/List;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Tip;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getContent ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class org/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Warning : org/jetbrains/jewel/markdown/extensions/github/alerts/Alert {
-	public static final field $stable I
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Warning;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Warning;Ljava/util/List;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/Alert$Warning;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getContent ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class org/jetbrains/jewel/markdown/extensions/github/alerts/AlertStyling {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/markdown/extensions/github/alerts/AlertStyling$Companion;
@@ -115,8 +51,8 @@ public final class org/jetbrains/jewel/markdown/extensions/github/alerts/Caution
 public final class org/jetbrains/jewel/markdown/extensions/github/alerts/GitHubAlertBlockRenderer : org/jetbrains/jewel/markdown/extensions/MarkdownBlockRendererExtension {
 	public static final field $stable I
 	public fun <init> (Lorg/jetbrains/jewel/markdown/extensions/github/alerts/AlertStyling;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling;)V
-	public fun canRender (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock;)Z
-	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownBlockRenderer;Lorg/jetbrains/jewel/markdown/rendering/InlineMarkdownRenderer;Landroidx/compose/runtime/Composer;I)V
+	public fun canRender-oaZXzmo (Lorg/commonmark/node/CustomBlock;)Z
+	public fun render-WESUQbY (Lorg/commonmark/node/CustomBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownBlockRenderer;Lorg/jetbrains/jewel/markdown/rendering/InlineMarkdownRenderer;Landroidx/compose/runtime/Composer;I)V
 }
 
 public final class org/jetbrains/jewel/markdown/extensions/github/alerts/GitHubAlertProcessorExtension : org/jetbrains/jewel/markdown/extensions/MarkdownProcessorExtension {

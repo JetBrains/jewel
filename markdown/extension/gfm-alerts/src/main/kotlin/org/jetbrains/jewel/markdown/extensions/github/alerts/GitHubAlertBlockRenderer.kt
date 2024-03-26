@@ -21,11 +21,6 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.markdown.MarkdownBlock.CustomBlock
 import org.jetbrains.jewel.markdown.extensions.MarkdownBlockRendererExtension
-import org.jetbrains.jewel.markdown.extensions.github.alerts.Alert.Caution
-import org.jetbrains.jewel.markdown.extensions.github.alerts.Alert.Important
-import org.jetbrains.jewel.markdown.extensions.github.alerts.Alert.Note
-import org.jetbrains.jewel.markdown.extensions.github.alerts.Alert.Tip
-import org.jetbrains.jewel.markdown.extensions.github.alerts.Alert.Warning
 import org.jetbrains.jewel.markdown.rendering.InlineMarkdownRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
@@ -38,7 +33,7 @@ public class GitHubAlertBlockRenderer(
 ) : MarkdownBlockRendererExtension {
 
     override fun canRender(block: CustomBlock): Boolean =
-        block is Alert
+        block.value is AlertBlock
 
     @Composable
     override fun render(
@@ -49,20 +44,19 @@ public class GitHubAlertBlockRenderer(
         // Smart cast doesn't work in this case, and then the detection for redundant suppression is
         // also borked
         @Suppress("MoveVariableDeclarationIntoWhen", "RedundantSuppression")
-        val alert = block as? Alert
+        val alert = block.value as AlertBlock
 
-        when (alert) {
-            is Caution -> Alert(alert, styling.caution, blockRenderer)
-            is Important -> Alert(alert, styling.important, blockRenderer)
-            is Note -> Alert(alert, styling.note, blockRenderer)
-            is Tip -> Alert(alert, styling.tip, blockRenderer)
-            is Warning -> Alert(alert, styling.warning, blockRenderer)
-            else -> error("Unsupported block of type ${block.javaClass.name} cannot be rendered")
+        when (alert.kind) {
+            AlertBlock.Kind.Caution -> Alert(block, styling.caution, blockRenderer)
+            AlertBlock.Kind.Important -> Alert(block, styling.important, blockRenderer)
+            AlertBlock.Kind.Note -> Alert(block, styling.note, blockRenderer)
+            AlertBlock.Kind.Tip -> Alert(block, styling.tip, blockRenderer)
+            AlertBlock.Kind.Warning -> Alert(block, styling.warning, blockRenderer)
         }
     }
 
     @Composable
-    private fun Alert(block: Alert, styling: BaseAlertStyling, blockRenderer: MarkdownBlockRenderer) {
+    private fun Alert(block: CustomBlock, styling: BaseAlertStyling, blockRenderer: MarkdownBlockRenderer) {
         Column(
             Modifier.drawBehind {
                 val isLtr = layoutDirection == Ltr
@@ -109,7 +103,7 @@ public class GitHubAlertBlockRenderer(
                         styling.titleTextStyle.color.takeOrElse { LocalContentColor.current },
                 ) {
                     Text(
-                        text = block.javaClass.simpleName,
+                        text = (block.value as AlertBlock).kind.name,
                         style = styling.titleTextStyle,
                         modifier = Modifier.pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                     )
@@ -118,7 +112,7 @@ public class GitHubAlertBlockRenderer(
             CompositionLocalProvider(
                 LocalContentColor provides styling.textColor.takeOrElse { LocalContentColor.current },
             ) {
-                blockRenderer.render(block.content)
+                blockRenderer.render(block.children)
             }
         }
     }

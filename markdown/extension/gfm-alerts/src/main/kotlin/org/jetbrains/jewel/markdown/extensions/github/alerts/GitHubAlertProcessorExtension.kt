@@ -20,11 +20,7 @@ import org.jetbrains.jewel.markdown.extensions.MarkdownBlockProcessorExtension
 import org.jetbrains.jewel.markdown.extensions.MarkdownBlockRendererExtension
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 import org.jetbrains.jewel.markdown.extensions.MarkdownRendererExtension
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Caution
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Important
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Note
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Tip
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Warning
+import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Kind
 import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 
@@ -41,18 +37,19 @@ public object GitHubAlertProcessorExtension : MarkdownProcessorExtension {
         override fun canProcess(block: CustomBlock): Boolean = block is AlertBlock
 
         override fun processMarkdownBlock(block: CustomBlock, processor: MarkdownProcessor): MarkdownBlock.CustomBlock? {
-            val children = processor.processChildren(block)
-
-            if (children.isEmpty()) return null
-
-            return when (block) {
-                is Caution -> Alert.Caution(children)
-                is Important -> Alert.Important(children)
-                is Note -> Alert.Note(children)
-                is Tip -> Alert.Tip(children)
-                is Warning -> Alert.Warning(children)
-                else -> error("Unsupported custom block of type ${block.javaClass.name}")
-            }
+            error("should use CustomNode parser instead")
+//            val children = processor.processChildren(block)
+//
+//            if (children.isEmpty()) return null
+//
+//            return when (block) {
+//                is Caution -> Alert.Caution(children)
+//                is Important -> Alert.Important(children)
+//                is Note -> Alert.Note(children)
+//                is Tip -> Alert.Tip(children)
+//                is Warning -> Alert.Warning(children)
+//                else -> error("Unsupported custom block of type ${block.javaClass.name}")
+//            }
         }
     }
 }
@@ -95,11 +92,11 @@ private class AlertParser(type: String) : AbstractBlockParser() {
 
     private val block =
         when (type.lowercase()) {
-            "note" -> Note()
-            "tip" -> Tip()
-            "important" -> Important()
-            "warning" -> Warning()
-            "caution" -> Caution()
+            "note" -> AlertBlock(Kind.Note)
+            "tip" -> AlertBlock(Kind.Tip)
+            "important" -> AlertBlock(Kind.Important)
+            "warning" -> AlertBlock(Kind.Warning)
+            "caution" -> AlertBlock(Kind.Caution)
             else -> error("Unsupported highlighted blockquote type: '$type'")
         }
 
@@ -139,12 +136,12 @@ private class AlertTextContentNodeRenderer(private val context: TextContentNodeR
 
     override fun render(node: Node) {
         val premise =
-            when (node as? AlertBlock) {
-                is Caution -> "\uD83D\uDED1 Caution! "
-                is Important -> "⚠\uFE0F Important! "
-                is Note -> "ℹ\uFE0F Note: "
-                is Tip -> "\uD83D\uDCA1 Tip: "
-                is Warning -> "⚠\uFE0F Warning: "
+            when ((node as? AlertBlock)?.kind) {
+                Kind.Caution -> "\uD83D\uDED1 Caution! "
+                Kind.Important -> "⚠\uFE0F Important! "
+                Kind.Note -> "ℹ\uFE0F Note: "
+                Kind.Tip -> "\uD83D\uDCA1 Tip: "
+                Kind.Warning -> "⚠\uFE0F Warning: "
                 null -> error("Unsupported node type ${node.javaClass.name}")
             }
 
@@ -159,17 +156,4 @@ private class AlertTextContentNodeRenderer(private val context: TextContentNodeR
             child = child.next
         }
     }
-}
-
-internal sealed class AlertBlock : CustomBlock() {
-
-    class Note : AlertBlock()
-
-    class Tip : AlertBlock()
-
-    class Important : AlertBlock()
-
-    class Warning : AlertBlock()
-
-    class Caution : AlertBlock()
 }
