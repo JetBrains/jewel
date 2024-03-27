@@ -757,7 +757,7 @@ Markdown: Syntax
     *   [Philosophy](#philosophy)
     *   [Inline HTML](#html)
     *   [Automatic Escaping for Special Characters](#autoescape)
-*   [Block Elements](#block)
+*   [MarkdownBlock Elements](#block)
     *   [Paragraphs and Line Breaks](#p)
     *   [Headers](#header)
     *   [Blockquotes](#blockquote)
@@ -921,7 +921,7 @@ and `&` in your example code needs to be escaped.)
 * * *
 
 
-<h2 id="block">Block Elements</h2>
+<h2 id="block">MarkdownBlock Elements</h2>
 
 
 <h3 id="p">Paragraphs and Line Breaks</h3>

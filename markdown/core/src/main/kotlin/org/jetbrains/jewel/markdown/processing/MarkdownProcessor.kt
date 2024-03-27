@@ -1,45 +1,25 @@
 package org.jetbrains.jewel.markdown.processing
 
-import org.commonmark.node.BlockQuote
-import org.commonmark.node.BulletList
 import org.commonmark.node.Code
-import org.commonmark.node.CustomBlock
 import org.commonmark.node.Document
 import org.commonmark.node.Emphasis
-import org.commonmark.node.FencedCodeBlock
 import org.commonmark.node.HardLineBreak
-import org.commonmark.node.Heading
-import org.commonmark.node.HtmlBlock
 import org.commonmark.node.HtmlInline
 import org.commonmark.node.Image
-import org.commonmark.node.IndentedCodeBlock
 import org.commonmark.node.Link
-import org.commonmark.node.ListBlock
-import org.commonmark.node.ListItem
 import org.commonmark.node.Node
-import org.commonmark.node.OrderedList
-import org.commonmark.node.Paragraph
 import org.commonmark.node.SoftLineBreak
 import org.commonmark.node.StrongEmphasis
 import org.commonmark.node.Text
-import org.commonmark.node.ThematicBreak
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.text.TextContentRenderer
 import org.intellij.lang.annotations.Language
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.markdown.InlineMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
-import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H1
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H2
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H3
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H4
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H5
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H6
-import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock.UnorderedList
-import org.jetbrains.jewel.markdown.MimeType
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 import org.jetbrains.jewel.markdown.rendering.DefaultInlineMarkdownRenderer
+import org.jetbrains.jewel.markdown.toMarkdownBlock
 
 @ExperimentalJewelApi
 public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExtension> = emptyList()) {
@@ -86,92 +66,10 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
         val document =
             commonMarkParser.parse(rawMarkdown) as? Document
                 ?: error("This doesn't look like a Markdown document")
-
-        return processChildren(document)
-    }
-
-    private fun Node.tryProcessMarkdownBlock(): MarkdownBlock? =
-        // Non-Block children are ignored
-        when (this) {
-            is BlockQuote -> toMarkdownBlockQuote()
-            is Heading -> toMarkdownHeadingOrNull()
-            is Paragraph -> toMarkdownParagraphOrNull()
-            is FencedCodeBlock -> toMarkdownCodeBlockOrNull()
-            is IndentedCodeBlock -> toMarkdownCodeBlockOrNull()
-            is Image -> toMarkdownImageOrNull()
-            is BulletList -> toMarkdownListOrNull()
-            is OrderedList -> toMarkdownListOrNull()
-            is ThematicBreak -> MarkdownBlock.ThematicBreak
-            is HtmlBlock -> toMarkdownHtmlBlockOrNull()
-            is CustomBlock -> {
-                extensions.find { it.processorExtension.canProcess(this) }
-                    ?.processorExtension?.processMarkdownBlock(this, this@MarkdownProcessor)
+        return buildList {
+            document.forEachChild { child ->
+                add(child.toMarkdownBlock())
             }
-
-            else -> null
-        }
-
-    private fun BlockQuote.toMarkdownBlockQuote(): MarkdownBlock.BlockQuote =
-        MarkdownBlock.BlockQuote(processChildren(this))
-
-    private fun Heading.toMarkdownHeadingOrNull(): MarkdownBlock.Heading? =
-        when (level) {
-            1 -> H1(contentsAsInlineMarkdown())
-            2 -> H2(contentsAsInlineMarkdown())
-            3 -> H3(contentsAsInlineMarkdown())
-            4 -> H4(contentsAsInlineMarkdown())
-            5 -> H5(contentsAsInlineMarkdown())
-            6 -> H6(contentsAsInlineMarkdown())
-            else -> null
-        }
-
-    private fun Paragraph.toMarkdownParagraphOrNull(): MarkdownBlock.Paragraph? {
-        val inlineMarkdown = contentsAsInlineMarkdown()
-
-        if (inlineMarkdown.isBlank()) return null
-        return MarkdownBlock.Paragraph(inlineMarkdown)
-    }
-
-    private fun FencedCodeBlock.toMarkdownCodeBlockOrNull(): CodeBlock.FencedCodeBlock =
-        CodeBlock.FencedCodeBlock(
-            literal.trimEnd('\n'),
-            MimeType.Known.fromMarkdownLanguageName(info),
-        )
-
-    private fun IndentedCodeBlock.toMarkdownCodeBlockOrNull(): CodeBlock.IndentedCodeBlock =
-        CodeBlock.IndentedCodeBlock(literal.trimEnd('\n'))
-
-    private fun Image.toMarkdownImageOrNull(): MarkdownBlock.Image? {
-        if (destination.isBlank()) return null
-
-        return MarkdownBlock.Image(destination.trim(), title.trim())
-    }
-
-    private fun BulletList.toMarkdownListOrNull(): UnorderedList? {
-        val children = processListItems()
-        if (children.isEmpty()) return null
-
-        return UnorderedList(children, isTight, bulletMarker)
-    }
-
-    private fun OrderedList.toMarkdownListOrNull(): MarkdownBlock.ListBlock.OrderedList? {
-        val children = processListItems()
-        if (children.isEmpty()) return null
-
-        return MarkdownBlock.ListBlock.OrderedList(children, isTight, startNumber, delimiter)
-    }
-
-    private fun ListBlock.processListItems() = buildList {
-        forEachChild { child ->
-            if (child !is ListItem) return@forEachChild
-            add(MarkdownBlock.ListItem(processChildren(child)))
-        }
-    }
-
-    public fun processChildren(node: Node): List<MarkdownBlock> = buildList {
-        node.forEachChild { child ->
-            val parsedBlock = child.tryProcessMarkdownBlock()
-            if (parsedBlock != null) this.add(parsedBlock)
         }
     }
 
@@ -183,14 +81,6 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
             child = child.next
         }
     }
-
-    private fun HtmlBlock.toMarkdownHtmlBlockOrNull(): MarkdownBlock.HtmlBlock? {
-        if (literal.isBlank()) return null
-        return MarkdownBlock.HtmlBlock(content = literal.trimEnd('\n'))
-    }
-
-    private fun Node.contentsAsInlineMarkdown() =
-        InlineMarkdown(buildString { appendInlineMarkdownFrom(this@contentsAsInlineMarkdown) })
 
     private fun StringBuilder.appendInlineMarkdownFrom(
         node: Node,
@@ -340,8 +230,6 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
         val backticks = "`".repeat(longestCount + 1)
         return "$backticks$this$backticks"
     }
-
-    private fun InlineMarkdown.isBlank(): Boolean = content.isBlank()
 
     private fun plainTextContents(node: Node): String = textContentRenderer.render(node)
 }

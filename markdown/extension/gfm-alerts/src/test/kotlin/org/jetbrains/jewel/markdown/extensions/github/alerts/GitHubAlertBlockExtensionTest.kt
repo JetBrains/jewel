@@ -6,11 +6,6 @@ import org.commonmark.node.Node
 import org.commonmark.node.Paragraph
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.text.TextContentRenderer
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Caution
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Important
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Note
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Tip
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertBlock.Warning
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -44,8 +39,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Note node, but was ${firstChild.javaClass.name}",
-            firstChild is Note,
+            "Parsed node should be a Note node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Note,
         )
 
         val contents = firstChild.children
@@ -81,8 +76,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Tip node, but was ${firstChild.javaClass.name}",
-            firstChild is Tip,
+            "Parsed node should be a Tip node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Tip,
         )
 
         val contents = firstChild.children
@@ -117,8 +112,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Important node, but was ${firstChild.javaClass.name}",
-            firstChild is Important,
+            "Parsed node should be a Important node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Important,
         )
 
         val contents = firstChild.children
@@ -153,8 +148,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Warning node, but was ${firstChild.javaClass.name}",
-            firstChild is Warning,
+            "Parsed node should be a Warning node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Warning,
         )
 
         val contents = firstChild.children
@@ -189,8 +184,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Caution node, but was ${firstChild.javaClass.name}",
-            firstChild is Caution,
+            "Parsed node should be a Caution node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Caution,
         )
 
         val contents = firstChild.children
@@ -225,8 +220,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Note node, but was ${firstChild.javaClass.name}",
-            firstChild is Note,
+            "Parsed node should be a Note node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Note,
         )
 
         val contents = firstChild.children
@@ -261,8 +256,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Tip node, but was ${firstChild.javaClass.name}",
-            firstChild is Tip,
+            "Parsed node should be a Tip node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Tip,
         )
 
         val contents = firstChild.children
@@ -297,8 +292,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Important node, but was ${firstChild.javaClass.name}",
-            firstChild is Important,
+            "Parsed node should be a Important node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Important,
         )
 
         val contents = firstChild.children
@@ -333,8 +328,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Warning node, but was ${firstChild.javaClass.name}",
-            firstChild is Warning,
+            "Parsed node should be a Warning node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Warning,
         )
 
         val contents = firstChild.children
@@ -369,8 +364,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Caution node, but was ${firstChild.javaClass.name}",
-            firstChild is Caution,
+            "Parsed node should be a Caution node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Caution,
         )
 
         val contents = firstChild.children
@@ -407,8 +402,8 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a Caution node, but was ${firstChild.javaClass.name}",
-            firstChild is Caution,
+            "Parsed node should be a Caution node, but was $firstChild",
+            firstChild is AlertBlock && firstChild.kind == AlertBlock.Kind.Caution,
         )
 
         val contents = firstChild.children
@@ -416,7 +411,7 @@ class GitHubAlertBlockExtensionTest {
 
         val firstContent = contents.first()
         assertTrue(
-            "Parsed content should be a Paragraph, but was ${firstContent.javaClass.name}",
+            "Parsed content should be a Paragraph, but was $firstContent",
             firstContent is Paragraph,
         )
         assertEquals(
@@ -443,7 +438,7 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a BlockQuote node, but was ${firstChild.javaClass.name}",
+            "Parsed node should be a BlockQuote node, but was $firstChild",
             firstChild is BlockQuote,
         )
     }
@@ -466,7 +461,7 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a BlockQuote node, but was ${firstChild.javaClass.name}",
+            "Parsed node should be a BlockQuote node, but was $firstChild",
             firstChild is BlockQuote,
         )
     }
@@ -488,7 +483,7 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a BlockQuote node, but was ${firstChild.javaClass.name}",
+            "Parsed node should be a BlockQuote node, but was $firstChild",
             firstChild is BlockQuote,
         )
     }
@@ -510,7 +505,7 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a BlockQuote node, but was ${firstChild.javaClass.name}",
+            "Parsed node should be a BlockQuote node, but was $firstChild",
             firstChild is BlockQuote,
         )
     }
@@ -531,7 +526,7 @@ class GitHubAlertBlockExtensionTest {
 
         val firstChild = children.first()
         assertTrue(
-            "Parsed node should be a BlockQuote node, but was ${firstChild.javaClass.name}",
+            "Parsed node should be a BlockQuote node, but was $firstChild",
             firstChild is BlockQuote,
         )
     }
