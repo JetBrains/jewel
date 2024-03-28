@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.markdown.processing
 
+import org.commonmark.node.Block
 import org.commonmark.node.BlockQuote
 import org.commonmark.node.BulletList
 import org.commonmark.node.Code
@@ -23,6 +24,7 @@ import org.commonmark.node.SoftLineBreak
 import org.commonmark.node.StrongEmphasis
 import org.commonmark.node.Text
 import org.commonmark.node.ThematicBreak
+import org.commonmark.parser.IncludeSourceSpans
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.text.TextContentRenderer
 import org.intellij.lang.annotations.Language
@@ -41,18 +43,34 @@ import org.jetbrains.jewel.markdown.MimeType
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 import org.jetbrains.jewel.markdown.rendering.DefaultInlineMarkdownRenderer
 
+/**
+ * @param optimizeEdits Optional. Indicates whether the processing should only update the changed blocks
+ * by keeping a previous state in memory. Default is `true`, use `false` for immutable data.
+ */
 @ExperimentalJewelApi
-public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExtension> = emptyList()) {
+public class MarkdownProcessor(
+    private val extensions: List<MarkdownProcessorExtension> = emptyList(),
+    private val optimizeEdits: Boolean = true,
+) {
 
     public constructor(vararg extensions: MarkdownProcessorExtension) : this(extensions.toList())
 
-    private val commonMarkParser =
-        Parser.builder().extensions(extensions.map { it.parserExtension }).build()
+    private val commonMarkParser = Parser.builder()
+        .extensions(extensions.map { it.parserExtension })
+        .also {
+            if (optimizeEdits) {
+                it.includeSourceSpans(IncludeSourceSpans.BLOCKS)
+            }
+        }.build()
 
     private val textContentRenderer =
         TextContentRenderer.builder()
             .extensions(extensions.map { it.textRendererExtension })
             .build()
+
+    private data class State(val lines: List<String>, val blocks: List<Block>, val indexes: List<Pair<Int, Int>>)
+
+    private var currentState = State(emptyList(), emptyList(), emptyList())
 
     /**
      * Parses a Markdown document, translating from CommonMark 0.31.2
@@ -83,11 +101,87 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
      * @see DefaultInlineMarkdownRenderer
      */
     public fun processMarkdownDocument(@Language("Markdown") rawMarkdown: String): List<MarkdownBlock> {
-        val document =
-            commonMarkParser.parse(rawMarkdown) as? Document
-                ?: error("This doesn't look like a Markdown document")
+        if (!optimizeEdits) {
+            return textToBlocks(rawMarkdown).mapNotNull { child ->
+                child.tryProcessMarkdownBlock()
+            }
+        }
+        val (previousLines, previousBlocks, previousIndexes) = currentState
+        val newLines = rawMarkdown.lines()
+        val nLinesDelta = newLines.size - previousLines.size
+        // find a block prior to the first one changed in case some elements merge during the update
+        var firstBlock = 0
+        var firstLine = 0
+        var currFirstBlock = 0
+        var currFirstLine = 0
+        outerLoop@ for ((i, spans) in previousIndexes.withIndex()) {
+            val (_, end) = spans
+            for (j in currFirstLine..end) {
+                if (newLines[j] != previousLines[j]) {
+                    break@outerLoop
+                }
+            }
+            firstBlock = currFirstBlock
+            firstLine = currFirstLine
+            currFirstBlock = i + 1
+            currFirstLine = end + 1
+        }
+        // find a block following the last one changed in case some elements merge during the update
+        var lastBlock = previousBlocks.size
+        var lastLine = previousLines.size
+        var currLastBlock = lastBlock
+        var currLastLine = lastLine
+        outerLoop@ for ((i, spans) in previousIndexes.withIndex().reversed()) {
+            val (begin, _) = spans
+            for (j in begin until currLastLine) {
+                if (previousLines[j] != newLines[j + nLinesDelta]) {
+                    break@outerLoop
+                }
+            }
+            lastBlock = currLastBlock
+            lastLine = currLastLine
+            currLastBlock = i
+            currLastLine = begin
+        }
+        val updatedText = newLines.subList(firstLine, lastLine + nLinesDelta).joinToString("\n", postfix = "\n")
+        val updatedBlocks: List<Block> = textToBlocks(updatedText)
+        val updatedIndexes =
+            updatedBlocks.map { node ->
+                // special case for a bug where LinkReferenceDefinition is a Node,
+                // but it takes over sourceSpans from the following Block
+                if (node.sourceSpans.isEmpty()) {
+                    node.sourceSpans = node.previous.sourceSpans
+                }
+                (node.sourceSpans.first().lineIndex + firstLine) to
+                    (node.sourceSpans.last().lineIndex + firstLine)
+            }
+        val suffixIndexes = previousIndexes.subList(lastBlock, previousBlocks.size).map {
+            (it.first + nLinesDelta) to (it.second + nLinesDelta)
+        }
+        val newBlocks = (
+            previousBlocks.subList(0, firstBlock) +
+                updatedBlocks +
+                previousBlocks.subList(lastBlock, previousBlocks.size)
+            )
+        val result = newBlocks.mapNotNull { child ->
+            child.tryProcessMarkdownBlock()
+        }
+        val newIndexes = previousIndexes.subList(0, firstBlock) + updatedIndexes + suffixIndexes
+        currentState = State(newLines, newBlocks, newIndexes)
+        return result
+    }
 
-        return processChildren(document)
+    private fun textToBlocks(strings: String): List<Block> {
+        val document =
+            commonMarkParser.parse(strings) as? Document
+                ?: error("This doesn't look like a Markdown document")
+        val updatedBlocks: List<Block> =
+            buildList {
+                document.forEachChild { child ->
+                    (child as? Block)?.let { add(it) }
+                }
+            }
+        return updatedBlocks
     }
 
     private fun Node.tryProcessMarkdownBlock(): MarkdownBlock? =
