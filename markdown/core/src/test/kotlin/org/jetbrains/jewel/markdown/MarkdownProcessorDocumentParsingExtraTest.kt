@@ -6,6 +6,40 @@ import org.junit.Test
 class MarkdownProcessorDocumentParsingExtraTest {
 
     private val processor = MarkdownProcessor()
+    @Test
+    fun `should parse spec sample 62 correctly (ATX headings)`() {
+        val parsed =
+            processor.processMarkdownDocument(
+                """
+            |# foo
+            |- foo1
+            |- foo2
+            |- foo3
+            |
+            |foo fdasfdsa
+            |fdafasdf
+            """
+                    .trimMargin(),
+            )
+
+        /*
+         * Expected HTML:
+         * <h1>foo</h1>
+         * <h2>foo</h2>
+         * <h3>foo</h3>
+         * <h4>foo</h4>
+         * <h5>foo</h5>
+         * <h6>foo</h6>
+         */
+        parsed.assertEquals(
+            heading(1, "foo"),
+            heading(2, "foo"),
+            heading(3, "foo"),
+            heading(4, "foo"),
+            heading(5, "foo"),
+            heading(6, "foo"),
+        )
+    }
 
     @Test
     fun `should parse spec sample 461b correctly (Emphasis and strong emphasis)`() {

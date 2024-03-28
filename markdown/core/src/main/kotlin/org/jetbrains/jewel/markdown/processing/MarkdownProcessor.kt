@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.markdown.processing
 
+import org.commonmark.node.Block
 import org.commonmark.node.BlockQuote
 import org.commonmark.node.BulletList
 import org.commonmark.node.Code
@@ -23,6 +24,7 @@ import org.commonmark.node.SoftLineBreak
 import org.commonmark.node.StrongEmphasis
 import org.commonmark.node.Text
 import org.commonmark.node.ThematicBreak
+import org.commonmark.parser.IncludeSourceSpans
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.text.TextContentRenderer
 import org.intellij.lang.annotations.Language
@@ -47,12 +49,19 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
     public constructor(vararg extensions: MarkdownProcessorExtension) : this(extensions.toList())
 
     private val commonMarkParser =
-        Parser.builder().extensions(extensions.map { it.parserExtension }).build()
+        Parser.builder()
+            .extensions(extensions.map { it.parserExtension })
+            .includeSourceSpans(IncludeSourceSpans.BLOCKS)
+            .build()
 
     private val textContentRenderer =
         TextContentRenderer.builder()
             .extensions(extensions.map { it.textRendererExtension })
             .build()
+
+    private var currentLines: List<String> = emptyList()
+    private var currentBlocks: List<Block> = emptyList()
+    private var currentIndexes: List<Pair<Int, Int>> = emptyList()
 
     /**
      * Parses a Markdown document, translating from CommonMark 0.31.2
@@ -83,11 +92,65 @@ public class MarkdownProcessor(private val extensions: List<MarkdownProcessorExt
      * @see DefaultInlineMarkdownRenderer
      */
     public fun processMarkdownDocument(@Language("Markdown") rawMarkdown: String): List<MarkdownBlock> {
+        // TODO make sure these variables are in sync
+        val previousLines = currentLines
+        val previousBlocks = currentBlocks
+        val previousIndexes = currentIndexes
+        val newLines = rawMarkdown.lines()
+        val difference = newLines.size - previousLines.size
+
+        var firstBlock = 0
+        var firstLine = 0
+        outerLoop@ for ((i, spans) in previousIndexes.withIndex()) {
+            val (begin, end) = spans
+            // FIXME: this skips previously empty lines
+            for (j in begin..end) {
+                if (newLines[j] != previousLines[j]) {
+                    break@outerLoop
+                }
+            }
+            firstBlock = i + 1
+            firstLine = end + 1
+        }
+        var lastBlock = previousBlocks.size
+        var lastLine = previousLines.size + difference
+        outerLoop@ for ((i, spans) in previousIndexes.withIndex().reversed()) {
+            val (begin, end) = spans
+            for (j in begin..end) {
+                if (previousLines[j] != newLines[j + difference]) {
+                    break@outerLoop
+                }
+            }
+            lastBlock = i
+            lastLine = begin + difference
+        }
+        val strings = newLines.subList(firstLine, lastLine).joinToString("\n", postfix="\n")
         val document =
-            commonMarkParser.parse(rawMarkdown) as? Document
+            commonMarkParser.parse(strings) as? Document
                 ?: error("This doesn't look like a Markdown document")
 
-        return processChildren(document)
+        val updatedBlocks: List<Block> =
+            buildList { document.forEachChild { child -> (child as? Block)?.let { add(it) } } }
+        val updatedIndexes =
+            updatedBlocks.map {
+                (it.sourceSpans.first().lineIndex + firstLine) to
+                    (it.sourceSpans.last().lineIndex + firstLine)
+            }
+        val suffixIndexes = previousIndexes.subList(lastBlock, previousBlocks.size).map {
+            (it.first + difference) to (it.second + difference)
+        }
+        val newBlocks = (previousBlocks.subList(0, firstBlock)
+            + updatedBlocks
+            + previousBlocks.subList(lastBlock, previousBlocks.size))
+        val result = newBlocks.mapNotNull { child ->
+            child.tryProcessMarkdownBlock()
+        }
+        val newIndexes = previousIndexes.subList(0, firstBlock) + updatedIndexes + suffixIndexes
+        // TODO: make sure it's eventually consistent or thread local
+        currentLines = newLines
+        currentBlocks = newBlocks
+        currentIndexes = newIndexes
+        return result
     }
 
     private fun Node.tryProcessMarkdownBlock(): MarkdownBlock? =
