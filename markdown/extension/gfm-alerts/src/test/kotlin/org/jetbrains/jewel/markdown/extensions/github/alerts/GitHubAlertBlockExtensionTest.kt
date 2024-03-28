@@ -15,7 +15,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class GitHubAlertBlockExtensionTest {
+class GitHubAlertBlockCustomBlockTest {
 
     private val parser =
         Parser.builder()
