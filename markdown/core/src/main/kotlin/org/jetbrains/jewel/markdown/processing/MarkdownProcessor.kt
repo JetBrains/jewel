@@ -28,6 +28,8 @@ import org.commonmark.parser.IncludeSourceSpans
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.text.TextContentRenderer
 import org.intellij.lang.annotations.Language
+import org.jetbrains.annotations.TestOnly
+import org.jetbrains.annotations.VisibleForTesting
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.markdown.InlineMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
@@ -56,12 +58,13 @@ public class MarkdownProcessor(
     public constructor(vararg extensions: MarkdownProcessorExtension) : this(extensions.toList())
 
     private val commonMarkParser = Parser.builder()
-        .extensions(extensions.map { it.parserExtension })
-        .also {
+        .let { builder ->
+            builder.extensions(extensions.map(MarkdownProcessorExtension::parserExtension))
             if (optimizeEdits) {
-                it.includeSourceSpans(IncludeSourceSpans.BLOCKS)
+                builder.includeSourceSpans(IncludeSourceSpans.BLOCKS)
             }
-        }.build()
+            builder.build()
+        }
 
     private val textContentRenderer =
         TextContentRenderer.builder()
@@ -71,6 +74,9 @@ public class MarkdownProcessor(
     private data class State(val lines: List<String>, val blocks: List<Block>, val indexes: List<Pair<Int, Int>>)
 
     private var currentState = State(emptyList(), emptyList(), emptyList())
+
+    @TestOnly
+    internal fun getCurrentIndexesInTest() = currentState.indexes
 
     /**
      * Parses a Markdown document, translating from CommonMark 0.31.2
@@ -101,11 +107,17 @@ public class MarkdownProcessor(
      * @see DefaultInlineMarkdownRenderer
      */
     public fun processMarkdownDocument(@Language("Markdown") rawMarkdown: String): List<MarkdownBlock> {
-        if (!optimizeEdits) {
-            return textToBlocks(rawMarkdown).mapNotNull { child ->
-                child.tryProcessMarkdownBlock()
-            }
+        return if (!optimizeEdits) {
+            textToBlocks(rawMarkdown)
+        } else {
+            processWithQuickEdits(rawMarkdown)
+        }.mapNotNull { child ->
+            child.tryProcessMarkdownBlock()
         }
+    }
+
+    @VisibleForTesting
+    internal fun processWithQuickEdits(@Language("Markdown") rawMarkdown: String): List<Block> {
         val (previousLines, previousBlocks, previousIndexes) = currentState
         val newLines = rawMarkdown.lines()
         val nLinesDelta = newLines.size - previousLines.size
@@ -143,6 +155,10 @@ public class MarkdownProcessor(
             currLastBlock = i
             currLastLine = begin
         }
+        if (firstLine > lastLine + nLinesDelta) {
+            // no change
+            return previousBlocks
+        }
         val updatedText = newLines.subList(firstLine, lastLine + nLinesDelta).joinToString("\n", postfix = "\n")
         val updatedBlocks: List<Block> = textToBlocks(updatedText)
         val updatedIndexes =
@@ -163,12 +179,9 @@ public class MarkdownProcessor(
                 updatedBlocks +
                 previousBlocks.subList(lastBlock, previousBlocks.size)
             )
-        val result = newBlocks.mapNotNull { child ->
-            child.tryProcessMarkdownBlock()
-        }
         val newIndexes = previousIndexes.subList(0, firstBlock) + updatedIndexes + suffixIndexes
         currentState = State(newLines, newBlocks, newIndexes)
-        return result
+        return newBlocks
     }
 
     private fun textToBlocks(strings: String): List<Block> {
