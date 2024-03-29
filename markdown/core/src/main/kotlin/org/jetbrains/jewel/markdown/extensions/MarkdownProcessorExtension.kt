@@ -14,14 +14,14 @@ public interface MarkdownProcessorExtension {
      * A CommonMark [ParserExtension] that will be used to parse the extended
      * syntax represented by this extension instance.
      */
-    public val parserExtension: ParserExtension
+    public val parserExtension: ParserExtension?
 
     /**
      * A CommonMark [TextContentRendererExtension] that will be used to render
      * the text content of the CommonMark [CustomBlock] produced by the
      * [parserExtension].
      */
-    public val textRendererExtension: TextContentRendererExtension
+    public val textRendererExtension: TextContentRendererExtension?
 
     /**
      * An extension for
@@ -29,5 +29,5 @@ public interface MarkdownProcessorExtension {
      * that will transform a supported [CustomBlock] into the corresponding
      * [MarkdownBlock.Extension].
      */
-    public val processorExtension: MarkdownBlockProcessorExtension
+    public val processorExtension: MarkdownBlockProcessorExtension?
 }
