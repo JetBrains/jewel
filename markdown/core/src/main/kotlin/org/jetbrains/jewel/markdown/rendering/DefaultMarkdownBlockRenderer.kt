@@ -75,6 +75,15 @@ import org.jetbrains.jewel.markdown.extensions.MarkdownRendererExtension
 import org.jetbrains.jewel.ui.Orientation.Horizontal
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.Text
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.Uri
+import coil3.compose.AsyncImage
+import coil3.disk.DiskCache
+import coil3.memory.MemoryCache
+import coil3.request.crossfade
+import coil3.util.DebugLogger
+
 
 @ExperimentalJewelApi
 public open class DefaultMarkdownBlockRenderer(
@@ -416,14 +425,39 @@ public open class DefaultMarkdownBlockRenderer(
 
     @Composable
     override fun render(block: Image, styling: MarkdownStyling.Image) {
-        // TODO implement image rendering support (will require image loading)
-        Text(
-            "⚠️ Images are not supported yet",
-            Modifier.border(1.dp, Color.Red)
-                .padding(horizontal = 8.dp, vertical = 4.dp)
-                .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
-            color = Color.Red,
+//        val loader = ImageLoader.Builder(context)
+//            .memoryCache {
+//                MemoryCache.Builder()
+//                    // Set the max size to 25% of the app's available memory.
+//                    .maxSizePercent(context, percent = 0.25)
+//                    .build()
+//            }
+//            .diskCache {
+//                newDiskCache()
+//            }
+//            // Show a short crossfade when loading images asynchronously.
+//            .crossfade(true)
+//            // Enable logging if this is a debug build.
+//            .apply {
+//                if (debug) {
+//                    logger(DebugLogger())
+//                }
+//            }
+//            .build()
+
+        AsyncImage(
+            model = block.url,
+            contentDescription = block.altString,
         )
+
+        // TODO implement image rendering support (will require image loading)
+//        Text(
+//            "⚠️ Images are not supported yet",
+//            Modifier.border(1.dp, Color.Red)
+//                .padding(horizontal = 8.dp, vertical = 4.dp)
+//                .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+//            color = Color.Red,
+//        )
     }
 
     @Composable

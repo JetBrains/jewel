@@ -12,6 +12,8 @@ Additional supported Markdown, via extensions:
 
 * Alerts ([GitHub Flavored Markdown][alerts-specs]) — see [`extension-gfm-alerts`](extension/gfm-alerts)
 
+Im**agetime, and no guarantees are made for binary and source compatibility. It might also have bugs and missing features. ![here is an image](https://hellorse.fr/images/p/media/image/products/product_76409_2b3beddbf246765581c5e91a9fd6.webp?p=product_thumbnail&type=product) And ot**her stuff time, and no guarantees are made for binary and source compatibility. It might also have bugs and missing features. time, and no guarantees are made for binary and source compatibility. It might also have bugs and missing features.
+
 [alerts-specs]: https://github.com/orgs/community/discussions/16925
 
 On the roadmap, but not currently supported — in no particular order:
