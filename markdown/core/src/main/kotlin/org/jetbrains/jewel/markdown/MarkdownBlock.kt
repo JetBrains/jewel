@@ -35,14 +35,14 @@ public sealed interface MarkdownBlock {
         public data class BulletList(
             override val items: List<ListItem>,
             override val isTight: Boolean,
-            val bulletMarker: Char,
+            val bulletMarker: String,
         ) : ListBlock
 
         public data class OrderedList(
             override val items: List<ListItem>,
             override val isTight: Boolean,
             val startFrom: Int,
-            val delimiter: Char,
+            val delimiter: String,
         ) : ListBlock
     }
 

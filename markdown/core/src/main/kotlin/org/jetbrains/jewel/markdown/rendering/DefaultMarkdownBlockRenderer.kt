@@ -69,6 +69,7 @@ import org.jetbrains.jewel.ui.Orientation.Horizontal
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.Text
 
+@Suppress("FunctionName")
 @ExperimentalJewelApi
 public open class DefaultMarkdownBlockRenderer(
     private val rootStyling: MarkdownStyling,
@@ -92,15 +93,7 @@ public open class DefaultMarkdownBlockRenderer(
             is BlockQuote -> render(block, rootStyling.blockQuote)
             is FencedCodeBlock -> render(block, rootStyling.code.fenced)
             is IndentedCodeBlock -> render(block, rootStyling.code.indented)
-            is Heading -> when (block.level) {
-                1 -> render(block, rootStyling.heading.h1)
-                2 -> render(block, rootStyling.heading.h2)
-                3 -> render(block, rootStyling.heading.h3)
-                4 -> render(block, rootStyling.heading.h4)
-                5 -> render(block, rootStyling.heading.h5)
-                6 -> render(block, rootStyling.heading.h6)
-                else -> error("$block")
-            }
+            is Heading -> render(block, rootStyling.heading)
             is HtmlBlock -> render(block, rootStyling.htmlBlock)
             is OrderedList -> render(block, rootStyling.list.ordered)
             is BulletList -> render(block, rootStyling.list.unordered)
@@ -129,6 +122,7 @@ public open class DefaultMarkdownBlockRenderer(
             4 -> render(block, styling.h4)
             5 -> render(block, styling.h5)
             6 -> render(block, styling.h6)
+            else -> error("Heading level ${block.level} not supported:\n$block")
         }
     }
 

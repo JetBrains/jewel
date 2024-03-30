@@ -247,14 +247,14 @@ fun blockQuote(vararg contents: MarkdownBlock) = BlockQuote(contents.toList())
 fun unorderedList(
     vararg items: ListItem,
     isTight: Boolean = true,
-    bulletMarker: Char = '-',
+    bulletMarker: String = "-",
 ) = BulletList(items.toList(), isTight, bulletMarker)
 
 fun orderedList(
     vararg items: ListItem,
     isTight: Boolean = true,
     startFrom: Int = 1,
-    delimiter: Char = '.',
+    delimiter: String = ".",
 ) = OrderedList(items.toList(), isTight, startFrom, delimiter)
 
 fun listItem(vararg items: MarkdownBlock) = ListItem(items.toList())

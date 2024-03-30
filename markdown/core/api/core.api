@@ -283,14 +283,14 @@ public abstract interface class org/jetbrains/jewel/markdown/MarkdownBlock$ListB
 
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$BulletList : org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock {
 	public static final field $stable I
-	public fun <init> (Ljava/util/List;ZC)V
+	public fun <init> (Ljava/util/List;ZLjava/lang/String;)V
 	public final fun component1 ()Ljava/util/List;
 	public final fun component2 ()Z
-	public final fun component3 ()C
-	public final fun copy (Ljava/util/List;ZC)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$BulletList;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$BulletList;Ljava/util/List;ZCILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$BulletList;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/util/List;ZLjava/lang/String;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$BulletList;
+	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$BulletList;Ljava/util/List;ZLjava/lang/String;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$BulletList;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBulletMarker ()C
+	public final fun getBulletMarker ()Ljava/lang/String;
 	public fun getItems ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun isTight ()Z
@@ -299,15 +299,15 @@ public final class org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$BulletLi
 
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList : org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock {
 	public static final field $stable I
-	public fun <init> (Ljava/util/List;ZIC)V
+	public fun <init> (Ljava/util/List;ZILjava/lang/String;)V
 	public final fun component1 ()Ljava/util/List;
 	public final fun component2 ()Z
 	public final fun component3 ()I
-	public final fun component4 ()C
-	public final fun copy (Ljava/util/List;ZIC)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;Ljava/util/List;ZICILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Ljava/util/List;ZILjava/lang/String;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;
+	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;Ljava/util/List;ZILjava/lang/String;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getDelimiter ()C
+	public final fun getDelimiter ()Ljava/lang/String;
 	public fun getItems ()Ljava/util/List;
 	public final fun getStartFrom ()I
 	public fun hashCode ()I

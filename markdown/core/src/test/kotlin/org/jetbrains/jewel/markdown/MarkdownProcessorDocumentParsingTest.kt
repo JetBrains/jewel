@@ -640,7 +640,7 @@ class MarkdownProcessorDocumentParsingTest {
          */
         parsed.assertEquals(
             paragraph("\\* foo"),
-            unorderedList(listItem(paragraph("foo")), bulletMarker = '*'),
+            unorderedList(listItem(paragraph("foo")), bulletMarker = "*"),
         )
     }
 
@@ -1022,9 +1022,9 @@ class MarkdownProcessorDocumentParsingTest {
          * </ul>
          */
         parsed.assertEquals(
-            unorderedList(listItem(paragraph("Foo")), bulletMarker = '*'),
+            unorderedList(listItem(paragraph("Foo")), bulletMarker = "*"),
             ThematicBreak,
-            unorderedList(listItem(paragraph("Bar")), bulletMarker = '*'),
+            unorderedList(listItem(paragraph("Bar")), bulletMarker = "*"),
         )
     }
 
@@ -6515,7 +6515,7 @@ class MarkdownProcessorDocumentParsingTest {
          * <li></li>
          * </ul>
          */
-        parsed.assertEquals(unorderedList(listItem(), bulletMarker = '*'))
+        parsed.assertEquals(unorderedList(listItem(), bulletMarker = "*"))
     }
 
     @Test
@@ -6947,7 +6947,7 @@ class MarkdownProcessorDocumentParsingTest {
                     unorderedList(listItem(paragraph("bar"))),
                 ),
                 startFrom = 10,
-                delimiter = ')',
+                delimiter = ")",
             ),
         )
     }
@@ -6976,7 +6976,7 @@ class MarkdownProcessorDocumentParsingTest {
             orderedList(
                 listItem(paragraph("foo")),
                 startFrom = 10,
-                delimiter = ')',
+                delimiter = ")",
             ),
             unorderedList(listItem(paragraph("bar"))),
         )
@@ -7100,7 +7100,7 @@ class MarkdownProcessorDocumentParsingTest {
             ),
             unorderedList(
                 listItem(paragraph("baz")),
-                bulletMarker = '+',
+                bulletMarker = "+",
             ),
         )
     }
@@ -7135,7 +7135,7 @@ class MarkdownProcessorDocumentParsingTest {
             orderedList(
                 listItem(paragraph("baz")),
                 startFrom = 3,
-                delimiter = ')',
+                delimiter = ")",
             ),
         )
     }
@@ -7609,7 +7609,7 @@ class MarkdownProcessorDocumentParsingTest {
                 listItem(),
                 listItem(paragraph("c")),
                 isTight = false,
-                bulletMarker = '*',
+                bulletMarker = "*",
             ),
         )
     }
@@ -7802,7 +7802,7 @@ class MarkdownProcessorDocumentParsingTest {
             unorderedList(
                 listItem(paragraph("a"), blockQuote(paragraph("b"))),
                 listItem(paragraph("c")),
-                bulletMarker = '*',
+                bulletMarker = "*",
             ),
         )
     }
@@ -7957,11 +7957,11 @@ class MarkdownProcessorDocumentParsingTest {
                     paragraph("foo"),
                     unorderedList(
                         listItem(paragraph("bar")),
-                        bulletMarker = '*',
+                        bulletMarker = "*",
                     ),
                     paragraph("baz"),
                 ),
-                bulletMarker = '*',
+                bulletMarker = "*",
                 isTight = false,
             ),
         )
@@ -8353,7 +8353,6 @@ class MarkdownProcessorDocumentParsingTest {
         parsed.assertEquals(paragraph("\\* a \\*"))
     }
 
-    @org.junit.Ignore("need to update escapeInlineMarkdownChars implementation")
     @Test
     fun `should parse spec sample 354 correctly (Emphasis and strong emphasis)`() {
         val parsed = processor.processMarkdownDocument(
