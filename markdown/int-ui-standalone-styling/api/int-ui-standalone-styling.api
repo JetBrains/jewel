@@ -113,3 +113,10 @@ public final class org/jetbrains/jewel/intui/markdown/styling/extension/github/a
 	public static synthetic fun light-gaOEZmc$default (Lorg/jetbrains/jewel/markdown/extensions/github/alerts/WarningAlertStyling$Companion;Landroidx/compose/foundation/layout/PaddingValues;FJLandroidx/compose/ui/graphics/PathEffect;ILandroidx/compose/ui/text/TextStyle;Ljava/lang/String;JJILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/extensions/github/alerts/WarningAlertStyling;
 }
 
+public final class org/jetbrains/jewel/intui/markdown/styling/extension/github/alerts/GitHubTableDefaultStylingKt {
+	public static final fun dark-WkMS-hQ (Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling$Companion;JJ)Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling;
+	public static synthetic fun dark-WkMS-hQ$default (Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling$Companion;JJILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling;
+	public static final fun light-WkMS-hQ (Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling$Companion;JJ)Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling;
+	public static synthetic fun light-WkMS-hQ$default (Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling$Companion;JJILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling;
+}
+

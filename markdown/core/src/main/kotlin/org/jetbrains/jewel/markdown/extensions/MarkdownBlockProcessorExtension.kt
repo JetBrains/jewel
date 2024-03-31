@@ -11,7 +11,7 @@ public interface MarkdownBlockProcessorExtension {
      *
      * @param block The [CustomBlock] to parse
      */
-    public fun canProcess(block: CustomBlock): Boolean
+    public fun canProcess(block: CustomBlock): Boolean = false
 
     /**
      * Processes the [block] as a [MarkdownBlock.CustomBlock], if possible. Note
@@ -19,5 +19,5 @@ public interface MarkdownBlockProcessorExtension {
      * [block], as implementations might throw an exception for unsupported
      * block types.
      */
-    public fun processMarkdownBlock(block: CustomBlock, processor: MarkdownProcessor): MarkdownBlock.CustomBlock?
+    public fun processMarkdownBlock(block: CustomBlock, processor: MarkdownProcessor): MarkdownBlock.CustomBlock? = null
 }

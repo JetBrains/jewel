@@ -233,6 +233,20 @@ public final class org/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$Indented
 public abstract interface class org/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock : org/jetbrains/jewel/markdown/MarkdownBlock {
 }
 
+public final class org/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock$DefaultCustomBlock : org/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock {
+	public static final synthetic fun box-impl (Lorg/commonmark/node/CustomBlock;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock$DefaultCustomBlock;
+	public static fun constructor-impl (Lorg/commonmark/node/CustomBlock;)Lorg/commonmark/node/CustomBlock;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Lorg/commonmark/node/CustomBlock;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Lorg/commonmark/node/CustomBlock;Lorg/commonmark/node/CustomBlock;)Z
+	public final fun getNativeBlock ()Lorg/commonmark/node/CustomBlock;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Lorg/commonmark/node/CustomBlock;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Lorg/commonmark/node/CustomBlock;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Lorg/commonmark/node/CustomBlock;
+}
+
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$Heading : org/jetbrains/jewel/markdown/BlockWithInlineMarkdown, org/jetbrains/jewel/markdown/MarkdownBlock {
 	public static final synthetic fun box-impl (Lorg/commonmark/node/Heading;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$Heading;
 	public static fun constructor-impl (Lorg/commonmark/node/Heading;)Lorg/commonmark/node/Heading;
@@ -406,6 +420,11 @@ public abstract interface class org/jetbrains/jewel/markdown/extensions/Markdown
 	public abstract fun processMarkdownBlock (Lorg/commonmark/node/CustomBlock;Lorg/jetbrains/jewel/markdown/processing/MarkdownProcessor;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock;
 }
 
+public final class org/jetbrains/jewel/markdown/extensions/MarkdownBlockProcessorExtension$DefaultImpls {
+	public static fun canProcess (Lorg/jetbrains/jewel/markdown/extensions/MarkdownBlockProcessorExtension;Lorg/commonmark/node/CustomBlock;)Z
+	public static fun processMarkdownBlock (Lorg/jetbrains/jewel/markdown/extensions/MarkdownBlockProcessorExtension;Lorg/commonmark/node/CustomBlock;Lorg/jetbrains/jewel/markdown/processing/MarkdownProcessor;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock;
+}
+
 public abstract interface class org/jetbrains/jewel/markdown/extensions/MarkdownBlockRendererExtension {
 	public abstract fun canRender (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock;)Z
 	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownBlockRenderer;Lorg/jetbrains/jewel/markdown/rendering/InlineMarkdownRenderer;Landroidx/compose/runtime/Composer;I)V
@@ -415,6 +434,10 @@ public abstract interface class org/jetbrains/jewel/markdown/extensions/Markdown
 	public abstract fun getParserExtension ()Lorg/commonmark/parser/Parser$ParserExtension;
 	public abstract fun getProcessorExtension ()Lorg/jetbrains/jewel/markdown/extensions/MarkdownBlockProcessorExtension;
 	public abstract fun getTextRendererExtension ()Lorg/commonmark/renderer/text/TextContentRenderer$TextContentRendererExtension;
+}
+
+public final class org/jetbrains/jewel/markdown/extensions/MarkdownProcessorExtension$DefaultImpls {
+	public static fun getProcessorExtension (Lorg/jetbrains/jewel/markdown/extensions/MarkdownProcessorExtension;)Lorg/jetbrains/jewel/markdown/extensions/MarkdownBlockProcessorExtension;
 }
 
 public abstract interface class org/jetbrains/jewel/markdown/extensions/MarkdownRendererExtension {

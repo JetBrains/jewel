@@ -23,6 +23,7 @@ import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.markdown.InlineMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock
+import org.jetbrains.jewel.markdown.MarkdownBlock.CustomBlock.DefaultCustomBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock
 import org.jetbrains.jewel.markdown.MimeType
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
@@ -189,8 +190,9 @@ public class MarkdownProcessor(
             is ThematicBreak -> MarkdownBlock.ThematicBreak
             is HtmlBlock -> toMarkdownHtmlBlockOrNull()
             is CustomBlock -> {
-                extensions.find { it.processorExtension?.canProcess(this) == true }
+                extensions.find { it.processorExtension.canProcess(this) }
                     ?.processorExtension?.processMarkdownBlock(this, this@MarkdownProcessor)
+                    ?: DefaultCustomBlock(this)
             }
 
             else -> null

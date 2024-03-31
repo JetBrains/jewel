@@ -32,5 +32,6 @@ public interface MarkdownProcessorExtension {
      * is already be handled by [org.jetbrains.jewel.markdown.processing.MarkdownProcessor]
      * or another [org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension].
      */
-    public val processorExtension: MarkdownBlockProcessorExtension?
+    public val processorExtension: MarkdownBlockProcessorExtension
+        get() = object : MarkdownBlockProcessorExtension {}
 }
