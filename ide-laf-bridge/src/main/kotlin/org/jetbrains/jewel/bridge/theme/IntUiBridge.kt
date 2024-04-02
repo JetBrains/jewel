@@ -118,11 +118,14 @@ internal val uiDefaults
 private val iconsBasePath
     get() = DirProvider().dir()
 
-@OptIn(DependsOnJBR::class)
 internal fun createBridgeThemeDefinition(): ThemeDefinition {
-    val textStyle = retrieveTextStyle("Label.font", "Label.foreground")
+    val textStyle = retrieveDefaultTextStyle()
     return createBridgeThemeDefinition(textStyle)
 }
+
+@OptIn(DependsOnJBR::class)
+public fun retrieveDefaultTextStyle(): TextStyle =
+    retrieveTextStyle("Label.font", "Label.foreground")
 
 internal fun createBridgeThemeDefinition(textStyle: TextStyle): ThemeDefinition {
     val isDark = !JBColor.isBright()

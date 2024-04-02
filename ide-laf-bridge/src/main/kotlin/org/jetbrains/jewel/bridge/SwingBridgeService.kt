@@ -57,7 +57,7 @@ internal class SwingBridgeService(scope: CoroutineScope) {
                 val themeDefinition = createBridgeThemeDefinition(textStyle)
 
                 BridgeThemeData(
-                    themeDefinition = createBridgeThemeDefinition(TextStyle.Default),
+                    themeDefinition = themeDefinition,
                     componentStyling =
                     createBridgeComponentStyling(
                         theme = themeDefinition,
