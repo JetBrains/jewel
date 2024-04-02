@@ -7,6 +7,7 @@
 Jewel aims at recreating the IntelliJ Platform's _New UI_ Swing Look and Feel in Compose for Desktop, providing a
 desktop-optimized theme and set of components.
 
+
 > [!WARNING]
 >
 > This project is in active development, and caution is advised when considering it for production uses. You _can_ use
