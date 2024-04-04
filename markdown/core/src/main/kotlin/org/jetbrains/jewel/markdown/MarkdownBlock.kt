@@ -1,51 +1,12 @@
 package org.jetbrains.jewel.markdown
 
-import org.intellij.lang.annotations.Language
+import org.commonmark.node.Block
+import org.commonmark.node.Heading as CMHeading
+import org.commonmark.node.Paragraph as CMParagraph
 
 public sealed interface MarkdownBlock {
 
-    public data class Paragraph(override val inlineContent: InlineMarkdown) :
-        MarkdownBlock, BlockWithInlineMarkdown
-
-    public sealed interface Heading : MarkdownBlock, BlockWithInlineMarkdown {
-
-        public data class H1(override val inlineContent: InlineMarkdown) : Heading
-
-        public data class H2(override val inlineContent: InlineMarkdown) : Heading
-
-        public data class H3(override val inlineContent: InlineMarkdown) : Heading
-
-        public data class H4(override val inlineContent: InlineMarkdown) : Heading
-
-        public data class H5(override val inlineContent: InlineMarkdown) : Heading
-
-        public data class H6(override val inlineContent: InlineMarkdown) : Heading
-    }
-
-    public data class BlockQuote(val content: List<MarkdownBlock>) : MarkdownBlock
-
-    public sealed interface ListBlock : MarkdownBlock {
-
-        public val items: List<ListItem>
-        public val isTight: Boolean
-
-        public data class OrderedList(
-            override val items: List<ListItem>,
-            override val isTight: Boolean,
-            val startFrom: Int,
-            val delimiter: Char,
-        ) : ListBlock
-
-        public data class UnorderedList(
-            override val items: List<ListItem>,
-            override val isTight: Boolean,
-            val bulletMarker: Char,
-        ) : ListBlock
-    }
-
-    public data class ListItem(
-        val content: List<MarkdownBlock>,
-    ) : MarkdownBlock
+    public data class BlockQuote(val children: List<MarkdownBlock>) : MarkdownBlock
 
     public sealed interface CodeBlock : MarkdownBlock {
 
@@ -61,23 +22,75 @@ public sealed interface MarkdownBlock {
         ) : CodeBlock
     }
 
-    public data class Image(val url: String, val altString: String?) : MarkdownBlock
+    public interface CustomBlock : MarkdownBlock
 
-    public object ThematicBreak : MarkdownBlock
+    @JvmInline
+    public value class Heading(
+        private val nativeBlock: CMHeading,
+    ) : MarkdownBlock, BlockWithInlineMarkdown {
+
+        override val inlineContent: Iterable<InlineMarkdown>
+            get() = nativeBlock.inlineContent()
+
+        public val level: Int
+            get() = nativeBlock.level
+    }
 
     public data class HtmlBlock(val content: String) : MarkdownBlock
 
-    public interface Extension : MarkdownBlock
+    public sealed interface ListBlock : MarkdownBlock {
+
+        public val children: List<ListItem>
+        public val isTight: Boolean
+
+        public data class OrderedList(
+            override val children: List<ListItem>,
+            override val isTight: Boolean,
+            val startFrom: Int,
+            val delimiter: String,
+        ) : ListBlock
+
+        public data class UnorderedList(
+            override val children: List<ListItem>,
+            override val isTight: Boolean,
+            val marker: String,
+        ) : ListBlock
+    }
+
+    public data class ListItem(
+        val children: List<MarkdownBlock>,
+    ) : MarkdownBlock
+
+    public object ThematicBreak : MarkdownBlock
+
+    @JvmInline
+    public value class Paragraph(private val nativeBlock: CMParagraph) : MarkdownBlock, BlockWithInlineMarkdown {
+
+        override val inlineContent: Iterable<InlineMarkdown>
+            get() = nativeBlock.inlineContent()
+    }
 }
 
 public interface BlockWithInlineMarkdown {
 
-    public val inlineContent: InlineMarkdown
+    public val inlineContent: Iterable<InlineMarkdown>
 }
 
-/**
- * A run of inline Markdown used as content for
- * [block-level elements][MarkdownBlock].
- */
-@JvmInline
-public value class InlineMarkdown(@Language("Markdown") public val content: String)
+private fun Block.inlineContent(): Iterable<InlineMarkdown> =
+    object : Iterable<InlineMarkdown> {
+        override fun iterator(): Iterator<InlineMarkdown> =
+            object : Iterator<InlineMarkdown> {
+                var current = this@inlineContent.firstChild
+
+                override fun hasNext(): Boolean = current != null
+
+                override fun next(): InlineMarkdown =
+                    if (hasNext()) {
+                        current.toInlineNode().also {
+                            current = current.next
+                        }
+                    } else {
+                        throw NoSuchElementException()
+                    }
+            }
+    }

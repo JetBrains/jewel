@@ -8,7 +8,18 @@ class MarkdownProcessorDocumentParsingExtraTest {
     private val processor = MarkdownProcessor()
 
     @Test
-    fun `should parse spec sample 461b correctly (Emphasis and strong emphasis)`() {
+    fun `should parse spec sample 22b correctly (Backslash escapes)`() {
+        val parsed = processor.processMarkdownDocument("[](/bar\\* \"ti\\*tle\")")
+
+        /*
+         * Expected HTML:
+         * <p><a href="/bar*" title="ti*tle">foo</a></p>
+         */
+        parsed.assertEquals(paragraph("[](/bar* \"ti*tle\")"))
+    }
+
+    @Test
+    fun `should parse spec sample 461b correctly {Emphasis and strong emphasis}`() {
         val parsed = processor.processMarkdownDocument("*_foo *bar*_*")
 
         /*
@@ -19,7 +30,7 @@ class MarkdownProcessorDocumentParsingExtraTest {
     }
 
     @Test
-    fun `should parse spec sample 461c correctly (Emphasis and strong emphasis)`() {
+    fun `should parse spec sample 461c correctly {Emphasis and strong emphasis}`() {
         val parsed = processor.processMarkdownDocument("**foo *bar***")
 
         /*
@@ -30,7 +41,7 @@ class MarkdownProcessorDocumentParsingExtraTest {
     }
 
     @Test
-    fun `should parse spec sample 461d correctly (Emphasis and strong emphasis)`() {
+    fun `should parse spec sample 461d correctly {Emphasis and strong emphasis}`() {
         val parsed = processor.processMarkdownDocument("*_foo *bar* a_*")
 
         /*
@@ -41,7 +52,7 @@ class MarkdownProcessorDocumentParsingExtraTest {
     }
 
     @Test
-    fun `should parse spec sample 461e correctly (Emphasis and strong emphasis)`() {
+    fun `should parse spec sample 461e correctly {Emphasis and strong emphasis}`() {
         val parsed = processor.processMarkdownDocument("**foo *bar* a**")
 
         /*
@@ -52,7 +63,7 @@ class MarkdownProcessorDocumentParsingExtraTest {
     }
 
     @Test
-    fun `should parse spec sample 461f correctly (Emphasis and strong emphasis)`() {
+    fun `should parse spec sample 461f correctly {Emphasis and strong emphasis}`() {
         val parsed = processor.processMarkdownDocument("*_*foo *bar* a*_*")
 
         /*

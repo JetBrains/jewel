@@ -7,14 +7,7 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.BlockQuote
 import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock.FencedCodeBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock.IndentedCodeBlock
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H1
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H2
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H3
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H4
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H5
-import org.jetbrains.jewel.markdown.MarkdownBlock.Heading.H6
 import org.jetbrains.jewel.markdown.MarkdownBlock.HtmlBlock
-import org.jetbrains.jewel.markdown.MarkdownBlock.Image
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock.OrderedList
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock.UnorderedList
@@ -36,22 +29,7 @@ public interface MarkdownBlockRenderer {
     public fun render(block: MarkdownBlock.Heading, styling: MarkdownStyling.Heading)
 
     @Composable
-    public fun render(block: H1, styling: MarkdownStyling.Heading.H1)
-
-    @Composable
-    public fun render(block: H2, styling: MarkdownStyling.Heading.H2)
-
-    @Composable
-    public fun render(block: H3, styling: MarkdownStyling.Heading.H3)
-
-    @Composable
-    public fun render(block: H4, styling: MarkdownStyling.Heading.H4)
-
-    @Composable
-    public fun render(block: H5, styling: MarkdownStyling.Heading.H5)
-
-    @Composable
-    public fun render(block: H6, styling: MarkdownStyling.Heading.H6)
+    public fun render(block: MarkdownBlock.Heading, styling: MarkdownStyling.Heading.HN)
 
     @Composable
     public fun render(block: BlockQuote, styling: MarkdownStyling.BlockQuote)
@@ -76,9 +54,6 @@ public interface MarkdownBlockRenderer {
 
     @Composable
     public fun render(block: FencedCodeBlock, styling: MarkdownStyling.Code.Fenced)
-
-    @Composable
-    public fun render(block: Image, styling: MarkdownStyling.Image)
 
     @Composable
     public fun renderThematicBreak(styling: MarkdownStyling.ThematicBreak)
