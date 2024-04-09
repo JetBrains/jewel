@@ -151,14 +151,16 @@ private fun RadioButtonImpl(
     LaunchedEffect(interactionSource, swingCompatMode) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
-                is PressInteraction.Press -> radioButtonState =
-                    radioButtonState.copy(pressed = !swingCompatMode)
+                is PressInteraction.Press ->
+                    radioButtonState =
+                        radioButtonState.copy(pressed = !swingCompatMode)
 
                 is PressInteraction.Cancel, is PressInteraction.Release ->
                     radioButtonState = radioButtonState.copy(pressed = false)
 
-                is HoverInteraction.Enter -> radioButtonState =
-                    radioButtonState.copy(hovered = !swingCompatMode)
+                is HoverInteraction.Enter ->
+                    radioButtonState =
+                        radioButtonState.copy(hovered = !swingCompatMode)
                 is HoverInteraction.Exit -> radioButtonState = radioButtonState.copy(hovered = false)
                 is FocusInteraction.Focus -> radioButtonState = radioButtonState.copy(focused = true)
                 is FocusInteraction.Unfocus -> radioButtonState = radioButtonState.copy(focused = false)
