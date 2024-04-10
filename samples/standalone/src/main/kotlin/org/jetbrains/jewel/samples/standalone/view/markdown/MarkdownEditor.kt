@@ -129,7 +129,7 @@ private fun Editor(
         TextArea(
             value = currentMarkdown,
             onValueChange = onMarkdownChange,
-            modifier = Modifier.align(Alignment.TopStart),
+            modifier = Modifier.align(Alignment.TopStart).fillMaxWidth(),
             undecorated = true,
             textStyle = monospacedTextStyle,
         )
