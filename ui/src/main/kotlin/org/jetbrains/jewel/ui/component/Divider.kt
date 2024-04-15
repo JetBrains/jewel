@@ -22,7 +22,7 @@ import org.jetbrains.jewel.ui.theme.dividerStyle
 public fun Divider(
     orientation: Orientation,
     modifier: Modifier = Modifier,
-    color: Color = Color.Unspecified,
+    color: Color = JewelTheme.globalColors.borders.normal,
     thickness: Dp = Dp.Unspecified,
     startIndent: Dp = Dp.Unspecified,
     style: DividerStyle = JewelTheme.dividerStyle,
