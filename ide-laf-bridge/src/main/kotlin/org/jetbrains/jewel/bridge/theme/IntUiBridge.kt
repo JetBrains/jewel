@@ -11,11 +11,13 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.takeOrElse
+import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ide.ui.laf.darcula.ui.DarculaCheckBoxUI
 import com.intellij.ide.ui.laf.intellij.IdeaPopupMenuUI
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.ui.JBColor
+import com.intellij.ui.NewUI
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
@@ -131,13 +133,14 @@ internal fun createBridgeThemeDefinition(textStyle: TextStyle): ThemeDefinition 
     logger.debug("Obtaining theme definition from Swing...")
 
     return ThemeDefinition(
+        name = lafName(),
         isDark = isDark,
         globalColors = GlobalColors.readFromLaF(),
-        colorPalette = ThemeColorPalette.readFromLaF(),
-        iconData = ThemeIconData.readFromLaF(),
         globalMetrics = GlobalMetrics.readFromLaF(),
         defaultTextStyle = textStyle,
         contentColor = JBColor.foreground().toComposeColor(),
+        colorPalette = ThemeColorPalette.readFromLaF(),
+        iconData = ThemeIconData.readFromLaF(),
     )
 }
 
@@ -921,3 +924,16 @@ private fun readIconButtonStyle(): IconButtonStyle =
             borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
         ),
     )
+
+internal fun isNewUiTheme(): Boolean {
+    if (!NewUI.isEnabled()) return false
+
+    val lafName = lafName()
+    return lafName == "Light" || lafName == "Dark" || lafName == "Light with Light Header"
+}
+
+@Suppress("UnstableApiUsage")
+private fun lafName(): String {
+    val lafInfo = LafManager.getInstance().currentUIThemeLookAndFeel
+    return lafInfo.name
+}
