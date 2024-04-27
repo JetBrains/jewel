@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,6 +36,8 @@ import org.jetbrains.jewel.foundation.modifier.onActivated
 import org.jetbrains.jewel.foundation.modifier.trackActivation
 import org.jetbrains.jewel.foundation.modifier.trackComponentActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.intui.markdown.ProvideMarkdownStyling
+import org.jetbrains.jewel.markdown.extensions.Markdown
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.CheckboxRow
@@ -42,6 +45,7 @@ import org.jetbrains.jewel.ui.component.CircularProgressIndicator
 import org.jetbrains.jewel.ui.component.CircularProgressIndicatorBig
 import org.jetbrains.jewel.ui.component.DefaultButton
 import org.jetbrains.jewel.ui.component.Divider
+import org.jetbrains.jewel.ui.component.Dropdown
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.LazyTree
@@ -52,6 +56,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Tooltip
 import org.jetbrains.jewel.ui.component.Typography
+import org.jetbrains.jewel.ui.component.separator
 
 @Composable
 internal fun ComponentShowcaseTab() {
@@ -85,6 +90,23 @@ private fun RowScope.ColumnOne() {
             },
             style = Typography.h3TextStyle(),
         )
+
+        var selectedItem by remember { mutableIntStateOf(-1) }
+        Dropdown(
+            menuContent = {
+                selectableItem(selectedItem == 0, onClick = { selectedItem = 0 }) {
+                    Text("Hello")
+                }
+
+                separator()
+
+                selectableItem(selectedItem == 1, onClick = { selectedItem = 1 }) {
+                    Text("World")
+                }
+            },
+        ) {
+            Text("Selected item $selectedItem")
+        }
 
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -215,21 +237,23 @@ private fun RowScope.ColumnTwo() {
         Modifier.trackActivation().weight(1f),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        MarkdownPreview(
-            """
-            |Hi! This is an example of **Markdown** rendering. We support the [CommonMark specs](https://commonmark.org/)
-            |out of the box, but you can also have _extensions_.
-            |
-            |For example:
-            | * Images
-            | * Tables
-            | * And more — I am running out of random things to say 😆
-            """.trimMargin(),
-            Modifier.fillMaxWidth()
-                .background(JBUI.CurrentTheme.Banner.INFO_BACKGROUND.toComposeColor())
-                .border(1.dp, JBUI.CurrentTheme.Banner.INFO_BORDER_COLOR.toComposeColor(), RoundedCornerShape(8.dp))
-                .padding(8.dp),
-        )
+        ProvideMarkdownStyling {
+            Markdown(
+                """
+                |Hi! This is an example of **Markdown** rendering. We support the [CommonMark specs](https://commonmark.org/)
+                |out of the box, but you can also have _extensions_.
+                |
+                |For example:
+                | * Images
+                | * Tables
+                | * And more — I am running out of random things to say 😆
+                """.trimMargin(),
+                Modifier.fillMaxWidth()
+                    .background(JBUI.CurrentTheme.Banner.INFO_BACKGROUND.toComposeColor(), RoundedCornerShape(8.dp))
+                    .border(1.dp, JBUI.CurrentTheme.Banner.INFO_BORDER_COLOR.toComposeColor(), RoundedCornerShape(8.dp))
+                    .padding(8.dp),
+            )
+        }
 
         Divider(Orientation.Horizontal)
 

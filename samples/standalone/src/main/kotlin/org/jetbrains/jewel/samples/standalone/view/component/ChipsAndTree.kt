@@ -46,7 +46,7 @@ import org.jetbrains.jewel.ui.theme.colorPalette
 import kotlin.random.Random
 
 @Composable
-@View(title = "ChipsAndTree", position = 11)
+@View(title = "Chips and trees", position = 11, icon = "icons/components/tree.svg")
 fun ChipsAndTree() {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {

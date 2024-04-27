@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -361,7 +362,7 @@ private fun readChipStyle(): ChipStyle {
 
 private fun readDividerStyle() =
     DividerStyle(
-        color = retrieveColorOrUnspecified("Borders.color"),
+        color = JBColor.border().toComposeColorOrUnspecified(),
         metrics = DividerMetrics.defaults(),
     )
 
@@ -403,9 +404,9 @@ private fun readDefaultDropdownStyle(
         metrics = DropdownMetrics(
             arrowMinSize = DpSize(arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
             minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp + arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
-            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp),
+            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2),
             contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
-            borderWidth = DarculaUIUtil.BW.dp,
+            borderWidth = DarculaUIUtil.LW.dp,
         ),
         icons = DropdownIcons(chevronDown = bridgePainterProvider("general/chevron-down.svg")),
         textStyle = dropdownTextStyle,
@@ -575,24 +576,27 @@ private fun readMenuStyle(): MenuStyle {
         metrics = MenuMetrics(
             cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
             menuMargin = PaddingValues(0.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 12.dp),
+            contentPadding = PaddingValues(horizontal = 0.dp, vertical = 6.dp),
             offset = DpOffset(0.dp, 2.dp),
             shadowSize = 12.dp,
-            borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
+            borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 2.dp },
             itemMetrics = MenuItemMetrics(
-                selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp),
-                outerPadding = PaddingValues(horizontal = 6.dp),
-                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
+                selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
+                outerPadding = PaddingValues(horizontal = 7.dp),
+                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp),
                 keybindingsPadding = PaddingValues(start = 36.dp),
                 separatorPadding = PaddingValues(
                     horizontal = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.withToEdge")
-                        .takeOrElse { 0.dp },
+                        .takeOrElse { 1.dp },
                     vertical = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeIndent")
-                        .takeOrElse { 0.dp },
+                        .takeOrElse { 1.dp },
                 ),
                 separatorThickness = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeWidth")
-                    .takeOrElse { 0.dp },
+                    .takeOrElse { 1.dp },
+                separatorHeight = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.height")
+                    .takeOrElse { 3.dp },
                 iconSize = 16.dp,
+                minHeight = if (isNewUiTheme()) JBUI.CurrentTheme.List.rowHeight().dp else Dp.Unspecified,
             ),
             submenuMetrics = SubmenuMetrics(offset = DpOffset(0.dp, (-8).dp)),
         ),

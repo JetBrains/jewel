@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.Layout
@@ -69,65 +70,92 @@ import org.jetbrains.jewel.ui.Orientation.Horizontal
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.Text
 
-@Suppress("FunctionName")
 @ExperimentalJewelApi
 public open class DefaultMarkdownBlockRenderer(
     private val rootStyling: MarkdownStyling,
     private val rendererExtensions: List<MarkdownRendererExtension>,
     private val inlineRenderer: InlineMarkdownRenderer,
-    private val onUrlClick: (String) -> Unit,
 ) : MarkdownBlockRenderer {
 
     @Composable
-    override fun render(blocks: List<MarkdownBlock>) {
+    override fun render(
+        blocks: List<MarkdownBlock>,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
+    ) {
         Column(verticalArrangement = Arrangement.spacedBy(rootStyling.blockVerticalSpacing)) {
             for (block in blocks) {
-                render(block)
+                render(block, onUrlClick, onTextClick)
             }
         }
     }
 
     @Composable
-    override fun render(block: MarkdownBlock) {
+    override fun render(
+        block: MarkdownBlock,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
+    ) {
         when (block) {
-            is BlockQuote -> render(block, rootStyling.blockQuote)
+            is BlockQuote -> render(block, rootStyling.blockQuote, onUrlClick, onTextClick)
             is FencedCodeBlock -> render(block, rootStyling.code.fenced)
             is IndentedCodeBlock -> render(block, rootStyling.code.indented)
-            is Heading -> render(block, rootStyling.heading)
+            is Heading -> render(block, rootStyling.heading, onUrlClick, onTextClick)
             is HtmlBlock -> render(block, rootStyling.htmlBlock)
-            is OrderedList -> render(block, rootStyling.list.ordered)
-            is UnorderedList -> render(block, rootStyling.list.unordered)
-            is ListItem -> render(block)
-            is Paragraph -> render(block, rootStyling.paragraph)
+            is OrderedList -> render(block, rootStyling.list.ordered, onUrlClick, onTextClick)
+            is UnorderedList -> render(block, rootStyling.list.unordered, onUrlClick, onTextClick)
+            is ListItem -> render(block, onUrlClick, onTextClick)
+            is Paragraph -> render(block, rootStyling.paragraph, onUrlClick, onTextClick)
             ThematicBreak -> renderThematicBreak(rootStyling.thematicBreak)
             is CustomBlock -> {
                 rendererExtensions.find { it.blockRenderer.canRender(block) }
-                    ?.blockRenderer?.render(block, this, inlineRenderer)
+                    ?.blockRenderer?.render(block, this, inlineRenderer, onUrlClick, onTextClick)
             }
         }
     }
 
     @Composable
-    override fun render(block: Paragraph, styling: MarkdownStyling.Paragraph) {
+    override fun render(
+        block: Paragraph,
+        styling: MarkdownStyling.Paragraph,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
+    ) {
         val renderedContent = rememberRenderedContent(block, styling.inlinesStyling)
-        SimpleClickableText(text = renderedContent, textStyle = styling.inlinesStyling.textStyle)
+        SimpleClickableText(
+            text = renderedContent,
+            textStyle = styling.inlinesStyling.textStyle,
+            color = styling.inlinesStyling.textStyle.color.takeOrElse { LocalContentColor.current },
+            onUnhandledClick = onTextClick,
+            onUrlClick = onUrlClick,
+        )
     }
 
     @Composable
-    override fun render(block: Heading, styling: MarkdownStyling.Heading) {
+    override fun render(
+        block: Heading,
+        styling: MarkdownStyling.Heading,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
+    ) {
         when (block.level) {
-            1 -> render(block, styling.h1)
-            2 -> render(block, styling.h2)
-            3 -> render(block, styling.h3)
-            4 -> render(block, styling.h4)
-            5 -> render(block, styling.h5)
-            6 -> render(block, styling.h6)
+            1 -> render(block, styling.h1, onUrlClick, onTextClick)
+            2 -> render(block, styling.h2, onUrlClick, onTextClick)
+            3 -> render(block, styling.h3, onUrlClick, onTextClick)
+            4 -> render(block, styling.h4, onUrlClick, onTextClick)
+            5 -> render(block, styling.h5, onUrlClick, onTextClick)
+            6 -> render(block, styling.h6, onUrlClick, onTextClick)
             else -> error("Heading level ${block.level} not supported:\n$block")
         }
     }
 
     @Composable
-    override fun render(block: Heading, styling: MarkdownStyling.Heading.HN) {
+    override fun render(
+        block: Heading,
+        styling: MarkdownStyling.Heading.HN,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
+    ) {
         val renderedContent = rememberRenderedContent(block, styling.inlinesStyling)
         Heading(
             renderedContent,
@@ -136,6 +164,8 @@ public open class DefaultMarkdownBlockRenderer(
             styling.underlineWidth,
             styling.underlineColor,
             styling.underlineGap,
+            onUrlClick,
+            onTextClick,
         )
     }
 
@@ -147,9 +177,17 @@ public open class DefaultMarkdownBlockRenderer(
         underlineWidth: Dp,
         underlineColor: Color,
         underlineGap: Dp,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
     ) {
         Column(modifier = Modifier.padding(paddingValues)) {
-            SimpleClickableText(text = renderedContent, textStyle = textStyle)
+            SimpleClickableText(
+                text = renderedContent,
+                textStyle = textStyle,
+                color = textStyle.color.takeOrElse { LocalContentColor.current },
+                onUnhandledClick = onTextClick,
+                onUrlClick = onUrlClick,
+            )
 
             if (underlineWidth > 0.dp && underlineColor.isSpecified) {
                 Spacer(Modifier.height(underlineGap))
@@ -162,6 +200,8 @@ public open class DefaultMarkdownBlockRenderer(
     override fun render(
         block: BlockQuote,
         styling: MarkdownStyling.BlockQuote,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
     ) {
         Column(
             Modifier.drawBehind {
@@ -182,21 +222,31 @@ public open class DefaultMarkdownBlockRenderer(
             verticalArrangement = Arrangement.spacedBy(rootStyling.blockVerticalSpacing),
         ) {
             CompositionLocalProvider(LocalContentColor provides styling.textColor) {
-                render(block.children)
+                render(block.children, onUrlClick, onTextClick)
             }
         }
     }
 
     @Composable
-    override fun render(block: ListBlock, styling: MarkdownStyling.List) {
+    override fun render(
+        block: ListBlock,
+        styling: MarkdownStyling.List,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
+    ) {
         when (block) {
-            is OrderedList -> render(block, styling.ordered)
-            is UnorderedList -> render(block, styling.unordered)
+            is OrderedList -> render(block, styling.ordered, onUrlClick, onTextClick)
+            is UnorderedList -> render(block, styling.unordered, onUrlClick, onTextClick)
         }
     }
 
     @Composable
-    override fun render(block: OrderedList, styling: MarkdownStyling.List.Ordered) {
+    override fun render(
+        block: OrderedList,
+        styling: MarkdownStyling.List.Ordered,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
+    ) {
         val itemSpacing =
             if (block.isTight) {
                 styling.itemVerticalSpacingTight
@@ -214,6 +264,7 @@ public open class DefaultMarkdownBlockRenderer(
                     Text(
                         text = "$number${block.delimiter}",
                         style = styling.numberStyle,
+                        color = styling.numberStyle.color.takeOrElse { LocalContentColor.current },
                         modifier = Modifier.widthIn(min = styling.numberMinWidth)
                             .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                         textAlign = styling.numberTextAlign,
@@ -221,14 +272,19 @@ public open class DefaultMarkdownBlockRenderer(
 
                     Spacer(Modifier.width(styling.numberContentGap))
 
-                    render(item)
+                    render(item, onUrlClick, onTextClick)
                 }
             }
         }
     }
 
     @Composable
-    override fun render(block: UnorderedList, styling: MarkdownStyling.List.Unordered) {
+    override fun render(
+        block: UnorderedList,
+        styling: MarkdownStyling.List.Unordered,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
+    ) {
         val itemSpacing =
             if (block.isTight) {
                 styling.itemVerticalSpacingTight
@@ -245,21 +301,26 @@ public open class DefaultMarkdownBlockRenderer(
                     Text(
                         text = styling.bullet.toString(),
                         style = styling.bulletStyle,
+                        color = styling.bulletStyle.color.takeOrElse { LocalContentColor.current },
                         modifier = Modifier.pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                     )
 
                     Spacer(Modifier.width(styling.bulletContentGap))
 
-                    render(item)
+                    render(item, onUrlClick, onTextClick)
                 }
             }
         }
     }
 
     @Composable
-    override fun render(block: ListItem) {
+    override fun render(
+        block: ListItem,
+        onUrlClick: (String) -> Unit,
+        onTextClick: () -> Unit,
+    ) {
         Column(verticalArrangement = Arrangement.spacedBy(rootStyling.blockVerticalSpacing)) {
-            render(block.children)
+            render(block.children, onUrlClick, onTextClick)
         }
     }
 
@@ -282,6 +343,7 @@ public open class DefaultMarkdownBlockRenderer(
             Text(
                 text = block.content,
                 style = styling.textStyle,
+                color = styling.textStyle.color.takeOrElse { LocalContentColor.current },
                 modifier = Modifier.padding(styling.padding)
                     .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
             )
@@ -310,6 +372,7 @@ public open class DefaultMarkdownBlockRenderer(
                 Text(
                     text = block.content,
                     style = styling.textStyle,
+                    color = styling.textStyle.color.takeOrElse { LocalContentColor.current },
                     modifier = Modifier.pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                 )
 
@@ -334,7 +397,13 @@ public open class DefaultMarkdownBlockRenderer(
         modifier: Modifier,
     ) {
         Column(modifier, horizontalAlignment = alignment) {
-            DisableSelection { Text(infoText, style = textStyle) }
+            DisableSelection {
+                Text(
+                    text = infoText,
+                    style = textStyle,
+                    color = textStyle.color.takeOrElse { LocalContentColor.current },
+                )
+            }
         }
     }
 
@@ -360,12 +429,19 @@ public open class DefaultMarkdownBlockRenderer(
         text: AnnotatedString,
         textStyle: TextStyle,
         modifier: Modifier = Modifier,
+        color: Color = Color.Unspecified,
+        onUrlClick: (String) -> Unit,
+        onUnhandledClick: () -> Unit,
     ) {
         var pointerIcon by remember { mutableStateOf(PointerIcon.Default) }
 
+        val textColor = color.takeOrElse { LocalContentColor.current.takeOrElse { textStyle.color } }
+
+        val mergedStyle = textStyle.merge(TextStyle(color = textColor))
+
         ClickableText(
             text = text,
-            style = textStyle.merge(LocalContentColor.current),
+            style = mergedStyle,
             modifier = modifier.pointerHoverIcon(pointerIcon, true),
             onHover = { offset ->
                 pointerIcon =
@@ -376,8 +452,12 @@ public open class DefaultMarkdownBlockRenderer(
                     }
             },
         ) { offset ->
-            val span = text.getUrlAnnotations(offset, offset).firstOrNull() ?: return@ClickableText
-            onUrlClick(span.item.url)
+            val span = text.getUrlAnnotations(offset, offset).firstOrNull()
+            if (span != null) {
+                onUrlClick(span.item.url)
+            } else {
+                onUnhandledClick()
+            }
         }
     }
 
