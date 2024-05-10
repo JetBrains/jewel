@@ -12,20 +12,20 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.takeOrElse
-import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ide.ui.laf.darcula.ui.DarculaCheckBoxUI
 import com.intellij.ide.ui.laf.intellij.IdeaPopupMenuUI
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.util.registry.Registry
 import com.intellij.ui.JBColor
-import com.intellij.ui.NewUI
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
 import org.jetbrains.jewel.bridge.bridgePainterProvider
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
+import org.jetbrains.jewel.bridge.isNewUiTheme
+import org.jetbrains.jewel.bridge.lafName
 import org.jetbrains.jewel.bridge.readFromLaF
 import org.jetbrains.jewel.bridge.retrieveArcAsCornerSizeOrDefault
 import org.jetbrains.jewel.bridge.retrieveArcAsCornerSizeWithFallbacks
@@ -36,6 +36,7 @@ import org.jetbrains.jewel.bridge.retrieveIntAsDpOrUnspecified
 import org.jetbrains.jewel.bridge.retrieveTextStyle
 import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.bridge.toComposeColorOrUnspecified
+import org.jetbrains.jewel.bridge.toDpSize
 import org.jetbrains.jewel.bridge.toPaddingValues
 import org.jetbrains.jewel.foundation.GlobalColors
 import org.jetbrains.jewel.foundation.GlobalMetrics
@@ -934,16 +935,3 @@ private fun readIconButtonStyle(): IconButtonStyle =
             borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
         ),
     )
-
-internal fun isNewUiTheme(): Boolean {
-    if (!NewUI.isEnabled()) return false
-
-    val lafName = lafName()
-    return lafName == "Light" || lafName == "Dark" || lafName == "Light with Light Header"
-}
-
-@Suppress("UnstableApiUsage")
-private fun lafName(): String {
-    val lafInfo = LafManager.getInstance().currentUIThemeLookAndFeel
-    return lafInfo.name
-}
