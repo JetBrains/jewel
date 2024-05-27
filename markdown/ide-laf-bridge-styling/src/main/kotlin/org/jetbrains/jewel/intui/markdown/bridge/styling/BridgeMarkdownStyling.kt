@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.intui.markdown.styling
+package org.jetbrains.jewel.intui.markdown.bridge.styling
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -422,7 +422,7 @@ private val defaultTextSize
     get() = (JBFont.labelFontSize() + 1).sp
 
 private val defaultTextStyle
-    get() = retrieveDefaultTextStyle()
+    get() = retrieveDefaultTextStyle().copy(color = Color.Unspecified)
 
 private val dividerColor
     get() = retrieveColorOrUnspecified("Group.separatorColor")
