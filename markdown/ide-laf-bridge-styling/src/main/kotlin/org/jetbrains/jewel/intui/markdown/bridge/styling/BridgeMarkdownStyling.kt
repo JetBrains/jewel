@@ -428,7 +428,7 @@ private val dividerColor
     get() = retrieveColorOrUnspecified("Group.separatorColor")
 
 private val blockBackgroundColor
-    get() = retrieveColorOrUnspecified("Group.separatorColor")
+    get() = retrieveEditorColorScheme().defaultBackground.toComposeColor()
 
 private val blockContentColor
     get() = retrieveEditorColorScheme().defaultForeground.toComposeColor()
