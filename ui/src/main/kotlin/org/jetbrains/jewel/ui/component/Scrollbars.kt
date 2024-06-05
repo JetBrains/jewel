@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.theme.scrollbarStyle
-import kotlin.time.DurationUnit
 import androidx.compose.foundation.ScrollbarStyle as ComposeScrollbarStyle
 
 @Composable
@@ -29,13 +28,13 @@ public fun VerticalScrollbar(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
 ) {
     val shape by remember { mutableStateOf(RoundedCornerShape(style.metrics.thumbCornerSize)) }
-    val hoverDurationMillis by remember { mutableStateOf(style.hoverDuration.inWholeMilliseconds) }
+    val hoverDurationMillis by remember { mutableStateOf(style.hoverDuration.inWholeMilliseconds.toInt()) }
 
     val composeScrollbarStyle = ComposeScrollbarStyle(
         minimalHeight = style.metrics.minThumbLength,
         thickness = style.metrics.thumbThickness,
         shape = shape,
-        hoverDurationMillis = hoverDurationMillis.toInt(),
+        hoverDurationMillis = hoverDurationMillis,
         unhoverColor = style.colors.thumbBackground,
         hoverColor = style.colors.thumbBackgroundHovered,
     )
@@ -60,9 +59,7 @@ public fun HorizontalScrollbar(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
 ) {
     val shape by remember { mutableStateOf(RoundedCornerShape(style.metrics.thumbCornerSize)) }
-    val hoverDurationMillis by remember {
-        mutableStateOf(style.hoverDuration.toInt(DurationUnit.MILLISECONDS))
-    }
+    val hoverDurationMillis by remember { mutableStateOf(style.hoverDuration.inWholeMilliseconds.toInt()) }
 
     val composeScrollbarStyle = ComposeScrollbarStyle(
         minimalHeight = style.metrics.minThumbLength,
