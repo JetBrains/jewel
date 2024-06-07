@@ -26,6 +26,7 @@ import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
+import org.jetbrains.jewel.markdown.rendering.DefaultMarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 
@@ -62,7 +63,7 @@ public fun Markdown(
     onTextClick: () -> Unit = {},
     markdownStyling: MarkdownStyling = JewelTheme.markdownStyling,
     processor: MarkdownProcessor = JewelTheme.markdownProcessor,
-    blockRenderer: MarkdownBlockRenderer = JewelTheme.markdownBlockRenderer,
+    blockRenderer: MarkdownBlockRenderer = DefaultMarkdownBlockRenderer(markdownStyling),
 ) {
     var markdownBlocks by remember { mutableStateOf(emptyList<MarkdownBlock>()) }
     LaunchedEffect(markdown) {
@@ -92,7 +93,7 @@ public fun Markdown(
     onUrlClick: (String) -> Unit = {},
     onTextClick: () -> Unit = {},
     markdownStyling: MarkdownStyling = JewelTheme.markdownStyling,
-    blockRenderer: MarkdownBlockRenderer = JewelTheme.markdownBlockRenderer,
+    blockRenderer: MarkdownBlockRenderer = DefaultMarkdownBlockRenderer(markdownStyling),
 ) {
     if (selectable) {
         SelectionContainer(modifier) {
