@@ -1,8 +1,6 @@
 package org.jetbrains.jewel.buildlogic.demodata
 
 import com.squareup.kotlinpoet.ClassName
-import gradle.kotlin.dsl.accessors._191c70c30b85215d3734a2125d755542.main
-import gradle.kotlin.dsl.accessors._191c70c30b85215d3734a2125d755542.sourceSets
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.gradle.api.DefaultTask
@@ -29,7 +27,7 @@ open class StudioVersionsGenerationExtension(project: Project) {
     val resourcesDirs: SetProperty<File> =
         project.objects
             .setProperty<File>()
-            .convention(project.sourceSets.main.get().resources.srcDirs)
+//            .convention(project.sourceSets.main.get().resources.srcDirs)
 
     val dataUrl: Property<String> =
         project.objects
