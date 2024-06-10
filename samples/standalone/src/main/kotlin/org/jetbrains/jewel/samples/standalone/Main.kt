@@ -3,7 +3,6 @@ package org.jetbrains.jewel.samples.standalone
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.res.loadSvgPainter
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Density
@@ -28,12 +27,11 @@ import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import java.io.InputStream
 
-@OptIn(ExperimentalTextApi::class)
 fun main() {
     val icon = svgResource("icons/jewel-logo.svg")
 
     application {
-        val textStyle = TextStyle(fontFamily = FontFamily.Inter)
+        val textStyle = JewelTheme.createDefaultTextStyle(fontFamily = FontFamily.Inter)
         val editorStyle = JewelTheme.createEditorTextStyle(fontFamily = FontFamily.JetBrainsMono)
 
         val themeDefinition =
