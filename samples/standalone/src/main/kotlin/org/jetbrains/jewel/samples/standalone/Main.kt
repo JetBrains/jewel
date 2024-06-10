@@ -34,12 +34,13 @@ fun main() {
 
     application {
         val textStyle = TextStyle(fontFamily = FontFamily.Inter)
+        val editorStyle = JewelTheme.createEditorTextStyle(fontFamily = FontFamily.JetBrainsMono)
 
         val themeDefinition =
             if (MainViewModel.theme.isDark()) {
-                JewelTheme.darkThemeDefinition(defaultTextStyle = textStyle)
+                JewelTheme.darkThemeDefinition(defaultTextStyle = textStyle, editorTextStyle = editorStyle)
             } else {
-                JewelTheme.lightThemeDefinition(defaultTextStyle = textStyle)
+                JewelTheme.lightThemeDefinition(defaultTextStyle = textStyle, editorTextStyle = editorStyle)
             }
 
         IntUiTheme(
