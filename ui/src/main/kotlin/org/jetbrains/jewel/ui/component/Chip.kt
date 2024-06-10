@@ -55,7 +55,8 @@ public fun Chip(
         enabled = enabled,
         selected = selected,
         style = style,
-        modifier = modifier.clickable(
+        modifier =
+        modifier.clickable(
             onClick = onClick,
             enabled = enabled,
             role = Role.Button,
@@ -81,7 +82,8 @@ public fun ToggleableChip(
         enabled = enabled,
         selected = checked,
         style = style,
-        modifier = modifier.toggleable(
+        modifier =
+        modifier.toggleable(
             onValueChange = onClick,
             enabled = enabled,
             role = Role.Checkbox,
@@ -108,7 +110,8 @@ public fun RadioButtonChip(
         enabled,
         selected,
         style,
-        modifier = modifier.selectable(
+        modifier =
+        modifier.selectable(
             onClick = onClick,
             enabled = enabled,
             role = Role.RadioButton,
@@ -160,7 +163,8 @@ private fun ChipImpl(
         }
 
     Row(
-        modifier = modifier
+        modifier =
+        modifier
             .background(colors.backgroundFor(chipState).value, shape)
             .border(Stroke.Alignment.Center, borderWidth, borderColor, shape)
             .focusOutline(chipState, shape)
@@ -168,8 +172,9 @@ private fun ChipImpl(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        val resolvedContentColor = colors.contentFor(state = chipState).value
-            .takeOrElse { LocalContentColor.current }
+        val resolvedContentColor =
+            colors.contentFor(state = chipState).value
+                .takeOrElse { LocalContentColor.current }
 
         CompositionLocalProvider(LocalContentColor provides resolvedContentColor) {
             content()
@@ -181,7 +186,6 @@ private fun ChipImpl(
 @JvmInline
 public value class ChipState(public val state: ULong) :
     FocusableComponentState, SelectableComponentState {
-
     override val isActive: Boolean
         get() = state and Active != 0UL
 
@@ -222,7 +226,6 @@ public value class ChipState(public val state: ULong) :
             "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     public companion object {
-
         public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,

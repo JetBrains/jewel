@@ -10,7 +10,10 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.window.application
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.standalone.Inter
+import org.jetbrains.jewel.intui.standalone.JetBrainsMono
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
+import org.jetbrains.jewel.intui.standalone.theme.createDefaultTextStyle
+import org.jetbrains.jewel.intui.standalone.theme.createEditorTextStyle
 import org.jetbrains.jewel.intui.standalone.theme.darkThemeDefinition
 import org.jetbrains.jewel.intui.standalone.theme.default
 import org.jetbrains.jewel.intui.standalone.theme.lightThemeDefinition
@@ -41,16 +44,19 @@ fun main() {
 
         IntUiTheme(
             theme = themeDefinition,
-            styling = ComponentStyling.default().decoratedWindow(
-                titleBarStyle = when (MainViewModel.theme) {
+            styling =
+            ComponentStyling.default().decoratedWindow(
+                titleBarStyle =
+                when (MainViewModel.theme) {
                     IntUiThemes.Light -> TitleBarStyle.light()
                     IntUiThemes.LightWithLightHeader -> TitleBarStyle.lightWithLightHeader()
                     IntUiThemes.Dark -> TitleBarStyle.dark()
-                    IntUiThemes.System -> if (MainViewModel.theme.isDark()) {
-                        TitleBarStyle.dark()
-                    } else {
-                        TitleBarStyle.light()
-                    }
+                    IntUiThemes.System ->
+                        if (MainViewModel.theme.isDark()) {
+                            TitleBarStyle.dark()
+                        } else {
+                            TitleBarStyle.light()
+                        }
                 },
             ),
             swingCompatMode = MainViewModel.swingCompat,

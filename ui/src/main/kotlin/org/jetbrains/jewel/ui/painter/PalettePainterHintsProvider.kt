@@ -10,7 +10,6 @@ public abstract class PalettePainterHintsProvider(
     protected val themeIconPalette: Map<String, String?>,
     protected val themeColorPalette: Map<String, Color?>,
 ) : PainterHintsProvider {
-
     protected abstract val checkBoxByColorPaletteHint: PainterHint
     protected abstract val treePaletteHint: PainterHint
     protected abstract val uiPaletteHint: PainterHint

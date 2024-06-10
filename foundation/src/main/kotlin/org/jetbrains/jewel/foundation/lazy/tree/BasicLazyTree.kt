@@ -111,9 +111,10 @@ public fun <T> BasicLazyTree(
 ) {
     val scope = rememberCoroutineScope()
 
-    val flattenedTree = remember(tree, treeState.openNodes, treeState.allNodes) {
-        tree.roots.flatMap { it.flattenTree(treeState) }
-    }
+    val flattenedTree =
+        remember(tree, treeState.openNodes, treeState.allNodes) {
+            tree.roots.flatMap { it.flattenTree(treeState) }
+        }
 
     remember(tree) { // if tree changes we need to update selection changes
         onSelectionChange(
@@ -144,18 +145,21 @@ public fun <T> BasicLazyTree(
                 TreeElementState.of(
                     active = isActive,
                     selected = isSelected,
-                    expanded = (element as? Tree.Element.Node)
+                    expanded =
+                    (element as? Tree.Element.Node)
                         ?.let { it.id in treeState.openNodes }
                         ?: false,
                 )
 
             val backgroundShape by derivedStateOf {
-                val hasRoundedTopCorners = flattenedTree.getOrNull(index - 1)?.id?.let {
-                    it !in treeState.delegate.selectedKeys
-                } ?: true
-                val hasRoundedBottomCorners = flattenedTree.getOrNull(index + 1)?.id?.let {
-                    it !in treeState.delegate.selectedKeys
-                } ?: true
+                val hasRoundedTopCorners =
+                    flattenedTree.getOrNull(index - 1)?.id?.let {
+                        it !in treeState.delegate.selectedKeys
+                    } ?: true
+                val hasRoundedBottomCorners =
+                    flattenedTree.getOrNull(index + 1)?.id?.let {
+                        it !in treeState.delegate.selectedKeys
+                    } ?: true
                 val topCornerSize = computerCornerSize(hasRoundedTopCorners, elementBackgroundCornerSize)
                 val bottomCornerSize = computerCornerSize(hasRoundedBottomCorners, elementBackgroundCornerSize)
                 RoundedCornerShape(
@@ -196,7 +200,8 @@ public fun <T> BasicLazyTree(
             ) {
                 if (element is Tree.Element.Node) {
                     Box(
-                        modifier = Modifier.clickable(
+                        modifier =
+                        Modifier.clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
                         ) {
@@ -225,22 +230,21 @@ private fun Modifier.elementBackground(
     focused: Color,
     selected: Color,
     backgroundShape: RoundedCornerShape,
-) =
-    background(
-        color = when {
-            state.isActive && state.isSelected -> selectedFocused
-            state.isActive && !state.isSelected -> focused
-            state.isSelected && !state.isActive -> selected
-            else -> Color.Unspecified
-        },
-        shape = backgroundShape,
-    )
+) = background(
+    color =
+    when {
+        state.isActive && state.isSelected -> selectedFocused
+        state.isActive && !state.isSelected -> focused
+        state.isSelected && !state.isActive -> selected
+        else -> Color.Unspecified
+    },
+    shape = backgroundShape,
+)
 
 @Immutable
 @JvmInline
 public value class TreeElementState(public val state: ULong) :
     FocusableComponentState, SelectableComponentState {
-
     @Stable
     override val isActive: Boolean
         get() = state and Active != 0UL
@@ -293,7 +297,6 @@ public value class TreeElementState(public val state: ULong) :
         )
 
     public companion object {
-
         private const val EXPANDED_BIT_OFFSET = CommonStateBitMask.FIRST_AVAILABLE_OFFSET
 
         private val Expanded = 1UL shl EXPANDED_BIT_OFFSET

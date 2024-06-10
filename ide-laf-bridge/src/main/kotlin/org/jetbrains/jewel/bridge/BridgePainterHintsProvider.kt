@@ -25,7 +25,6 @@ public class BridgePainterHintsProvider private constructor(
     themeIconPalette: Map<String, String?> = emptyMap(),
     themeColorPalette: Map<String, Color?> = emptyMap(),
 ) : PalettePainterHintsProvider(isDark, intellijIconPalette, themeIconPalette, themeColorPalette) {
-
     override val checkBoxByColorPaletteHint: PainterHint
     override val treePaletteHint: PainterHint
     override val uiPaletteHint: PainterHint
@@ -71,7 +70,6 @@ public class BridgePainterHintsProvider private constructor(
         }
 
     public companion object {
-
         private val logger = thisLogger()
 
         @Suppress("UnstableApiUsage") // We need to call @Internal APIs

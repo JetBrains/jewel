@@ -230,7 +230,6 @@ private fun RadioButtonImage(
 @Immutable
 @JvmInline
 public value class RadioButtonState(public val state: ULong) : SelectableComponentState, FocusableComponentState {
-
     override val isActive: Boolean
         get() = state and Active != 0UL
 
@@ -271,7 +270,6 @@ public value class RadioButtonState(public val state: ULong) : SelectableCompone
             "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     public companion object {
-
         public fun of(
             selected: Boolean,
             enabled: Boolean = true,

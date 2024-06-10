@@ -8,7 +8,6 @@ import org.jetbrains.jewel.ui.painter.PainterProviderScope
 import org.jetbrains.jewel.ui.painter.ResourcePainterProviderScope
 
 internal object BridgeOverride : PainterPathHint {
-
     private val dirProvider = DirProvider()
 
     @Suppress("UnstableApiUsage") // patchIconPath() is explicitly open to us
@@ -22,8 +21,9 @@ internal object BridgeOverride : PainterPathHint {
         val fallbackPath = path.removePrefix(dirProvider.dir())
 
         for (classLoader in classLoaders) {
-            val patchedPath = patchIconPath(path.removePrefix("/"), classLoader)?.first
-                ?: patchIconPath(fallbackPath, classLoader)?.first
+            val patchedPath =
+                patchIconPath(path.removePrefix("/"), classLoader)?.first
+                    ?: patchIconPath(fallbackPath, classLoader)?.first
 
             // 233 EAP 4 broke path patching horribly; now it can return a
             // "reflective path", which is a FQN to an ExpUIIcons entry.

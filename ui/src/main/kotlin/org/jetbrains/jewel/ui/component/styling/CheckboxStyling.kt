@@ -23,7 +23,6 @@ public class CheckboxStyle(
     public val metrics: CheckboxMetrics,
     public val icons: CheckboxIcons,
 ) {
-
     public companion object
 }
 
@@ -34,7 +33,6 @@ public class CheckboxColors(
     public val contentDisabled: Color,
     public val contentSelected: Color,
 ) {
-
     @Composable
     public fun contentFor(state: CheckboxState): State<Color> =
         rememberUpdatedState(
@@ -64,7 +62,6 @@ public class CheckboxMetrics(
 @Immutable
 @GenerateDataFunctions
 public class CheckboxIcons(public val checkbox: PainterProvider) {
-
     public companion object
 }
 

@@ -40,7 +40,7 @@ import org.jetbrains.jewel.foundation.modifier.trackComponentActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.intui.markdown.bridge.ProvideMarkdownStyling
-import org.jetbrains.jewel.markdown.extensions.Markdown
+import org.jetbrains.jewel.markdown.Markdown
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.CheckboxRow
@@ -67,7 +67,8 @@ internal fun ComponentShowcaseTab() {
 
     val scrollState = rememberScrollState()
     Row(
-        modifier = Modifier.trackComponentActivation(LocalComponent.current)
+        modifier =
+        Modifier.trackComponentActivation(LocalComponent.current)
             .fillMaxSize()
             .background(bgColor)
             .verticalScroll(scrollState)
@@ -252,25 +253,26 @@ private fun RowScope.ColumnTwo() {
             },
         )
 
-        val tree = remember {
-            buildTree {
-                addNode("root 1") {
-                    addLeaf("leaf 1")
-                    addLeaf("leaf 2")
-                }
-                addNode("root 2") {
-                    addLeaf("leaf 1")
-                    addNode("node 1") {
+        val tree =
+            remember {
+                buildTree {
+                    addNode("root 1") {
+                        addLeaf("leaf 1")
+                        addLeaf("leaf 2")
+                    }
+                    addNode("root 2") {
+                        addLeaf("leaf 1")
+                        addNode("node 1") {
+                            addLeaf("leaf 1")
+                            addLeaf("leaf 2")
+                        }
+                    }
+                    addNode("root 3") {
                         addLeaf("leaf 1")
                         addLeaf("leaf 2")
                     }
                 }
-                addNode("root 3") {
-                    addLeaf("leaf 1")
-                    addLeaf("leaf 2")
-                }
             }
-        }
         LazyTree(
             tree = tree,
             modifier = Modifier.height(200.dp).fillMaxWidth(),

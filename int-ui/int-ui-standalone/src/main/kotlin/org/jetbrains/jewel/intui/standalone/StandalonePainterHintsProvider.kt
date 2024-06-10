@@ -20,7 +20,6 @@ public class StandalonePainterHintsProvider(
     theme.iconData.colorPalette,
     theme.colorPalette.rawMap,
 ) {
-
     private val overrideHint: PainterHint =
         PathOverride(
             theme.iconData.iconOverrides.entries.associate { (k, v) ->
@@ -67,7 +66,6 @@ public class StandalonePainterHintsProvider(
     }
 
     public companion object {
-
         // Extracted from com.intellij.ide.ui.UITheme#colorPalette
         private val intellijColorPalette =
             mapOf(

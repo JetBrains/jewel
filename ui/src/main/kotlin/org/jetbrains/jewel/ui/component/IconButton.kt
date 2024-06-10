@@ -48,7 +48,8 @@ public fun IconButton(
 
     IconButtonImpl(
         state = buttonState,
-        modifier = modifier.clickable(
+        modifier =
+        modifier.clickable(
             onClick = onClick,
             enabled = enabled,
             role = Role.Button,
@@ -71,9 +72,10 @@ public fun SelectableIconButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable (BoxScope.(IconButtonState) -> Unit),
 ) {
-    val buttonState = remember(interactionSource) {
-        mutableStateOf(IconButtonState.of(enabled = enabled))
-    }
+    val buttonState =
+        remember(interactionSource) {
+            mutableStateOf(IconButtonState.of(enabled = enabled))
+        }
 
     remember(enabled, selected) {
         buttonState.value = buttonState.value.copy(enabled = enabled, selected = selected)
@@ -81,7 +83,8 @@ public fun SelectableIconButton(
 
     IconButtonImpl(
         state = buttonState,
-        modifier = modifier
+        modifier =
+        modifier
             .selectable(
                 onClick = onClick,
                 enabled = enabled,
@@ -128,7 +131,8 @@ private fun IconButtonImpl(
     val background by style.colors.backgroundFor(buttonState)
     val border by style.colors.borderFor(buttonState)
     Box(
-        modifier = modifier.defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
+        modifier =
+        modifier.defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
             .padding(style.metrics.padding)
             .background(background, shape)
             .border(style.metrics.borderWidth, border, shape),
@@ -140,7 +144,6 @@ private fun IconButtonImpl(
 @Immutable
 @JvmInline
 public value class IconButtonState(public val state: ULong) : FocusableComponentState, SelectableComponentState {
-
     override val isSelected: Boolean
         get() = state and CommonStateBitMask.Selected != 0UL
 
@@ -182,7 +185,6 @@ public value class IconButtonState(public val state: ULong) : FocusableComponent
             "isActive=$isActive)"
 
     public companion object {
-
         public fun of(
             enabled: Boolean = true,
             selected: Boolean = false,

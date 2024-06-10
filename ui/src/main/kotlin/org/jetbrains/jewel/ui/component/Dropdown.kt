@@ -94,7 +94,8 @@ public fun Dropdown(
 
     var componentWidth by remember { mutableIntStateOf(-1) }
     Box(
-        modifier = modifier
+        modifier =
+        modifier
             .clickable(
                 onClick = {
                     // TODO: Trick to skip click event when close menu by click dropdown
@@ -121,7 +122,8 @@ public fun Dropdown(
     ) {
         CompositionLocalProvider(LocalContentColor provides colors.contentFor(dropdownState).value) {
             Box(
-                modifier = Modifier.fillMaxWidth()
+                modifier =
+                Modifier.fillMaxWidth()
                     .padding(style.metrics.contentPadding)
                     .padding(end = arrowMinSize.width),
                 contentAlignment = Alignment.CenterStart,
@@ -151,7 +153,8 @@ public fun Dropdown(
                     }
                     true
                 },
-                modifier = menuModifier.focusProperties { canFocus = true }
+                modifier =
+                menuModifier.focusProperties { canFocus = true }
                     .defaultMinSize(minWidth = with(density) { componentWidth.toDp() }),
                 style = style.menuStyle,
                 horizontalAlignment = Alignment.Start,
@@ -164,7 +167,6 @@ public fun Dropdown(
 @Immutable
 @JvmInline
 public value class DropdownState(public val state: ULong) : FocusableComponentState {
-
     override val isActive: Boolean
         get() = state and Active != 0UL
 
@@ -200,7 +202,6 @@ public value class DropdownState(public val state: ULong) : FocusableComponentSt
             "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     public companion object {
-
         public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,

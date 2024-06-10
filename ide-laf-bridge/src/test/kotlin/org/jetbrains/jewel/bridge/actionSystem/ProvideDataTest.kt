@@ -16,7 +16,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class ProvideDataTest {
-
     @JvmField @Rule
     val rule = createComposeRule()
 
@@ -28,7 +27,8 @@ class ProvideDataTest {
             rule.setContent {
                 focusManager = LocalFocusManager.current
                 Box(
-                    modifier = rootDataProviderModifier.testTag("provider")
+                    modifier =
+                    rootDataProviderModifier.testTag("provider")
                         .provideData {
                             when (it) {
                                 "data" -> "ok"
@@ -57,7 +57,8 @@ class ProvideDataTest {
             rule.setContent {
                 focusManager = LocalFocusManager.current
                 Box(
-                    modifier = rootDataProviderModifier.testTag("root_provider")
+                    modifier =
+                    rootDataProviderModifier.testTag("root_provider")
                         .provideData {
                             when (it) {
                                 "isRoot" -> "yes"

@@ -120,7 +120,8 @@ private fun ButtonImpl(
     val borderColor by colors.borderFor(buttonState)
 
     Box(
-        modifier = modifier
+        modifier =
+        modifier
             .clickable(
                 onClick = onClick,
                 enabled = enabled,
@@ -153,7 +154,6 @@ private fun ButtonImpl(
 @Immutable
 @JvmInline
 public value class ButtonState(public val state: ULong) : FocusableComponentState {
-
     override val isActive: Boolean
         get() = state and Active != 0UL
 
@@ -189,7 +189,6 @@ public value class ButtonState(public val state: ULong) : FocusableComponentStat
             "isPressed=$isPressed, isActive=$isActive)"
 
     public companion object {
-
         public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,

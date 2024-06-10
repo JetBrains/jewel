@@ -55,7 +55,8 @@ fun ComponentsToolBar() {
         ComponentsViewModel.views.forEach {
             Tooltip(
                 tooltip = { Text("Show ${it.title}") },
-                style = TooltipStyle(
+                style =
+                TooltipStyle(
                     JewelTheme.tooltipStyle.colors,
                     TooltipMetrics.defaults(showDelay = 150.milliseconds),
                 ),

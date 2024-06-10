@@ -20,7 +20,6 @@ public class RadioButtonStyle(
     public val metrics: RadioButtonMetrics,
     public val icons: RadioButtonIcons,
 ) {
-
     public companion object
 }
 
@@ -34,7 +33,6 @@ public class RadioButtonColors(
     public val contentSelectedHovered: Color,
     public val contentSelectedDisabled: Color,
 ) {
-
     @Composable
     public fun contentFor(state: RadioButtonState): State<Color> =
         rememberUpdatedState(
@@ -64,7 +62,6 @@ public class RadioButtonMetrics(
 @Immutable
 @GenerateDataFunctions
 public class RadioButtonIcons(public val radioButton: PainterProvider) {
-
     public companion object
 }
 

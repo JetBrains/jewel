@@ -127,7 +127,8 @@ private fun LeftColumn(
 
     Column(modifier) {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier =
+            Modifier.fillMaxWidth()
                 .height(IntrinsicSize.Min)
                 .padding(4.dp, 6.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -152,11 +153,12 @@ private fun LeftColumn(
                 state = listState,
                 selectionMode = SelectionMode.Single,
                 onSelectedIndexesChanged = {
-                    val selectedItem = if (it.isNotEmpty()) {
-                        currentContentSource.items[it.first()]
-                    } else {
-                        null
-                    }
+                    val selectedItem =
+                        if (it.isNotEmpty()) {
+                            currentContentSource.items[it.first()]
+                        } else {
+                            null
+                        }
 
                     onSelectedItemChange(selectedItem)
                 },
@@ -192,13 +194,15 @@ private fun ContentItemRow(
     isActive: Boolean,
     onTagClick: (String) -> Unit,
 ) {
-    val color = when {
-        isSelected && isActive -> retrieveColorOrUnspecified("List.selectionBackground")
-        isSelected && !isActive -> retrieveColorOrUnspecified("List.selectionInactiveBackground")
-        else -> Transparent
-    }
+    val color =
+        when {
+            isSelected && isActive -> retrieveColorOrUnspecified("List.selectionBackground")
+            isSelected && !isActive -> retrieveColorOrUnspecified("List.selectionInactiveBackground")
+            else -> Transparent
+        }
     Row(
-        modifier = Modifier.height(JewelTheme.globalMetrics.rowHeight)
+        modifier =
+        Modifier.height(JewelTheme.globalMetrics.rowHeight)
             .background(color)
             .padding(start = 4.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -248,14 +252,16 @@ private fun ItemTag(
         text = text,
         style = Typography.medium(),
         color = foregroundColor,
-        modifier = modifier
+        modifier =
+        modifier
             .background(backgroundColor, shape)
             .padding(padding),
     )
 }
 
 private enum class ItemType {
-    AndroidRelease, AndroidStudio
+    AndroidRelease,
+    AndroidStudio,
 }
 
 @Composable
@@ -287,9 +293,7 @@ private fun SearchBar(
 }
 
 @Composable
-private fun CloseIconButton(
-    service: ReleasesSampleService,
-) {
+private fun CloseIconButton(service: ReleasesSampleService) {
     val interactionSource = remember { MutableInteractionSource() }
     var hovered by remember { mutableStateOf(false) }
 
@@ -312,7 +316,8 @@ private fun CloseIconButton(
     Icon(
         painter = if (hovered) hoveredCloseIcon else closeIcon,
         contentDescription = "Clear",
-        modifier = Modifier
+        modifier =
+        Modifier
             .pointerHoverIcon(PointerIcon.Default)
             .clickable(
                 interactionSource = interactionSource,
@@ -346,7 +351,8 @@ private fun OverflowMenu(
 
     // Emulates Swing actions that pop up menus — they stay pressed while the menu is open
     IconButton(
-        modifier = Modifier.fillMaxHeight()
+        modifier =
+        Modifier.fillMaxHeight()
             .thenIf(menuVisible) {
                 background(
                     color = JewelTheme.iconButtonStyle.colors.backgroundPressed,
@@ -366,9 +372,10 @@ private fun OverflowMenu(
         )
     }
 
-    val contentSources = remember {
-        listOf(AndroidStudioReleases, AndroidReleases)
-    }
+    val contentSources =
+        remember {
+            listOf(AndroidStudioReleases, AndroidReleases)
+        }
 
     if (menuVisible) {
         val checkedIconProvider = rememberResourcePainterProvider("actions/checked.svg", AllIcons::class.java)
@@ -446,7 +453,8 @@ private fun ReleaseImage(imagePath: String) {
     val offset by transition.animateFloat(
         initialValue = -1f,
         targetValue = 1f,
-        animationSpec = infiniteRepeatable(
+        animationSpec =
+        infiniteRepeatable(
             tween(durationMillis = 2.seconds.inWholeMilliseconds.toInt(), easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse,
         ),
@@ -461,7 +469,8 @@ private fun ReleaseImage(imagePath: String) {
     Image(
         painter = painter,
         contentDescription = null,
-        modifier = Modifier.fillMaxWidth()
+        modifier =
+        Modifier.fillMaxWidth()
             .sizeIn(minHeight = 150.dp, maxHeight = 250.dp)
             .onHover { newIsHovered ->
                 scope.launch {
@@ -536,7 +545,10 @@ private fun AndroidStudioReleaseDetails(item: ContentItem.AndroidStudio) {
 }
 
 @Composable
-private fun TextWithLabel(labelText: String, valueText: String) {
+private fun TextWithLabel(
+    labelText: String,
+    valueText: String,
+) {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(labelText)
         Text(valueText, style = Typography.regular().copy(fontWeight = FontWeight.Bold))

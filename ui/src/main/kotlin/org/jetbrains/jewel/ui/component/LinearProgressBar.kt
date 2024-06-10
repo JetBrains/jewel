@@ -70,7 +70,8 @@ public fun IndeterminateHorizontalProgressBar(
     val animatedProgress by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 2f,
-        animationSpec = infiniteRepeatable(
+        animationSpec =
+        infiniteRepeatable(
             tween(durationMillis = cycleDurationMillis, easing = LinearEasing),
             repeatMode = RepeatMode.Restart,
         ),

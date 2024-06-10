@@ -32,8 +32,10 @@ fun ProgressBar() {
     val currentOffset by transition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = keyframes {
+        animationSpec =
+        infiniteRepeatable(
+            animation =
+            keyframes {
                 durationMillis = 4000
                 0f at 1000
                 1f at 3000

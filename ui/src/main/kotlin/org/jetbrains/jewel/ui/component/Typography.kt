@@ -11,12 +11,14 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 
 /**
  * A quick way to obtain text styles derived from
- * [the default `TextStyle`][JewelTheme.defaultTextStyle]. These match the
- * functionality provided by `JBFont` in the IntelliJ Platform.
+ * [the default `TextStyle`][JewelTheme.defaultTextStyle]. These match
+ * the functionality provided by `JBFont` in the IntelliJ Platform.
  */
 public object Typography {
-
-    /** The text style to use for labels. Identical to [JewelTheme.defaultTextStyle]. */
+    /**
+     * The text style to use for labels. Identical to
+     * [JewelTheme.defaultTextStyle].
+     */
     @Composable
     public fun labelTextStyle(): TextStyle = JewelTheme.defaultTextStyle
 
@@ -48,16 +50,14 @@ public object Typography {
      * [JewelTheme.defaultTextStyle].
      */
     @Composable
-    public fun h2TextStyle(): TextStyle =
-        JewelTheme.defaultTextStyle.copy(fontSize = labelTextSize() + 5.sp)
+    public fun h2TextStyle(): TextStyle = JewelTheme.defaultTextStyle.copy(fontSize = labelTextSize() + 5.sp)
 
     /**
      * The text style to use for h3 titles. Derived from
      * [JewelTheme.defaultTextStyle].
      */
     @Composable
-    public fun h3TextStyle(): TextStyle =
-        JewelTheme.defaultTextStyle.copy(fontSize = labelTextSize() + 3.sp)
+    public fun h3TextStyle(): TextStyle = JewelTheme.defaultTextStyle.copy(fontSize = labelTextSize() + 3.sp)
 
     /**
      * The text style to use for h4 titles. Derived from
