@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.markdown
 
 import org.commonmark.node.Block
+import org.commonmark.node.CustomBlock as CMCustomBlock
 import org.commonmark.node.Heading as CMHeading
 import org.commonmark.node.Paragraph as CMParagraph
 
@@ -22,7 +23,10 @@ public sealed interface MarkdownBlock {
         ) : CodeBlock
     }
 
-    public interface CustomBlock : MarkdownBlock
+    public interface CustomBlock : MarkdownBlock {
+        @JvmInline
+        public value class DefaultCustomBlock(public val nativeBlock: CMCustomBlock) : CustomBlock
+    }
 
     @JvmInline
     public value class Heading(

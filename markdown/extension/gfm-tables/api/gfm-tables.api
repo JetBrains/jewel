@@ -1,0 +1,35 @@
+public final class org/jetbrains/jewel/markdown/extensions/tables/GitHubTableBlockRenderer : org/jetbrains/jewel/markdown/extensions/MarkdownBlockRendererExtension {
+	public static final field $stable I
+	public fun <init> (Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling;)V
+	public fun canRender (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock;)Z
+	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CustomBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownBlockRenderer;Lorg/jetbrains/jewel/markdown/rendering/InlineMarkdownRenderer;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class org/jetbrains/jewel/markdown/extensions/tables/GitHubTableProcessorExtension : org/jetbrains/jewel/markdown/extensions/MarkdownProcessorExtension {
+	public static final field $stable I
+	public static final field INSTANCE Lorg/jetbrains/jewel/markdown/extensions/tables/GitHubTableProcessorExtension;
+	public fun getParserExtension ()Lorg/commonmark/parser/Parser$ParserExtension;
+	public fun getProcessorExtension ()Lorg/jetbrains/jewel/markdown/extensions/MarkdownBlockProcessorExtension;
+	public fun getTextRendererExtension ()Lorg/commonmark/renderer/text/TextContentRenderer$TextContentRendererExtension;
+}
+
+public final class org/jetbrains/jewel/markdown/extensions/tables/GitHubTableRendererExtension : org/jetbrains/jewel/markdown/extensions/MarkdownRendererExtension {
+	public static final field $stable I
+	public fun <init> (Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling;)V
+	public fun getBlockRenderer ()Lorg/jetbrains/jewel/markdown/extensions/MarkdownBlockRendererExtension;
+}
+
+public final class org/jetbrains/jewel/markdown/extensions/tables/TableStyling {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/markdown/extensions/tables/TableStyling$Companion;
+	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBorderColor-0d7_KjU ()J
+	public final fun getHeadColor-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/markdown/extensions/tables/TableStyling$Companion {
+}
+
