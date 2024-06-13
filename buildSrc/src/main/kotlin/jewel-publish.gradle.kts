@@ -23,8 +23,8 @@ val publishingExtension = extensions.getByType<PublishingExtension>()
 
 signing {
     useInMemoryPgpKeys(
-        System.getenv("PGP_PRIVATE_KEY") ?: properties["signing.privateKey"] as String,
-        System.getenv("PGP_PASSWORD")?: properties["signing.password"] as String
+        System.getenv("PGP_PRIVATE_KEY") ?: properties["signing.privateKey"] as String?,
+        System.getenv("PGP_PASSWORD")?: properties["signing.password"] as String?
     )
     sign(publishingExtension.publications)
 }
