@@ -137,16 +137,16 @@ public val ButtonColors.Companion.Outlined: IntUiOutlinedButtonColorFactory
 public object IntUiOutlinedButtonColorFactory {
     @Composable
     public fun light(
-        background: Brush = SolidColor(Color.Transparent),
+        background: Brush = SolidColor(IntUiLightTheme.colors.grey(14)),
         backgroundDisabled: Brush = SolidColor(IntUiLightTheme.colors.grey(12)),
-        backgroundFocused: Brush = SolidColor(Color.Transparent),
+        backgroundFocused: Brush = background,
         backgroundPressed: Brush = SolidColor(IntUiLightTheme.colors.grey(13)),
-        backgroundHovered: Brush = SolidColor(Color.Transparent),
+        backgroundHovered: Brush = background,
         content: Color = IntUiLightTheme.colors.grey(1),
         contentDisabled: Color = IntUiLightTheme.colors.grey(8),
-        contentFocused: Color = IntUiLightTheme.colors.grey(1),
-        contentPressed: Color = IntUiLightTheme.colors.grey(1),
-        contentHovered: Color = IntUiLightTheme.colors.grey(1),
+        contentFocused: Color = content,
+        contentPressed: Color = content,
+        contentHovered: Color = content,
         border: Brush = SolidColor(IntUiLightTheme.colors.grey(9)),
         borderDisabled: Brush = SolidColor(IntUiLightTheme.colors.grey(12)),
         borderFocused: Brush = SolidColor(IntUiLightTheme.colors.blue(4)),
@@ -175,7 +175,7 @@ public object IntUiOutlinedButtonColorFactory {
     public fun dark(
         background: Brush = SolidColor(Color.Transparent),
         backgroundDisabled: Brush = SolidColor(IntUiDarkTheme.colors.grey(5)),
-        backgroundFocused: Brush = SolidColor(IntUiDarkTheme.colors.grey(6)),
+        backgroundFocused: Brush = background,
         backgroundPressed: Brush = SolidColor(IntUiDarkTheme.colors.grey(2)),
         backgroundHovered: Brush = SolidColor(Color.Unspecified),
         content: Color = IntUiDarkTheme.colors.grey(12),

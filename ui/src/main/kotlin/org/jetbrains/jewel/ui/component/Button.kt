@@ -92,7 +92,7 @@ private fun ButtonImpl(
     interactionSource: MutableInteractionSource,
     style: ButtonStyle,
     textStyle: TextStyle,
-    content: @Composable (RowScope.() -> Unit),
+    content: @Composable RowScope.() -> Unit,
 ) {
     var buttonState by remember(interactionSource) {
         mutableStateOf(ButtonState.of(enabled = enabled))
