@@ -92,6 +92,7 @@ internal fun MarkdownPreview(
                 state = lazyListState,
                 selectable = true,
                 onUrlClick = { url -> Desktop.getDesktop().browse(URI.create(url)) },
+                onTextClick = { },
             )
 
             VerticalScrollbar(
