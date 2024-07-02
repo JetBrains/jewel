@@ -9,14 +9,14 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.name
+import kotlin.reflect.jvm.javaMethod
 import kotlin.reflect.jvm.kotlinFunction
 
 internal fun findViews(packageName: String): List<ViewInfo> {
-    val path = "/" + packageName.replace('.', '/').removePrefix("/")
+    val path = packageName.replace('.', '/').removePrefix("/")
 
-    val uri =
-        Class.forName("org.jetbrains.jewel.samples.standalone.reflection.ViewsKt")
-            .getResource(path)?.toURI() ?: return emptyList()
+    val uri = ::findViews.javaMethod?.declaringClass?.classLoader?.getResource(path)?.toURI()
+        ?: return emptyList()
 
     val directory =
         if (uri.scheme == "jar") {

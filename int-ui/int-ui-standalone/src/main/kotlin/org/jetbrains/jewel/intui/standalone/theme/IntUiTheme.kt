@@ -30,6 +30,7 @@ import org.jetbrains.jewel.ui.component.styling.DropdownStyle
 import org.jetbrains.jewel.ui.component.styling.GroupHeaderStyle
 import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
+import org.jetbrains.jewel.ui.component.styling.LazyTableStyle
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
@@ -111,6 +112,7 @@ public fun ComponentStyling.dark(
     groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.dark(),
     horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.dark(),
     iconButtonStyle: IconButtonStyle = IconButtonStyle.dark(),
+    lazyTableStyle: LazyTableStyle = LazyTableStyle.dark(),
     lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.dark(),
     linkStyle: LinkStyle = LinkStyle.dark(),
     menuStyle: MenuStyle = MenuStyle.dark(),
@@ -136,6 +138,7 @@ public fun ComponentStyling.dark(
             groupHeaderStyle = groupHeaderStyle,
             horizontalProgressBarStyle = horizontalProgressBarStyle,
             iconButtonStyle = iconButtonStyle,
+            lazyTableStyle = lazyTableStyle,
             lazyTreeStyle = lazyTreeStyle,
             linkStyle = linkStyle,
             menuStyle = menuStyle,
@@ -163,6 +166,7 @@ public fun ComponentStyling.light(
     groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.light(),
     horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.light(),
     iconButtonStyle: IconButtonStyle = IconButtonStyle.light(),
+    lazyTableStyle: LazyTableStyle = LazyTableStyle.light(),
     lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.light(),
     linkStyle: LinkStyle = LinkStyle.light(),
     menuStyle: MenuStyle = MenuStyle.light(),
@@ -188,6 +192,7 @@ public fun ComponentStyling.light(
             groupHeaderStyle = groupHeaderStyle,
             horizontalProgressBarStyle = horizontalProgressBarStyle,
             iconButtonStyle = iconButtonStyle,
+            lazyTableStyle = lazyTableStyle,
             lazyTreeStyle = lazyTreeStyle,
             linkStyle = linkStyle,
             menuStyle = menuStyle,

@@ -13,6 +13,7 @@ kotlinterGradlePlugin = "4.3.0"
 kotlinxSerialization = "1.6.3"
 kotlinxBinaryCompat = "0.14.0"
 poko = "0.15.3"
+faker = "1.16.0"
 
 [libraries]
 commonmark-core = { module = "org.commonmark:commonmark", version.ref = "commonmark" }
@@ -38,6 +39,8 @@ kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 kotlinter-gradlePlugin = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "kotlinterGradlePlugin" }
 kotlinx-binaryCompatValidator-gradlePlugin = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "kotlinxBinaryCompat" }
 poko-gradlePlugin = { module = "dev.drewhamilton.poko:poko-gradle-plugin", version.ref = "poko" }
+
+faker = { module = "io.github.serpro69:kotlin-faker", version.ref = "faker" }
 
 [bundles]
 idea = ["ij-platform-ide-core", "ij-platform-ide-impl", "ij-platform-core-ui"]

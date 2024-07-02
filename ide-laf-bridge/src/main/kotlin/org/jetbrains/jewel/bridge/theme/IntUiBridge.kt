@@ -78,6 +78,9 @@ import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
+import org.jetbrains.jewel.ui.component.styling.LazyTableColors
+import org.jetbrains.jewel.ui.component.styling.LazyTableMetrics
+import org.jetbrains.jewel.ui.component.styling.LazyTableStyle
 import org.jetbrains.jewel.ui.component.styling.LazyTreeColors
 import org.jetbrains.jewel.ui.component.styling.LazyTreeIcons
 import org.jetbrains.jewel.ui.component.styling.LazyTreeMetrics
@@ -237,6 +240,7 @@ internal fun createBridgeComponentStyling(
         textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
         tooltipStyle = readTooltipStyle(),
+        lazyTableStyle = readLazyTableStyle(),
         undecoratedDropdownStyle = readUndecoratedDropdownStyle(menuStyle, dropdownTextStyle),
     )
 }
@@ -1138,6 +1142,24 @@ private fun readTooltipStyle(): TooltipStyle {
             ),
     )
 }
+
+private fun readLazyTableStyle() =
+    LazyTableStyle(
+        colors = LazyTableColors(
+            background = retrieveColorOrUnspecified("Table.background"),
+            backgroundSelected = retrieveColorOrUnspecified("Table.selectionBackground"),
+            backgroundInactiveSelected = retrieveColorOrUnspecified("Table.inactiveSelectionBackground"),
+            foreground = retrieveColorOrUnspecified("Table.foreground"),
+            foregroundSelected = retrieveColorOrUnspecified("Table.selectionForeground"),
+            foregroundInactiveSelected = retrieveColorOrUnspecified("Table.inactiveSelectionForeground"),
+            gridColor = retrieveColorOrUnspecified("Table.gridColor"),
+            stripeColor = retrieveColorOrUnspecified("Table.stripeColor"),
+            headerBackground = retrieveColorOrUnspecified("TableHeader.background"),
+            headerForeground = retrieveColorOrUnspecified("TableHeader.foreground"),
+            headerSeparatorColor = retrieveColorOrUnspecified("TableHeader.separatorColor"),
+        ),
+        metrics = LazyTableMetrics(),
+    )
 
 private fun readIconButtonStyle(): IconButtonStyle =
     IconButtonStyle(

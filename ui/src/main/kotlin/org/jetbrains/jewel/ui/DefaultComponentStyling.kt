@@ -15,6 +15,7 @@ import org.jetbrains.jewel.ui.component.styling.DropdownStyle
 import org.jetbrains.jewel.ui.component.styling.GroupHeaderStyle
 import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
+import org.jetbrains.jewel.ui.component.styling.LazyTableStyle
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.LocalCheckboxStyle
@@ -28,6 +29,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalEditorTabStyle
 import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
 import org.jetbrains.jewel.ui.component.styling.LocalHorizontalProgressBarStyle
 import org.jetbrains.jewel.ui.component.styling.LocalIconButtonStyle
+import org.jetbrains.jewel.ui.component.styling.LocalLazyTableStyle
 import org.jetbrains.jewel.ui.component.styling.LocalLazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LocalLinkStyle
 import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
@@ -62,6 +64,7 @@ public class DefaultComponentStyling(
     public val groupHeaderStyle: GroupHeaderStyle,
     public val horizontalProgressBarStyle: HorizontalProgressBarStyle,
     public val iconButtonStyle: IconButtonStyle,
+    public val lazyTableStyle: LazyTableStyle,
     public val lazyTreeStyle: LazyTreeStyle,
     public val linkStyle: LinkStyle,
     public val menuStyle: MenuStyle,
@@ -89,6 +92,7 @@ public class DefaultComponentStyling(
             LocalGroupHeaderStyle provides groupHeaderStyle,
             LocalHorizontalProgressBarStyle provides horizontalProgressBarStyle,
             LocalIconButtonStyle provides iconButtonStyle,
+            LocalLazyTableStyle provides lazyTableStyle,
             LocalLazyTreeStyle provides lazyTreeStyle,
             LocalLinkStyle provides linkStyle,
             LocalMenuStyle provides menuStyle,
