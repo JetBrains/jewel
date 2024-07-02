@@ -6,7 +6,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.HorizontalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +22,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -42,7 +43,6 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection.Ltr
@@ -125,16 +125,29 @@ public open class DefaultMarkdownBlockRenderer(
         onUrlClick: (String) -> Unit,
         onTextClick: () -> Unit,
     ) {
-        val renderedContent = rememberRenderedContent(block, styling.inlinesStyling, enabled)
-        SimpleClickableText(
+        val renderedContent =
+            rememberRenderedContent(
+                block,
+                styling.inlinesStyling,
+                enabled,
+                onUrlClick,
+            )
+        val textColor =
+            styling.inlinesStyling.textStyle.color
+                .takeOrElse { LocalContentColor.current }
+                .takeOrElse { styling.inlinesStyling.textStyle.color }
+        val mergedStyle = styling.inlinesStyling.textStyle.merge(TextStyle(color = textColor))
+        val interactionSource = remember { MutableInteractionSource() }
+
+        Text(
+            modifier =
+                Modifier.clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = onTextClick,
+                ),
             text = renderedContent,
-            textStyle = styling.inlinesStyling.textStyle,
-            color =
-                styling.inlinesStyling.textStyle.color
-                    .takeOrElse { LocalContentColor.current },
-            enabled = enabled,
-            onUnhandledClick = onTextClick,
-            onUrlClick = onUrlClick,
+            style = mergedStyle,
         )
     }
 
@@ -165,7 +178,13 @@ public open class DefaultMarkdownBlockRenderer(
         onUrlClick: (String) -> Unit,
         onTextClick: () -> Unit,
     ) {
-        val renderedContent = rememberRenderedContent(block, styling.inlinesStyling, enabled)
+        val renderedContent =
+            rememberRenderedContent(
+                block,
+                styling.inlinesStyling,
+                enabled,
+                onUrlClick,
+            )
         Heading(
             renderedContent,
             styling.inlinesStyling.textStyle,
@@ -173,9 +192,6 @@ public open class DefaultMarkdownBlockRenderer(
             styling.underlineWidth,
             styling.underlineColor,
             styling.underlineGap,
-            enabled,
-            onUrlClick,
-            onTextClick,
         )
     }
 
@@ -187,18 +203,15 @@ public open class DefaultMarkdownBlockRenderer(
         underlineWidth: Dp,
         underlineColor: Color,
         underlineGap: Dp,
-        enabled: Boolean,
-        onUrlClick: (String) -> Unit,
-        onTextClick: () -> Unit,
     ) {
         Column(modifier = Modifier.padding(paddingValues)) {
-            SimpleClickableText(
+            val textColor =
+                textStyle.color
+                    .takeOrElse { LocalContentColor.current.takeOrElse { textStyle.color } }
+            val mergedStyle = textStyle.merge(TextStyle(color = textColor))
+            Text(
                 text = renderedContent,
-                textStyle = textStyle,
-                color = textStyle.color.takeOrElse { LocalContentColor.current },
-                enabled = enabled,
-                onUnhandledClick = onTextClick,
-                onUrlClick = onUrlClick,
+                style = mergedStyle,
             )
 
             if (underlineWidth > 0.dp && underlineColor.isSpecified) {
@@ -457,60 +470,9 @@ public open class DefaultMarkdownBlockRenderer(
         block: BlockWithInlineMarkdown,
         styling: InlinesStyling,
         enabled: Boolean,
+        onUrlClick: ((String) -> Unit)? = null,
     ) = remember(block.inlineContent, styling, enabled) {
-        inlineRenderer.renderAsAnnotatedString(block.inlineContent, styling, enabled)
-    }
-
-    @OptIn(ExperimentalTextApi::class)
-    @Composable
-    private fun SimpleClickableText(
-        text: AnnotatedString,
-        textStyle: TextStyle,
-        enabled: Boolean,
-        modifier: Modifier = Modifier,
-        color: Color = Color.Unspecified,
-        onUrlClick: (String) -> Unit,
-        onUnhandledClick: () -> Unit,
-    ) {
-        var hoverPointerIcon by remember { mutableStateOf(PointerIcon.Default) }
-        val actualPointerIcon =
-            remember(hoverPointerIcon, enabled) {
-                if (enabled) hoverPointerIcon else PointerIcon.Default
-            }
-
-        val textColor = color.takeOrElse { LocalContentColor.current.takeOrElse { textStyle.color } }
-
-        val mergedStyle = textStyle.merge(TextStyle(color = textColor))
-
-        ClickableText(
-            text = text,
-            style = mergedStyle,
-            modifier = modifier.pointerHoverIcon(actualPointerIcon, true),
-            onHover = { offset -> hoverPointerIcon = determinePointerIcon(offset, text) },
-            onClick = { offset ->
-                if (!enabled) return@ClickableText
-
-                val span = text.getUrlAnnotations(offset, offset).firstOrNull()
-                if (span != null) {
-                    onUrlClick(span.item.url)
-                } else {
-                    onUnhandledClick()
-                }
-            },
-        )
-    }
-
-    private fun determinePointerIcon(
-        offset: Int?,
-        text: AnnotatedString,
-    ): PointerIcon {
-        if (offset == null) return PointerIcon.Hand
-
-        val hasLinkAnnotations = text.getLinkAnnotations(offset, offset).isNotEmpty()
-        return when {
-            hasLinkAnnotations -> PointerIcon.Hand
-            else -> PointerIcon.Default
-        }
+        inlineRenderer.renderAsAnnotatedString(block.inlineContent, styling, enabled, onUrlClick)
     }
 
     @Composable

@@ -4,8 +4,7 @@ import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.AnnotatedString.Builder
-import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.LinkAnnotation.Url
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import org.commonmark.renderer.text.TextContentRenderer
@@ -29,16 +28,17 @@ public open class DefaultInlineMarkdownRenderer(
         inlineMarkdown: Iterable<InlineMarkdown>,
         styling: InlinesStyling,
         enabled: Boolean,
+        onUrlClicked: ((String) -> Unit)?,
     ): AnnotatedString =
         buildAnnotatedString {
-            appendInlineMarkdownFrom(inlineMarkdown, styling, enabled)
+            appendInlineMarkdownFrom(inlineMarkdown, styling, enabled, onUrlClicked)
         }
 
-    @OptIn(ExperimentalTextApi::class)
     private fun Builder.appendInlineMarkdownFrom(
         inlineMarkdown: Iterable<InlineMarkdown>,
         styling: InlinesStyling,
         enabled: Boolean,
+        onUrlClicked: ((String) -> Unit)? = null,
     ) {
         for (child in inlineMarkdown) {
             when (child) {
@@ -63,7 +63,17 @@ public open class DefaultInlineMarkdownRenderer(
 
                 is InlineMarkdown.Link -> {
                     withStyles(styling.link.withEnabled(enabled), child) {
-                        pushLink(Url(it.nativeNode.destination))
+                        val destination = it.nativeNode.destination
+                        val link =
+                            LinkAnnotation.Clickable(
+                                tag = destination,
+                                linkInteractionListener = { _ ->
+                                    if (enabled) {
+                                        onUrlClicked?.invoke(destination)
+                                    }
+                                },
+                            )
+                        pushLink(link)
                         appendInlineMarkdownFrom(it.children, styling, enabled)
                     }
                 }
