@@ -487,16 +487,17 @@ public open class DefaultMarkdownBlockRenderer(
             style = mergedStyle,
             modifier = modifier.pointerHoverIcon(actualPointerIcon, true),
             onHover = { offset -> hoverPointerIcon = determinePointerIcon(offset, text) },
-        ) { offset ->
-            if (!enabled) return@ClickableText
+            onClick = { offset ->
+                if (!enabled) return@ClickableText
 
-            val span = text.getUrlAnnotations(offset, offset).firstOrNull()
-            if (span != null) {
-                onUrlClick(span.item.url)
-            } else {
-                onUnhandledClick()
-            }
-        }
+                val span = text.getUrlAnnotations(offset, offset).firstOrNull()
+                if (span != null) {
+                    onUrlClick(span.item.url)
+                } else {
+                    onUnhandledClick()
+                }
+            },
+        )
     }
 
     private fun determinePointerIcon(
@@ -506,10 +507,9 @@ public open class DefaultMarkdownBlockRenderer(
         if (offset == null) return PointerIcon.Hand
 
         val hasLinkAnnotations = text.getLinkAnnotations(offset, offset).isNotEmpty()
-        return if (hasLinkAnnotations) {
-            PointerIcon.Hand
-        } else {
-            PointerIcon.Default
+        return when {
+            hasLinkAnnotations -> PointerIcon.Hand
+            else -> PointerIcon.Default
         }
     }
 
