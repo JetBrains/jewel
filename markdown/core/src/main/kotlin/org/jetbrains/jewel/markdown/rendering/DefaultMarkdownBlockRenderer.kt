@@ -109,7 +109,8 @@ public open class DefaultMarkdownBlockRenderer(
             is Paragraph -> render(block, rootStyling.paragraph, enabled, onUrlClick, onTextClick)
             ThematicBreak -> renderThematicBreak(rootStyling.thematicBreak)
             is CustomBlock -> {
-                rendererExtensions.find { it.blockRenderer.canRender(block) }
+                rendererExtensions
+                    .find { it.blockRenderer.canRender(block) }
                     ?.blockRenderer
                     ?.render(block, blockRenderer = this, inlineRenderer, enabled, onUrlClick, onTextClick)
             }
@@ -128,7 +129,9 @@ public open class DefaultMarkdownBlockRenderer(
         SimpleClickableText(
             text = renderedContent,
             textStyle = styling.inlinesStyling.textStyle,
-            color = styling.inlinesStyling.textStyle.color.takeOrElse { LocalContentColor.current },
+            color =
+                styling.inlinesStyling.textStyle.color
+                    .takeOrElse { LocalContentColor.current },
             enabled = enabled,
             onUnhandledClick = onTextClick,
             onUrlClick = onUrlClick,
@@ -214,21 +217,21 @@ public open class DefaultMarkdownBlockRenderer(
         onTextClick: () -> Unit,
     ) {
         Column(
-            Modifier.drawBehind {
-                val isLtr = layoutDirection == Ltr
-                val lineWidthPx = styling.lineWidth.toPx()
-                val x = if (isLtr) lineWidthPx / 2 else size.width - lineWidthPx / 2
+            Modifier
+                .drawBehind {
+                    val isLtr = layoutDirection == Ltr
+                    val lineWidthPx = styling.lineWidth.toPx()
+                    val x = if (isLtr) lineWidthPx / 2 else size.width - lineWidthPx / 2
 
-                drawLine(
-                    styling.lineColor,
-                    Offset(x, 0f),
-                    Offset(x, size.height),
-                    lineWidthPx,
-                    styling.strokeCap,
-                    styling.pathEffect,
-                )
-            }
-                .padding(styling.padding),
+                    drawLine(
+                        styling.lineColor,
+                        Offset(x, 0f),
+                        Offset(x, size.height),
+                        lineWidthPx,
+                        styling.strokeCap,
+                        styling.pathEffect,
+                    )
+                }.padding(styling.padding),
             verticalArrangement = Arrangement.spacedBy(rootStyling.blockVerticalSpacing),
         ) {
             CompositionLocalProvider(LocalContentColor provides styling.textColor) {
@@ -278,7 +281,8 @@ public open class DefaultMarkdownBlockRenderer(
                         style = styling.numberStyle,
                         color = styling.numberStyle.color.takeOrElse { LocalContentColor.current },
                         modifier =
-                            Modifier.widthIn(min = styling.numberMinWidth)
+                            Modifier
+                                .widthIn(min = styling.numberMinWidth)
                                 .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                         textAlign = styling.numberTextAlign,
                     )
@@ -357,7 +361,8 @@ public open class DefaultMarkdownBlockRenderer(
     ) {
         HorizontallyScrollingContainer(
             isScrollable = styling.scrollsHorizontally,
-            Modifier.background(styling.background, styling.shape)
+            Modifier
+                .background(styling.background, styling.shape)
                 .border(styling.borderWidth, styling.borderColor, styling.shape)
                 .then(if (styling.fillWidth) Modifier.fillMaxWidth() else Modifier),
         ) {
@@ -366,7 +371,8 @@ public open class DefaultMarkdownBlockRenderer(
                 style = styling.editorTextStyle,
                 color = styling.editorTextStyle.color.takeOrElse { LocalContentColor.current },
                 modifier =
-                    Modifier.padding(styling.padding)
+                    Modifier
+                        .padding(styling.padding)
                         .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
             )
         }
@@ -379,7 +385,8 @@ public open class DefaultMarkdownBlockRenderer(
     ) {
         HorizontallyScrollingContainer(
             isScrollable = styling.scrollsHorizontally,
-            Modifier.background(styling.background, styling.shape)
+            Modifier
+                .background(styling.background, styling.shape)
                 .border(styling.borderWidth, styling.borderColor, styling.shape)
                 .then(if (styling.fillWidth) Modifier.fillMaxWidth() else Modifier),
         ) {
@@ -419,7 +426,7 @@ public open class DefaultMarkdownBlockRenderer(
         infoText: String,
         alignment: Alignment.Horizontal,
         textStyle: TextStyle,
-        modifier: Modifier,
+        modifier: Modifier = Modifier,
     ) {
         Column(modifier, horizontalAlignment = alignment) {
             DisableSelection {
@@ -479,14 +486,7 @@ public open class DefaultMarkdownBlockRenderer(
             text = text,
             style = mergedStyle,
             modifier = modifier.pointerHoverIcon(actualPointerIcon, true),
-            onHover = { offset ->
-                hoverPointerIcon =
-                    if (offset == null || text.getUrlAnnotations(offset, offset).isEmpty()) {
-                        PointerIcon.Default
-                    } else {
-                        PointerIcon.Hand
-                    }
-            },
+            onHover = { offset -> hoverPointerIcon = determinePointerIcon(offset, text) },
         ) { offset ->
             if (!enabled) return@ClickableText
 
@@ -496,6 +496,20 @@ public open class DefaultMarkdownBlockRenderer(
             } else {
                 onUnhandledClick()
             }
+        }
+    }
+
+    private fun determinePointerIcon(
+        offset: Int?,
+        text: AnnotatedString,
+    ): PointerIcon {
+        if (offset == null) return PointerIcon.Hand
+
+        val hasLinkAnnotations = text.getLinkAnnotations(offset, offset).isNotEmpty()
+        return if (hasLinkAnnotations) {
+            PointerIcon.Hand
+        } else {
+            PointerIcon.Default
         }
     }
 
@@ -511,7 +525,8 @@ public open class DefaultMarkdownBlockRenderer(
             content = {
                 val scrollState = rememberScrollState()
                 Box(
-                    Modifier.layoutId("mainContent")
+                    Modifier
+                        .layoutId("mainContent")
                         .then(if (isScrollable) Modifier.horizontalScroll(scrollState) else Modifier),
                 ) {
                     content()
@@ -529,7 +544,8 @@ public open class DefaultMarkdownBlockRenderer(
 
                     HorizontalScrollbar(
                         rememberScrollbarAdapter(scrollState),
-                        Modifier.layoutId("containerHScrollbar")
+                        Modifier
+                            .layoutId("containerHScrollbar")
                             .padding(start = 2.dp, end = 2.dp, bottom = 2.dp)
                             .alpha(alpha),
                     )

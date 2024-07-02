@@ -5,8 +5,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.AnnotatedString.Builder
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.LinkAnnotation.Url
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.UrlAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
 import org.commonmark.renderer.text.TextContentRenderer
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
@@ -14,11 +14,14 @@ import org.jetbrains.jewel.markdown.InlineMarkdown
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 
 @ExperimentalJewelApi
-public open class DefaultInlineMarkdownRenderer(rendererExtensions: List<MarkdownProcessorExtension>) : InlineMarkdownRenderer {
+public open class DefaultInlineMarkdownRenderer(
+    rendererExtensions: List<MarkdownProcessorExtension>,
+) : InlineMarkdownRenderer {
     public constructor(vararg extensions: MarkdownProcessorExtension) : this(extensions.toList())
 
     private val plainTextRenderer =
-        TextContentRenderer.builder()
+        TextContentRenderer
+            .builder()
             .extensions(rendererExtensions.map { it.textRendererExtension })
             .build()
 
@@ -60,7 +63,7 @@ public open class DefaultInlineMarkdownRenderer(rendererExtensions: List<Markdow
 
                 is InlineMarkdown.Link -> {
                     withStyles(styling.link.withEnabled(enabled), child) {
-                        pushUrlAnnotation(UrlAnnotation(it.nativeNode.destination))
+                        pushLink(Url(it.nativeNode.destination))
                         appendInlineMarkdownFrom(it.children, styling, enabled)
                     }
                 }
