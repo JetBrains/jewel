@@ -9,7 +9,6 @@ public fun interface NewUiChecker {
     public fun isNewUi(): Boolean
 }
 
-// TODO provide value in theme
 public val LocalNewUiChecker: ProvidableCompositionLocal<NewUiChecker> =
     staticCompositionLocalOf { error("No NewUiChecker provided") }
 
