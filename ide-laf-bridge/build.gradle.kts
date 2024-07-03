@@ -2,6 +2,7 @@ plugins {
     jewel
     `jewel-publish`
     `jewel-check-public-api`
+    `icon-keys-generator`
     `ide-version-checker`
     alias(libs.plugins.composeDesktop)
     alias(libs.plugins.ideaPluginModule)
@@ -16,6 +17,13 @@ repositories {
 
     intellijPlatform {
         defaultRepositories()
+    }
+}
+
+intelliJIconKeysGenerator {
+    register("AllIcons") {
+        sourceClassName = "com.intellij.icons.AllIcons"
+        generatedClassName = "org.jetbrains.jewel.ui.icons.AllIconsKeys"
     }
 }
 
