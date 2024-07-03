@@ -6,7 +6,6 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 
 public fun interface IconIdInterpreter {
-
     public fun interpret(iconId: String): InterpretedIconId
 }
 

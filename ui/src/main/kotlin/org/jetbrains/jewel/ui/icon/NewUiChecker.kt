@@ -6,7 +6,6 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 
 public fun interface NewUiChecker {
-
     public fun isNewUi(): Boolean
 }
 

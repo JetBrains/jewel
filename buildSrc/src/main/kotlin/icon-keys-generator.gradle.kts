@@ -14,11 +14,14 @@ import kotlinx.serialization.json.JsonPrimitive
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 
-class IconKeysGeneratorContainer(container: NamedDomainObjectContainer<IconKeysGeneration>) :
-    NamedDomainObjectContainer<IconKeysGeneration> by container
+class IconKeysGeneratorContainer(
+    container: NamedDomainObjectContainer<IconKeysGeneration>,
+) : NamedDomainObjectContainer<IconKeysGeneration> by container
 
-class IconKeysGeneration(val name: String, project: Project) {
-
+class IconKeysGeneration(
+    val name: String,
+    project: Project,
+) {
     val targetDir: DirectoryProperty =
         project.objects
             .directoryProperty()
@@ -36,10 +39,11 @@ extensions.add("intelliJIconKeysGenerator", extension)
 extension.all {
     val task =
         tasks.register<IconKeysGeneratorTask>("generate${name}Keys") {
-            val paths = this@all.generatedClassName.map {
-                val className = ClassName.bestGuess(it)
-                className.canonicalName.replace('.', '/') + ".kt"
-            }
+            val paths =
+                this@all.generatedClassName.map {
+                    val className = ClassName.bestGuess(it)
+                    className.canonicalName.replace('.', '/') + ".kt"
+                }
 
             this@register.outputFile = this@all.targetDir.file(paths)
             this@register.sourceClassName = this@all.sourceClassName
@@ -56,8 +60,7 @@ extension.all {
     }
 }
 
-open class IconKeysGeneratorTask() : DefaultTask() {
-
+open class IconKeysGeneratorTask : DefaultTask() {
     @get:OutputFile
     val outputFile: RegularFileProperty = project.objects.fileProperty()
 
@@ -79,9 +82,10 @@ open class IconKeysGeneratorTask() : DefaultTask() {
     fun generate() {
         val iconsClass = Class.forName(sourceClassName.get())
         val json = Json { isLenient = true }
-        val iconMapping = iconsClass.getResourceAsStream("/PlatformIconMappings.json").use {
-            json.parseToJsonElement(it!!.readAllBytes().decodeToString())
-        }
+        val iconMapping =
+            iconsClass.getResourceAsStream("/PlatformIconMappings.json").use {
+                json.parseToJsonElement(it!!.readAllBytes().decodeToString())
+            }
 
         val map = readIconMapping(iconMapping)
         logger.lifecycle("Icon mapping json read. Has ${map.size} entries")
@@ -106,12 +110,17 @@ open class IconKeysGeneratorTask() : DefaultTask() {
 
         visitMapping(oldUiPath = "", node = rawMapping, map = flattenedMappings)
 
-        return flattenedMappings.flatMap { (newPath, oldPaths) ->
-            oldPaths.map { oldPath -> oldPath to newPath }
-        }.toMap()
+        return flattenedMappings
+            .flatMap { (newPath, oldPaths) ->
+                oldPaths.map { oldPath -> oldPath to newPath }
+            }.toMap()
     }
 
-    private fun visitMapping(oldUiPath: String, node: JsonElement, map: MutableMap<String, Set<String>>) {
+    private fun visitMapping(
+        oldUiPath: String,
+        node: JsonElement,
+        map: MutableMap<String, Set<String>>,
+    ) {
         when (node) {
             is JsonPrimitive -> {
                 if (!node.isString) return
@@ -119,15 +128,18 @@ open class IconKeysGeneratorTask() : DefaultTask() {
             }
 
             is JsonArray -> {
-                map[oldUiPath] = node.filterIsInstance<JsonPrimitive>()
-                    .filter { child -> child.isString }
-                    .map { it.content }
-                    .toSet()
+                map[oldUiPath] =
+                    node
+                        .filterIsInstance<JsonPrimitive>()
+                        .filter { child -> child.isString }
+                        .map { it.content }
+                        .toSet()
             }
 
             is JsonObject -> {
                 for ((key, value) in node.entries) {
-                    visitMapping(oldUiPath = "$oldUiPath/$key", node = value, map = map)
+                    val childOldPath = if (oldUiPath.isNotEmpty()) "$oldUiPath/$key" else key
+                    visitMapping(oldUiPath = childOldPath, node = value, map = map)
                 }
             }
 
@@ -148,13 +160,14 @@ open class IconKeysGeneratorTask() : DefaultTask() {
         }
         parentHolder.holders.sortBy { it.name }
 
-        clazz.declaredFields.filter { it.type == javax.swing.Icon::class.java }
+        clazz.declaredFields
+            .filter { it.type == javax.swing.Icon::class.java }
             .forEach { field ->
                 val fieldName = "${parentHolder.name}.${field.name}"
 
                 if (field.annotations.isNotEmpty()) {
                     logger.lifecycle(
-                        "$fieldName -> ${field.annotations.joinToString { it!!.annotationClass.qualifiedName!! }}"
+                        "$fieldName -> ${field.annotations.joinToString { it!!.annotationClass.qualifiedName!! }}",
                     )
                 }
 
@@ -174,7 +187,10 @@ open class IconKeysGeneratorTask() : DefaultTask() {
         parentHolder.keys.sortBy { it.name }
     }
 
-    private fun validatePath(path: String, fieldName: String) {
+    private fun validatePath(
+        path: String,
+        fieldName: String,
+    ) {
         val iconsClass = Class.forName(sourceClassName.get())
         if (iconsClass.getResourceAsStream("/${path.trimStart('/')}") == null) {
             logger.warn("Icon $fieldName: '$path' does not exist")
@@ -184,51 +200,58 @@ open class IconKeysGeneratorTask() : DefaultTask() {
     private fun generateKotlinCode(rootHolder: IconKeyHolder): FileSpec {
         val className = ClassName.bestGuess(generatedClassName.get())
 
-        return FileSpec.builder(className).apply {
-            indent("    ")
-            addFileComment("Generated by the Jewel icon keys generator\n")
-            addFileComment("Source class: ${sourceClassName.get()}")
+        return FileSpec
+            .builder(className)
+            .apply {
+                indent("    ")
+                addFileComment("Generated by the Jewel icon keys generator\n")
+                addFileComment("Source class: ${sourceClassName.get()}")
 
-            addImport(keyClassName.packageName, keyClassName.simpleName)
+                addImport(keyClassName.packageName, keyClassName.simpleName)
 
-            val objectName = ClassName.bestGuess(generatedClassName.get())
-            addType(
-                TypeSpec.objectBuilder(objectName).apply {
-                    for (childHolder in rootHolder.holders) {
-                        generateKotlinCodeInner(childHolder)
-                    }
+                val objectName = ClassName.bestGuess(generatedClassName.get())
+                addType(
+                    TypeSpec
+                        .objectBuilder(objectName)
+                        .apply {
+                            for (childHolder in rootHolder.holders) {
+                                generateKotlinCodeInner(childHolder)
+                            }
 
-                    for (key in rootHolder.keys) {
-                        addProperty(
-                            PropertySpec.builder(key.name.substringAfterLast('.'), keyClassName)
-                                .initializer(
-                                    "%L",
-                                    """IntelliJIconKey("${key.oldPath}", "${key.newPath ?: key.oldPath}")"""
+                            for (key in rootHolder.keys) {
+                                addProperty(
+                                    PropertySpec
+                                        .builder(key.name.substringAfterLast('.'), keyClassName)
+                                        .initializer(
+                                            "%L",
+                                            """IntelliJIconKey("${key.oldPath}", "${key.newPath ?: key.oldPath}")""",
+                                        ).build(),
                                 )
-                                .build()
-                        )
-                    }
-                }.build()
-            )
-        }.build()
+                            }
+                        }.build(),
+                )
+            }.build()
     }
 
     private fun TypeSpec.Builder.generateKotlinCodeInner(holder: IconKeyHolder) {
         val objectName = holder.name.substringAfterLast('.')
         addType(
-            TypeSpec.objectBuilder(objectName).apply {
-                for (childHolder in holder.holders) {
-                    generateKotlinCodeInner(childHolder)
-                }
+            TypeSpec
+                .objectBuilder(objectName)
+                .apply {
+                    for (childHolder in holder.holders) {
+                        generateKotlinCodeInner(childHolder)
+                    }
 
-                for (key in holder.keys) {
-                    addProperty(
-                        PropertySpec.builder(key.name.substringAfterLast('.'), keyClassName)
-                            .initializer("%L", """IntelliJIconKey("${key.oldPath}", "${key.newPath ?: key.oldPath}")""")
-                            .build()
-                    )
-                }
-            }.build()
+                    for (key in holder.keys) {
+                        addProperty(
+                            PropertySpec
+                                .builder(key.name.substringAfterLast('.'), keyClassName)
+                                .initializer("%L", """IntelliJIconKey("${key.oldPath}", "${key.newPath ?: key.oldPath}")""")
+                                .build(),
+                        )
+                    }
+                }.build(),
         )
     }
 }
@@ -239,4 +262,8 @@ private data class IconKeyHolder(
     val keys: MutableList<IconKey> = mutableListOf(),
 )
 
-private data class IconKey(val name: String, val oldPath: String, val newPath: String?)
+private data class IconKey(
+    val name: String,
+    val oldPath: String,
+    val newPath: String?,
+)
