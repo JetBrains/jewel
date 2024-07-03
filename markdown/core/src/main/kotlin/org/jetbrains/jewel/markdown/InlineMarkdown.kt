@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.markdown
 
 import org.commonmark.node.Node
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.markdown.InlineMarkdown.Code
 import org.jetbrains.jewel.markdown.InlineMarkdown.CustomNode
 import org.jetbrains.jewel.markdown.InlineMarkdown.Emphasis
@@ -27,57 +28,105 @@ import org.commonmark.node.Text as CMText
  * [block-level elements][MarkdownBlock].
  */
 public sealed interface InlineMarkdown {
-    public val nativeNode: Node
+    @GenerateDataFunctions
+    public class Code(
+        public val literal: String,
+    ) : InlineMarkdown {
+        public constructor(nativeNode: CMCode) : this(
+            literal = nativeNode.literal.orEmpty(),
+        )
+    }
 
-    @JvmInline
-    public value class Code(override val nativeNode: CMCode) : InlineMarkdown
+    public class CustomNode(private val nativeNode: CMCustomNode) : InlineMarkdown {
+        //        TODO: implement for each child
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+            if (!super.equals(other)) return false
+            other as CustomNode
+            return nativeNode == other.nativeNode
+        }
 
-    @JvmInline
-    public value class CustomNode(override val nativeNode: CMCustomNode) : InlineMarkdown
+        override fun hashCode(): Int = nativeNode.hashCode()
+    }
 
-    @JvmInline
-    public value class Emphasis(override val nativeNode: CMEmphasis) : InlineMarkdown
+    @GenerateDataFunctions
+    public class Emphasis(
+        public val children: List<InlineMarkdown>,
+        public val delimiter: String?,
+    ) : InlineMarkdown {
+        public constructor(nativeNode: CMEmphasis) : this(
+            children = nativeNode.firstChild.children(),
+            delimiter = nativeNode.openingDelimiter,
+        )
+    }
 
-    @JvmInline
-    public value class HardLineBreak(override val nativeNode: CMHardLineBreak) : InlineMarkdown
+    public object HardLineBreak : InlineMarkdown {
+        override fun equals(other: Any?): Boolean = this === other
 
-    @JvmInline
-    public value class HtmlInline(override val nativeNode: CMHtmlInline) : InlineMarkdown
+        override fun hashCode(): Int = javaClass.hashCode()
+    }
 
-    @JvmInline
-    public value class Image(override val nativeNode: CMImage) : InlineMarkdown
+    @GenerateDataFunctions
+    public class HtmlInline(
+        public val literal: String,
+    ) : InlineMarkdown {
+        public constructor(nativeNode: CMHtmlInline) : this(
+            literal = nativeNode.literal.orEmpty(),
+        )
+    }
 
-    @JvmInline
-    public value class Link(override val nativeNode: CMLink) : InlineMarkdown
+    @GenerateDataFunctions
+    public class Image(
+        public val destination: String,
+        public val title: String,
+    ) : InlineMarkdown {
+        public constructor(nativeNode: CMImage) : this(
+            destination = nativeNode.destination.orEmpty(),
+            title = nativeNode.title.orEmpty(),
+        )
+    }
 
-    @JvmInline
-    public value class SoftLineBreak(override val nativeNode: CMSoftLineBreak) : InlineMarkdown
+    @GenerateDataFunctions
+    public class Link(
+        public val children: List<InlineMarkdown>,
+        public val destination: String,
+        public val title: String,
+    ) : InlineMarkdown {
+        public constructor(nativeNode: CMLink) : this(
+            children = nativeNode.children(),
+            destination = nativeNode.destination.orEmpty(),
+            title = nativeNode.title.orEmpty(),
+        )
+    }
 
-    @JvmInline
-    public value class StrongEmphasis(override val nativeNode: CMStrongEmphasis) : InlineMarkdown
+    public object SoftLineBreak : InlineMarkdown {
+        override fun equals(other: Any?): Boolean = this === other
 
-    @JvmInline
-    public value class Text(override val nativeNode: CMText) : InlineMarkdown
+        override fun hashCode(): Int = javaClass.hashCode()
+    }
 
-    public val children: Iterable<InlineMarkdown>
-        get() =
-            object : Iterable<InlineMarkdown> {
-                override fun iterator(): Iterator<InlineMarkdown> =
-                    object : Iterator<InlineMarkdown> {
-                        var current = this@InlineMarkdown.nativeNode.firstChild
+    @GenerateDataFunctions
+    public class StrongEmphasis(
+        public val children: List<InlineMarkdown>,
+        public val delimiter: String?,
+    ) : InlineMarkdown {
+        public constructor(nativeNode: CMStrongEmphasis) : this(
+            children = nativeNode.children(),
+            delimiter = nativeNode.openingDelimiter,
+        )
+    }
 
-                        override fun hasNext(): Boolean = current != null
-
-                        override fun next(): InlineMarkdown =
-                            if (hasNext()) {
-                                current.toInlineNode().also {
-                                    current = current.next
-                                }
-                            } else {
-                                throw NoSuchElementException()
-                            }
-                    }
-            }
+    @GenerateDataFunctions
+    public class Text(
+        public val children: List<InlineMarkdown>,
+        public val literal: String,
+    ) : InlineMarkdown {
+        public constructor(nativeNode: CMText) : this(
+            children = nativeNode.children(),
+            literal = nativeNode.literal.orEmpty(),
+        )
+    }
 }
 
 public fun Node.toInlineNode(): InlineMarkdown =
@@ -89,8 +138,17 @@ public fun Node.toInlineNode(): InlineMarkdown =
         is CMCode -> Code(this)
         is CMHtmlInline -> HtmlInline(this)
         is CMImage -> Image(this)
-        is CMHardLineBreak -> HardLineBreak(this)
-        is CMSoftLineBreak -> SoftLineBreak(this)
+        is CMHardLineBreak -> HardLineBreak
+        is CMSoftLineBreak -> SoftLineBreak
         is CMCustomNode -> CustomNode(this)
         else -> error("Unexpected block $this")
+    }
+
+private fun Node.children(): List<InlineMarkdown> =
+    buildList {
+        var current = firstChild
+        while (current != null) {
+            add(current.toInlineNode())
+            current = current.next
+        }
     }

@@ -3,182 +3,103 @@ public abstract interface class org/jetbrains/jewel/markdown/BlockWithInlineMark
 }
 
 public abstract interface class org/jetbrains/jewel/markdown/InlineMarkdown {
-	public abstract fun getChildren ()Ljava/lang/Iterable;
-	public abstract fun getNativeNode ()Lorg/commonmark/node/Node;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdown$Code : org/jetbrains/jewel/markdown/InlineMarkdown {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/Code;)Lorg/jetbrains/jewel/markdown/InlineMarkdown$Code;
-	public static fun constructor-impl (Lorg/commonmark/node/Code;)Lorg/commonmark/node/Code;
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Lorg/commonmark/node/Code;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/Code;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/Code;Lorg/commonmark/node/Code;)Z
-	public fun getChildren ()Ljava/lang/Iterable;
-	public static fun getChildren-impl (Lorg/commonmark/node/Code;)Ljava/lang/Iterable;
-	public fun getNativeNode ()Lorg/commonmark/node/Code;
-	public synthetic fun getNativeNode ()Lorg/commonmark/node/Node;
+	public final fun getLiteral ()Ljava/lang/String;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/Code;)I
 	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/Code;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/Code;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdown$CustomNode : org/jetbrains/jewel/markdown/InlineMarkdown {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/CustomNode;)Lorg/jetbrains/jewel/markdown/InlineMarkdown$CustomNode;
-	public static fun constructor-impl (Lorg/commonmark/node/CustomNode;)Lorg/commonmark/node/CustomNode;
+	public static final field $stable I
+	public fun <init> (Lorg/commonmark/node/CustomNode;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/CustomNode;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/CustomNode;Lorg/commonmark/node/CustomNode;)Z
-	public fun getChildren ()Ljava/lang/Iterable;
-	public static fun getChildren-impl (Lorg/commonmark/node/CustomNode;)Ljava/lang/Iterable;
-	public fun getNativeNode ()Lorg/commonmark/node/CustomNode;
-	public synthetic fun getNativeNode ()Lorg/commonmark/node/Node;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/CustomNode;)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/CustomNode;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/CustomNode;
-}
-
-public final class org/jetbrains/jewel/markdown/InlineMarkdown$DefaultImpls {
-	public static fun getChildren (Lorg/jetbrains/jewel/markdown/InlineMarkdown;)Ljava/lang/Iterable;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdown$Emphasis : org/jetbrains/jewel/markdown/InlineMarkdown {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/Emphasis;)Lorg/jetbrains/jewel/markdown/InlineMarkdown$Emphasis;
-	public static fun constructor-impl (Lorg/commonmark/node/Emphasis;)Lorg/commonmark/node/Emphasis;
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
+	public fun <init> (Lorg/commonmark/node/Emphasis;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/Emphasis;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/Emphasis;Lorg/commonmark/node/Emphasis;)Z
-	public fun getChildren ()Ljava/lang/Iterable;
-	public static fun getChildren-impl (Lorg/commonmark/node/Emphasis;)Ljava/lang/Iterable;
-	public fun getNativeNode ()Lorg/commonmark/node/Emphasis;
-	public synthetic fun getNativeNode ()Lorg/commonmark/node/Node;
+	public final fun getChildren ()Ljava/util/List;
+	public final fun getDelimiter ()Ljava/lang/String;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/Emphasis;)I
 	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/Emphasis;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/Emphasis;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdown$HardLineBreak : org/jetbrains/jewel/markdown/InlineMarkdown {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/HardLineBreak;)Lorg/jetbrains/jewel/markdown/InlineMarkdown$HardLineBreak;
-	public static fun constructor-impl (Lorg/commonmark/node/HardLineBreak;)Lorg/commonmark/node/HardLineBreak;
+	public static final field $stable I
+	public static final field INSTANCE Lorg/jetbrains/jewel/markdown/InlineMarkdown$HardLineBreak;
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/HardLineBreak;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/HardLineBreak;Lorg/commonmark/node/HardLineBreak;)Z
-	public fun getChildren ()Ljava/lang/Iterable;
-	public static fun getChildren-impl (Lorg/commonmark/node/HardLineBreak;)Ljava/lang/Iterable;
-	public fun getNativeNode ()Lorg/commonmark/node/HardLineBreak;
-	public synthetic fun getNativeNode ()Lorg/commonmark/node/Node;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/HardLineBreak;)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/HardLineBreak;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/HardLineBreak;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdown$HtmlInline : org/jetbrains/jewel/markdown/InlineMarkdown {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/HtmlInline;)Lorg/jetbrains/jewel/markdown/InlineMarkdown$HtmlInline;
-	public static fun constructor-impl (Lorg/commonmark/node/HtmlInline;)Lorg/commonmark/node/HtmlInline;
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Lorg/commonmark/node/HtmlInline;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/HtmlInline;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/HtmlInline;Lorg/commonmark/node/HtmlInline;)Z
-	public fun getChildren ()Ljava/lang/Iterable;
-	public static fun getChildren-impl (Lorg/commonmark/node/HtmlInline;)Ljava/lang/Iterable;
-	public fun getNativeNode ()Lorg/commonmark/node/HtmlInline;
-	public synthetic fun getNativeNode ()Lorg/commonmark/node/Node;
+	public final fun getLiteral ()Ljava/lang/String;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/HtmlInline;)I
 	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/HtmlInline;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/HtmlInline;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdown$Image : org/jetbrains/jewel/markdown/InlineMarkdown {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/Image;)Lorg/jetbrains/jewel/markdown/InlineMarkdown$Image;
-	public static fun constructor-impl (Lorg/commonmark/node/Image;)Lorg/commonmark/node/Image;
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public fun <init> (Lorg/commonmark/node/Image;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/Image;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/Image;Lorg/commonmark/node/Image;)Z
-	public fun getChildren ()Ljava/lang/Iterable;
-	public static fun getChildren-impl (Lorg/commonmark/node/Image;)Ljava/lang/Iterable;
-	public fun getNativeNode ()Lorg/commonmark/node/Image;
-	public synthetic fun getNativeNode ()Lorg/commonmark/node/Node;
+	public final fun getDestination ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/Image;)I
 	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/Image;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/Image;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdown$Link : org/jetbrains/jewel/markdown/InlineMarkdown {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/Link;)Lorg/jetbrains/jewel/markdown/InlineMarkdown$Link;
-	public static fun constructor-impl (Lorg/commonmark/node/Link;)Lorg/commonmark/node/Link;
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/lang/String;)V
+	public fun <init> (Lorg/commonmark/node/Link;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/Link;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/Link;Lorg/commonmark/node/Link;)Z
-	public fun getChildren ()Ljava/lang/Iterable;
-	public static fun getChildren-impl (Lorg/commonmark/node/Link;)Ljava/lang/Iterable;
-	public fun getNativeNode ()Lorg/commonmark/node/Link;
-	public synthetic fun getNativeNode ()Lorg/commonmark/node/Node;
+	public final fun getChildren ()Ljava/util/List;
+	public final fun getDestination ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/Link;)I
 	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/Link;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/Link;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdown$SoftLineBreak : org/jetbrains/jewel/markdown/InlineMarkdown {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/SoftLineBreak;)Lorg/jetbrains/jewel/markdown/InlineMarkdown$SoftLineBreak;
-	public static fun constructor-impl (Lorg/commonmark/node/SoftLineBreak;)Lorg/commonmark/node/SoftLineBreak;
+	public static final field $stable I
+	public static final field INSTANCE Lorg/jetbrains/jewel/markdown/InlineMarkdown$SoftLineBreak;
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/SoftLineBreak;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/SoftLineBreak;Lorg/commonmark/node/SoftLineBreak;)Z
-	public fun getChildren ()Ljava/lang/Iterable;
-	public static fun getChildren-impl (Lorg/commonmark/node/SoftLineBreak;)Ljava/lang/Iterable;
-	public synthetic fun getNativeNode ()Lorg/commonmark/node/Node;
-	public fun getNativeNode ()Lorg/commonmark/node/SoftLineBreak;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/SoftLineBreak;)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/SoftLineBreak;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/SoftLineBreak;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdown$StrongEmphasis : org/jetbrains/jewel/markdown/InlineMarkdown {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/StrongEmphasis;)Lorg/jetbrains/jewel/markdown/InlineMarkdown$StrongEmphasis;
-	public static fun constructor-impl (Lorg/commonmark/node/StrongEmphasis;)Lorg/commonmark/node/StrongEmphasis;
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
+	public fun <init> (Lorg/commonmark/node/StrongEmphasis;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/StrongEmphasis;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/StrongEmphasis;Lorg/commonmark/node/StrongEmphasis;)Z
-	public fun getChildren ()Ljava/lang/Iterable;
-	public static fun getChildren-impl (Lorg/commonmark/node/StrongEmphasis;)Ljava/lang/Iterable;
-	public synthetic fun getNativeNode ()Lorg/commonmark/node/Node;
-	public fun getNativeNode ()Lorg/commonmark/node/StrongEmphasis;
+	public final fun getChildren ()Ljava/util/List;
+	public final fun getDelimiter ()Ljava/lang/String;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/StrongEmphasis;)I
 	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/StrongEmphasis;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/StrongEmphasis;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdown$Text : org/jetbrains/jewel/markdown/InlineMarkdown {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/Text;)Lorg/jetbrains/jewel/markdown/InlineMarkdown$Text;
-	public static fun constructor-impl (Lorg/commonmark/node/Text;)Lorg/commonmark/node/Text;
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
+	public fun <init> (Lorg/commonmark/node/Text;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/Text;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/Text;Lorg/commonmark/node/Text;)Z
-	public fun getChildren ()Ljava/lang/Iterable;
-	public static fun getChildren-impl (Lorg/commonmark/node/Text;)Ljava/lang/Iterable;
-	public synthetic fun getNativeNode ()Lorg/commonmark/node/Node;
-	public fun getNativeNode ()Lorg/commonmark/node/Text;
+	public final fun getChildren ()Ljava/util/List;
+	public final fun getLiteral ()Ljava/lang/String;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/Text;)I
 	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/Text;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/Text;
 }
 
 public final class org/jetbrains/jewel/markdown/InlineMarkdownKt {
@@ -191,9 +112,6 @@ public abstract interface class org/jetbrains/jewel/markdown/MarkdownBlock {
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$BlockQuote : org/jetbrains/jewel/markdown/MarkdownBlock {
 	public static final field $stable I
 	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$BlockQuote;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$BlockQuote;Ljava/util/List;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$BlockQuote;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getChildren ()Ljava/util/List;
 	public fun hashCode ()I
@@ -207,10 +125,6 @@ public abstract interface class org/jetbrains/jewel/markdown/MarkdownBlock$CodeB
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$FencedCodeBlock : org/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock {
 	public static final field $stable I
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2-EIRQHX8 ()Ljava/lang/String;
-	public final fun copy-k5OzbWQ (Ljava/lang/String;Ljava/lang/String;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$FencedCodeBlock;
-	public static synthetic fun copy-k5OzbWQ$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$FencedCodeBlock;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$FencedCodeBlock;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getContent ()Ljava/lang/String;
 	public final fun getMimeType-EIRQHX8 ()Ljava/lang/String;
@@ -221,9 +135,6 @@ public final class org/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$FencedCo
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$IndentedCodeBlock : org/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$IndentedCodeBlock;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$IndentedCodeBlock;Ljava/lang/String;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$IndentedCodeBlock;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getContent ()Ljava/lang/String;
 	public fun hashCode ()I
@@ -234,27 +145,21 @@ public abstract interface class org/jetbrains/jewel/markdown/MarkdownBlock$Custo
 }
 
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$Heading : org/jetbrains/jewel/markdown/BlockWithInlineMarkdown, org/jetbrains/jewel/markdown/MarkdownBlock {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/Heading;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$Heading;
-	public static fun constructor-impl (Lorg/commonmark/node/Heading;)Lorg/commonmark/node/Heading;
+	public static final field $stable I
+	public fun <init> (Lorg/commonmark/node/Heading;Ljava/util/List;I)V
+	public synthetic fun <init> (Lorg/commonmark/node/Heading;Ljava/util/List;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/Heading;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/Heading;Lorg/commonmark/node/Heading;)Z
-	public fun getInlineContent ()Ljava/lang/Iterable;
-	public static fun getInlineContent-impl (Lorg/commonmark/node/Heading;)Ljava/lang/Iterable;
-	public static final fun getLevel-impl (Lorg/commonmark/node/Heading;)I
+	public synthetic fun getInlineContent ()Ljava/lang/Iterable;
+	public fun getInlineContent ()Ljava/util/List;
+	public final fun getLevel ()I
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/Heading;)I
+	public final fun renderToHtml (Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/Heading;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/Heading;
 }
 
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$HtmlBlock : org/jetbrains/jewel/markdown/MarkdownBlock {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$HtmlBlock;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$HtmlBlock;Ljava/lang/String;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$HtmlBlock;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getContent ()Ljava/lang/String;
 	public fun hashCode ()I
@@ -269,12 +174,6 @@ public abstract interface class org/jetbrains/jewel/markdown/MarkdownBlock$ListB
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList : org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock {
 	public static final field $stable I
 	public fun <init> (Ljava/util/List;ZILjava/lang/String;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun component2 ()Z
-	public final fun component3 ()I
-	public final fun component4 ()Ljava/lang/String;
-	public final fun copy (Ljava/util/List;ZILjava/lang/String;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;Ljava/util/List;ZILjava/lang/String;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getChildren ()Ljava/util/List;
 	public final fun getDelimiter ()Ljava/lang/String;
@@ -287,11 +186,6 @@ public final class org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedL
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$UnorderedList : org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock {
 	public static final field $stable I
 	public fun <init> (Ljava/util/List;ZLjava/lang/String;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun component2 ()Z
-	public final fun component3 ()Ljava/lang/String;
-	public final fun copy (Ljava/util/List;ZLjava/lang/String;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$UnorderedList;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$UnorderedList;Ljava/util/List;ZLjava/lang/String;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$UnorderedList;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getChildren ()Ljava/util/List;
 	public final fun getMarker ()Ljava/lang/String;
@@ -303,9 +197,6 @@ public final class org/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$Unordere
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$ListItem : org/jetbrains/jewel/markdown/MarkdownBlock {
 	public static final field $stable I
 	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListItem;
-	public static synthetic fun copy$default (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListItem;Ljava/util/List;ILjava/lang/Object;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListItem;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getChildren ()Ljava/util/List;
 	public fun hashCode ()I
@@ -313,23 +204,22 @@ public final class org/jetbrains/jewel/markdown/MarkdownBlock$ListItem : org/jet
 }
 
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$Paragraph : org/jetbrains/jewel/markdown/BlockWithInlineMarkdown, org/jetbrains/jewel/markdown/MarkdownBlock {
-	public static final synthetic fun box-impl (Lorg/commonmark/node/Paragraph;)Lorg/jetbrains/jewel/markdown/MarkdownBlock$Paragraph;
-	public static fun constructor-impl (Lorg/commonmark/node/Paragraph;)Lorg/commonmark/node/Paragraph;
+	public static final field $stable I
+	public fun <init> (Lorg/commonmark/node/Paragraph;Ljava/util/List;)V
+	public synthetic fun <init> (Lorg/commonmark/node/Paragraph;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Lorg/commonmark/node/Paragraph;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Lorg/commonmark/node/Paragraph;Lorg/commonmark/node/Paragraph;)Z
-	public fun getInlineContent ()Ljava/lang/Iterable;
-	public static fun getInlineContent-impl (Lorg/commonmark/node/Paragraph;)Ljava/lang/Iterable;
+	public synthetic fun getInlineContent ()Ljava/lang/Iterable;
+	public fun getInlineContent ()Ljava/util/List;
 	public fun hashCode ()I
-	public static fun hashCode-impl (Lorg/commonmark/node/Paragraph;)I
+	public final fun renderToHtml (Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Lorg/commonmark/node/Paragraph;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Lorg/commonmark/node/Paragraph;
 }
 
 public final class org/jetbrains/jewel/markdown/MarkdownBlock$ThematicBreak : org/jetbrains/jewel/markdown/MarkdownBlock {
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/markdown/MarkdownBlock$ThematicBreak;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
 }
 
 public final class org/jetbrains/jewel/markdown/MarkdownKt {
@@ -463,8 +353,7 @@ public final class org/jetbrains/jewel/markdown/processing/MarkdownProcessor {
 public class org/jetbrains/jewel/markdown/rendering/DefaultInlineMarkdownRenderer : org/jetbrains/jewel/markdown/rendering/InlineMarkdownRenderer {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/markdown/rendering/DefaultInlineMarkdownRenderer$Companion;
-	public fun <init> (Ljava/util/List;)V
-	public fun <init> ([Lorg/jetbrains/jewel/markdown/extensions/MarkdownProcessorExtension;)V
+	public fun <init> ()V
 	public fun renderAsAnnotatedString (Ljava/lang/Iterable;Lorg/jetbrains/jewel/markdown/rendering/InlinesStyling;ZLkotlin/jvm/functions/Function1;)Landroidx/compose/ui/text/AnnotatedString;
 }
 
@@ -480,15 +369,15 @@ public class org/jetbrains/jewel/markdown/rendering/DefaultMarkdownBlockRenderer
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$FencedCodeBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Fenced;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$IndentedCodeBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Indented;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code;Landroidx/compose/runtime/Composer;I)V
+	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$Heading;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Heading$HN;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$Heading;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Heading;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$HtmlBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$HtmlBlock;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$List$Ordered;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$UnorderedList;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$List$Unordered;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$List;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListItem;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$Paragraph;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Paragraph;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
-	public fun render-EPtGD7Q (Lorg/commonmark/node/Heading;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Heading$HN;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
-	public fun render-EPtGD7Q (Lorg/commonmark/node/Heading;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Heading;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
-	public fun render-VUzZlgQ (Lorg/commonmark/node/Paragraph;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Paragraph;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun renderThematicBreak (Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$ThematicBreak;Landroidx/compose/runtime/Composer;I)V
 }
 
@@ -537,15 +426,15 @@ public abstract interface class org/jetbrains/jewel/markdown/rendering/MarkdownB
 	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$FencedCodeBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Fenced;Landroidx/compose/runtime/Composer;I)V
 	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$IndentedCodeBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Indented;Landroidx/compose/runtime/Composer;I)V
 	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code;Landroidx/compose/runtime/Composer;I)V
+	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$Heading;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Heading$HN;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$Heading;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Heading;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$HtmlBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$HtmlBlock;Landroidx/compose/runtime/Composer;I)V
 	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$OrderedList;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$List$Ordered;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock$UnorderedList;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$List$Unordered;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$List;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListItem;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$Paragraph;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Paragraph;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public abstract fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
-	public abstract fun render-EPtGD7Q (Lorg/commonmark/node/Heading;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Heading$HN;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
-	public abstract fun render-EPtGD7Q (Lorg/commonmark/node/Heading;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Heading;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
-	public abstract fun render-VUzZlgQ (Lorg/commonmark/node/Paragraph;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Paragraph;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public abstract fun renderThematicBreak (Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$ThematicBreak;Landroidx/compose/runtime/Composer;I)V
 }
 

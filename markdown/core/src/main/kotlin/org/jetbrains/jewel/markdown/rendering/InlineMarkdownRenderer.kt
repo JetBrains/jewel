@@ -21,6 +21,8 @@ public interface InlineMarkdownRenderer {
     public companion object {
         /** Create a default inline renderer, with the [extensions] provided. */
         public fun default(extensions: List<MarkdownProcessorExtension> = emptyList()): InlineMarkdownRenderer =
-            DefaultInlineMarkdownRenderer(extensions)
+            DefaultInlineMarkdownRenderer(
+//                extensions
+            )
     }
 }

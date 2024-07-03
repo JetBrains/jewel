@@ -87,21 +87,13 @@ private fun MarkdownBlock.findDifferenceWith(
 
 private var htmlRenderer = HtmlRenderer.builder().build()
 
-fun BlockWithInlineMarkdown.toHtml() =
-    buildString {
-        for (node in this@toHtml.inlineContent) {
-            // new lines are rendered as spaces in tests
-            append(htmlRenderer.render(node.nativeNode).replace("\n", " "))
-        }
-    }
-
 private fun diffParagraph(
     actual: Paragraph,
     expected: MarkdownBlock,
     indent: String,
 ) = buildList {
-    val actualInlineHtml = actual.toHtml()
-    val expectedInlineHtml = (expected as Paragraph).toHtml()
+    val actualInlineHtml = actual.renderToHtml { htmlRenderer.render(it) }
+    val expectedInlineHtml = (expected as Paragraph).renderToHtml { htmlRenderer.render(it) }
     if (actualInlineHtml != expectedInlineHtml) {
         add(
             "$indent * Paragraph raw content mismatch.\n\n" +
@@ -166,8 +158,9 @@ private fun diffHeading(
     expected: MarkdownBlock,
     indent: String,
 ) = buildList {
-    val actualInlineHtml = actual.toHtml()
-    val expectedInlineHtml = (expected as Heading).toHtml()
+    val actualInlineHtml = actual.renderToHtml { htmlRenderer.render(it) }
+    val expectedInlineHtml = (expected as Heading).renderToHtml { htmlRenderer.render(it) }
+    // FIXME: add assert for equals
     if (actualInlineHtml != expectedInlineHtml) {
         add(
             "$indent * Heading raw content mismatch.\n\n" +

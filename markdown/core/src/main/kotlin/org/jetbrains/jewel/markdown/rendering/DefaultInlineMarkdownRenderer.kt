@@ -8,22 +8,24 @@ import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
-import org.commonmark.renderer.text.TextContentRenderer
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.markdown.InlineMarkdown
-import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 
 @ExperimentalJewelApi
-public open class DefaultInlineMarkdownRenderer(
-    rendererExtensions: List<MarkdownProcessorExtension>,
-) : InlineMarkdownRenderer {
-    public constructor(vararg extensions: MarkdownProcessorExtension) : this(extensions.toList())
+public open class DefaultInlineMarkdownRenderer :
+//    rendererExtensions: List<MarkdownProcessorExtension>,
+    InlineMarkdownRenderer {
+//    public constructor(
+//        vararg extensions: MarkdownProcessorExtension
+//    ) : this(
+//        extensions.toList()
+//    )
 
-    private val plainTextRenderer =
-        TextContentRenderer
-            .builder()
-            .extensions(rendererExtensions.map { it.textRendererExtension })
-            .build()
+//    private val plainTextRenderer =
+//        TextContentRenderer
+//            .builder()
+//            .extensions(rendererExtensions.map { it.textRendererExtension })
+//            .build()
 
     public override fun renderAsAnnotatedString(
         inlineMarkdown: Iterable<InlineMarkdown>,
@@ -52,7 +54,7 @@ public open class DefaultInlineMarkdownRenderer(
 
         for (child in inlineMarkdown) {
             when (child) {
-                is InlineMarkdown.Text -> append(child.nativeNode.literal)
+                is InlineMarkdown.Text -> append(child.literal)
 
                 is InlineMarkdown.Emphasis -> {
                     withStyles(styling.emphasis.withEnabled(enabled), child) {
@@ -74,7 +76,7 @@ public open class DefaultInlineMarkdownRenderer(
                 is InlineMarkdown.Link -> {
                     val index =
                         if (enabled) {
-                            val destination = child.nativeNode.destination
+                            val destination = child.destination
                             val link =
                                 LinkAnnotation.Clickable(
                                     tag = destination,
@@ -90,7 +92,7 @@ public open class DefaultInlineMarkdownRenderer(
                 }
 
                 is InlineMarkdown.Code -> {
-                    withStyles(styling.inlineCode.withEnabled(enabled), child) { append(it.nativeNode.literal) }
+                    withStyles(styling.inlineCode.withEnabled(enabled), child) { append(it.literal) }
                 }
 
                 is InlineMarkdown.HardLineBreak -> appendLine()
@@ -101,14 +103,14 @@ public open class DefaultInlineMarkdownRenderer(
                         withStyles(
                             styling.inlineHtml.withEnabled(enabled),
                             child,
-                        ) { append(it.nativeNode.literal.trim()) }
+                        ) { append(it.literal.trim()) }
                     }
                 }
 
                 is InlineMarkdown.Image -> {
                     appendInlineContent(
                         INLINE_IMAGE,
-                        child.nativeNode.destination + "\n" + plainTextRenderer.render(child.nativeNode),
+                        child.destination + "\n" + child.title,
                     )
                 }
 

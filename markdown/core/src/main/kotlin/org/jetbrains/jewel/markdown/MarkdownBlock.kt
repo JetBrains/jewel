@@ -1,68 +1,99 @@
 package org.jetbrains.jewel.markdown
 
 import org.commonmark.node.Block
+import org.commonmark.node.Node
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.commonmark.node.Heading as CMHeading
 import org.commonmark.node.Paragraph as CMParagraph
 
 public sealed interface MarkdownBlock {
-    public data class BlockQuote(val children: List<MarkdownBlock>) : MarkdownBlock
+    @GenerateDataFunctions
+    public class BlockQuote(public val children: List<MarkdownBlock>) : MarkdownBlock
 
     public sealed interface CodeBlock : MarkdownBlock {
         public val content: String
 
-        public data class IndentedCodeBlock(
+        @GenerateDataFunctions
+        public class IndentedCodeBlock(
             override val content: String,
         ) : CodeBlock
 
-        public data class FencedCodeBlock(
+        @GenerateDataFunctions
+        public class FencedCodeBlock(
             override val content: String,
-            val mimeType: MimeType?,
+            public val mimeType: MimeType?,
         ) : CodeBlock
     }
 
     public interface CustomBlock : MarkdownBlock
 
-    @JvmInline
-    public value class Heading(
-        private val nativeBlock: CMHeading,
+    @GenerateDataFunctions
+    public class Heading(
+        nativeBlock: CMHeading,
+        override val inlineContent: List<InlineMarkdown> = nativeBlock.inlineContent(),
+        public val level: Int = nativeBlock.level,
     ) : MarkdownBlock, BlockWithInlineMarkdown {
-        override val inlineContent: Iterable<InlineMarkdown>
-            get() = nativeBlock.inlineContent()
+        private val nativeHeading = nativeBlock
 
-        public val level: Int
-            get() = nativeBlock.level
+        public fun renderToHtml(renderer: (Node) -> String): String =
+            buildString {
+                var current = nativeHeading.firstChild
+                while (current != null) {
+                    append(renderer(current).replace("\n", " "))
+                    current = current.next
+                }
+            }
     }
 
-    public data class HtmlBlock(val content: String) : MarkdownBlock
+    @GenerateDataFunctions
+    public class HtmlBlock(public val content: String) : MarkdownBlock
 
     public sealed interface ListBlock : MarkdownBlock {
         public val children: List<ListItem>
         public val isTight: Boolean
 
-        public data class OrderedList(
+        @GenerateDataFunctions
+        public class OrderedList(
             override val children: List<ListItem>,
             override val isTight: Boolean,
-            val startFrom: Int,
-            val delimiter: String,
+            public val startFrom: Int,
+            public val delimiter: String,
         ) : ListBlock
 
-        public data class UnorderedList(
+        @GenerateDataFunctions
+        public class UnorderedList(
             override val children: List<ListItem>,
             override val isTight: Boolean,
-            val marker: String,
+            public val marker: String,
         ) : ListBlock
     }
 
-    public data class ListItem(
-        val children: List<MarkdownBlock>,
+    @GenerateDataFunctions
+    public class ListItem(
+        public val children: List<MarkdownBlock>,
     ) : MarkdownBlock
 
-    public object ThematicBreak : MarkdownBlock
+    public object ThematicBreak : MarkdownBlock {
+        override fun equals(other: Any?): Boolean = this === other
 
-    @JvmInline
-    public value class Paragraph(private val nativeBlock: CMParagraph) : MarkdownBlock, BlockWithInlineMarkdown {
-        override val inlineContent: Iterable<InlineMarkdown>
-            get() = nativeBlock.inlineContent()
+        override fun hashCode(): Int = javaClass.hashCode()
+    }
+
+    @GenerateDataFunctions
+    public class Paragraph(
+        nativeBlock: CMParagraph,
+        override val inlineContent: List<InlineMarkdown> = nativeBlock.inlineContent(),
+    ) : MarkdownBlock, BlockWithInlineMarkdown {
+        private val nativeHeading = nativeBlock
+
+        public fun renderToHtml(renderer: (Node) -> String): String =
+            buildString {
+                var current = nativeHeading.firstChild
+                while (current != null) {
+                    append(renderer(current).replace("\n", " "))
+                    current = current.next
+                }
+            }
     }
 }
 
@@ -70,21 +101,11 @@ public interface BlockWithInlineMarkdown {
     public val inlineContent: Iterable<InlineMarkdown>
 }
 
-private fun Block.inlineContent(): Iterable<InlineMarkdown> =
-    object : Iterable<InlineMarkdown> {
-        override fun iterator(): Iterator<InlineMarkdown> =
-            object : Iterator<InlineMarkdown> {
-                var current = this@inlineContent.firstChild
-
-                override fun hasNext(): Boolean = current != null
-
-                override fun next(): InlineMarkdown =
-                    if (hasNext()) {
-                        current.toInlineNode().also {
-                            current = current.next
-                        }
-                    } else {
-                        throw NoSuchElementException()
-                    }
-            }
+private fun Block.inlineContent(): List<InlineMarkdown> =
+    buildList {
+        var current = firstChild
+        while (current != null) {
+            add(current.toInlineNode())
+            current = current.next
+        }
     }
