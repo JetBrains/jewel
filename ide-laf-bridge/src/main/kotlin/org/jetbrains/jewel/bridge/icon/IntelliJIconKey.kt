@@ -6,7 +6,6 @@ import org.jetbrains.jewel.ui.icon.IntelliJIconKey
 
 @Suppress("UnstableApiUsage") // We need to use internal APIs
 public fun IntelliJIconKey.Companion.fromPlatformIcon(icon: javax.swing.Icon): IconKey {
-    @Suppress("UnstableApiUsage") // Not much we can do
     check(icon is CachedImageIcon) {
         "Only resource-backed CachedImageIcons are supported (e.g., coming from AllIcons)"
     }
