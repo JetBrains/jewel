@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
 import org.jetbrains.jewel.samples.standalone.viewmodel.View
-import org.jetbrains.jewel.ui.component.AllIcons
 import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.PlatformIcon
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.badge.DotBadgeShape
@@ -59,29 +59,29 @@ internal fun Icons() {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            AllIcons(AllIconsKeys.Nodes.ConfigFolder, "taskGroup")
+            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup")
         }
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            AllIcons(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Badge(Color.Red, DotBadgeShape.Default))
+            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Badge(Color.Red, DotBadgeShape.Default))
         }
         Box(
             Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
-            AllIcons(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Stroke(Color.White))
+            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Stroke(Color.White))
         }
         Box(
             Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
-            AllIcons(
+            PlatformIcon(
                 AllIconsKeys.Nodes.ConfigFolder,
                 "taskGroup",
                 hints = arrayOf(Stroke(Color.White), Badge(Color.Red, DotBadgeShape.Default)),
             )
         }
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            AllIcons(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Size(20))
+            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Size(20))
         }
     }
 }

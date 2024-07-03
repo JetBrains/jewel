@@ -33,9 +33,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.icon.IconKey
-import org.jetbrains.jewel.ui.icon.IntelliJIconKey
 import org.jetbrains.jewel.ui.icon.newUiChecker
-import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.ui.util.thenIf
@@ -120,28 +118,6 @@ public fun Icon(
         modifier = modifier,
         tint = tint,
     )
-}
-
-@Composable
-public fun AllIcons(
-    key: IntelliJIconKey,
-    contentDescription: String?,
-    modifier: Modifier = Modifier,
-    tint: Color = Color.Unspecified,
-    hint: PainterHint,
-) {
-    AllIcons(key, contentDescription, modifier, tint, *arrayOf(hint))
-}
-
-@Composable
-public fun AllIcons(
-    key: IntelliJIconKey,
-    contentDescription: String?,
-    modifier: Modifier = Modifier,
-    tint: Color = Color.Unspecified,
-    vararg hints: PainterHint,
-) {
-    Icon(key, contentDescription, AllIconsKeys::class.java, modifier, tint, *hints)
 }
 
 @Composable
