@@ -1,4 +1,6 @@
 import org.jetbrains.compose.ComposeBuildConfig
+import org.jmailen.gradle.kotlinter.tasks.FormatTask
+import org.jmailen.gradle.kotlinter.tasks.LintTask
 
 plugins {
     jewel
@@ -14,7 +16,8 @@ private val composeVersion
 
 dependencies {
     api(projects.foundation)
-
+    iconGeneration(libs.intellijPlatform.util.ui)
+    iconGeneration(libs.intellijPlatform.icons)
     testImplementation(compose.desktop.uiTestJUnit4)
     testImplementation(compose.desktop.currentOs) {
         exclude(group = "org.jetbrains.compose.material")
@@ -26,4 +29,12 @@ intelliJIconKeysGenerator {
         sourceClassName = "com.intellij.icons.AllIcons"
         generatedClassName = "org.jetbrains.jewel.ui.icons.AllIconsKeys"
     }
+}
+
+tasks.withType<LintTask> {
+    include("src/**") // Excluding build/ doesn't work for some reason
+}
+
+tasks.withType<FormatTask> {
+    include("src/**") // Excluding build/ doesn't work for some reason
 }

@@ -13,6 +13,10 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
+import java.lang.reflect.Field
+import java.net.URLClassLoader
+
+private val defaultOutputDir: Provider<Directory> = layout.buildDirectory.dir("generated/iconKeys")
 
 class IconKeysGeneratorContainer(
     container: NamedDomainObjectContainer<IconKeysGeneration>,
@@ -22,47 +26,51 @@ class IconKeysGeneration(
     val name: String,
     project: Project,
 ) {
-    val targetDir: DirectoryProperty =
+    val outputDirectory: DirectoryProperty =
         project.objects
             .directoryProperty()
-            .convention(project.layout.buildDirectory.dir("generated/iconKeys"))
+            .convention(defaultOutputDir)
 
     val sourceClassName: Property<String> = project.objects.property<String>()
-
     val generatedClassName: Property<String> = project.objects.property<String>()
+}
+
+val iconGeneration by configurations.registering {
+    isCanBeConsumed = false
+    isCanBeResolved = true
 }
 
 val extension = IconKeysGeneratorContainer(container<IconKeysGeneration> { IconKeysGeneration(it, project) })
 
 extensions.add("intelliJIconKeysGenerator", extension)
 
-extension.all {
+extension.all item@{
     val task =
-        tasks.register<IconKeysGeneratorTask>("generate${name}Keys") {
-            val paths =
-                this@all.generatedClassName.map {
-                    val className = ClassName.bestGuess(it)
-                    className.canonicalName.replace('.', '/') + ".kt"
-                }
-
-            this@register.outputFile = this@all.targetDir.file(paths)
-            this@register.sourceClassName = this@all.sourceClassName
-            this@register.generatedClassName = this@all.generatedClassName
+        tasks.register<IconKeysGeneratorTask>("generate${name}Keys") task@{
+            this@task.outputDirectory = this@item.outputDirectory
+            this@task.sourceClassName = this@item.sourceClassName
+            this@task.generatedClassName = this@item.generatedClassName
+            configuration.from(iconGeneration)
+            dependsOn(iconGeneration)
         }
 
     tasks {
         withType<BaseKotlinCompile> { dependsOn(task) }
         withType<Detekt> { dependsOn(task) }
     }
+}
 
-    pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
-        the<KotlinJvmProjectExtension>().sourceSets["main"].kotlin.srcDir(targetDir)
-    }
+pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+    the<KotlinJvmProjectExtension>()
+        .sourceSets["main"]
+        .kotlin
+        .srcDir(defaultOutputDir)
 }
 
 open class IconKeysGeneratorTask : DefaultTask() {
-    @get:OutputFile
-    val outputFile: RegularFileProperty = project.objects.fileProperty()
+
+    @get:OutputDirectory
+    val outputDirectory: DirectoryProperty = project.objects.directoryProperty()
 
     @get:Input
     val sourceClassName = project.objects.property<String>()
@@ -70,9 +78,8 @@ open class IconKeysGeneratorTask : DefaultTask() {
     @get:Input
     val generatedClassName = project.objects.property<String>()
 
-    private val dummyIconClass = Class.forName("com.intellij.ui.DummyIconImpl")
-    private val pathField = dummyIconClass.declaredFields.first { it.name == "path" }
-    private val keyClassName = ClassName("org.jetbrains.jewel.ui.icon", "IntelliJIconKey")
+    @get:InputFiles
+    val configuration: ConfigurableFileCollection = project.objects.fileCollection()
 
     init {
         group = "jewel"
@@ -80,32 +87,63 @@ open class IconKeysGeneratorTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        val iconsClass = Class.forName(sourceClassName.get())
-        val json = Json { isLenient = true }
-        val iconMapping =
-            iconsClass.getResourceAsStream("/PlatformIconMappings.json").use {
-                json.parseToJsonElement(it!!.readAllBytes().decodeToString())
-            }
+        val guessedSourceClassName = sourceClassName
+            .map { ClassName.bestGuess(it).canonicalName.replace('.', '/') + ".kt" }
+            .get()
 
-        val map = readIconMapping(iconMapping)
-        logger.lifecycle("Icon mapping json read. Has ${map.size} entries")
+        // The icons artifacts are loaded on the iconGeneration configuration's classpath,
+        // so we need a classloader that can access these classes.
+        val classLoader = createClassLoader()
+        val sourceClass = classLoader.loadClass(sourceClassName.get())
+            ?: throw GradleException(
+                "Unable to load ${sourceClassName.get()}. " +
+                    "Is the correct dependency declared on the iconGeneration configuration?"
+            )
 
-        val rootHolder = IconKeyHolder(iconsClass.simpleName)
+        // Step 1) load icon mappings from JSON
+        val mappingsJsonBytes =
+            classLoader.getResourceAsStream("PlatformIconMappings.json")
+                ?.use { it.readAllBytes() }
+                ?: error("Icon mapping JSON not found")
 
-        @Suppress("DEPRECATION")
-        val wasAccessible = pathField.isAccessible
-        pathField.isAccessible = true
-        visit(iconsClass, map, rootHolder)
-        pathField.isAccessible = wasAccessible
+        val iconMappingJson =
+            json.parseToJsonElement(mappingsJsonBytes.decodeToString())
 
-        logger.lifecycle("Read icon keys from ${iconsClass.name}")
+        // Step 2) Transform mappings to a map oldPath -> newPath
+        val iconMapping = readIconMappingJson(iconMappingJson)
+        logger.lifecycle("Icon mapping JSON read. It has ${iconMapping.size} entries")
+
+        // Step 3) Traverse sourceClass by using reflection, collecting all members
+        // This step uses the mappings to add the new paths where available.
+        val dummyIconClass = classLoader.loadClass("com.intellij.ui.DummyIconImpl")
+        val pathField = dummyIconClass.getPathField()
+
+        val rootHolder = IconKeyHolder(sourceClass.simpleName)
+        pathField.whileForcingAccessible {
+            visitSourceClass(sourceClass, iconMapping, rootHolder, pathField, classLoader)
+        }
+        logger.lifecycle("Read icon keys from ${sourceClass.name}")
+
+        // Step 4) Generate output Kotlin file
         val fileSpec = generateKotlinCode(rootHolder)
-        val outputFile = outputFile.get().asFile
-        outputFile.bufferedWriter().use { fileSpec.writeTo(it) }
-        logger.lifecycle("Written icon keys for ${sourceClassName.get()} into ${outputFile.path}")
+        val directory = outputDirectory.get().asFile
+        fileSpec.writeTo(directory)
+
+        logger.lifecycle("Written icon keys for $guessedSourceClassName into $directory")
     }
 
-    private fun readIconMapping(rawMapping: JsonElement): Map<String, String> {
+    private fun createClassLoader(): URLClassLoader {
+        val arrayOfURLs = configuration.files
+            .map { it.toURI().toURL() }
+            .toTypedArray()
+
+        return URLClassLoader(
+            arrayOfURLs,
+            IconKeysGeneratorTask::class.java.classLoader
+        )
+    }
+
+    private fun readIconMappingJson(rawMapping: JsonElement): Map<String, String> {
         val flattenedMappings = mutableMapOf<String, Set<String>>()
 
         visitMapping(oldUiPath = "", node = rawMapping, map = flattenedMappings)
@@ -147,20 +185,33 @@ open class IconKeysGeneratorTask : DefaultTask() {
         }
     }
 
-    private fun visit(
-        clazz: Class<*>,
-        map: Map<String, String>,
+    private fun Field.whileForcingAccessible(action: () -> Unit) {
+        @Suppress("DEPRECATION")
+        val wasAccessible = isAccessible
+        isAccessible = true
+        try {
+            action()
+        } finally {
+            isAccessible = wasAccessible
+        }
+    }
+
+    private fun visitSourceClass(
+        sourceClass: Class<*>,
+        iconMappings: Map<String, String>,
         parentHolder: IconKeyHolder,
+        pathField: Field,
+        classLoader: ClassLoader,
     ) {
-        for (child in clazz.declaredClasses) {
+        for (child in sourceClass.declaredClasses) {
             val childName = "${parentHolder.name}.${child.simpleName}"
             val childHolder = IconKeyHolder(childName)
             parentHolder.holders += childHolder
-            visit(child, map, childHolder)
+            visitSourceClass(child, iconMappings, childHolder, pathField, classLoader)
         }
         parentHolder.holders.sortBy { it.name }
 
-        clazz.declaredFields
+        sourceClass.declaredFields
             .filter { it.type == javax.swing.Icon::class.java }
             .forEach { field ->
                 val fieldName = "${parentHolder.name}.${field.name}"
@@ -176,12 +227,12 @@ open class IconKeysGeneratorTask : DefaultTask() {
                     return
                 }
 
-                val icon = field.get(clazz)
+                val icon = field.get(sourceClass)
                 val oldPath = pathField.get(icon) as String
 
-                val newPath = map[oldPath]
-                validatePath(oldPath, fieldName)
-                newPath?.let { validatePath(it, fieldName) }
+                val newPath = iconMappings[oldPath]
+                validatePath(oldPath, fieldName, classLoader)
+                newPath?.let { validatePath(it, fieldName, classLoader) }
                 parentHolder.keys += IconKey(fieldName, oldPath, newPath)
             }
         parentHolder.keys.sortBy { it.name }
@@ -190,8 +241,9 @@ open class IconKeysGeneratorTask : DefaultTask() {
     private fun validatePath(
         path: String,
         fieldName: String,
+        classLoader: ClassLoader,
     ) {
-        val iconsClass = Class.forName(sourceClassName.get())
+        val iconsClass = classLoader.loadClass(sourceClassName.get())
         if (iconsClass.getResourceAsStream("/${path.trimStart('/')}") == null) {
             logger.warn("Icon $fieldName: '$path' does not exist")
         }
@@ -247,12 +299,24 @@ open class IconKeysGeneratorTask : DefaultTask() {
                         addProperty(
                             PropertySpec
                                 .builder(key.name.substringAfterLast('.'), keyClassName)
-                                .initializer("%L", """IntelliJIconKey("${key.oldPath}", "${key.newPath ?: key.oldPath}")""")
+                                .initializer(
+                                    "%L",
+                                    """IntelliJIconKey("${key.oldPath}", "${key.newPath ?: key.oldPath}")"""
+                                )
                                 .build(),
                         )
                     }
                 }.build(),
         )
+    }
+
+    companion object {
+
+        private fun Class<*>.getPathField(): Field = declaredFields.first { it.name == "path" }
+
+        private val keyClassName = ClassName("org.jetbrains.jewel.ui.icon", "IntelliJIconKey")
+
+        private val json = Json { isLenient = true }
     }
 }
 
