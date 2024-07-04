@@ -1,4 +1,6 @@
 import org.jetbrains.compose.ComposeBuildConfig
+import org.jmailen.gradle.kotlinter.tasks.FormatTask
+import org.jmailen.gradle.kotlinter.tasks.LintTask
 
 plugins {
     jewel
@@ -27,4 +29,12 @@ intelliJIconKeysGenerator {
         sourceClassName = "com.intellij.icons.AllIcons"
         generatedClassName = "org.jetbrains.jewel.ui.icons.AllIconsKeys"
     }
+}
+
+tasks.withType<LintTask> {
+    include("src/**") // Excluding build/ doesn't work for some reason
+}
+
+tasks.withType<FormatTask> {
+    include("src/**") // Excluding build/ doesn't work for some reason
 }
