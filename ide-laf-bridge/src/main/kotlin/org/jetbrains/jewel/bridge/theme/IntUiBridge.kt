@@ -99,6 +99,12 @@ import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarColors
 import org.jetbrains.jewel.ui.component.styling.ScrollbarMetrics
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonColors
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonMetrics
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlColors
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlMetrics
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.SliderColors
 import org.jetbrains.jewel.ui.component.styling.SliderMetrics
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
@@ -234,6 +240,8 @@ internal fun createBridgeComponentStyling(
         outlinedButtonStyle = readOutlinedButtonStyle(),
         radioButtonStyle = readRadioButtonStyle(),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
+        segmentedControlButtonStyle = readSegmentedControlButtonStyle(),
+        segmentedControlStyle = readSegmentedControlStyle(),
         sliderStyle = readSliderStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
@@ -857,6 +865,78 @@ private fun readScrollbarStyle(isDark: Boolean) =
             ),
         hoverDuration = 300.milliseconds,
     )
+
+private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
+    val normalBackground = SolidColor(retrieveColorOrUnspecified("Component.background"))
+    val selectedBackground = SolidColor(JBUI.CurrentTheme.SegmentedButton.SELECTED_BUTTON_COLOR.toComposeColor())
+
+    val normalContent = retrieveColorOrUnspecified("Button.foreground")
+
+    val normalBorder = listOf(
+        JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
+        JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
+    ).createVerticalBrush()
+
+    val colors =
+        SegmentedControlButtonColors(
+            background = normalBackground,
+            backgroundDisabled = normalBackground,
+            backgroundPressed = selectedBackground,
+            backgroundHovered = SolidColor(JBUI.CurrentTheme.ActionButton.hoverBackground().toComposeColor()),
+            backgroundSelected = selectedBackground,
+            backgroundSelectedFocused = SolidColor(JBUI.CurrentTheme.SegmentedButton.FOCUSED_SELECTED_BUTTON_COLOR.toComposeColor()),
+            content = normalContent,
+            contentDisabled = retrieveColorOrUnspecified("Component.infoForeground"),
+            contentPressed = normalContent,
+            contentHovered = normalContent,
+            contentSelected = normalContent,
+            contentSelectedFocused = normalContent,
+            border = normalBorder,
+            borderDisabled = SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
+            borderPressed = normalBorder,
+            borderHovered = normalBorder,
+            borderSelected = normalBorder,
+            borderSelectedFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
+        )
+
+    val minimumSize = JBUI.CurrentTheme.Button.minimumSize().toDpSize()
+    return SegmentedControlButtonStyle(
+        colors = colors,
+        metrics =
+            SegmentedControlButtonMetrics(
+                cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
+                segmentedButtonPadding = PaddingValues(horizontal = 14.dp),
+                minSize = DpSize(minimumSize.width, minimumSize.height),
+                segmentedButtonContentSpacing = 4.dp,
+                borderWidth = DarculaUIUtil.LW.dp,
+            ),
+    )
+}
+
+private fun readSegmentedControlStyle(): SegmentedControlStyle {
+    val normalBorder = listOf(
+        JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+        JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+    ).createVerticalBrush()
+
+    val colors =
+        SegmentedControlColors(
+            border = normalBorder,
+            borderDisabled = SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
+            borderPressed = normalBorder,
+            borderHovered = normalBorder,
+            borderFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor())
+        )
+
+    return SegmentedControlStyle(
+        colors = colors,
+        metrics =
+            SegmentedControlMetrics(
+                cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
+                borderWidth = DarculaUIUtil.LW.dp,
+            ),
+    )
+}
 
 private fun readSliderStyle(dark: Boolean): SliderStyle {
     // There are no values for sliders in IntUi, so we're essentially reusing the
