@@ -1,23 +1,23 @@
 package org.jetbrains.jewel.ui.component
 
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.interaction.FocusInteraction
-import androidx.compose.foundation.interaction.HoverInteraction
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester.Companion.Cancel
+import androidx.compose.ui.focus.FocusRequester.Companion.Default
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.onFocusEvent
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
@@ -25,6 +25,7 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
+import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.theme.segmentedControlStyle
 
 @Composable
@@ -32,7 +33,6 @@ public fun SegmentedControl(
     buttons: List<SegmentedControlButtonData>,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: SegmentedControlStyle = JewelTheme.segmentedControlStyle,
 ) {
     var segmentedControlState: SegmentedControlState by remember {
@@ -41,41 +41,42 @@ public fun SegmentedControl(
 
     remember(enabled) { segmentedControlState = segmentedControlState.copy(enabled) }
 
-    LaunchedEffect(interactionSource) {
-        interactionSource.interactions.collect { interaction ->
-            when (interaction) {
-                is PressInteraction.Press -> segmentedControlState = segmentedControlState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release ->
-                    segmentedControlState = segmentedControlState.copy(pressed = false)
-
-                is HoverInteraction.Enter -> segmentedControlState = segmentedControlState.copy(hovered = true)
-                is HoverInteraction.Exit -> segmentedControlState = segmentedControlState.copy(hovered = false)
-
-                is FocusInteraction.Focus -> segmentedControlState = segmentedControlState.copy(focused = true)
-                is FocusInteraction.Unfocus -> segmentedControlState = segmentedControlState.copy(focused = false)
-            }
-        }
-    }
-
     val borderColor by style.colors.borderFor(segmentedControlState)
 
     Row(
         modifier = modifier
-            .focusable(true, interactionSource)
+            .focusProperties {
+                canFocus = enabled
+
+                exit = {
+                    when (it) {
+                        FocusDirection.Left -> Cancel
+                        FocusDirection.Right -> Cancel
+                        else -> Default
+                    }
+                }
+            }
+            .onFocusEvent { segmentedControlState = segmentedControlState.copy(focused = it.isFocused) }
             .selectableGroup()
+            .focusGroup()
             .border(
                 Stroke.Alignment.Center,
                 style.metrics.borderWidth,
                 borderColor,
-                RoundedCornerShape(style.metrics.cornerSize)),
+                RoundedCornerShape(style.metrics.cornerSize),
+            )
+            .focusOutline(
+                segmentedControlState,
+                RoundedCornerShape(style.metrics.cornerSize),
+            ),
         horizontalArrangement = Arrangement.aligned(Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        buttons.forEach {
+        buttons.forEach { data ->
             SegmentedControlButton(
                 isActive = segmentedControlState.isActive,
                 enabled = enabled,
-                segmentedControlButtonData = it
+                segmentedControlButtonData = data
             )
         }
     }

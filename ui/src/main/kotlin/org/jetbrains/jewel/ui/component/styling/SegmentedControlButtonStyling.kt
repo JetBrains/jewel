@@ -32,23 +32,27 @@ public class SegmentedControlButtonColors(
     public val backgroundPressed: Brush,
     public val backgroundHovered: Brush,
     public val backgroundSelected: Brush,
+    public val backgroundSelectedFocused: Brush,
     public val content: Color,
     public val contentDisabled: Color,
     public val contentPressed: Color,
     public val contentHovered: Color,
     public val contentSelected: Color,
+    public val contentSelectedFocused: Color,
     public val border: Brush,
     public val borderDisabled: Brush,
     public val borderPressed: Brush,
     public val borderHovered: Brush,
     public val borderSelected: Brush,
+    public val borderSelectedFocused: Brush,
 ) {
 
     @Composable
     public fun contentFor(state: SegmentedControlButtonState): State<Color> =
         rememberUpdatedState(
             when {
-                state.isSelected -> contentSelected
+                state.isSelected && state.isFocused && state.isEnabled -> contentSelectedFocused
+                state.isSelected && state.isEnabled -> contentSelected
                 else ->
                     state.chooseValueIgnoreCompat(
                         normal = content,
@@ -64,10 +68,11 @@ public class SegmentedControlButtonColors(
     public fun backgroundFor(state: SegmentedControlButtonState): State<Brush> =
         rememberUpdatedState(
             when {
-                !state.isEnabled -> backgroundDisabled
-                state.isPressed -> backgroundPressed
-                state.isHovered -> backgroundHovered
+                !state.isEnabled && !state.isSelected -> backgroundDisabled
+                state.isPressed && !state.isSelected && !state.isFocused -> backgroundPressed
+                state.isHovered && !state.isSelected -> backgroundHovered
                 state.isActive -> background
+                state.isSelected && state.isFocused -> backgroundSelectedFocused
                 state.isSelected -> backgroundSelected
                 else -> background
             }
@@ -77,12 +82,13 @@ public class SegmentedControlButtonColors(
     public fun borderFor(state: SegmentedControlButtonState): State<Brush> =
         rememberUpdatedState(
             when {
-                state.isSelected && state.isEnabled && state.isFocused -> borderSelected
-                state.isSelected && !state.isFocused -> borderDisabled
+                state.isSelected && state.isFocused -> borderSelectedFocused
+                state.isSelected && !state.isEnabled -> borderDisabled
+                state.isSelected -> borderSelected
                 else ->
                     state.chooseValueIgnoreCompat(
                         normal = border,
-                        disabled = borderDisabled,
+                        disabled = border,
                         pressed = borderPressed,
                         hovered = borderHovered,
                         active = border,
