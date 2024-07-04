@@ -143,7 +143,7 @@ open class IconKeysGeneratorTask : DefaultTask() {
                 }
             }
 
-            JsonNull -> error("dio bavoso")
+            JsonNull -> error("Null nodes not supported")
         }
     }
 
