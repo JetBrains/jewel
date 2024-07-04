@@ -23,8 +23,7 @@ dependencies {
     implementation(libs.kotlinx.binaryCompatValidator.gradlePlugin)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.poko.gradlePlugin)
-    implementation(libs.intellijPlatform.util.ui)
-    implementation(libs.intellijPlatform.icons)
+
 
     // Enables using type-safe accessors to reference plugins from the [plugins] block defined in
     // version catalogs.
