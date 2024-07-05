@@ -67,8 +67,7 @@ public fun RadioButtonColors.Companion.dark(
 public fun RadioButtonMetrics.Companion.defaults(
     radioButtonSize: DpSize = DpSize(19.dp, 19.dp),
     iconContentGap: Dp = 8.dp,
-): RadioButtonMetrics =
-    RadioButtonMetrics(radioButtonSize, iconContentGap)
+): RadioButtonMetrics = RadioButtonMetrics(radioButtonSize, iconContentGap)
 
 public fun RadioButtonIcons.Companion.light(
     radioButton: PainterProvider =

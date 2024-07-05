@@ -163,7 +163,7 @@ public class MarkdownProcessor(
             previousBlocks.subList(0, firstBlock) +
                 updatedBlocks +
                 previousBlocks.subList(lastBlock, previousBlocks.size)
-            )
+        )
         val newIndexes = previousIndexes.subList(0, firstBlock) + updatedIndexes + suffixIndexes
         currentState = State(newLines, newBlocks, newIndexes)
         return newBlocks

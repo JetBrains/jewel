@@ -15,11 +15,11 @@ import org.jetbrains.jewel.ui.util.fromRGBAHexStringOrNull
 public class StandalonePainterHintsProvider(
     theme: ThemeDefinition,
 ) : PalettePainterHintsProvider(
-    theme.isDark,
-    intellijColorPalette,
-    theme.iconData.colorPalette,
-    theme.colorPalette.rawMap,
-) {
+        theme.isDark,
+        intellijColorPalette,
+        theme.iconData.colorPalette,
+        theme.colorPalette.rawMap,
+    ) {
     private val overrideHint: PainterHint =
         PathOverride(
             theme.iconData.iconOverrides.entries.associate { (k, v) ->
@@ -58,12 +58,13 @@ public class StandalonePainterHintsProvider(
     }
 
     @Composable
-    override fun hints(path: String): List<PainterHint> = buildList {
-        add(getPaletteHint(path))
-        add(overrideHint)
-        add(HiDpi())
-        add(Dark(JewelTheme.isDark))
-    }
+    override fun hints(path: String): List<PainterHint> =
+        buildList {
+            add(getPaletteHint(path))
+            add(overrideHint)
+            add(HiDpi())
+            add(Dark(JewelTheme.isDark))
+        }
 
     public companion object {
         // Extracted from com.intellij.ide.ui.UITheme#colorPalette

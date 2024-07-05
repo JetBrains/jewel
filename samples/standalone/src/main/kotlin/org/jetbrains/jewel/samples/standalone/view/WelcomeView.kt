@@ -36,10 +36,10 @@ import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 fun WelcomeView() {
     Column(
         modifier =
-        Modifier.trackActivation()
-            .fillMaxSize()
-            .background(JewelTheme.globalColors.panelBackground)
-            .padding(24.dp),
+            Modifier.trackActivation()
+                .fillMaxSize()
+                .background(JewelTheme.globalColors.panelBackground)
+                .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),
     ) {
         val meetNewUiImage =

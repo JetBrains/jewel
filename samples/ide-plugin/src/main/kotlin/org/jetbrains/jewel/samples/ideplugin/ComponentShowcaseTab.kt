@@ -76,12 +76,12 @@ internal fun ComponentShowcaseTab() {
     val scrollState = rememberScrollState()
     Row(
         modifier =
-        Modifier
+            Modifier
                 .trackComponentActivation(LocalComponent.current)
-            .fillMaxSize()
-            .background(bgColor)
-            .verticalScroll(scrollState)
-            .padding(16.dp),
+                .fillMaxSize()
+                .background(bgColor)
+                .verticalScroll(scrollState)
+                .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         ColumnOne()

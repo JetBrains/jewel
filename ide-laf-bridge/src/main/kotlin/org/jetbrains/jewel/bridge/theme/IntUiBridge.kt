@@ -277,13 +277,13 @@ private fun readDefaultButtonStyle(): ButtonStyle {
     return ButtonStyle(
         colors = colors,
         metrics =
-        ButtonMetrics(
-            cornerSize = retrieveArcAsCornerSizeWithFallbacks("Button.default.arc", "Button.arc"),
-            padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
-            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
-            borderWidth = 1.dp,
-            focusOutlineExpand = 1.5.dp, // From DarculaButtonPainter.getBorderInsets
-        ),
+            ButtonMetrics(
+                cornerSize = retrieveArcAsCornerSizeWithFallbacks("Button.default.arc", "Button.arc"),
+                padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
+                minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
+                borderWidth = 1.dp,
+                focusOutlineExpand = 1.5.dp, // From DarculaButtonPainter.getBorderInsets
+            ),
         focusOutlineAlignment = Stroke.Alignment.Center,
     )
 }
@@ -325,13 +325,13 @@ private fun readOutlinedButtonStyle(): ButtonStyle {
     return ButtonStyle(
         colors = colors,
         metrics =
-        ButtonMetrics(
-            cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
-            padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
-            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
-            borderWidth = DarculaUIUtil.LW.dp,
-            focusOutlineExpand = Dp.Unspecified,
-        ),
+            ButtonMetrics(
+                cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
+                padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
+                minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
+                borderWidth = DarculaUIUtil.LW.dp,
+                focusOutlineExpand = Dp.Unspecified,
+            ),
         focusOutlineAlignment = Stroke.Alignment.Center,
     )
 }
@@ -348,13 +348,13 @@ private fun readCheckboxStyle(): CheckboxStyle {
     return CheckboxStyle(
         colors = colors,
         metrics =
-        CheckboxMetrics(
-            checkboxSize = DarculaCheckBoxUI().defaultIcon.let { DpSize(it.iconWidth.dp, it.iconHeight.dp) },
-            checkboxCornerSize = CornerSize(3.dp), // See DarculaCheckBoxUI#drawCheckIcon
-            outlineSize = DpSize(15.dp, 15.dp), // Extrapolated from SVG
-            outlineOffset = DpOffset(2.5.dp, 1.5.dp), // Extrapolated from SVG
-            iconContentGap = 5.dp, // See DarculaCheckBoxUI#textIconGap
-        ),
+            CheckboxMetrics(
+                checkboxSize = DarculaCheckBoxUI().defaultIcon.let { DpSize(it.iconWidth.dp, it.iconHeight.dp) },
+                checkboxCornerSize = CornerSize(3.dp), // See DarculaCheckBoxUI#drawCheckIcon
+                outlineSize = DpSize(15.dp, 15.dp), // Extrapolated from SVG
+                outlineOffset = DpOffset(2.5.dp, 1.5.dp), // Extrapolated from SVG
+                iconContentGap = 5.dp, // See DarculaCheckBoxUI#textIconGap
+            ),
         icons = CheckboxIcons(checkbox = bridgePainterProvider("${iconsBasePath}checkBox.svg")),
     )
 }
@@ -411,12 +411,12 @@ private fun readChipStyle(): ChipStyle {
     return ChipStyle(
         colors = colors,
         metrics =
-        ChipMetrics(
-            cornerSize = CornerSize(6.dp),
-            padding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
-            borderWidth = 1.dp,
-            borderWidthSelected = 2.dp,
-        ),
+            ChipMetrics(
+                cornerSize = CornerSize(6.dp),
+                padding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                borderWidth = 1.dp,
+                borderWidthSelected = 2.dp,
+            ),
     )
 }
 
@@ -463,13 +463,13 @@ private fun readDefaultDropdownStyle(
     return DropdownStyle(
         colors = colors,
         metrics =
-        DropdownMetrics(
-            arrowMinSize = DpSize(arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
-            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp + arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
-            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2),
-            contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
-            borderWidth = DarculaUIUtil.LW.dp,
-        ),
+            DropdownMetrics(
+                arrowMinSize = DpSize(arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
+                minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp + arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
+                cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2),
+                contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
+                borderWidth = DarculaUIUtil.LW.dp,
+            ),
         icons = DropdownIcons(chevronDown = bridgePainterProvider("general/chevron-down.svg")),
         textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
@@ -512,13 +512,13 @@ private fun readUndecoratedDropdownStyle(
     return DropdownStyle(
         colors = colors,
         metrics =
-        DropdownMetrics(
-            arrowMinSize = DpSize(arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
-            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp + arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
-            cornerSize = CornerSize(JBUI.CurrentTheme.MainToolbar.Dropdown.hoverArc().dp),
-            contentPadding = JBUI.CurrentTheme.MainToolbar.Dropdown.borderInsets().toPaddingValues(),
-            borderWidth = 0.dp,
-        ),
+            DropdownMetrics(
+                arrowMinSize = DpSize(arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
+                minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp + arrowWidth, DarculaUIUtil.MINIMUM_HEIGHT.dp),
+                cornerSize = CornerSize(JBUI.CurrentTheme.MainToolbar.Dropdown.hoverArc().dp),
+                contentPadding = JBUI.CurrentTheme.MainToolbar.Dropdown.borderInsets().toPaddingValues(),
+                borderWidth = 0.dp,
+            ),
         icons = DropdownIcons(chevronDown = bridgePainterProvider("general/chevron-down.svg")),
         textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
@@ -529,30 +529,30 @@ private fun readGroupHeaderStyle() =
     GroupHeaderStyle(
         colors = GroupHeaderColors(divider = retrieveColorOrUnspecified("Separator.separatorColor")),
         metrics =
-        GroupHeaderMetrics(
-            dividerThickness = 1.dp, // see DarculaSeparatorUI
-            indent = 1.dp, // see DarculaSeparatorUI
-        ),
+            GroupHeaderMetrics(
+                dividerThickness = 1.dp, // see DarculaSeparatorUI
+                indent = 1.dp, // see DarculaSeparatorUI
+            ),
     )
 
 private fun readHorizontalProgressBarStyle() =
     HorizontalProgressBarStyle(
         colors =
-        HorizontalProgressBarColors(
-            track = retrieveColorOrUnspecified("ProgressBar.trackColor"),
-            progress = retrieveColorOrUnspecified("ProgressBar.progressColor"),
-            indeterminateBase = retrieveColorOrUnspecified("ProgressBar.indeterminateStartColor"),
-            indeterminateHighlight = retrieveColorOrUnspecified("ProgressBar.indeterminateEndColor"),
-        ),
+            HorizontalProgressBarColors(
+                track = retrieveColorOrUnspecified("ProgressBar.trackColor"),
+                progress = retrieveColorOrUnspecified("ProgressBar.progressColor"),
+                indeterminateBase = retrieveColorOrUnspecified("ProgressBar.indeterminateStartColor"),
+                indeterminateHighlight = retrieveColorOrUnspecified("ProgressBar.indeterminateEndColor"),
+            ),
         metrics =
-        HorizontalProgressBarMetrics(
-            cornerSize = CornerSize(100),
-            minHeight = 4.dp, // See DarculaProgressBarUI.DEFAULT_WIDTH
-            // See DarculaProgressBarUI.CYCLE_TIME_DEFAULT,
-            // DarculaProgressBarUI.REPAINT_INTERVAL_DEFAULT,
-            // and the "step" constant in DarculaProgressBarUI#paintIndeterminate
-            indeterminateHighlightWidth = (800 / 50 * 6).dp,
-        ),
+            HorizontalProgressBarMetrics(
+                cornerSize = CornerSize(100),
+                minHeight = 4.dp, // See DarculaProgressBarUI.DEFAULT_WIDTH
+                // See DarculaProgressBarUI.CYCLE_TIME_DEFAULT,
+                // DarculaProgressBarUI.REPAINT_INTERVAL_DEFAULT,
+                // and the "step" constant in DarculaProgressBarUI#paintIndeterminate
+                indeterminateHighlightWidth = (800 / 50 * 6).dp,
+            ),
         indeterminateCycleDuration = 800.milliseconds, // See DarculaProgressBarUI.CYCLE_TIME_DEFAULT
     )
 
@@ -565,46 +565,46 @@ private fun readLinkStyle(linkTextStyle: TextStyle): LinkStyle {
         LinkColors(
             content = normalContent,
             contentDisabled =
-            retrieveColorOrUnspecified("Link.disabledForeground")
-                .takeOrElse { retrieveColorOrUnspecified("Label.disabledForeground") },
+                retrieveColorOrUnspecified("Link.disabledForeground")
+                    .takeOrElse { retrieveColorOrUnspecified("Label.disabledForeground") },
             contentFocused = normalContent,
             contentPressed =
-            retrieveColorOrUnspecified("Link.pressedForeground")
-                .takeOrElse { retrieveColorOrUnspecified("link.pressed.foreground") },
+                retrieveColorOrUnspecified("Link.pressedForeground")
+                    .takeOrElse { retrieveColorOrUnspecified("link.pressed.foreground") },
             contentHovered =
-            retrieveColorOrUnspecified("Link.hoverForeground")
-                .takeOrElse { retrieveColorOrUnspecified("link.hover.foreground") },
+                retrieveColorOrUnspecified("Link.hoverForeground")
+                    .takeOrElse { retrieveColorOrUnspecified("link.hover.foreground") },
             contentVisited =
-            retrieveColorOrUnspecified("Link.visitedForeground")
-                .takeOrElse { retrieveColorOrUnspecified("link.visited.foreground") },
+                retrieveColorOrUnspecified("Link.visitedForeground")
+                    .takeOrElse { retrieveColorOrUnspecified("link.visited.foreground") },
         )
 
     return LinkStyle(
         colors = colors,
         metrics =
-        LinkMetrics(
-            focusHaloCornerSize =
-            retrieveArcAsCornerSizeOrDefault(
-                key = "ide.link.button.focus.round.arc",
-                default = CornerSize(4.dp),
+            LinkMetrics(
+                focusHaloCornerSize =
+                    retrieveArcAsCornerSizeOrDefault(
+                        key = "ide.link.button.focus.round.arc",
+                        default = CornerSize(4.dp),
+                    ),
+                textIconGap = 4.dp,
+                iconSize = DpSize(16.dp, 16.dp),
             ),
-            textIconGap = 4.dp,
-            iconSize = DpSize(16.dp, 16.dp),
-        ),
         icons =
-        LinkIcons(
-            dropdownChevron = bridgePainterProvider("general/chevron-down.svg"),
-            externalLink = bridgePainterProvider("ide/external_link_arrow.svg"),
-        ),
+            LinkIcons(
+                dropdownChevron = bridgePainterProvider("general/chevron-down.svg"),
+                externalLink = bridgePainterProvider("ide/external_link_arrow.svg"),
+            ),
         textStyles =
-        LinkTextStyles(
-            normal = linkTextStyle,
-            disabled = linkTextStyle,
-            focused = linkTextStyle,
-            pressed = linkTextStyle,
-            hovered = linkTextStyle,
-            visited = linkTextStyle,
-        ),
+            LinkTextStyles(
+                normal = linkTextStyle,
+                disabled = linkTextStyle,
+                focused = linkTextStyle,
+                pressed = linkTextStyle,
+                hovered = linkTextStyle,
+                visited = linkTextStyle,
+            ),
     )
 }
 
@@ -618,72 +618,72 @@ private fun readMenuStyle(): MenuStyle {
         MenuColors(
             background = retrieveColorOrUnspecified("PopupMenu.background"),
             border =
-            retrieveColorOrUnspecified("Popup.borderColor")
-                .takeOrElse { retrieveColorOrUnspecified("Popup.Border.color") },
+                retrieveColorOrUnspecified("Popup.borderColor")
+                    .takeOrElse { retrieveColorOrUnspecified("Popup.Border.color") },
             shadow = Color.Black.copy(alpha = .6f),
             itemColors =
-            MenuItemColors(
-                background = retrieveColorOrUnspecified("MenuItem.background"),
-                backgroundDisabled = retrieveColorOrUnspecified("MenuItem.disabledBackground"),
-                backgroundFocused = backgroundSelected,
-                backgroundPressed = backgroundSelected,
-                backgroundHovered = backgroundSelected,
-                content = retrieveColorOrUnspecified("PopupMenu.foreground"),
-                contentDisabled = retrieveColorOrUnspecified("PopupMenu.disabledForeground"),
-                contentFocused = foregroundSelected,
-                contentPressed = foregroundSelected,
-                contentHovered = foregroundSelected,
-                iconTint = Color.Unspecified,
-                iconTintDisabled = Color.Unspecified,
-                iconTintFocused = Color.Unspecified,
-                iconTintPressed = Color.Unspecified,
-                iconTintHovered = Color.Unspecified,
-                keybindingTint = keybindingTint,
-                keybindingTintDisabled = keybindingTint,
-                keybindingTintFocused = keybindingTintSelected,
-                keybindingTintPressed = keybindingTintSelected,
-                keybindingTintHovered = keybindingTintSelected,
-                separator = retrieveColorOrUnspecified("Menu.separatorColor"),
-            ),
+                MenuItemColors(
+                    background = retrieveColorOrUnspecified("MenuItem.background"),
+                    backgroundDisabled = retrieveColorOrUnspecified("MenuItem.disabledBackground"),
+                    backgroundFocused = backgroundSelected,
+                    backgroundPressed = backgroundSelected,
+                    backgroundHovered = backgroundSelected,
+                    content = retrieveColorOrUnspecified("PopupMenu.foreground"),
+                    contentDisabled = retrieveColorOrUnspecified("PopupMenu.disabledForeground"),
+                    contentFocused = foregroundSelected,
+                    contentPressed = foregroundSelected,
+                    contentHovered = foregroundSelected,
+                    iconTint = Color.Unspecified,
+                    iconTintDisabled = Color.Unspecified,
+                    iconTintFocused = Color.Unspecified,
+                    iconTintPressed = Color.Unspecified,
+                    iconTintHovered = Color.Unspecified,
+                    keybindingTint = keybindingTint,
+                    keybindingTintDisabled = keybindingTint,
+                    keybindingTintFocused = keybindingTintSelected,
+                    keybindingTintPressed = keybindingTintSelected,
+                    keybindingTintHovered = keybindingTintSelected,
+                    separator = retrieveColorOrUnspecified("Menu.separatorColor"),
+                ),
         )
 
     return MenuStyle(
         isDark = !JBColor.isBright(),
         colors = colors,
         metrics =
-        MenuMetrics(
-            cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
-            menuMargin = PaddingValues(0.dp),
-            contentPadding = PaddingValues(horizontal = 0.dp, vertical = 6.dp),
-            offset = DpOffset(0.dp, 2.dp),
-            shadowSize = 12.dp,
-            borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 2.dp },
-            itemMetrics =
-            MenuItemMetrics(
-                selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
-                outerPadding = PaddingValues(horizontal = 7.dp),
-                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp),
-                keybindingsPadding = PaddingValues(start = 36.dp),
-                separatorPadding =
-                PaddingValues(
-                    horizontal =
-                    retrieveIntAsDpOrUnspecified("PopupMenuSeparator.withToEdge")
-                        .takeOrElse { 1.dp },
-                    vertical =
-                    retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeIndent")
-                        .takeOrElse { 1.dp },
-                ),
-                separatorThickness =
-                retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeWidth")
-                    .takeOrElse { 1.dp },
-                separatorHeight =
-                retrieveIntAsDpOrUnspecified("PopupMenuSeparator.height")
-                    .takeOrElse { 3.dp },
-                iconSize = 16.dp,
-                minHeight = if (isNewUiTheme()) JBUI.CurrentTheme.List.rowHeight().dp else Dp.Unspecified,
+            MenuMetrics(
+                cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
+                menuMargin = PaddingValues(0.dp),
+                contentPadding = PaddingValues(horizontal = 0.dp, vertical = 6.dp),
+                offset = DpOffset(0.dp, 2.dp),
+                shadowSize = 12.dp,
+                borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 2.dp },
+                itemMetrics =
+                    MenuItemMetrics(
+                        selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
+                        outerPadding = PaddingValues(horizontal = 7.dp),
+                        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp),
+                        keybindingsPadding = PaddingValues(start = 36.dp),
+                        separatorPadding =
+                            PaddingValues(
+                                horizontal =
+                                    retrieveIntAsDpOrUnspecified("PopupMenuSeparator.withToEdge")
+                                        .takeOrElse { 1.dp },
+                                vertical =
+                                    retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeIndent")
+                                        .takeOrElse { 1.dp },
+                            ),
+                        separatorThickness =
+                            retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeWidth")
+                                .takeOrElse { 1.dp },
+                        separatorHeight =
+                            retrieveIntAsDpOrUnspecified("PopupMenuSeparator.height")
+                                .takeOrElse { 3.dp },
+                        iconSize = 16.dp,
+                        minHeight = if (isNewUiTheme()) JBUI.CurrentTheme.List.rowHeight().dp else Dp.Unspecified,
+                    ),
+                submenuMetrics = SubmenuMetrics(offset = DpOffset(0.dp, (-8).dp)),
             ),
-            submenuMetrics = SubmenuMetrics(offset = DpOffset(0.dp, (-8).dp)),
-        ),
         icons = MenuIcons(submenuChevron = bridgePainterProvider("general/chevron-right.svg")),
     )
 }
@@ -704,12 +704,12 @@ private fun readRadioButtonStyle(): RadioButtonStyle {
     return RadioButtonStyle(
         colors = colors,
         metrics =
-        RadioButtonMetrics(
-            radioButtonSize = DpSize(19.dp, 19.dp),
-            iconContentGap =
-            retrieveIntAsDpOrUnspecified("RadioButton.textIconGap")
-                .takeOrElse { 4.dp },
-        ),
+            RadioButtonMetrics(
+                radioButtonSize = DpSize(19.dp, 19.dp),
+                iconContentGap =
+                    retrieveIntAsDpOrUnspecified("RadioButton.textIconGap")
+                        .takeOrElse { 4.dp },
+            ),
         icons = RadioButtonIcons(radioButton = bridgePainterProvider("${iconsBasePath}radio.svg")),
     )
 }
@@ -717,25 +717,25 @@ private fun readRadioButtonStyle(): RadioButtonStyle {
 private fun readScrollbarStyle(isDark: Boolean) =
     ScrollbarStyle(
         colors =
-        ScrollbarColors(
-            // See ScrollBarPainter.THUMB_OPAQUE_BACKGROUND
-            thumbBackground =
-            retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbColor")
-                .let { if (it.alpha == 0f) Color.Unspecified else it } // See https://github.com/JetBrains/jewel/issues/259
-                .takeOrElse { if (isDark) Color(0x59808080) else Color(0x33000000) },
-            // See ScrollBarPainter.THUMB_OPAQUE_HOVERED_BACKGROUND
-            thumbBackgroundHovered =
-            retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
-                .let { if (it.alpha == 0f) Color.Unspecified else it } // See https://github.com/JetBrains/jewel/issues/259
-                .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
-        ),
+            ScrollbarColors(
+                // See ScrollBarPainter.THUMB_OPAQUE_BACKGROUND
+                thumbBackground =
+                    retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbColor")
+                        .let { if (it.alpha == 0f) Color.Unspecified else it } // See https://github.com/JetBrains/jewel/issues/259
+                        .takeOrElse { if (isDark) Color(0x59808080) else Color(0x33000000) },
+                // See ScrollBarPainter.THUMB_OPAQUE_HOVERED_BACKGROUND
+                thumbBackgroundHovered =
+                    retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
+                        .let { if (it.alpha == 0f) Color.Unspecified else it } // See https://github.com/JetBrains/jewel/issues/259
+                        .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
+            ),
         metrics =
-        ScrollbarMetrics(
-            thumbCornerSize = CornerSize(100),
-            thumbThickness = 8.dp,
-            minThumbLength = 16.dp,
-            trackPadding = PaddingValues(start = 7.dp, end = 3.dp),
-        ),
+            ScrollbarMetrics(
+                thumbCornerSize = CornerSize(100),
+                thumbThickness = 8.dp,
+                minThumbLength = 16.dp,
+                trackPadding = PaddingValues(start = 7.dp, end = 3.dp),
+            ),
         hoverDuration = 300.milliseconds,
     )
 
@@ -785,12 +785,12 @@ private fun readTextAreaStyle(
     return TextAreaStyle(
         colors = colors,
         metrics =
-        TextAreaMetrics(
-            cornerSize = metrics.cornerSize,
-            contentPadding = metrics.contentPadding,
-            minSize = metrics.minSize,
-            borderWidth = metrics.borderWidth,
-        ),
+            TextAreaMetrics(
+                cornerSize = metrics.cornerSize,
+                contentPadding = metrics.contentPadding,
+                minSize = metrics.minSize,
+                borderWidth = metrics.borderWidth,
+            ),
         textStyle = textStyle,
     )
 }
@@ -830,12 +830,12 @@ private fun readTextFieldStyle(textFieldStyle: TextStyle): TextFieldStyle {
     return TextFieldStyle(
         colors = colors,
         metrics =
-        TextFieldMetrics(
-            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp),
-            contentPadding = PaddingValues(horizontal = 9.dp, vertical = 2.dp),
-            minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
-            borderWidth = DarculaUIUtil.LW.dp,
-        ),
+            TextFieldMetrics(
+                cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp),
+                contentPadding = PaddingValues(horizontal = 9.dp, vertical = 2.dp),
+                minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
+                borderWidth = DarculaUIUtil.LW.dp,
+            ),
         textStyle = textFieldStyle,
     )
 }
@@ -865,21 +865,21 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
     return LazyTreeStyle(
         colors = colors,
         metrics =
-        LazyTreeMetrics(
-            indentSize = leftIndent + rightIndent,
-            elementBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
-            elementPadding = PaddingValues(horizontal = 12.dp),
-            elementContentPadding = PaddingValues(4.dp),
-            elementMinHeight = retrieveIntAsDpOrUnspecified("Tree.rowHeight").takeOrElse { 24.dp },
-            chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
-        ),
+            LazyTreeMetrics(
+                indentSize = leftIndent + rightIndent,
+                elementBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
+                elementPadding = PaddingValues(horizontal = 12.dp),
+                elementContentPadding = PaddingValues(4.dp),
+                elementMinHeight = retrieveIntAsDpOrUnspecified("Tree.rowHeight").takeOrElse { 24.dp },
+                chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
+            ),
         icons =
-        LazyTreeIcons(
-            chevronCollapsed = chevronCollapsed,
-            chevronExpanded = chevronExpanded,
-            chevronSelectedCollapsed = chevronCollapsed,
-            chevronSelectedExpanded = chevronExpanded,
-        ),
+            LazyTreeIcons(
+                chevronCollapsed = chevronCollapsed,
+                chevronExpanded = chevronExpanded,
+                chevronSelectedCollapsed = chevronCollapsed,
+                chevronSelectedExpanded = chevronExpanded,
+            ),
     )
 }
 
@@ -912,29 +912,29 @@ private fun readDefaultTabStyle(): TabStyle {
     return TabStyle(
         colors = colors,
         metrics =
-        TabMetrics(
-            underlineThickness =
-            retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight")
-                .takeOrElse { 2.dp },
-            tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
-            closeContentGap = 4.dp,
-            tabContentSpacing = 4.dp,
-            tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
-        ),
+            TabMetrics(
+                underlineThickness =
+                    retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight")
+                        .takeOrElse { 2.dp },
+                tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
+                closeContentGap = 4.dp,
+                tabContentSpacing = 4.dp,
+                tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
+            ),
         icons = TabIcons(close = bridgePainterProvider("expui/general/closeSmall.svg")),
         contentAlpha =
-        TabContentAlpha(
-            iconNormal = 1f,
-            iconDisabled = 1f,
-            iconPressed = 1f,
-            iconHovered = 1f,
-            iconSelected = 1f,
-            contentNormal = 1f,
-            contentDisabled = 1f,
-            contentPressed = 1f,
-            contentHovered = 1f,
-            contentSelected = 1f,
-        ),
+            TabContentAlpha(
+                iconNormal = 1f,
+                iconDisabled = 1f,
+                iconPressed = 1f,
+                iconHovered = 1f,
+                iconSelected = 1f,
+                contentNormal = 1f,
+                contentDisabled = 1f,
+                contentPressed = 1f,
+                contentHovered = 1f,
+                contentSelected = 1f,
+            ),
     )
 }
 
@@ -966,31 +966,31 @@ private fun readEditorTabStyle(): TabStyle {
     return TabStyle(
         colors = colors,
         metrics =
-        TabMetrics(
-            underlineThickness =
-            retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight")
-                .takeOrElse { 2.dp },
-            tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
-            closeContentGap = 4.dp,
-            tabContentSpacing = 4.dp,
-            tabHeight =
-            retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight")
-                .takeOrElse { 24.dp },
-        ),
+            TabMetrics(
+                underlineThickness =
+                    retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight")
+                        .takeOrElse { 2.dp },
+                tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
+                closeContentGap = 4.dp,
+                tabContentSpacing = 4.dp,
+                tabHeight =
+                    retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight")
+                        .takeOrElse { 24.dp },
+            ),
         icons = TabIcons(close = bridgePainterProvider("expui/general/closeSmall.svg")),
         contentAlpha =
-        TabContentAlpha(
-            iconNormal = .7f,
-            iconDisabled = .7f,
-            iconPressed = 1f,
-            iconHovered = 1f,
-            iconSelected = 1f,
-            contentNormal = .7f,
-            contentDisabled = .7f,
-            contentPressed = 1f,
-            contentHovered = 1f,
-            contentSelected = 1f,
-        ),
+            TabContentAlpha(
+                iconNormal = .7f,
+                iconDisabled = .7f,
+                iconPressed = 1f,
+                iconHovered = 1f,
+                iconSelected = 1f,
+                contentNormal = .7f,
+                contentDisabled = .7f,
+                contentPressed = 1f,
+                contentHovered = 1f,
+                contentSelected = 1f,
+            ),
     )
 }
 
@@ -998,53 +998,53 @@ private fun readCircularProgressStyle(isDark: Boolean) =
     CircularProgressStyle(
         frameTime = 125.milliseconds,
         color =
-        retrieveColorOrUnspecified("ProgressIcon.color")
-            .takeOrElse { if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD) },
+            retrieveColorOrUnspecified("ProgressIcon.color")
+                .takeOrElse { if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD) },
     )
 
 private fun readTooltipStyle(): TooltipStyle {
     return TooltipStyle(
         metrics =
-        TooltipMetrics.defaults(
-            contentPadding = JBUI.CurrentTheme.HelpTooltip.smallTextBorderInsets().toPaddingValues(),
-            showDelay = Registry.intValue("ide.tooltip.initialDelay").milliseconds,
-            cornerSize = CornerSize(JBUI.CurrentTheme.Tooltip.CORNER_RADIUS.dp),
-        ),
+            TooltipMetrics.defaults(
+                contentPadding = JBUI.CurrentTheme.HelpTooltip.smallTextBorderInsets().toPaddingValues(),
+                showDelay = Registry.intValue("ide.tooltip.initialDelay").milliseconds,
+                cornerSize = CornerSize(JBUI.CurrentTheme.Tooltip.CORNER_RADIUS.dp),
+            ),
         colors =
-        TooltipColors(
-            content = retrieveColorOrUnspecified("ToolTip.foreground"),
-            background = retrieveColorOrUnspecified("ToolTip.background"),
-            border = JBUI.CurrentTheme.Tooltip.borderColor().toComposeColor(),
-            shadow = retrieveColorOrUnspecified("Notification.Shadow.bottom1Color"),
-        ),
+            TooltipColors(
+                content = retrieveColorOrUnspecified("ToolTip.foreground"),
+                background = retrieveColorOrUnspecified("ToolTip.background"),
+                border = JBUI.CurrentTheme.Tooltip.borderColor().toComposeColor(),
+                shadow = retrieveColorOrUnspecified("Notification.Shadow.bottom1Color"),
+            ),
     )
 }
 
 private fun readIconButtonStyle(): IconButtonStyle =
     IconButtonStyle(
         metrics =
-        IconButtonMetrics(
-            cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
-            borderWidth = 1.dp,
-            padding = PaddingValues(0.dp),
-            minSize = DpSize(16.dp, 16.dp),
-        ),
+            IconButtonMetrics(
+                cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
+                borderWidth = 1.dp,
+                padding = PaddingValues(0.dp),
+                minSize = DpSize(16.dp, 16.dp),
+            ),
         colors =
-        IconButtonColors(
-            foregroundSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedForeground"),
-            background = Color.Unspecified,
-            backgroundDisabled = Color.Unspecified,
-            backgroundSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
-            backgroundSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
-            backgroundFocused = Color.Unspecified,
-            backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
-            backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
-            border = Color.Unspecified,
-            borderDisabled = Color.Unspecified,
-            borderSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
-            borderSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
-            borderFocused = Color.Unspecified,
-            borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
-            borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
-        ),
+            IconButtonColors(
+                foregroundSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedForeground"),
+                background = Color.Unspecified,
+                backgroundDisabled = Color.Unspecified,
+                backgroundSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
+                backgroundSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
+                backgroundFocused = Color.Unspecified,
+                backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
+                backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
+                border = Color.Unspecified,
+                borderDisabled = Color.Unspecified,
+                borderSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
+                borderSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
+                borderFocused = Color.Unspecified,
+                borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
+                borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
+            ),
     )

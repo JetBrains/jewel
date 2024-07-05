@@ -278,8 +278,8 @@ public open class DefaultMarkdownBlockRenderer(
                         style = styling.numberStyle,
                         color = styling.numberStyle.color.takeOrElse { LocalContentColor.current },
                         modifier =
-                        Modifier.widthIn(min = styling.numberMinWidth)
-                            .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+                            Modifier.widthIn(min = styling.numberMinWidth)
+                                .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                         textAlign = styling.numberTextAlign,
                     )
 
@@ -366,8 +366,8 @@ public open class DefaultMarkdownBlockRenderer(
                 style = styling.editorTextStyle,
                 color = styling.editorTextStyle.color.takeOrElse { LocalContentColor.current },
                 modifier =
-                Modifier.padding(styling.padding)
-                    .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+                    Modifier.padding(styling.padding)
+                        .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
             )
         }
     }

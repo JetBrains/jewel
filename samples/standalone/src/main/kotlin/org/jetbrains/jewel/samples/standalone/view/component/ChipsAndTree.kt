@@ -99,16 +99,16 @@ fun SelectableLazyColumnSample() {
                         Text(
                             text = listOfItems[index],
                             modifier =
-                            Modifier.fillMaxWidth()
-                                .then(
-                                    when {
-                                        isSelected && isActive -> Modifier.background(Color.Blue)
-                                        isSelected && !isActive -> Modifier.background(Color.Gray)
-                                        else -> Modifier
+                                Modifier.fillMaxWidth()
+                                    .then(
+                                        when {
+                                            isSelected && isActive -> Modifier.background(Color.Blue)
+                                            isSelected && !isActive -> Modifier.background(Color.Gray)
+                                            else -> Modifier
+                                        },
+                                    ).clickable {
+                                        println("click on $index")
                                     },
-                                ).clickable {
-                                    println("click on $index")
-                                },
                         )
                     }
                 },
