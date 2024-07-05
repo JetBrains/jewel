@@ -16,17 +16,17 @@ version = when {
     else -> "1.0.0-SNAPSHOT"
 }
 
+val jdkLevel = project.property("jdk.level") as String
 java {
     toolchain {
-        vendor = JvmVendorSpec.JETBRAINS
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(jdkLevel)
     }
+
 }
 
 kotlin {
     jvmToolchain {
-        vendor = JvmVendorSpec.JETBRAINS
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(jdkLevel)
     }
 
     target {
