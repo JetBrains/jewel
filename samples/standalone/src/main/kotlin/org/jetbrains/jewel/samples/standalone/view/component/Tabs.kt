@@ -120,15 +120,15 @@ private fun EditorTabShowcase() {
                         )
                         Box(
                             modifier =
-                            Modifier
-                                .size(12.dp)
-                                .thenIf(tabState.isHovered) {
-                                    drawWithCache {
-                                        onDrawBehind {
-                                            drawCircle(color = Color.Magenta.copy(alpha = .4f), radius = 6.dp.toPx())
+                                Modifier
+                                    .size(12.dp)
+                                    .thenIf(tabState.isHovered) {
+                                        drawWithCache {
+                                            onDrawBehind {
+                                                drawCircle(color = Color.Magenta.copy(alpha = .4f), radius = 6.dp.toPx())
+                                            }
                                         }
-                                    }
-                                },
+                                    },
                         )
                     },
                     onClose = {

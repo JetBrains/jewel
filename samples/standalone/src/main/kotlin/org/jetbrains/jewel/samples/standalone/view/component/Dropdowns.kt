@@ -124,13 +124,13 @@ fun Dropdowns() {
                             iconResource = dropdownIconsSample.random(),
                             iconClass = DropdownStyle::class.java,
                             keybinding =
-                            if (Random.nextBoolean()) {
-                                null
-                            } else {
-                                dropdownKeybindingsSample.shuffled()
-                                    .take(2)
-                                    .toSet()
-                            },
+                                if (Random.nextBoolean()) {
+                                    null
+                                } else {
+                                    dropdownKeybindingsSample.shuffled()
+                                        .take(2)
+                                        .toSet()
+                                },
                             selected = false,
                             onClick = { },
                         ) {
@@ -147,13 +147,13 @@ fun Dropdowns() {
                                 iconResource = dropdownIconsSample.random(),
                                 iconClass = DropdownStyle::class.java,
                                 keybinding =
-                                if (Random.nextBoolean()) {
-                                    null
-                                } else {
-                                    dropdownKeybindingsSample.shuffled()
-                                        .take(2)
-                                        .toSet()
-                                },
+                                    if (Random.nextBoolean()) {
+                                        null
+                                    } else {
+                                        dropdownKeybindingsSample.shuffled()
+                                            .take(2)
+                                            .toSet()
+                                    },
                                 selected = false,
                                 onClick = { },
                             ) {

@@ -78,34 +78,34 @@ public fun SelectableLazyColumn(
     val focusRequester = remember { FocusRequester() }
     LazyColumn(
         modifier =
-        modifier
-            .onFocusChanged {
-                isFocused = it.hasFocus
-                with(state) {
-                    if (isFocused && lastActiveItemIndex == null && selectedKeys.isEmpty()) {
-                        keyActions.actions.onSelectFirstItem(keys, this)
+            modifier
+                .onFocusChanged {
+                    isFocused = it.hasFocus
+                    with(state) {
+                        if (isFocused && lastActiveItemIndex == null && selectedKeys.isEmpty()) {
+                            keyActions.actions.onSelectFirstItem(keys, this)
+                        }
                     }
                 }
-            }
-            .focusRequester(focusRequester)
-            .focusable(interactionSource = interactionSource)
-            .onPreviewKeyEvent { event ->
-                // Handle Tab key press to move focus to next item
-                if (event.type == KeyEventType.KeyDown && event.key == Key.Tab) {
-                    val focusDirection = if (event.isShiftPressed) FocusDirection.Previous else FocusDirection.Next
-                    focusManager.moveFocus(focusDirection)
-                    return@onPreviewKeyEvent true
-                }
-                if (state.lastActiveItemIndex != null) {
-                    val actionHandled =
-                        keyActions.handleOnKeyEvent(event, keys, state, selectionMode)
-                            .invoke(event)
-                    if (actionHandled) {
-                        scope.launch { state.lastActiveItemIndex?.let { state.scrollToItem(it) } }
+                .focusRequester(focusRequester)
+                .focusable(interactionSource = interactionSource)
+                .onPreviewKeyEvent { event ->
+                    // Handle Tab key press to move focus to next item
+                    if (event.type == KeyEventType.KeyDown && event.key == Key.Tab) {
+                        val focusDirection = if (event.isShiftPressed) FocusDirection.Previous else FocusDirection.Next
+                        focusManager.moveFocus(focusDirection)
+                        return@onPreviewKeyEvent true
                     }
-                }
-                true
-            },
+                    if (state.lastActiveItemIndex != null) {
+                        val actionHandled =
+                            keyActions.handleOnKeyEvent(event, keys, state, selectionMode)
+                                .invoke(event)
+                        if (actionHandled) {
+                            scope.launch { state.lastActiveItemIndex?.let { state.scrollToItem(it) } }
+                        }
+                    }
+                    true
+                },
         state = state.lazyListState,
         contentPadding = contentPadding,
         reverseLayout = reverseLayout,
@@ -151,15 +151,15 @@ private fun LazyListScope.appendEntry(
                 if (isKeySelectable(entry.key)) {
                     Box(
                         modifier =
-                        Modifier.selectable(
-                            requester = focusRequester,
-                            keybindings = keyActions.keybindings,
-                            actionHandler = pointerEventActions,
-                            selectionMode = selectionMode,
-                            selectableState = state,
-                            allKeys = keys,
-                            itemKey = entry.key,
-                        ),
+                            Modifier.selectable(
+                                requester = focusRequester,
+                                keybindings = keyActions.keybindings,
+                                actionHandler = pointerEventActions,
+                                selectionMode = selectionMode,
+                                selectableState = state,
+                                allKeys = keys,
+                                itemKey = entry.key,
+                            ),
                     ) {
                         entry.content.invoke(itemScope)
                     }
@@ -179,15 +179,15 @@ private fun LazyListScope.appendEntry(
                 if (isKeySelectable(key)) {
                     Box(
                         modifier =
-                        Modifier.selectable(
-                            requester = focusRequester,
-                            keybindings = keyActions.keybindings,
-                            actionHandler = pointerEventActions,
-                            selectionMode = selectionMode,
-                            selectableState = state,
-                            allKeys = keys,
-                            itemKey = entry.key(index),
-                        ),
+                            Modifier.selectable(
+                                requester = focusRequester,
+                                keybindings = keyActions.keybindings,
+                                actionHandler = pointerEventActions,
+                                selectionMode = selectionMode,
+                                selectableState = state,
+                                allKeys = keys,
+                                itemKey = entry.key(index),
+                            ),
                     ) {
                         entry.itemContent.invoke(itemScope, index)
                     }
@@ -203,14 +203,14 @@ private fun LazyListScope.appendEntry(
                 if (isKeySelectable(entry.key)) {
                     Box(
                         modifier =
-                        Modifier.selectable(
-                            keybindings = keyActions.keybindings,
-                            actionHandler = pointerEventActions,
-                            selectionMode = selectionMode,
-                            selectableState = state,
-                            allKeys = keys,
-                            itemKey = entry.key,
-                        ),
+                            Modifier.selectable(
+                                keybindings = keyActions.keybindings,
+                                actionHandler = pointerEventActions,
+                                selectionMode = selectionMode,
+                                selectableState = state,
+                                allKeys = keys,
+                                itemKey = entry.key,
+                            ),
                     ) {
                         entry.content.invoke(itemScope)
                     }

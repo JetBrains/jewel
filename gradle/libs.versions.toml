@@ -7,13 +7,13 @@ idea = "2023.3.7"
 intelliJPlatformBuild = "233.15325.26"
 ideaPlugin = "2.0.0-beta8"
 jna = "5.14.0"
-kotlin = "1.8.21"
+kotlin = "1.9.21"
 kotlinSarif = "0.5.0"
-kotlinpoet = "1.15.2"
-kotlinterGradlePlugin = "3.16.0"
-kotlinxSerialization = "1.5.1"
+kotlinpoet = "1.17.0"
+kotlinterGradlePlugin = "4.3.0"
+kotlinxSerialization = "1.6.3"
 kotlinxBinaryCompat = "0.14.0"
-poko = "0.13.1"
+poko = "0.15.3"
 
 [libraries]
 commonmark-core = { module = "org.commonmark:commonmark", version.ref = "commonmark" }

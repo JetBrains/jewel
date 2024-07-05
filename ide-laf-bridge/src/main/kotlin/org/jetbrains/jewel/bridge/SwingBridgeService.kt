@@ -59,13 +59,13 @@ internal class SwingBridgeService(scope: CoroutineScope) {
                     BridgeThemeData(
                         themeDefinition = themeDefinition,
                         componentStyling =
-                        createBridgeComponentStyling(
-                            theme = themeDefinition,
-                            textFieldTextStyle = textStyle,
-                            textAreaTextStyle = textStyle,
-                            dropdownTextStyle = textStyle,
-                            linkTextStyle = textStyle,
-                        ),
+                            createBridgeComponentStyling(
+                                theme = themeDefinition,
+                                textFieldTextStyle = textStyle,
+                                textAreaTextStyle = textStyle,
+                                dropdownTextStyle = textStyle,
+                                linkTextStyle = textStyle,
+                            ),
                     )
                 }
         }

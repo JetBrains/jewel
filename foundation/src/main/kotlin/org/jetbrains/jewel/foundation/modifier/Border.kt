@@ -120,19 +120,19 @@ private fun Modifier.drawBorderWithAlignment(
                 }
         },
         inspectorInfo =
-        debugInspectorInfo {
-            name = "border"
-            properties["alignment"] = alignment
-            properties["width"] = width
-            if (brush is SolidColor) {
-                properties["color"] = brush.value
-                value = brush.value
-            } else {
-                properties["brush"] = brush
-            }
-            properties["shape"] = shape
-            properties["expand"] = expand
-        },
+            debugInspectorInfo {
+                name = "border"
+                properties["alignment"] = alignment
+                properties["width"] = width
+                if (brush is SolidColor) {
+                    properties["color"] = brush.value
+                    value = brush.value
+                } else {
+                    properties["brush"] = brush
+                }
+                properties["shape"] = shape
+                properties["expand"] = expand
+            },
     )
 
 private fun ContentDrawScope.drawBorderInner(
