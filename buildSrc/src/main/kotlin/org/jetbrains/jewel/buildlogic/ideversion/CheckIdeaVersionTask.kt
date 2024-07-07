@@ -27,8 +27,8 @@ open class CheckIdeaVersionTask : DefaultTask() {
     @TaskAction
     fun generate() {
         logger.lifecycle("Fetching IntelliJ Platform releases from $releasesUrl...")
-        val ideaVersion = readCurrentVersionInfo()
-        validateIdeaVersion(ideaVersion)
+        val rawIdeaVersion = readCurrentVersionInfo()
+        val ideaVersion = validateIdeaVersion(rawIdeaVersion)
 
         val platformBuildsForThisMajorVersion = IJPVersionsFetcher.fetchBuildsForCurrentMajorVersion(
             releasesUrl,
@@ -85,56 +85,24 @@ open class CheckIdeaVersionTask : DefaultTask() {
 
     private fun readCurrentVersionInfo(): ApiIdeaReleasesItem.Release {
         val catalogFile = project.rootProject.file("gradle/libs.versions.toml")
-        val ideaVersion = readIdeaVersion(catalogFile)
-        val isStableBuild = !ideaVersion.matches(intelliJPlatformBuildRegex)
 
         val platformBuild = readPlatformBuild(catalogFile)
-        val majorVersion =
-            if (isStableBuild) {
-                asMajorPlatformVersion(ideaVersion)
-            } else {
-                inferMajorPlatformVersion(platformBuild)
-            }
+        val isStableBuild = !platformBuild.endsWith("-EAP-SNAPSHOT")
+        val majorVersion = inferMajorPlatformVersion(platformBuild)
 
         return ApiIdeaReleasesItem.Release(
             build = platformBuild.removeSuffix("-EAP-SNAPSHOT"),
-            version = ideaVersion,
+            version = "0.0.0",
             majorVersion = majorVersion,
             type = if (isStableBuild) "release" else "eap",
         )
     }
 
-    private fun asMajorPlatformVersion(rawVersion: String) =
-        rawVersion.take(6)
-
     private fun inferMajorPlatformVersion(rawBuildNumber: String) =
         "20${rawBuildNumber.take(2)}.${rawBuildNumber.substringBefore('.').last()}"
 
-    private fun readIdeaVersion(catalogFile: File): String {
-        val versionName = "idea"
-
-        val catalogDependencyLine =
-            catalogFile.useLines { lines -> lines.find { it.startsWith(versionName) } }
-                ?: throw GradleException(
-                    "Unable to find IJP dependency '$versionName' in the catalog file '${catalogFile.path}'"
-                )
-
-        val dependencyVersion =
-            catalogDependencyLine
-                .substringAfter(versionName)
-                .trimStart(' ', '=')
-                .trimEnd()
-                .trim('"')
-
-        if (!dependencyVersion.matches(ideaVersionRegex) && !dependencyVersion.matches(intelliJPlatformBuildRegex)) {
-            throw GradleException("Invalid IJ IDEA version found in version catalog: '$dependencyVersion'")
-        }
-
-        return dependencyVersion
-    }
-
     private fun readPlatformBuild(catalogFile: File): String {
-        val versionName = "intelliJPlatformBuild"
+        val versionName = "idea"
 
         val catalogDependencyLine =
             catalogFile.useLines { lines -> lines.find { it.startsWith(versionName) } }
@@ -158,43 +126,11 @@ open class CheckIdeaVersionTask : DefaultTask() {
 
     private fun validateIdeaVersion(
         currentVersion: ApiIdeaReleasesItem.Release,
-    ) {
+    ): ApiIdeaReleasesItem.Release {
         val candidateMatches = IJPVersionsFetcher.fetchIJPVersions(releasesUrl, logger)
             ?: throw GradleException("Can't fetch all IJP releases.")
 
-        val match = candidateMatches.find { it.build == currentVersion.build }
+        return candidateMatches.find { it.build == currentVersion.build }
             ?: throw GradleException("IJ build ${currentVersion.build} seemingly does not exist")
-
-        if (currentVersion.type != "eap" && match.version != currentVersion.version) {
-            throw GradleException(
-                buildString {
-                    appendLine("The 'idea' and 'intelliJPlatformBuild' properties in the catalog don't match.")
-                    append("'idea' = ")
-                    append(currentVersion.version)
-                    append(", 'intelliJPlatformBuild' = ")
-                    appendLine(currentVersion.build)
-                    appendLine()
-                    appendLine("That build number is for version ${match.version}.")
-                    appendLine("Adjust the values so they're aligned correctly.")
-                }
-            )
-        }
-
-        // The match's build doesn't contain the -EAP-SNAPSHOT SUFFIX
-        if (currentVersion.type == "eap" && currentVersion.version != match.build) {
-            throw GradleException(
-                buildString {
-                    appendLine("The 'idea' and 'intelliJPlatformBuild' properties in the catalog don't match.")
-                    append("'idea' = ")
-                    append(currentVersion.version)
-                    append(", 'intelliJPlatformBuild' = ")
-                    appendLine(currentVersion.build + "-EAP-SNAPSHOT")
-                    appendLine()
-                    appendLine("For non-stable IJP versions, the version and build should match,")
-                    appendLine("minus the '-EAP-SNAPSHOT' suffix in the build number.")
-                    appendLine("Adjust the values so they're aligned correctly.")
-                }
-            )
-        }
     }
 }
