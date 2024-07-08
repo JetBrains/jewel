@@ -3320,9 +3320,11 @@ public final class org/jetbrains/jewel/ui/icons/AllIconsKeys$TransferSettings {
 public final class org/jetbrains/jewel/ui/icons/AllIconsKeys$Ultimate {
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/ui/icons/AllIconsKeys$Ultimate;
+	public final fun getIdeaUltimatePromo ()Lorg/jetbrains/jewel/ui/icon/IntelliJIconKey;
 	public final fun getLock ()Lorg/jetbrains/jewel/ui/icon/IntelliJIconKey;
 	public final fun getLockWhite ()Lorg/jetbrains/jewel/ui/icon/IntelliJIconKey;
 	public final fun getPycharmLock ()Lorg/jetbrains/jewel/ui/icon/IntelliJIconKey;
+	public final fun getPycharmPromo ()Lorg/jetbrains/jewel/ui/icon/IntelliJIconKey;
 }
 
 public final class org/jetbrains/jewel/ui/icons/AllIconsKeys$Vcs {
