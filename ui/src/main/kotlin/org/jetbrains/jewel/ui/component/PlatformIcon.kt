@@ -26,5 +26,5 @@ public fun PlatformIcon(
     tint: Color = Color.Unspecified,
     vararg hints: PainterHint,
 ) {
-    Icon(key, contentDescription, AllIconsKeys::class.java, modifier, tint, *hints)
+    Icon(key, contentDescription, modifier, key::class.java, tint, *hints)
 }

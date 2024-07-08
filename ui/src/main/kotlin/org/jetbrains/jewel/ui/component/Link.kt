@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +49,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.disabled
 import org.jetbrains.jewel.ui.focusOutline
+import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.painter.PainterProvider
 import org.jetbrains.jewel.ui.painter.hints.Stateful
 import org.jetbrains.jewel.ui.util.thenIf
@@ -206,7 +208,7 @@ private fun LinkImpl(
     overflow: TextOverflow,
     lineHeight: TextUnit,
     interactionSource: MutableInteractionSource,
-    icon: PainterProvider?,
+    icon: IconKey?,
 ) {
     var linkState by remember(interactionSource, enabled) { mutableStateOf(LinkState.of(enabled = enabled)) }
     remember(enabled) { linkState = linkState.copy(enabled = enabled) }
@@ -281,12 +283,12 @@ private fun LinkImpl(
         )
 
         if (icon != null) {
-            val iconPainter by icon.getPainter(Stateful(linkState))
             Icon(
-                iconPainter,
+                key = icon,
                 contentDescription = null,
                 modifier = Modifier.size(style.metrics.iconSize),
                 colorFilter = if (!linkState.isEnabled) ColorFilter.disabled() else null,
+                hint = Stateful(linkState)
             )
         }
     }

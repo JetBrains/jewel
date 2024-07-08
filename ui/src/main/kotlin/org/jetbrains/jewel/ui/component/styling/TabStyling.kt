@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.TabState
+import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.painter.PainterProvider
 
 @Stable
@@ -39,7 +40,7 @@ public class TabMetrics(
 
 @Immutable
 @GenerateDataFunctions
-public class TabIcons(public val close: PainterProvider) {
+public class TabIcons(public val close: IconKey) {
     public companion object
 }
 

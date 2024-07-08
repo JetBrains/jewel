@@ -46,12 +46,14 @@ import org.jetbrains.jewel.ui.component.styling.CheckboxColors
 import org.jetbrains.jewel.ui.component.styling.CheckboxIcons
 import org.jetbrains.jewel.ui.component.styling.CheckboxMetrics
 import org.jetbrains.jewel.ui.component.styling.LocalCheckboxStyle
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.PainterProviderScope
 import org.jetbrains.jewel.ui.painter.PainterSuffixHint
 import org.jetbrains.jewel.ui.painter.hints.Selected
 import org.jetbrains.jewel.ui.painter.hints.Stateful
+import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.ui.theme.checkboxStyle
 
 @Composable
@@ -311,7 +313,8 @@ private fun CheckboxImpl(
                 alignment = Stroke.Alignment.Center,
             )
 
-    val checkboxPainter by icons.checkbox.getPainter(
+    val painterProvider = rememberResourcePainterProvider(icons.checkbox)
+    val checkboxPainter by painterProvider.getPainter(
         if (checkboxState.toggleableState == ToggleableState.Indeterminate) {
             CheckBoxIndeterminate
         } else {
