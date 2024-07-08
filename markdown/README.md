@@ -157,7 +157,7 @@ processor, as even though inline rendering extensions are not supported yet, the
 You can see this in action running the Standalone sample, and selecting Markdown from the top-left menu.
 
 
-The following image shows the Jewel Markdown rendering this very Jewel Markdown README.
+The following image shows Jewel Markdown rendering this very Jewel Markdown README.
 Very meta.
 
 ![](https://github.com/JetBrains/jewel/assets/19003/67e2cc4e-c9b8-454b-884a-bba526ad2fe4)
