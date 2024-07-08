@@ -69,17 +69,27 @@ dependencies {
 
 The process that leads to rendering Markdown in a native UI is two-pass.
 
-The first pass is an upfront rendering that pre-processes blocks into `MarkdownBlock`s but doesn't touch the inline
+The first pass is an upfront rendering that pre-processes blocks into `MarkdownBlock`s, but doesn't touch the inline
 Markdown. It's recommended to run this outside of the composition, since it has no dependencies on it.
 
 ```kotlin
 // Somewhere outside of composition...
 val processor = MarkdownProcessor()
-val rawMarkdown = "..."
-val processedBlocks = processor.processMarkdownDocument(rawMarkdown)
+val rawMarkdown = """
+                |# Hi!
+                |
+                |This is an example of **Markdown** rendering. We support the [CommonMark specs](https://commonmark.org/)
+                |out of the box, but `you` can also have _extensions_.                
+                |
+                |```kotlin
+                |fun hello() = "World"
+                |```
+                """.trimMargin()
+var markdownBlocks: List<MarkdownBlock> = processor.processMarkdownDocument(rawMarkdown)
 ```
 
-The second pass is done in the composition, and essentially renders a series of `MarkdownBlock`s into native Jewel UI:
+Once you have your list of `MarkdownBlock`s, you can do the second pass in the composition: 
+render a series of `MarkdownBlock`s into native Jewel UI:
 
 ```kotlin
 @Composable
