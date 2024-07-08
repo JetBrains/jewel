@@ -63,17 +63,15 @@ public open class DefaultInlineMarkdownRenderer(
 
                 is InlineMarkdown.Link -> {
                     withStyles(styling.link.withEnabled(enabled), child) {
-                        val destination = it.nativeNode.destination
-                        val link =
-                            LinkAnnotation.Clickable(
-                                tag = destination,
-                                linkInteractionListener = { _ ->
-                                    if (enabled) {
-                                        onUrlClicked?.invoke(destination)
-                                    }
-                                },
-                            )
-                        pushLink(link)
+                        if (enabled) {
+                            val destination = it.nativeNode.destination
+                            val link =
+                                LinkAnnotation.Clickable(
+                                    tag = destination,
+                                    linkInteractionListener = { _ -> onUrlClicked?.invoke(destination) },
+                                )
+                            pushLink(link)
+                        }
                         appendInlineMarkdownFrom(it.children, styling, enabled)
                     }
                 }
