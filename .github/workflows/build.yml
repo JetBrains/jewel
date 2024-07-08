@@ -2,6 +2,9 @@ name: CI checks
 
 on:
   push:
+    branches:
+      - main
+      - 'releases/**'
   pull_request:
 
 jobs:
