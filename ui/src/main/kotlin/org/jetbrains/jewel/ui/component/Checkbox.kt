@@ -46,6 +46,7 @@ import org.jetbrains.jewel.ui.component.styling.CheckboxColors
 import org.jetbrains.jewel.ui.component.styling.CheckboxIcons
 import org.jetbrains.jewel.ui.component.styling.CheckboxMetrics
 import org.jetbrains.jewel.ui.component.styling.LocalCheckboxStyle
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.PainterProviderScope
