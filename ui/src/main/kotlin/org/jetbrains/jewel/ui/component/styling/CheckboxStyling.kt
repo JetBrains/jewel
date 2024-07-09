@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.DpSize
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.CheckboxState
 import org.jetbrains.jewel.ui.icon.IconKey
-import org.jetbrains.jewel.ui.painter.PainterProvider
 
 @Immutable
 @GenerateDataFunctions

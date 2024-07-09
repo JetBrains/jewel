@@ -14,7 +14,6 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,7 +49,6 @@ import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.disabled
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.icon.IconKey
-import org.jetbrains.jewel.ui.painter.PainterProvider
 import org.jetbrains.jewel.ui.painter.hints.Stateful
 import org.jetbrains.jewel.ui.util.thenIf
 import java.awt.Cursor
@@ -269,8 +267,7 @@ private fun LinkImpl(
                     role = Role.Button,
                     interactionSource = interactionSource,
                     indication = null,
-                )
-                .focusOutline(linkState, RoundedCornerShape(style.metrics.focusHaloCornerSize)),
+                ).focusOutline(linkState, RoundedCornerShape(style.metrics.focusHaloCornerSize)),
         horizontalArrangement = Arrangement.spacedBy(style.metrics.textIconGap),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -288,7 +285,7 @@ private fun LinkImpl(
                 contentDescription = null,
                 modifier = Modifier.size(style.metrics.iconSize),
                 colorFilter = if (!linkState.isEnabled) ColorFilter.disabled() else null,
-                hint = Stateful(linkState)
+                hint = Stateful(linkState),
             )
         }
     }
@@ -296,7 +293,9 @@ private fun LinkImpl(
 
 @Immutable
 @JvmInline
-public value class LinkState(public val state: ULong) : FocusableComponentState {
+public value class LinkState(
+    public val state: ULong,
+) : FocusableComponentState {
     override val isActive: Boolean
         get() = state and Active != 0UL
 

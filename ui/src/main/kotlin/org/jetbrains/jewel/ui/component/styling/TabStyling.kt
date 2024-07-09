@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.TabState
 import org.jetbrains.jewel.ui.icon.IconKey
-import org.jetbrains.jewel.ui.painter.PainterProvider
 
 @Stable
 @GenerateDataFunctions
