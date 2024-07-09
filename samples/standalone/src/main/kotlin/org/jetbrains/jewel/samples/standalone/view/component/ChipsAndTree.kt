@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
@@ -44,6 +45,8 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.ToggleableChip
 import org.jetbrains.jewel.ui.theme.colorPalette
 import kotlin.random.Random
+
+private val logger = KotlinLogging.logger {}
 
 @Composable
 @View(title = "Chips and trees", position = 11, icon = "icons/components/tree.svg")
@@ -99,16 +102,15 @@ fun SelectableLazyColumnSample() {
                         Text(
                             text = listOfItems[index],
                             modifier =
-                                Modifier.fillMaxWidth()
+                                Modifier
+                                    .fillMaxWidth()
                                     .then(
                                         when {
                                             isSelected && isActive -> Modifier.background(Color.Blue)
                                             isSelected && !isActive -> Modifier.background(Color.Gray)
                                             else -> Modifier
                                         },
-                                    ).clickable {
-                                        println("click on $index")
-                                    },
+                                    ).clickable { logger.debug { "click on $index" } },
                         )
                     }
                 },
