@@ -25,6 +25,9 @@ kotlinSarif = { module = "io.github.detekt.sarif4k:sarif4k", version.ref = "kotl
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 
+kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm", version = "7.0.0" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version = "1.5.6" }
+
 jna-core = { module = "net.java.dev.jna:jna", version.ref = "jna" }
 
 intellijPlatform-util-ui = { module = "com.jetbrains.intellij.platform:util-ui", version.ref = "intelliJPlatformBuild" }
@@ -50,3 +53,6 @@ kotlinx-binaryCompatValidator = { id = "org.jetbrains.kotlinx.binary-compatibili
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinterGradlePlugin" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+
+[bundles]
+logging = ["kotlin-logging", "logback-classic"]
