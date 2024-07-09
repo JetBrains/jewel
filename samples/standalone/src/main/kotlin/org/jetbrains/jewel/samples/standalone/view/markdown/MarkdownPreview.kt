@@ -30,7 +30,6 @@ import org.jetbrains.jewel.intui.markdown.standalone.styling.light
 import org.jetbrains.jewel.markdown.LazyMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.extension.autolink.AutolinkProcessorExtension
-import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertProcessorExtension
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
@@ -52,8 +51,8 @@ internal fun MarkdownPreview(
     val markdownStyling =
         remember(isDark) { if (isDark) MarkdownStyling.dark() else MarkdownStyling.light() }
 
-    var markdownBlocks: List<MarkdownBlock> by remember { mutableStateOf(emptyList<MarkdownBlock>()) }
-    val extensions: List<MarkdownProcessorExtension> = listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension)
+    var markdownBlocks by remember { mutableStateOf(emptyList<MarkdownBlock>()) }
+    val extensions = listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension)
 
     // We are doing this here for the sake of simplicity.
     // In a real-world scenario you would be doing this outside your Composables,

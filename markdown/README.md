@@ -75,21 +75,14 @@ Markdown. It's recommended to run this outside of the composition, since it has 
 ```kotlin
 // Somewhere outside of composition...
 val processor = MarkdownProcessor()
-val rawMarkdown = """
-                |# Hi!
-                |
-                |This is an example of **Markdown** rendering. We support the [CommonMark specs](https://commonmark.org/)
-                |out of the box, but `you` can also have _extensions_.                
-                |
-                |```kotlin
-                |fun hello() = "World"
-                |```
-                """.trimMargin()
+val rawMarkdown = "..."
 var markdownBlocks: List<MarkdownBlock> = processor.processMarkdownDocument(rawMarkdown)
 ```
 
 Once you have your list of `MarkdownBlock`s, you can do the second step in the composition: 
-render a series of `MarkdownBlock`s into native Jewel UI:
+render a series of `MarkdownBlock`s into native Jewel UI.
+
+Here is an example:
 
 ```kotlin
 @Composable
@@ -113,7 +106,7 @@ fun Markdown(blocks: List<MarkdownBlock>) {
 ```
 
 If you expect long Markdown documents, you can also use a `LazyMarkdown` to get better performances.
-You can find an example in [MarkdownPreview](samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/markdown/MarkdownPreview.kt).
+You can find an example in [`MarkdownPreview`](samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/markdown/MarkdownPreview.kt).
 
 ### Using extensions
 
@@ -128,7 +121,7 @@ Extensions are composed of two parts: a parsing and a rendering part. The two pa
 ```kotlin
 // Where the parsing happens...
 val parsingExtensions: List<MarkdownProcessorExtension> = listOf(/*...*/)
-val processor = MarkdownProcessor(extensions)
+val processor = MarkdownProcessor(parsingExtensions)
 
 // Where the rendering happens...
 val blockRenderer = remember(markdownStyling, isDark) {
@@ -158,6 +151,4 @@ You can see this in action running the Standalone sample, and selecting Markdown
 
 
 The following image shows Jewel Markdown rendering this very Jewel Markdown README.
-Very meta.
-
-![](https://github.com/JetBrains/jewel/assets/19003/67e2cc4e-c9b8-454b-884a-bba526ad2fe4)
+![Image showing the Markdown showcase from the Jewel standalone sample](https://github.com/JetBrains/jewel/assets/19003/67e2cc4e-c9b8-454b-884a-bba526ad2fe4)
