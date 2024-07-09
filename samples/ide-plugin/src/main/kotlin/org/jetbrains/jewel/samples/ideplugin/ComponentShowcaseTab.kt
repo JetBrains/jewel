@@ -156,7 +156,10 @@ private fun RowScope.ColumnOne() {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             CheckboxRow(
                 checked = checked,
-                onCheckedChange = { checked = it },
+                onCheckedChange = {
+                    LoggerRt.getInstance("JewelPluginShowcase").warn("Checked $it")
+                    checked = it
+                },
                 outline = outline,
             ) {
                 Text("Hello, I am a themed checkbox")
