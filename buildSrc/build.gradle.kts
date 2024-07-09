@@ -1,9 +1,25 @@
+import java.util.Properties
+
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.kotlinx.serialization)
 }
 
+val properties = Properties()
+project.file("../gradle.properties").inputStream().use { properties.load(it) }
+
+val jdkLevel = properties.getProperty("jdk.level") as String
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(jdkLevel)
+    }
+}
+
 kotlin {
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(jdkLevel)
+    }
+
     sourceSets {
         all {
             languageSettings {
