@@ -35,6 +35,7 @@ private fun SegmentedControlShowcase() {
     }
 
     SegmentedControl(
+        selectedButtonIndex = selectedButtonIndex,
         buttons = buttons,
         enabled = true,
     )

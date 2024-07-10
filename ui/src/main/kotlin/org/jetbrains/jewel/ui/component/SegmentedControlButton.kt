@@ -1,7 +1,6 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -22,32 +21,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.takeOrElse
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
-import androidx.compose.ui.input.key.type
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.zIndex
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Enabled
-import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Selected
-import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.state.SelectableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
-import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.theme.segmentedControlButtonStyle
 
 public interface SegmentedControlButtonScope
@@ -58,12 +48,12 @@ internal class SegmentedControlButtonScopeContainer : SegmentedControlButtonScop
 internal fun SegmentedControlButton(
     modifier: Modifier = Modifier,
     isActive: Boolean,
+    isFocused: Boolean,
     enabled: Boolean,
     segmentedControlButtonData: SegmentedControlButtonData,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: SegmentedControlButtonStyle = JewelTheme.segmentedControlButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
-    focusManager: FocusManager = LocalFocusManager.current,
 ) {
     var buttonState by remember {
         mutableStateOf(
@@ -87,19 +77,18 @@ internal fun SegmentedControlButton(
 
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
-                is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
-                is FocusInteraction.Unfocus -> buttonState = buttonState.copy(focused = false)
             }
         }
     }
 
     val shape = RoundedCornerShape(style.metrics.cornerSize)
     val colors = style.colors
-    val backgroundColor by colors.backgroundFor(buttonState)
-    val borderColor by colors.borderFor(buttonState)
+    val backgroundColor by colors.backgroundFor(buttonState, isFocused)
+    val borderColor by colors.borderFor(buttonState, isFocused)
 
     Box(
         modifier = modifier
+            .focusProperties { canFocus = false }
             .selectable(
                 selected = buttonState.isSelected,
                 interactionSource = interactionSource,
@@ -108,46 +97,21 @@ internal fun SegmentedControlButton(
                 role = Role.Button,
                 onClick = segmentedControlButtonData.onClick,
             )
+            .zIndex(if (buttonState.isSelected) 1f else 0f)
             .background(backgroundColor, shape)
-            .focusOutline(
-                state = buttonState,
-                outlineShape = RoundedCornerShape(style.metrics.cornerSize),
-                alignment = Stroke.Alignment.Inside,
-                outlineWidth = style.metrics.borderWidth,
-            )
-            .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape)
-            .onPreviewKeyEvent {
-                when {
-                    KeyEventType.KeyUp == it.type && Key.DirectionRight == it.key -> {
-                        focusManager.moveFocus(FocusDirection.Right)
-                        true
-                    }
-                    KeyEventType.KeyUp == it.type && Key.DirectionLeft == it.key -> {
-                        focusManager.moveFocus(FocusDirection.Left)
-                        true
-                    }
-
-                    KeyEventType.KeyUp == it.type &&
-                        (Key.NumPadEnter == it.key || Key.Spacebar == it.key) -> {
-                            if (buttonState.isFocused) {
-                                segmentedControlButtonData.onClick()
-                            }
-                        true
-                    }
-
-                    else -> false
-                }
-            },
-        propagateMinConstraints = true
+            .border(Stroke.Alignment.Outside, style.metrics.borderWidth, borderColor, shape),
+        propagateMinConstraints = true,
     ) {
-        val contentColor by colors.contentFor(buttonState)
+        val contentColor by colors.contentFor(buttonState, isFocused)
 
         CompositionLocalProvider(
             LocalContentColor provides contentColor.takeOrElse { LocalContentColor.current },
             LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
         ) {
             Row(
-                Modifier.defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
+                Modifier
+                    .focusProperties { canFocus = false }
+                    .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
                     .padding(style.metrics.segmentedButtonPadding),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
@@ -160,7 +124,7 @@ internal fun SegmentedControlButton(
 
 @Immutable
 @JvmInline
-public value class SegmentedControlButtonState(public val state: ULong) : SelectableComponentState, FocusableComponentState {
+public value class SegmentedControlButtonState(public val state: ULong) : SelectableComponentState {
 
     override val isActive: Boolean
         get() = state and Active != 0UL
@@ -171,9 +135,6 @@ public value class SegmentedControlButtonState(public val state: ULong) : Select
     override val isEnabled: Boolean
         get() = state and Enabled != 0UL
 
-    override val isFocused: Boolean
-        get() = state and Focused != 0UL
-
     override val isHovered: Boolean
         get() = state and Hovered != 0UL
 
@@ -183,7 +144,6 @@ public value class SegmentedControlButtonState(public val state: ULong) : Select
     public fun copy(
         selected: Boolean = isSelected,
         enabled: Boolean = isEnabled,
-        focused: Boolean = isFocused,
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
@@ -191,7 +151,6 @@ public value class SegmentedControlButtonState(public val state: ULong) : Select
         of(
             selected = selected,
             enabled = enabled,
-            focused = focused,
             pressed = pressed,
             hovered = hovered,
             active = active,
@@ -199,14 +158,13 @@ public value class SegmentedControlButtonState(public val state: ULong) : Select
 
     override fun toString(): String =
         "${javaClass.simpleName}(isSelected=$isSelected, isEnabled=$isEnabled, " +
-            "isFocused=$isFocused, isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
+            "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     public companion object {
 
         public fun of(
             selected: Boolean,
             enabled: Boolean = true,
-            focused: Boolean = false,
             pressed: Boolean = false,
             hovered: Boolean = false,
             active: Boolean = false,
@@ -214,7 +172,6 @@ public value class SegmentedControlButtonState(public val state: ULong) : Select
             SegmentedControlButtonState(
                 (if (selected) Selected else 0UL) or
                     (if (enabled) Enabled else 0UL) or
-                    (if (focused) Focused else 0UL) or
                     (if (pressed) Pressed else 0UL) or
                     (if (hovered) Hovered else 0UL) or
                     (if (active) Active else 0UL),
