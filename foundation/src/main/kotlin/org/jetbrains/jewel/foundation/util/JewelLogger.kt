@@ -8,9 +8,9 @@ import java.lang.reflect.Method
  */
 @ApiStatus.NonExtendable
 @Suppress("OptionalUnit")
-public abstract class LoggerRt {
+public abstract class JewelLogger {
     private interface Factory {
-        fun getInstance(category: String?): LoggerRt
+        fun getInstance(category: String?): JewelLogger
     }
 
     public fun info(message: String?): Unit = info(message, null)
@@ -41,11 +41,11 @@ public abstract class LoggerRt {
     )
 
     private class JavaFactory : Factory {
-        override fun getInstance(category: String?): LoggerRt {
+        override fun getInstance(category: String?): JewelLogger {
             val logger =
                 java.util.logging.Logger
                     .getLogger(category)
-            return object : LoggerRt() {
+            return object : JewelLogger() {
                 override fun info(
                     message: String?,
                     t: Throwable?,
@@ -72,10 +72,10 @@ public abstract class LoggerRt {
 
     private abstract class ReflectionBasedFactory : Factory {
         @Throws(RuntimeException::class)
-        override fun getInstance(category: String?): LoggerRt {
+        override fun getInstance(category: String?): JewelLogger {
             try {
                 val logger = getLogger(category)
-                return object : LoggerRt() {
+                return object : JewelLogger() {
                     override fun info(
                         message: String?,
                         t: Throwable?,
@@ -255,8 +255,8 @@ public abstract class LoggerRt {
                 return ourFactory
             }
 
-        public fun getInstance(category: String): LoggerRt = factory!!.getInstance(category)
+        public fun getInstance(category: String): JewelLogger = factory!!.getInstance(category)
 
-        public fun getInstance(clazz: Class<*>): LoggerRt = getInstance('#'.toString() + clazz.name)
+        public fun getInstance(clazz: Class<*>): JewelLogger = getInstance('#'.toString() + clazz.name)
     }
 }
