@@ -1,9 +1,11 @@
 package org.jetbrains.jewel.ui.component
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -14,31 +16,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
-import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.zIndex
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 import org.jetbrains.jewel.ui.focusOutline
+import org.jetbrains.jewel.ui.theme.segmentedControlButtonStyle
 import org.jetbrains.jewel.ui.theme.segmentedControlStyle
+import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable
 public fun SegmentedControl(
-    selectedButtonIndex: Int,
     buttons: List<SegmentedControlButtonData>,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     style: SegmentedControlStyle = JewelTheme.segmentedControlStyle,
+    buttonStyle: SegmentedControlButtonStyle = JewelTheme.segmentedControlButtonStyle,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     var segmentedControlState: SegmentedControlState by remember {
         mutableStateOf(SegmentedControlState.of(enabled = enabled))
@@ -47,22 +54,24 @@ public fun SegmentedControl(
     remember(enabled) { segmentedControlState = segmentedControlState.copy(enabled) }
 
     val borderColor by style.colors.borderFor(segmentedControlState)
+    val borderWidth = style.metrics.borderWidth
+    val selectedButtonIndex = remember(buttons) {
+        buttons.withIndex().singleOrNull { it.value.selected }?.index ?: -1
+    }
 
-    val focusManager = LocalFocusManager.current
-
-    Box {
+    Box(modifier) {
+        val shape = RoundedCornerShape((style.metrics.cornerSize))
+        Box(
+            Modifier.matchParentSize()
+                .focusOutline(segmentedControlState, shape, expand = -borderWidth)
+                .border(Stroke.Alignment.Center, borderWidth, borderColor, shape, expand = -borderWidth)
+        )
 
         Row(
-            modifier = modifier
-                .focusProperties { canFocus = enabled }
+            modifier = Modifier.focusable(enabled, interactionSource)
                 .onFocusEvent { segmentedControlState = segmentedControlState.copy(focused = it.isFocused) }
-                .clickable(
-                    interactionSource = null,
-                    indication = null,
-                    enabled = enabled,
-                    onClick = { focusManager.clearFocus(true) }
-                )
                 .selectableGroup()
+                .padding(style.metrics.borderWidth)
                 .onKeyEvent {
                     when {
                         KeyEventType.KeyUp == it.type && Key.DirectionRight == it.key -> {
@@ -90,80 +99,14 @@ public fun SegmentedControl(
                     isActive = segmentedControlState.isActive,
                     isFocused = segmentedControlState.isFocused,
                     enabled = enabled,
-                    segmentedControlButtonData = data
+                    modifier = Modifier.thenIf(data.selected) { zIndex(1f) },
+                    segmentedControlButtonData = data,
+                    style = buttonStyle,
+                    textStyle = textStyle,
                 )
             }
         }
-
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .focusOutline(
-                    state = segmentedControlState,
-                    outlineShape = RoundedCornerShape(style.metrics.cornerSize),
-                )
-                .border(
-                    alignment = Stroke.Alignment.Center,
-                    width = style.metrics.borderWidth,
-                    brush = borderColor,
-                    shape = RoundedCornerShape(style.metrics.cornerSize),
-                )
-        )
     }
-
-    /*Row(
-        modifier = modifier
-            .focusProperties { canFocus = enabled }
-            .onFocusEvent { segmentedControlState = segmentedControlState.copy(focused = it.isFocused) }
-            .clickable(
-                interactionSource = null,
-                indication = null,
-                enabled = enabled,
-                onClick = { focusManager.clearFocus(true) }
-            )
-            .selectableGroup()
-            .zIndex(0f)
-            .focusOutline(
-                state = segmentedControlState,
-                outlineShape = RoundedCornerShape(style.metrics.cornerSize),
-            )
-            .border(
-                alignment = Stroke.Alignment.Center,
-                width = style.metrics.borderWidth,
-                brush = borderColor,
-                shape = RoundedCornerShape(style.metrics.cornerSize),
-            )
-            .onKeyEvent {
-                when {
-                    KeyEventType.KeyUp == it.type && Key.DirectionRight == it.key -> {
-                        if (selectedButtonIndex < buttons.size - 1) {
-                            buttons[selectedButtonIndex + 1].onClick()
-                        }
-                        true
-                    }
-
-                    KeyEventType.KeyUp == it.type && Key.DirectionLeft == it.key -> {
-                        if (selectedButtonIndex > 0) {
-                            buttons[selectedButtonIndex - 1].onClick()
-                        }
-                        true
-                    }
-
-                    else -> false
-                }
-            },
-        horizontalArrangement = Arrangement.aligned(Alignment.CenterHorizontally),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        buttons.forEach { data ->
-            SegmentedControlButton(
-                isActive = segmentedControlState.isActive,
-                isFocused = segmentedControlState.isFocused,
-                enabled = enabled,
-                segmentedControlButtonData = data
-            )
-        }
-    }*/
 }
 
 @Immutable
@@ -171,7 +114,7 @@ public fun SegmentedControl(
 public class SegmentedControlButtonData(
     public val selected: Boolean,
     public val content: @Composable SegmentedControlButtonScope.(segmentedControlButtonState: SegmentedControlButtonState) -> Unit,
-    public val onClick: () -> Unit
+    public val onClick: () -> Unit,
 )
 
 @Immutable
