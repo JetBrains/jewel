@@ -19,12 +19,6 @@ version = when {
 }
 
 val jdkLevel = project.property("jdk.level") as String
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(jdkLevel)
-    }
-}
-
 kotlin {
     jvmToolchain {
         languageVersion = JavaLanguageVersion.of(jdkLevel)

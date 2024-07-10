@@ -9,12 +9,6 @@ val properties = Properties()
 project.file("../gradle.properties").inputStream().use { properties.load(it) }
 
 val jdkLevel = properties.getProperty("jdk.level") as String
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(jdkLevel)
-    }
-}
-
 kotlin {
     jvmToolchain {
         languageVersion = JavaLanguageVersion.of(jdkLevel)
