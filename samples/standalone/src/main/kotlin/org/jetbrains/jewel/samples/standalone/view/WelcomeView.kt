@@ -33,17 +33,21 @@ import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 @View(title = "Welcome", position = 0, icon = "icons/meetNewUi.svg")
-fun WelcomeView() {
+fun WelcomeView(modifier: Modifier = Modifier) {
     Column(
         modifier =
-            Modifier.trackActivation()
+            modifier
+                .trackActivation()
                 .fillMaxSize()
                 .background(JewelTheme.globalColors.panelBackground)
                 .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),
     ) {
         val meetNewUiImage =
-            rememberResourcePainterProvider("images/New UI Image.png", StandaloneSampleIcons::class.java)
+            rememberResourcePainterProvider(
+                "images/New UI Image.png",
+                StandaloneSampleIcons::class.java,
+            )
         val meetNewUiImagePainter by meetNewUiImage.getPainter()
         Image(
             painter = meetNewUiImagePainter,
@@ -61,17 +65,29 @@ fun WelcomeView() {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                ThemeSelectionChip(IntUiThemes.Dark, "Dark", "icons/darkTheme.svg")
-
-                ThemeSelectionChip(IntUiThemes.Light, "Light", "icons/lightTheme.svg")
-
                 ThemeSelectionChip(
-                    IntUiThemes.LightWithLightHeader,
-                    "Light with Light Header",
-                    "icons/lightWithLightHeaderTheme.svg",
+                    theme = IntUiThemes.Dark,
+                    name = "Dark",
+                    icon = "icons/darkTheme.svg",
                 )
 
-                ThemeSelectionChip(IntUiThemes.System, "System", "icons/systemTheme.svg")
+                ThemeSelectionChip(
+                    theme = IntUiThemes.Light,
+                    name = "Light",
+                    icon = "icons/lightTheme.svg",
+                )
+
+                ThemeSelectionChip(
+                    theme = IntUiThemes.LightWithLightHeader,
+                    name = "Light with Light Header",
+                    icon = "icons/lightWithLightHeaderTheme.svg",
+                )
+
+                ThemeSelectionChip(
+                    theme = IntUiThemes.System,
+                    name = "System",
+                    icon = "icons/systemTheme.svg",
+                )
             }
         }
 
@@ -93,8 +109,10 @@ fun ThemeSelectionChip(
     theme: IntUiThemes,
     name: String,
     icon: String,
+    modifier: Modifier = Modifier,
 ) {
     RadioButtonChip(
+        modifier = modifier,
         selected = MainViewModel.theme == theme,
         onClick = { MainViewModel.theme = theme },
         enabled = true,
