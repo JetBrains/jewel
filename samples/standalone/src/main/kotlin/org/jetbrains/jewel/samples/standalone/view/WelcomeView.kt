@@ -33,10 +33,10 @@ import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 @View(title = "Welcome", position = 0, icon = "icons/meetNewUi.svg")
-fun WelcomeView(modifier: Modifier = Modifier) {
+fun WelcomeView() {
     Column(
         modifier =
-            modifier
+            Modifier
                 .trackActivation()
                 .fillMaxSize()
                 .background(JewelTheme.globalColors.panelBackground)
