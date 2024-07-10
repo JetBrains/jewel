@@ -19,7 +19,6 @@ dependencies {
         exclude(group = "org.jetbrains.compose.material")
     }
     implementation(libs.intellijPlatform.icons)
-    implementation(libs.bundles.logging)
 }
 
 java {

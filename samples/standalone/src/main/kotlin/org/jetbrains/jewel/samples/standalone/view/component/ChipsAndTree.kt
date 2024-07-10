@@ -26,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
@@ -34,6 +33,7 @@ import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.rememberSelectableLazyListState
 import org.jetbrains.jewel.foundation.lazy.tree.buildTree
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.component.Chip
 import org.jetbrains.jewel.ui.component.CircularProgressIndicator
@@ -45,8 +45,6 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.ToggleableChip
 import org.jetbrains.jewel.ui.theme.colorPalette
 import kotlin.random.Random
-
-private val logger = KotlinLogging.logger {}
 
 @Composable
 @View(title = "Chips and trees", position = 11, icon = "icons/components/tree.svg")
@@ -110,7 +108,11 @@ fun SelectableLazyColumnSample() {
                                             isSelected && !isActive -> Modifier.background(Color.Gray)
                                             else -> Modifier
                                         },
-                                    ).clickable { logger.debug { "click on $index" } },
+                                    ).clickable {
+                                        JewelLogger
+                                            .getInstance("JewelStandaloneShowcase")
+                                            .warn("Click on $index")
+                                    },
                         )
                     }
                 },

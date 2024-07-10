@@ -72,6 +72,7 @@ public abstract class JewelLogger {
 
     private abstract class ReflectionBasedFactory : Factory {
         @Throws(RuntimeException::class)
+        @Suppress("TooGenericExceptionCaught", "TooGenericExceptionThrown")
         override fun getInstance(category: String?): JewelLogger {
             try {
                 val logger = getLogger(category)
@@ -239,18 +240,21 @@ public abstract class JewelLogger {
     public companion object {
         private var ourFactory: Factory? = null
 
-        @get:Synchronized private val factory: Factory?
+        @Suppress("SwallowedException", "TooGenericExceptionCaught")
+        @get:Synchronized
+        private val factory: Factory?
             get() {
                 if (ourFactory == null) {
-                    try {
-                        ourFactory = IdeaFactory()
-                    } catch (t: Throwable) {
+                    ourFactory =
                         try {
-                            ourFactory = Slf4JFactory()
-                        } catch (t2: Throwable) {
-                            ourFactory = JavaFactory()
+                            IdeaFactory()
+                        } catch (t: Throwable) {
+                            try {
+                                Slf4JFactory()
+                            } catch (t2: Throwable) {
+                                JavaFactory()
+                            }
                         }
-                    }
                 }
                 return ourFactory
             }

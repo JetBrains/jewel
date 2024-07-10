@@ -1,7 +1,7 @@
 package org.jetbrains.jewel.samples.standalone.reflection
 
 import androidx.compose.runtime.Composable
-import io.github.oshai.kotlinlogging.KotlinLogging
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.samples.standalone.viewmodel.ViewInfo
 import org.jetbrains.jewel.ui.icon.PathIconKey
@@ -12,8 +12,6 @@ import java.nio.file.Paths
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.name
 import kotlin.reflect.jvm.kotlinFunction
-
-private val logger = KotlinLogging.logger {}
 
 internal fun findViews(packageName: String): List<ViewInfo> {
     val path = "/" + packageName.replace('.', '/').removePrefix("/")
@@ -67,7 +65,7 @@ internal fun findViews(packageName: String): List<ViewInfo> {
                             )
                         }
                 } catch (e: ClassNotFoundException) {
-                    logger.error { e }
+                    JewelLogger.getInstance("JewelStandaloneShowcase").error(e)
                 } catch (ignore: InstantiationException) {
                     // We try to instantiate an interface
                     // or an object that does not have a

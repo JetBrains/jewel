@@ -6,8 +6,8 @@ import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.window.application
-import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.intui.standalone.Inter
 import org.jetbrains.jewel.intui.standalone.JetBrainsMono
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
@@ -27,10 +27,8 @@ import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import java.io.InputStream
 
-private val logger = KotlinLogging.logger {}
-
 fun main() {
-    logger.debug { "Starting Jewel Standalone showcase app" }
+    JewelLogger.getInstance("JewelStandAloneShowcase").warn("Starting Jewel Standalone showcase app")
 
     val icon = svgResource("icons/jewel-logo.svg")
 
