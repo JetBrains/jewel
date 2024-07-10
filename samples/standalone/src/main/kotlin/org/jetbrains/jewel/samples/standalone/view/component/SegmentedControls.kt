@@ -33,7 +33,7 @@ private fun SegmentedControlShowcase() {
                     content = { _ ->
                         Text("Button ${index + 1}")
                     },
-                    onClick = { selectedButtonIndex = index },
+                    onSelect = { selectedButtonIndex = index },
                 )
             }
         }

@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
@@ -85,13 +86,14 @@ internal fun SegmentedControlButton(
 
     Box(
         modifier = modifier
+            .focusProperties { canFocus = false }
             .selectable(
                 selected = buttonState.isSelected,
                 interactionSource = interactionSource,
                 enabled = enabled,
                 indication = null,
                 role = Role.Button,
-                onClick = segmentedControlButtonData.onClick,
+                onClick = segmentedControlButtonData.onSelect,
             )
             .background(backgroundColor, shape)
             .border(alignment = Stroke.Alignment.Center, width = style.metrics.borderWidth, borderColor, shape),

@@ -68,29 +68,30 @@ public fun SegmentedControl(
         )
 
         Row(
-            modifier = Modifier.focusable(enabled, interactionSource)
+            modifier = Modifier
                 .onFocusEvent { segmentedControlState = segmentedControlState.copy(focused = it.isFocused) }
-                .selectableGroup()
-                .padding(style.metrics.borderWidth)
                 .onKeyEvent {
                     when {
                         KeyEventType.KeyUp == it.type && Key.DirectionRight == it.key -> {
                             if (selectedButtonIndex < buttons.size - 1) {
-                                buttons[selectedButtonIndex + 1].onClick()
+                                buttons[selectedButtonIndex + 1].onSelect()
                             }
                             true
                         }
 
                         KeyEventType.KeyUp == it.type && Key.DirectionLeft == it.key -> {
                             if (selectedButtonIndex > 0) {
-                                buttons[selectedButtonIndex - 1].onClick()
+                                buttons[selectedButtonIndex - 1].onSelect()
                             }
                             true
                         }
 
                         else -> false
                     }
-                },
+                }
+                .focusable(enabled, interactionSource)
+                .selectableGroup()
+                .padding(style.metrics.borderWidth),
             horizontalArrangement = Arrangement.aligned(Alignment.CenterHorizontally),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -114,7 +115,7 @@ public fun SegmentedControl(
 public class SegmentedControlButtonData(
     public val selected: Boolean,
     public val content: @Composable SegmentedControlButtonScope.(segmentedControlButtonState: SegmentedControlButtonState) -> Unit,
-    public val onClick: () -> Unit,
+    public val onSelect: () -> Unit,
 )
 
 @Immutable
