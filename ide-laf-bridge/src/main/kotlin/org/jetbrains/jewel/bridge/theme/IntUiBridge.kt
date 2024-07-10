@@ -871,11 +871,17 @@ private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
     val selectedBackground = SolidColor(JBUI.CurrentTheme.SegmentedButton.SELECTED_BUTTON_COLOR.toComposeColor())
 
     val normalContent = retrieveColorOrUnspecified("Button.foreground")
+    val disabledContent = retrieveColorOrUnspecified("Component.infoForeground")
 
     val normalBorder = listOf(
         JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
         JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
     ).createVerticalBrush()
+    val selectedDisabledBorder =
+        listOf(
+            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+        ).createVerticalBrush()
 
     val colors =
         SegmentedControlButtonColors(
@@ -884,18 +890,21 @@ private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
             backgroundPressed = selectedBackground,
             backgroundHovered = SolidColor(JBUI.CurrentTheme.ActionButton.hoverBackground().toComposeColor()),
             backgroundSelected = selectedBackground,
+            backgroundSelectedDisabled = SolidColor(Color.Transparent),
             backgroundSelectedFocused = SolidColor(JBUI.CurrentTheme.SegmentedButton.FOCUSED_SELECTED_BUTTON_COLOR.toComposeColor()),
             content = normalContent,
-            contentDisabled = retrieveColorOrUnspecified("Component.infoForeground"),
+            contentDisabled = disabledContent,
             contentPressed = normalContent,
             contentHovered = normalContent,
             contentSelected = normalContent,
+            contentSelectedDisabled = disabledContent,
             contentSelectedFocused = normalContent,
             border = normalBorder,
             borderDisabled = SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
             borderPressed = normalBorder,
             borderHovered = normalBorder,
             borderSelected = normalBorder,
+            borderSelectedDisabled = selectedDisabledBorder,
             borderSelectedFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
         )
 
