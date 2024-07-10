@@ -14,6 +14,7 @@ import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.res.loadXmlImageVector
 import androidx.compose.ui.unit.Density
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.foundation.util.inDebugMode
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.icon.LocalNewUiChecker
@@ -75,24 +76,30 @@ public class ResourcePainterProvider(
         val scope = Scope(density, basePath, classLoaders)
 
         val currentHintsProvider = LocalPainterHintsProvider.current
-        currentHintsProvider.priorityHints(basePath)
+        currentHintsProvider
+            .priorityHints(basePath)
             .forEach { scope.resolveHint(it) }
 
         hints.forEach { scope.resolveHint(it) }
 
-        currentHintsProvider.hints(basePath)
+        currentHintsProvider
+            .hints(basePath)
             .forEach { scope.resolveHint(it) }
 
         val cacheKey = scope.acceptedHints.hashCode() * 31 + LocalDensity.current.hashCode()
 
         if (inDebugMode && cache[cacheKey] != null) {
-            println("Cache hit for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
+            JewelLogger
+                .getInstance("JewelStandaloneShowcase")
+                .info("Cache hit for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
         }
 
         val painter =
             cache.getOrPut(cacheKey) {
                 if (inDebugMode) {
-                    println("Cache miss for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
+                    JewelLogger
+                        .getInstance("JewelStandaloneShowcase")
+                        .info("Cache miss for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
                 }
                 loadPainter(scope)
             }
@@ -142,7 +149,11 @@ public class ResourcePainterProvider(
         for (classLoader in contextClassLoaders) {
             val url = classLoader.getResource(normalized)
             if (url != null) {
-                if (inDebugMode) println("Found resource: '$normalized'")
+                if (inDebugMode) {
+                    JewelLogger
+                        .getInstance("JewelStandaloneShowcase")
+                        .info("Found resource: '$normalized'")
+                }
                 return scope to url
             }
         }
@@ -160,7 +171,9 @@ public class ResourcePainterProvider(
             loadingAction = { resourceUrl ->
                 patchSvg(scope, url.openStream(), scope.acceptedHints).use { inputStream ->
                     if (inDebugMode) {
-                        println("Loading icon $basePath(${scope.acceptedHints.joinToString()}) from $resourceUrl")
+                        JewelLogger
+                            .getInstance("JewelStandaloneShowcase")
+                            .info("Loading icon $basePath(${scope.acceptedHints.joinToString()}) from $resourceUrl")
                     }
                     loadSvgPainter(inputStream, scope)
                 }
@@ -186,11 +199,15 @@ public class ResourcePainterProvider(
                 with(hint) { scope.patch(document.documentElement) }
             }
 
-            return document.writeToString()
+            return document
+                .writeToString()
                 .also { patchedSvg ->
-                    if (inDebugMode) println("Patched SVG:\n\n$patchedSvg")
-                }
-                .byteInputStream()
+                    if (inDebugMode) {
+                        JewelLogger
+                            .getInstance("JewelStandaloneShowcase")
+                            .info("Patched SVG:\n\n$patchedSvg")
+                    }
+                }.byteInputStream()
         }
     }
 
@@ -234,7 +251,7 @@ public class ResourcePainterProvider(
                     error(message)
                 }
 
-                System.err.println(message)
+                JewelLogger.getInstance("JewelStandaloneShowcase").error(message)
                 return errorPainter
             }
 
@@ -247,7 +264,8 @@ public class ResourcePainterProvider(
         override val classLoaders: Set<ClassLoader>,
         override val path: String = rawPath,
         override val acceptedHints: MutableList<PainterHint> = mutableListOf(),
-    ) : ResourcePainterProviderScope, Density by localDensity {
+    ) : ResourcePainterProviderScope,
+        Density by localDensity {
         fun apply(pathHint: PainterPathHint): Scope? {
             with(pathHint) {
                 val patched = patch()
@@ -293,7 +311,7 @@ public fun rememberResourcePainterProvider(
     return remember(iconKey, iconClass.classLoader, isNewUi) {
         ResourcePainterProvider(
             iconKey.path(isNewUi),
-            iconClass.classLoader
+            iconClass.classLoader,
         )
     }
 }
