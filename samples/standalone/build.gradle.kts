@@ -22,13 +22,6 @@ dependencies {
 }
 
 val jdkLevel = project.property("jdk.level") as String
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(jdkLevel)
-        vendor = JvmVendorSpec.JETBRAINS
-    }
-}
-
 kotlin {
     jvmToolchain {
         languageVersion = JavaLanguageVersion.of(jdkLevel)
