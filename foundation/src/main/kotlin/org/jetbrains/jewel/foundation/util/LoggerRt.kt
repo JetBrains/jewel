@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.ideplugin
+package org.jetbrains.jewel.foundation.util
 
 import org.jetbrains.annotations.ApiStatus
 import java.lang.reflect.Method
@@ -7,34 +7,35 @@ import java.lang.reflect.Method
  * A wrapper which uses either IDE logging subsystem (if available) or java.util.logging.
  */
 @ApiStatus.NonExtendable
-abstract class LoggerRt {
+@Suppress("OptionalUnit")
+public abstract class LoggerRt {
     private interface Factory {
         fun getInstance(category: String?): LoggerRt
     }
 
-    fun info(message: String?) = info(message, null)
+    public fun info(message: String?): Unit = info(message, null)
 
-    fun info(t: Throwable) = info(t.message, t)
+    public fun info(t: Throwable): Unit = info(t.message, t)
 
-    fun warn(message: String?) = warn(message, null)
+    public fun warn(message: String?): Unit = warn(message, null)
 
-    fun warn(t: Throwable) = warn(t.message, t)
+    public fun warn(t: Throwable): Unit = warn(t.message, t)
 
-    fun error(message: String?) = error(message, null)
+    public fun error(message: String?): Unit = error(message, null)
 
-    fun error(t: Throwable) = error(t.message, t)
+    public fun error(t: Throwable): Unit = error(t.message, t)
 
-    abstract fun info(
+    public abstract fun info(
         message: String?,
         t: Throwable?,
     )
 
-    abstract fun warn(
+    public abstract fun warn(
         message: String?,
         t: Throwable?,
     )
 
-    abstract fun error(
+    public abstract fun error(
         message: String?,
         t: Throwable?,
     )
@@ -235,7 +236,7 @@ abstract class LoggerRt {
         override fun getLogger(category: String?): Any = myGetLogger.invoke(null, category)
     }
 
-    companion object {
+    public companion object {
         private var ourFactory: Factory? = null
 
         @get:Synchronized private val factory: Factory?
@@ -254,8 +255,8 @@ abstract class LoggerRt {
                 return ourFactory
             }
 
-        fun getInstance(category: String): LoggerRt = factory!!.getInstance(category)
+        public fun getInstance(category: String): LoggerRt = factory!!.getInstance(category)
 
-        fun getInstance(clazz: Class<*>): LoggerRt = getInstance('#'.toString() + clazz.name)
+        public fun getInstance(clazz: Class<*>): LoggerRt = getInstance('#'.toString() + clazz.name)
     }
 }
