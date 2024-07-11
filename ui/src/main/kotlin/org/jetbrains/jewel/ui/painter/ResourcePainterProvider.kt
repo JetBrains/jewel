@@ -90,15 +90,13 @@ public class ResourcePainterProvider(
 
         val cacheKey = scope.acceptedHints.hashCode() * 31 + LocalDensity.current.hashCode()
 
-        if (inDebugMode && cache[cacheKey] != null) {
+        if (cache[cacheKey] != null) {
             logger.debug("Cache hit for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
         }
 
         val painter =
             cache.getOrPut(cacheKey) {
-                if (inDebugMode) {
-                    logger.debug("Cache miss for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
-                }
+                logger.debug("Cache miss for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
                 loadPainter(scope)
             }
 
@@ -147,9 +145,7 @@ public class ResourcePainterProvider(
         for (classLoader in contextClassLoaders) {
             val url = classLoader.getResource(normalized)
             if (url != null) {
-                if (inDebugMode) {
-                    logger.debug("Found resource: '$normalized'")
-                }
+                logger.debug("Found resource: '$normalized'")
                 return scope to url
             }
         }
@@ -166,9 +162,7 @@ public class ResourcePainterProvider(
             url = url,
             loadingAction = { resourceUrl ->
                 patchSvg(scope, url.openStream(), scope.acceptedHints).use { inputStream ->
-                    if (inDebugMode) {
-                        logger.debug("Loading icon $basePath(${scope.acceptedHints.joinToString()}) from $resourceUrl")
-                    }
+                    logger.debug("Loading icon $basePath(${scope.acceptedHints.joinToString()}) from $resourceUrl")
                     loadSvgPainter(inputStream, scope)
                 }
             },
@@ -195,11 +189,8 @@ public class ResourcePainterProvider(
 
             return document
                 .writeToString()
-                .also { patchedSvg ->
-                    if (inDebugMode) {
-                        logger.debug("Patched SVG:\n\n$patchedSvg")
-                    }
-                }.byteInputStream()
+                .also { patchedSvg -> logger.debug("Patched SVG:\n\n$patchedSvg") }
+                .byteInputStream()
         }
     }
 
