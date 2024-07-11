@@ -16,6 +16,7 @@ import androidx.compose.ui.res.loadXmlImageVector
 import androidx.compose.ui.unit.Density
 import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.foundation.util.inDebugMode
+import org.jetbrains.jewel.foundation.util.myLogger
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.icon.LocalNewUiChecker
 import org.w3c.dom.Document
@@ -51,6 +52,8 @@ public class ResourcePainterProvider(
     private val basePath: String,
     vararg classLoaders: ClassLoader,
 ) : PainterProvider {
+    private val logger = myLogger()
+
     private val classLoaders = classLoaders.toSet()
 
     private val cache = ConcurrentHashMap<Int, Painter>()
@@ -89,17 +92,13 @@ public class ResourcePainterProvider(
         val cacheKey = scope.acceptedHints.hashCode() * 31 + LocalDensity.current.hashCode()
 
         if (inDebugMode && cache[cacheKey] != null) {
-            JewelLogger
-                .getInstance("JewelStandaloneShowcase")
-                .info("Cache hit for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
+            logger.debug("Cache hit for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
         }
 
         val painter =
             cache.getOrPut(cacheKey) {
                 if (inDebugMode) {
-                    JewelLogger
-                        .getInstance("JewelStandaloneShowcase")
-                        .info("Cache miss for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
+                    logger.debug("Cache miss for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
                 }
                 loadPainter(scope)
             }
@@ -152,7 +151,7 @@ public class ResourcePainterProvider(
                 if (inDebugMode) {
                     JewelLogger
                         .getInstance("JewelStandaloneShowcase")
-                        .info("Found resource: '$normalized'")
+                        .debug("Found resource: '$normalized'")
                 }
                 return scope to url
             }
@@ -173,7 +172,7 @@ public class ResourcePainterProvider(
                     if (inDebugMode) {
                         JewelLogger
                             .getInstance("JewelStandaloneShowcase")
-                            .info("Loading icon $basePath(${scope.acceptedHints.joinToString()}) from $resourceUrl")
+                            .debug("Loading icon $basePath(${scope.acceptedHints.joinToString()}) from $resourceUrl")
                     }
                     loadSvgPainter(inputStream, scope)
                 }
@@ -251,7 +250,7 @@ public class ResourcePainterProvider(
                     error(message)
                 }
 
-                JewelLogger.getInstance("JewelStandaloneShowcase").error(message)
+                logger.error(message)
                 return errorPainter
             }
 
