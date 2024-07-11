@@ -24,7 +24,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.jetbrains.jewel.foundation.util.myLogger
 import org.jetbrains.jewel.ui.component.CheckboxRow
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Typography
@@ -53,8 +52,6 @@ internal class JewelDemoAction : DumbAwareAction() {
 private class FirstPage(
     private val project: Project,
 ) : WizardPage {
-    private val logger = myLogger()
-
     override val canGoBackwards: StateFlow<Boolean> = MutableStateFlow(true)
 
     private val checkboxChecked = MutableStateFlow(false)
@@ -72,10 +69,7 @@ private class FirstPage(
             Spacer(Modifier.height(16.dp))
 
             val checked by checkboxChecked.collectAsState()
-            CheckboxRow("Allow going to next step", checked, {
-                checkboxChecked.value = it
-                logger.debug("Checkbox value: ${checkboxChecked.value}")
-            })
+            CheckboxRow("Allow going to next step", checked, { checkboxChecked.value = it })
         }
     }
 }

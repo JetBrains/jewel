@@ -6,7 +6,11 @@ import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
-public inline fun <reified T : Any> T.myLogger(): JewelLogger = JewelLogger.getInstance(T::class.java)
+public inline fun <reified T : Any> T.myLogger(category: String? = null): JewelLogger =
+    when (category) {
+        null -> JewelLogger.getInstance(T::class.java)
+        else -> JewelLogger.getInstance(category)
+    }
 
 /**
  * A wrapper which uses either IDE logging subsystem (if available) or java.util.logging.
@@ -226,26 +230,26 @@ public abstract class JewelLogger {
 
     private class IdeaFactory : ReflectionBasedFactory() {
         private val myGetInstance: Method
-        private val myTrace: Method
-        private val myDebug: Method
-        private val myInfo: Method
-        private val myWarn: Method
-        private val myError: Method
+        private val ideaTrace: Method
+        private val ideaDebug: Method
+        private val ideaInfo: Method
+        private val ideaWarn: Method
+        private val ideaError: Method
 
         init {
             val loggerClass = Class.forName("com.intellij.openapi.diagnostic.Logger")
             myGetInstance = loggerClass.getMethod("getInstance", String::class.java)
             myGetInstance.isAccessible = true
-            myTrace = loggerClass.getMethod("trace", String::class.java, Throwable::class.java)
-            myTrace.isAccessible = true
-            myDebug = loggerClass.getMethod("debug", String::class.java, Throwable::class.java)
-            myDebug.isAccessible = true
-            myInfo = loggerClass.getMethod("info", String::class.java, Throwable::class.java)
-            myInfo.isAccessible = true
-            myWarn = loggerClass.getMethod("warn", String::class.java, Throwable::class.java)
-            myWarn.isAccessible = true
-            myError = loggerClass.getMethod("error", String::class.java, Throwable::class.java)
-            myError.isAccessible = true
+            ideaTrace = loggerClass.getMethod("trace", Throwable::class.java)
+            ideaTrace.isAccessible = true
+            ideaDebug = loggerClass.getMethod("debug", String::class.java, Throwable::class.java)
+            ideaDebug.isAccessible = true
+            ideaInfo = loggerClass.getMethod("info", String::class.java, Throwable::class.java)
+            ideaInfo.isAccessible = true
+            ideaWarn = loggerClass.getMethod("warn", String::class.java, Throwable::class.java)
+            ideaWarn.isAccessible = true
+            ideaError = loggerClass.getMethod("error", String::class.java, Throwable::class.java)
+            ideaError.isAccessible = true
         }
 
         @Throws(Exception::class)
@@ -254,7 +258,7 @@ public abstract class JewelLogger {
             t: Throwable?,
             logger: Any?,
         ) {
-            myTrace.invoke(logger, message, t)
+            ideaTrace.invoke(logger, t)
         }
 
         @Throws(Exception::class)
@@ -263,7 +267,7 @@ public abstract class JewelLogger {
             t: Throwable?,
             logger: Any?,
         ) {
-            myDebug.invoke(logger, message, t)
+            ideaDebug.invoke(logger, message, t)
         }
 
         @Throws(Exception::class)
@@ -272,7 +276,7 @@ public abstract class JewelLogger {
             t: Throwable?,
             logger: Any?,
         ) {
-            myError.invoke(logger, message, t)
+            ideaError.invoke(logger, message, t)
         }
 
         @Throws(Exception::class)
@@ -281,7 +285,7 @@ public abstract class JewelLogger {
             t: Throwable?,
             logger: Any?,
         ) {
-            myWarn.invoke(logger, message, t)
+            ideaWarn.invoke(logger, message, t)
         }
 
         @Throws(Exception::class)
@@ -290,7 +294,7 @@ public abstract class JewelLogger {
             t: Throwable?,
             logger: Any?,
         ) {
-            myInfo.invoke(logger, message, t)
+            ideaInfo.invoke(logger, message, t)
         }
 
         @Throws(Exception::class)

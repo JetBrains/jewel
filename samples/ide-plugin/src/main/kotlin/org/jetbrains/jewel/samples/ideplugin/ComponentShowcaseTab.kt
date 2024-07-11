@@ -40,7 +40,7 @@ import org.jetbrains.jewel.foundation.modifier.trackActivation
 import org.jetbrains.jewel.foundation.modifier.trackComponentActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
-import org.jetbrains.jewel.foundation.util.myLogger
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.intui.markdown.bridge.ProvideMarkdownStyling
 import org.jetbrains.jewel.markdown.Markdown
 import org.jetbrains.jewel.ui.Orientation
@@ -70,8 +70,12 @@ import org.jetbrains.jewel.ui.painter.hints.Size
 import org.jetbrains.jewel.ui.painter.hints.Stroke
 import org.jetbrains.jewel.ui.theme.colorPalette
 
+val logger = JewelLogger.getInstance("JewelPluginShowcase")
+
 @Composable
 internal fun ComponentShowcaseTab() {
+    logger.warn("Welcome to JewelPluginShowcase")
+
     val bgColor by remember(JBColor.PanelBackground.rgb) { mutableStateOf(JBColor.PanelBackground.toComposeColor()) }
 
     val scrollState = rememberScrollState()
@@ -127,7 +131,10 @@ private fun RowScope.ColumnOne() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             var clicks1 by remember { mutableIntStateOf(0) }
-            OutlinedButton({ clicks1++ }) {
+            OutlinedButton({
+                clicks1++
+                logger.debug("Clicked: $clicks1")
+            }) {
                 Text("Outlined: $clicks1")
             }
             OutlinedButton({ }, enabled = false) {
@@ -135,7 +142,10 @@ private fun RowScope.ColumnOne() {
             }
 
             var clicks2 by remember { mutableIntStateOf(0) }
-            DefaultButton({ clicks2++ }) {
+            DefaultButton({
+                clicks2++
+                logger.info("Clicked: $clicks2")
+            }) {
                 Text("Default: $clicks2")
             }
             DefaultButton({ }, enabled = false) {
@@ -159,7 +169,7 @@ private fun RowScope.ColumnOne() {
             CheckboxRow(
                 checked = checked,
                 onCheckedChange = {
-                    myLogger().debug("Checked $it")
+                    logger.warn("Checked $it")
                     checked = it
                 },
                 outline = outline,
