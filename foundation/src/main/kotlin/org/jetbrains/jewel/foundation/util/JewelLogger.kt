@@ -6,11 +6,7 @@ import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
-public inline fun <reified T : Any> T.myLogger(category: String? = null): JewelLogger =
-    when (category) {
-        null -> JewelLogger.getInstance(T::class.java)
-        else -> JewelLogger.getInstance(category)
-    }
+public inline fun <reified T : Any> T.myLogger(): JewelLogger = JewelLogger.getInstance(T::class.java)
 
 /**
  * A wrapper which uses either IDE logging subsystem (if available) or java.util.logging.

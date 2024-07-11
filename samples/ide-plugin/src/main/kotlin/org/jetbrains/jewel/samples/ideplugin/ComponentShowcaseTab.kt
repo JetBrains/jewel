@@ -70,7 +70,7 @@ import org.jetbrains.jewel.ui.painter.hints.Size
 import org.jetbrains.jewel.ui.painter.hints.Stroke
 import org.jetbrains.jewel.ui.theme.colorPalette
 
-val logger = JewelLogger.getInstance("JewelPluginShowcase")
+val logger = JewelLogger.getInstance("ComponentShowcaseTab")
 
 @Composable
 internal fun ComponentShowcaseTab() {

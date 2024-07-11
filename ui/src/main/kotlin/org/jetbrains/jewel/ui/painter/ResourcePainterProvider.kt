@@ -14,7 +14,6 @@ import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.res.loadXmlImageVector
 import androidx.compose.ui.unit.Density
-import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.foundation.util.inDebugMode
 import org.jetbrains.jewel.foundation.util.myLogger
 import org.jetbrains.jewel.ui.icon.IconKey
@@ -149,9 +148,7 @@ public class ResourcePainterProvider(
             val url = classLoader.getResource(normalized)
             if (url != null) {
                 if (inDebugMode) {
-                    JewelLogger
-                        .getInstance("JewelStandaloneShowcase")
-                        .debug("Found resource: '$normalized'")
+                    logger.debug("Found resource: '$normalized'")
                 }
                 return scope to url
             }
