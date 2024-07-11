@@ -373,28 +373,22 @@ public abstract class JewelLogger {
     }
 
     public companion object {
-        private var ourFactory: Factory? = null
+        @get:Synchronized
+        private val factory: Factory = createFactory()
 
         @Suppress("SwallowedException", "TooGenericExceptionCaught")
-        @get:Synchronized
-        private val factory: Factory?
-            get() {
-                if (ourFactory == null) {
-                    ourFactory =
-                        try {
-                            IdeaFactory()
-                        } catch (t: Throwable) {
-                            try {
-                                Slf4JFactory()
-                            } catch (t2: Throwable) {
-                                JavaFactory()
-                            }
-                        }
+        private fun createFactory(): Factory =
+            try {
+                IdeaFactory()
+            } catch (t: Throwable) {
+                try {
+                    Slf4JFactory()
+                } catch (t2: Throwable) {
+                    JavaFactory()
                 }
-                return ourFactory
             }
 
-        public fun getInstance(category: String): JewelLogger = factory!!.getInstance("#$category")
+        public fun getInstance(category: String): JewelLogger = factory.getInstance("#$category")
 
         public fun getInstance(clazz: Class<*>): JewelLogger = getInstance('#'.toString() + clazz.name)
     }
