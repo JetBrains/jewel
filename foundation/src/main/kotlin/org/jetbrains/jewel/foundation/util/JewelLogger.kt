@@ -18,6 +18,10 @@ public abstract class JewelLogger {
         fun getInstance(category: String?): JewelLogger
     }
 
+    public fun trace(message: String?): Unit = trace(message, null)
+
+    public fun trace(t: Throwable): Unit = trace(t.message, t)
+
     public fun debug(message: String?): Unit = debug(message, null)
 
     public fun debug(t: Throwable): Unit = debug(t.message, t)
@@ -34,6 +38,16 @@ public abstract class JewelLogger {
 
     public fun error(t: Throwable): Unit = error(t.message, t)
 
+    public abstract fun trace(
+        message: String?,
+        t: Throwable?,
+    )
+
+    public abstract fun debug(
+        message: String?,
+        t: Throwable?,
+    )
+
     public abstract fun info(
         message: String?,
         t: Throwable?,
@@ -45,11 +59,6 @@ public abstract class JewelLogger {
     )
 
     public abstract fun error(
-        message: String?,
-        t: Throwable?,
-    )
-
-    public abstract fun debug(
         message: String?,
         t: Throwable?,
     )
@@ -75,6 +84,13 @@ public abstract class JewelLogger {
                 l
             }
             return object : JewelLogger() {
+                override fun trace(
+                    message: String?,
+                    t: Throwable?,
+                ) {
+                    logger.log(Level.FINER, message, t)
+                }
+
                 override fun debug(
                     message: String?,
                     t: Throwable?,
@@ -114,6 +130,16 @@ public abstract class JewelLogger {
                 val logger = getLogger(category)
 
                 return object : JewelLogger() {
+                    override fun trace(
+                        message: String?,
+                        t: Throwable?,
+                    ) {
+                        try {
+                            this@ReflectionBasedFactory.trace(message, t, logger)
+                        } catch (ignored: Exception) {
+                        }
+                    }
+
                     override fun debug(
                         message: String?,
                         t: Throwable?,
@@ -160,6 +186,13 @@ public abstract class JewelLogger {
         }
 
         @Throws(Exception::class)
+        protected abstract fun trace(
+            message: String?,
+            t: Throwable?,
+            logger: Any?,
+        )
+
+        @Throws(Exception::class)
         protected abstract fun debug(
             message: String?,
             t: Throwable?,
@@ -193,6 +226,7 @@ public abstract class JewelLogger {
 
     private class IdeaFactory : ReflectionBasedFactory() {
         private val myGetInstance: Method
+        private val myTrace: Method
         private val myDebug: Method
         private val myInfo: Method
         private val myWarn: Method
@@ -202,6 +236,8 @@ public abstract class JewelLogger {
             val loggerClass = Class.forName("com.intellij.openapi.diagnostic.Logger")
             myGetInstance = loggerClass.getMethod("getInstance", String::class.java)
             myGetInstance.isAccessible = true
+            myTrace = loggerClass.getMethod("trace", String::class.java, Throwable::class.java)
+            myTrace.isAccessible = true
             myDebug = loggerClass.getMethod("debug", String::class.java, Throwable::class.java)
             myDebug.isAccessible = true
             myInfo = loggerClass.getMethod("info", String::class.java, Throwable::class.java)
@@ -210,6 +246,15 @@ public abstract class JewelLogger {
             myWarn.isAccessible = true
             myError = loggerClass.getMethod("error", String::class.java, Throwable::class.java)
             myError.isAccessible = true
+        }
+
+        @Throws(Exception::class)
+        override fun trace(
+            message: String?,
+            t: Throwable?,
+            logger: Any?,
+        ) {
+            myTrace.invoke(logger, message, t)
         }
 
         @Throws(Exception::class)
@@ -254,6 +299,7 @@ public abstract class JewelLogger {
 
     private class Slf4JFactory : ReflectionBasedFactory() {
         private val myGetLogger: Method
+        private val myTrace: Method
         private val myDebug: Method
         private val myInfo: Method
         private val myWarn: Method
@@ -265,6 +311,8 @@ public abstract class JewelLogger {
             myGetLogger.isAccessible = true
 
             val loggerClass = Class.forName("org.slf4j.Logger")
+            myTrace = loggerClass.getMethod("trace", String::class.java, Throwable::class.java)
+            myTrace.isAccessible = true
             myDebug = loggerClass.getMethod("debug", String::class.java, Throwable::class.java)
             myDebug.isAccessible = true
             myInfo = loggerClass.getMethod("info", String::class.java, Throwable::class.java)
@@ -273,6 +321,15 @@ public abstract class JewelLogger {
             myWarn.isAccessible = true
             myError = loggerClass.getMethod("error", String::class.java, Throwable::class.java)
             myError.isAccessible = true
+        }
+
+        @Throws(Exception::class)
+        override fun trace(
+            message: String?,
+            t: Throwable?,
+            logger: Any?,
+        ) {
+            myTrace.invoke(logger, message, t)
         }
 
         @Throws(Exception::class)
