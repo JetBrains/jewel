@@ -111,7 +111,7 @@ fun SelectableLazyColumnSample() {
                                     ).clickable {
                                         JewelLogger
                                             .getInstance("ChipsAndTree")
-                                            .warn("Click on $index")
+                                            .info("Click on $index")
                                     },
                         )
                     }
