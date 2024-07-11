@@ -30,7 +30,7 @@ import java.io.InputStream
 fun main() {
     JewelLogger
         .getInstance("StandaloneSample")
-        .info("Starting Jewel Standalone showcase app")
+        .info("Starting Jewel Standalone sample")
 
     val icon = svgResource("icons/jewel-logo.svg")
 
