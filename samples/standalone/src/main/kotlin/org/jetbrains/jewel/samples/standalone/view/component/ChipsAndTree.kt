@@ -110,7 +110,7 @@ fun SelectableLazyColumnSample() {
                                         },
                                     ).clickable {
                                         JewelLogger
-                                            .getInstance("JewelStandaloneShowcase")
+                                            .getInstance("ChipsAndTree")
                                             .warn("Click on $index")
                                     },
                         )
