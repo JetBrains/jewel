@@ -65,7 +65,7 @@ internal fun findViews(packageName: String): List<ViewInfo> {
                             )
                         }
                 } catch (e: ClassNotFoundException) {
-                    JewelLogger.getInstance("JewelStandaloneShowcase").error(e)
+                    JewelLogger.getInstance("Views").error(e)
                 } catch (ignore: InstantiationException) {
                     // We try to instantiate an interface
                     // or an object that does not have a
