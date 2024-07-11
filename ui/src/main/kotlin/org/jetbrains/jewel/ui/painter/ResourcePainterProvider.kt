@@ -170,9 +170,7 @@ public class ResourcePainterProvider(
             loadingAction = { resourceUrl ->
                 patchSvg(scope, url.openStream(), scope.acceptedHints).use { inputStream ->
                     if (inDebugMode) {
-                        JewelLogger
-                            .getInstance("JewelStandaloneShowcase")
-                            .debug("Loading icon $basePath(${scope.acceptedHints.joinToString()}) from $resourceUrl")
+                        logger.debug("Loading icon $basePath(${scope.acceptedHints.joinToString()}) from $resourceUrl")
                     }
                     loadSvgPainter(inputStream, scope)
                 }
@@ -202,9 +200,7 @@ public class ResourcePainterProvider(
                 .writeToString()
                 .also { patchedSvg ->
                     if (inDebugMode) {
-                        JewelLogger
-                            .getInstance("JewelStandaloneShowcase")
-                            .info("Patched SVG:\n\n$patchedSvg")
+                        logger.debug("Patched SVG:\n\n$patchedSvg")
                     }
                 }.byteInputStream()
         }
