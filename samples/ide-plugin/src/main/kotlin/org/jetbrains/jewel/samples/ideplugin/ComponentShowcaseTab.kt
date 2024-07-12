@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -59,6 +60,7 @@ import org.jetbrains.jewel.ui.component.PlatformIcon
 import org.jetbrains.jewel.ui.component.RadioButtonRow
 import org.jetbrains.jewel.ui.component.Slider
 import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Tooltip
 import org.jetbrains.jewel.ui.component.Typography
@@ -221,6 +223,12 @@ private fun RowScope.ColumnOne() {
 
         var sliderValue by remember { mutableFloatStateOf(.15f) }
         Slider(sliderValue, { sliderValue = it }, steps = 5)
+
+        val textFieldState = rememberTextFieldState(ANDROID_IPSUM)
+        TextArea(
+            state = textFieldState,
+            modifier = Modifier.size(300.dp),
+        )
     }
 }
 
@@ -388,3 +396,19 @@ private fun MarkdownExample() {
         }
     }
 }
+
+private val ANDROID_IPSUM =
+    "Jetpack Compose dolor sit amet, viewBinding consectetur adipiscing elit, sed do eiusmod tempor incididunt" +
+        " ut unitTest et dolore magna aliqua. Dependency injection enim ad minim veniam, quis nostrud Dagger-Hilt " +
+        "ullamco laboris nisi ut aliquip ex ea Lottie animation consequat. Retrofit irure dolor in reprehenderit in" +
+        " AndroidX velit esse cillum dolore eu fugiat nulla pariatur. Gradle sync dolor sit amet, compileSdkVersion" +
+        " consectetur adipiscing elit, sed do eiusmod minimSdkVersion tempor incididunt ut labore et dolore magna" +
+        " aliqua. Ut enim ad activity_main.xml veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip" +
+        " ex ea compileOptions consequat. Duis aute irure dolor in reprehenderit in logcat velit esse cillum dolore" +
+        "eu fugiat nulla pariatur. Excepteur sint occaecat proident, sunt in culpa qui officia debugImplementation" +
+        " deserunt mollit anim id est laborum. Manifest merger dolor sit amet, androidx.appcompat.app.AppCompatActivity" +
+        " adipiscing elit, sed do eiusmod tempor incididunt ut buildToolsVersion et dolore magna aliqua. Proguard" +
+        " rules enim ad minim veniam, quis nostrud fragmentContainerView ullamco laboris nisi ut aliquip ex ea" +
+        " dataBinding compilerOptions consequat. Kotlin coroutine aute irure dolor in reprehenderit in ViewModel" +
+        " velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat Room database non proident," +
+        " sunt in culpa qui officia material design deserunt mollit anim id est laborum."
