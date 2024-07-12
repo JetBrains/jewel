@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -31,6 +32,52 @@ import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
+
+/**
+ * @param placeholder the optional placeholder to be displayed over the
+ *     component when the [value] is empty.
+ */
+@Composable
+public fun TextArea(
+    state: TextFieldState,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+    outline: Outline = Outline.None,
+    placeholder:
+        @Composable()
+        (() -> Unit)? = null,
+    undecorated: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    maxLines: Int = Int.MAX_VALUE,
+    style: TextAreaStyle = JewelTheme.textAreaStyle,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
+    val minSize = style.metrics.minSize
+    InputField(
+        state = state,
+        modifier = modifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height),
+        enabled = enabled,
+        readOnly = readOnly,
+        outline = outline,
+        undecorated = undecorated,
+        keyboardOptions = keyboardOptions,
+        singleLine = false,
+        maxLines = maxLines,
+        style = style,
+        textStyle = textStyle,
+        interactionSource = interactionSource,
+    ) { innerTextField, _ ->
+        TextAreaDecorationBox(
+            innerTextField = innerTextField,
+            contentPadding = style.metrics.contentPadding,
+            placeholderTextColor = style.colors.placeholder,
+            placeholder = if (state.text.isEmpty()) placeholder else null,
+            textStyle = textStyle,
+        )
+    }
+}
 
 /**
  * @param placeholder the optional placeholder to be displayed over the
@@ -185,13 +232,15 @@ private fun TextAreaDecorationBox(
                 .copy(minHeight = 0)
 
         val textAreaPlaceable =
-            measurables.single { it.layoutId == TEXT_AREA_ID }
+            measurables
+                .single { it.layoutId == TEXT_AREA_ID }
                 .measure(textAreaConstraints)
 
         // Measure placeholder
         val placeholderConstraints = textAreaConstraints.copy(minWidth = 0, minHeight = 0)
         val placeholderPlaceable =
-            measurables.find { it.layoutId == PLACEHOLDER_ID }
+            measurables
+                .find { it.layoutId == PLACEHOLDER_ID }
                 ?.measure(placeholderConstraints)
 
         val width = calculateWidth(textAreaPlaceable, placeholderPlaceable, incomingConstraints)

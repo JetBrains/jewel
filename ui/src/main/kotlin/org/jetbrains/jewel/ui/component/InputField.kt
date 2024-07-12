@@ -3,24 +3,35 @@ package org.jetbrains.jewel.ui.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldLineLimits.MultiLine
+import androidx.compose.foundation.text.input.TextFieldLineLimits.SingleLine
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -37,9 +48,113 @@ import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable
 internal fun InputField(
+    state: TextFieldState,
+    enabled: Boolean,
+    readOnly: Boolean,
+    outline: Outline,
+    undecorated: Boolean,
+    keyboardOptions: KeyboardOptions,
+    singleLine: Boolean,
+    maxLines: Int,
+    interactionSource: MutableInteractionSource,
+    style: InputFieldStyle,
+    textStyle: TextStyle,
+    modifier: Modifier = Modifier,
+    decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
+) {
+    var inputState by remember(interactionSource) {
+        mutableStateOf(InputFieldState.of(enabled = enabled))
+    }
+    remember(enabled) { inputState = inputState.copy(enabled = enabled) }
+
+    LaunchedEffect(interactionSource) {
+        interactionSource.interactions.collect { interaction ->
+            when (interaction) {
+                is FocusInteraction.Focus -> inputState = inputState.copy(focused = true)
+                is FocusInteraction.Unfocus -> inputState = inputState.copy(focused = false)
+            }
+        }
+    }
+
+    val colors = style.colors
+    val backgroundColor by colors.backgroundFor(inputState)
+    val shape = RoundedCornerShape(style.metrics.cornerSize)
+
+    val backgroundModifier =
+        Modifier.thenIf(!undecorated && backgroundColor.isSpecified) {
+            background(backgroundColor, shape)
+        }
+
+    val borderColor by style.colors.borderFor(inputState)
+    val hasNoOutline = outline == Outline.None
+    val borderModifier =
+        Modifier.thenIf(!undecorated && borderColor.isSpecified && hasNoOutline) {
+            border(
+                alignment = Stroke.Alignment.Center,
+                width = style.metrics.borderWidth,
+                color = borderColor,
+                shape = shape,
+            )
+        }
+
+    val contentColor by colors.contentFor(inputState)
+    val mergedTextStyle = style.textStyle.merge(textStyle).copy(color = contentColor)
+    val caretColor by colors.caretFor(inputState)
+
+    val lineLimits =
+        when {
+            singleLine -> SingleLine
+            else -> MultiLine(maxLines)
+        }
+
+    val scrollState = rememberScrollState()
+    val canScroll by remember {
+        derivedStateOf {
+            scrollState.canScrollBackward || scrollState.canScrollForward
+        }
+    }
+
+    Box(
+        modifier =
+            modifier
+                .then(backgroundModifier)
+                .then(borderModifier)
+                .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
+                .outline(inputState, outline, shape, Stroke.Alignment.Center),
+    ) {
+        BasicTextField(
+            modifier =
+                Modifier
+                    .background(Color.Red)
+                    .thenIf(canScroll) { padding(end = 16.dp) }, // TODO Hardcoded values suck
+            state = state,
+            enabled = enabled,
+            readOnly = readOnly,
+            textStyle = mergedTextStyle,
+            cursorBrush = SolidColor(caretColor),
+            keyboardOptions = keyboardOptions,
+            lineLimits = lineLimits,
+            interactionSource = interactionSource,
+            decorator = { innerTextField: @Composable () -> Unit -> decorationBox(innerTextField, inputState) },
+            scrollState = scrollState,
+        )
+
+        if (canScroll) {
+            VerticalScrollbar(
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterEnd)
+                        .background(Color.Green),
+                adapter = rememberScrollbarAdapter(scrollState = scrollState),
+            )
+        }
+    }
+}
+
+@Composable
+internal fun InputField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
-    modifier: Modifier,
     enabled: Boolean,
     readOnly: Boolean,
     outline: Outline,
@@ -53,6 +168,7 @@ internal fun InputField(
     interactionSource: MutableInteractionSource,
     style: InputFieldStyle,
     textStyle: TextStyle,
+    modifier: Modifier = Modifier,
     decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
 ) {
     var inputState by remember(interactionSource) { mutableStateOf(InputFieldState.of(enabled = enabled)) }
@@ -120,7 +236,9 @@ internal fun InputField(
 
 @Immutable
 @JvmInline
-public value class InputFieldState(public val state: ULong) : FocusableComponentState {
+public value class InputFieldState(
+    public val state: ULong,
+) : FocusableComponentState {
     override val isActive: Boolean
         get() = state and Active != 0UL
 

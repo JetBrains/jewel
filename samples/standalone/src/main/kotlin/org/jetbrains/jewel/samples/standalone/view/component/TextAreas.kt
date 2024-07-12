@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +46,12 @@ fun TextAreas() {
 
         var text2 by remember { mutableStateOf(LOREM_IPSUM) }
         TextArea(text2, { text2 = it }, modifier = Modifier.weight(1f).fillMaxHeight(), enabled = false)
+
+        val state1 = rememberTextFieldState(LOREM_IPSUM)
+        TextArea(
+            state = state1,
+            modifier = Modifier.weight(1f).fillMaxHeight(),
+        )
 
         var text3 by remember { mutableStateOf("") }
         TextArea(
