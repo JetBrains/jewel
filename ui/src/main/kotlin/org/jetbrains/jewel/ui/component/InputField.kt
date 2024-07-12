@@ -113,6 +113,7 @@ internal fun InputField(
             scrollState.canScrollBackward || scrollState.canScrollForward
         }
     }
+    val isScrolling = scrollState.value > 0
 
     Box(
         modifier =
@@ -140,7 +141,7 @@ internal fun InputField(
             scrollState = scrollState,
         )
 
-        if (canScroll) {
+        if (isScrolling) {
             VerticalScrollbar(
                 modifier = Modifier.align(Alignment.CenterEnd),
                 adapter = rememberScrollbarAdapter(scrollState = scrollState),
