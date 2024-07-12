@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
@@ -24,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.text.TextLayoutResult
@@ -125,8 +125,9 @@ internal fun InputField(
         BasicTextField(
             modifier =
                 Modifier
-                    .background(Color.Red)
-                    .thenIf(canScroll) { padding(end = 16.dp) }, // TODO Hardcoded values suck
+                    .fillMaxWidth()
+                    .align(Alignment.CenterStart)
+                    .thenIf(canScroll) { padding(end = 12.dp) }, // TODO Hardcoded values suck
             state = state,
             enabled = enabled,
             readOnly = readOnly,
@@ -141,10 +142,7 @@ internal fun InputField(
 
         if (canScroll) {
             VerticalScrollbar(
-                modifier =
-                    Modifier
-                        .align(Alignment.CenterEnd)
-                        .background(Color.Green),
+                modifier = Modifier.align(Alignment.CenterEnd),
                 adapter = rememberScrollbarAdapter(scrollState = scrollState),
             )
         }
