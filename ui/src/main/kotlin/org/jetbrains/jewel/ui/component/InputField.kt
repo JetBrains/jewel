@@ -10,6 +10,7 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -125,6 +126,7 @@ internal fun InputField(
     var visible by remember { mutableStateOf(scrollState.value > 0) }
     val hovered = interactionSource.collectIsHoveredAsState().value
     var trackIsVisible by remember { mutableStateOf(false) }
+    val fadeOutDuration = 2.seconds
 
     val animatedAlpha by animateFloatAsState(
         targetValue = if (visible) 1.0f else 0f,
@@ -138,13 +140,15 @@ internal fun InputField(
                 visible = true
                 trackIsVisible = true
             }
+
             !hovered -> {
-                delay(2.seconds)
+                delay(fadeOutDuration)
                 trackIsVisible = false
                 visible = false
             }
+
             !scrollState.isScrollInProgress && !hovered -> {
-                delay(2.seconds)
+                delay(fadeOutDuration)
                 visible = false
             }
         }
@@ -184,8 +188,10 @@ internal fun InputField(
                     Modifier
                         .align(Alignment.CenterEnd)
                         .graphicsLayer { alpha = animatedAlpha }
-                        .thenIf(trackIsVisible) { background(Color(0xFFcfd2e1)) }
-                        .scrollable(
+                        .thenIf(trackIsVisible) {
+                            width(16.dp) // TODO Hardcoded values suck
+                                .background(Color(0xFFcfd2e1)) // TODO Hardcoded values suck
+                        }.scrollable(
                             scrollState,
                             orientation = Orientation.Vertical,
                             reverseDirection = true,

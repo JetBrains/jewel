@@ -37,7 +37,7 @@ private const val LOREM_IPSUM =
 @View(title = "TextAreas", position = 8, icon = "icons/components/textArea.svg")
 fun TextAreas() {
     Row(
-        Modifier.padding(horizontal = 16.dp).height(150.dp),
+        Modifier.padding(horizontal = 16.dp).height(200.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.Top,
     ) {
