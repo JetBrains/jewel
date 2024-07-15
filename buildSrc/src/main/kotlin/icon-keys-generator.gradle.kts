@@ -5,7 +5,6 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import io.gitlab.arturbosch.detekt.Detekt
-import kotlinx.serialization.json.Json
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
@@ -176,7 +175,11 @@ open class IconKeysGeneratorTask : DefaultTask() {
                     ?: throw GradleException("Found null path in icon $fieldName")
                 validatePath(oldUiPath, fieldName, classLoader)
 
-                val newUiPath = newUiPathField.get(icon) as String?
+                // New UI paths may be "partial", meaning they end with a / character.
+                // In this case, we're supposed to append the old UI path to the new UI
+                // path, because that's just how they decided to encode things in IJP.
+                val newUiPath = (newUiPathField.get(icon) as String?)
+                    ?.let { if (it.endsWith("/")) it + oldUiPath else it }
                     ?: oldUiPath
                 validatePath(newUiPath, fieldName, classLoader)
                 parentHolder.keys += IconKey(fieldName, oldUiPath, newUiPath)
@@ -262,8 +265,6 @@ open class IconKeysGeneratorTask : DefaultTask() {
         private fun Class<*>.getNewUiPathField(): Field = declaredFields.first { it.name == "expUIPath" }
 
         private val keyClassName = ClassName("org.jetbrains.jewel.ui.icon", "IntelliJIconKey")
-
-        private val json = Json { isLenient = true }
     }
 }
 
