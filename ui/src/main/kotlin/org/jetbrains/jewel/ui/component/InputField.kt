@@ -118,19 +118,21 @@ internal fun InputField(
         }
     }
 
-    var timerIsRunning by remember { mutableStateOf(true) }
-    val visible by remember { derivedStateOf { scrollState.canScrollBackward && timerIsRunning } }
+    var visible by remember { mutableStateOf(scrollState.value > 0) }
     val animatedAlpha by animateFloatAsState(
         targetValue = if (visible) 1.0f else 0f,
         label = "alpha",
     )
 
     LaunchedEffect(scrollState.isScrollInProgress) {
-        if (!scrollState.isScrollInProgress) {
-            timerIsRunning = true
-            delay(2.seconds)
-            timerIsRunning = false
-        }
+        visible =
+            when {
+                scrollState.isScrollInProgress -> true
+                else -> {
+                    delay(2.seconds)
+                    false
+                }
+            }
     }
 
     Box(
