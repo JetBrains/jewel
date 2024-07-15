@@ -2,8 +2,11 @@ package org.jetbrains.jewel.ui.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.isSpecified
@@ -119,20 +123,31 @@ internal fun InputField(
     }
 
     var visible by remember { mutableStateOf(scrollState.value > 0) }
+    val hovered = interactionSource.collectIsHoveredAsState().value
+    var trackIsVisible by remember { mutableStateOf(false) }
+
     val animatedAlpha by animateFloatAsState(
         targetValue = if (visible) 1.0f else 0f,
         label = "alpha",
     )
 
-    LaunchedEffect(scrollState.isScrollInProgress) {
-        visible =
-            when {
-                scrollState.isScrollInProgress -> true
-                else -> {
-                    delay(2.seconds)
-                    false
-                }
+    LaunchedEffect(scrollState.isScrollInProgress, hovered) {
+        when {
+            scrollState.isScrollInProgress -> visible = true
+            hovered -> {
+                visible = true
+                trackIsVisible = true
             }
+            !hovered -> {
+                delay(2.seconds)
+                trackIsVisible = false
+                visible = false
+            }
+            !scrollState.isScrollInProgress && !hovered -> {
+                delay(2.seconds)
+                visible = false
+            }
+        }
     }
 
     Box(
@@ -162,12 +177,21 @@ internal fun InputField(
         )
 
         if (visible) {
+            val adapter = rememberScrollbarAdapter(scrollState = scrollState)
+
             VerticalScrollbar(
                 modifier =
                     Modifier
+                        .align(Alignment.CenterEnd)
                         .graphicsLayer { alpha = animatedAlpha }
-                        .align(Alignment.CenterEnd),
-                adapter = rememberScrollbarAdapter(scrollState = scrollState),
+                        .thenIf(trackIsVisible) { background(Color(0xFFcfd2e1)) }
+                        .scrollable(
+                            scrollState,
+                            orientation = Orientation.Vertical,
+                            reverseDirection = true,
+                        ),
+                interactionSource = interactionSource,
+                adapter = adapter,
             )
         }
     }
