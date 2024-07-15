@@ -87,7 +87,7 @@ private fun IconButtons() {
             PlatformIcon(
                 key = AllIconsKeys.Actions.MatchCase,
                 contentDescription = "IconButton",
-                hints = arrayOf(Selected(selected), Stroke(tint))
+                hints = arrayOf(Selected(selected), Stroke(tint)),
             )
         }
     }
