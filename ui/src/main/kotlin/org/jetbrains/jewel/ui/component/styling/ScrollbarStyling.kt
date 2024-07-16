@@ -16,8 +16,10 @@ import kotlin.time.Duration
 public class ScrollbarStyle(
     public val colors: ScrollbarColors,
     public val metrics: ScrollbarMetrics,
-    public val trackClickBehavior: TrackClickBehavior,
-    public val scrollbarVisibility: ScrollbarVisibility,
+    public val appearAnimationDuration: Duration,
+    public val disappearAnimationDuration: Duration,
+    public val expandAnimationDuration: Duration,
+    public val lingerDuration: Duration,
 ) {
     public companion object
 }
@@ -48,25 +50,6 @@ public class ScrollbarMetrics(
     public val trackPaddingExpanded: PaddingValues,
 ) {
     public companion object
-}
-
-public sealed interface ScrollbarVisibility {
-    public data object AlwaysVisible : ScrollbarVisibility
-
-    @GenerateDataFunctions
-    public class WhenScrolling(
-        public val appearAnimationDuration: Duration,
-        public val disappearAnimationDuration: Duration,
-        public val expandAnimationDuration: Duration,
-        public val lingerDuration: Duration,
-    ) : ScrollbarVisibility {
-        public companion object
-    }
-}
-
-public enum class TrackClickBehavior {
-    NextPage,
-    JumpToSpot,
 }
 
 public val LocalScrollbarStyle: ProvidableCompositionLocal<ScrollbarStyle> =

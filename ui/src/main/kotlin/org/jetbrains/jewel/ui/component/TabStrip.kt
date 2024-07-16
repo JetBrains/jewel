@@ -50,19 +50,19 @@ public fun TabStrip(
     ) {
         Row(
             modifier =
-            Modifier
-                .horizontalScroll(scrollState)
-                .scrollable(
-                    orientation = Orientation.Vertical,
-                    reverseDirection =
-                    ScrollableDefaults.reverseDirection(
-                        LocalLayoutDirection.current,
-                        Orientation.Vertical,
-                        false,
-                    ),
-                    state = scrollState,
-                    interactionSource = remember { MutableInteractionSource() },
-                ).selectableGroup(),
+                Modifier
+                    .horizontalScroll(scrollState)
+                    .scrollable(
+                        orientation = Orientation.Vertical,
+                        reverseDirection =
+                            ScrollableDefaults.reverseDirection(
+                                LocalLayoutDirection.current,
+                                Orientation.Vertical,
+                                false,
+                            ),
+                        state = scrollState,
+                        interactionSource = remember { MutableInteractionSource() },
+                    ).selectableGroup(),
         ) {
             tabs.forEach { TabImpl(isActive = tabStripState.isActive, tabData = it) }
         }

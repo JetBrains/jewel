@@ -33,9 +33,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
@@ -168,8 +168,8 @@ internal fun InputField(
     val scrollbarHeight = remember { mutableIntStateOf(0) }
     LaunchedEffect(clickPosition) {
         if (scrollbarHeight.value == 0) return@LaunchedEffect
-        val jumpTo = (scrollState.maxValue * clickPosition) / scrollbarHeight.value
-        scrollState.animateScrollTo(jumpTo)
+        val jumpTo = scrollbarHeight.value + scrollState.viewportSize
+        scrollState.scrollTo(jumpTo)
     }
 
     Box(
@@ -205,7 +205,7 @@ internal fun InputField(
                 modifier =
                     Modifier
                         .align(Alignment.CenterEnd)
-                        .graphicsLayer { alpha = animatedAlpha }
+                        .alpha(animatedAlpha)
                         .animateContentSize()
                         .width(if (trackIsVisible) expandedWidth else 12.dp)
                         .background(if (trackIsVisible) trackColor else Color.Transparent)
