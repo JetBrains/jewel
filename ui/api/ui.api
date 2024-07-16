@@ -573,7 +573,7 @@ public final class org/jetbrains/jewel/ui/component/SegmentedControlButtonData {
 	public fun <init> (ZLkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function0;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getContent ()Lkotlin/jvm/functions/Function4;
-	public final fun getOnClick ()Lkotlin/jvm/functions/Function0;
+	public final fun getOnSelect ()Lkotlin/jvm/functions/Function0;
 	public final fun getSelected ()Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
