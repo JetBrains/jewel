@@ -3,6 +3,7 @@ package org.jetbrains.jewel.intui.standalone.styling
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -16,21 +17,19 @@ import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 public fun SegmentedControlStyle.Companion.light(
     colors: SegmentedControlColors = SegmentedControlColors.light(),
     metrics: SegmentedControlMetrics = SegmentedControlMetrics.defaults(),
-): SegmentedControlStyle =
-    SegmentedControlStyle(colors, metrics)
+): SegmentedControlStyle = SegmentedControlStyle(colors, metrics)
 
 @Composable
 public fun SegmentedControlStyle.Companion.dark(
     colors: SegmentedControlColors = SegmentedControlColors.dark(),
     metrics: SegmentedControlMetrics = SegmentedControlMetrics.defaults(),
-): SegmentedControlStyle =
-    SegmentedControlStyle(colors, metrics)
+): SegmentedControlStyle = SegmentedControlStyle(colors, metrics)
 
 @Composable
 public fun SegmentedControlColors.Companion.light(
     border: Brush = SolidColor(IntUiLightTheme.colors.grey(9)),
-    borderDisabled: Brush = SolidColor(IntUiLightTheme.colors.grey(9)),
-    borderFocused: Brush = SolidColor(IntUiLightTheme.colors.blue(8)),
+    borderDisabled: Brush = SolidColor(IntUiLightTheme.colors.grey(11)),
+    borderFocused: Brush = SolidColor(Color.Transparent),
     borderPressed: Brush = border,
     borderHovered: Brush = border,
 ): SegmentedControlColors =
@@ -45,8 +44,8 @@ public fun SegmentedControlColors.Companion.light(
 @Composable
 public fun SegmentedControlColors.Companion.dark(
     border: Brush = SolidColor(IntUiDarkTheme.colors.grey(5)),
-    borderDisabled: Brush = SolidColor(IntUiDarkTheme.colors.grey(5)),
-    borderFocused: Brush = SolidColor(IntUiDarkTheme.colors.blue(4)),
+    borderDisabled: Brush = SolidColor(IntUiDarkTheme.colors.grey(4)),
+    borderFocused: Brush = SolidColor(IntUiDarkTheme.colors.grey(2)),
     borderPressed: Brush = border,
     borderHovered: Brush = border,
 ): SegmentedControlColors =
@@ -59,7 +58,6 @@ public fun SegmentedControlColors.Companion.dark(
     )
 
 public fun SegmentedControlMetrics.Companion.defaults(
-    cornerSize: CornerSize = CornerSize(4.dp),
-    borderWidth: Dp = 1.dp
-): SegmentedControlMetrics =
-    SegmentedControlMetrics(cornerSize, borderWidth)
+    cornerSize: CornerSize = CornerSize(3.dp),
+    borderWidth: Dp = 1.dp,
+): SegmentedControlMetrics = SegmentedControlMetrics(cornerSize, borderWidth)

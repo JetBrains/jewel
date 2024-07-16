@@ -867,16 +867,14 @@ private fun readScrollbarStyle(isDark: Boolean) =
     )
 
 private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
-    val normalBackground = SolidColor(retrieveColorOrUnspecified("Component.background"))
     val selectedBackground = SolidColor(JBUI.CurrentTheme.SegmentedButton.SELECTED_BUTTON_COLOR.toComposeColor())
 
-    val normalContent = retrieveColorOrUnspecified("Button.foreground")
-    val disabledContent = retrieveColorOrUnspecified("Component.infoForeground")
+    val normalBorder =
+        listOf(
+            JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
+            JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
+        ).createVerticalBrush()
 
-    val normalBorder = listOf(
-        JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
-        JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
-    ).createVerticalBrush()
     val selectedDisabledBorder =
         listOf(
             JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
@@ -885,24 +883,14 @@ private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
 
     val colors =
         SegmentedControlButtonColors(
-            background = normalBackground,
-            backgroundDisabled = normalBackground,
+            background = SolidColor(Color.Transparent),
             backgroundPressed = selectedBackground,
             backgroundHovered = SolidColor(JBUI.CurrentTheme.ActionButton.hoverBackground().toComposeColor()),
             backgroundSelected = selectedBackground,
-            backgroundSelectedDisabled = SolidColor(Color.Transparent),
             backgroundSelectedFocused = SolidColor(JBUI.CurrentTheme.SegmentedButton.FOCUSED_SELECTED_BUTTON_COLOR.toComposeColor()),
-            content = normalContent,
-            contentDisabled = disabledContent,
-            contentPressed = normalContent,
-            contentHovered = normalContent,
-            contentSelected = normalContent,
-            contentSelectedDisabled = disabledContent,
-            contentSelectedFocused = normalContent,
+            content = retrieveColorOrUnspecified("Button.foreground"),
+            contentDisabled = retrieveColorOrUnspecified("Label.disabledForeground"),
             border = normalBorder,
-            borderDisabled = SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
-            borderPressed = normalBorder,
-            borderHovered = normalBorder,
             borderSelected = normalBorder,
             borderSelectedDisabled = selectedDisabledBorder,
             borderSelectedFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
@@ -916,17 +904,17 @@ private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
                 cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
                 segmentedButtonPadding = PaddingValues(horizontal = 14.dp),
                 minSize = DpSize(minimumSize.width, minimumSize.height),
-                segmentedButtonContentSpacing = 4.dp,
                 borderWidth = DarculaUIUtil.LW.dp,
             ),
     )
 }
 
 private fun readSegmentedControlStyle(): SegmentedControlStyle {
-    val normalBorder = listOf(
-        JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-        JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
-    ).createVerticalBrush()
+    val normalBorder =
+        listOf(
+            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+        ).createVerticalBrush()
 
     val colors =
         SegmentedControlColors(
@@ -934,7 +922,7 @@ private fun readSegmentedControlStyle(): SegmentedControlStyle {
             borderDisabled = SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
             borderPressed = normalBorder,
             borderHovered = normalBorder,
-            borderFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor())
+            borderFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
         )
 
     return SegmentedControlStyle(
@@ -1234,7 +1222,7 @@ private fun readIconButtonStyle(): IconButtonStyle =
                 cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
                 borderWidth = 1.dp,
                 padding = PaddingValues(0.dp),
-                minSize = DpSize(16.dp, 16.dp),
+                minSize = DpSize(24.dp, 24.dp),
             ),
         colors =
             IconButtonColors(
@@ -1243,9 +1231,9 @@ private fun readIconButtonStyle(): IconButtonStyle =
                 backgroundDisabled = Color.Unspecified,
                 backgroundSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
                 backgroundSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
-                backgroundFocused = Color.Unspecified,
                 backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
                 backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
+                backgroundFocused = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
                 border = Color.Unspecified,
                 borderDisabled = Color.Unspecified,
                 borderSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),

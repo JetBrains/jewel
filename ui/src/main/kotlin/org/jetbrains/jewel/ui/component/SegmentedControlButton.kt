@@ -25,7 +25,6 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.zIndex
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -34,11 +33,9 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Selected
 import org.jetbrains.jewel.foundation.state.SelectableComponentState
-import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
-import org.jetbrains.jewel.ui.theme.segmentedControlButtonStyle
 
 public interface SegmentedControlButtonScope
 
@@ -46,14 +43,14 @@ internal class SegmentedControlButtonScopeContainer : SegmentedControlButtonScop
 
 @Composable
 internal fun SegmentedControlButton(
-    modifier: Modifier = Modifier,
     isActive: Boolean,
     isFocused: Boolean,
     enabled: Boolean,
     segmentedControlButtonData: SegmentedControlButtonData,
+    style: SegmentedControlButtonStyle,
+    textStyle: TextStyle,
+    modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: SegmentedControlButtonStyle = JewelTheme.segmentedControlButtonStyle,
-    textStyle: TextStyle = JewelTheme.defaultTextStyle,
 ) {
     var buttonState by remember {
         mutableStateOf(
@@ -64,8 +61,9 @@ internal fun SegmentedControlButton(
             )
         )
     }
-    remember(segmentedControlButtonData.selected) {
-        buttonState = buttonState.copy(selected = segmentedControlButtonData.selected, active = isActive, enabled = enabled)
+    remember(segmentedControlButtonData.selected, enabled, isActive) {
+        buttonState =
+            buttonState.copy(selected = segmentedControlButtonData.selected, active = isActive, enabled = enabled)
     }
 
     LaunchedEffect(interactionSource) {
@@ -95,23 +93,20 @@ internal fun SegmentedControlButton(
                 enabled = enabled,
                 indication = null,
                 role = Role.Button,
-                onClick = segmentedControlButtonData.onClick,
+                onClick = segmentedControlButtonData.onSelect,
             )
-            .zIndex(if (buttonState.isSelected) 1f else 0f)
             .background(backgroundColor, shape)
-            .border(Stroke.Alignment.Outside, style.metrics.borderWidth, borderColor, shape),
+            .border(alignment = Stroke.Alignment.Center, width = style.metrics.borderWidth, borderColor, shape),
         propagateMinConstraints = true,
     ) {
-        val contentColor by colors.contentFor(buttonState, isFocused)
+        val contentColor by colors.contentFor(buttonState)
 
         CompositionLocalProvider(
             LocalContentColor provides contentColor.takeOrElse { LocalContentColor.current },
             LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
         ) {
             Row(
-                Modifier
-                    .focusProperties { canFocus = false }
-                    .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
+                Modifier.defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
                     .padding(style.metrics.segmentedButtonPadding),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
