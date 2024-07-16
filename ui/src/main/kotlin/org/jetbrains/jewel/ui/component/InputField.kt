@@ -3,6 +3,7 @@ package org.jetbrains.jewel.ui.component
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -25,6 +26,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -34,6 +36,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -48,6 +52,7 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.InputFieldStyle
 import org.jetbrains.jewel.ui.focusOutline
@@ -126,7 +131,7 @@ internal fun InputField(
     var visible by remember { mutableStateOf(scrollState.value > 0) }
     val hovered = interactionSource.collectIsHoveredAsState().value
     var trackIsVisible by remember { mutableStateOf(false) }
-    val fadeOutDuration = 2.seconds
+    val fadeOutDuration = 2.seconds // TODO Hardcoded values suck
 
     val animatedAlpha by animateFloatAsState(
         targetValue = if (visible) 1.0f else 0f,
@@ -152,6 +157,16 @@ internal fun InputField(
                 visible = false
             }
         }
+    }
+
+    var clickPosition by remember { mutableIntStateOf(0) }
+    val scrollbarWidth = remember { mutableIntStateOf(0) }
+    val scrollbarHeight = remember { mutableIntStateOf(0) }
+    LaunchedEffect(clickPosition) {
+        if (scrollbarHeight.value == 0) return@LaunchedEffect
+
+        val jumpTo = (scrollState.maxValue * clickPosition) / scrollbarHeight.value
+        scrollState.animateScrollTo(jumpTo)
     }
 
     Box(
@@ -195,7 +210,15 @@ internal fun InputField(
                             scrollState,
                             orientation = Orientation.Vertical,
                             reverseDirection = true,
-                        ),
+                        ).pointerInput(Unit) {
+                            detectTapGestures { offset ->
+                                JewelLogger.getInstance("IF").debug("Offset: $offset")
+                                clickPosition = offset.y.toInt()
+                            }
+                        }.onSizeChanged {
+                            scrollbarWidth.value = it.width
+                            scrollbarHeight.value = it.height
+                        },
                 interactionSource = interactionSource,
                 adapter = adapter,
             )
