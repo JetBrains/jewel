@@ -120,6 +120,9 @@ import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldColors
 import org.jetbrains.jewel.ui.component.styling.TextFieldMetrics
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
+import org.jetbrains.jewel.ui.component.styling.ToggleColors
+import org.jetbrains.jewel.ui.component.styling.ToggleMetrics
+import org.jetbrains.jewel.ui.component.styling.ToggleStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipColors
 import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
@@ -247,6 +250,7 @@ internal fun createBridgeComponentStyling(
         textFieldStyle = textFieldStyle,
         tooltipStyle = readTooltipStyle(),
         undecoratedDropdownStyle = readUndecoratedDropdownStyle(menuStyle, dropdownTextStyle),
+        toggleStyle = readToggleStyle(),
     )
 }
 
@@ -808,6 +812,20 @@ private fun readRadioButtonStyle(): RadioButtonStyle {
                         .takeOrElse { metrics.iconContentGap },
             ),
         icons = RadioButtonIcons(radioButton = PathIconKey("${iconsBasePath}radio.svg")),
+    )
+}
+
+private fun readToggleStyle(): ToggleStyle {
+    //TODO
+    return ToggleStyle(
+        colors = ToggleColors(
+            contentDisabled = Color.Gray,
+            content = Color.Green
+        ),
+        metrics = ToggleMetrics(cornerSize = CornerSize(2.dp), PaddingValues(
+            horizontal = 4.dp,
+            vertical = 2.dp
+        ))
     )
 }
 

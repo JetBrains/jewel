@@ -39,6 +39,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalSegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSliderStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextFieldStyle
+import org.jetbrains.jewel.ui.component.styling.LocalToggleStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTooltipStyle
 import org.jetbrains.jewel.ui.component.styling.LocalUndecoratedDropdownStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
@@ -50,6 +51,7 @@ import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
+import org.jetbrains.jewel.ui.component.styling.ToggleStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 
 @Stable
@@ -79,6 +81,7 @@ public class DefaultComponentStyling(
     public val textFieldStyle: TextFieldStyle,
     public val tooltipStyle: TooltipStyle,
     public val undecoratedDropdownStyle: DropdownStyle,
+    public val toggleStyle: ToggleStyle,
 ) : ComponentStyling {
     @Composable
     override fun styles(): Array<out ProvidedValue<*>> =
@@ -108,5 +111,6 @@ public class DefaultComponentStyling(
             LocalTextFieldStyle provides textFieldStyle,
             LocalTooltipStyle provides tooltipStyle,
             LocalUndecoratedDropdownStyle provides undecoratedDropdownStyle,
+            LocalToggleStyle provides toggleStyle,
         )
 }

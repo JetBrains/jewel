@@ -43,6 +43,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalSegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSliderStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextFieldStyle
+import org.jetbrains.jewel.ui.component.styling.LocalToggleStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTooltipStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
@@ -53,6 +54,7 @@ import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
+import org.jetbrains.jewel.ui.component.styling.ToggleStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 
 public val JewelTheme.Companion.colorPalette: ThemeColorPalette
@@ -183,6 +185,11 @@ public val JewelTheme.Companion.sliderStyle: SliderStyle
     @Composable
     @ReadOnlyComposable
     get() = LocalSliderStyle.current
+
+public val JewelTheme.Companion.toggleStyle: ToggleStyle
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalToggleStyle.current
 
 @Composable
 public fun BaseJewelTheme(

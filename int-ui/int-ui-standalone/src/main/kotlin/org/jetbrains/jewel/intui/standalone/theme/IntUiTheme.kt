@@ -42,6 +42,7 @@ import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
+import org.jetbrains.jewel.ui.component.styling.ToggleStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.LocalNewUiChecker
 import org.jetbrains.jewel.ui.painter.LocalPainterHintsProvider
@@ -128,6 +129,7 @@ public fun ComponentStyling.dark(
     textFieldStyle: TextFieldStyle = TextFieldStyle.dark(),
     tooltipStyle: TooltipStyle = TooltipStyle.dark(),
     undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.dark(),
+    toggleStyle: ToggleStyle = ToggleStyle.dark()
 ): ComponentStyling =
     with(
         DefaultComponentStyling(
@@ -155,6 +157,7 @@ public fun ComponentStyling.dark(
             textFieldStyle = textFieldStyle,
             tooltipStyle = tooltipStyle,
             undecoratedDropdownStyle = undecoratedDropdownStyle,
+            toggleStyle = toggleStyle
         ),
     )
 
@@ -184,6 +187,7 @@ public fun ComponentStyling.light(
     textFieldStyle: TextFieldStyle = TextFieldStyle.light(),
     tooltipStyle: TooltipStyle = TooltipStyle.light(),
     undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.light(),
+    toggleStyle: ToggleStyle = ToggleStyle.light()
 ): ComponentStyling =
     with(
         DefaultComponentStyling(
@@ -211,6 +215,7 @@ public fun ComponentStyling.light(
             textFieldStyle = textFieldStyle,
             tooltipStyle = tooltipStyle,
             undecoratedDropdownStyle = undecoratedDropdownStyle,
+            toggleStyle = toggleStyle
         ),
     )
 
