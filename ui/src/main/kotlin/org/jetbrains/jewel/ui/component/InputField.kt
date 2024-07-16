@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.ui.component
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
@@ -205,10 +206,10 @@ internal fun InputField(
                     Modifier
                         .align(Alignment.CenterEnd)
                         .graphicsLayer { alpha = animatedAlpha }
-                        .thenIf(trackIsVisible) {
-                            width(expandedWidth)
-                                .background(trackColor)
-                        }.scrollable(
+                        .animateContentSize()
+                        .width(if (trackIsVisible) expandedWidth else 12.dp)
+                        .background(if (trackIsVisible) trackColor else Color.Transparent)
+                        .scrollable(
                             scrollState,
                             orientation = Orientation.Vertical,
                             reverseDirection = true,
