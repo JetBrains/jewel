@@ -52,7 +52,6 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
-import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.InputFieldStyle
 import org.jetbrains.jewel.ui.focusOutline
@@ -128,10 +127,13 @@ internal fun InputField(
         }
     }
 
+    // Visibility, hover and fade out
     var visible by remember { mutableStateOf(scrollState.value > 0) }
     val hovered = interactionSource.collectIsHoveredAsState().value
     var trackIsVisible by remember { mutableStateOf(false) }
     val fadeOutDuration = 2.seconds // TODO Hardcoded values suck
+    val expandedWidth = 16.dp
+    val trackColor = Color(0xFFcfd2e1)
 
     val animatedAlpha by animateFloatAsState(
         targetValue = if (visible) 1.0f else 0f,
@@ -159,12 +161,12 @@ internal fun InputField(
         }
     }
 
+    // Click to scroll
     var clickPosition by remember { mutableIntStateOf(0) }
     val scrollbarWidth = remember { mutableIntStateOf(0) }
     val scrollbarHeight = remember { mutableIntStateOf(0) }
     LaunchedEffect(clickPosition) {
         if (scrollbarHeight.value == 0) return@LaunchedEffect
-
         val jumpTo = (scrollState.maxValue * clickPosition) / scrollbarHeight.value
         scrollState.animateScrollTo(jumpTo)
     }
@@ -204,15 +206,14 @@ internal fun InputField(
                         .align(Alignment.CenterEnd)
                         .graphicsLayer { alpha = animatedAlpha }
                         .thenIf(trackIsVisible) {
-                            width(16.dp) // TODO Hardcoded values suck
-                                .background(Color(0xFFcfd2e1)) // TODO Hardcoded values suck
+                            width(expandedWidth)
+                                .background(trackColor)
                         }.scrollable(
                             scrollState,
                             orientation = Orientation.Vertical,
                             reverseDirection = true,
                         ).pointerInput(Unit) {
                             detectTapGestures { offset ->
-                                JewelLogger.getInstance("IF").debug("Offset: $offset")
                                 clickPosition = offset.y.toInt()
                             }
                         }.onSizeChanged {
