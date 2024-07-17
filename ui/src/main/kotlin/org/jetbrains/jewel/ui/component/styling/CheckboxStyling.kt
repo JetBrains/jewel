@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.CheckboxState
-import org.jetbrains.jewel.ui.painter.PainterProvider
+import org.jetbrains.jewel.ui.icon.IconKey
 
 @Immutable
 @GenerateDataFunctions
@@ -61,7 +61,7 @@ public class CheckboxMetrics(
 
 @Immutable
 @GenerateDataFunctions
-public class CheckboxIcons(public val checkbox: PainterProvider) {
+public class CheckboxIcons(public val checkbox: IconKey) {
     public companion object
 }
 

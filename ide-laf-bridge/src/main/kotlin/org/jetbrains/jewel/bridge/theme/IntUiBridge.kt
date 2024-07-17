@@ -26,7 +26,6 @@ import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
-import org.jetbrains.jewel.bridge.bridgePainterProvider
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.isNewUiTheme
@@ -99,6 +98,12 @@ import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarColors
 import org.jetbrains.jewel.ui.component.styling.ScrollbarMetrics
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonColors
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonMetrics
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlColors
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlMetrics
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.SliderColors
 import org.jetbrains.jewel.ui.component.styling.SliderMetrics
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
@@ -117,6 +122,8 @@ import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipColors
 import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
+import org.jetbrains.jewel.ui.icon.PathIconKey
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -232,6 +239,8 @@ internal fun createBridgeComponentStyling(
         outlinedButtonStyle = readOutlinedButtonStyle(),
         radioButtonStyle = readRadioButtonStyle(),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
+        segmentedControlButtonStyle = readSegmentedControlButtonStyle(),
+        segmentedControlStyle = readSegmentedControlStyle(),
         sliderStyle = readSliderStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
@@ -355,7 +364,7 @@ private fun readCheckboxStyle(): CheckboxStyle {
                 outlineOffset = DpOffset(2.5.dp, 1.5.dp), // Extrapolated from SVG
                 iconContentGap = 5.dp, // See DarculaCheckBoxUI#textIconGap
             ),
-        icons = CheckboxIcons(checkbox = bridgePainterProvider("${iconsBasePath}checkBox.svg")),
+        icons = CheckboxIcons(checkbox = PathIconKey("${iconsBasePath}checkBox.svg")),
     )
 }
 
@@ -470,7 +479,7 @@ private fun readDefaultDropdownStyle(
                 contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
                 borderWidth = DarculaUIUtil.LW.dp,
             ),
-        icons = DropdownIcons(chevronDown = bridgePainterProvider("general/chevron-down.svg")),
+        icons = DropdownIcons(chevronDown = AllIconsKeys.General.ChevronDown),
         textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
     )
@@ -519,7 +528,7 @@ private fun readUndecoratedDropdownStyle(
                 contentPadding = JBUI.CurrentTheme.MainToolbar.Dropdown.borderInsets().toPaddingValues(),
                 borderWidth = 0.dp,
             ),
-        icons = DropdownIcons(chevronDown = bridgePainterProvider("general/chevron-down.svg")),
+        icons = DropdownIcons(chevronDown = AllIconsKeys.General.ChevronDown),
         textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
     )
@@ -593,8 +602,8 @@ private fun readLinkStyle(linkTextStyle: TextStyle): LinkStyle {
             ),
         icons =
             LinkIcons(
-                dropdownChevron = bridgePainterProvider("general/chevron-down.svg"),
-                externalLink = bridgePainterProvider("ide/external_link_arrow.svg"),
+                dropdownChevron = AllIconsKeys.General.ChevronDown,
+                externalLink = AllIconsKeys.Ide.External_link_arrow,
             ),
         textStyles =
             LinkTextStyles(
@@ -657,7 +666,7 @@ private fun readMenuStyle(): MenuStyle {
                 contentPadding = PaddingValues(horizontal = 0.dp, vertical = 6.dp),
                 offset = DpOffset(0.dp, 2.dp),
                 shadowSize = 12.dp,
-                borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 2.dp },
+                borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
                 itemMetrics =
                     MenuItemMetrics(
                         selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
@@ -684,7 +693,7 @@ private fun readMenuStyle(): MenuStyle {
                     ),
                 submenuMetrics = SubmenuMetrics(offset = DpOffset(0.dp, (-8).dp)),
             ),
-        icons = MenuIcons(submenuChevron = bridgePainterProvider("general/chevron-right.svg")),
+        icons = MenuIcons(submenuChevron = AllIconsKeys.General.ChevronRight),
     )
 }
 
@@ -710,7 +719,7 @@ private fun readRadioButtonStyle(): RadioButtonStyle {
                     retrieveIntAsDpOrUnspecified("RadioButton.textIconGap")
                         .takeOrElse { 4.dp },
             ),
-        icons = RadioButtonIcons(radioButton = bridgePainterProvider("${iconsBasePath}radio.svg")),
+        icons = RadioButtonIcons(radioButton = PathIconKey("${iconsBasePath}radio.svg")),
     )
 }
 
@@ -738,6 +747,74 @@ private fun readScrollbarStyle(isDark: Boolean) =
             ),
         hoverDuration = 300.milliseconds,
     )
+
+private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
+    val selectedBackground = SolidColor(JBUI.CurrentTheme.SegmentedButton.SELECTED_BUTTON_COLOR.toComposeColor())
+
+    val normalBorder =
+        listOf(
+            JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
+            JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
+        ).createVerticalBrush()
+
+    val selectedDisabledBorder =
+        listOf(
+            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+        ).createVerticalBrush()
+
+    val colors =
+        SegmentedControlButtonColors(
+            background = SolidColor(Color.Transparent),
+            backgroundPressed = selectedBackground,
+            backgroundHovered = SolidColor(JBUI.CurrentTheme.ActionButton.hoverBackground().toComposeColor()),
+            backgroundSelected = selectedBackground,
+            backgroundSelectedFocused = SolidColor(JBUI.CurrentTheme.SegmentedButton.FOCUSED_SELECTED_BUTTON_COLOR.toComposeColor()),
+            content = retrieveColorOrUnspecified("Button.foreground"),
+            contentDisabled = retrieveColorOrUnspecified("Label.disabledForeground"),
+            border = normalBorder,
+            borderSelected = normalBorder,
+            borderSelectedDisabled = selectedDisabledBorder,
+            borderSelectedFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
+        )
+
+    return SegmentedControlButtonStyle(
+        colors = colors,
+        metrics =
+            SegmentedControlButtonMetrics(
+                cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
+                segmentedButtonPadding = PaddingValues(horizontal = 14.dp),
+                minSize = DpSize(DarculaUIUtil.MINIMUM_WIDTH.dp, DarculaUIUtil.MINIMUM_HEIGHT.dp),
+                borderWidth = DarculaUIUtil.LW.dp,
+            ),
+    )
+}
+
+private fun readSegmentedControlStyle(): SegmentedControlStyle {
+    val normalBorder =
+        listOf(
+            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+        ).createVerticalBrush()
+
+    val colors =
+        SegmentedControlColors(
+            border = normalBorder,
+            borderDisabled = SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
+            borderPressed = normalBorder,
+            borderHovered = normalBorder,
+            borderFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
+        )
+
+    return SegmentedControlStyle(
+        colors = colors,
+        metrics =
+            SegmentedControlMetrics(
+                cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
+                borderWidth = DarculaUIUtil.LW.dp,
+            ),
+    )
+}
 
 private fun readSliderStyle(dark: Boolean): SliderStyle {
     // There are no values for sliders in IntUi, so we're essentially reusing the
@@ -857,11 +934,9 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
             elementBackgroundSelectedFocused = selectedElementBackground,
         )
 
-    val chevronCollapsed = bridgePainterProvider("general/chevron-right.svg")
-    val chevronExpanded = bridgePainterProvider("general/chevron-down.svg")
-
     val leftIndent = retrieveIntAsDpOrUnspecified("Tree.leftChildIndent").takeOrElse { 7.dp }
     val rightIndent = retrieveIntAsDpOrUnspecified("Tree.rightChildIndent").takeOrElse { 11.dp }
+
     return LazyTreeStyle(
         colors = colors,
         metrics =
@@ -875,10 +950,10 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
             ),
         icons =
             LazyTreeIcons(
-                chevronCollapsed = chevronCollapsed,
-                chevronExpanded = chevronExpanded,
-                chevronSelectedCollapsed = chevronCollapsed,
-                chevronSelectedExpanded = chevronExpanded,
+                chevronCollapsed = AllIconsKeys.General.ChevronRight,
+                chevronExpanded = AllIconsKeys.General.ChevronDown,
+                chevronSelectedCollapsed = AllIconsKeys.General.ChevronRight,
+                chevronSelectedExpanded = AllIconsKeys.General.ChevronDown,
             ),
     )
 }
@@ -921,7 +996,7 @@ private fun readDefaultTabStyle(): TabStyle {
                 tabContentSpacing = 4.dp,
                 tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
             ),
-        icons = TabIcons(close = bridgePainterProvider("expui/general/closeSmall.svg")),
+        icons = TabIcons(close = PathIconKey("expui/general/closeSmall.svg")),
         contentAlpha =
             TabContentAlpha(
                 iconNormal = 1f,
@@ -977,7 +1052,7 @@ private fun readEditorTabStyle(): TabStyle {
                     retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight")
                         .takeOrElse { 24.dp },
             ),
-        icons = TabIcons(close = bridgePainterProvider("expui/general/closeSmall.svg")),
+        icons = TabIcons(close = PathIconKey("expui/general/closeSmall.svg")),
         contentAlpha =
             TabContentAlpha(
                 iconNormal = .7f,
@@ -1027,7 +1102,7 @@ private fun readIconButtonStyle(): IconButtonStyle =
                 cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
                 borderWidth = 1.dp,
                 padding = PaddingValues(0.dp),
-                minSize = DpSize(16.dp, 16.dp),
+                minSize = DpSize(24.dp, 24.dp),
             ),
         colors =
             IconButtonColors(
@@ -1036,9 +1111,9 @@ private fun readIconButtonStyle(): IconButtonStyle =
                 backgroundDisabled = Color.Unspecified,
                 backgroundSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
                 backgroundSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
-                backgroundFocused = Color.Unspecified,
                 backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
                 backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
+                backgroundFocused = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
                 border = Color.Unspecified,
                 borderDisabled = Color.Unspecified,
                 borderSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),

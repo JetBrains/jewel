@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    sarif(projects.decoratedWindow)
     sarif(projects.foundation)
     sarif(projects.ideLafBridge)
     sarif(projects.intUi.intUiDecoratedWindow)
@@ -14,6 +15,7 @@ dependencies {
     sarif(projects.markdown.ideLafBridgeStyling)
     sarif(projects.markdown.intUiStandaloneStyling)
     sarif(projects.samples.idePlugin)
+    sarif(projects.samples.standalone)
     sarif(projects.ui)
 }
 

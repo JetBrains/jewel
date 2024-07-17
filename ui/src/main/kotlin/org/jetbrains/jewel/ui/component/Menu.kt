@@ -81,6 +81,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.ui.component.styling.MenuItemColors
 import org.jetbrains.jewel.ui.component.styling.MenuItemMetrics
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
+import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.painter.hints.Stateful
 import org.jetbrains.jewel.ui.theme.menuStyle
 
@@ -144,7 +145,7 @@ internal fun MenuContent(
 
     val selectableItems = remember { items.filterIsInstance<MenuSelectableItem>() }
 
-    val anyItemHasIcon = remember { selectableItems.any { it.iconResource != null } }
+    val anyItemHasIcon = remember { selectableItems.any { it.iconKey != null } }
     val anyItemHasKeybinding = remember { selectableItems.any { it.keybinding != null } }
 
     val localMenuManager = LocalMenuManager.current
@@ -195,7 +196,7 @@ private fun ShowMenuItem(
                 enabled = item.isEnabled,
                 canShowIcon = canShowIcon,
                 canShowKeybinding = canShowKeybinding,
-                iconResource = item.iconResource,
+                iconKey = item.iconKey,
                 iconClass = item.iconClass,
                 keybinding = item.keybinding,
                 content = item.content,
@@ -218,8 +219,8 @@ private fun ShowMenuItem(
 public interface MenuScope {
     public fun selectableItem(
         selected: Boolean,
-        iconResource: String? = null,
-        iconClass: Class<*> = this::class.java,
+        iconKey: IconKey? = null,
+        iconClass: Class<*>? = iconKey?.let { it::class.java },
         keybinding: Set<Char>? = null,
         onClick: () -> Unit,
         enabled: Boolean = true,
@@ -271,8 +272,8 @@ private fun (MenuScope.() -> Unit).asList() =
             object : MenuScope {
                 override fun selectableItem(
                     selected: Boolean,
-                    iconResource: String?,
-                    iconClass: Class<*>,
+                    iconKey: IconKey?,
+                    iconClass: Class<*>?,
                     keybinding: Set<Char>?,
                     onClick: () -> Unit,
                     enabled: Boolean,
@@ -282,7 +283,7 @@ private fun (MenuScope.() -> Unit).asList() =
                         MenuSelectableItem(
                             isSelected = selected,
                             isEnabled = enabled,
-                            iconResource = iconResource,
+                            iconKey = iconKey,
                             iconClass = iconClass,
                             keybinding = keybinding,
                             onClick = onClick,
@@ -315,8 +316,8 @@ private interface MenuItem {
 private data class MenuSelectableItem(
     val isSelected: Boolean,
     val isEnabled: Boolean,
-    val iconResource: String?,
-    val iconClass: Class<*>,
+    val iconKey: IconKey?,
+    val iconClass: Class<*>?,
     val keybinding: Set<Char>?,
     val onClick: () -> Unit = {},
     override val content: @Composable () -> Unit,
@@ -356,8 +357,8 @@ internal fun MenuItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    iconResource: String?,
-    iconClass: Class<*>,
+    iconKey: IconKey?,
+    iconClass: Class<*>?,
     keybinding: Set<Char>?,
     canShowIcon: Boolean,
     canShowKeybinding: Boolean,
@@ -438,11 +439,11 @@ internal fun MenuItem(
             ) {
                 if (canShowIcon) {
                     val iconModifier = Modifier.size(style.metrics.itemMetrics.iconSize)
-                    if (iconResource != null) {
+                    if (iconKey != null) {
                         Icon(
-                            resource = iconResource,
+                            key = iconKey,
                             contentDescription = null,
-                            iconClass = iconClass,
+                            iconClass = iconClass ?: iconKey.javaClass,
                             modifier = iconModifier,
                         )
                     } else {
@@ -553,12 +554,12 @@ public fun MenuSubmenuItem(
 
                 Box(Modifier.weight(1f)) { content() }
 
-                val chevronPainter by style.icons.submenuChevron.getPainter(Stateful(itemState))
                 Icon(
-                    painter = chevronPainter,
+                    key = style.icons.submenuChevron,
                     tint = itemColors.iconTintFor(itemState).value,
                     contentDescription = null,
                     modifier = Modifier.size(style.metrics.itemMetrics.iconSize),
+                    hint = Stateful(itemState)
                 )
             }
         }

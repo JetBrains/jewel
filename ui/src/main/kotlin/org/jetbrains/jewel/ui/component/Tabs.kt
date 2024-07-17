@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.ui.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.HoverInteraction
@@ -44,13 +43,16 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Selected
 import org.jetbrains.jewel.foundation.state.SelectableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
+import org.jetbrains.jewel.ui.icon.IconKey
+import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.hints.Stateful
 import org.jetbrains.jewel.ui.theme.defaultTabStyle
 import org.jetbrains.jewel.ui.theme.editorTabStyle
 
 public interface TabContentScope {
     @Composable
-    public fun Modifier.tabContentAlpha(state: TabState): Modifier = alpha(JewelTheme.editorTabStyle.contentAlpha.contentFor(state).value)
+    public fun Modifier.tabContentAlpha(state: TabState): Modifier =
+        alpha(JewelTheme.editorTabStyle.contentAlpha.contentFor(state).value)
 }
 
 internal class TabContentScopeContainer : TabContentScope
@@ -66,6 +68,22 @@ public fun TabContentScope.SimpleTabContent(
         state = state,
         modifier = modifier,
         icon = icon?.let { { Icon(painter = icon, contentDescription = null) } },
+        label = { Text(label) },
+    )
+}
+
+@Composable
+public fun TabContentScope.SimpleTabContent(
+    label: String,
+    state: TabState,
+    modifier: Modifier = Modifier,
+    iconKey: IconKey? = null,
+    vararg painterHints: PainterHint,
+) {
+    SimpleTabContent(
+        state = state,
+        modifier = modifier,
+        icon = iconKey?.let { { Icon(key = iconKey, contentDescription = null, hints = painterHints) } },
         label = { Text(label) },
     )
 }
@@ -184,8 +202,8 @@ internal fun TabImpl(
                     }
                 }
 
-                val closePainter by tabStyle.icons.close.getPainter(Stateful(closeButtonState))
-                Image(
+                Icon(
+                    key = tabStyle.icons.close,
                     modifier =
                     Modifier
                         .clickable(
@@ -195,8 +213,8 @@ internal fun TabImpl(
                             role = Role.Button,
                         )
                         .size(16.dp),
-                    painter = closePainter,
                     contentDescription = "Close tab",
+                    hint = Stateful(closeButtonState),
                 )
             } else if (tabData.closable) {
                 Spacer(Modifier.size(16.dp))

@@ -12,6 +12,7 @@ import org.jetbrains.jewel.ui.painter.hints.HiDpi
 import org.jetbrains.jewel.ui.painter.hints.PathOverride
 import org.jetbrains.jewel.ui.util.fromRGBAHexStringOrNull
 
+/** Provides the default [PainterHint]s to use to load images. */
 public class StandalonePainterHintsProvider(
     theme: ThemeDefinition,
 ) : PalettePainterHintsProvider(

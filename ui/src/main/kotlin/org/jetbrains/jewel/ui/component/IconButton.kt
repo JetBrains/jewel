@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.semantics.Role
 import org.jetbrains.jewel.foundation.modifier.onActivated
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask
@@ -31,12 +32,14 @@ import org.jetbrains.jewel.foundation.state.SelectableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.theme.iconButtonStyle
+import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable
 public fun IconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    focusable: Boolean = true,
     style: IconButtonStyle = JewelTheme.iconButtonStyle,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable (BoxScope.(IconButtonState) -> Unit),
@@ -56,6 +59,7 @@ public fun IconButton(
             indication = null,
         ),
         style = style,
+        focusable = focusable,
         interactionSource = interactionSource,
         content = content,
     )
@@ -67,6 +71,7 @@ public fun SelectableIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    focusable: Boolean = true,
     style: IconButtonStyle = JewelTheme.iconButtonStyle,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable (BoxScope.(IconButtonState) -> Unit),
@@ -96,6 +101,7 @@ public fun SelectableIconButton(
                 buttonState.value = buttonState.value.copy(active = it)
             },
         style = style,
+        focusable = focusable,
         interactionSource = interactionSource,
         content = content,
     )
@@ -106,6 +112,7 @@ private fun IconButtonImpl(
     state: MutableState<IconButtonState>,
     modifier: Modifier,
     style: IconButtonStyle,
+    focusable: Boolean,
     interactionSource: MutableInteractionSource,
     content: @Composable (BoxScope.(IconButtonState) -> Unit),
 ) {
@@ -121,7 +128,7 @@ private fun IconButtonImpl(
 
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
-                is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
+                is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = focusable)
                 is FocusInteraction.Unfocus -> buttonState = buttonState.copy(focused = false)
             }
         }
@@ -131,7 +138,9 @@ private fun IconButtonImpl(
     val border by style.colors.borderFor(buttonState)
     Box(
         modifier =
-        modifier.defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
+        Modifier
+            .thenIf(!focusable) { focusProperties { canFocus = false } }
+            .then(modifier).defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
             .padding(style.metrics.padding)
             .background(background, shape)
             .border(style.metrics.borderWidth, border, shape),

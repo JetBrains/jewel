@@ -15,6 +15,7 @@ public final class org/jetbrains/jewel/bridge/BridgePainterHintsProvider$Compani
 
 public final class org/jetbrains/jewel/bridge/BridgeResourceResolverKt {
 	public static final fun bridgePainterProvider (Ljava/lang/String;)Lorg/jetbrains/jewel/ui/painter/ResourcePainterProvider;
+	public static final fun bridgePainterProvider (Lorg/jetbrains/jewel/ui/icon/IconKey;)Lorg/jetbrains/jewel/ui/painter/ResourcePainterProvider;
 }
 
 public final class org/jetbrains/jewel/bridge/BridgeUtilsKt {
@@ -85,6 +86,10 @@ public final class org/jetbrains/jewel/bridge/TypographyKt {
 public final class org/jetbrains/jewel/bridge/actionSystem/ProvideDataKt {
 	public static final fun ComponentDataProviderBridge (Ljavax/swing/JComponent;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 	public static final fun provideData (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
+}
+
+public final class org/jetbrains/jewel/bridge/icon/IntelliJIconKeyKt {
+	public static final fun fromPlatformIcon (Lorg/jetbrains/jewel/ui/icon/IntelliJIconKey$Companion;Ljavax/swing/Icon;)Lorg/jetbrains/jewel/ui/icon/IconKey;
 }
 
 public final class org/jetbrains/jewel/bridge/theme/BridgeGlobalColorsKt {
