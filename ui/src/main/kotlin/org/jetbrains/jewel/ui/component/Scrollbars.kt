@@ -21,6 +21,7 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.v2.ScrollbarAdapter
@@ -69,7 +70,84 @@ import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-public fun TextAreaVerticalScrollbar(
+public fun MyVerticalScrollbar(
+    scrollState: LazyListState,
+    modifier: Modifier = Modifier,
+    reverseLayout: Boolean = false,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    style: ScrollbarStyle = JewelTheme.scrollbarStyle,
+) {
+    // Click to scroll
+    var clickPosition by remember { mutableIntStateOf(0) }
+    val scrollbarWidth = remember { mutableIntStateOf(0) }
+    val scrollbarHeight = remember { mutableIntStateOf(0) }
+    LaunchedEffect(clickPosition) {
+//        if (scrollbarHeight.value == 0) return@LaunchedEffect
+//        val jumpTo = (scrollState.maxValue * clickPosition) / scrollbarHeight.value
+//        scrollState.scrollToItem(jumpTo)
+    }
+
+    // Visibility, hover and fade out
+    var visible by remember { mutableStateOf(scrollState.canScrollBackward) }
+    val hovered = interactionSource.collectIsHoveredAsState().value
+    var trackIsVisible by remember { mutableStateOf(false) }
+
+    val animatedAlpha by animateFloatAsState(
+        targetValue = if (visible) 1.0f else 0f,
+        label = "alpha",
+    )
+
+    LaunchedEffect(scrollState.isScrollInProgress, hovered) {
+        when {
+            scrollState.isScrollInProgress -> visible = true
+            hovered -> {
+                visible = true
+                trackIsVisible = true
+            }
+
+            !hovered -> {
+                delay(style.lingerDuration)
+                trackIsVisible = false
+                visible = false
+            }
+
+            !scrollState.isScrollInProgress && !hovered -> {
+                delay(style.lingerDuration)
+                visible = false
+            }
+        }
+    }
+
+    val adapter = rememberScrollbarAdapter(scrollState = scrollState)
+
+    ScrollbarImpl(
+        adapter = adapter,
+        modifier = modifier
+            .alpha(animatedAlpha)
+            .animateContentSize()
+            .width(if (trackIsVisible) style.metrics.thumbThicknessExpanded else 12.dp)
+            .background(if (trackIsVisible) style.colors.trackBackground else Color.Transparent)
+            .scrollable(
+                scrollState,
+                orientation = Orientation.Vertical,
+                reverseDirection = true,
+            ).pointerInput(Unit) {
+                detectTapGestures { offset ->
+                    clickPosition = offset.y.toInt()
+                }
+            }.onSizeChanged {
+                scrollbarWidth.value = it.width
+                scrollbarHeight.value = it.height
+            },
+        reverseLayout = reverseLayout,
+        style = style,
+        interactionSource = interactionSource,
+        isVertical = true,
+    )
+}
+
+@Composable
+public fun MyVerticalScrollbar(
     scrollState: ScrollState,
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
@@ -87,7 +165,7 @@ public fun TextAreaVerticalScrollbar(
     }
 
     // Visibility, hover and fade out
-    var visible by remember { mutableStateOf(scrollState.value > 0) }
+    var visible by remember { mutableStateOf(scrollState.canScrollBackward) }
     val hovered = interactionSource.collectIsHoveredAsState().value
     var trackIsVisible by remember { mutableStateOf(false) }
     val fadeOutDuration = 2.seconds // TODO Hardcoded values suck

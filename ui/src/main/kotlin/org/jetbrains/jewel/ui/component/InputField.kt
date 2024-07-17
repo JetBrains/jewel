@@ -139,7 +139,7 @@ internal fun InputField(
         )
 
         if (showScrollbar)
-            TextAreaVerticalScrollbar(
+            MyVerticalScrollbar(
                 modifier = Modifier.align(Alignment.CenterEnd),
                 interactionSource = interactionSource,
                 scrollState = scrollState,
