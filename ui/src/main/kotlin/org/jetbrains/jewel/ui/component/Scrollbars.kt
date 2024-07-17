@@ -1,24 +1,33 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.awaitHorizontalDragOrCancellation
 import androidx.compose.foundation.gestures.awaitVerticalDragOrCancellation
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.drag
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.v2.ScrollbarAdapter
 import androidx.compose.foundation.v2.maxScrollOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -30,13 +39,16 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.constrainHeight
@@ -54,6 +66,87 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.theme.scrollbarStyle
 import org.jetbrains.jewel.ui.util.thenIf
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.seconds
+
+@Composable
+public fun TextAreaVerticalScrollbar(
+    scrollState: ScrollState,
+    modifier: Modifier = Modifier,
+    reverseLayout: Boolean = false,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    style: ScrollbarStyle = JewelTheme.scrollbarStyle,
+) {
+    // Click to scroll
+    var clickPosition by remember { mutableIntStateOf(0) }
+    val scrollbarWidth = remember { mutableIntStateOf(0) }
+    val scrollbarHeight = remember { mutableIntStateOf(0) }
+    LaunchedEffect(clickPosition) {
+        if (scrollbarHeight.value == 0) return@LaunchedEffect
+        val jumpTo = scrollbarHeight.value + scrollState.viewportSize
+        scrollState.scrollTo(jumpTo)
+    }
+
+    // Visibility, hover and fade out
+    var visible by remember { mutableStateOf(scrollState.value > 0) }
+    val hovered = interactionSource.collectIsHoveredAsState().value
+    var trackIsVisible by remember { mutableStateOf(false) }
+    val fadeOutDuration = 2.seconds // TODO Hardcoded values suck
+    val expandedWidth = 16.dp
+    val trackColor = Color(0xFFcfd2e1)
+
+    val animatedAlpha by animateFloatAsState(
+        targetValue = if (visible) 1.0f else 0f,
+        label = "alpha",
+    )
+
+    LaunchedEffect(scrollState.isScrollInProgress, hovered) {
+        when {
+            scrollState.isScrollInProgress -> visible = true
+            hovered -> {
+                visible = true
+                trackIsVisible = true
+            }
+
+            !hovered -> {
+                delay(fadeOutDuration)
+                trackIsVisible = false
+                visible = false
+            }
+
+            !scrollState.isScrollInProgress && !hovered -> {
+                delay(fadeOutDuration)
+                visible = false
+            }
+        }
+    }
+
+    val adapter = rememberScrollbarAdapter(scrollState = scrollState)
+
+    ScrollbarImpl(
+        adapter = adapter,
+        modifier = modifier
+            .alpha(animatedAlpha)
+            .animateContentSize()
+            .width(if (trackIsVisible) expandedWidth else 12.dp)
+            .background(if (trackIsVisible) trackColor else Color.Transparent)
+            .scrollable(
+                scrollState,
+                orientation = Orientation.Vertical,
+                reverseDirection = true,
+            ).pointerInput(Unit) {
+                detectTapGestures { offset ->
+                    clickPosition = offset.y.toInt()
+                }
+            }.onSizeChanged {
+                scrollbarWidth.value = it.width
+                scrollbarHeight.value = it.height
+            },
+        reverseLayout = reverseLayout,
+        style = style,
+        interactionSource = interactionSource,
+        isVertical = true,
+    )
+}
 
 @Composable
 public fun VerticalScrollbar(

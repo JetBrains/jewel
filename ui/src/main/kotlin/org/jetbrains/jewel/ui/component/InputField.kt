@@ -1,20 +1,12 @@
 package org.jetbrains.jewel.ui.component
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -27,24 +19,18 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isSpecified
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.delay
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -58,7 +44,6 @@ import org.jetbrains.jewel.ui.component.styling.InputFieldStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.util.thenIf
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
 internal fun InputField(
@@ -128,64 +113,18 @@ internal fun InputField(
         }
     }
 
-    // Visibility, hover and fade out
-    var visible by remember { mutableStateOf(scrollState.value > 0) }
-    val hovered = interactionSource.collectIsHoveredAsState().value
-    var trackIsVisible by remember { mutableStateOf(false) }
-    val fadeOutDuration = 2.seconds // TODO Hardcoded values suck
-    val expandedWidth = 16.dp
-    val trackColor = Color(0xFFcfd2e1)
-
-    val animatedAlpha by animateFloatAsState(
-        targetValue = if (visible) 1.0f else 0f,
-        label = "alpha",
-    )
-
-    LaunchedEffect(scrollState.isScrollInProgress, hovered) {
-        when {
-            scrollState.isScrollInProgress -> visible = true
-            hovered -> {
-                visible = true
-                trackIsVisible = true
-            }
-
-            !hovered -> {
-                delay(fadeOutDuration)
-                trackIsVisible = false
-                visible = false
-            }
-
-            !scrollState.isScrollInProgress && !hovered -> {
-                delay(fadeOutDuration)
-                visible = false
-            }
-        }
-    }
-
-    // Click to scroll
-    var clickPosition by remember { mutableIntStateOf(0) }
-    val scrollbarWidth = remember { mutableIntStateOf(0) }
-    val scrollbarHeight = remember { mutableIntStateOf(0) }
-    LaunchedEffect(clickPosition) {
-        if (scrollbarHeight.value == 0) return@LaunchedEffect
-        val jumpTo = scrollbarHeight.value + scrollState.viewportSize
-        scrollState.scrollTo(jumpTo)
-    }
-
     Box(
-        modifier =
-            modifier
-                .then(backgroundModifier)
-                .then(borderModifier)
-                .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
-                .outline(inputState, outline, shape, Stroke.Alignment.Center),
+        modifier = modifier
+            .then(backgroundModifier)
+            .then(borderModifier)
+            .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
+            .outline(inputState, outline, shape, Stroke.Alignment.Center),
     ) {
         BasicTextField(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.CenterStart)
-                    .thenIf(canScroll) { padding(end = 12.dp) }, // TODO Hardcoded values suck
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterStart)
+                .thenIf(canScroll) { padding(end = 12.dp) },
             state = state,
             enabled = enabled,
             readOnly = readOnly,
@@ -198,33 +137,11 @@ internal fun InputField(
             scrollState = scrollState,
         )
 
-        if (visible) {
-            val adapter = rememberScrollbarAdapter(scrollState = scrollState)
-
-            VerticalScrollbar(
-                modifier =
-                    Modifier
-                        .align(Alignment.CenterEnd)
-                        .alpha(animatedAlpha)
-                        .animateContentSize()
-                        .width(if (trackIsVisible) expandedWidth else 12.dp)
-                        .background(if (trackIsVisible) trackColor else Color.Transparent)
-                        .scrollable(
-                            scrollState,
-                            orientation = Orientation.Vertical,
-                            reverseDirection = true,
-                        ).pointerInput(Unit) {
-                            detectTapGestures { offset ->
-                                clickPosition = offset.y.toInt()
-                            }
-                        }.onSizeChanged {
-                            scrollbarWidth.value = it.width
-                            scrollbarHeight.value = it.height
-                        },
-                interactionSource = interactionSource,
-                adapter = adapter,
-            )
-        }
+        TextAreaVerticalScrollbar(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            interactionSource = interactionSource,
+            scrollState = scrollState,
+        )
     }
 }
 
@@ -233,8 +150,8 @@ internal fun InputField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     enabled: Boolean,
-    readOnly: Boolean,
     outline: Outline,
+    readOnly: Boolean,
     undecorated: Boolean,
     visualTransformation: VisualTransformation,
     keyboardOptions: KeyboardOptions,
@@ -288,11 +205,11 @@ internal fun InputField(
     BasicTextField(
         value = value,
         modifier =
-            modifier
-                .then(backgroundModifier)
-                .then(borderModifier)
-                .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
-                .outline(inputState, outline, shape, Stroke.Alignment.Center),
+        modifier
+            .then(backgroundModifier)
+            .then(borderModifier)
+            .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
+            .outline(inputState, outline, shape, Stroke.Alignment.Center),
         onValueChange = onValueChange,
         enabled = enabled,
         readOnly = readOnly,
@@ -360,11 +277,11 @@ public value class InputFieldState(
         ): InputFieldState =
             InputFieldState(
                 state =
-                    (if (enabled) Enabled else 0UL) or
-                        (if (focused) Focused else 0UL) or
-                        (if (hovered) Hovered else 0UL) or
-                        (if (pressed) Pressed else 0UL) or
-                        (if (active) Active else 0UL),
+                (if (enabled) Enabled else 0UL) or
+                    (if (focused) Focused else 0UL) or
+                    (if (hovered) Hovered else 0UL) or
+                    (if (pressed) Pressed else 0UL) or
+                    (if (active) Active else 0UL),
             )
     }
 }

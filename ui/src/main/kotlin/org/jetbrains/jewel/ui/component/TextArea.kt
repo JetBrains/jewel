@@ -44,9 +44,7 @@ public fun TextArea(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     outline: Outline = Outline.None,
-    placeholder:
-        @Composable()
-        (() -> Unit)? = null,
+    placeholder: @Composable() (() -> Unit)? = null,
     undecorated: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     maxLines: Int = Int.MAX_VALUE,
