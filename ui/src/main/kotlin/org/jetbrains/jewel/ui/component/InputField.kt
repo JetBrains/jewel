@@ -60,6 +60,7 @@ internal fun InputField(
     textStyle: TextStyle,
     modifier: Modifier = Modifier,
     decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
+    showScrollbar: Boolean = true,
 ) {
     var inputState by remember(interactionSource) {
         mutableStateOf(InputFieldState.of(enabled = enabled))
@@ -124,7 +125,7 @@ internal fun InputField(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.CenterStart)
-                .thenIf(canScroll) { padding(end = 12.dp) },
+                .thenIf(canScroll && showScrollbar) { padding(end = 12.dp) },
             state = state,
             enabled = enabled,
             readOnly = readOnly,
@@ -137,11 +138,12 @@ internal fun InputField(
             scrollState = scrollState,
         )
 
-        TextAreaVerticalScrollbar(
-            modifier = Modifier.align(Alignment.CenterEnd),
-            interactionSource = interactionSource,
-            scrollState = scrollState,
-        )
+        if (showScrollbar)
+            TextAreaVerticalScrollbar(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                interactionSource = interactionSource,
+                scrollState = scrollState,
+            )
     }
 }
 

@@ -51,6 +51,7 @@ public fun TextArea(
     style: TextAreaStyle = JewelTheme.textAreaStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    showScrollbar: Boolean = true,
 ) {
     val minSize = style.metrics.minSize
     InputField(
@@ -66,15 +67,17 @@ public fun TextArea(
         style = style,
         textStyle = textStyle,
         interactionSource = interactionSource,
-    ) { innerTextField, _ ->
-        TextAreaDecorationBox(
-            innerTextField = innerTextField,
-            contentPadding = style.metrics.contentPadding,
-            placeholderTextColor = style.colors.placeholder,
-            placeholder = if (state.text.isEmpty()) placeholder else null,
-            textStyle = textStyle,
-        )
-    }
+        decorationBox = { innerTextField, _ ->
+            TextAreaDecorationBox(
+                innerTextField = innerTextField,
+                contentPadding = style.metrics.contentPadding,
+                placeholderTextColor = style.colors.placeholder,
+                placeholder = if (state.text.isEmpty()) placeholder else null,
+                textStyle = textStyle,
+            )
+        },
+        showScrollbar = showScrollbar,
+    )
 }
 
 /**

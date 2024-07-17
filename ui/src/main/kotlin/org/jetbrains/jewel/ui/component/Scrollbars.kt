@@ -82,8 +82,8 @@ public fun TextAreaVerticalScrollbar(
     val scrollbarHeight = remember { mutableIntStateOf(0) }
     LaunchedEffect(clickPosition) {
         if (scrollbarHeight.value == 0) return@LaunchedEffect
-        val jumpTo = scrollbarHeight.value + scrollState.viewportSize
-        scrollState.scrollTo(jumpTo)
+        val jumpTo = (scrollState.maxValue * clickPosition) / scrollbarHeight.value
+        scrollState.animateScrollTo(jumpTo)
     }
 
     // Visibility, hover and fade out
