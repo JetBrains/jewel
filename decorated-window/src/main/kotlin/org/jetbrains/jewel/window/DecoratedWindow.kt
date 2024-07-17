@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.graphics.RectangleShape
@@ -25,10 +26,12 @@ import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
+import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
 import com.jetbrains.JBR
@@ -46,7 +49,11 @@ import java.awt.event.WindowEvent
 @Composable
 public fun DecoratedWindow(
     onCloseRequest: () -> Unit,
-    state: WindowState = rememberWindowState(),
+    state: WindowState = rememberWindowState(
+        width = 1000.dp,
+        height = 1000.dp,
+        position = WindowPosition(Alignment.Center)
+    ),
     visible: Boolean = true,
     title: String = "",
     icon: Painter? = null,
