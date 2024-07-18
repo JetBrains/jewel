@@ -238,7 +238,7 @@ private fun RowScope.ColumnOne() {
 
             Divider(Orientation.Vertical, modifier = Modifier.width(10.dp))
 
-            Row() {
+            Row(modifier = Modifier.background(Color(0xff1e1f22))) {
                 val scrollState = rememberLazyListState()
                 LazyColumn(
                     modifier = Modifier.width(300.dp),
@@ -246,7 +246,9 @@ private fun RowScope.ColumnOne() {
                     state = scrollState,
                 ) {
                     items(LIST_ITEMS) { item ->
-                        Column(modifier = Modifier.height(48.dp)) {
+                        Column(
+                            modifier = Modifier.height(48.dp)
+                        ) {
                             Text(
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 text = item
