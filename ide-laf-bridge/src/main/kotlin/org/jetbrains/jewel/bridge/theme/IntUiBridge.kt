@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.takeOrElse
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ide.ui.laf.intellij.IdeaPopupMenuUI
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.colors.ColorKey
 import com.intellij.openapi.editor.colors.EditorFontType
 import com.intellij.openapi.util.registry.Registry
@@ -49,6 +48,7 @@ import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
 import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.foundation.theme.ThemeIconData
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.ui.DefaultComponentStyling
 import org.jetbrains.jewel.ui.component.styling.ButtonColors
@@ -128,7 +128,7 @@ import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
 
-private val logger = Logger.getInstance("JewelIntUiBridge")
+private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
 internal val uiDefaults
     get() = UIManager.getDefaults()
@@ -178,12 +178,15 @@ public fun retrieveConsoleTextStyle(): TextStyle {
     )
 }
 
+private val isDark: Boolean
+    get() = !JBColor.isBright()
+
 internal fun createBridgeThemeDefinition(
     textStyle: TextStyle,
     editorTextStyle: TextStyle,
     consoleTextStyle: TextStyle,
 ): ThemeDefinition {
-    val isDark = !JBColor.isBright()
+    val isDark = isDark
 
     logger.debug("Obtaining theme definition from Swing...")
 
@@ -697,7 +700,7 @@ private fun readMenuStyle(): MenuStyle {
         )
 
     return MenuStyle(
-        isDark = !JBColor.isBright(),
+        isDark = isDark,
         colors = colors,
         metrics =
             MenuMetrics(
@@ -706,7 +709,7 @@ private fun readMenuStyle(): MenuStyle {
                 contentPadding = PaddingValues(horizontal = 0.dp, vertical = 6.dp),
                 offset = DpOffset(0.dp, 2.dp),
                 shadowSize = 12.dp,
-                borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
+                borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 2.dp },
                 itemMetrics =
                     MenuItemMetrics(
                         selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
@@ -812,27 +815,46 @@ private object NewUiRadioButtonMetrics : BridgeRadioButtonMetrics {
 
 private fun readScrollbarStyle(isDark: Boolean) =
     ScrollbarStyle(
-        colors =
-            ScrollbarColors(
-                // See ScrollBarPainter.THUMB_OPAQUE_BACKGROUND
-                thumbBackground =
-                    retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbColor")
-                        .let { if (it.alpha == 0f) Color.Unspecified else it } // See https://github.com/JetBrains/jewel/issues/259
-                        .takeOrElse { if (isDark) Color(0x59808080) else Color(0x33000000) },
-                // See ScrollBarPainter.THUMB_OPAQUE_HOVERED_BACKGROUND
-                thumbBackgroundHovered =
-                    retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
-                        .let { if (it.alpha == 0f) Color.Unspecified else it } // See https://github.com/JetBrains/jewel/issues/259
-                        .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
-            ),
-        metrics =
-            ScrollbarMetrics(
-                thumbCornerSize = CornerSize(100),
-                thumbThickness = 8.dp,
-                minThumbLength = 20.dp,
-                trackPadding = PaddingValues(2.dp),
-            ),
-        hoverDuration = 300.milliseconds,
+        colors = ScrollbarColors(
+            // See https://github.com/JetBrains/jewel/issues/259
+            // Reference: com.intellij.ui.components.ScrollBarPainter
+            thumbBackground = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbColor")
+                .let { if (it.alpha == 0f) Color.Unspecified else it }
+                .takeOrElse { if (isDark) Color(0x00808080) else Color(0x00000000) },
+            thumbBackgroundHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
+                .let { if (it.alpha == 0f) Color.Unspecified else it }
+                .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
+            thumbBackgroundPressed = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
+                .let { if (it.alpha == 0f) Color.Unspecified else it }
+                .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
+            thumbBorder = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbBorderColor")
+                .let { if (it.alpha == 0f) Color.Unspecified else it }
+                .takeOrElse { if (isDark) Color(0x00262626) else Color(0x00000000) },
+            thumbBorderHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbBorderColor")
+                .let { if (it.alpha == 0f) Color.Unspecified else it }
+                .takeOrElse { if (isDark) Color(0x8C262626) else Color(0x80000000) },
+            thumbBorderPressed = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbBorderColor")
+                .let { if (it.alpha == 0f) Color.Unspecified else it }
+                .takeOrElse { if (isDark) Color(0x8C262626) else Color(0x80000000) },
+            trackBackground = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.trackColor")
+                .let { if (it.alpha == 0f) Color.Unspecified else it }
+                .takeOrElse { if (isDark) Color(0x8C262626) else Color(0x80000000) },
+            trackBackgroundHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverTrackColor")
+                .let { if (it.alpha == 0f) Color.Unspecified else it }
+                .takeOrElse { if (isDark) Color(0x8C262626) else Color(0x80000000) },
+        ),
+        metrics = ScrollbarMetrics(
+            thumbCornerSize = CornerSize(100),
+            thumbThickness = 8.dp,
+            minThumbLength = 20.dp,
+            trackPadding = PaddingValues(2.dp),
+            thumbThicknessExpanded = 16.dp,
+            trackPaddingExpanded = PaddingValues(horizontal = 4.dp),
+        ),
+        appearAnimationDuration = 125.milliseconds,
+        disappearAnimationDuration = 125.milliseconds,
+        expandAnimationDuration = 125.milliseconds,
+        lingerDuration = 700.milliseconds,
     )
 
 private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
@@ -1082,18 +1104,19 @@ private fun readDefaultTabStyle(): TabStyle {
             ),
         icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
         contentAlpha =
-            TabContentAlpha(
-                iconNormal = 1f,
-                iconDisabled = 1f,
-                iconPressed = 1f,
-                iconHovered = 1f,
-                iconSelected = 1f,
-                contentNormal = 1f,
-                contentDisabled = 1f,
-                contentPressed = 1f,
-                contentHovered = 1f,
-                contentSelected = 1f,
-            ),,
+        TabContentAlpha(
+            iconNormal = 1f,
+            iconDisabled = 1f,
+            iconPressed = 1f,
+            iconHovered = 1f,
+            iconSelected = 1f,
+            contentNormal = 1f,
+            contentDisabled = 1f,
+            contentPressed = 1f,
+            contentHovered = 1f,
+            contentSelected = 1f,
+        ),
+        scrollbarStyle = readScrollbarStyle(isDark),
     )
 }
 
@@ -1125,31 +1148,32 @@ private fun readEditorTabStyle(): TabStyle {
     return TabStyle(
         colors = colors,
         metrics =
-            TabMetrics(
-                underlineThickness =
-                    retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight")
-                        .takeOrElse { 2.dp },
-                tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
-                closeContentGap = 4.dp,
-                tabContentSpacing = 4.dp,
-                tabHeight =
-                    retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight")
-                        .takeOrElse { 24.dp },
-            ),
+        TabMetrics(
+            underlineThickness =
+            retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight")
+                .takeOrElse { 2.dp },
+            tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
+            closeContentGap = 4.dp,
+            tabContentSpacing = 4.dp,
+            tabHeight =
+            retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight")
+                .takeOrElse { 24.dp },
+        ),
         icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
         contentAlpha =
-            TabContentAlpha(
-                iconNormal = .7f,
-                iconDisabled = .7f,
-                iconPressed = 1f,
-                iconHovered = 1f,
-                iconSelected = 1f,
-                contentNormal = .7f,
-                contentDisabled = .7f,
-                contentPressed = 1f,
-                contentHovered = 1f,
-                contentSelected = 1f,
-            ),,
+        TabContentAlpha(
+            iconNormal = .7f,
+            iconDisabled = .7f,
+            iconPressed = 1f,
+            iconHovered = 1f,
+            iconSelected = 1f,
+            contentNormal = .7f,
+            contentDisabled = .7f,
+            contentPressed = 1f,
+            contentHovered = 1f,
+            contentSelected = 1f,
+        ),
+        scrollbarStyle = readScrollbarStyle(isDark),
     )
 }
 

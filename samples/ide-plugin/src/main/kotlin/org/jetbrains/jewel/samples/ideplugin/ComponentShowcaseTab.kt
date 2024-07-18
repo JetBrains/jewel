@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -55,6 +58,7 @@ import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconActionButton
 import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.LazyTree
+import org.jetbrains.jewel.ui.component.MyVerticalScrollbar
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.PlatformIcon
 import org.jetbrains.jewel.ui.component.RadioButtonRow
@@ -71,6 +75,7 @@ import org.jetbrains.jewel.ui.painter.hints.Badge
 import org.jetbrains.jewel.ui.painter.hints.Size
 import org.jetbrains.jewel.ui.painter.hints.Stroke
 import org.jetbrains.jewel.ui.theme.colorPalette
+import java.util.Locale
 
 @Composable
 internal fun ComponentShowcaseTab() {
@@ -79,12 +84,12 @@ internal fun ComponentShowcaseTab() {
     val scrollState = rememberScrollState()
     Row(
         modifier =
-            Modifier
-                .trackComponentActivation(LocalComponent.current)
-                .fillMaxSize()
-                .background(bgColor)
-                .verticalScroll(scrollState)
-                .padding(16.dp),
+        Modifier
+            .trackComponentActivation(LocalComponent.current)
+            .fillMaxSize()
+            .background(bgColor)
+            .verticalScroll(scrollState)
+            .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         ColumnOne()
@@ -224,11 +229,35 @@ private fun RowScope.ColumnOne() {
         var sliderValue by remember { mutableFloatStateOf(.15f) }
         Slider(sliderValue, { sliderValue = it }, steps = 5)
 
-        val textFieldState = rememberTextFieldState(ANDROID_IPSUM)
-        TextArea(
-            state = textFieldState,
-            modifier = Modifier.size(300.dp),
-        )
+        Row(modifier = Modifier.fillMaxWidth().height(200.dp)) {
+            val textFieldState = rememberTextFieldState(ANDROID_IPSUM)
+            TextArea(
+                state = textFieldState,
+                modifier = Modifier.size(300.dp),
+            )
+
+            Divider(Orientation.Vertical, modifier = Modifier.width(10.dp))
+
+            Row() {
+                val scrollState = rememberLazyListState()
+                LazyColumn(
+                    modifier = Modifier.width(300.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    state = scrollState,
+                ) {
+                    items(LIST_ITEMS) { item ->
+                        Column(modifier = Modifier.height(48.dp)) {
+                            Text(
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                                text = item
+                            )
+                            Divider(orientation = Orientation.Horizontal, color = Color.Gray)
+                        }
+                    }
+                }
+                MyVerticalScrollbar(scrollState)
+            }
+        }
     }
 }
 
@@ -397,7 +426,7 @@ private fun MarkdownExample() {
     }
 }
 
-private val ANDROID_IPSUM =
+private const val ANDROID_IPSUM =
     "Jetpack Compose dolor sit amet, viewBinding consectetur adipiscing elit, sed do eiusmod tempor incididunt" +
         " ut unitTest et dolore magna aliqua. Dependency injection enim ad minim veniam, quis nostrud Dagger-Hilt " +
         "ullamco laboris nisi ut aliquip ex ea Lottie animation consequat. Retrofit irure dolor in reprehenderit in" +
@@ -412,3 +441,11 @@ private val ANDROID_IPSUM =
         " dataBinding compilerOptions consequat. Kotlin coroutine aute irure dolor in reprehenderit in ViewModel" +
         " velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat Room database non proident," +
         " sunt in culpa qui officia material design deserunt mollit anim id est laborum."
+
+private val LIST_ITEMS = ANDROID_IPSUM.split(",")
+    .map { lorem ->
+        lorem.trim()
+            .replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+            }
+    }
