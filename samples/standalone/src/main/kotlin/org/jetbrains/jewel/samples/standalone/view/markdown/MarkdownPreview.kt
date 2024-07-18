@@ -52,12 +52,12 @@ internal fun MarkdownPreview(
         remember(isDark) { if (isDark) MarkdownStyling.dark() else MarkdownStyling.light() }
 
     var markdownBlocks by remember { mutableStateOf(emptyList<MarkdownBlock>()) }
-    val extensions = listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension)
+    val extensions = remember { listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension) }
 
     // We are doing this here for the sake of simplicity.
     // In a real-world scenario you would be doing this outside your Composables,
     // potentially involving ViewModels, dependency injection, etc.
-    val processor = remember { MarkdownProcessor(extensions) }
+    val processor = remember { MarkdownProcessor(extensions, optimizeEdits = true) }
 
     LaunchedEffect(rawMarkdown) {
         // TODO you may want to debounce or drop on backpressure, in real usages. You should also not do this

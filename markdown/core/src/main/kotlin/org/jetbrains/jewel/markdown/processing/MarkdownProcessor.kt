@@ -19,33 +19,45 @@ import org.intellij.lang.annotations.Language
 import org.jetbrains.annotations.TestOnly
 import org.jetbrains.annotations.VisibleForTesting
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
+import org.jetbrains.jewel.foundation.InternalJewelApi
 import org.jetbrains.jewel.markdown.InlineMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock
 import org.jetbrains.jewel.markdown.MimeType
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
+import org.jetbrains.jewel.markdown.readInlineContent
 import org.jetbrains.jewel.markdown.rendering.DefaultInlineMarkdownRenderer
 import org.commonmark.node.ListBlock as CMListBlock
 
 /**
- * @param optimizeEdits Optional. Indicates whether the processing should
- *    only update the changed blocks by keeping a previous state in memory.
- *    Default is `true`, use `false` for immutable data.
+ * Reads raw Markdown strings and processes them into a list of
+ * [MarkdownBlock].
+ *
+ * @param extensions Extensions to use when processing the Markdown (e.g.,
+ *    to support parsing custom block-level Markdown).
+ * @param optimizeEdits Indicates whether the processing should only update
+ *    the changed blocks by keeping a previous state in memory. Default is
+ *    `false`; set this to `true` if this parser will be used in an editor
+ *    scenario, where the raw Markdown is only ever going to change
+ *    slightly but frequently (e.g., as the user types). Setting this to
+ *    `true` has a memory cost, and can be a performance regression if the
+ *    parse input is not always small variations of the same basic text.
+ *    When this is `true`, the instance of [MarkdownProcessor] is **not**
+ *    thread-safe!
+ * @param commonMarkParser The CommonMark [Parser] used to parse the
+ *    Markdown. By default it's a vanilla instance provided by the
+ *    [MarkdownParserFactory], but you can provide your own if you need to
+ *    customize the parser — e.g., to ignore certain tags. If
+ *    [optimizeEdits] is `true`, make sure you set
+ *    `includeSourceSpans(IncludeSourceSpans.BLOCKS)` on the parser.
  */
 @ExperimentalJewelApi
 public class MarkdownProcessor(
     private val extensions: List<MarkdownProcessorExtension> = emptyList(),
-    private val optimizeEdits: Boolean = true,
+    private val optimizeEdits: Boolean = false,
     private val commonMarkParser: Parser = MarkdownParserFactory.create(optimizeEdits, extensions),
 ) {
-    public constructor(
-        optimizeEdits: Boolean = true,
-        vararg extensions: MarkdownProcessorExtension,
-    ) : this(extensions.toList(), optimizeEdits)
-
-    private data class State(val lines: List<String>, val blocks: List<Block>, val indexes: List<Pair<Int, Int>>)
-
     private var currentState = State(emptyList(), emptyList(), emptyList())
 
     @TestOnly
@@ -58,47 +70,26 @@ public class MarkdownProcessor(
      * to an [androidx.compose.ui.text.AnnotatedString] by using
      * [DefaultInlineMarkdownRenderer.renderAsAnnotatedString].
      *
-     * The contents of [InlineMarkdown] is equivalent to the original, but
-     * normalized and simplified, and cleaned up as follows:
-     * * Replace HTML entities with the corresponding character (escaped, if it
-     *   is necessary)
-     * * Inline link and image references and omit the reference blocks
-     * * Use the destination as text for links when no text is set (escaped, if
-     *   it is necessary)
-     * * Normalize link titles to always use double quotes as enclosing
-     *   character
-     * * Normalize backticks in inline code runs
-     * * Convert links in image descriptions to plain text
-     * * Drop empty nodes with no visual representation (e.g., links with no
-     *   text and destination)
-     * * Remove unnecessary escapes
-     * * Escape non-formatting instances of ``*_`~<>[]()!`` for clarity
-     *
-     * The contents of code blocks aren't transformed in any way. HTML blocks
-     * get their outer whitespace trimmed, and so does inline HTML.
-     *
+     * @param rawMarkdown the raw Markdown string to process.
      * @see DefaultInlineMarkdownRenderer
      */
-    public fun processMarkdownDocument(
-        @Language("Markdown") rawMarkdown: String,
-    ): List<MarkdownBlock> {
-        return if (!optimizeEdits) {
-            textToBlocks(rawMarkdown)
-        } else {
+    public fun processMarkdownDocument(@Language("Markdown") rawMarkdown: String): List<MarkdownBlock> {
+        val blocks = if (optimizeEdits) {
             processWithQuickEdits(rawMarkdown)
-        }.mapNotNull { child ->
-            child.tryProcessMarkdownBlock()
+        } else {
+            parseRawMarkdown(rawMarkdown)
         }
+
+        return blocks.mapNotNull { child -> child.tryProcessMarkdownBlock() }
     }
 
     @VisibleForTesting
-    internal fun processWithQuickEdits(
-        @Language("Markdown") rawMarkdown: String,
-    ): List<Block> {
+    internal fun processWithQuickEdits(@Language("Markdown") rawMarkdown: String): List<Block> {
         val (previousLines, previousBlocks, previousIndexes) = currentState
         val newLines = rawMarkdown.lines()
         val nLinesDelta = newLines.size - previousLines.size
-        // find a block prior to the first one changed in case some elements merge during the update
+
+        // Find a block prior to the first one changed in case some elements merge during the update
         var firstBlock = 0
         var firstLine = 0
         var currFirstBlock = 0
@@ -115,7 +106,8 @@ public class MarkdownProcessor(
             currFirstBlock = i + 1
             currFirstLine = end + 1
         }
-        // find a block following the last one changed in case some elements merge during the update
+
+        // Find a block following the last one changed in case some elements merge during the update
         var lastBlock = previousBlocks.size
         var lastLine = previousLines.size
         var currLastBlock = lastBlock
@@ -133,12 +125,14 @@ public class MarkdownProcessor(
             currLastBlock = i
             currLastLine = begin
         }
+
         if (firstLine > lastLine + nLinesDelta) {
             // no change
             return previousBlocks
         }
+
         val updatedText = newLines.subList(firstLine, lastLine + nLinesDelta).joinToString("\n", postfix = "\n")
-        val updatedBlocks: List<Block> = textToBlocks(updatedText)
+        val updatedBlocks: List<Block> = parseRawMarkdown(updatedText)
         val updatedIndexes =
             updatedBlocks.map { node ->
                 // special case for a bug where LinkReferenceDefinition is a Node,
@@ -146,34 +140,37 @@ public class MarkdownProcessor(
                 if (node.sourceSpans.isEmpty()) {
                     node.sourceSpans = node.previous.sourceSpans
                 }
-                (node.sourceSpans.first().lineIndex + firstLine) to
-                    (node.sourceSpans.last().lineIndex + firstLine)
+
+                val firstLineIndex = node.sourceSpans.first().lineIndex + firstLine
+                val lastLineIndex = node.sourceSpans.last().lineIndex + firstLine
+
+                firstLineIndex to lastLineIndex
             }
+
         val suffixIndexes =
             previousIndexes.subList(lastBlock, previousBlocks.size).map {
                 (it.first + nLinesDelta) to (it.second + nLinesDelta)
             }
-        val newBlocks = (
+
+        val newBlocks =
             previousBlocks.subList(0, firstBlock) +
                 updatedBlocks +
                 previousBlocks.subList(lastBlock, previousBlocks.size)
-        )
+
         val newIndexes = previousIndexes.subList(0, firstBlock) + updatedIndexes + suffixIndexes
         currentState = State(newLines, newBlocks, newIndexes)
+
         return newBlocks
     }
 
-    private fun textToBlocks(strings: String): List<Block> {
+    private fun parseRawMarkdown(@Language("Markdown") rawMarkdown: String): List<Block> {
         val document =
-            commonMarkParser.parse(strings) as? Document
+            commonMarkParser.parse(rawMarkdown) as? Document
                 ?: error("This doesn't look like a Markdown document")
-        val updatedBlocks: List<Block> =
-            buildList {
-                document.forEachChild { child ->
-                    (child as? Block)?.let { add(it) }
-                }
-            }
-        return updatedBlocks
+
+        return buildList {
+            document.forEachChild { child -> if (child is Block) add(child) }
+        }
     }
 
     private fun Node.tryProcessMarkdownBlock(): MarkdownBlock? =
@@ -205,24 +202,34 @@ public class MarkdownProcessor(
 
     private fun FencedCodeBlock.toMarkdownCodeBlockOrNull(): CodeBlock.FencedCodeBlock =
         CodeBlock.FencedCodeBlock(
-            literal.trimEnd('\n'),
-            MimeType.Known.fromMarkdownLanguageName(info),
+            content = literal.trimEnd('\n'),
+            mimeType = MimeType.Known.fromMarkdownLanguageName(info),
         )
 
-    private fun IndentedCodeBlock.toMarkdownCodeBlockOrNull(): CodeBlock.IndentedCodeBlock = CodeBlock.IndentedCodeBlock(literal.trimEnd('\n'))
+    private fun IndentedCodeBlock.toMarkdownCodeBlockOrNull(): CodeBlock.IndentedCodeBlock =
+        CodeBlock.IndentedCodeBlock(literal.trimEnd('\n'))
 
     private fun BulletList.toMarkdownListOrNull(): ListBlock.UnorderedList? {
         val children = processListItems()
         if (children.isEmpty()) return null
 
-        return ListBlock.UnorderedList(children, isTight, marker)
+        return ListBlock.UnorderedList(
+            children = children,
+            isTight = isTight,
+            marker = marker
+        )
     }
 
     private fun OrderedList.toMarkdownListOrNull(): ListBlock.OrderedList? {
         val children = processListItems()
         if (children.isEmpty()) return null
 
-        return ListBlock.OrderedList(children, isTight, markerStartNumber, markerDelimiter)
+        return ListBlock.OrderedList(
+            children = children,
+            isTight = isTight,
+            startFrom = markerStartNumber,
+            delimiter = markerDelimiter
+        )
     }
 
     private fun CMListBlock.processListItems() =
@@ -233,12 +240,18 @@ public class MarkdownProcessor(
             }
         }
 
+    /**
+     * Processes the children of a CommonMark [Node]. This function is public
+     * so that it can be accessed from [MarkdownProcessorExtension]s, but
+     * should not be used in other scenarios.
+     */
+    @InternalJewelApi
     public fun processChildren(node: Node): List<MarkdownBlock> =
         buildList {
             node.forEachChild { child ->
                 val parsedBlock = child.tryProcessMarkdownBlock()
                 if (parsedBlock != null) {
-                    this.add(parsedBlock)
+                    add(parsedBlock)
                 }
             }
         }
@@ -254,6 +267,8 @@ public class MarkdownProcessor(
 
     private fun HtmlBlock.toMarkdownHtmlBlockOrNull(): MarkdownBlock.HtmlBlock? {
         if (literal.isBlank()) return null
-        return MarkdownBlock.HtmlBlock(content = literal.trimEnd('\n'))
+        return MarkdownBlock.HtmlBlock(literal.trimEnd('\n'))
     }
+
+    private data class State(val lines: List<String>, val blocks: List<Block>, val indexes: List<Pair<Int, Int>>)
 }
