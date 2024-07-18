@@ -84,12 +84,12 @@ internal fun ComponentShowcaseTab() {
     val scrollState = rememberScrollState()
     Row(
         modifier =
-        Modifier
-            .trackComponentActivation(LocalComponent.current)
-            .fillMaxSize()
-            .background(bgColor)
-            .verticalScroll(scrollState)
-            .padding(16.dp),
+            Modifier
+                .trackComponentActivation(LocalComponent.current)
+                .fillMaxSize()
+                .background(bgColor)
+                .verticalScroll(scrollState)
+                .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         ColumnOne()
@@ -247,11 +247,11 @@ private fun RowScope.ColumnOne() {
                 ) {
                     items(LIST_ITEMS) { item ->
                         Column(
-                            modifier = Modifier.height(48.dp)
+                            modifier = Modifier.height(48.dp),
                         ) {
                             Text(
                                 modifier = Modifier.padding(horizontal = 8.dp),
-                                text = item
+                                text = item,
                             )
                             Divider(orientation = Orientation.Horizontal, color = Color.Gray)
                         }
@@ -444,10 +444,11 @@ private const val ANDROID_IPSUM =
         " velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat Room database non proident," +
         " sunt in culpa qui officia material design deserunt mollit anim id est laborum."
 
-private val LIST_ITEMS = ANDROID_IPSUM.split(",")
-    .map { lorem ->
-        lorem.trim()
-            .replaceFirstChar {
-                if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-            }
-    }
+private val LIST_ITEMS =
+    ANDROID_IPSUM.split(",")
+        .map { lorem ->
+            lorem.trim()
+                .replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+                }
+        }

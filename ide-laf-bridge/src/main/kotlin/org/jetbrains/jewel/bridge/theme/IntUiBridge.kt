@@ -813,7 +813,8 @@ private object NewUiRadioButtonMetrics : BridgeRadioButtonMetrics {
     override val iconContentGap = 4.dp
 }
 
-private fun readScrollbarStyle(isDark: Boolean): ScrollbarStyle = ScrollbarStyle(
+private fun readScrollbarStyle(isDark: Boolean): ScrollbarStyle =
+    ScrollbarStyle(
     colors = provideScrollbarColors(isDark),
     metrics = provideScrollbarMetrics(),
         appearAnimationDuration = 125.milliseconds,
@@ -822,27 +823,29 @@ private fun readScrollbarStyle(isDark: Boolean): ScrollbarStyle = ScrollbarStyle
         lingerDuration = 700.milliseconds,
     )
 
-private fun provideScrollbarColors(isDark: Boolean) = when {
-    hostOs.isMacOS -> {
-        when {
-            isDark -> ScrollbarColors.MacDark()
-            else -> ScrollbarColors.MacLight()
+private fun provideScrollbarColors(isDark: Boolean) =
+    when {
+        hostOs.isMacOS -> {
+            when {
+                isDark -> ScrollbarColors.MacDark()
+                else -> ScrollbarColors.MacLight()
+            }
+        }
+
+        else -> {
+            when {
+                isDark -> ScrollbarColors.dark()
+                else -> ScrollbarColors.light()
+            }
         }
     }
 
-    else -> {
-        when {
-            isDark -> ScrollbarColors.dark()
-            else -> ScrollbarColors.light()
-        }
+private fun provideScrollbarMetrics(): ScrollbarMetrics =
+    when {
+        hostOs.isMacOS -> ScrollbarMetrics.macOs()
+        hostOs.isLinux -> ScrollbarMetrics.linux()
+        else -> ScrollbarMetrics.windows()
     }
-}
-
-private fun provideScrollbarMetrics(): ScrollbarMetrics = when {
-    hostOs.isMacOS -> ScrollbarMetrics.macOs()
-    hostOs.isLinux -> ScrollbarMetrics.linux()
-    else -> ScrollbarMetrics.windows()
-}
 
 private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
     val selectedBackground = SolidColor(JBUI.CurrentTheme.SegmentedButton.SELECTED_BUTTON_COLOR.toComposeColor())

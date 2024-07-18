@@ -21,14 +21,15 @@ public fun ScrollbarStyle.Companion.light(
     disappearAnimationDuration: Duration = 125.milliseconds,
     expandAnimationDuration: Duration = 125.milliseconds,
     lingerDuration: Duration = 700.milliseconds,
-): ScrollbarStyle = ScrollbarStyle(
-    colors,
-    metrics,
-    appearAnimationDuration,
-    disappearAnimationDuration,
-    expandAnimationDuration,
-    lingerDuration,
-)
+): ScrollbarStyle =
+    ScrollbarStyle(
+        colors,
+        metrics,
+        appearAnimationDuration,
+        disappearAnimationDuration,
+        expandAnimationDuration,
+        lingerDuration,
+    )
 
 @Composable
 public fun ScrollbarStyle.Companion.dark(
@@ -38,14 +39,15 @@ public fun ScrollbarStyle.Companion.dark(
     disappearAnimationDuration: Duration = 125.milliseconds,
     expandAnimationDuration: Duration = 125.milliseconds,
     lingerDuration: Duration = 700.milliseconds,
-): ScrollbarStyle = ScrollbarStyle(
-    colors,
-    metrics,
-    appearAnimationDuration,
-    disappearAnimationDuration,
-    expandAnimationDuration,
-    lingerDuration,
-)
+): ScrollbarStyle =
+    ScrollbarStyle(
+        colors,
+        metrics,
+        appearAnimationDuration,
+        disappearAnimationDuration,
+        expandAnimationDuration,
+        lingerDuration,
+    )
 
 @Composable
 public fun ScrollbarColors.Companion.light(
@@ -57,16 +59,17 @@ public fun ScrollbarColors.Companion.light(
     thumbBorderPressed: Color = Color(0x47595959),
     trackBackground: Color = Color(0x00808080),
     trackBackgroundHovered: Color = Color(0x00808080),
-): ScrollbarColors = ScrollbarColors(
-    thumbBackground,
-    thumbBackgroundHovered,
-    thumbBackgroundPressed,
-    thumbBorder,
-    thumbBorderHovered,
-    thumbBorderPressed,
-    trackBackground,
-    trackBackgroundHovered
-)
+): ScrollbarColors =
+    ScrollbarColors(
+        thumbBackground,
+        thumbBackgroundHovered,
+        thumbBackgroundPressed,
+        thumbBorder,
+        thumbBorderHovered,
+        thumbBorderPressed,
+        trackBackground,
+        trackBackgroundHovered,
+    )
 
 @Composable
 public fun ScrollbarColors.Companion.dark(
@@ -78,16 +81,17 @@ public fun ScrollbarColors.Companion.dark(
     thumbBorderPressed: Color = Color(0x59A6A6A6),
     trackBackground: Color = Color(0x00808080),
     trackBackgroundHovered: Color = Color(0x1A808080),
-): ScrollbarColors = ScrollbarColors(
-    thumbBackground,
-    thumbBackgroundHovered,
-    thumbBackgroundPressed,
-    thumbBorder,
-    thumbBorderHovered,
-    thumbBorderPressed,
-    trackBackground,
-    trackBackgroundHovered
-)
+): ScrollbarColors =
+    ScrollbarColors(
+        thumbBackground,
+        thumbBackgroundHovered,
+        thumbBackgroundPressed,
+        thumbBorder,
+        thumbBorderHovered,
+        thumbBorderPressed,
+        trackBackground,
+        trackBackgroundHovered,
+    )
 
 public fun ScrollbarMetrics.Companion.defaults(
     thumbCornerSize: CornerSize = CornerSize(100),
@@ -96,20 +100,22 @@ public fun ScrollbarMetrics.Companion.defaults(
     trackPadding: PaddingValues = PaddingValues(2.dp),
     thumbThicknessExpanded: Dp = 14.dp,
     trackPaddingExpanded: PaddingValues = PaddingValues(2.dp),
-): ScrollbarMetrics = ScrollbarMetrics(
-    thumbCornerSize,
-    thumbThickness,
-    thumbThicknessExpanded,
-    minThumbLength,
-    trackPadding,
-    trackPaddingExpanded
-)
+): ScrollbarMetrics =
+    ScrollbarMetrics(
+        thumbCornerSize,
+        thumbThickness,
+        thumbThicknessExpanded,
+        minThumbLength,
+        trackPadding,
+        trackPaddingExpanded,
+    )
 
-private fun provideScrollbarMetrics(): ScrollbarMetrics = when {
-    hostOs.isMacOS -> ScrollbarMetrics.macOs()
-    hostOs.isLinux -> ScrollbarMetrics.linux()
-    else -> ScrollbarMetrics.windows()
-}
+private fun provideScrollbarMetrics(): ScrollbarMetrics =
+    when {
+        hostOs.isMacOS -> ScrollbarMetrics.macOs()
+        hostOs.isLinux -> ScrollbarMetrics.linux()
+        else -> ScrollbarMetrics.windows()
+    }
 
 public fun ScrollbarMetrics.Companion.macOs(
     thumbCornerSize: CornerSize = CornerSize(100),
@@ -118,14 +124,15 @@ public fun ScrollbarMetrics.Companion.macOs(
     trackPadding: PaddingValues = PaddingValues(2.dp),
     thumbThicknessExpanded: Dp = 14.dp,
     trackPaddingExpanded: PaddingValues = PaddingValues(2.dp),
-): ScrollbarMetrics = ScrollbarMetrics(
-    thumbCornerSize,
-    thumbThickness,
-    thumbThicknessExpanded,
-    minThumbLength,
-    trackPadding,
-    trackPaddingExpanded
-)
+): ScrollbarMetrics =
+    ScrollbarMetrics(
+        thumbCornerSize,
+        thumbThickness,
+        thumbThicknessExpanded,
+        minThumbLength,
+        trackPadding,
+        trackPaddingExpanded,
+    )
 
 public fun ScrollbarMetrics.Companion.windows(
     thumbCornerSize: CornerSize = CornerSize(0),
@@ -134,14 +141,15 @@ public fun ScrollbarMetrics.Companion.windows(
     trackPadding: PaddingValues = PaddingValues(horizontal = 0.dp),
     thumbThicknessExpanded: Dp = 8.dp,
     trackPaddingExpanded: PaddingValues = PaddingValues(horizontal = 0.dp),
-): ScrollbarMetrics = ScrollbarMetrics(
-    thumbCornerSize,
-    thumbThickness,
-    thumbThicknessExpanded,
-    minThumbLength,
-    trackPadding,
-    trackPaddingExpanded
-)
+): ScrollbarMetrics =
+    ScrollbarMetrics(
+        thumbCornerSize,
+        thumbThickness,
+        thumbThicknessExpanded,
+        minThumbLength,
+        trackPadding,
+        trackPaddingExpanded,
+    )
 
 public fun ScrollbarMetrics.Companion.linux(
     thumbCornerSize: CornerSize = CornerSize(0),
@@ -150,11 +158,12 @@ public fun ScrollbarMetrics.Companion.linux(
     trackPadding: PaddingValues = PaddingValues(horizontal = 0.dp),
     thumbThicknessExpanded: Dp = 8.dp,
     trackPaddingExpanded: PaddingValues = PaddingValues(horizontal = 0.dp),
-): ScrollbarMetrics = ScrollbarMetrics(
-    thumbCornerSize,
-    thumbThickness,
-    thumbThicknessExpanded,
-    minThumbLength,
-    trackPadding,
-    trackPaddingExpanded
-)
+): ScrollbarMetrics =
+    ScrollbarMetrics(
+        thumbCornerSize,
+        thumbThickness,
+        thumbThicknessExpanded,
+        minThumbLength,
+        trackPadding,
+        trackPaddingExpanded,
+    )

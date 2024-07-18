@@ -271,4 +271,3 @@ public fun TabContentAlpha.Companion.editor(
     )
 
 public fun TabIcons.Companion.defaults(close: IconKey = AllIconsKeys.General.CloseSmall): TabIcons = TabIcons(close)
-

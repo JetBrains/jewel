@@ -49,11 +49,12 @@ import java.awt.event.WindowEvent
 @Composable
 public fun DecoratedWindow(
     onCloseRequest: () -> Unit,
-    state: WindowState = rememberWindowState(
-        width = 1000.dp,
-        height = 1000.dp,
-        position = WindowPosition(Alignment.Center)
-    ),
+    state: WindowState =
+        rememberWindowState(
+            width = 1000.dp,
+            height = 1000.dp,
+            position = WindowPosition(Alignment.Center),
+        ),
     visible: Boolean = true,
     title: String = "",
     icon: Painter? = null,
