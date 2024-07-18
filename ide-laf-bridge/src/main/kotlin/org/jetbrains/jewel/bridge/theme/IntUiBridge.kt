@@ -813,49 +813,36 @@ private object NewUiRadioButtonMetrics : BridgeRadioButtonMetrics {
     override val iconContentGap = 4.dp
 }
 
-private fun readScrollbarStyle(isDark: Boolean) =
-    ScrollbarStyle(
-        colors = ScrollbarColors(
-            // See https://github.com/JetBrains/jewel/issues/259
-            // Reference: com.intellij.ui.components.ScrollBarPainter
-            thumbBackground = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbColor")
-                .let { if (it.alpha == 0f) Color.Unspecified else it }
-                .takeOrElse { if (isDark) Color(0x00808080) else Color(0x00000000) },
-            thumbBackgroundHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
-                .let { if (it.alpha == 0f) Color.Unspecified else it }
-                .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
-            thumbBackgroundPressed = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbColor")
-                .let { if (it.alpha == 0f) Color.Unspecified else it }
-                .takeOrElse { if (isDark) Color(0x8C808080) else Color(0x80000000) },
-            thumbBorder = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.thumbBorderColor")
-                .let { if (it.alpha == 0f) Color.Unspecified else it }
-                .takeOrElse { if (isDark) Color(0x00262626) else Color(0x00000000) },
-            thumbBorderHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbBorderColor")
-                .let { if (it.alpha == 0f) Color.Unspecified else it }
-                .takeOrElse { if (isDark) Color(0x8C262626) else Color(0x80000000) },
-            thumbBorderPressed = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverThumbBorderColor")
-                .let { if (it.alpha == 0f) Color.Unspecified else it }
-                .takeOrElse { if (isDark) Color(0x8C262626) else Color(0x80000000) },
-            trackBackground = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.trackColor")
-                .let { if (it.alpha == 0f) Color.Unspecified else it }
-                .takeOrElse { if (isDark) Color(0x8C262626) else Color(0x80000000) },
-            trackBackgroundHovered = retrieveColorOrUnspecified("ScrollBar.Mac.Transparent.hoverTrackColor")
-                .let { if (it.alpha == 0f) Color.Unspecified else it }
-                .takeOrElse { if (isDark) Color(0x8C262626) else Color(0x80000000) },
-        ),
-        metrics = ScrollbarMetrics(
-            thumbCornerSize = CornerSize(100),
-            thumbThickness = 8.dp,
-            minThumbLength = 20.dp,
-            trackPadding = PaddingValues(2.dp),
-            thumbThicknessExpanded = 16.dp,
-            trackPaddingExpanded = PaddingValues(horizontal = 4.dp),
-        ),
+private fun readScrollbarStyle(isDark: Boolean): ScrollbarStyle = ScrollbarStyle(
+    colors = provideScrollbarColors(isDark),
+    metrics = provideScrollbarMetrics(),
         appearAnimationDuration = 125.milliseconds,
         disappearAnimationDuration = 125.milliseconds,
         expandAnimationDuration = 125.milliseconds,
         lingerDuration = 700.milliseconds,
     )
+
+private fun provideScrollbarColors(isDark: Boolean) = when {
+    hostOs.isMacOS -> {
+        when {
+            isDark -> ScrollbarColors.MacDark()
+            else -> ScrollbarColors.MacLight()
+        }
+    }
+
+    else -> {
+        when {
+            isDark -> ScrollbarColors.dark()
+            else -> ScrollbarColors.light()
+        }
+    }
+}
+
+private fun provideScrollbarMetrics(): ScrollbarMetrics = when {
+    hostOs.isMacOS -> ScrollbarMetrics.macOs()
+    hostOs.isLinux -> ScrollbarMetrics.linux()
+    else -> ScrollbarMetrics.windows()
+}
 
 private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
     val selectedBackground = SolidColor(JBUI.CurrentTheme.SegmentedButton.SELECTED_BUTTON_COLOR.toComposeColor())
