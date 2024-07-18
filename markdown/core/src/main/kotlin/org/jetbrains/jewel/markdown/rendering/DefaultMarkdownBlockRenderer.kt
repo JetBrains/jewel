@@ -51,7 +51,6 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
-import org.jetbrains.jewel.markdown.BlockWithInlineMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.BlockQuote
 import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock
@@ -66,6 +65,7 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock.UnorderedList
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListItem
 import org.jetbrains.jewel.markdown.MarkdownBlock.Paragraph
 import org.jetbrains.jewel.markdown.MarkdownBlock.ThematicBreak
+import org.jetbrains.jewel.markdown.WithInlineMarkdown
 import org.jetbrains.jewel.markdown.extensions.MarkdownRendererExtension
 import org.jetbrains.jewel.ui.Orientation.Horizontal
 import org.jetbrains.jewel.ui.component.Divider
@@ -477,7 +477,7 @@ public open class DefaultMarkdownBlockRenderer(
 
     @Composable
     private fun rememberRenderedContent(
-        block: BlockWithInlineMarkdown,
+        block: WithInlineMarkdown,
         styling: InlinesStyling,
         enabled: Boolean,
         onUrlClick: ((String) -> Unit)? = null,

@@ -26,7 +26,6 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock
 import org.jetbrains.jewel.markdown.MimeType
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
-import org.jetbrains.jewel.markdown.readInlineContent
 import org.jetbrains.jewel.markdown.rendering.DefaultInlineMarkdownRenderer
 import org.commonmark.node.ListBlock as CMListBlock
 
@@ -73,18 +72,23 @@ public class MarkdownProcessor(
      * @param rawMarkdown the raw Markdown string to process.
      * @see DefaultInlineMarkdownRenderer
      */
-    public fun processMarkdownDocument(@Language("Markdown") rawMarkdown: String): List<MarkdownBlock> {
-        val blocks = if (optimizeEdits) {
-            processWithQuickEdits(rawMarkdown)
-        } else {
-            parseRawMarkdown(rawMarkdown)
-        }
+    public fun processMarkdownDocument(
+        @Language("Markdown") rawMarkdown: String,
+    ): List<MarkdownBlock> {
+        val blocks =
+            if (optimizeEdits) {
+                processWithQuickEdits(rawMarkdown)
+            } else {
+                parseRawMarkdown(rawMarkdown)
+            }
 
         return blocks.mapNotNull { child -> child.tryProcessMarkdownBlock() }
     }
 
     @VisibleForTesting
-    internal fun processWithQuickEdits(@Language("Markdown") rawMarkdown: String): List<Block> {
+    internal fun processWithQuickEdits(
+        @Language("Markdown") rawMarkdown: String,
+    ): List<Block> {
         val (previousLines, previousBlocks, previousIndexes) = currentState
         val newLines = rawMarkdown.lines()
         val nLinesDelta = newLines.size - previousLines.size
@@ -163,7 +167,9 @@ public class MarkdownProcessor(
         return newBlocks
     }
 
-    private fun parseRawMarkdown(@Language("Markdown") rawMarkdown: String): List<Block> {
+    private fun parseRawMarkdown(
+        @Language("Markdown") rawMarkdown: String,
+    ): List<Block> {
         val document =
             commonMarkParser.parse(rawMarkdown) as? Document
                 ?: error("This doesn't look like a Markdown document")
@@ -186,24 +192,22 @@ public class MarkdownProcessor(
             is ThematicBreak -> MarkdownBlock.ThematicBreak
             is HtmlBlock -> toMarkdownHtmlBlockOrNull()
             is CustomBlock -> {
-                extensions.find { it.processorExtension?.canProcess(this) == true }
-                    ?.processorExtension?.processMarkdownBlock(this, this@MarkdownProcessor)
+                extensions.find { it.blockProcessorExtension?.canProcess(this) == true }
+                    ?.blockProcessorExtension?.processMarkdownBlock(this, this@MarkdownProcessor)
             }
 
             else -> null
         }
 
-    private fun Paragraph.toMarkdownParagraph(): MarkdownBlock.Paragraph =
-        MarkdownBlock.Paragraph(readInlineContent().toList())
+    private fun Paragraph.toMarkdownParagraph(): MarkdownBlock.Paragraph = MarkdownBlock.Paragraph(readInlineContent().toList())
 
-    private fun BlockQuote.toMarkdownBlockQuote(): MarkdownBlock.BlockQuote =
-        MarkdownBlock.BlockQuote(processChildren(this))
+    private fun BlockQuote.toMarkdownBlockQuote(): MarkdownBlock.BlockQuote = MarkdownBlock.BlockQuote(processChildren(this))
 
     private fun Heading.toMarkdownHeadingOrNull(): MarkdownBlock.Heading? {
         if (level < 1 || level > 6) return null
         return MarkdownBlock.Heading(
             inlineContent = readInlineContent().toList(),
-            level = level
+            level = level,
         )
     }
 
@@ -213,8 +217,7 @@ public class MarkdownProcessor(
             mimeType = MimeType.Known.fromMarkdownLanguageName(info),
         )
 
-    private fun IndentedCodeBlock.toMarkdownCodeBlockOrNull(): CodeBlock.IndentedCodeBlock =
-        CodeBlock.IndentedCodeBlock(literal.trimEnd('\n'))
+    private fun IndentedCodeBlock.toMarkdownCodeBlockOrNull(): CodeBlock.IndentedCodeBlock = CodeBlock.IndentedCodeBlock(literal.trimEnd('\n'))
 
     private fun BulletList.toMarkdownListOrNull(): ListBlock.UnorderedList? {
         val children = processListItems()
@@ -223,7 +226,7 @@ public class MarkdownProcessor(
         return ListBlock.UnorderedList(
             children = children,
             isTight = isTight,
-            marker = marker
+            marker = marker,
         )
     }
 
@@ -235,7 +238,7 @@ public class MarkdownProcessor(
             children = children,
             isTight = isTight,
             startFrom = markerStartNumber,
-            delimiter = markerDelimiter
+            delimiter = markerDelimiter,
         )
     }
 
@@ -276,6 +279,8 @@ public class MarkdownProcessor(
         if (literal.isBlank()) return null
         return MarkdownBlock.HtmlBlock(literal.trimEnd('\n'))
     }
+
+    private fun Block.readInlineContent() = readInlineContent(this@MarkdownProcessor, extensions)
 
     private data class State(val lines: List<String>, val blocks: List<Block>, val indexes: List<Pair<Int, Int>>)
 }

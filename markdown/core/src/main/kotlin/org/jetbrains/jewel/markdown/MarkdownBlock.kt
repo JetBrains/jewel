@@ -1,13 +1,12 @@
 package org.jetbrains.jewel.markdown
 
-import org.commonmark.node.Block
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
-import org.jetbrains.jewel.foundation.InternalJewelApi
 
 public sealed interface MarkdownBlock {
-
     @GenerateDataFunctions
-    public class BlockQuote(public val children: List<MarkdownBlock>) : MarkdownBlock
+    public class BlockQuote(public val children: List<MarkdownBlock>) : MarkdownBlock {
+        public constructor(vararg children: MarkdownBlock) : this(children.toList())
+    }
 
     public sealed interface CodeBlock : MarkdownBlock {
         public val content: String
@@ -28,7 +27,9 @@ public sealed interface MarkdownBlock {
     public class Heading(
         override val inlineContent: List<InlineMarkdown>,
         public val level: Int,
-    ) : MarkdownBlock, BlockWithInlineMarkdown
+    ) : MarkdownBlock, WithInlineMarkdown {
+        public constructor(level: Int, vararg inlineContent: InlineMarkdown) : this(inlineContent.toList(), level)
+    }
 
     @GenerateDataFunctions
     public class HtmlBlock(public val content: String) : MarkdownBlock
@@ -43,47 +44,40 @@ public sealed interface MarkdownBlock {
             override val isTight: Boolean,
             public val startFrom: Int,
             public val delimiter: String,
-        ) : ListBlock
+        ) : ListBlock {
+            public constructor(
+                isTight: Boolean,
+                startFrom: Int,
+                delimiter: String,
+                vararg children: ListItem,
+            ) : this(children.toList(), isTight, startFrom, delimiter)
+        }
 
         @GenerateDataFunctions
         public class UnorderedList(
             override val children: List<ListItem>,
             override val isTight: Boolean,
             public val marker: String,
-        ) : ListBlock
+        ) : ListBlock {
+            public constructor(
+                isTight: Boolean,
+                marker: String,
+                vararg children: ListItem,
+            ) : this(children.toList(), isTight, marker)
+        }
     }
 
     @GenerateDataFunctions
-    public class ListItem(public val children: List<MarkdownBlock>) : MarkdownBlock
+    public class ListItem(public val children: List<MarkdownBlock>) : MarkdownBlock {
+        public constructor(vararg children: MarkdownBlock) : this(children.toList())
+    }
 
     public data object ThematicBreak : MarkdownBlock
 
     @GenerateDataFunctions
     public class Paragraph(
         override val inlineContent: List<InlineMarkdown>,
-    ) : MarkdownBlock, BlockWithInlineMarkdown
-}
-
-public interface BlockWithInlineMarkdown {
-    public val inlineContent: Iterable<InlineMarkdown>
-}
-
-@InternalJewelApi
-public fun Block.readInlineContent(): Iterable<InlineMarkdown> =
-    object : Iterable<InlineMarkdown> {
-        override fun iterator(): Iterator<InlineMarkdown> =
-            object : Iterator<InlineMarkdown> {
-                var current = this@readInlineContent.firstChild
-
-                override fun hasNext(): Boolean = current != null
-
-                override fun next(): InlineMarkdown =
-                    if (hasNext()) {
-                        current.toInlineNode().also {
-                            current = current.next
-                        }
-                    } else {
-                        throw NoSuchElementException()
-                    }
-            }
+    ) : MarkdownBlock, WithInlineMarkdown {
+        public constructor(vararg inlineContent: InlineMarkdown) : this(inlineContent.toList())
     }
+}

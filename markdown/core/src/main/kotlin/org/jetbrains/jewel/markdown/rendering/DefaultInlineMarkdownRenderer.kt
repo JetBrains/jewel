@@ -6,7 +6,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.AnnotatedString.Builder
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import org.commonmark.renderer.text.TextContentRenderer
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
@@ -41,23 +40,14 @@ public open class DefaultInlineMarkdownRenderer(
         enabled: Boolean,
         onUrlClicked: ((String) -> Unit)? = null,
     ) {
-        // TODO move to InlineMarkdown to avoid recomputing after #416 is done
-        val linkStyling =
-            TextLinkStyles(
-                styling.link,
-                styling.linkFocused,
-                styling.linkHovered,
-                styling.linkPressed,
-            )
-
         for (child in inlineMarkdown) {
             when (child) {
-                is InlineMarkdown.Text -> append(child.nativeNode.literal)
+                is InlineMarkdown.Text -> append(child.content)
 
                 is InlineMarkdown.Emphasis -> {
                     withStyles(styling.emphasis.withEnabled(enabled), child) {
                         appendInlineMarkdownFrom(
-                            it.children,
+                            it.inlineContent,
                             styling,
                             enabled,
                         )
@@ -65,32 +55,33 @@ public open class DefaultInlineMarkdownRenderer(
                 }
 
                 is InlineMarkdown.StrongEmphasis -> {
-                    withStyles(
-                        styling.strongEmphasis.withEnabled(enabled),
-                        child,
-                    ) { appendInlineMarkdownFrom(it.children, styling, enabled) }
+                    withStyles(styling.strongEmphasis.withEnabled(enabled), child) {
+                        appendInlineMarkdownFrom(it.inlineContent, styling, enabled)
+                    }
                 }
 
                 is InlineMarkdown.Link -> {
                     val index =
                         if (enabled) {
-                            val destination = child.nativeNode.destination
+                            val destination = child.destination
                             val link =
                                 LinkAnnotation.Clickable(
                                     tag = destination,
                                     linkInteractionListener = { _ -> onUrlClicked?.invoke(destination) },
-                                    styles = linkStyling,
+                                    styles = styling.textLinkStyles,
                                 )
                             pushLink(link)
                         } else {
                             pushStyle(styling.linkDisabled)
                         }
-                    appendInlineMarkdownFrom(child.children, styling, enabled)
+                    appendInlineMarkdownFrom(child.inlineContent, styling, enabled)
                     pop(index)
                 }
 
                 is InlineMarkdown.Code -> {
-                    withStyles(styling.inlineCode.withEnabled(enabled), child) { append(it.nativeNode.literal) }
+                    withStyles(styling.inlineCode.withEnabled(enabled), child) {
+                        append(it.content)
+                    }
                 }
 
                 is InlineMarkdown.HardLineBreak -> appendLine()
@@ -101,14 +92,21 @@ public open class DefaultInlineMarkdownRenderer(
                         withStyles(
                             styling.inlineHtml.withEnabled(enabled),
                             child,
-                        ) { append(it.nativeNode.literal.trim()) }
+                        ) { append(it.content.trim()) }
                     }
                 }
 
                 is InlineMarkdown.Image -> {
                     appendInlineContent(
                         INLINE_IMAGE,
-                        child.nativeNode.destination + "\n" + plainTextRenderer.render(child.nativeNode),
+                        buildString {
+                            appendLine(child.source)
+                            append(child.alt)
+                            if (!child.title.isNullOrBlank()) {
+                                appendLine()
+                                append(child.title)
+                            }
+                        },
                     )
                 }
 
