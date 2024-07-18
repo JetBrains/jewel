@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.awaitHorizontalDragOrCancellation
@@ -22,8 +23,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.TextFieldScrollState
 import androidx.compose.foundation.v2.ScrollbarAdapter
 import androidx.compose.foundation.v2.maxScrollOffset
 import androidx.compose.runtime.Composable
@@ -67,24 +70,29 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.theme.scrollbarStyle
 import org.jetbrains.jewel.ui.util.thenIf
 import kotlin.math.roundToInt
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
-public fun LazyColumnVerticalScrollbar(
-    scrollState: LazyListState,
+public fun VerticalScrollbar(
+    scrollState: ScrollableState,
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
+    pageScroll: Boolean = false,
 ) {
     // Click to scroll
     var clickPosition by remember { mutableIntStateOf(0) }
     val scrollbarWidth = remember { mutableIntStateOf(0) }
     val scrollbarHeight = remember { mutableIntStateOf(0) }
     LaunchedEffect(clickPosition) {
-//        if (scrollbarHeight.value == 0) return@LaunchedEffect
-//        val jumpTo = (scrollState.maxValue * clickPosition) / scrollbarHeight.value
-//        scrollState.scrollToItem(jumpTo)
+        if (scrollState is ScrollState) {
+            if (scrollbarHeight.value == 0) return@LaunchedEffect
+            val jumpTo = when {
+                pageScroll -> scrollbarHeight.value + scrollState.viewportSize
+                else -> (scrollState.maxValue * clickPosition) / scrollbarHeight.value
+            }
+            scrollState.scrollTo(jumpTo)
+        }
     }
 
     // Visibility, hover and fade out
@@ -118,7 +126,13 @@ public fun LazyColumnVerticalScrollbar(
         }
     }
 
-    val adapter = rememberScrollbarAdapter(scrollState = scrollState)
+    val adapter = when (scrollState) {
+        is LazyListState -> rememberScrollbarAdapter(scrollState)
+        is LazyGridState -> rememberScrollbarAdapter(scrollState)
+        is ScrollState -> rememberScrollbarAdapter(scrollState)
+        is TextFieldScrollState -> rememberScrollbarAdapter(scrollState)
+        else -> error("Unsupported scroll state type: ${scrollState::class}")
+    }
 
     ScrollbarImpl(
         adapter = adapter,
@@ -128,86 +142,6 @@ public fun LazyColumnVerticalScrollbar(
             .width(if (trackIsVisible) style.metrics.thumbThicknessExpanded else style.metrics.thumbThickness)
             .background(if (trackIsVisible) style.colors.trackBackground else Color.Transparent)
             .padding(if (trackIsVisible) style.metrics.trackPaddingExpanded else style.metrics.trackPadding)
-            .scrollable(
-                scrollState,
-                orientation = Orientation.Vertical,
-                reverseDirection = true,
-            ).pointerInput(Unit) {
-                detectTapGestures { offset ->
-                    clickPosition = offset.y.toInt()
-                }
-            }.onSizeChanged {
-                scrollbarWidth.value = it.width
-                scrollbarHeight.value = it.height
-            },
-        reverseLayout = reverseLayout,
-        style = style,
-        interactionSource = interactionSource,
-        isVertical = true,
-    )
-}
-
-@Composable
-public fun LazyColumnVerticalScrollbar(
-    scrollState: ScrollState,
-    modifier: Modifier = Modifier,
-    reverseLayout: Boolean = false,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: ScrollbarStyle = JewelTheme.scrollbarStyle,
-) {
-    // Click to scroll
-    var clickPosition by remember { mutableIntStateOf(0) }
-    val scrollbarWidth = remember { mutableIntStateOf(0) }
-    val scrollbarHeight = remember { mutableIntStateOf(0) }
-    LaunchedEffect(clickPosition) {
-        if (scrollbarHeight.value == 0) return@LaunchedEffect
-        val jumpTo = (scrollState.maxValue * clickPosition) / scrollbarHeight.value
-        scrollState.animateScrollTo(jumpTo)
-    }
-
-    // Visibility, hover and fade out
-    var visible by remember { mutableStateOf(scrollState.canScrollBackward) }
-    val hovered = interactionSource.collectIsHoveredAsState().value
-    var trackIsVisible by remember { mutableStateOf(false) }
-    val fadeOutDuration = 2.seconds // TODO Hardcoded values suck
-    val expandedWidth = 16.dp
-    val trackColor = Color(0xFFcfd2e1)
-
-    val animatedAlpha by animateFloatAsState(
-        targetValue = if (visible) 1.0f else 0f,
-        label = "alpha",
-    )
-
-    LaunchedEffect(scrollState.isScrollInProgress, hovered) {
-        when {
-            scrollState.isScrollInProgress -> visible = true
-            hovered -> {
-                visible = true
-                trackIsVisible = true
-            }
-
-            !hovered -> {
-                delay(fadeOutDuration)
-                trackIsVisible = false
-                visible = false
-            }
-
-            !scrollState.isScrollInProgress && !hovered -> {
-                delay(fadeOutDuration)
-                visible = false
-            }
-        }
-    }
-
-    val adapter = rememberScrollbarAdapter(scrollState = scrollState)
-
-    ScrollbarImpl(
-        adapter = adapter,
-        modifier = modifier
-            .alpha(animatedAlpha)
-            .animateContentSize()
-            .width(if (trackIsVisible) expandedWidth else 12.dp)
-            .background(if (trackIsVisible) trackColor else Color.Transparent)
             .scrollable(
                 scrollState,
                 orientation = Orientation.Vertical,

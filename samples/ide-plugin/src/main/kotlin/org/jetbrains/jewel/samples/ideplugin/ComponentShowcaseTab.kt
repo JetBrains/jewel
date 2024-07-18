@@ -57,7 +57,6 @@ import org.jetbrains.jewel.ui.component.Dropdown
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconActionButton
 import org.jetbrains.jewel.ui.component.IconButton
-import org.jetbrains.jewel.ui.component.LazyColumnVerticalScrollbar
 import org.jetbrains.jewel.ui.component.LazyTree
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.PlatformIcon
@@ -68,6 +67,7 @@ import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Tooltip
 import org.jetbrains.jewel.ui.component.Typography
+import org.jetbrains.jewel.ui.component.VerticalScrollbar
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.badge.DotBadgeShape
@@ -257,7 +257,7 @@ private fun RowScope.ColumnOne() {
                         }
                     }
                 }
-                LazyColumnVerticalScrollbar(scrollState)
+                VerticalScrollbar(scrollState)
             }
         }
     }
