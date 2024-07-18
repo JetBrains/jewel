@@ -70,7 +70,7 @@ import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-public fun MyVerticalScrollbar(
+public fun LazyColumnVerticalScrollbar(
     scrollState: LazyListState,
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
@@ -125,8 +125,9 @@ public fun MyVerticalScrollbar(
         modifier = modifier
             .alpha(animatedAlpha)
             .animateContentSize()
-            .width(if (trackIsVisible) style.metrics.thumbThicknessExpanded else 12.dp)
+            .width(if (trackIsVisible) style.metrics.thumbThicknessExpanded else style.metrics.thumbThickness)
             .background(if (trackIsVisible) style.colors.trackBackground else Color.Transparent)
+            .padding(if (trackIsVisible) style.metrics.trackPaddingExpanded else style.metrics.trackPadding)
             .scrollable(
                 scrollState,
                 orientation = Orientation.Vertical,
@@ -147,7 +148,7 @@ public fun MyVerticalScrollbar(
 }
 
 @Composable
-public fun MyVerticalScrollbar(
+public fun LazyColumnVerticalScrollbar(
     scrollState: ScrollState,
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,

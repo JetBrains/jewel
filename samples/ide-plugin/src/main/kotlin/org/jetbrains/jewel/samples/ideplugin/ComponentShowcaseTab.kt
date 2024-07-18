@@ -57,8 +57,8 @@ import org.jetbrains.jewel.ui.component.Dropdown
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconActionButton
 import org.jetbrains.jewel.ui.component.IconButton
+import org.jetbrains.jewel.ui.component.LazyColumnVerticalScrollbar
 import org.jetbrains.jewel.ui.component.LazyTree
-import org.jetbrains.jewel.ui.component.MyVerticalScrollbar
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.PlatformIcon
 import org.jetbrains.jewel.ui.component.RadioButtonRow
@@ -257,7 +257,7 @@ private fun RowScope.ColumnOne() {
                         }
                     }
                 }
-                MyVerticalScrollbar(scrollState)
+                LazyColumnVerticalScrollbar(scrollState)
             }
         }
     }

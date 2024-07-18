@@ -139,7 +139,7 @@ internal fun InputField(
         )
 
         if (showScrollbar)
-            MyVerticalScrollbar(
+            LazyColumnVerticalScrollbar(
                 modifier = Modifier.align(Alignment.CenterEnd),
                 interactionSource = interactionSource,
                 scrollState = scrollState,
