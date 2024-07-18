@@ -9,7 +9,7 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarColors
 import org.jetbrains.jewel.ui.component.styling.ScrollbarMetrics
 
 // Reference: com.intellij.ui.components.ScrollBarPainter
-public fun ScrollbarColors.Companion.MacLight(
+public fun ScrollbarColors.Companion.macLight(
     thumbBackground: Color = Color(0x00000000),
     thumbBackgroundHovered: Color = Color(0x80000000),
     thumbBackgroundPressed: Color = Color(0x80000000),
@@ -75,7 +75,7 @@ public fun ScrollbarColors.Companion.dark(
     )
 
 // Reference: com.intellij.ui.components.ScrollBarPainter
-public fun ScrollbarColors.Companion.MacDark(
+public fun ScrollbarColors.Companion.macDark(
     thumbBackground: Color = Color(0x59808080),
     thumbBackgroundHovered: Color = Color(0x8C808080),
     thumbBackgroundPressed: Color = Color(0x8C808080),

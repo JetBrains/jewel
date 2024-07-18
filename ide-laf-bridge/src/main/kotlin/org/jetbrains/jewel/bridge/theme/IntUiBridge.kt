@@ -827,8 +827,8 @@ private fun provideScrollbarColors(isDark: Boolean) =
     when {
         hostOs.isMacOS -> {
             when {
-                isDark -> ScrollbarColors.MacDark()
-                else -> ScrollbarColors.MacLight()
+                isDark -> ScrollbarColors.macDark()
+                else -> ScrollbarColors.macLight()
             }
         }
 

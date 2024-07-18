@@ -227,82 +227,84 @@ private fun ScrollbarImpl(
     interactionSource: MutableInteractionSource,
     isVertical: Boolean,
     modifier: Modifier = Modifier,
-) = with(LocalDensity.current) {
-    val dragInteraction = remember { mutableStateOf<DragInteraction.Start?>(null) }
-    DisposableEffect(interactionSource) {
-        onDispose {
-            dragInteraction.value?.let { interaction ->
-                interactionSource.tryEmit(DragInteraction.Cancel(interaction))
-                dragInteraction.value = null
+) {
+    with(LocalDensity.current) {
+        val dragInteraction = remember { mutableStateOf<DragInteraction.Start?>(null) }
+        DisposableEffect(interactionSource) {
+            onDispose {
+                dragInteraction.value?.let { interaction ->
+                    interactionSource.tryEmit(DragInteraction.Cancel(interaction))
+                    dragInteraction.value = null
+                }
             }
         }
+
+        var containerSize by remember { mutableIntStateOf(0) }
+        val isHovered by interactionSource.collectIsHoveredAsState()
+
+        val isHighlighted by remember {
+            derivedStateOf {
+                isHovered || dragInteraction.value is DragInteraction.Start
+            }
+        }
+
+        val thumbMinHeight = style.metrics.minThumbLength.toPx()
+
+        val coroutineScope = rememberCoroutineScope()
+        val sliderAdapter =
+            remember(
+                adapter,
+                containerSize,
+                thumbMinHeight,
+                reverseLayout,
+                isVertical,
+                coroutineScope,
+            ) {
+                SliderAdapter(adapter, containerSize, thumbMinHeight, reverseLayout, isVertical, coroutineScope)
+            }
+
+        val thumbThickness = style.metrics.thumbThickness.roundToPx()
+        val measurePolicy =
+            if (isVertical) {
+                remember(sliderAdapter, thumbThickness) {
+                    verticalMeasurePolicy(sliderAdapter, { containerSize = it }, thumbThickness)
+                }
+            } else {
+                remember(sliderAdapter, thumbThickness) {
+                    horizontalMeasurePolicy(sliderAdapter, { containerSize = it }, thumbThickness)
+                }
+            }
+
+        val thumbColor by animateColorAsState(
+            if (isHighlighted) style.colors.thumbBackgroundHovered else style.colors.thumbBackgroundHovered,
+            animationSpec = tween(durationMillis = style.expandAnimationDuration.inWholeMilliseconds.toInt()),
+        )
+
+        val isVisible = sliderAdapter.thumbSize < containerSize
+
+        Layout(
+            {
+                Box(
+                    Modifier
+                        .layoutId("thumb")
+                        .thenIf(isVisible) {
+                            background(
+                                thumbColor,
+                                RoundedCornerShape(style.metrics.thumbCornerSize),
+                            )
+                        }.scrollbarDrag(
+                            interactionSource = interactionSource,
+                            draggedInteraction = dragInteraction,
+                            sliderAdapter = sliderAdapter,
+                        ),
+                )
+            },
+            modifier
+                .hoverable(interactionSource = interactionSource)
+                .scrollOnPressTrack(isVertical, reverseLayout, sliderAdapter),
+            measurePolicy,
+        )
     }
-
-    var containerSize by remember { mutableIntStateOf(0) }
-    val isHovered by interactionSource.collectIsHoveredAsState()
-
-    val isHighlighted by remember {
-        derivedStateOf {
-            isHovered || dragInteraction.value is DragInteraction.Start
-        }
-    }
-
-    val thumbMinHeight = style.metrics.minThumbLength.toPx()
-
-    val coroutineScope = rememberCoroutineScope()
-    val sliderAdapter =
-        remember(
-            adapter,
-            containerSize,
-            thumbMinHeight,
-            reverseLayout,
-            isVertical,
-            coroutineScope,
-        ) {
-            SliderAdapter(adapter, containerSize, thumbMinHeight, reverseLayout, isVertical, coroutineScope)
-        }
-
-    val thumbThickness = style.metrics.thumbThickness.roundToPx()
-    val measurePolicy =
-        if (isVertical) {
-            remember(sliderAdapter, thumbThickness) {
-                verticalMeasurePolicy(sliderAdapter, { containerSize = it }, thumbThickness)
-            }
-        } else {
-            remember(sliderAdapter, thumbThickness) {
-                horizontalMeasurePolicy(sliderAdapter, { containerSize = it }, thumbThickness)
-            }
-        }
-
-    val thumbColor by animateColorAsState(
-        if (isHighlighted) style.colors.thumbBackgroundHovered else style.colors.thumbBackgroundHovered,
-        animationSpec = tween(durationMillis = style.expandAnimationDuration.inWholeMilliseconds.toInt()),
-    )
-
-    val isVisible = sliderAdapter.thumbSize < containerSize
-
-    Layout(
-        {
-            Box(
-                Modifier
-                    .layoutId("thumb")
-                    .thenIf(isVisible) {
-                        background(
-                            thumbColor,
-                            RoundedCornerShape(style.metrics.thumbCornerSize),
-                        )
-                    }.scrollbarDrag(
-                        interactionSource = interactionSource,
-                        draggedInteraction = dragInteraction,
-                        sliderAdapter = sliderAdapter,
-                    ),
-            )
-        },
-        modifier
-            .hoverable(interactionSource = interactionSource)
-            .scrollOnPressTrack(isVertical, reverseLayout, sliderAdapter),
-        measurePolicy,
-    )
 }
 
 private val SliderAdapter.thumbPixelRange: IntRange
@@ -461,10 +463,10 @@ private class TrackPressScroller(
         job =
             coroutineScope.launch {
                 scrollTowardsCurrentOffset()
-                delay(DelayBeforeSecondScrollOnTrackPress)
+                delay(DELAY_BEFORE_SECOND_SCROLL_ON_TRACK_PRESS)
                 while (true) {
                     scrollTowardsCurrentOffset()
-                    delay(DelayBetweenScrollsOnTrackPress)
+                    delay(DELAY_BETWEEN_SCROLLS_ON_TRACK_PRESS)
                 }
             }
     }
@@ -543,13 +545,13 @@ private suspend fun PointerInputScope.detectScrollViaTrackGestures(
  * The delay between the 1st and 2nd scroll while the scrollbar track is
  * pressed outside the thumb.
  */
-internal const val DelayBeforeSecondScrollOnTrackPress: Long = 300L
+internal const val DELAY_BEFORE_SECOND_SCROLL_ON_TRACK_PRESS: Long = 300L
 
 /**
  * The delay between each subsequent (after the 2nd) scroll while the
  * scrollbar track is pressed outside the thumb.
  */
-internal const val DelayBetweenScrollsOnTrackPress: Long = 100L
+internal const val DELAY_BETWEEN_SCROLLS_ON_TRACK_PRESS: Long = 100L
 
 internal class SliderAdapter(
     val adapter: ScrollbarAdapter,
