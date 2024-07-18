@@ -176,7 +176,7 @@ public class MarkdownProcessor(
     private fun Node.tryProcessMarkdownBlock(): MarkdownBlock? =
         // Non-Block children are ignored
         when (this) {
-            is Paragraph -> MarkdownBlock.Paragraph(this)
+            is Paragraph -> toMarkdownParagraph()
             is Heading -> toMarkdownHeadingOrNull()
             is BulletList -> toMarkdownListOrNull()
             is OrderedList -> toMarkdownListOrNull()
@@ -193,11 +193,18 @@ public class MarkdownProcessor(
             else -> null
         }
 
-    private fun BlockQuote.toMarkdownBlockQuote(): MarkdownBlock.BlockQuote = MarkdownBlock.BlockQuote(processChildren(this))
+    private fun Paragraph.toMarkdownParagraph(): MarkdownBlock.Paragraph =
+        MarkdownBlock.Paragraph(readInlineContent().toList())
+
+    private fun BlockQuote.toMarkdownBlockQuote(): MarkdownBlock.BlockQuote =
+        MarkdownBlock.BlockQuote(processChildren(this))
 
     private fun Heading.toMarkdownHeadingOrNull(): MarkdownBlock.Heading? {
         if (level < 1 || level > 6) return null
-        return MarkdownBlock.Heading(this)
+        return MarkdownBlock.Heading(
+            inlineContent = readInlineContent().toList(),
+            level = level
+        )
     }
 
     private fun FencedCodeBlock.toMarkdownCodeBlockOrNull(): CodeBlock.FencedCodeBlock =

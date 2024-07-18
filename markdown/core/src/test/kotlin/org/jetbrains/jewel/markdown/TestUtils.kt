@@ -3,6 +3,7 @@ package org.jetbrains.jewel.markdown
 import org.commonmark.internal.InlineParserContextImpl
 import org.commonmark.internal.InlineParserImpl
 import org.commonmark.internal.LinkReferenceDefinitions
+import org.commonmark.node.Block
 import org.commonmark.node.Node
 import org.commonmark.parser.Parser
 import org.commonmark.parser.SourceLine
@@ -22,6 +23,8 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.ListItem
 import org.jetbrains.jewel.markdown.MarkdownBlock.Paragraph
 import org.jetbrains.jewel.markdown.MarkdownBlock.ThematicBreak
 import org.junit.Assert
+import org.commonmark.node.Heading as CMHeading
+import org.commonmark.node.Paragraph as CMParagraph
 
 fun List<MarkdownBlock>.assertEquals(vararg expected: MarkdownBlock) {
     val differences = findDifferences(expected.toList(), indentSize = 0)
@@ -238,7 +241,7 @@ private fun Node.children() =
 /** skip root Document and Paragraph nodes */
 private fun inlineMarkdowns(content: String): List<InlineMarkdown> {
     val document = parser.parse(content).firstChild ?: return emptyList()
-    return if (document.firstChild is org.commonmark.node.Paragraph) {
+    return if (document.firstChild is CMParagraph) {
         document.firstChild
     } else {
         document
@@ -249,31 +252,27 @@ private val inlineParser = InlineParserImpl(InlineParserContextImpl(emptyList(),
 
 fun paragraph(
     @Language("Markdown") content: String,
-): Paragraph =
-    Paragraph(
-        org.commonmark.node.Paragraph().let { block ->
-            inlineParser.parse(SourceLines.of(content.lines().map { SourceLine.of(it, null) }), block)
-            block
-        },
-    )
+) =
+    Paragraph(CMParagraph().parseInline(content))
 
 fun heading(
     level: Int,
     @Language("Markdown") content: String,
-) = Heading(
-    org.commonmark.node.Heading().let { block ->
-        inlineParser.parse(SourceLines.of(SourceLine.of(content, null)), block)
-        block.level = level
-        block
-    },
-)
+) =
+    Heading(inlineContent = CMHeading().parseInline(content), level = level)
+
+private fun Block.parseInline(content: String): List<InlineMarkdown> {
+    inlineParser.parse(SourceLines.of(SourceLine.of(content, null)), this)
+    return readInlineContent().toList()
+}
 
 fun indentedCodeBlock(content: String) = IndentedCodeBlock(content)
 
 fun fencedCodeBlock(
     content: String,
     mimeType: MimeType? = null,
-) = FencedCodeBlock(content, mimeType)
+) =
+    FencedCodeBlock(content, mimeType)
 
 fun blockQuote(vararg contents: MarkdownBlock) = BlockQuote(contents.toList())
 
@@ -281,14 +280,16 @@ fun unorderedList(
     vararg items: ListItem,
     isTight: Boolean = true,
     marker: String = "-",
-) = UnorderedList(items.toList(), isTight, marker)
+) =
+    UnorderedList(items.toList(), isTight, marker)
 
 fun orderedList(
     vararg items: ListItem,
     isTight: Boolean = true,
     startFrom: Int = 1,
     delimiter: String = ".",
-) = OrderedList(items.toList(), isTight, startFrom, delimiter)
+) =
+    OrderedList(items.toList(), isTight, startFrom, delimiter)
 
 fun listItem(vararg items: MarkdownBlock) = ListItem(items.toList())
 
