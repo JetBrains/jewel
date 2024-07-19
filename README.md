@@ -131,16 +131,10 @@ to work for some: https://github.com/romainguy/kotlin-explorer/blob/main/compose
 
 ## Dependencies matrix
 
-For each version of Jewel, these are the minimum supported Kotlin and Compose Multiplatform versions:
+Jewel is in continuous development and we focus on supporting only the Compose version we use internally.
+You can see the latest supported version in [libs.versions.toml](https://github.com/JetBrains/jewel/blob/main/gradle/libs.versions.toml).
 
-| Jewel version    | Kotlin version | Compose version |
-|------------------|----------------|-----------------|
-| 0.15.2 -> *      | 1.8.21         | 1.6.10-dev1490  |
-| 0.15.1           | 1.8.21         | 1.6.10-dev1457  |
-| 0.15.0           | 1.8.21         | 1.6.0-dev1440   |
-| 0.13.1 -> 0.14.1 | 1.8.21         | 1.6.0-dev1369   |
-
-For older versions please refer to the Jewel tags and release notes.
+Different versions of Compose are not guaranteed to work with different versions of Jewel.
 
 The Compose Compiler version used is the latest compatible with the given Kotlin version. See
 [here](https://developer.android.com/jetpack/androidx/releases/compose-compiler) for the Compose
@@ -286,12 +280,13 @@ will bring in the necessary transitive dependencies. These are the currently sup
 and the branch on which the corresponding bridge code lives:
 
 | IntelliJ Platform version(s) | Branch to use           |
- |------------------------------|-------------------------|
-| 2024.1 (EAP 3+)              | `main`                  |
+|------------------------------|-------------------------|
+| 2024.2 (beta 1+)             | `main`                  |
+| 2024.1 (EAP 3+)              | `releases/241`          |
 | 2023.3                       | `releases/233`          |
 | 2023.2 (**deprecated**)      | `archived-releases/232` |
 | 2023.1 or older              | **Not supported**       |
-
+![img.png](img.png)
 For an example on how to set up an IntelliJ Plugin, you can refer to
 the [`ide-plugin` sample](samples/ide-plugin/build.gradle.kts).
 
@@ -337,7 +332,7 @@ platform itself.
 Once the icons are on the classhpath can use the `PlatformIcon` composable:
 
 ```kotlin
-// For platform icons found in AllIcons
+// For platform icons found in AllIconsse
 PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup")
 ```
 ### Old UI and new UI icons
