@@ -304,7 +304,7 @@ Icon(PathIconKey("icons/myIcon.svg"), contentDescription = "...")
 
 #### Build your own IconsKeys file
 
-If you want to leverage the Jewel icons API with your icons, you can build your own `*IconsKeys` file, looking at our `AllIconsKeys` file as a reference. You can manually  maintain it or you can automatically generate it, accroding to your needs.
+If you want to benefit from a better experience, not having to deal with strings and keys everywhere, you can build your own `*IconsKeys` file. Look at our `AllIconsKeys` file as a reference. You can  maintain it manually, or you can automatically generate it, depending on your needs.
 
 This would keep a common API for your icons and the provided icons, saving you from having to use string paths to reference them.
 
