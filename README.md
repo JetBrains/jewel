@@ -286,7 +286,6 @@ and the branch on which the corresponding bridge code lives:
 | 2023.3                       | `releases/233`          |
 | 2023.2 (**deprecated**)      | `archived-releases/232` |
 | 2023.1 or older              | **Not supported**       |
-![img.png](img.png)
 For an example on how to set up an IntelliJ Plugin, you can refer to
 the [`ide-plugin` sample](samples/ide-plugin/build.gradle.kts).
 
