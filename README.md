@@ -295,11 +295,11 @@ and the branch on which the corresponding bridge code lives:
 For an example on how to set up an IntelliJ Plugin, you can refer to
 the [`ide-plugin` sample](samples/ide-plugin/build.gradle.kts).
 
-### Icons
+## Icons
 
 When building for IntelliJ Platform or a standalone app, you can use the key-based icon loading API that allows you to load icons in a cross-target way.
 
-#### Icons from resources
+### Icons from your resources
 To load an icon, you can use the `Icon` composable and provide a `PathIconKey` with a resource path:
 
 ```kotlin
@@ -307,7 +307,13 @@ To load an icon, you can use the `Icon` composable and provide a `PathIconKey` w
 Icon(PathIconKey("icons/myIcon.svg"), contentDescription = "...")
 ```
 
-#### Icons from IntelliJ Platform
+#### Build your own IconsKeys file
+
+If you want to leverage the Jewel icons API with your icons, you can build your own `*IconsKeys` file, looking at our `AllIconsKeys` file as a reference. You can manually  maintain it or you can automatically generate it, accroding to your needs.
+
+This would keep a common API for your icons and the provided icons, saving you from having to use string paths to reference them.
+
+### Icons from IntelliJ Platform
 If you are planning to use in your standalone app some of the platform icons found in `AllIcons`, you will need a bit of setup to make sure that the icons are present on the classpath as resources.
 
 Add this to your build script:
@@ -334,8 +340,16 @@ Once the icons are on the classhpath can use the `PlatformIcon` composable:
 // For platform icons found in AllIcons
 PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup")
 ```
+### Old UI and new UI icons
 
-#### Icon runtime patching
+Depending on your need to support the old UI and/or the new UI, you have to keep in mind that:
+
+* `PathIconKey` represents one icon from the resources. This icon has a path that doesn't change, if you are targeting the new UI or the old UI.
+* `IntelliJIconKey` represents one icon as well, but discriminates between the old and new UI.
+
+If you are targeting only the new UI, you can use either `PathIconKey` or `IntelliJIconKey` to load the icon. If you are targeting the old UI, you need to use `IntelliJIconKey`.
+
+### Icon runtime patching
 
 Jewel emulates the under-the-hood machinations that happen in the IntelliJ Platform when loading icons. Specifically,
 the resource will be subject to some transformations before being loaded.
