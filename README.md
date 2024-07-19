@@ -324,8 +324,8 @@ repositories {
 }
 ```
 
-If you are building for IntelliJ, using the bridge, you can always access the icons because they are provided by the
-platform itself.
+> [!NOTE]
+> If you are targeting an IntelliJ plugin, you don't need this additional setup since the icons are provided by the platform itself.
 
 Once the icons are on the classhpath can use the `PlatformIcon` composable:
 
