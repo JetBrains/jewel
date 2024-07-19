@@ -295,31 +295,46 @@ and the branch on which the corresponding bridge code lives:
 For an example on how to set up an IntelliJ Plugin, you can refer to
 the [`ide-plugin` sample](samples/ide-plugin/build.gradle.kts).
 
-#### Accessing icons
+### Icons
 
-When you want to draw an icon from the resources, you can either use the `Icon` composable and pass it the resource path
-and the corresponding class to look up the classpath from, or go one lever deeper and use the lower level,
-`Painter`-based API.
+When building for IntelliJ o desktop, you have a few options to load icons.
 
-The `Icon` approach looks like this:
+#### Icon from resources
+We have a key-based icon loading API that allows you to load platform icons in a cross-target way.
+
+To load an icon, you can use the `Icon` composable and provide a `PathIconKey` with a resource path:
 
 ```kotlin
-// Load the "close" icon from the IDE's AllIcons class
-Icon(
-    "actions/close.svg",
-    iconClass = AllIcons::class.java,
-    contentDescription = "Close",
-)
+// Equivalent to the old path-based API
+Icon(PathIconKey("icons/myIcon.svg"), contentDescription = "...")
 ```
 
-To obtain a `Painter`, instead, you'd use:
+#### Icons from IntelliJ Platform
+If you are planning to use platform icons found in `AllIcons` in your desktop app. You will need a bit of setup to make sure that the icons are present on the classpath as resources.
+
+Add this to your build script:
 
 ```kotlin
-val painterProvider = rememberResourcePainterProvider(
-    path = "actions/close.svg",
-    iconClass = AllIcons::class.java
-)
-val painter by painterProvider.getPainter()
+dependencies {
+   implementation("com.jetbrains.intellij.platform:icons:[ijpVersion]")
+   // ...
+}
+
+repositories {
+   // Choose either of these two, depending on whether you're using a stable IJP or not
+   maven("https://www.jetbrains.com/intellij-repository/releases")
+   maven("https://www.jetbrains.com/intellij-repository/snapshots")
+}
+```
+
+If you are building for IntelliJ, using the bridge, you can always access the icons because they are provided by the
+platform itself.
+
+Once the icons are on the classhpath can use the `PlatformIcon` composable:
+
+```kotlin
+// For platform icons found in AllIcons
+PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup")
 ```
 
 #### Icon runtime patching
