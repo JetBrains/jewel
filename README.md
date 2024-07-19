@@ -333,6 +333,7 @@ Once the icons are on the classhpath can use the `PlatformIcon` composable:
 // For platform icons found in AllIconsse
 PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup")
 ```
+
 ### Old UI and new UI icons
 
 The right `IconKey` to use depends on whether an icon has Old UI and New UI variants, or not:
