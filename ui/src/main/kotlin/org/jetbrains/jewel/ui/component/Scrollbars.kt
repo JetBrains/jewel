@@ -80,6 +80,47 @@ public fun VerticalScrollbar(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     pageScroll: Boolean = false,
 ) {
+    MyScrollbar(
+        scrollState = scrollState,
+        modifier = modifier,
+        reverseLayout = reverseLayout,
+        interactionSource = interactionSource,
+        style = style,
+        pageScroll = pageScroll,
+        isVertical = true,
+    )
+}
+
+@Composable
+public fun HorizontalScrollbar(
+    scrollState: ScrollableState,
+    modifier: Modifier = Modifier,
+    reverseLayout: Boolean = false,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    style: ScrollbarStyle = JewelTheme.scrollbarStyle,
+    pageScroll: Boolean = false,
+) {
+    MyScrollbar(
+        scrollState = scrollState,
+        modifier = modifier,
+        reverseLayout = reverseLayout,
+        interactionSource = interactionSource,
+        style = style,
+        pageScroll = pageScroll,
+        isVertical = false,
+    )
+}
+
+@Composable
+internal fun MyScrollbar(
+    scrollState: ScrollableState,
+    modifier: Modifier = Modifier,
+    reverseLayout: Boolean = false,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    style: ScrollbarStyle = JewelTheme.scrollbarStyle,
+    pageScroll: Boolean = false,
+    isVertical: Boolean,
+) {
     // Click to scroll
     var clickPosition by remember { mutableIntStateOf(0) }
     val scrollbarWidth = remember { mutableIntStateOf(0) }
@@ -157,7 +198,7 @@ public fun VerticalScrollbar(
         reverseLayout = reverseLayout,
         style = style,
         interactionSource = interactionSource,
-        isVertical = true,
+        isVertical = isVertical,
     )
 }
 
