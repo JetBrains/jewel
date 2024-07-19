@@ -307,7 +307,7 @@ Icon(PathIconKey("icons/myIcon.svg"), contentDescription = "...")
 If you want to benefit from a better experience, not having to deal with strings and keys everywhere, you can build your own `*IconsKeys` file. Look at our `AllIconsKeys` file as a reference. You can  maintain it manually, or you can automatically generate it, depending on your needs.
 
 ### Icons from IntelliJ Platform
-If you are planning to use in your standalone app some of the platform icons found in `AllIcons`, you will need a bit of setup to make sure that the icons are present on the classpath as resources.
+If you need to use standard IntelliJ Platform icons in your standalone app, such as those found in `AllIcons`, you will need a bit of setup to make sure that the icons are present on the classpath and can be loaded as resources.
 
 Add this to your build script:
 
