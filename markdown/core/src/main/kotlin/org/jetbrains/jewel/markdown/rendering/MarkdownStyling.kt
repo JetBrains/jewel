@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -269,11 +270,24 @@ public class InlinesStyling(
     public val textStyle: TextStyle,
     public val inlineCode: SpanStyle,
     public val link: SpanStyle,
+    public val linkDisabled: SpanStyle,
+    public val linkFocused: SpanStyle,
+    public val linkHovered: SpanStyle,
+    public val linkPressed: SpanStyle,
+    public val linkVisited: SpanStyle,
     public val emphasis: SpanStyle,
     public val strongEmphasis: SpanStyle,
     public val inlineHtml: SpanStyle,
     public val renderInlineHtml: Boolean,
 ) {
+    public val textLinkStyles: TextLinkStyles =
+        TextLinkStyles(
+            style = link,
+            focusedStyle = linkFocused,
+            hoveredStyle = linkHovered,
+            pressedStyle = linkPressed,
+        )
+
     public companion object
 }
 

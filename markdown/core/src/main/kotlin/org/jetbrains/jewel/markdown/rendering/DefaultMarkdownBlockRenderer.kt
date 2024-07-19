@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
@@ -50,7 +51,6 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
-import org.jetbrains.jewel.markdown.BlockWithInlineMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.BlockQuote
 import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock
@@ -65,6 +65,7 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock.UnorderedList
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListItem
 import org.jetbrains.jewel.markdown.MarkdownBlock.Paragraph
 import org.jetbrains.jewel.markdown.MarkdownBlock.ThematicBreak
+import org.jetbrains.jewel.markdown.WithInlineMarkdown
 import org.jetbrains.jewel.markdown.extensions.MarkdownRendererExtension
 import org.jetbrains.jewel.ui.Orientation.Horizontal
 import org.jetbrains.jewel.ui.component.Divider
@@ -74,7 +75,7 @@ import org.jetbrains.jewel.ui.component.Text
 public open class DefaultMarkdownBlockRenderer(
     private val rootStyling: MarkdownStyling,
     private val rendererExtensions: List<MarkdownRendererExtension> = emptyList(),
-    private val inlineRenderer: InlineMarkdownRenderer = DefaultInlineMarkdownRenderer(),
+    private val inlineRenderer: InlineMarkdownRenderer = DefaultInlineMarkdownRenderer(rendererExtensions),
 ) : MarkdownBlockRenderer {
     @Composable
     override fun render(
@@ -110,7 +111,7 @@ public open class DefaultMarkdownBlockRenderer(
             ThematicBreak -> renderThematicBreak(rootStyling.thematicBreak)
             is CustomBlock -> {
                 rendererExtensions
-                    .find { it.blockRenderer.canRender(block) }
+                    .find { it.blockRenderer?.canRender(block) == true }
                     ?.blockRenderer
                     ?.render(block, blockRenderer = this, inlineRenderer, enabled, onUrlClick, onTextClick)
             }
@@ -141,11 +142,13 @@ public open class DefaultMarkdownBlockRenderer(
 
         Text(
             modifier =
-                Modifier.clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    onClick = onTextClick,
-                ),
+                Modifier
+                    .focusProperties { canFocus = false }
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onTextClick,
+                    ),
             text = renderedContent,
             style = mergedStyle,
         )
@@ -212,6 +215,7 @@ public open class DefaultMarkdownBlockRenderer(
             Text(
                 text = renderedContent,
                 style = mergedStyle,
+                modifier = Modifier.focusProperties { canFocus = false },
             )
 
             if (underlineWidth > 0.dp && underlineColor.isSpecified) {
@@ -295,6 +299,7 @@ public open class DefaultMarkdownBlockRenderer(
                         color = styling.numberStyle.color.takeOrElse { LocalContentColor.current },
                         modifier =
                             Modifier
+                                .focusProperties { canFocus = false }
                                 .widthIn(min = styling.numberMinWidth)
                                 .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                         textAlign = styling.numberTextAlign,
@@ -333,7 +338,9 @@ public open class DefaultMarkdownBlockRenderer(
                         text = styling.bullet.toString(),
                         style = styling.bulletStyle,
                         color = styling.bulletStyle.color.takeOrElse { LocalContentColor.current },
-                        modifier = Modifier.pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+                        modifier =
+                            Modifier.focusProperties { canFocus = false }
+                                .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                     )
 
                     Spacer(Modifier.width(styling.bulletContentGap))
@@ -384,7 +391,7 @@ public open class DefaultMarkdownBlockRenderer(
                 style = styling.editorTextStyle,
                 color = styling.editorTextStyle.color.takeOrElse { LocalContentColor.current },
                 modifier =
-                    Modifier
+                    Modifier.focusProperties { canFocus = false }
                         .padding(styling.padding)
                         .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
             )
@@ -418,7 +425,9 @@ public open class DefaultMarkdownBlockRenderer(
                     text = block.content,
                     style = styling.editorTextStyle,
                     color = styling.editorTextStyle.color.takeOrElse { LocalContentColor.current },
-                    modifier = Modifier.pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+                    modifier =
+                        Modifier.focusProperties { canFocus = false }
+                            .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                 )
 
                 if (block.mimeType != null && styling.infoPosition.verticalAlignment == Alignment.Bottom) {
@@ -447,6 +456,7 @@ public open class DefaultMarkdownBlockRenderer(
                     text = infoText,
                     style = textStyle,
                     color = textStyle.color.takeOrElse { LocalContentColor.current },
+                    modifier = Modifier.focusProperties { canFocus = false },
                 )
             }
         }
@@ -467,7 +477,7 @@ public open class DefaultMarkdownBlockRenderer(
 
     @Composable
     private fun rememberRenderedContent(
-        block: BlockWithInlineMarkdown,
+        block: WithInlineMarkdown,
         styling: InlinesStyling,
         enabled: Boolean,
         onUrlClick: ((String) -> Unit)? = null,
