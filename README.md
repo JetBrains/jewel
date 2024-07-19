@@ -297,9 +297,9 @@ the [`ide-plugin` sample](samples/ide-plugin/build.gradle.kts).
 
 ### Icons
 
-When building for IntelliJ o desktop, you have a few options to load icons.
+When building for IntelliJ Platform desktop, you have a few options to load icons.
 
-#### Icon from resources
+#### Icons from resources
 We have a key-based icon loading API that allows you to load platform icons in a cross-target way.
 
 To load an icon, you can use the `Icon` composable and provide a `PathIconKey` with a resource path:
@@ -310,7 +310,7 @@ Icon(PathIconKey("icons/myIcon.svg"), contentDescription = "...")
 ```
 
 #### Icons from IntelliJ Platform
-If you are planning to use platform icons found in `AllIcons` in your desktop app. You will need a bit of setup to make sure that the icons are present on the classpath as resources.
+If you are planning to use in your desktop app some of the platform icons found in `AllIcons`, you will need a bit of setup to make sure that the icons are present on the classpath as resources.
 
 Add this to your build script:
 
