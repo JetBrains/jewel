@@ -35,6 +35,9 @@ dependencies {
         exclude(group = "org.jetbrains.compose.material")
         exclude(group = "org.jetbrains.kotlinx")
     }
+
+    testImplementation("org.jetbrains.compose.ui:ui-test-junit4-desktop:1.7.0-dev1703")
+    testImplementation(projects.intUi.intUiStandalone)
 }
 
 intellijPlatform {
