@@ -335,12 +335,12 @@ PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup")
 ```
 ### Old UI and new UI icons
 
-Depending on your need to support the old UI and/or the new UI, you have to keep in mind that:
+The right `IconKey` to use depends on whether an icon has Old UI and New UI variants, or not:
 
-* `PathIconKey` represents one icon from the resources. This icon has a path that doesn't change, if you are targeting the new UI or the old UI.
-* `IntelliJIconKey` represents one icon as well, but discriminates between the old and new UI.
+* `PathIconKey` represents an icon from the resources that has no Old and New UI variants
+* `IntelliJIconKey` is similar, but provides paths for both the Old and New UI variants
 
-If you are targeting only the new UI, you can use either `PathIconKey` or `IntelliJIconKey` to load the icon. If you are targeting the old UI, you need to use `IntelliJIconKey`.
+If you are targeting only the New UI, you can use either `PathIconKey` or `IntelliJIconKey` to load the icon. If you are targeting the Old UI, you need to use `IntelliJIconKey`.
 
 ### Icon runtime patching
 
