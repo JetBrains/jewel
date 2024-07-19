@@ -75,7 +75,7 @@ import org.jetbrains.jewel.ui.component.Text
 public open class DefaultMarkdownBlockRenderer(
     private val rootStyling: MarkdownStyling,
     private val rendererExtensions: List<MarkdownRendererExtension> = emptyList(),
-    private val inlineRenderer: InlineMarkdownRenderer = DefaultInlineMarkdownRenderer(),
+    private val inlineRenderer: InlineMarkdownRenderer = DefaultInlineMarkdownRenderer(rendererExtensions),
 ) : MarkdownBlockRenderer {
     @Composable
     override fun render(
@@ -111,7 +111,7 @@ public open class DefaultMarkdownBlockRenderer(
             ThematicBreak -> renderThematicBreak(rootStyling.thematicBreak)
             is CustomBlock -> {
                 rendererExtensions
-                    .find { it.blockRenderer.canRender(block) }
+                    .find { it.blockRenderer?.canRender(block) == true }
                     ?.blockRenderer
                     ?.render(block, blockRenderer = this, inlineRenderer, enabled, onUrlClick, onTextClick)
             }

@@ -7,23 +7,14 @@ import androidx.compose.ui.text.AnnotatedString.Builder
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import org.commonmark.renderer.text.TextContentRenderer
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.markdown.InlineMarkdown
-import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
+import org.jetbrains.jewel.markdown.extensions.MarkdownRendererExtension
 
 @ExperimentalJewelApi
 public open class DefaultInlineMarkdownRenderer(
-    rendererExtensions: List<MarkdownProcessorExtension>,
+    private val rendererExtensions: List<MarkdownRendererExtension>,
 ) : InlineMarkdownRenderer {
-    public constructor(vararg extensions: MarkdownProcessorExtension) : this(extensions.toList())
-
-    private val plainTextRenderer =
-        TextContentRenderer
-            .builder()
-            .extensions(rendererExtensions.map { it.textRendererExtension })
-            .build()
-
     public override fun renderAsAnnotatedString(
         inlineMarkdown: Iterable<InlineMarkdown>,
         styling: InlinesStyling,
@@ -110,7 +101,11 @@ public open class DefaultInlineMarkdownRenderer(
                     )
                 }
 
-                is InlineMarkdown.CustomNode -> error("InlineMarkdown.CustomNode render is not implemented")
+                is InlineMarkdown.CustomNode ->
+                    rendererExtensions
+                        .find { it.inlineRenderer?.canRender(child) == true }
+                        ?.inlineRenderer
+                        ?.render(child, inlineRenderer = this@DefaultInlineMarkdownRenderer, enabled)
             }
         }
     }

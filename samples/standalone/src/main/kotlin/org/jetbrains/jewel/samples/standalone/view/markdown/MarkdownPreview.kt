@@ -34,7 +34,6 @@ import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertProcessorExtension
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
 import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
-import org.jetbrains.jewel.markdown.rendering.InlineMarkdownRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 import org.jetbrains.jewel.ui.component.VerticalScrollbar
@@ -75,13 +74,11 @@ internal fun MarkdownPreview(
                 MarkdownBlockRenderer.dark(
                     styling = markdownStyling,
                     rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.dark(), markdownStyling)),
-                    inlineRenderer = InlineMarkdownRenderer.default(extensions),
                 )
             } else {
                 MarkdownBlockRenderer.light(
                     styling = markdownStyling,
                     rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.light(), markdownStyling)),
-                    inlineRenderer = InlineMarkdownRenderer.default(extensions),
                 )
             }
         }

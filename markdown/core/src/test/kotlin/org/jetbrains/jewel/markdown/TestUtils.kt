@@ -12,11 +12,11 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock.UnorderedList
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListItem
 import org.jetbrains.jewel.markdown.MarkdownBlock.Paragraph
 import org.jetbrains.jewel.markdown.MarkdownBlock.ThematicBreak
-import org.junit.Assert
+import org.junit.Assert.assertTrue
 
 fun List<MarkdownBlock>.assertEquals(vararg expected: MarkdownBlock) {
     val differences = findDifferences(expected.toList(), indentSize = 0)
-    Assert.assertTrue(
+    assertTrue(
         "The following differences were found:\n\n" +
             "${differences.joinToString("\n").replace('\t', '→')}\n\n",
         differences.isEmpty(),
