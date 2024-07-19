@@ -7,7 +7,7 @@ internal val JewelReadme =
     """
 # Jewel: a Compose for Desktop theme
 
-<img alt="Jewel logo" src="art/jewel-logo.svg" width="20%"/>
+<img alt="Jewel logo" src="https://raw.githubusercontent.com/JetBrains/jewel/6ef2344561f7b4d1325750417145b9ecb06ac23c/art/jewel-logo.svg?raw=true" width="20%"/>
 
 Jewel aims at recreating the IntelliJ Platform's _New UI_ Swing Look and Feel in Compose for Desktop, providing a
 desktop-optimized theme and set of components.
@@ -120,7 +120,7 @@ include the `int-ui` module, which is always released from the main branch.
 Releases of Jewel are always cut from a tag on the main branch; the HEAD of each `releases/xxx` branch is then tagged
 as `[mainTag]-xxx`, and used to publish the artifacts for that major IJP version.
 
-> ![IMPORTANT]
+> [!IMPORTANT]
 > We only support the latest build of IJP for each major IJP version. If the latest 233 version is 2023.3.3, for
 > example, we will only guarantee that Jewel works on that. Versions 2023.3.0–2023.3.2 might or might not work.
 
@@ -130,7 +130,7 @@ The standalone theme can be used in any Compose for Desktop app. You use it as a
 to your heart's content. By default, it matches the official Int UI specs.
 
 For an example on how to set up a standalone app, you can refer to
-the [`standalone` sample](samples/standalone/build.gradle.kts).
+the [`standalone` sample](https://github.com/JetBrains/jewel/blob/main/samples/standalone/build.gradle.kts).
 
 > [!WARNING]
 > Note that Jewel **requires** the JetBrains Runtime to work correctly. Some features like font loading depend on it,
@@ -152,7 +152,7 @@ If you want more control over the theming, you can use other `IntUiTheme` overlo
 
 The JetBrains Runtime allows windows to have a custom decoration instead of the regular title bar.
 
-![A screenshot of the custom window decoration in the standalone sample](art/docs/custom-chrome.png)
+![A screenshot of the custom window decoration in the standalone sample](https://github.com/JetBrains/jewel/blob/main/art/docs/custom-chrome.png?raw=true)
 
 The standalone sample app shows how to easily get something that looks like a JetBrains IDE; if you want to go _very_
 custom, you only need to depend on the `decorated-window` module, which contains all the required primitives, but not
@@ -214,7 +214,7 @@ and the branch on which the corresponding bridge code lives:
 | 2023.1 or older              | **Not supported** |
 
 For an example on how to set up an IntelliJ Plugin, you can refer to
-the [`ide-plugin` sample](samples/ide-plugin/build.gradle.kts).
+the [`ide-plugin` sample](https://github.com/JetBrains/jewel/blob/main/samples/ide-plugin/build.gradle.kts).
 
 #### Accessing icons
 

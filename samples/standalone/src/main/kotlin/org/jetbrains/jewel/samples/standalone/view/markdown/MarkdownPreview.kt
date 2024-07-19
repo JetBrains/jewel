@@ -34,7 +34,6 @@ import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertProcessorExtension
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
 import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
-import org.jetbrains.jewel.markdown.rendering.InlineMarkdownRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 import org.jetbrains.jewel.ui.component.VerticalScrollbar
@@ -45,7 +44,6 @@ import java.net.URI
 internal fun MarkdownPreview(
     modifier: Modifier = Modifier,
     rawMarkdown: String,
-    linksAreEnabled: Boolean,
 ) {
     val isDark = JewelTheme.isDark
 
@@ -53,12 +51,12 @@ internal fun MarkdownPreview(
         remember(isDark) { if (isDark) MarkdownStyling.dark() else MarkdownStyling.light() }
 
     var markdownBlocks by remember { mutableStateOf(emptyList<MarkdownBlock>()) }
-    val extensions = listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension)
+    val extensions = remember { listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension) }
 
     // We are doing this here for the sake of simplicity.
     // In a real-world scenario you would be doing this outside your Composables,
     // potentially involving ViewModels, dependency injection, etc.
-    val processor = remember { MarkdownProcessor(extensions) }
+    val processor = remember { MarkdownProcessor(extensions, optimizeEdits = true) }
 
     LaunchedEffect(rawMarkdown) {
         // TODO you may want to debounce or drop on backpressure, in real usages. You should also not do this
@@ -76,13 +74,11 @@ internal fun MarkdownPreview(
                 MarkdownBlockRenderer.dark(
                     styling = markdownStyling,
                     rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.dark(), markdownStyling)),
-                    inlineRenderer = InlineMarkdownRenderer.default(extensions),
                 )
             } else {
                 MarkdownBlockRenderer.light(
                     styling = markdownStyling,
                     rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.light(), markdownStyling)),
-                    inlineRenderer = InlineMarkdownRenderer.default(extensions),
                 )
             }
         }
@@ -99,7 +95,6 @@ internal fun MarkdownPreview(
                 contentPadding = PaddingValues(16.dp),
                 state = lazyListState,
                 selectable = true,
-                enabled = linksAreEnabled,
                 onUrlClick = { url -> Desktop.getDesktop().browse(URI.create(url)) },
             )
 
