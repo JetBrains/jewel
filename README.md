@@ -37,6 +37,25 @@ plugins), but automatically mirrors the current Swing LaF into Compose for a nat
 
 <br/>
 
+* [Getting started](#getting-started)
+* [Using ProGuard/obfuscation/minification](#using-proguardobfuscationminification)
+* [Dependencies matrix](#dependencies-matrix)
+* [Project structure](#project-structure)
+* [Branching strategy and IJ Platforms](#branching-strategy-and-ij-platforms)
+  * [Int UI Standalone theme](#int-ui-standalone-theme)
+    * [Custom window decoration](#custom-window-decoration)
+  * [Running on the IntelliJ Platform: the Swing bridge](#running-on-the-intellij-platform-the-swing-bridge)
+    * [Supported IntelliJ Platform versions](#supported-intellij-platform-versions)
+  * [Icons](#icons)
+    * [Icons from resources](#icons-from-resources)
+    * [Icons from IntelliJ Platform](#icons-from-intellij-platform)
+    * [Icon runtime patching](#icon-runtime-patching)
+  * [Fonts](#fonts)
+  * [Swing interoperability](#swing-interoperability)
+* [Written with Jewel](#written-with-jewel)
+* [Need help?](#need-help)
+* [License](#license)
+
 ## Getting started
 
 The first thing to add is the necessary Gradle plugins, including the Compose Multiplatform plugin. You need to add a
