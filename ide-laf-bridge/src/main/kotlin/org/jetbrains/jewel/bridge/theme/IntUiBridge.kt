@@ -204,20 +204,16 @@ internal fun createBridgeThemeDefinition(
 internal fun createBridgeComponentStyling(theme: ThemeDefinition) =
     createBridgeComponentStyling(
         theme = theme,
-        textFieldTextStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
-        textAreaTextStyle = retrieveTextStyle("TextArea.font", "TextArea.foreground"),
         linkTextStyle = retrieveTextStyle("Label.font"),
     )
 
 internal fun createBridgeComponentStyling(
     theme: ThemeDefinition,
-    textFieldTextStyle: TextStyle,
-    textAreaTextStyle: TextStyle,
     linkTextStyle: TextStyle,
 ): ComponentStyling {
     logger.debug("Obtaining Int UI component styling from Swing...")
 
-    val textFieldStyle = readTextFieldStyle(textFieldTextStyle)
+    val textFieldStyle = readTextFieldStyle()
     val menuStyle = readMenuStyle()
 
     return DefaultComponentStyling(
@@ -241,7 +237,7 @@ internal fun createBridgeComponentStyling(
         segmentedControlButtonStyle = readSegmentedControlButtonStyle(),
         segmentedControlStyle = readSegmentedControlStyle(),
         sliderStyle = readSliderStyle(theme.isDark),
-        textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
+        textAreaStyle = readTextAreaStyle(textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
         tooltipStyle = readTooltipStyle(),
         undecoratedDropdownStyle = readUndecoratedDropdownStyle(menuStyle),
@@ -933,10 +929,7 @@ private fun readSliderStyle(dark: Boolean): SliderStyle {
     return SliderStyle(colors, SliderMetrics.defaults(), CircleShape)
 }
 
-private fun readTextAreaStyle(
-    textStyle: TextStyle,
-    metrics: TextFieldMetrics,
-): TextAreaStyle {
+private fun readTextAreaStyle(metrics: TextFieldMetrics): TextAreaStyle {
     val normalBackground = retrieveColorOrUnspecified("TextArea.background")
     val normalContent = retrieveColorOrUnspecified("TextArea.foreground")
     val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
@@ -977,11 +970,10 @@ private fun readTextAreaStyle(
                 minSize = metrics.minSize,
                 borderWidth = metrics.borderWidth,
             ),
-        textStyle = textStyle,
     )
 }
 
-private fun readTextFieldStyle(textFieldStyle: TextStyle): TextFieldStyle {
+private fun readTextFieldStyle(): TextFieldStyle {
     val normalBackground = retrieveColorOrUnspecified("TextField.background")
     val normalContent = retrieveColorOrUnspecified("TextField.foreground")
     val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
@@ -1023,7 +1015,6 @@ private fun readTextFieldStyle(textFieldStyle: TextStyle): TextFieldStyle {
                 minSize = DpSize(minimumSize.width, minimumSize.height),
                 borderWidth = DarculaUIUtil.LW.dp,
             ),
-        textStyle = textFieldStyle,
     )
 }
 

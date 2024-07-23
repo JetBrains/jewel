@@ -21,14 +21,14 @@ public fun TextAreaStyle.Companion.light(
     colors: TextAreaColors = TextAreaColors.light(),
     metrics: TextAreaMetrics = TextAreaMetrics.defaults(),
     textStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
-): TextAreaStyle = TextAreaStyle(colors, metrics, textStyle)
+): TextAreaStyle = TextAreaStyle(colors, metrics)
 
 @Composable
 public fun TextAreaStyle.Companion.dark(
     colors: TextAreaColors = TextAreaColors.dark(),
     metrics: TextAreaMetrics = TextAreaMetrics.defaults(),
     textStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
-): TextAreaStyle = TextAreaStyle(colors, metrics, textStyle)
+): TextAreaStyle = TextAreaStyle(colors, metrics)
 
 @Composable
 public fun TextAreaColors.Companion.light(

@@ -21,14 +21,14 @@ public fun TextFieldStyle.Companion.light(
     colors: TextFieldColors = TextFieldColors.light(),
     metrics: TextFieldMetrics = TextFieldMetrics.defaults(),
     textStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
-): TextFieldStyle = TextFieldStyle(colors, metrics, textStyle)
+): TextFieldStyle = TextFieldStyle(colors, metrics)
 
 @Composable
 public fun TextFieldStyle.Companion.dark(
     colors: TextFieldColors = TextFieldColors.dark(),
     metrics: TextFieldMetrics = TextFieldMetrics.defaults(),
     textStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
-): TextFieldStyle = TextFieldStyle(colors, metrics, textStyle)
+): TextFieldStyle = TextFieldStyle(colors, metrics)
 
 @Composable
 public fun TextFieldColors.Companion.light(

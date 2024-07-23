@@ -61,8 +61,6 @@ internal class SwingBridgeService(scope: CoroutineScope) {
                         componentStyling =
                             createBridgeComponentStyling(
                                 theme = themeDefinition,
-                                textFieldTextStyle = textStyle,
-                                textAreaTextStyle = textStyle,
                                 linkTextStyle = textStyle,
                             ),
                     )
