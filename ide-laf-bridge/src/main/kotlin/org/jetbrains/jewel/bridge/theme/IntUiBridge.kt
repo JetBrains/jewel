@@ -200,16 +200,7 @@ internal fun createBridgeThemeDefinition(
     )
 }
 
-internal fun createBridgeComponentStyling(theme: ThemeDefinition) =
-    createBridgeComponentStyling(
-        theme = theme,
-        linkTextStyle = retrieveTextStyle("Label.font"),
-    )
-
-internal fun createBridgeComponentStyling(
-    theme: ThemeDefinition,
-    linkTextStyle: TextStyle,
-): ComponentStyling {
+internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyling {
     logger.debug("Obtaining Int UI component styling from Swing...")
 
     val textFieldStyle = readTextFieldStyle()
@@ -228,7 +219,7 @@ internal fun createBridgeComponentStyling(
         horizontalProgressBarStyle = readHorizontalProgressBarStyle(),
         iconButtonStyle = readIconButtonStyle(),
         lazyTreeStyle = readLazyTreeStyle(),
-        linkStyle = readLinkStyle(linkTextStyle),
+        linkStyle = readLinkStyle(),
         menuStyle = menuStyle,
         outlinedButtonStyle = readOutlinedButtonStyle(),
         radioButtonStyle = readRadioButtonStyle(),
@@ -621,7 +612,7 @@ private fun readHorizontalProgressBarStyle() =
         indeterminateCycleDuration = 800.milliseconds, // See DarculaProgressBarUI.CYCLE_TIME_DEFAULT
     )
 
-private fun readLinkStyle(linkTextStyle: TextStyle): LinkStyle {
+private fun readLinkStyle(): LinkStyle {
     val normalContent =
         retrieveColorOrUnspecified("Link.activeForeground")
             .takeOrElse { retrieveColorOrUnspecified("Link.activeForeground") }
