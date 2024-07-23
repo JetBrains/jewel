@@ -63,7 +63,6 @@ internal class SwingBridgeService(scope: CoroutineScope) {
                                 theme = themeDefinition,
                                 textFieldTextStyle = textStyle,
                                 textAreaTextStyle = textStyle,
-                                dropdownTextStyle = textStyle,
                                 linkTextStyle = textStyle,
                             ),
                     )

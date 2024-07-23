@@ -31,7 +31,7 @@ public object IntUiDefaultDropdownStyleFactory {
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
         menuStyle: MenuStyle = MenuStyle.light(),
-    ): DropdownStyle = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
+    ): DropdownStyle = DropdownStyle(colors, metrics, icons, menuStyle)
 
     @Composable
     public fun dark(
@@ -40,7 +40,7 @@ public object IntUiDefaultDropdownStyleFactory {
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
         menuStyle: MenuStyle = MenuStyle.dark(),
-    ): DropdownStyle = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
+    ): DropdownStyle = DropdownStyle(colors, metrics, icons, menuStyle)
 }
 
 public val DropdownStyle.Companion.Undecorated: IntUiUndecoratedDropdownStyleFactory
@@ -54,7 +54,7 @@ public object IntUiUndecoratedDropdownStyleFactory {
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
         menuStyle: MenuStyle = MenuStyle.light(),
-    ): DropdownStyle = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
+    ): DropdownStyle = DropdownStyle(colors, metrics, icons, menuStyle)
 
     @Composable
     public fun dark(
@@ -63,7 +63,7 @@ public object IntUiUndecoratedDropdownStyleFactory {
         icons: DropdownIcons = DropdownIcons.defaults(),
         textStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
         menuStyle: MenuStyle = MenuStyle.dark(),
-    ): DropdownStyle = DropdownStyle(colors, metrics, icons, textStyle, menuStyle)
+    ): DropdownStyle = DropdownStyle(colors, metrics, icons, menuStyle)
 }
 
 public val DropdownColors.Companion.Default: IntUiDefaultDropdownColorsFactory

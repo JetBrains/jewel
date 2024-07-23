@@ -206,7 +206,6 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition) =
         theme = theme,
         textFieldTextStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
         textAreaTextStyle = retrieveTextStyle("TextArea.font", "TextArea.foreground"),
-        dropdownTextStyle = retrieveTextStyle("ComboBox.font"),
         linkTextStyle = retrieveTextStyle("Label.font"),
     )
 
@@ -214,7 +213,6 @@ internal fun createBridgeComponentStyling(
     theme: ThemeDefinition,
     textFieldTextStyle: TextStyle,
     textAreaTextStyle: TextStyle,
-    dropdownTextStyle: TextStyle,
     linkTextStyle: TextStyle,
 ): ComponentStyling {
     logger.debug("Obtaining Int UI component styling from Swing...")
@@ -227,7 +225,7 @@ internal fun createBridgeComponentStyling(
         chipStyle = readChipStyle(),
         circularProgressStyle = readCircularProgressStyle(theme.isDark),
         defaultButtonStyle = readDefaultButtonStyle(),
-        defaultDropdownStyle = readDefaultDropdownStyle(menuStyle, dropdownTextStyle),
+        defaultDropdownStyle = readDefaultDropdownStyle(menuStyle),
         defaultTabStyle = readDefaultTabStyle(),
         dividerStyle = readDividerStyle(),
         editorTabStyle = readEditorTabStyle(),
@@ -246,7 +244,7 @@ internal fun createBridgeComponentStyling(
         textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
         tooltipStyle = readTooltipStyle(),
-        undecoratedDropdownStyle = readUndecoratedDropdownStyle(menuStyle, dropdownTextStyle),
+        undecoratedDropdownStyle = readUndecoratedDropdownStyle(menuStyle),
     )
 }
 
@@ -503,10 +501,7 @@ private fun readDividerStyle() =
         metrics = DividerMetrics.defaults(),
     )
 
-private fun readDefaultDropdownStyle(
-    menuStyle: MenuStyle,
-    dropdownTextStyle: TextStyle,
-): DropdownStyle {
+private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
     val normalBorder = retrieveColorOrUnspecified("Component.borderColor")
@@ -549,15 +544,11 @@ private fun readDefaultDropdownStyle(
                 borderWidth = DarculaUIUtil.LW.dp,
             ),
         icons = DropdownIcons(chevronDown = AllIconsKeys.General.ChevronDown),
-        textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
     )
 }
 
-private fun readUndecoratedDropdownStyle(
-    menuStyle: MenuStyle,
-    dropdownTextStyle: TextStyle,
-): DropdownStyle {
+private fun readUndecoratedDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
     val hoverBackground = retrieveColorOrUnspecified("MainToolbar.Dropdown.transparentHoverBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
@@ -600,7 +591,6 @@ private fun readUndecoratedDropdownStyle(
                 borderWidth = 0.dp,
             ),
         icons = DropdownIcons(chevronDown = AllIconsKeys.General.ChevronDown),
-        textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
     )
 }
