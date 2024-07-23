@@ -25,13 +25,14 @@ import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior
 @View(title = "Links", position = 4, icon = "icons/components/links.svg")
 fun Links() {
     val isDark = JewelTheme.isDark
-    val alwaysUnderlinedStyle = remember(isDark) {
-        if (isDark) {
-            LinkStyle.dark(underlineBehavior = LinkUnderlineBehavior.ShowAlways)
-        } else {
-            LinkStyle.light(underlineBehavior = LinkUnderlineBehavior.ShowAlways)
+    val alwaysUnderlinedStyle =
+        remember(isDark) {
+            if (isDark) {
+                LinkStyle.dark(underlineBehavior = LinkUnderlineBehavior.ShowAlways)
+            } else {
+                LinkStyle.light(underlineBehavior = LinkUnderlineBehavior.ShowAlways)
+            }
         }
-    }
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
