@@ -27,12 +27,8 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.platform.LocalInputModeManager
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.TextUnit
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -41,8 +37,11 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Hovered
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.JewelTheme.Companion.isSwingCompatMode
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
+import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior.ShowAlways
+import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior.ShowOnHover
 import org.jetbrains.jewel.ui.component.styling.LocalLinkStyle
 import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
@@ -59,14 +58,8 @@ public fun Link(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    fontSize: TextUnit = TextUnit.Unspecified,
-    fontStyle: FontStyle? = null,
-    fontWeight: FontWeight? = null,
-    fontFamily: FontFamily? = null,
-    letterSpacing: TextUnit = TextUnit.Unspecified,
-    textAlign: TextAlign = TextAlign.Unspecified,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
     overflow: TextOverflow = TextOverflow.Clip,
-    lineHeight: TextUnit = TextUnit.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: LinkStyle = LocalLinkStyle.current,
 ) {
@@ -75,16 +68,10 @@ public fun Link(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
-        fontSize = fontSize,
-        fontStyle = fontStyle,
-        fontWeight = fontWeight,
-        fontFamily = fontFamily,
-        letterSpacing = letterSpacing,
-        textAlign = textAlign,
         overflow = overflow,
-        lineHeight = lineHeight,
         interactionSource = interactionSource,
         style = style,
+        textStyle = textStyle,
         icon = null,
     )
 }
@@ -95,14 +82,8 @@ public fun ExternalLink(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    fontSize: TextUnit = TextUnit.Unspecified,
-    fontStyle: FontStyle? = null,
-    fontWeight: FontWeight? = null,
-    fontFamily: FontFamily? = null,
-    letterSpacing: TextUnit = TextUnit.Unspecified,
-    textAlign: TextAlign = TextAlign.Unspecified,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
     overflow: TextOverflow = TextOverflow.Clip,
-    lineHeight: TextUnit = TextUnit.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: LinkStyle = LocalLinkStyle.current,
 ) {
@@ -111,16 +92,10 @@ public fun ExternalLink(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
-        fontSize = fontSize,
-        fontStyle = fontStyle,
-        fontWeight = fontWeight,
-        fontFamily = fontFamily,
-        letterSpacing = letterSpacing,
-        textAlign = textAlign,
         overflow = overflow,
-        lineHeight = lineHeight,
         interactionSource = interactionSource,
         style = style,
+        textStyle = textStyle,
         icon = style.icons.externalLink,
     )
 }
@@ -130,14 +105,8 @@ public fun DropdownLink(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    fontSize: TextUnit = TextUnit.Unspecified,
-    fontStyle: FontStyle? = null,
-    fontWeight: FontWeight? = null,
-    fontFamily: FontFamily? = null,
-    letterSpacing: TextUnit = TextUnit.Unspecified,
-    textAlign: TextAlign = TextAlign.Unspecified,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
     overflow: TextOverflow = TextOverflow.Clip,
-    lineHeight: TextUnit = TextUnit.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: LinkStyle = LocalLinkStyle.current,
     menuModifier: Modifier = Modifier,
@@ -159,16 +128,10 @@ public fun DropdownLink(
             },
             modifier = modifier,
             enabled = enabled,
-            fontSize = fontSize,
-            fontStyle = fontStyle,
-            fontWeight = fontWeight,
-            fontFamily = fontFamily,
-            letterSpacing = letterSpacing,
-            textAlign = textAlign,
             overflow = overflow,
-            lineHeight = lineHeight,
             interactionSource = interactionSource,
             style = style,
+            textStyle = textStyle,
             icon = style.icons.dropdownChevron,
         )
 
@@ -197,14 +160,8 @@ private fun LinkImpl(
     onClick: () -> Unit,
     modifier: Modifier,
     enabled: Boolean,
-    fontSize: TextUnit,
-    fontStyle: FontStyle?,
-    fontWeight: FontWeight?,
-    fontFamily: FontFamily?,
-    letterSpacing: TextUnit,
-    textAlign: TextAlign,
+    textStyle: TextStyle,
     overflow: TextOverflow,
-    lineHeight: TextUnit,
     interactionSource: MutableInteractionSource,
     icon: IconKey?,
 ) {
@@ -234,23 +191,16 @@ private fun LinkImpl(
     }
 
     val textColor by style.colors.contentFor(linkState)
+    val mergedTextStyle = remember(style.underlineBehavior, textStyle, linkState, textColor) {
+        val decoration =
+            when {
+                style.underlineBehavior == ShowAlways -> TextDecoration.Underline
+                style.underlineBehavior == ShowOnHover && linkState.isHovered -> TextDecoration.Underline
+                else -> TextDecoration.None
+            }
 
-    val mergedStyle =
-        style.textStyles
-            .styleFor(linkState)
-            .value
-            .merge(
-                TextStyle(
-                    color = textColor,
-                    fontSize = fontSize,
-                    fontWeight = fontWeight,
-                    textAlign = textAlign,
-                    lineHeight = lineHeight,
-                    fontFamily = fontFamily,
-                    fontStyle = fontStyle,
-                    letterSpacing = letterSpacing,
-                ),
-            )
+        textStyle.merge(textDecoration = decoration, color = textColor)
+    }
 
     val pointerChangeModifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
 
@@ -274,7 +224,7 @@ private fun LinkImpl(
     ) {
         BasicText(
             text = text,
-            style = mergedStyle,
+            style = mergedTextStyle,
             overflow = overflow,
             softWrap = true,
             maxLines = 1,

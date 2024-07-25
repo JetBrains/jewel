@@ -4,10 +4,8 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.joinToCode
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -70,6 +68,8 @@ internal object IntUiThemeDescriptorReader {
             .groupBy { it.key.replace("""\d+""".toRegex(), "") }
             .filterKeys { colorGroups.contains(it) }
             .map { (groupName, colors) ->
+                val parameterName = if (groupName.lowercase() == "grey") "gray" else groupName.lowercase()
+
                 // We assume color lists are in the same order as in colorGroups
                 colors
                     .map { (_, value) ->
@@ -77,7 +77,7 @@ internal object IntUiThemeDescriptorReader {
                         CodeBlock.of("Color(%L)", colorHexString)
                     }
                     .joinToCode(
-                        prefix = "\n${groupName.lowercase()} = listOf(\n",
+                        prefix = "\n$parameterName = listOf(\n",
                         separator = ",\n",
                         suffix = "\n)"
                     )
@@ -136,20 +136,4 @@ internal object IntUiThemeDescriptorReader {
     private inline fun <reified K, reified V> Map<K, V>.toMapCodeBlock() =
         entries.map { (key, value) -> CodeBlock.of("\"%L\" to \"%L\"", key, value) }
             .joinToCode(prefix = "mapOf(", separator = ",\n", suffix = ")")
-
-    private inline fun <reified K, reified V> createOverrideStringMapProperty(
-        name: String,
-        values: Map<K, V>,
-    ) =
-        PropertySpec.builder(
-            name = name,
-            type = Map::class.asTypeName().parameterizedBy(K::class.asTypeName(), V::class.asTypeName()),
-            KModifier.OVERRIDE
-        )
-            .initializer(
-                values.entries
-                    .map { (key, value) -> CodeBlock.of("\"%L\" to \"%L\"", key, value) }
-                    .joinToCode(prefix = "mapOf(", separator = ",\n", suffix = ")")
-            )
-            .build()
 }
