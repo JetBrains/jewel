@@ -4,14 +4,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.intui.standalone.theme.createDefaultTextStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldColors
 import org.jetbrains.jewel.ui.component.styling.TextFieldMetrics
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
@@ -20,39 +17,37 @@ import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 public fun TextFieldStyle.Companion.light(
     colors: TextFieldColors = TextFieldColors.light(),
     metrics: TextFieldMetrics = TextFieldMetrics.defaults(),
-    textStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
-): TextFieldStyle = TextFieldStyle(colors, metrics, textStyle)
+): TextFieldStyle = TextFieldStyle(colors, metrics)
 
 @Composable
 public fun TextFieldStyle.Companion.dark(
     colors: TextFieldColors = TextFieldColors.dark(),
     metrics: TextFieldMetrics = TextFieldMetrics.defaults(),
-    textStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
-): TextFieldStyle = TextFieldStyle(colors, metrics, textStyle)
+): TextFieldStyle = TextFieldStyle(colors, metrics)
 
 @Composable
 public fun TextFieldColors.Companion.light(
-    background: Color = IntUiLightTheme.colors.grey(14),
-    backgroundDisabled: Color = IntUiLightTheme.colors.grey(13),
+    background: Color = IntUiLightTheme.colors.gray(14),
+    backgroundDisabled: Color = IntUiLightTheme.colors.gray(13),
     backgroundFocused: Color = background,
     backgroundPressed: Color = background,
     backgroundHovered: Color = background,
-    content: Color = IntUiLightTheme.colors.grey(1),
-    contentDisabled: Color = IntUiLightTheme.colors.grey(8),
+    content: Color = IntUiLightTheme.colors.gray(1),
+    contentDisabled: Color = IntUiLightTheme.colors.gray(8),
     contentFocused: Color = content,
     contentPressed: Color = content,
     contentHovered: Color = content,
-    border: Color = IntUiLightTheme.colors.grey(9),
-    borderDisabled: Color = IntUiLightTheme.colors.grey(11),
+    border: Color = IntUiLightTheme.colors.gray(9),
+    borderDisabled: Color = IntUiLightTheme.colors.gray(11),
     borderFocused: Color = IntUiLightTheme.colors.blue(4),
     borderPressed: Color = border,
     borderHovered: Color = border,
-    caret: Color = IntUiLightTheme.colors.grey(1),
+    caret: Color = IntUiLightTheme.colors.gray(1),
     caretDisabled: Color = caret,
     caretFocused: Color = caret,
     caretPressed: Color = caret,
     caretHovered: Color = caret,
-    placeholder: Color = IntUiLightTheme.colors.grey(8),
+    placeholder: Color = IntUiLightTheme.colors.gray(8),
 ): TextFieldColors =
     TextFieldColors(
         background = background,
@@ -80,27 +75,27 @@ public fun TextFieldColors.Companion.light(
 
 @Composable
 public fun TextFieldColors.Companion.dark(
-    background: Color = IntUiDarkTheme.colors.grey(2),
+    background: Color = IntUiDarkTheme.colors.gray(2),
     backgroundDisabled: Color = background,
     backgroundFocused: Color = background,
     backgroundPressed: Color = background,
     backgroundHovered: Color = background,
-    content: Color = IntUiDarkTheme.colors.grey(12),
-    contentDisabled: Color = IntUiDarkTheme.colors.grey(7),
+    content: Color = IntUiDarkTheme.colors.gray(12),
+    contentDisabled: Color = IntUiDarkTheme.colors.gray(7),
     contentFocused: Color = content,
     contentPressed: Color = content,
     contentHovered: Color = content,
-    border: Color = IntUiDarkTheme.colors.grey(5),
+    border: Color = IntUiDarkTheme.colors.gray(5),
     borderDisabled: Color = border,
     borderFocused: Color = IntUiDarkTheme.colors.blue(6),
     borderPressed: Color = border,
     borderHovered: Color = border,
-    caret: Color = IntUiDarkTheme.colors.grey(12),
+    caret: Color = IntUiDarkTheme.colors.gray(12),
     caretDisabled: Color = caret,
     caretFocused: Color = caret,
     caretPressed: Color = caret,
     caretHovered: Color = caret,
-    placeholder: Color = IntUiDarkTheme.colors.grey(7),
+    placeholder: Color = IntUiDarkTheme.colors.gray(7),
 ): TextFieldColors =
     TextFieldColors(
         background = background,

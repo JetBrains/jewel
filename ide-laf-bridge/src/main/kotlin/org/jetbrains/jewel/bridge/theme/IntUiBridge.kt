@@ -85,7 +85,7 @@ import org.jetbrains.jewel.ui.component.styling.LinkColors
 import org.jetbrains.jewel.ui.component.styling.LinkIcons
 import org.jetbrains.jewel.ui.component.styling.LinkMetrics
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
-import org.jetbrains.jewel.ui.component.styling.LinkTextStyles
+import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior
 import org.jetbrains.jewel.ui.component.styling.MenuColors
 import org.jetbrains.jewel.ui.component.styling.MenuIcons
 import org.jetbrains.jewel.ui.component.styling.MenuItemColors
@@ -201,25 +201,10 @@ internal fun createBridgeThemeDefinition(
     )
 }
 
-internal fun createBridgeComponentStyling(theme: ThemeDefinition) =
-    createBridgeComponentStyling(
-        theme = theme,
-        textFieldTextStyle = retrieveTextStyle("TextField.font", "TextField.foreground"),
-        textAreaTextStyle = retrieveTextStyle("TextArea.font", "TextArea.foreground"),
-        dropdownTextStyle = retrieveTextStyle("ComboBox.font"),
-        linkTextStyle = retrieveTextStyle("Label.font"),
-    )
-
-internal fun createBridgeComponentStyling(
-    theme: ThemeDefinition,
-    textFieldTextStyle: TextStyle,
-    textAreaTextStyle: TextStyle,
-    dropdownTextStyle: TextStyle,
-    linkTextStyle: TextStyle,
-): ComponentStyling {
+internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyling {
     logger.debug("Obtaining Int UI component styling from Swing...")
 
-    val textFieldStyle = readTextFieldStyle(textFieldTextStyle)
+    val textFieldStyle = readTextFieldStyle()
     val menuStyle = readMenuStyle()
 
     return DefaultComponentStyling(
@@ -227,7 +212,7 @@ internal fun createBridgeComponentStyling(
         chipStyle = readChipStyle(),
         circularProgressStyle = readCircularProgressStyle(theme.isDark),
         defaultButtonStyle = readDefaultButtonStyle(),
-        defaultDropdownStyle = readDefaultDropdownStyle(menuStyle, dropdownTextStyle),
+        defaultDropdownStyle = readDefaultDropdownStyle(menuStyle),
         defaultTabStyle = readDefaultTabStyle(),
         dividerStyle = readDividerStyle(),
         editorTabStyle = readEditorTabStyle(),
@@ -235,7 +220,7 @@ internal fun createBridgeComponentStyling(
         horizontalProgressBarStyle = readHorizontalProgressBarStyle(),
         iconButtonStyle = readIconButtonStyle(),
         lazyTreeStyle = readLazyTreeStyle(),
-        linkStyle = readLinkStyle(linkTextStyle),
+        linkStyle = readLinkStyle(),
         menuStyle = menuStyle,
         outlinedButtonStyle = readOutlinedButtonStyle(),
         radioButtonStyle = readRadioButtonStyle(),
@@ -243,10 +228,10 @@ internal fun createBridgeComponentStyling(
         segmentedControlButtonStyle = readSegmentedControlButtonStyle(),
         segmentedControlStyle = readSegmentedControlStyle(),
         sliderStyle = readSliderStyle(theme.isDark),
-        textAreaStyle = readTextAreaStyle(textAreaTextStyle, textFieldStyle.metrics),
+        textAreaStyle = readTextAreaStyle(textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
         tooltipStyle = readTooltipStyle(),
-        undecoratedDropdownStyle = readUndecoratedDropdownStyle(menuStyle, dropdownTextStyle),
+        undecoratedDropdownStyle = readUndecoratedDropdownStyle(menuStyle),
     )
 }
 
@@ -503,10 +488,7 @@ private fun readDividerStyle() =
         metrics = DividerMetrics.defaults(),
     )
 
-private fun readDefaultDropdownStyle(
-    menuStyle: MenuStyle,
-    dropdownTextStyle: TextStyle,
-): DropdownStyle {
+private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
     val normalBorder = retrieveColorOrUnspecified("Component.borderColor")
@@ -549,15 +531,11 @@ private fun readDefaultDropdownStyle(
                 borderWidth = DarculaUIUtil.LW.dp,
             ),
         icons = DropdownIcons(chevronDown = AllIconsKeys.General.ChevronDown),
-        textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
     )
 }
 
-private fun readUndecoratedDropdownStyle(
-    menuStyle: MenuStyle,
-    dropdownTextStyle: TextStyle,
-): DropdownStyle {
+private fun readUndecoratedDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
     val hoverBackground = retrieveColorOrUnspecified("MainToolbar.Dropdown.transparentHoverBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
@@ -600,7 +578,6 @@ private fun readUndecoratedDropdownStyle(
                 borderWidth = 0.dp,
             ),
         icons = DropdownIcons(chevronDown = AllIconsKeys.General.ChevronDown),
-        textStyle = dropdownTextStyle,
         menuStyle = menuStyle,
     )
 }
@@ -636,7 +613,7 @@ private fun readHorizontalProgressBarStyle() =
         indeterminateCycleDuration = 800.milliseconds, // See DarculaProgressBarUI.CYCLE_TIME_DEFAULT
     )
 
-private fun readLinkStyle(linkTextStyle: TextStyle): LinkStyle {
+private fun readLinkStyle(): LinkStyle {
     val normalContent =
         retrieveColorOrUnspecified("Link.activeForeground")
             .takeOrElse { retrieveColorOrUnspecified("Link.activeForeground") }
@@ -676,15 +653,7 @@ private fun readLinkStyle(linkTextStyle: TextStyle): LinkStyle {
                 dropdownChevron = AllIconsKeys.General.ChevronDown,
                 externalLink = AllIconsKeys.Ide.External_link_arrow,
             ),
-        textStyles =
-            LinkTextStyles(
-                normal = linkTextStyle,
-                disabled = linkTextStyle,
-                focused = linkTextStyle,
-                pressed = linkTextStyle,
-                hovered = linkTextStyle,
-                visited = linkTextStyle,
-            ),
+        underlineBehavior = LinkUnderlineBehavior.ShowOnHover,
     )
 }
 
@@ -943,10 +912,7 @@ private fun readSliderStyle(dark: Boolean): SliderStyle {
     return SliderStyle(colors, SliderMetrics.defaults(), CircleShape)
 }
 
-private fun readTextAreaStyle(
-    textStyle: TextStyle,
-    metrics: TextFieldMetrics,
-): TextAreaStyle {
+private fun readTextAreaStyle(metrics: TextFieldMetrics): TextAreaStyle {
     val normalBackground = retrieveColorOrUnspecified("TextArea.background")
     val normalContent = retrieveColorOrUnspecified("TextArea.foreground")
     val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
@@ -987,11 +953,10 @@ private fun readTextAreaStyle(
                 minSize = metrics.minSize,
                 borderWidth = metrics.borderWidth,
             ),
-        textStyle = textStyle,
     )
 }
 
-private fun readTextFieldStyle(textFieldStyle: TextStyle): TextFieldStyle {
+private fun readTextFieldStyle(): TextFieldStyle {
     val normalBackground = retrieveColorOrUnspecified("TextField.background")
     val normalContent = retrieveColorOrUnspecified("TextField.foreground")
     val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
@@ -1033,7 +998,6 @@ private fun readTextFieldStyle(textFieldStyle: TextStyle): TextFieldStyle {
                 minSize = DpSize(minimumSize.width, minimumSize.height),
                 borderWidth = DarculaUIUtil.LW.dp,
             ),
-        textStyle = textFieldStyle,
     )
 }
 
