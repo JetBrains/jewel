@@ -1,17 +1,17 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Regenerate themes" type="GradleRunConfiguration" factoryName="Gradle" folderName="Generators">
+  <configuration default="false" name="Test publication" type="GradleRunConfiguration" factoryName="Gradle" folderName="Publish">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="--rerun-tasks" />
+      <option name="scriptParameters" value="-PuseCurrentVersion -Pno-sign=true" />
       <option name="taskDescriptions">
         <list />
       </option>
       <option name="taskNames">
         <list>
-          <option value=":int-ui:int-ui-standalone:generateIntUiDarkTheme" />
-          <option value=":int-ui:int-ui-standalone:generateIntUiLightTheme" />
+          <option value="cleanTestPublishArtifacts" />
+          <option value="publishAllPublicationsToLocalTestRepository" />
         </list>
       </option>
       <option name="vmOptions" />
