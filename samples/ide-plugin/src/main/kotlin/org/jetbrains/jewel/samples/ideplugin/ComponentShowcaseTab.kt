@@ -13,12 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -63,11 +59,9 @@ import org.jetbrains.jewel.ui.component.PlatformIcon
 import org.jetbrains.jewel.ui.component.RadioButtonRow
 import org.jetbrains.jewel.ui.component.Slider
 import org.jetbrains.jewel.ui.component.Text
-import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Tooltip
 import org.jetbrains.jewel.ui.component.Typography
-import org.jetbrains.jewel.ui.component.VerticalScrollbar
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.badge.DotBadgeShape
@@ -228,38 +222,6 @@ private fun RowScope.ColumnOne() {
 
         var sliderValue by remember { mutableFloatStateOf(.15f) }
         Slider(sliderValue, { sliderValue = it }, steps = 5)
-
-        Row(modifier = Modifier.fillMaxWidth().height(200.dp)) {
-            val textFieldState = rememberTextFieldState(ANDROID_IPSUM)
-            TextArea(
-                state = textFieldState,
-                modifier = Modifier.size(300.dp),
-            )
-
-            Divider(Orientation.Vertical, modifier = Modifier.width(10.dp))
-
-            Row(modifier = Modifier.background(Color(0xff1e1f22))) {
-                val scrollState = rememberLazyListState()
-                LazyColumn(
-                    modifier = Modifier.width(300.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    state = scrollState,
-                ) {
-                    items(LIST_ITEMS) { item ->
-                        Column(
-                            modifier = Modifier.height(48.dp),
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                text = item,
-                            )
-                            Divider(orientation = Orientation.Horizontal, color = Color.Gray)
-                        }
-                    }
-                }
-                VerticalScrollbar(scrollState)
-            }
-        }
     }
 }
 
