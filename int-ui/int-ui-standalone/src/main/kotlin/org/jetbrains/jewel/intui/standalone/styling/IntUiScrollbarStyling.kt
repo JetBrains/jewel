@@ -53,12 +53,12 @@ public fun ScrollbarStyle.Companion.dark(
 public fun ScrollbarColors.Companion.light(
     thumbBackground: Color = Color(0x33737373),
     thumbBackgroundHovered: Color = Color(0x47737373),
-    thumbBackgroundPressed: Color = Color(0x47737373),
+    thumbBackgroundPressed: Color = thumbBackgroundHovered,
     thumbBorder: Color = Color(0x33595959),
     thumbBorderHovered: Color = Color(0x47595959),
-    thumbBorderPressed: Color = Color(0x47595959),
+    thumbBorderPressed: Color = thumbBorderHovered,
     trackBackground: Color = Color(0x00808080),
-    trackBackgroundHovered: Color = Color(0x00808080),
+    trackBackgroundHovered: Color = Color(0x1A808080),
 ): ScrollbarColors =
     ScrollbarColors(
         thumbBackground,

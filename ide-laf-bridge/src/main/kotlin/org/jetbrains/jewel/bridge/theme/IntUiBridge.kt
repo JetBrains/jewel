@@ -125,6 +125,7 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import org.jetbrains.skiko.hostOs
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -186,8 +187,6 @@ internal fun createBridgeThemeDefinition(
     editorTextStyle: TextStyle,
     consoleTextStyle: TextStyle,
 ): ThemeDefinition {
-    val isDark = isDark
-
     logger.debug("Obtaining theme definition from Swing...")
 
     return ThemeDefinition(
@@ -815,32 +814,27 @@ private object NewUiRadioButtonMetrics : BridgeRadioButtonMetrics {
 
 private fun readScrollbarStyle(isDark: Boolean): ScrollbarStyle =
     ScrollbarStyle(
-    colors = provideScrollbarColors(isDark),
-    metrics = provideScrollbarMetrics(),
+    colors = readScrollbarColors(isDark),
+    metrics = readScrollbarMetrics(),
         appearAnimationDuration = 125.milliseconds,
         disappearAnimationDuration = 125.milliseconds,
         expandAnimationDuration = 125.milliseconds,
         lingerDuration = 700.milliseconds,
     )
 
-private fun provideScrollbarColors(isDark: Boolean) =
-    when {
-        hostOs.isMacOS -> {
-            when {
-                isDark -> ScrollbarColors.macDark()
-                else -> ScrollbarColors.macLight()
-            }
-        }
-
-        else -> {
-            when {
-                isDark -> ScrollbarColors.dark()
-                else -> ScrollbarColors.light()
-            }
+private fun readScrollbarColors(isDark: Boolean) =
+    if (hostOs.isMacOS) {
+        if (isDark) ScrollbarColors.macDark()
+        else ScrollbarColors.macLight()
+    }
+    else {
+        when {
+            isDark -> ScrollbarColors.dark()
+            else -> ScrollbarColors.light()
         }
     }
 
-private fun provideScrollbarMetrics(): ScrollbarMetrics =
+private fun readScrollbarMetrics(): ScrollbarMetrics =
     when {
         hostOs.isMacOS -> ScrollbarMetrics.macOs()
         hostOs.isLinux -> ScrollbarMetrics.linux()
