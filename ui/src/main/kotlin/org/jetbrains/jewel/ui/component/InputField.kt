@@ -98,7 +98,7 @@ internal fun InputField(
         }
 
     val contentColor by colors.contentFor(inputState)
-    val mergedTextStyle = style.textStyle.merge(textStyle).copy(color = contentColor)
+    val mergedTextStyle = textStyle.copy(color = contentColor)
     val caretColor by colors.caretFor(inputState)
 
     val lineLimits =
