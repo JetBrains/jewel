@@ -1,6 +1,12 @@
 package org.jetbrains.jewel.samples.standalone
 
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.KeyEventType.Companion.KeyDown
+import androidx.compose.ui.input.key.isAltPressed
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.text.font.FontFamily
@@ -22,6 +28,8 @@ import org.jetbrains.jewel.intui.window.styling.light
 import org.jetbrains.jewel.intui.window.styling.lightWithLightHeader
 import org.jetbrains.jewel.samples.standalone.view.TitleBarView
 import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel
+import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel.currentView
+import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel.views
 import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.styling.TitleBarStyle
@@ -48,33 +56,60 @@ fun main() {
         IntUiTheme(
             theme = themeDefinition,
             styling =
-                ComponentStyling.default().decoratedWindow(
-                    titleBarStyle =
-                        when (MainViewModel.theme) {
-                            IntUiThemes.Light -> TitleBarStyle.light()
-                            IntUiThemes.LightWithLightHeader -> TitleBarStyle.lightWithLightHeader()
-                            IntUiThemes.Dark -> TitleBarStyle.dark()
-                            IntUiThemes.System ->
-                                if (MainViewModel.theme.isDark()) {
-                                    TitleBarStyle.dark()
-                                } else {
-                                    TitleBarStyle.light()
-                                }
-                        },
-                ),
+            ComponentStyling.default().decoratedWindow(
+                titleBarStyle =
+                when (MainViewModel.theme) {
+                    IntUiThemes.Light -> TitleBarStyle.light()
+                    IntUiThemes.LightWithLightHeader -> TitleBarStyle.lightWithLightHeader()
+                    IntUiThemes.Dark -> TitleBarStyle.dark()
+                    IntUiThemes.System ->
+                        if (MainViewModel.theme.isDark()) {
+                            TitleBarStyle.dark()
+                        } else {
+                            TitleBarStyle.light()
+                        }
+                },
+            ),
             swingCompatMode = MainViewModel.swingCompat,
         ) {
             DecoratedWindow(
                 onCloseRequest = { exitApplication() },
                 title = "Jewel standalone sample",
                 icon = icon,
-            ) {
-                TitleBarView()
-                MainViewModel.currentView.content()
-            }
+                onKeyEvent = ::processKeyShortcuts,
+                content = {
+                    TitleBarView()
+                    currentView.content()
+                },
+            )
         }
     }
 }
+
+/*
+    Alt + W -> Welcome
+    Alt + M -> Markdown
+    Alt + C -> Components
+ */
+private fun processKeyShortcuts(it: KeyEvent) =
+    when {
+        it.isAltPressed && it.key == Key.W && it.type == KeyDown -> {
+            currentView = views.first { viewInfo -> viewInfo.title == "Welcome" }
+            true
+        }
+
+        it.isAltPressed && it.key == Key.M && it.type == KeyDown -> {
+            currentView = views.first { viewInfo -> viewInfo.title == "Markdown" }
+            true
+        }
+
+        it.isAltPressed && it.key == Key.C && it.type == KeyDown -> {
+            currentView = views.first { viewInfo -> viewInfo.title == "Components" }
+            true
+        }
+
+        else -> false
+    }
 
 private fun svgResource(
     resourcePath: String,
