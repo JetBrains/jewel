@@ -889,7 +889,6 @@ private fun readScrollBarColorForKey(
     fallbackLight: Int,
     fallbackDark: Int,
 ) = retrieveColorOrUnspecified(colorKey)
-    .let { if (it.alpha == 0f) Color.Unspecified else it }
     .takeOrElse { if (isDark) Color(fallbackDark) else Color(fallbackLight) }
 
 private fun readScrollbarMetrics(): ScrollbarMetrics =
@@ -908,8 +907,8 @@ private fun readScrollbarMetrics(): ScrollbarMetrics =
             thumbThickness = 8.dp,
             thumbThicknessExpanded = 8.dp,
             minThumbLength = 16.dp,
-            trackPadding = PaddingValues(horizontal = 0.dp),
-            trackPaddingExpanded = PaddingValues(horizontal = 0.dp),
+            trackPadding = PaddingValues(),
+            trackPaddingExpanded = PaddingValues(),
         )
     }
 
