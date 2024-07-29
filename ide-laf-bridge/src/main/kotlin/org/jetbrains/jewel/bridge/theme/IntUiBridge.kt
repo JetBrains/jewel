@@ -814,31 +814,103 @@ private object NewUiRadioButtonMetrics : BridgeRadioButtonMetrics {
 
 private fun readScrollbarStyle(isDark: Boolean): ScrollbarStyle =
     ScrollbarStyle(
-    colors = readScrollbarColors(isDark),
-    metrics = readScrollbarMetrics(),
+        colors = readScrollbarColors(isDark),
+        metrics = readScrollbarMetrics(),
         appearAnimationDuration = 125.milliseconds,
         disappearAnimationDuration = 125.milliseconds,
         expandAnimationDuration = 125.milliseconds,
         lingerDuration = 700.milliseconds,
     )
 
-private fun readScrollbarColors(isDark: Boolean) =
-    if (hostOs.isMacOS) {
-        if (isDark) ScrollbarColors.macDark()
-        else ScrollbarColors.macLight()
-    }
-    else {
-        when {
-            isDark -> ScrollbarColors.dark()
-            else -> ScrollbarColors.light()
-        }
-    }
+private fun readScrollbarColors(isDark: Boolean): ScrollbarColors {
+    return ScrollbarColors(
+        thumbBackground =
+            readScrollBarColorForKey(
+                isDark,
+                "ScrollBar.Mac.Transparent.thumbColor",
+                0x33737373,
+                0x47A6A6A6,
+            ),
+        thumbBackgroundHovered =
+            readScrollBarColorForKey(
+                isDark,
+                "ScrollBar.Mac.hoverThumbColor",
+                0x47737373,
+                0x59A6A6A6,
+            ),
+        thumbBackgroundPressed =
+            readScrollBarColorForKey(
+                isDark,
+                "ScrollBar.Mac.hoverThumbColor",
+                0x47737373,
+                0x59A6A6A6,
+            ),
+        thumbBorder =
+            readScrollBarColorForKey(
+                isDark,
+                "ScrollBar.Mac.thumbBorderColor",
+                0x33595959,
+                0x47383838,
+            ),
+        thumbBorderHovered =
+            readScrollBarColorForKey(
+                isDark,
+                "ScrollBar.Mac.hoverThumbBorderColor",
+                0x47595959,
+                0x59383838,
+            ),
+        thumbBorderPressed =
+            readScrollBarColorForKey(
+                isDark,
+                "ScrollBar.Mac.hoverThumbBorderColor",
+                0x47595959,
+                0x59383838,
+            ),
+        trackBackground =
+            readScrollBarColorForKey(
+                isDark,
+                "ScrollBar.Mac.Transparent.trackColor",
+                0x00808080,
+                0x00808080,
+            ),
+        trackBackgroundHovered =
+            readScrollBarColorForKey(
+                isDark,
+                "ScrollBar.Mac.Transparent.hoverTrackColor",
+                0x1A808080,
+                0x1A808080,
+            ),
+    )
+}
+
+private fun readScrollBarColorForKey(
+    isDark: Boolean,
+    colorKey: String,
+    fallbackLight: Int,
+    fallbackDark: Int,
+) = retrieveColorOrUnspecified(colorKey)
+    .let { if (it.alpha == 0f) Color.Unspecified else it }
+    .takeOrElse { if (isDark) Color(fallbackDark) else Color(fallbackLight) }
 
 private fun readScrollbarMetrics(): ScrollbarMetrics =
-    when {
-        hostOs.isMacOS -> ScrollbarMetrics.macOs()
-        hostOs.isLinux -> ScrollbarMetrics.linux()
-        else -> ScrollbarMetrics.windows()
+    if (hostOs.isMacOS) {
+        ScrollbarMetrics(
+            thumbCornerSize = CornerSize(percent = 100),
+            thumbThickness = 8.dp,
+            thumbThicknessExpanded = 14.dp,
+            minThumbLength = 20.dp,
+            trackPadding = PaddingValues(2.dp),
+            trackPaddingExpanded = PaddingValues(2.dp),
+        )
+    } else {
+        ScrollbarMetrics(
+            thumbCornerSize = CornerSize(0),
+            thumbThickness = 8.dp,
+            thumbThicknessExpanded = 8.dp,
+            minThumbLength = 16.dp,
+            trackPadding = PaddingValues(horizontal = 0.dp),
+            trackPaddingExpanded = PaddingValues(horizontal = 0.dp),
+        )
     }
 
 private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
@@ -1088,18 +1160,18 @@ private fun readDefaultTabStyle(): TabStyle {
             ),
         icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
         contentAlpha =
-        TabContentAlpha(
-            iconNormal = 1f,
-            iconDisabled = 1f,
-            iconPressed = 1f,
-            iconHovered = 1f,
-            iconSelected = 1f,
-            contentNormal = 1f,
-            contentDisabled = 1f,
-            contentPressed = 1f,
-            contentHovered = 1f,
-            contentSelected = 1f,
-        ),
+            TabContentAlpha(
+                iconNormal = 1f,
+                iconDisabled = 1f,
+                iconPressed = 1f,
+                iconHovered = 1f,
+                iconSelected = 1f,
+                contentNormal = 1f,
+                contentDisabled = 1f,
+                contentPressed = 1f,
+                contentHovered = 1f,
+                contentSelected = 1f,
+            ),
         scrollbarStyle = readScrollbarStyle(isDark),
     )
 }
@@ -1132,31 +1204,31 @@ private fun readEditorTabStyle(): TabStyle {
     return TabStyle(
         colors = colors,
         metrics =
-        TabMetrics(
-            underlineThickness =
-            retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight")
-                .takeOrElse { 2.dp },
-            tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
-            closeContentGap = 4.dp,
-            tabContentSpacing = 4.dp,
-            tabHeight =
-            retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight")
-                .takeOrElse { 24.dp },
-        ),
+            TabMetrics(
+                underlineThickness =
+                    retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight")
+                        .takeOrElse { 2.dp },
+                tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
+                closeContentGap = 4.dp,
+                tabContentSpacing = 4.dp,
+                tabHeight =
+                    retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight")
+                        .takeOrElse { 24.dp },
+            ),
         icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
         contentAlpha =
-        TabContentAlpha(
-            iconNormal = .7f,
-            iconDisabled = .7f,
-            iconPressed = 1f,
-            iconHovered = 1f,
-            iconSelected = 1f,
-            contentNormal = .7f,
-            contentDisabled = .7f,
-            contentPressed = 1f,
-            contentHovered = 1f,
-            contentSelected = 1f,
-        ),
+            TabContentAlpha(
+                iconNormal = .7f,
+                iconDisabled = .7f,
+                iconPressed = 1f,
+                iconHovered = 1f,
+                iconSelected = 1f,
+                contentNormal = .7f,
+                contentDisabled = .7f,
+                contentPressed = 1f,
+                contentHovered = 1f,
+                contentSelected = 1f,
+            ),
         scrollbarStyle = readScrollbarStyle(isDark),
     )
 }
