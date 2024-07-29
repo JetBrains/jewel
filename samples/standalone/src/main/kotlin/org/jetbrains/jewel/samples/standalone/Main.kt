@@ -3,7 +3,7 @@ package org.jetbrains.jewel.samples.standalone
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
-import androidx.compose.ui.input.key.KeyEventType.Companion.KeyDown
+import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.isAltPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.type
@@ -29,7 +29,6 @@ import org.jetbrains.jewel.intui.window.styling.lightWithLightHeader
 import org.jetbrains.jewel.samples.standalone.view.TitleBarView
 import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel
 import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel.currentView
-import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel.views
 import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.styling.TitleBarStyle
@@ -76,7 +75,12 @@ fun main() {
                 onCloseRequest = { exitApplication() },
                 title = "Jewel standalone sample",
                 icon = icon,
-                onKeyEvent = ::processKeyShortcuts,
+                onKeyEvent = { keyEvent ->
+                    processKeyShortcuts(
+                        keyEvent = keyEvent,
+                        onNavigateTo = MainViewModel::onNavigateTo,
+                    )
+                },
                 content = {
                     TitleBarView()
                     currentView.content()
@@ -91,25 +95,30 @@ fun main() {
     Alt + M -> Markdown
     Alt + C -> Components
  */
-private fun processKeyShortcuts(it: KeyEvent) =
-    when {
-        it.isAltPressed && it.key == Key.W && it.type == KeyDown -> {
-            currentView = views.first { viewInfo -> viewInfo.title == "Welcome" }
+private fun processKeyShortcuts(
+    keyEvent: KeyEvent,
+    onNavigateTo: (String) -> Unit,
+): Boolean {
+    if (!keyEvent.isAltPressed || keyEvent.type != KeyEventType.KeyDown) return false
+    return when (keyEvent.key) {
+        Key.W -> {
+            onNavigateTo("Welcome")
             true
         }
 
-        it.isAltPressed && it.key == Key.M && it.type == KeyDown -> {
-            currentView = views.first { viewInfo -> viewInfo.title == "Markdown" }
+        Key.M -> {
+            onNavigateTo("Markdown")
             true
         }
 
-        it.isAltPressed && it.key == Key.C && it.type == KeyDown -> {
-            currentView = views.first { viewInfo -> viewInfo.title == "Components" }
+        Key.C -> {
+            onNavigateTo("Components")
             true
         }
 
         else -> false
     }
+}
 
 private fun svgResource(
     resourcePath: String,
