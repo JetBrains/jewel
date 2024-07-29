@@ -125,23 +125,6 @@ public final class org/jetbrains/jewel/bridge/theme/IntUiBridgeKt {
 	public static final fun retrieveEditorTextStyle ()Landroidx/compose/ui/text/TextStyle;
 }
 
-public final class org/jetbrains/jewel/bridge/theme/IntUiBridgeScrollbarStylingKt {
-	public static final fun MacDark-iLRpYWo (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors$Companion;JJJJJJJJ)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors;
-	public static synthetic fun MacDark-iLRpYWo$default (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors$Companion;JJJJJJJJILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors;
-	public static final fun MacLight-iLRpYWo (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors$Companion;JJJJJJJJ)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors;
-	public static synthetic fun MacLight-iLRpYWo$default (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors$Companion;JJJJJJJJILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors;
-	public static final fun dark-iLRpYWo (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors$Companion;JJJJJJJJ)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors;
-	public static synthetic fun dark-iLRpYWo$default (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors$Companion;JJJJJJJJILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors;
-	public static final fun light-iLRpYWo (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors$Companion;JJJJJJJJ)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors;
-	public static synthetic fun light-iLRpYWo$default (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors$Companion;JJJJJJJJILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarColors;
-	public static final fun linux-VkLD3kw (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics$Companion;Landroidx/compose/foundation/shape/CornerSize;FFLandroidx/compose/foundation/layout/PaddingValues;FLandroidx/compose/foundation/layout/PaddingValues;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics;
-	public static synthetic fun linux-VkLD3kw$default (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics$Companion;Landroidx/compose/foundation/shape/CornerSize;FFLandroidx/compose/foundation/layout/PaddingValues;FLandroidx/compose/foundation/layout/PaddingValues;ILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics;
-	public static final fun macOs-VkLD3kw (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics$Companion;Landroidx/compose/foundation/shape/CornerSize;FFLandroidx/compose/foundation/layout/PaddingValues;FLandroidx/compose/foundation/layout/PaddingValues;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics;
-	public static synthetic fun macOs-VkLD3kw$default (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics$Companion;Landroidx/compose/foundation/shape/CornerSize;FFLandroidx/compose/foundation/layout/PaddingValues;FLandroidx/compose/foundation/layout/PaddingValues;ILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics;
-	public static final fun windows-VkLD3kw (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics$Companion;Landroidx/compose/foundation/shape/CornerSize;FFLandroidx/compose/foundation/layout/PaddingValues;FLandroidx/compose/foundation/layout/PaddingValues;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics;
-	public static synthetic fun windows-VkLD3kw$default (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics$Companion;Landroidx/compose/foundation/shape/CornerSize;FFLandroidx/compose/foundation/layout/PaddingValues;FLandroidx/compose/foundation/layout/PaddingValues;ILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarMetrics;
-}
-
 public final class org/jetbrains/jewel/bridge/theme/SwingBridgeThemeKt {
 	public static final fun SwingBridgeTheme (Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
 }

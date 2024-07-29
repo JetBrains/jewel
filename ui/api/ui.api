@@ -578,6 +578,7 @@ public final class org/jetbrains/jewel/ui/component/RadioButtonState$Companion {
 }
 
 public final class org/jetbrains/jewel/ui/component/ScrollbarsKt {
+	public static final fun HorizontalScrollbar (Landroidx/compose/foundation/gestures/ScrollableState;Landroidx/compose/ui/Modifier;ZLandroidx/compose/foundation/interaction/MutableInteractionSource;Lorg/jetbrains/jewel/ui/component/styling/ScrollbarStyle;ZLandroidx/compose/runtime/Composer;II)V
 	public static final fun HorizontalScrollbar (Landroidx/compose/foundation/v2/ScrollbarAdapter;Landroidx/compose/ui/Modifier;ZLandroidx/compose/foundation/interaction/MutableInteractionSource;Lorg/jetbrains/jewel/ui/component/styling/ScrollbarStyle;Landroidx/compose/runtime/Composer;II)V
 	public static final fun TabStripHorizontalScrollbar (Landroidx/compose/foundation/v2/ScrollbarAdapter;Lorg/jetbrains/jewel/ui/component/styling/ScrollbarStyle;Landroidx/compose/ui/Modifier;ZLandroidx/compose/foundation/interaction/MutableInteractionSource;Landroidx/compose/runtime/Composer;II)V
 	public static final fun VerticalScrollbar (Landroidx/compose/foundation/gestures/ScrollableState;Landroidx/compose/ui/Modifier;ZLandroidx/compose/foundation/interaction/MutableInteractionSource;Lorg/jetbrains/jewel/ui/component/styling/ScrollbarStyle;ZLandroidx/compose/runtime/Composer;II)V
