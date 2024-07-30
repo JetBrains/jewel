@@ -96,9 +96,6 @@ import org.jetbrains.jewel.ui.component.styling.RadioButtonColors
 import org.jetbrains.jewel.ui.component.styling.RadioButtonIcons
 import org.jetbrains.jewel.ui.component.styling.RadioButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
-import org.jetbrains.jewel.ui.component.styling.ScrollbarColors
-import org.jetbrains.jewel.ui.component.styling.ScrollbarMetrics
-import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonColors
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
@@ -125,7 +122,6 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
-import org.jetbrains.skiko.hostOs
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -811,106 +807,6 @@ private object NewUiRadioButtonMetrics : BridgeRadioButtonMetrics {
     override val radioButtonSize = 24.dp
     override val iconContentGap = 4.dp
 }
-
-private fun readScrollbarStyle(isDark: Boolean): ScrollbarStyle =
-    ScrollbarStyle(
-        colors = readScrollbarColors(isDark),
-        metrics = readScrollbarMetrics(),
-        appearAnimationDuration = 125.milliseconds,
-        disappearAnimationDuration = 125.milliseconds,
-        expandAnimationDuration = 125.milliseconds,
-        lingerDuration = 700.milliseconds,
-    )
-
-private fun readScrollbarColors(isDark: Boolean): ScrollbarColors {
-    return ScrollbarColors(
-        thumbBackground =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.Transparent.thumbColor",
-                0x33737373,
-                0x47A6A6A6,
-            ),
-        thumbBackgroundHovered =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.hoverThumbColor",
-                0x47737373,
-                0x59A6A6A6,
-            ),
-        thumbBackgroundPressed =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.hoverThumbColor",
-                0x47737373,
-                0x59A6A6A6,
-            ),
-        thumbBorder =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.thumbBorderColor",
-                0x33595959,
-                0x47383838,
-            ),
-        thumbBorderHovered =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.hoverThumbBorderColor",
-                0x47595959,
-                0x59383838,
-            ),
-        thumbBorderPressed =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.hoverThumbBorderColor",
-                0x47595959,
-                0x59383838,
-            ),
-        trackBackground =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.Transparent.trackColor",
-                0x00808080,
-                0x00808080,
-            ),
-        trackBackgroundHovered =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.Transparent.hoverTrackColor",
-                0x1A808080,
-                0x1A808080,
-            ),
-    )
-}
-
-private fun readScrollBarColorForKey(
-    isDark: Boolean,
-    colorKey: String,
-    fallbackLight: Int,
-    fallbackDark: Int,
-) = retrieveColorOrUnspecified(colorKey)
-    .takeOrElse { if (isDark) Color(fallbackDark) else Color(fallbackLight) }
-
-private fun readScrollbarMetrics(): ScrollbarMetrics =
-    if (hostOs.isMacOS) {
-        ScrollbarMetrics(
-            thumbCornerSize = CornerSize(percent = 100),
-            thumbThickness = 8.dp,
-            thumbThicknessExpanded = 14.dp,
-            minThumbLength = 20.dp,
-            trackPadding = PaddingValues(2.dp),
-            trackPaddingExpanded = PaddingValues(2.dp),
-        )
-    } else {
-        ScrollbarMetrics(
-            thumbCornerSize = CornerSize(0),
-            thumbThickness = 8.dp,
-            thumbThicknessExpanded = 8.dp,
-            minThumbLength = 16.dp,
-            trackPadding = PaddingValues(),
-            trackPaddingExpanded = PaddingValues(),
-        )
-    }
 
 private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
     val selectedBackground = SolidColor(JBUI.CurrentTheme.SegmentedButton.SELECTED_BUTTON_COLOR.toComposeColor())
