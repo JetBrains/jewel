@@ -20,6 +20,8 @@ public class ScrollbarStyle(
     public val disappearAnimationDuration: Duration,
     public val expandAnimationDuration: Duration,
     public val lingerDuration: Duration,
+    public val pageScroll: Boolean,
+    public val alwaysVisible: Boolean,
 ) {
     public companion object
 }

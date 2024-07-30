@@ -78,17 +78,17 @@ public fun VerticalScrollbar(
     reverseLayout: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
-    pageScroll: Boolean = false,
-    alwaysVisible: Boolean = false,
+    pageScroll: Boolean = JewelTheme.scrollbarStyle.pageScroll,
+    alwaysVisible: Boolean = JewelTheme.scrollbarStyle.alwaysVisible,
 ) {
     MyScrollbar(
         scrollState = scrollState,
         modifier = modifier,
         reverseLayout = reverseLayout,
         interactionSource = interactionSource,
+        isVertical = true,
         style = style,
         pageScroll = pageScroll,
-        isVertical = true,
         alwaysVisible = alwaysVisible,
     )
 }
@@ -100,17 +100,17 @@ public fun HorizontalScrollbar(
     reverseLayout: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
-    pageScroll: Boolean = false,
-    alwaysVisible: Boolean = false,
+    pageScroll: Boolean = JewelTheme.scrollbarStyle.pageScroll,
+    alwaysVisible: Boolean = JewelTheme.scrollbarStyle.alwaysVisible,
 ) {
     MyScrollbar(
         scrollState = scrollState,
         modifier = modifier,
         reverseLayout = reverseLayout,
         interactionSource = interactionSource,
+        isVertical = false,
         style = style,
         pageScroll = pageScroll,
-        isVertical = false,
         alwaysVisible = alwaysVisible,
     )
 }
@@ -121,10 +121,10 @@ internal fun MyScrollbar(
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: ScrollbarStyle = JewelTheme.scrollbarStyle,
-    pageScroll: Boolean = false,
     isVertical: Boolean,
-    alwaysVisible: Boolean,
+    style: ScrollbarStyle = JewelTheme.scrollbarStyle,
+    pageScroll: Boolean = JewelTheme.scrollbarStyle.pageScroll,
+    alwaysVisible: Boolean = JewelTheme.scrollbarStyle.alwaysVisible,
 ) {
     // Click to scroll
     var clickPosition by remember { mutableIntStateOf(0) }

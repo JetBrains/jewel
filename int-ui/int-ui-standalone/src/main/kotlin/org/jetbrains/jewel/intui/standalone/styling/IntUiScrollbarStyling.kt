@@ -21,14 +21,18 @@ public fun ScrollbarStyle.Companion.light(
     disappearAnimationDuration: Duration = 125.milliseconds,
     expandAnimationDuration: Duration = 125.milliseconds,
     lingerDuration: Duration = 700.milliseconds,
+    pageScroll: Boolean = false,
+    alwaysVisible: Boolean = true,
 ): ScrollbarStyle =
     ScrollbarStyle(
-        colors,
-        metrics,
-        appearAnimationDuration,
-        disappearAnimationDuration,
-        expandAnimationDuration,
-        lingerDuration,
+        colors = colors,
+        metrics = metrics,
+        appearAnimationDuration = appearAnimationDuration,
+        disappearAnimationDuration = disappearAnimationDuration,
+        expandAnimationDuration = expandAnimationDuration,
+        lingerDuration = lingerDuration,
+        pageScroll = pageScroll,
+        alwaysVisible = alwaysVisible,
     )
 
 @Composable
@@ -39,14 +43,18 @@ public fun ScrollbarStyle.Companion.dark(
     disappearAnimationDuration: Duration = 125.milliseconds,
     expandAnimationDuration: Duration = 125.milliseconds,
     lingerDuration: Duration = 700.milliseconds,
+    pageScroll: Boolean = false,
+    alwaysVisible: Boolean = true,
 ): ScrollbarStyle =
     ScrollbarStyle(
-        colors,
-        metrics,
-        appearAnimationDuration,
-        disappearAnimationDuration,
-        expandAnimationDuration,
-        lingerDuration,
+        colors = colors,
+        metrics = metrics,
+        appearAnimationDuration = appearAnimationDuration,
+        disappearAnimationDuration = disappearAnimationDuration,
+        expandAnimationDuration = expandAnimationDuration,
+        lingerDuration = lingerDuration,
+        pageScroll = pageScroll,
+        alwaysVisible = alwaysVisible,
     )
 
 @Composable
