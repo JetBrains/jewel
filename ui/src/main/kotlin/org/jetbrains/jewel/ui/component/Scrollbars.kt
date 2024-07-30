@@ -79,6 +79,7 @@ public fun VerticalScrollbar(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     pageScroll: Boolean = false,
+    alwaysVisible: Boolean = false,
 ) {
     MyScrollbar(
         scrollState = scrollState,
@@ -88,6 +89,7 @@ public fun VerticalScrollbar(
         style = style,
         pageScroll = pageScroll,
         isVertical = true,
+        alwaysVisible = alwaysVisible,
     )
 }
 
@@ -99,6 +101,7 @@ public fun HorizontalScrollbar(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     pageScroll: Boolean = false,
+    alwaysVisible: Boolean = false,
 ) {
     MyScrollbar(
         scrollState = scrollState,
@@ -108,6 +111,7 @@ public fun HorizontalScrollbar(
         style = style,
         pageScroll = pageScroll,
         isVertical = false,
+        alwaysVisible = alwaysVisible,
     )
 }
 
@@ -120,6 +124,7 @@ internal fun MyScrollbar(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     pageScroll: Boolean = false,
     isVertical: Boolean,
+    alwaysVisible: Boolean,
 ) {
     // Click to scroll
     var clickPosition by remember { mutableIntStateOf(0) }
@@ -128,10 +133,11 @@ internal fun MyScrollbar(
     LaunchedEffect(clickPosition) {
         if (scrollState is ScrollState) {
             if (scrollbarHeight.value == 0) return@LaunchedEffect
-            val jumpTo = when {
-                pageScroll -> scrollbarHeight.value + scrollState.viewportSize
-                else -> (scrollState.maxValue * clickPosition) / scrollbarHeight.value
-            }
+            val jumpTo =
+                when {
+                    pageScroll -> scrollbarHeight.value + scrollState.viewportSize
+                    else -> (scrollState.maxValue * clickPosition) / scrollbarHeight.value
+                }
             scrollState.scrollTo(jumpTo)
         }
     }
@@ -146,8 +152,12 @@ internal fun MyScrollbar(
         label = "alpha",
     )
 
-    LaunchedEffect(scrollState.isScrollInProgress, hovered) {
+    LaunchedEffect(scrollState.isScrollInProgress, hovered, alwaysVisible) {
         when {
+            alwaysVisible -> {
+                visible = true
+                trackIsVisible = true
+            }
             scrollState.isScrollInProgress -> visible = true
             hovered -> {
                 visible = true
@@ -167,34 +177,39 @@ internal fun MyScrollbar(
         }
     }
 
-    val adapter = when (scrollState) {
-        is LazyListState -> rememberScrollbarAdapter(scrollState)
-        is LazyGridState -> rememberScrollbarAdapter(scrollState)
-        is ScrollState -> rememberScrollbarAdapter(scrollState)
-        is TextFieldScrollState -> rememberScrollbarAdapter(scrollState)
-        else -> error("Unsupported scroll state type: ${scrollState::class}")
-    }
+    val adapter =
+        when (scrollState) {
+            is LazyListState -> rememberScrollbarAdapter(scrollState)
+            is LazyGridState -> rememberScrollbarAdapter(scrollState)
+            is ScrollState -> rememberScrollbarAdapter(scrollState)
+            is TextFieldScrollState -> rememberScrollbarAdapter(scrollState)
+            else -> error("Unsupported scroll state type: ${scrollState::class}")
+        }
 
+    val thumbWidth = if (trackIsVisible) style.metrics.thumbThicknessExpanded else style.metrics.thumbThickness
+    val trackBackground = if (trackIsVisible) style.colors.trackBackground else Color.Transparent
+    val trackPadding = if (trackIsVisible) style.metrics.trackPaddingExpanded else style.metrics.trackPadding
     ScrollbarImpl(
         adapter = adapter,
-        modifier = modifier
-            .alpha(animatedAlpha)
-            .animateContentSize()
-            .width(if (trackIsVisible) style.metrics.thumbThicknessExpanded else style.metrics.thumbThickness)
-            .background(if (trackIsVisible) style.colors.trackBackground else Color.Transparent)
-            .padding(if (trackIsVisible) style.metrics.trackPaddingExpanded else style.metrics.trackPadding)
-            .scrollable(
-                scrollState,
-                orientation = Orientation.Vertical,
-                reverseDirection = true,
-            ).pointerInput(Unit) {
-                detectTapGestures { offset ->
-                    clickPosition = offset.y.toInt()
-                }
-            }.onSizeChanged {
-                scrollbarWidth.value = it.width
-                scrollbarHeight.value = it.height
-            },
+        modifier =
+            modifier
+                .alpha(animatedAlpha)
+                .animateContentSize()
+                .width(thumbWidth)
+                .background(trackBackground)
+                .padding(trackPadding)
+                .scrollable(
+                    scrollState,
+                    orientation = Orientation.Vertical,
+                    reverseDirection = true,
+                ).pointerInput(Unit) {
+                    detectTapGestures { offset ->
+                        clickPosition = offset.y.toInt()
+                    }
+                }.onSizeChanged {
+                    scrollbarWidth.value = it.width
+                    scrollbarHeight.value = it.height
+                },
         reverseLayout = reverseLayout,
         style = style,
         interactionSource = interactionSource,
