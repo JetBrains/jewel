@@ -138,12 +138,13 @@ internal fun InputField(
             scrollState = scrollState,
         )
 
-        if (showScrollbar)
+        if (showScrollbar) {
             VerticalScrollbar(
                 scrollState = scrollState,
                 modifier = Modifier.align(Alignment.CenterEnd),
                 interactionSource = interactionSource,
             )
+        }
     }
 }
 
