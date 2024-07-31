@@ -54,6 +54,16 @@ public class ScrollbarMetrics(
     public companion object
 }
 
+public enum class MacScrollbarStyle {
+    Legacy,
+    Overlay,
+}
+
+public enum class MacScrollbarBehavior {
+    NextPage,
+    JumpToSpot,
+}
+
 public val LocalScrollbarStyle: ProvidableCompositionLocal<ScrollbarStyle> =
     staticCompositionLocalOf {
         error("No ScrollbarStyle provided. Have you forgotten the theme?")
