@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -146,8 +147,9 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                 val height = remember(lineHeight) { (3 * lineHeight) }
 
                 val contentPadding = JewelTheme.textAreaStyle.metrics.contentPadding
+                val state = rememberTextFieldState("Hello")
                 TextArea(
-                    value = "Hello ✌️",
+                    state = state,
                     modifier =
                         Modifier.size(
                             width = width.dp + contentPadding.horizontal(LocalLayoutDirection.current),

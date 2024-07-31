@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -78,44 +77,6 @@ public fun TextArea(
             )
         },
         showScrollbar = showScrollbar,
-    )
-}
-
-/**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
- */
-@Composable
-public fun TextArea(
-    value: String,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
-    outline: Outline = Outline.None,
-    placeholder: @Composable() (() -> Unit)? = null,
-    undecorated: Boolean = false,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    maxLines: Int = Int.MAX_VALUE,
-    style: TextAreaStyle = JewelTheme.textAreaStyle,
-    textStyle: TextStyle = JewelTheme.defaultTextStyle,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    showScrollbar: Boolean = true,
-) {
-    val state = rememberTextFieldState(value)
-    TextArea(
-        state = state,
-        modifier = modifier,
-        enabled = enabled,
-        readOnly = readOnly,
-        outline = outline,
-        placeholder = placeholder,
-        undecorated = undecorated,
-        keyboardOptions = keyboardOptions,
-        maxLines = maxLines,
-        style = style,
-        textStyle = textStyle,
-        interactionSource = interactionSource,
-        showScrollbar = showScrollbar
     )
 }
 

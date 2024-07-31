@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,25 +38,25 @@ fun TextAreas() {
         verticalAlignment = Alignment.Top,
     ) {
         TextArea(
-            value = LOREM_IPSUM,
+            state = rememberTextFieldState(LOREM_IPSUM),
             modifier = Modifier.weight(1f).fillMaxHeight(),
         )
 
         TextArea(
-            value = LOREM_IPSUM,
+            state = rememberTextFieldState(LOREM_IPSUM),
             modifier = Modifier.weight(1f).fillMaxHeight(),
             enabled = false,
         )
 
         TextArea(
-            value = "",
+            state = rememberTextFieldState(""),
             modifier = Modifier.weight(1f).fillMaxHeight(),
             outline = Outline.Error,
             placeholder = { Text("Text area with error") },
         )
 
         TextArea(
-            value = "",
+            state = rememberTextFieldState(""),
             modifier = Modifier.weight(1f).fillMaxHeight(),
             outline = Outline.Warning,
             placeholder = { Text("Text area with warning") },
