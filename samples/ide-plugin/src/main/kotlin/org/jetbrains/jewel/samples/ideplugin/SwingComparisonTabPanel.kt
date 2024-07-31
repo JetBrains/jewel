@@ -148,10 +148,11 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                 val contentPadding = JewelTheme.textAreaStyle.metrics.contentPadding
                 TextArea(
                     value = "Hello ✌️",
-                    modifier = Modifier.size(
-                        width = width.dp + contentPadding.horizontal(LocalLayoutDirection.current),
-                        height = height.dp + contentPadding.vertical(),
-                    ),
+                    modifier =
+                        Modifier.size(
+                            width = width.dp + contentPadding.horizontal(LocalLayoutDirection.current),
+                            height = height.dp + contentPadding.vertical(),
+                        ),
                 )
             }
         }.layout(RowLayout.PARENT_GRID)
