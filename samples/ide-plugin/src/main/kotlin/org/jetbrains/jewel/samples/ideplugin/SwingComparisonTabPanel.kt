@@ -134,7 +134,6 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             textArea().align(AlignY.CENTER).applyToComponent { rows = 3 }
 
             compose {
-                var text by remember { mutableStateOf("") }
                 val metrics = remember(JBFont.label(), LocalDensity.current) { getFontMetrics(JBFont.label()) }
                 val charWidth =
                     remember(metrics.widths) {
@@ -148,9 +147,8 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
 
                 val contentPadding = JewelTheme.textAreaStyle.metrics.contentPadding
                 TextArea(
-                    text,
-                    { text = it },
-                    Modifier.size(
+                    value = "Hello ✌️",
+                    modifier = Modifier.size(
                         width = width.dp + contentPadding.horizontal(LocalLayoutDirection.current),
                         height = height.dp + contentPadding.vertical(),
                     ),
