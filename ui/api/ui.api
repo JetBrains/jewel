@@ -1661,6 +1661,22 @@ public final class org/jetbrains/jewel/ui/component/styling/LinkUnderlineBehavio
 	public static fun values ()[Lorg/jetbrains/jewel/ui/component/styling/LinkUnderlineBehavior;
 }
 
+public final class org/jetbrains/jewel/ui/component/styling/MacScrollbarBehavior : java/lang/Enum {
+	public static final field JumpToSpot Lorg/jetbrains/jewel/ui/component/styling/MacScrollbarBehavior;
+	public static final field NextPage Lorg/jetbrains/jewel/ui/component/styling/MacScrollbarBehavior;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lorg/jetbrains/jewel/ui/component/styling/MacScrollbarBehavior;
+	public static fun values ()[Lorg/jetbrains/jewel/ui/component/styling/MacScrollbarBehavior;
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/MacScrollbarStyle : java/lang/Enum {
+	public static final field Legacy Lorg/jetbrains/jewel/ui/component/styling/MacScrollbarStyle;
+	public static final field Overlay Lorg/jetbrains/jewel/ui/component/styling/MacScrollbarStyle;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lorg/jetbrains/jewel/ui/component/styling/MacScrollbarStyle;
+	public static fun values ()[Lorg/jetbrains/jewel/ui/component/styling/MacScrollbarStyle;
+}
+
 public final class org/jetbrains/jewel/ui/component/styling/MenuColors {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/MenuColors$Companion;
