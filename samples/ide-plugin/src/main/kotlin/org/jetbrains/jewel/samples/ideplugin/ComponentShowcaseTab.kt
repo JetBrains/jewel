@@ -70,7 +70,6 @@ import org.jetbrains.jewel.ui.painter.hints.Badge
 import org.jetbrains.jewel.ui.painter.hints.Size
 import org.jetbrains.jewel.ui.painter.hints.Stroke
 import org.jetbrains.jewel.ui.theme.colorPalette
-import java.util.Locale
 
 @Composable
 internal fun ComponentShowcaseTab() {
@@ -389,28 +388,3 @@ private fun MarkdownExample() {
         }
     }
 }
-
-private const val ANDROID_IPSUM =
-    "Jetpack Compose dolor sit amet, viewBinding consectetur adipiscing elit, sed do eiusmod tempor incididunt" +
-        " ut unitTest et dolore magna aliqua. Dependency injection enim ad minim veniam, quis nostrud Dagger-Hilt " +
-        "ullamco laboris nisi ut aliquip ex ea Lottie animation consequat. Retrofit irure dolor in reprehenderit in" +
-        " AndroidX velit esse cillum dolore eu fugiat nulla pariatur. Gradle sync dolor sit amet, compileSdkVersion" +
-        " consectetur adipiscing elit, sed do eiusmod minimSdkVersion tempor incididunt ut labore et dolore magna" +
-        " aliqua. Ut enim ad activity_main.xml veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip" +
-        " ex ea compileOptions consequat. Duis aute irure dolor in reprehenderit in logcat velit esse cillum dolore" +
-        "eu fugiat nulla pariatur. Excepteur sint occaecat proident, sunt in culpa qui officia debugImplementation" +
-        " deserunt mollit anim id est laborum. Manifest merger dolor sit amet, androidx.appcompat.app.AppCompatActivity" +
-        " adipiscing elit, sed do eiusmod tempor incididunt ut buildToolsVersion et dolore magna aliqua. Proguard" +
-        " rules enim ad minim veniam, quis nostrud fragmentContainerView ullamco laboris nisi ut aliquip ex ea" +
-        " dataBinding compilerOptions consequat. Kotlin coroutine aute irure dolor in reprehenderit in ViewModel" +
-        " velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat Room database non proident," +
-        " sunt in culpa qui officia material design deserunt mollit anim id est laborum."
-
-private val LIST_ITEMS =
-    ANDROID_IPSUM.split(",")
-        .map { lorem ->
-            lorem.trim()
-                .replaceFirstChar {
-                    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-                }
-        }
