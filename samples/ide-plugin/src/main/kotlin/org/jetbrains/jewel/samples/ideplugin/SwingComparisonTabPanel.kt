@@ -9,10 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -124,8 +121,8 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             textField().align(AlignY.CENTER)
 
             compose {
-                var text by remember { mutableStateOf("") }
-                TextField(text, { text = it })
+                val state = rememberTextFieldState("")
+                TextField(state)
             }
         }.layout(RowLayout.PARENT_GRID)
     }

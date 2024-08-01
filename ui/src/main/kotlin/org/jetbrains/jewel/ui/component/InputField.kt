@@ -60,7 +60,7 @@ internal fun InputField(
     textStyle: TextStyle,
     modifier: Modifier = Modifier,
     decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
-    showScrollbar: Boolean = true,
+    showScrollbar: Boolean,
 ) {
     var inputState by remember(interactionSource) {
         mutableStateOf(InputFieldState.of(enabled = enabled))
@@ -148,6 +148,7 @@ internal fun InputField(
     }
 }
 
+@Deprecated("Please use InputField(state) instead. If you want to observe text changes, use snapshotFlow { state.text }")
 @Composable
 internal fun InputField(
     value: TextFieldValue,
