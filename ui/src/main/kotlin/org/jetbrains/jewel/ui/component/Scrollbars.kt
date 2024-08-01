@@ -67,6 +67,10 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
+import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility.AlwaysVisible
+import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility.WhenScrolling
+import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior.JumpToSpot
+import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior.NextPage
 import org.jetbrains.jewel.ui.theme.scrollbarStyle
 import org.jetbrains.jewel.ui.util.thenIf
 import kotlin.math.roundToInt
@@ -78,8 +82,6 @@ public fun VerticalScrollbar(
     reverseLayout: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
-    pageScroll: Boolean = JewelTheme.scrollbarStyle.pageScroll,
-    alwaysVisible: Boolean = JewelTheme.scrollbarStyle.alwaysVisible,
 ) {
     MyScrollbar(
         scrollState = scrollState,
@@ -88,8 +90,6 @@ public fun VerticalScrollbar(
         interactionSource = interactionSource,
         isVertical = true,
         style = style,
-        pageScroll = pageScroll,
-        alwaysVisible = alwaysVisible,
     )
 }
 
@@ -100,8 +100,6 @@ public fun HorizontalScrollbar(
     reverseLayout: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
-    pageScroll: Boolean = JewelTheme.scrollbarStyle.pageScroll,
-    alwaysVisible: Boolean = JewelTheme.scrollbarStyle.alwaysVisible,
 ) {
     MyScrollbar(
         scrollState = scrollState,
@@ -110,21 +108,17 @@ public fun HorizontalScrollbar(
         interactionSource = interactionSource,
         isVertical = false,
         style = style,
-        pageScroll = pageScroll,
-        alwaysVisible = alwaysVisible,
     )
 }
 
 @Composable
-internal fun MyScrollbar(
+private fun MyScrollbar(
     scrollState: ScrollableState,
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     isVertical: Boolean,
-    style: ScrollbarStyle = JewelTheme.scrollbarStyle,
-    pageScroll: Boolean = JewelTheme.scrollbarStyle.pageScroll,
-    alwaysVisible: Boolean = JewelTheme.scrollbarStyle.alwaysVisible,
+    style: ScrollbarStyle,
 ) {
     // Click to scroll
     var clickPosition by remember { mutableIntStateOf(0) }
@@ -133,11 +127,12 @@ internal fun MyScrollbar(
     LaunchedEffect(clickPosition) {
         if (scrollState is ScrollState) {
             if (scrollbarHeight.value == 0) return@LaunchedEffect
-            val jumpTo =
-                when {
-                    pageScroll -> scrollbarHeight.value + scrollState.viewportSize
-                    else -> (scrollState.maxValue * clickPosition) / scrollbarHeight.value
-                }
+
+            val jumpTo = when (style.trackClickBehavior) {
+                NextPage -> scrollbarHeight.value + scrollState.viewportSize
+                JumpToSpot -> (scrollState.maxValue * clickPosition) / scrollbarHeight.value
+            }
+
             scrollState.scrollTo(jumpTo)
         }
     }
@@ -152,27 +147,40 @@ internal fun MyScrollbar(
         label = "alpha",
     )
 
-    LaunchedEffect(scrollState.isScrollInProgress, hovered, alwaysVisible) {
-        when {
-            alwaysVisible -> {
+    LaunchedEffect(scrollState.isScrollInProgress, hovered, style.scrollbarVisibility) {
+        when (style.scrollbarVisibility) {
+            AlwaysVisible -> {
                 visible = true
                 trackIsVisible = true
             }
+
+            is WhenScrolling -> {
+                when {
+                    scrollState.isScrollInProgress -> visible = true
+                    hovered -> {
+                        visible = true
+                        trackIsVisible = true
+                    }
+
+                    !hovered -> {
+                        delay(style.scrollbarVisibility.lingerDuration)
+                        trackIsVisible = false
+                        visible = false
+                    }
+
+                    !scrollState.isScrollInProgress && !hovered -> {
+                        delay(style.scrollbarVisibility.lingerDuration)
+                        visible = false
+                    }
+                }
+            }
+        }
+
+        when {
             scrollState.isScrollInProgress -> visible = true
             hovered -> {
                 visible = true
                 trackIsVisible = true
-            }
-
-            !hovered -> {
-                delay(style.lingerDuration)
-                trackIsVisible = false
-                visible = false
-            }
-
-            !scrollState.isScrollInProgress && !hovered -> {
-                delay(style.lingerDuration)
-                visible = false
             }
         }
     }
@@ -192,24 +200,24 @@ internal fun MyScrollbar(
     ScrollbarImpl(
         adapter = adapter,
         modifier =
-            modifier
-                .alpha(animatedAlpha)
-                .animateContentSize()
-                .width(thumbWidth)
-                .background(trackBackground)
-                .padding(trackPadding)
-                .scrollable(
-                    scrollState,
-                    orientation = Orientation.Vertical,
-                    reverseDirection = true,
-                ).pointerInput(Unit) {
-                    detectTapGestures { offset ->
-                        clickPosition = offset.y.toInt()
-                    }
-                }.onSizeChanged {
-                    scrollbarWidth.value = it.width
-                    scrollbarHeight.value = it.height
-                },
+        modifier
+            .alpha(animatedAlpha)
+            .animateContentSize()
+            .width(thumbWidth)
+            .background(trackBackground)
+            .padding(trackPadding)
+            .scrollable(
+                scrollState,
+                orientation = Orientation.Vertical,
+                reverseDirection = true,
+            ).pointerInput(Unit) {
+                detectTapGestures { offset ->
+                    clickPosition = offset.y.toInt()
+                }
+            }.onSizeChanged {
+                scrollbarWidth.value = it.width
+                scrollbarHeight.value = it.height
+            },
         reverseLayout = reverseLayout,
         style = style,
         interactionSource = interactionSource,
@@ -331,11 +339,22 @@ private fun ScrollbarImpl(
                 }
             }
 
-        val thumbColor by animateColorAsState(
-            if (isHighlighted) style.colors.thumbBackgroundHovered else style.colors.thumbBackgroundHovered,
-            animationSpec = tween(durationMillis = style.expandAnimationDuration.inWholeMilliseconds.toInt()),
-        )
-
+        val thumbColor = if (style.scrollbarVisibility is WhenScrolling) {
+            animateColorAsState(
+                if (isHighlighted) {
+                    style.colors.thumbBackgroundHovered
+                } else {
+                    style.colors.thumbBackgroundHovered
+                },
+                animationSpec = tween(durationMillis = style.scrollbarVisibility.expandAnimationDuration.inWholeMilliseconds.toInt()),
+            ).value
+        } else {
+            if (isHighlighted) {
+                style.colors.thumbBackgroundHovered
+            } else {
+                style.colors.thumbBackgroundHovered
+            }
+        }
         val isVisible = sliderAdapter.thumbSize < containerSize
 
         Layout(

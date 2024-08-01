@@ -26,7 +26,7 @@ public object IntUiDefaultTabStyleFactory {
         metrics: TabMetrics = TabMetrics.defaults(),
         icons: TabIcons = TabIcons.defaults(),
         contentAlpha: TabContentAlpha = TabContentAlpha.default(),
-        scrollbarStyle: ScrollbarStyle = ScrollbarStyle.light(),
+        scrollbarStyle: ScrollbarStyle = ScrollbarStyle.macOsLight(),
     ): TabStyle = TabStyle(colors, metrics, icons, contentAlpha, scrollbarStyle)
 
     @Composable
@@ -49,7 +49,7 @@ public object IntUiEditorTabStyleFactory {
         metrics: TabMetrics = TabMetrics.defaults(),
         icons: TabIcons = TabIcons.defaults(),
         contentAlpha: TabContentAlpha = TabContentAlpha.editor(),
-        scrollbarStyle: ScrollbarStyle = ScrollbarStyle.light(),
+        scrollbarStyle: ScrollbarStyle = ScrollbarStyle.macOsLight(),
     ): TabStyle = TabStyle(colors, metrics, icons, contentAlpha, scrollbarStyle)
 
     @Composable

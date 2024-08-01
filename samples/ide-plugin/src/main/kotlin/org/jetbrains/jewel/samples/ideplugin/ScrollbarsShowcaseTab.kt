@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.samples.ideplugin
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,13 +60,12 @@ internal fun ScrollbarsShowcaseTab() {
 
             Divider(Orientation.Vertical, modifier = Modifier.width(10.dp))
 
-            Box(modifier = Modifier.background(Color.White)) {
+            Box(Modifier.border(1.dp, JewelTheme.globalColors.borders.normal)) {
                 val scrollState = rememberLazyListState()
                 LazyColumn(
                     Modifier
                         .width(200.dp)
                         .padding(end = JewelTheme.scrollbarStyle.metrics.thumbThicknessExpanded)
-                        .background(Color.White)
                         .align(Alignment.CenterStart),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     state = scrollState,
