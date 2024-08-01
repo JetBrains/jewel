@@ -130,9 +130,9 @@ private fun LeftColumn(
     Column(modifier) {
         Row(
             modifier =
-            Modifier.fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .padding(4.dp, 6.dp),
+                Modifier.fillMaxWidth()
+                    .height(IntrinsicSize.Min)
+                    .padding(4.dp, 6.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text("Filter elements:")
@@ -204,9 +204,9 @@ private fun ContentItemRow(
         }
     Row(
         modifier =
-        Modifier.height(JewelTheme.globalMetrics.rowHeight)
-            .background(color)
-            .padding(start = 4.dp, end = 12.dp),
+            Modifier.height(JewelTheme.globalMetrics.rowHeight)
+                .background(color)
+                .padding(start = 4.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
@@ -255,9 +255,9 @@ private fun ItemTag(
         style = Typography.medium(),
         color = foregroundColor,
         modifier =
-        modifier
-            .background(backgroundColor, shape)
-            .padding(padding),
+            modifier
+                .background(backgroundColor, shape)
+                .padding(padding),
     )
 }
 
@@ -316,13 +316,13 @@ private fun CloseIconButton(service: ReleasesSampleService) {
         key = if (hovered) AllIconsKeys.Actions.CloseHovered else AllIconsKeys.Actions.Close,
         contentDescription = "Clear",
         modifier =
-        Modifier
-            .pointerHoverIcon(PointerIcon.Default)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                role = Role.Button,
-            ) { service.resetFilter() },
+            Modifier
+                .pointerHoverIcon(PointerIcon.Default)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    role = Role.Button,
+                ) { service.resetFilter() },
     )
 }
 
@@ -351,17 +351,17 @@ private fun OverflowMenu(
     // Emulates Swing actions that pop up menus — they stay pressed while the menu is open
     IconButton(
         modifier =
-        Modifier.fillMaxHeight()
-            .thenIf(menuVisible) {
-                background(
-                    color = JewelTheme.iconButtonStyle.colors.backgroundPressed,
-                    shape = RoundedCornerShape(JewelTheme.iconButtonStyle.metrics.cornerSize),
-                ).border(
-                    width = JewelTheme.iconButtonStyle.metrics.borderWidth,
-                    color = JewelTheme.iconButtonStyle.colors.backgroundPressed,
-                    shape = RoundedCornerShape(JewelTheme.iconButtonStyle.metrics.cornerSize),
-                )
-            },
+            Modifier.fillMaxHeight()
+                .thenIf(menuVisible) {
+                    background(
+                        color = JewelTheme.iconButtonStyle.colors.backgroundPressed,
+                        shape = RoundedCornerShape(JewelTheme.iconButtonStyle.metrics.cornerSize),
+                    ).border(
+                        width = JewelTheme.iconButtonStyle.metrics.borderWidth,
+                        color = JewelTheme.iconButtonStyle.colors.backgroundPressed,
+                        shape = RoundedCornerShape(JewelTheme.iconButtonStyle.metrics.cornerSize),
+                    )
+                },
         onClick = { menuVisible = !menuVisible },
     ) {
         Icon(
@@ -449,10 +449,10 @@ private fun ReleaseImage(imagePath: String) {
         initialValue = -1f,
         targetValue = 1f,
         animationSpec =
-        infiniteRepeatable(
-            tween(durationMillis = 2.seconds.inWholeMilliseconds.toInt(), easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse,
-        ),
+            infiniteRepeatable(
+                tween(durationMillis = 2.seconds.inWholeMilliseconds.toInt(), easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Reverse,
+            ),
         "holoFoil offset",
     )
     var isHovered by remember { mutableStateOf(false) }
@@ -465,16 +465,16 @@ private fun ReleaseImage(imagePath: String) {
         painter = painter,
         contentDescription = null,
         modifier =
-        Modifier.fillMaxWidth()
-            .sizeIn(minHeight = 150.dp, maxHeight = 250.dp)
-            .onHover { newIsHovered ->
-                scope.launch {
-                    isHovered = newIsHovered
-                    if (!newIsHovered) delay(300)
-                    applyModifier = newIsHovered
+            Modifier.fillMaxWidth()
+                .sizeIn(minHeight = 150.dp, maxHeight = 250.dp)
+                .onHover { newIsHovered ->
+                    scope.launch {
+                        isHovered = newIsHovered
+                        if (!newIsHovered) delay(300)
+                        applyModifier = newIsHovered
+                    }
                 }
-            }
-            .thenIf(applyModifier) { holoFoil(offset, intensity) },
+                .thenIf(applyModifier) { holoFoil(offset, intensity) },
         contentScale = ContentScale.Fit,
     )
 }

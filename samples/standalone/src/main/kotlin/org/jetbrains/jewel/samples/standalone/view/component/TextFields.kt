@@ -47,14 +47,14 @@ fun TextFields() {
         val state = rememberTextFieldState("TextField")
         TextField(
             state = state,
-            modifier = Modifier.width(200.dp)
+            modifier = Modifier.width(200.dp),
         )
 
         val state2 = rememberTextFieldState("")
         TextField(
             state = state2,
             placeholder = { Text("Placeholder") },
-            modifier = Modifier.width(200.dp)
+            modifier = Modifier.width(200.dp),
         )
 
         val state3 = rememberTextFieldState("")
@@ -62,7 +62,7 @@ fun TextFields() {
             state = state3,
             outline = Outline.Error,
             placeholder = { Text("Error outline") },
-            modifier = Modifier.width(200.dp)
+            modifier = Modifier.width(200.dp),
         )
     }
 
@@ -75,14 +75,14 @@ fun TextFields() {
             state = state4,
             outline = Outline.Warning,
             placeholder = { Text("Warning outline") },
-            modifier = Modifier.width(200.dp)
+            modifier = Modifier.width(200.dp),
         )
 
         val state5 = rememberTextFieldState("Disabled")
         TextField(
             state = state5,
             enabled = false,
-            modifier = Modifier.width(200.dp)
+            modifier = Modifier.width(200.dp),
         )
     }
 
@@ -113,7 +113,8 @@ fun TextFields() {
             trailingIcon = {
                 CloseIconButton(
                     isVisible = state2.text.isNotEmpty(),
-                    onClick = { state2.setTextAndPlaceCursorAtEnd("") })
+                    onClick = { state2.setTextAndPlaceCursorAtEnd("") },
+                )
             },
         )
     }
