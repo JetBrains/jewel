@@ -2,7 +2,6 @@ package org.jetbrains.jewel.intui.standalone.styling
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -15,7 +14,6 @@ import org.jetbrains.skiko.hostOs
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-@Composable
 public fun ScrollbarStyle.Companion.macOsLight(
     colors: ScrollbarColors = ScrollbarColors.macOsLight(),
     metrics: ScrollbarMetrics = provideScrollbarMetrics(),
@@ -68,7 +66,6 @@ public fun ScrollbarStyle.Companion.winOsLight(
         scrollbarVisibility = scrollbarVisibility,
     )
 
-@Composable
 public fun ScrollbarStyle.Companion.dark(): ScrollbarStyle =
     if (hostOs.isMacOS) {
         ScrollbarStyle.macOsDark()
@@ -76,7 +73,6 @@ public fun ScrollbarStyle.Companion.dark(): ScrollbarStyle =
         ScrollbarStyle.winOsDark()
     }
 
-@Composable
 public fun ScrollbarStyle.Companion.light(): ScrollbarStyle =
     if (hostOs.isMacOS) {
         ScrollbarStyle.macOsLight()
