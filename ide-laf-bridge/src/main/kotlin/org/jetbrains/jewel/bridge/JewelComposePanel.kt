@@ -42,8 +42,9 @@ public val LocalComponent: ProvidableCompositionLocal<JComponent> =
  * https://youtrack.jetbrains.com/issue/CMP-5856
  */
 @Composable
-private fun Compose17IJSizeBugWorkaround(content: @Composable () -> Unit) = with(LocalDensity.current) {
-    Box(modifier = Modifier.requiredSize(LocalWindowInfo.current.containerSize.toSize().toDpSize())) {
-        content()
+private fun Compose17IJSizeBugWorkaround(content: @Composable () -> Unit) =
+    with(LocalDensity.current) {
+        Box(modifier = Modifier.requiredSize(LocalWindowInfo.current.containerSize.toSize().toDpSize())) {
+            content()
+        }
     }
-}
