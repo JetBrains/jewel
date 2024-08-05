@@ -13,7 +13,7 @@ import org.jetbrains.jewel.ui.component.styling.TabIcons
 import org.jetbrains.jewel.ui.component.styling.TabMetrics
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.icon.IconKey
-import org.jetbrains.jewel.ui.icon.PathIconKey
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 public val TabStyle.Companion.Default: IntUiDefaultTabStyleFactory
     get() = IntUiDefaultTabStyleFactory
@@ -265,4 +265,4 @@ public fun TabContentAlpha.Companion.editor(
         contentSelected = contentSelected,
     )
 
-public fun TabIcons.Companion.defaults(close: IconKey = PathIconKey("expui/general/closeSmall.svg")): TabIcons = TabIcons(close)
+public fun TabIcons.Companion.defaults(close: IconKey = AllIconsKeys.Actions.Close): TabIcons = TabIcons(close)

@@ -321,7 +321,7 @@ private fun CheckboxImpl(
         } else {
             PainterHint.None
         },
-        Selected(checkboxState),
+        Selected(checkboxState.toggleableState == ToggleableState.On),
         Stateful(checkboxState),
     )
 
@@ -383,9 +383,6 @@ public value class CheckboxState(private val state: ULong) : ToggleableComponent
     override val isActive: Boolean
         get() = state and Active != 0UL
 
-    override val isSelected: Boolean
-        get() = toggleableState != ToggleableState.Off
-
     override val isFocused: Boolean
         get() = state and Focused != 0UL
 
@@ -414,7 +411,7 @@ public value class CheckboxState(private val state: ULong) : ToggleableComponent
 
     override fun toString(): String =
         "${javaClass.simpleName}(toggleableState=$toggleableState, isEnabled=$isEnabled, isFocused=$isFocused, " +
-            "isHovered=$isHovered, isPressed=$isPressed, isSelected=$isSelected, isActive=$isActive)"
+            "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     public companion object {
 

@@ -5,7 +5,10 @@ import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.icon.IntelliJIconKey
 
 @Suppress("UnstableApiUsage") // We have no alternatives before IJP 242
-public fun IntelliJIconKey.Companion.fromPlatformIcon(icon: javax.swing.Icon): IconKey {
+public fun IntelliJIconKey.Companion.fromPlatformIcon(
+    icon: javax.swing.Icon,
+    iconClass: Class<*> = icon::class.java,
+): IconKey {
     check(icon is CachedImageIcon) {
         "Only icons implementing IconPathsProvider are supported (e.g., coming from AllIcons)"
     }
@@ -17,5 +20,5 @@ public fun IntelliJIconKey.Companion.fromPlatformIcon(icon: javax.swing.Icon): I
 
     // On IJP 233, we don't have expUiPath available yet, so we just use the oldUiPath
     // for both — new UI icon mapping will happen in BridgeOverride.
-    return IntelliJIconKey(oldUiPath, oldUiPath)
+    return IntelliJIconKey(oldUiPath, oldUiPath, iconClass)
 }

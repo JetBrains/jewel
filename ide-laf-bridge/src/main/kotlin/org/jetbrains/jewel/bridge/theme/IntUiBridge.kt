@@ -349,7 +349,7 @@ private fun readCheckboxStyle(): CheckboxStyle {
                 outlineOffset = DpOffset(2.5.dp, 1.5.dp), // Extrapolated from SVG
                 iconContentGap = 5.dp, // See DarculaCheckBoxUI#textIconGap
             ),
-        icons = CheckboxIcons(checkbox = PathIconKey("${iconsBasePath}checkBox.svg")),
+        icons = CheckboxIcons(checkbox = PathIconKey("${iconsBasePath}checkBox.svg", CheckboxIcons::class.java)),
     )
 }
 
@@ -688,7 +688,7 @@ private fun readRadioButtonStyle(): RadioButtonStyle {
                     retrieveIntAsDpOrUnspecified("RadioButton.textIconGap")
                         .takeOrElse { 4.dp },
             ),
-        icons = RadioButtonIcons(radioButton = PathIconKey("${iconsBasePath}radio.svg")),
+        icons = RadioButtonIcons(radioButton = PathIconKey("${iconsBasePath}radio.svg", RadioButtonIcons::class.java)),
     )
 }
 
@@ -960,7 +960,7 @@ private fun readDefaultTabStyle(): TabStyle {
                 tabContentSpacing = 4.dp,
                 tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
             ),
-        icons = TabIcons(close = PathIconKey("expui/general/closeSmall.svg")),
+        icons = TabIcons(close = AllIconsKeys.Actions.Close),
         contentAlpha =
             TabContentAlpha(
                 iconNormal = 1f,
@@ -1016,7 +1016,7 @@ private fun readEditorTabStyle(): TabStyle {
                     retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight")
                         .takeOrElse { 24.dp },
             ),
-        icons = TabIcons(close = PathIconKey("expui/general/closeSmall.svg")),
+        icons = TabIcons(close = AllIconsKeys.Actions.Close),
         contentAlpha =
             TabContentAlpha(
                 iconNormal = .7f,
