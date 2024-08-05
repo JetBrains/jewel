@@ -195,8 +195,6 @@ private fun readScrollbarMetrics(): ScrollbarMetrics =
     }
 
 private fun readMacScrollbarStyle(): ScrollbarVisibility {
-    require(hostOs.isMacOS) { "You shouldn't be calling this on Win/Linux" }
-
     val nsScroller =
         Foundation
             .invoke(Foundation.getObjcClass("NSScroller"), "preferredScrollerStyle")
@@ -211,8 +209,6 @@ private fun readMacScrollbarStyle(): ScrollbarVisibility {
 }
 
 private fun readMacScrollbarBehavior(): TrackClickBehavior {
-    require(hostOs.isMacOS) { "You shouldn't be calling this on Win/Linux" }
-
     val defaults = Foundation.invoke("NSUserDefaults", "standardUserDefaults")
     Foundation.invoke(defaults, "synchronize")
     return Foundation
