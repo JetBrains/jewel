@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.modifier.trackActivation
@@ -33,7 +35,8 @@ import org.jetbrains.jewel.ui.painter.hints.Selected
 fun WelcomeView() {
     Column(
         modifier =
-            Modifier.trackActivation()
+            Modifier
+                .trackActivation()
                 .fillMaxSize()
                 .background(JewelTheme.globalColors.panelBackground)
                 .padding(24.dp),

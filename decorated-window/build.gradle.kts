@@ -13,5 +13,6 @@ private val composeVersion
 dependencies {
     api("org.jetbrains.compose.foundation:foundation-desktop:$composeVersion")
     api(projects.ui)
+    implementation(fileTree("lib"))
     implementation(libs.jna.core)
 }

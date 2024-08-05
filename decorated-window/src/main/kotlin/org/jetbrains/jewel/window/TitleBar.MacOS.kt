@@ -14,6 +14,8 @@ import com.jetbrains.JBR
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import org.jetbrains.jewel.window.utils.macos.MacUtil
+import java.awt.Dialog
+import java.awt.Frame
 
 public fun Modifier.newFullscreenControls(newControls: Boolean = true): Modifier =
     this then
@@ -50,7 +52,9 @@ private class NewFullscreenControlsElement(
     }
 }
 
-private class NewFullscreenControlsNode(var newControls: Boolean) : Modifier.Node()
+private class NewFullscreenControlsNode(
+    var newControls: Boolean,
+) : Modifier.Node()
 
 @Composable
 internal fun DecoratedWindowScope.TitleBarOnMacOs(
@@ -91,7 +95,11 @@ internal fun DecoratedWindowScope.TitleBarOnMacOs(
                 MacUtil.updateFullScreenButtons(window)
             }
             titleBar.height = height.value
-            JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
+
+            when (val window = window) {
+                is Dialog -> JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
+                is Frame -> JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
+            }
 
             if (state.isFullscreen && newFullscreenControls) {
                 PaddingValues(start = 80.dp)

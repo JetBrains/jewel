@@ -57,7 +57,22 @@ internal const val TITLE_BAR_LAYOUT_ID = "__TITLE_BAR_CONTENT__"
 internal const val TITLE_BAR_BORDER_LAYOUT_ID = "__TITLE_BAR_BORDER__"
 
 @Composable
-public fun DecoratedWindowScope.TitleBar(
+public fun DecoratedFrameWindowScope.TitleBar(
+    modifier: Modifier = Modifier,
+    gradientStartColor: Color = Color.Unspecified,
+    style: TitleBarStyle = JewelTheme.defaultTitleBarStyle,
+    content: @Composable TitleBarScope.(DecoratedWindowState) -> Unit,
+) {
+    when (DesktopPlatform.Current) {
+        DesktopPlatform.Linux -> TitleBarOnLinux(modifier, gradientStartColor, style, content)
+        DesktopPlatform.Windows -> TitleBarOnWindows(modifier, gradientStartColor, style, content)
+        DesktopPlatform.MacOS -> TitleBarOnMacOs(modifier, gradientStartColor, style, content)
+        DesktopPlatform.Unknown -> error("TitleBar is not supported on this platform(${System.getProperty("os.name")})")
+    }
+}
+
+@Composable
+public fun DecoratedDialogWindowScope.TitleBar(
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = JewelTheme.defaultTitleBarStyle,
