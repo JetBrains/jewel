@@ -72,7 +72,7 @@ public fun TabStrip(
             enter = fadeIn(tween(durationMillis = 125, delayMillis = 0, easing = LinearEasing)),
             exit = fadeOut(tween(durationMillis = 125, delayMillis = 700, easing = LinearEasing)),
         ) {
-            TabStripHorizontalScrollbar(
+            HorizontalScrollbar(
                 adapter = rememberScrollbarAdapter(scrollState),
                 style = style.scrollbarStyle,
                 modifier = Modifier.fillMaxWidth(),
