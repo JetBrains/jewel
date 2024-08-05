@@ -24,8 +24,8 @@ import org.jetbrains.jewel.intui.markdown.standalone.ProvideMarkdownStyling
 import org.jetbrains.jewel.intui.markdown.standalone.dark
 import org.jetbrains.jewel.intui.markdown.standalone.light
 import org.jetbrains.jewel.intui.markdown.standalone.styling.dark
-import org.jetbrains.jewel.intui.markdown.standalone.styling.extension.github.alerts.dark
-import org.jetbrains.jewel.intui.markdown.standalone.styling.extension.github.alerts.light
+import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.dark
+import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.light
 import org.jetbrains.jewel.intui.markdown.standalone.styling.light
 import org.jetbrains.jewel.markdown.LazyMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
@@ -56,7 +56,7 @@ internal fun MarkdownPreview(
     // We are doing this here for the sake of simplicity.
     // In a real-world scenario you would be doing this outside your Composables,
     // potentially involving ViewModels, dependency injection, etc.
-    val processor = remember { MarkdownProcessor(extensions, optimizeEdits = true) }
+    val processor = remember { MarkdownProcessor(extensions, editorMode = true) }
 
     LaunchedEffect(rawMarkdown) {
         // TODO you may want to debounce or drop on backpressure, in real usages. You should also not do this
