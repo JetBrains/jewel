@@ -307,9 +307,7 @@ private fun ScrollbarImpl(
         val isHovered by interactionSource.collectIsHoveredAsState()
 
         val isHighlighted by remember {
-            derivedStateOf {
-                isHovered || dragInteraction.value is DragInteraction.Start
-            }
+            derivedStateOf { isHovered || dragInteraction.value is DragInteraction.Start }
         }
 
         val thumbMinHeight = style.metrics.minThumbLength.toPx()
@@ -339,22 +337,21 @@ private fun ScrollbarImpl(
                 }
             }
 
+        val thumbBackgroundColor = if (isHighlighted) {
+            style.colors.thumbBackground
+        } else {
+            style.colors.thumbBackgroundHovered
+        }
         val thumbColor = if (style.scrollbarVisibility is WhenScrolling) {
+            val durationMillis = style.scrollbarVisibility.expandAnimationDuration.inWholeMilliseconds.toInt()
             animateColorAsState(
-                if (isHighlighted) {
-                    style.colors.thumbBackgroundHovered
-                } else {
-                    style.colors.thumbBackgroundHovered
-                },
-                animationSpec = tween(durationMillis = style.scrollbarVisibility.expandAnimationDuration.inWholeMilliseconds.toInt()),
+                targetValue = thumbBackgroundColor,
+                animationSpec = tween(durationMillis),
             ).value
         } else {
-            if (isHighlighted) {
-                style.colors.thumbBackgroundHovered
-            } else {
-                style.colors.thumbBackgroundHovered
-            }
+            thumbBackgroundColor
         }
+
         val isVisible = sliderAdapter.thumbSize < containerSize
 
         Layout(
@@ -364,8 +361,8 @@ private fun ScrollbarImpl(
                         .layoutId("thumb")
                         .thenIf(isVisible) {
                             background(
-                                thumbColor,
-                                RoundedCornerShape(style.metrics.thumbCornerSize),
+                                color = thumbColor,
+                                shape = RoundedCornerShape(style.metrics.thumbCornerSize),
                             )
                         }.scrollbarDrag(
                             interactionSource = interactionSource,
