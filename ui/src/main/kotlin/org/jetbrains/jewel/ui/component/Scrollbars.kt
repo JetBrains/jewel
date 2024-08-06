@@ -339,21 +339,19 @@ private fun ScrollbarImpl(
                 }
             }
 
+        val targetColor = if (isHighlighted) {
+            style.colors.thumbBackgroundHovered
+        } else {
+            style.colors.thumbBackground
+        }
         val thumbColor = if (style.scrollbarVisibility is WhenScrolling) {
+            val durationMillis = style.scrollbarVisibility.expandAnimationDuration.inWholeMilliseconds.toInt()
             animateColorAsState(
-                if (isHighlighted) {
-                    style.colors.thumbBackgroundHovered
-                } else {
-                    style.colors.thumbBackgroundHovered
-                },
-                animationSpec = tween(durationMillis = style.scrollbarVisibility.expandAnimationDuration.inWholeMilliseconds.toInt()),
+                targetValue = targetColor,
+                animationSpec = tween(durationMillis),
             ).value
         } else {
-            if (isHighlighted) {
-                style.colors.thumbBackgroundHovered
-            } else {
-                style.colors.thumbBackgroundHovered
-            }
+            targetColor
         }
         val isVisible = sliderAdapter.thumbSize < containerSize
 
