@@ -56,7 +56,6 @@ public fun TextArea(
     val minSize = style.metrics.minSize
     InputField(
         state = state,
-        modifier = modifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height),
         enabled = enabled,
         readOnly = readOnly,
         outline = outline,
@@ -64,9 +63,11 @@ public fun TextArea(
         keyboardOptions = keyboardOptions,
         singleLine = false,
         maxLines = maxLines,
+        interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
-        interactionSource = interactionSource,
+        showScrollbar = showScrollbar,
+        modifier = modifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height),
         decorationBox = { innerTextField, _ ->
             TextAreaDecorationBox(
                 innerTextField = innerTextField,
@@ -76,7 +77,6 @@ public fun TextArea(
                 textStyle = textStyle,
             )
         },
-        showScrollbar = showScrollbar,
     )
 }
 

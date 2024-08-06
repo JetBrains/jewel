@@ -55,7 +55,6 @@ public fun TextField(
 ) {
     InputField(
         state = state,
-        modifier = modifier,
         enabled = enabled,
         readOnly = readOnly,
         outline = outline,
@@ -63,10 +62,11 @@ public fun TextField(
         keyboardOptions = keyboardOptions,
         singleLine = true,
         maxLines = 1,
+        interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
-        interactionSource = interactionSource,
         showScrollbar = false,
+        modifier = modifier,
         decorationBox = { innerTextField, _ ->
             val minSize = style.metrics.minSize
 

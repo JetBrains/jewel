@@ -58,9 +58,9 @@ internal fun InputField(
     interactionSource: MutableInteractionSource,
     style: InputFieldStyle,
     textStyle: TextStyle,
+    showScrollbar: Boolean,
     modifier: Modifier = Modifier,
     decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
-    showScrollbar: Boolean,
 ) {
     var inputState by remember(interactionSource) {
         mutableStateOf(InputFieldState.of(enabled = enabled))
