@@ -76,5 +76,7 @@ internal fun findViews(packageName: String): List<ViewInfo> {
             }
     }
 
-    return result.sortedBy { it.position }
+    val viewInfos = result.sortedBy { it.position }
+    JewelLogger.getInstance("Views").warn("Views : $viewInfos")
+    return viewInfos
 }

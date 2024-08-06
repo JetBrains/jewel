@@ -11,3 +11,4 @@ object ComponentsViewModel {
 
     var currentView by mutableStateOf(views.first())
 }
+
