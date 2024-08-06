@@ -44,9 +44,9 @@ fun TextFields() {
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val state = rememberTextFieldState("TextField")
+        val state1 = rememberTextFieldState("TextField")
         TextField(
-            state = state,
+            state = state1,
             modifier = Modifier.width(200.dp),
         )
 
@@ -70,17 +70,17 @@ fun TextFields() {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val state4 = rememberTextFieldState("")
+        val state1 = rememberTextFieldState("")
         TextField(
-            state = state4,
+            state = state1,
             outline = Outline.Warning,
             placeholder = { Text("Warning outline") },
             modifier = Modifier.width(200.dp),
         )
 
-        val state5 = rememberTextFieldState("Disabled")
+        val state2 = rememberTextFieldState("Disabled")
         TextField(
-            state = state5,
+            state = state2,
             enabled = false,
             modifier = Modifier.width(200.dp),
         )
