@@ -245,19 +245,6 @@ public fun ScrollbarMetrics.Companion.linux(
         trackPaddingExpanded,
     )
 
-public fun ScrollbarStyle.Companion.macOsTabLight(
-    colors: ScrollbarColors = ScrollbarColors.macOsLight(),
-    metrics: ScrollbarMetrics = ScrollbarMetrics.tabStripMacOs(),
-    trackClickBehavior: TrackClickBehavior = TrackClickBehavior.NextPage,
-    scrollbarVisibility: ScrollbarVisibility = ScrollbarVisibility.WhenScrolling.defaults(),
-): ScrollbarStyle =
-    ScrollbarStyle(
-        colors = colors,
-        metrics = metrics,
-        trackClickBehavior = trackClickBehavior,
-        scrollbarVisibility = scrollbarVisibility,
-    )
-
 public fun ScrollbarStyle.Companion.tabStripMacOsDark(
     colors: ScrollbarColors = ScrollbarColors.macOsDark(),
     metrics: ScrollbarMetrics = ScrollbarMetrics.tabStripMacOs(),
