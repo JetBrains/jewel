@@ -8,9 +8,3 @@ data class ViewInfo(
     val iconKey: IconKey,
     val content: @Composable () -> Unit,
 )
-
-@Target(AnnotationTarget.FUNCTION)
-annotation class View(
-    val title: String,
-    val icon: String = "icons/stub.svg",
-)
