@@ -93,8 +93,6 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.defaults(
         lingerDuration = lingerDuration,
     )
 
-// COLORS
-
 public fun ScrollbarColors.Companion.macOsLight(
     thumbBackground: Color = Color(0x00000000),
     thumbBackgroundHovered: Color = Color(0x80000000),
@@ -179,8 +177,6 @@ public fun ScrollbarColors.Companion.windowsAndLinuxDark(
         trackBackgroundHovered,
     )
 
-// METRICS
-
 public fun ScrollbarMetrics.Companion.defaults(
     thumbCornerSize: CornerSize = CornerSize(100),
     thumbThickness: Dp = 8.dp,
@@ -249,7 +245,6 @@ public fun ScrollbarMetrics.Companion.linux(
         trackPaddingExpanded,
     )
 
-// TAB STYLING
 public fun ScrollbarStyle.Companion.macOsTabLight(
     colors: ScrollbarColors = ScrollbarColors.macOsLight(),
     metrics: ScrollbarMetrics = ScrollbarMetrics.tabStripMacOs(),
