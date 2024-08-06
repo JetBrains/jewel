@@ -33,23 +33,20 @@ object MainViewModel {
     var currentView by mutableStateOf(views.first())
 }
 
-private val mainMenuItems = listOf(
+private val mainMenuItems = setOf(
     ViewInfo(
         title = "Welcome",
-        position = 0,
-        PathIconKey("icons/meetNewUi.svg", View::class.java),
+        iconKey = PathIconKey("icons/meetNewUi.svg", View::class.java),
         content = { WelcomeView() }
     ),
     ViewInfo(
         title = "Components",
-        position = 1,
-        PathIconKey("icons/structure.svg", View::class.java),
+        iconKey = PathIconKey("icons/structure.svg", View::class.java),
         content = { ComponentsView() }
     ),
     ViewInfo(
         title = "Markdown",
-        position = 2,
-        PathIconKey("icons/markdown.svg", View::class.java),
+        iconKey = PathIconKey("icons/markdown.svg", View::class.java),
         content = { MarkdownDemo() }
     )
 )
