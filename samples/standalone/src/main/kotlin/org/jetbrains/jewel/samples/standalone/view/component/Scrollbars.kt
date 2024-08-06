@@ -29,8 +29,8 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.intui.standalone.styling.macOsDark
 import org.jetbrains.jewel.intui.standalone.styling.macOsLight
-import org.jetbrains.jewel.intui.standalone.styling.winOsDark
-import org.jetbrains.jewel.intui.standalone.styling.winOsLight
+import org.jetbrains.jewel.intui.standalone.styling.windowsAndLinuxDark
+import org.jetbrains.jewel.intui.standalone.styling.windowsAndLinuxLight
 import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.CheckboxRow
@@ -154,13 +154,13 @@ fun readStyle(
         if (isMac) {
             ScrollbarStyle.macOsDark()
         } else {
-            ScrollbarStyle.winOsDark()
+            ScrollbarStyle.windowsAndLinuxDark()
         }
     } else {
         if (isMac) {
             ScrollbarStyle.macOsLight()
         } else {
-            ScrollbarStyle.winOsLight()
+            ScrollbarStyle.windowsAndLinuxLight()
         }
     }
 

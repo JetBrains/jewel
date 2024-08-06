@@ -18,14 +18,14 @@ public fun ScrollbarStyle.Companion.dark(): ScrollbarStyle =
     if (hostOs.isMacOS) {
         ScrollbarStyle.macOsDark()
     } else {
-        ScrollbarStyle.winOsDark()
+        ScrollbarStyle.windowsAndLinuxDark()
     }
 
 public fun ScrollbarStyle.Companion.light(): ScrollbarStyle =
     if (hostOs.isMacOS) {
         ScrollbarStyle.macOsLight()
     } else {
-        ScrollbarStyle.winOsLight()
+        ScrollbarStyle.windowsAndLinuxLight()
     }
 
 public fun ScrollbarStyle.Companion.macOsLight(
@@ -54,8 +54,8 @@ public fun ScrollbarStyle.Companion.macOsDark(
         scrollbarVisibility = scrollbarVisibility,
     )
 
-public fun ScrollbarStyle.Companion.winOsDark(
-    colors: ScrollbarColors = ScrollbarColors.winOsDark(),
+public fun ScrollbarStyle.Companion.windowsAndLinuxDark(
+    colors: ScrollbarColors = ScrollbarColors.windowsAndLinuxDark(),
     metrics: ScrollbarMetrics = ScrollbarMetrics.windows(),
     trackClickBehavior: TrackClickBehavior = TrackClickBehavior.JumpToSpot,
     scrollbarVisibility: ScrollbarVisibility = ScrollbarVisibility.AlwaysVisible,
@@ -67,8 +67,8 @@ public fun ScrollbarStyle.Companion.winOsDark(
         scrollbarVisibility = scrollbarVisibility,
     )
 
-public fun ScrollbarStyle.Companion.winOsLight(
-    colors: ScrollbarColors = ScrollbarColors.winOsLight(),
+public fun ScrollbarStyle.Companion.windowsAndLinuxLight(
+    colors: ScrollbarColors = ScrollbarColors.windowsAndLinuxLight(),
     metrics: ScrollbarMetrics = ScrollbarMetrics.windows(),
     trackClickBehavior: TrackClickBehavior = TrackClickBehavior.JumpToSpot,
     scrollbarVisibility: ScrollbarVisibility = ScrollbarVisibility.AlwaysVisible,
@@ -116,7 +116,7 @@ public fun ScrollbarColors.Companion.macOsLight(
         trackBackgroundHovered,
     )
 
-public fun ScrollbarColors.Companion.winOsLight(
+public fun ScrollbarColors.Companion.windowsAndLinuxLight(
     thumbBackground: Color = Color(0x33737373),
     thumbBackgroundHovered: Color = Color(0x47737373),
     thumbBackgroundPressed: Color = thumbBackgroundHovered,
@@ -158,7 +158,7 @@ public fun ScrollbarColors.Companion.macOsDark(
         trackBackgroundHovered,
     )
 
-public fun ScrollbarColors.Companion.winOsDark(
+public fun ScrollbarColors.Companion.windowsAndLinuxDark(
     thumbBackground: Color = Color(0x47A6A6A6),
     thumbBackgroundHovered: Color = Color(0x59A6A6A6),
     thumbBackgroundPressed: Color = Color(0x59A6A6A6),
@@ -289,9 +289,9 @@ public fun ScrollbarStyle.Companion.tabStripMacOsLight(
         scrollbarVisibility = scrollbarVisibility,
     )
 
-public fun ScrollbarStyle.Companion.tabStripWinOsDark(
-    colors: ScrollbarColors = ScrollbarColors.winOsDark(),
-    metrics: ScrollbarMetrics = ScrollbarMetrics.tabStripWindows(),
+public fun ScrollbarStyle.Companion.tabStripWindowsAndLinuxDark(
+    colors: ScrollbarColors = ScrollbarColors.windowsAndLinuxDark(),
+    metrics: ScrollbarMetrics = ScrollbarMetrics.tabStripWindowsAndLinux(),
     trackClickBehavior: TrackClickBehavior = TrackClickBehavior.JumpToSpot,
     scrollbarVisibility: ScrollbarVisibility = ScrollbarVisibility.AlwaysVisible,
 ): ScrollbarStyle =
@@ -302,9 +302,9 @@ public fun ScrollbarStyle.Companion.tabStripWinOsDark(
         scrollbarVisibility = scrollbarVisibility,
     )
 
-public fun ScrollbarStyle.Companion.tabStripWinOsLight(
-    colors: ScrollbarColors = ScrollbarColors.winOsLight(),
-    metrics: ScrollbarMetrics = ScrollbarMetrics.tabStripWindows(),
+public fun ScrollbarStyle.Companion.tabStripWindowsAndLinuxLight(
+    colors: ScrollbarColors = ScrollbarColors.windowsAndLinuxLight(),
+    metrics: ScrollbarMetrics = ScrollbarMetrics.tabStripWindowsAndLinux(),
     trackClickBehavior: TrackClickBehavior = TrackClickBehavior.JumpToSpot,
     scrollbarVisibility: ScrollbarVisibility = ScrollbarVisibility.AlwaysVisible,
 ): ScrollbarStyle =
@@ -319,14 +319,14 @@ public fun ScrollbarStyle.Companion.tabStripDark(): ScrollbarStyle =
     if (hostOs.isMacOS) {
         ScrollbarStyle.tabStripMacOsDark()
     } else {
-        ScrollbarStyle.tabStripWinOsDark()
+        ScrollbarStyle.tabStripWindowsAndLinuxDark()
     }
 
 public fun ScrollbarStyle.Companion.tabStripLight(): ScrollbarStyle =
     if (hostOs.isMacOS) {
         ScrollbarStyle.tabStripMacOsLight()
     } else {
-        ScrollbarStyle.tabStripWinOsLight()
+        ScrollbarStyle.tabStripWindowsAndLinuxLight()
     }
 
 public fun ScrollbarMetrics.Companion.tabStripMacOs(
@@ -346,7 +346,7 @@ public fun ScrollbarMetrics.Companion.tabStripMacOs(
         trackPaddingExpanded,
     )
 
-public fun ScrollbarMetrics.Companion.tabStripWindows(
+public fun ScrollbarMetrics.Companion.tabStripWindowsAndLinux(
     thumbCornerSize: CornerSize = CornerSize(0),
     thumbThickness: Dp = 3.dp,
     minThumbLength: Dp = 16.dp,
