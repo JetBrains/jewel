@@ -46,18 +46,18 @@ public abstract class PalettePainterHintsProvider(
         }
 
     /**
-     * Returns a [PainterHint] that can be used to patch colors for a resource
-     * with a given [path].
+     * Returns a [PainterHint] that can be used to patch colors for a resource with a given [path].
      *
-     * The implementations vary depending on the path, and when running on the
-     * IntelliJ Platform, also on the IDE version and the current theme (New UI
-     * vs Classic UI).
+     * The implementations vary depending on the path, and when running on the IntelliJ Platform,
+     * also on the IDE version and the current theme (New UI vs Classic UI).
      */
     protected fun getPaletteHint(
         path: String,
         isNewUi: Boolean,
     ): PainterHint {
-        if (!path.contains("com/intellij/ide/ui/laf/icons/") && !path.contains("themes/expUI/icons/dark/")) return uiPaletteHint
+        if (!path.contains("com/intellij/ide/ui/laf/icons/") &&
+            !path.contains("themes/expUI/icons/dark/"))
+            return uiPaletteHint
 
         val file = path.substringAfterLast('/')
         // ⚠️ This next line is not a copy-paste error — the code in

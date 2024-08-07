@@ -53,9 +53,12 @@ internal fun InputField(
     interactionSource: MutableInteractionSource,
     style: InputFieldStyle,
     textStyle: TextStyle,
-    decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
+    decorationBox:
+        @Composable
+        (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
 ) {
-    var inputState by remember(interactionSource) { mutableStateOf(InputFieldState.of(enabled = enabled)) }
+    var inputState by
+        remember(interactionSource) { mutableStateOf(InputFieldState.of(enabled = enabled)) }
     remember(enabled) { inputState = inputState.copy(enabled = enabled) }
 
     LaunchedEffect(interactionSource) {
@@ -112,9 +115,10 @@ internal fun InputField(
         interactionSource = interactionSource,
         singleLine = singleLine,
         maxLines = maxLines,
-        decorationBox = @Composable { innerTextField: @Composable () -> Unit ->
-            decorationBox(innerTextField, inputState)
-        },
+        decorationBox =
+            @Composable { innerTextField: @Composable () -> Unit ->
+                decorationBox(innerTextField, inputState)
+            },
     )
 }
 

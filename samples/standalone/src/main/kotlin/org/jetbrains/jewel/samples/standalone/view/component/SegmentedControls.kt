@@ -21,9 +21,7 @@ fun SegmentedControls() {
             buttonIds.map { index ->
                 SegmentedControlButtonData(
                     selected = index == selectedButtonIndex,
-                    content = { _ ->
-                        Text("Button ${index + 1}")
-                    },
+                    content = { _ -> Text("Button ${index + 1}") },
                     onSelect = { selectedButtonIndex = index },
                 )
             }

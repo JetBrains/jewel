@@ -38,11 +38,14 @@ public open class DefaultTreeViewOnKeyEvent(
                     .reversed()
                     .firstOrNull { it.second < currentNode.second }
                     ?.let { (parentNodeKey, _) ->
-                        keys.first { it.key == parentNodeKey }
+                        keys
+                            .first { it.key == parentNodeKey }
                             .takeIf { it is SelectableLazyListKey.Selectable }
                             ?.let {
                                 state.lastActiveItemIndex =
-                                    keys.indexOfFirst { selectableKey -> selectableKey.key == parentNodeKey }
+                                    keys.indexOfFirst { selectableKey ->
+                                        selectableKey.key == parentNodeKey
+                                    }
                                 state.selectedKeys = setOf(parentNodeKey)
                             }
                     }
@@ -73,10 +76,8 @@ public open class DefaultTreeViewOnKeyEvent(
         state: SelectableLazyListState,
     ) {
         val currentKey = keys[state.lastActiveItemIndex ?: 0].key
-        if (
-            currentKey in treeState.allNodes.map { it.first } &&
-            currentKey !in treeState.openNodes
-        ) {
+        if (currentKey in treeState.allNodes.map { it.first } &&
+            currentKey !in treeState.openNodes) {
             treeState.toggleNode(currentKey)
         } else {
             super.onSelectNextItem(keys, state)

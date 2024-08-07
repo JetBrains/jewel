@@ -48,19 +48,20 @@ import org.jetbrains.jewel.ui.theme.textAreaStyle
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private val mainContent =
         panel {
-            buttonsRow()
-            separator()
-            labelsRows()
-            separator()
-            iconsRow()
-            separator()
-            textFieldsRow()
-            separator()
-            textAreasRow()
-        }.apply {
-            border = JBUI.Borders.empty(0, 10)
-            isOpaque = false
-        }
+                buttonsRow()
+                separator()
+                labelsRows()
+                separator()
+                iconsRow()
+                separator()
+                textFieldsRow()
+                separator()
+                textAreasRow()
+            }
+            .apply {
+                border = JBUI.Borders.empty(0, 10)
+                isOpaque = false
+            }
 
     private val scrollingContainer =
         JBScrollPane(
@@ -78,85 +79,102 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
 
     private fun Panel.buttonsRow() {
         row("Buttons:") {
-            button("Swing Button") {}.align(AlignY.CENTER)
-            compose { OutlinedButton({}) { Text("Compose Button") } }
+                button("Swing Button") {}.align(AlignY.CENTER)
+                compose { OutlinedButton({}) { Text("Compose Button") } }
 
-            button("Default Swing Button") {}.align(AlignY.CENTER)
-                .applyToComponent { putClientProperty(DarculaButtonUI.DEFAULT_STYLE_KEY, true) }
-            compose { DefaultButton({}) { Text("Default Compose Button") } }
-        }.layout(RowLayout.PARENT_GRID)
+                button("Default Swing Button") {}
+                    .align(AlignY.CENTER)
+                    .applyToComponent { putClientProperty(DarculaButtonUI.DEFAULT_STYLE_KEY, true) }
+                compose { DefaultButton({}) { Text("Default Compose Button") } }
+            }
+            .layout(RowLayout.PARENT_GRID)
     }
 
     private fun Panel.labelsRows() {
         row("Labels:") {
-            label("Swing label").align(AlignY.CENTER)
-            compose { Text("Compose label") }
-        }.layout(RowLayout.PARENT_GRID)
+                label("Swing label").align(AlignY.CENTER)
+                compose { Text("Compose label") }
+            }
+            .layout(RowLayout.PARENT_GRID)
 
         row("Comments:") {
-            comment("Swing comment").align(AlignY.CENTER)
-            compose {
-                Text("Compose comment", style = Typography.medium(), color = JewelTheme.globalColors.text.info)
+                comment("Swing comment").align(AlignY.CENTER)
+                compose {
+                    Text(
+                        "Compose comment",
+                        style = Typography.medium(),
+                        color = JewelTheme.globalColors.text.info)
+                }
             }
-        }.layout(RowLayout.PARENT_GRID)
+            .layout(RowLayout.PARENT_GRID)
     }
 
     private fun Panel.iconsRow() {
         row("Icons:") {
-            cell(
-                JBLabel(JewelIcons.ToolWindowIcon).apply { border = JBUI.Borders.customLine(JBColor.RED) },
-            ).align(AlignY.CENTER)
+                cell(
+                        JBLabel(JewelIcons.ToolWindowIcon).apply {
+                            border = JBUI.Borders.customLine(JBColor.RED)
+                        },
+                    )
+                    .align(AlignY.CENTER)
 
-            compose {
-                Icon(
-                    "icons/jewel-tool-window.svg",
-                    null,
-                    this@SwingComparisonTabPanel.javaClass,
-                    Modifier.border(1.dp, Color.Red),
-                )
+                compose {
+                    Icon(
+                        "icons/jewel-tool-window.svg",
+                        null,
+                        this@SwingComparisonTabPanel.javaClass,
+                        Modifier.border(1.dp, Color.Red),
+                    )
+                }
             }
-        }.layout(RowLayout.PARENT_GRID)
+            .layout(RowLayout.PARENT_GRID)
     }
 
     private fun Panel.textFieldsRow() {
         row("Text fields:") {
-            textField().align(AlignY.CENTER)
+                textField().align(AlignY.CENTER)
 
-            compose {
-                var text by remember { mutableStateOf("") }
-                TextField(text, { text = it })
+                compose {
+                    var text by remember { mutableStateOf("") }
+                    TextField(text, { text = it })
+                }
             }
-        }.layout(RowLayout.PARENT_GRID)
+            .layout(RowLayout.PARENT_GRID)
     }
 
     private fun Panel.textAreasRow() {
         row("Text areas:") {
-            textArea().align(AlignY.CENTER).applyToComponent { rows = 3 }
+                textArea().align(AlignY.CENTER).applyToComponent { rows = 3 }
 
-            compose {
-                var text by remember { mutableStateOf("") }
-                val metrics = remember(JBFont.label(), LocalDensity.current) { getFontMetrics(JBFont.label()) }
-                val charWidth =
-                    remember(metrics.widths) {
-                        // Same logic as in JTextArea
-                        metrics.charWidth('m')
-                    }
-                val lineHeight = metrics.height
+                compose {
+                    var text by remember { mutableStateOf("") }
+                    val metrics =
+                        remember(JBFont.label(), LocalDensity.current) {
+                            getFontMetrics(JBFont.label())
+                        }
+                    val charWidth =
+                        remember(metrics.widths) {
+                            // Same logic as in JTextArea
+                            metrics.charWidth('m')
+                        }
+                    val lineHeight = metrics.height
 
-                val width = remember(charWidth) { (COLUMNS_SHORT * charWidth) }
-                val height = remember(lineHeight) { (3 * lineHeight) }
+                    val width = remember(charWidth) { (COLUMNS_SHORT * charWidth) }
+                    val height = remember(lineHeight) { (3 * lineHeight) }
 
-                val contentPadding = JewelTheme.textAreaStyle.metrics.contentPadding
-                TextArea(
-                    text,
-                    { text = it },
-                    Modifier.size(
-                        width = width.dp + contentPadding.horizontal(LocalLayoutDirection.current),
-                        height = height.dp + contentPadding.vertical(),
-                    ),
-                )
+                    val contentPadding = JewelTheme.textAreaStyle.metrics.contentPadding
+                    TextArea(
+                        text,
+                        { text = it },
+                        Modifier.size(
+                            width =
+                                width.dp + contentPadding.horizontal(LocalLayoutDirection.current),
+                            height = height.dp + contentPadding.vertical(),
+                        ),
+                    )
+                }
             }
-        }.layout(RowLayout.PARENT_GRID)
+            .layout(RowLayout.PARENT_GRID)
     }
 
     private fun PaddingValues.vertical(): Dp = calculateTopPadding() + calculateBottomPadding()
@@ -166,8 +184,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
 
     private fun Row.compose(content: @Composable () -> Unit) =
         cell(
-            JewelComposePanel {
-                Box(Modifier.padding(8.dp)) { content() }
-            }.apply { isOpaque = false },
+            JewelComposePanel { Box(Modifier.padding(8.dp)) { content() } }
+                .apply { isOpaque = false },
         )
 }

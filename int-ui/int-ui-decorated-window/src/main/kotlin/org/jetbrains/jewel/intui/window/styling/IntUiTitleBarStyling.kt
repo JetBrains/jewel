@@ -54,7 +54,8 @@ public fun TitleBarStyle.Companion.light(
                         arrowMinSize = DpSize(20.dp, 24.dp),
                         minSize = DpSize(60.dp, 30.dp),
                         cornerSize = CornerSize(6.dp),
-                        contentPadding = PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
+                        contentPadding =
+                            PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
                     ),
                 menuStyle = MenuStyle.light(),
             ),
@@ -105,7 +106,8 @@ public fun TitleBarStyle.Companion.lightWithLightHeader(
                         arrowMinSize = DpSize(20.dp, 24.dp),
                         minSize = DpSize(60.dp, 30.dp),
                         cornerSize = CornerSize(6.dp),
-                        contentPadding = PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
+                        contentPadding =
+                            PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
                     ),
             ),
         iconButtonStyle =
@@ -155,7 +157,8 @@ public fun TitleBarStyle.Companion.dark(
                         arrowMinSize = DpSize(20.dp, 24.dp),
                         minSize = DpSize(60.dp, 30.dp),
                         cornerSize = CornerSize(6.dp),
-                        contentPadding = PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
+                        contentPadding =
+                            PaddingValues(start = 10.dp, end = 0.dp, top = 3.dp, bottom = 3.dp),
                     ),
             ),
         iconButtonStyle =
@@ -182,26 +185,27 @@ private fun titleBarIconButtonStyle(
     hoveredBackground: Color,
     pressedBackground: Color,
     metrics: IconButtonMetrics,
-) = IconButtonStyle(
-    IconButtonColors(
-        foregroundSelectedActivated = Color.Unspecified,
-        background = Color.Unspecified,
-        backgroundDisabled = Color.Unspecified,
-        backgroundSelected = Color.Unspecified,
-        backgroundSelectedActivated = Color.Unspecified,
-        backgroundFocused = Color.Unspecified,
-        backgroundPressed = hoveredBackground,
-        backgroundHovered = pressedBackground,
-        border = Color.Unspecified,
-        borderDisabled = Color.Unspecified,
-        borderSelected = Color.Unspecified,
-        borderSelectedActivated = Color.Unspecified,
-        borderFocused = hoveredBackground,
-        borderPressed = pressedBackground,
-        borderHovered = Color.Unspecified,
-    ),
-    metrics,
-)
+) =
+    IconButtonStyle(
+        IconButtonColors(
+            foregroundSelectedActivated = Color.Unspecified,
+            background = Color.Unspecified,
+            backgroundDisabled = Color.Unspecified,
+            backgroundSelected = Color.Unspecified,
+            backgroundSelectedActivated = Color.Unspecified,
+            backgroundFocused = Color.Unspecified,
+            backgroundPressed = hoveredBackground,
+            backgroundHovered = pressedBackground,
+            border = Color.Unspecified,
+            borderDisabled = Color.Unspecified,
+            borderSelected = Color.Unspecified,
+            borderSelectedActivated = Color.Unspecified,
+            borderFocused = hoveredBackground,
+            borderPressed = pressedBackground,
+            borderHovered = Color.Unspecified,
+        ),
+        metrics,
+    )
 
 @Composable
 public fun TitleBarColors.Companion.light(
@@ -226,7 +230,8 @@ public fun TitleBarColors.Companion.light(
     // but in com.intellij.ide.ui.laf.darcula.ui.ToolbarComboWidgetUI#paintBackground,
     // transparentHoveredBackground is used first, which is guessed to be due to the gradient
     // background
-    // caused by the project color of the titlebar, which makes the pure color background look strange
+    // caused by the project color of the titlebar, which makes the pure color background look
+    // strange
     // in the area. In order to simplify the use in Jewel, here directly use
     // transparentHoveredBackground
     // as hoveredBackground.
@@ -321,8 +326,11 @@ public fun TitleBarMetrics.Companion.defaults(
 ): TitleBarMetrics = TitleBarMetrics(height, gradientStartX, gradientEndX, titlePaneButtonSize)
 
 public fun TitleBarIcons.Companion.defaults(
-    minimizeButton: PainterProvider = decoratedWindowPainterProvider("icons/intui/window/minimize.svg"),
-    maximizeButton: PainterProvider = decoratedWindowPainterProvider("icons/intui/window/maximize.svg"),
-    restoreButton: PainterProvider = decoratedWindowPainterProvider("icons/intui/window/restore.svg"),
+    minimizeButton: PainterProvider =
+        decoratedWindowPainterProvider("icons/intui/window/minimize.svg"),
+    maximizeButton: PainterProvider =
+        decoratedWindowPainterProvider("icons/intui/window/maximize.svg"),
+    restoreButton: PainterProvider =
+        decoratedWindowPainterProvider("icons/intui/window/restore.svg"),
     closeButton: PainterProvider = decoratedWindowPainterProvider("icons/intui/window/close.svg"),
 ): TitleBarIcons = TitleBarIcons(minimizeButton, maximizeButton, restoreButton, closeButton)

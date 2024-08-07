@@ -16,13 +16,13 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.scale.JBUIScale
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
-import kotlinx.coroutines.CoroutineScope
 import javax.swing.BoxLayout
 import javax.swing.DefaultListModel
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
+import kotlinx.coroutines.CoroutineScope
 
 class ReleasesSamplePanel(scope: CoroutineScope) : BorderLayoutPanel() {
     private val sidePanel = DetailsPanel(scope)
@@ -51,7 +51,8 @@ class ReleasesSamplePanel(scope: CoroutineScope) : BorderLayoutPanel() {
     private val actions: List<AnAction> =
         listOf(
             object : CheckboxAction(AndroidStudioReleases.displayName), DumbAware {
-                override fun isSelected(e: AnActionEvent): Boolean = currentContentSource == AndroidStudioReleases
+                override fun isSelected(e: AnActionEvent): Boolean =
+                    currentContentSource == AndroidStudioReleases
 
                 override fun setSelected(
                     e: AnActionEvent,
@@ -63,7 +64,8 @@ class ReleasesSamplePanel(scope: CoroutineScope) : BorderLayoutPanel() {
                 override fun getActionUpdateThread() = ActionUpdateThread.BGT
             },
             object : CheckboxAction(AndroidReleases.displayName), DumbAware {
-                override fun isSelected(e: AnActionEvent): Boolean = currentContentSource == AndroidReleases
+                override fun isSelected(e: AnActionEvent): Boolean =
+                    currentContentSource == AndroidReleases
 
                 override fun setSelected(
                     e: AnActionEvent,
@@ -76,9 +78,7 @@ class ReleasesSamplePanel(scope: CoroutineScope) : BorderLayoutPanel() {
             },
         )
 
-    private val overflowAction =
-        MoreActionGroup()
-            .apply { addAll(actions) }
+    private val overflowAction = MoreActionGroup().apply { addAll(actions) }
 
     private val overflowActionButton: ActionButton =
         ActionButton(

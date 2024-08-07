@@ -1,10 +1,11 @@
 package org.jetbrains.jewel.foundation.lazy.tree
 
-import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import java.io.File
 import java.nio.file.Path
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
-public fun <T> buildTree(builder: TreeBuilder<T>.() -> Unit): Tree<T> = TreeBuilder<T>().apply(builder).build()
+public fun <T> buildTree(builder: TreeBuilder<T>.() -> Unit): Tree<T> =
+    TreeBuilder<T>().apply(builder).build()
 
 public class TreeBuilder<T> : TreeGeneratorScope<T> {
     public sealed class Element<T> {
@@ -46,8 +47,7 @@ public class TreeBuilder<T> : TreeGeneratorScope<T> {
         val elements = mutableListOf<Tree.Element<T>>()
         for (index in heads.indices) {
             val previous: Tree.Element<T>? =
-                elements.getOrNull(index - 1)
-                    ?.let { evaluatePrevious(it) }
+                elements.getOrNull(index - 1)?.let { evaluatePrevious(it) }
 
             val current = getCurrentTreeElement(index, previous)
             elements.add(current)
@@ -59,30 +59,31 @@ public class TreeBuilder<T> : TreeGeneratorScope<T> {
     private fun getCurrentTreeElement(
         index: Int,
         previous: Tree.Element<T>?,
-    ) = when (val elementBuilder = heads[index]) {
-        is Element.Leaf ->
-            Tree.Element.Leaf(
-                data = elementBuilder.data,
-                depth = 0,
-                childIndex = index,
-                parent = null,
-                previous = previous,
-                next = null,
-                id = elementBuilder.id ?: "$index",
-            )
+    ) =
+        when (val elementBuilder = heads[index]) {
+            is Element.Leaf ->
+                Tree.Element.Leaf(
+                    data = elementBuilder.data,
+                    depth = 0,
+                    childIndex = index,
+                    parent = null,
+                    previous = previous,
+                    next = null,
+                    id = elementBuilder.id ?: "$index",
+                )
 
-        is Element.Node ->
-            Tree.Element.Node(
-                data = elementBuilder.data,
-                depth = 0,
-                childIndex = index,
-                parent = null,
-                childrenGenerator = { parent -> generateElements(parent, elementBuilder) },
-                previous = previous,
-                next = null,
-                id = elementBuilder.id ?: "$index",
-            )
-    }
+            is Element.Node ->
+                Tree.Element.Node(
+                    data = elementBuilder.data,
+                    depth = 0,
+                    childIndex = index,
+                    parent = null,
+                    childrenGenerator = { parent -> generateElements(parent, elementBuilder) },
+                    previous = previous,
+                    next = null,
+                    id = elementBuilder.id ?: "$index",
+                )
+        }
 }
 
 private fun <T> generateElements(
@@ -150,7 +151,8 @@ public interface TreeGeneratorScope<T> {
     public fun add(element: TreeBuilder.Element<T>)
 }
 
-public class ChildrenGeneratorScope<T>(private val parentElement: Tree.Element.Node<T>) : TreeGeneratorScope<T> {
+public class ChildrenGeneratorScope<T>(private val parentElement: Tree.Element.Node<T>) :
+    TreeGeneratorScope<T> {
     @GenerateDataFunctions
     public class ParentInfo<T>(public val data: T, public val depth: Int, public val index: Int)
 
@@ -182,16 +184,14 @@ public class ChildrenGeneratorScope<T>(private val parentElement: Tree.Element.N
 
 public fun Path.asTree(isOpen: (File) -> Boolean = { false }): Tree<File> = toFile().asTree(isOpen)
 
-public fun File.asTree(isOpen: (File) -> Boolean = { false }): Tree<File> =
-    buildTree {
-        addNode(this@asTree, isOpen(this@asTree)) {
-            generateFileNodes(isOpen)
-        }
-    }
+public fun File.asTree(isOpen: (File) -> Boolean = { false }): Tree<File> = buildTree {
+    addNode(this@asTree, isOpen(this@asTree)) { generateFileNodes(isOpen) }
+}
 
 private fun ChildrenGeneratorScope<File>.generateFileNodes(isOpen: (File) -> Boolean) {
     val files = parent.data.listFiles() ?: return
-    files.sortedBy { if (it.isDirectory) "a" else "b" }
+    files
+        .sortedBy { if (it.isDirectory) "a" else "b" }
         .forEach { file ->
             when {
                 file.isFile -> addLeaf(file, file.absolutePath)

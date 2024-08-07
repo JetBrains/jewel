@@ -13,10 +13,9 @@ public interface MarkdownBlockProcessorExtension {
     public fun canProcess(block: CustomBlock): Boolean
 
     /**
-     * Processes the [block] as a [MarkdownBlock.CustomBlock], if possible. Note
-     * that you should always check that [canProcess] returns true for the same
-     * [block], as implementations might throw an exception for unsupported
-     * block types.
+     * Processes the [block] as a [MarkdownBlock.CustomBlock], if possible. Note that you should
+     * always check that [canProcess] returns true for the same [block], as implementations might
+     * throw an exception for unsupported block types.
      */
     public fun processMarkdownBlock(
         block: CustomBlock,

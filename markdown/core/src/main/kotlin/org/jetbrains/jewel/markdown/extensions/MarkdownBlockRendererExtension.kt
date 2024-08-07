@@ -15,8 +15,8 @@ public interface MarkdownBlockRendererExtension {
     public fun canRender(block: CustomBlock): Boolean
 
     /**
-     * Render a [MarkdownBlock.CustomBlock] as a native Composable. Note that if
-     * [canRender] returns `false` for [block], the implementation might throw.
+     * Render a [MarkdownBlock.CustomBlock] as a native Composable. Note that if [canRender] returns
+     * `false` for [block], the implementation might throw.
      */
     @Composable
     public fun render(

@@ -6,6 +6,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.dp
 import com.intellij.ui.mac.foundation.Foundation
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.ui.component.styling.ScrollbarColors
 import org.jetbrains.jewel.ui.component.styling.ScrollbarMetrics
@@ -13,8 +15,6 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior
 import org.jetbrains.skiko.hostOs
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
 
 internal fun readScrollbarStyle(isDark: Boolean): ScrollbarStyle =
     ScrollbarStyle(
@@ -170,8 +170,10 @@ private fun readScrollBarColorForKey(
     colorKey: String,
     fallbackLight: Long,
     fallbackDark: Long,
-) = retrieveColorOrUnspecified(colorKey)
-    .takeOrElse { if (isDark) Color(fallbackDark) else Color(fallbackLight) }
+) =
+    retrieveColorOrUnspecified(colorKey).takeOrElse {
+        if (isDark) Color(fallbackDark) else Color(fallbackLight)
+    }
 
 private fun readScrollbarMetrics(): ScrollbarMetrics =
     if (hostOs.isMacOS) {
@@ -196,8 +198,7 @@ private fun readScrollbarMetrics(): ScrollbarMetrics =
 
 private fun readMacScrollbarStyle(): ScrollbarVisibility {
     val nsScroller =
-        Foundation
-            .invoke(Foundation.getObjcClass("NSScroller"), "preferredScrollerStyle")
+        Foundation.invoke(Foundation.getObjcClass("NSScroller"), "preferredScrollerStyle")
 
     val visibility: ScrollbarVisibility =
         if (1 == nsScroller.toInt()) {
@@ -211,8 +212,8 @@ private fun readMacScrollbarStyle(): ScrollbarVisibility {
 private fun readMacScrollbarBehavior(): TrackClickBehavior {
     val defaults = Foundation.invoke("NSUserDefaults", "standardUserDefaults")
     Foundation.invoke(defaults, "synchronize")
-    return Foundation
-        .invoke(defaults, "boolForKey:", Foundation.nsString("AppleScrollerPagingBehavior"))
+    return Foundation.invoke(
+            defaults, "boolForKey:", Foundation.nsString("AppleScrollerPagingBehavior"))
         .run { if (toInt() == 1) TrackClickBehavior.JumpToSpot else TrackClickBehavior.NextPage }
 }
 

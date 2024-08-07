@@ -108,9 +108,8 @@ private class ActivatedModifierLocal : ModifierLocalProvider<Boolean>, ModifierL
     }
 
     override val key: ProvidableModifierLocal<Boolean> = ModifierLocalActivated
-    override val value: Boolean by derivedStateOf(structuralEqualityPolicy()) {
-        parentActivated && hasFocus
-    }
+    override val value: Boolean by
+        derivedStateOf(structuralEqualityPolicy()) { parentActivated && hasFocus }
 
     fun childLostFocus() {
         hasFocus = false

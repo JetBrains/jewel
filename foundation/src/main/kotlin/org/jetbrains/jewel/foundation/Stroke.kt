@@ -15,7 +15,8 @@ public sealed class Stroke {
 
     @Immutable
     @GenerateDataFunctions
-    public class Solid internal constructor(
+    public class Solid
+    internal constructor(
         public val width: Dp,
         public val color: Color,
         public val alignment: Alignment,
@@ -24,7 +25,8 @@ public sealed class Stroke {
 
     @Immutable
     @GenerateDataFunctions
-    public class Brush internal constructor(
+    public class Brush
+    internal constructor(
         public val width: Dp,
         public val brush: androidx.compose.ui.graphics.Brush,
         public val alignment: Alignment,

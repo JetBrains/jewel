@@ -99,7 +99,8 @@ public class IconButtonColors(
     public fun toggleableForegroundFor(state: ToggleableIconButtonState): State<Color> =
         rememberUpdatedState(
             when {
-                state.isActive && state.toggleableState == ToggleableState.On -> foregroundSelectedActivated
+                state.isActive && state.toggleableState == ToggleableState.On ->
+                    foregroundSelectedActivated
                 else -> Color.Unspecified
             },
         )

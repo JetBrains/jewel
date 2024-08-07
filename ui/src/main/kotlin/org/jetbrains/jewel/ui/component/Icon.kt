@@ -31,6 +31,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import java.io.InputStream
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.icon.newUiChecker
@@ -38,11 +39,11 @@ import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.ui.util.thenIf
 import org.xml.sax.InputSource
-import java.io.InputStream
 
 @Deprecated(
     "Use the IconKey-based API instead",
-    ReplaceWith("Icon(PathIconKey(resource, iconClass), contentDescription, colorFilter, modifier, hints)"),
+    ReplaceWith(
+        "Icon(PathIconKey(resource, iconClass), contentDescription, colorFilter, modifier, hints)"),
 )
 @Composable
 public fun Icon(
@@ -66,7 +67,8 @@ public fun Icon(
 
 @Deprecated(
     "Use the IconKey-based API instead",
-    ReplaceWith("Icon(PathIconKey(resource, iconClass), contentDescription, colorFilter, modifier, hint)"),
+    ReplaceWith(
+        "Icon(PathIconKey(resource, iconClass), contentDescription, colorFilter, modifier, hint)"),
 )
 @Composable
 public fun Icon(
@@ -90,7 +92,8 @@ public fun Icon(
 
 @Deprecated(
     "Use the IconKey-based API instead",
-    ReplaceWith("Icon(PathIconKey(resource, iconClass), contentDescription, tint, modifier, hints)"),
+    ReplaceWith(
+        "Icon(PathIconKey(resource, iconClass), contentDescription, tint, modifier, hints)"),
 )
 @Composable
 public fun Icon(
@@ -114,7 +117,8 @@ public fun Icon(
 
 @Deprecated(
     "Use the IconKey-based API instead",
-    ReplaceWith("Icon(PathIconKey(resource, iconClass), contentDescription, tint, modifier, hints)"),
+    ReplaceWith(
+        "Icon(PathIconKey(resource, iconClass), contentDescription, tint, modifier, hints)"),
 )
 @Composable
 public fun Icon(
@@ -226,17 +230,15 @@ public fun Icon(
 }
 
 /**
- * Icon component that draws [imageVector] using [tint], defaulting to
- * [Color.Unspecified].
+ * Icon component that draws [imageVector] using [tint], defaulting to [Color.Unspecified].
  *
  * @param imageVector [ImageVector] to draw inside this Icon
- * @param contentDescription text used by accessibility services to
- *    describe what this icon represents. This should always be provided
- *    unless this icon is used for decorative purposes, and does not
- *    represent a meaningful action that a user can take.
+ * @param contentDescription text used by accessibility services to describe what this icon
+ *   represents. This should always be provided unless this icon is used for decorative purposes,
+ *   and does not represent a meaningful action that a user can take.
  * @param modifier optional [Modifier] for this Icon
- * @param tint tint to be applied to [imageVector]. If [Color.Unspecified]
- *    is provided, then no tint is applied
+ * @param tint tint to be applied to [imageVector]. If [Color.Unspecified] is provided, then no tint
+ *   is applied
  */
 @Composable
 public fun Icon(
@@ -254,17 +256,15 @@ public fun Icon(
 }
 
 /**
- * Icon component that draws [bitmap] using [tint], defaulting to
- * [Color.Unspecified].
+ * Icon component that draws [bitmap] using [tint], defaulting to [Color.Unspecified].
  *
  * @param bitmap [ImageBitmap] to draw inside this Icon
- * @param contentDescription text used by accessibility services to
- *    describe what this icon represents. This should always be provided
- *    unless this icon is used for decorative purposes, and does not
- *    represent a meaningful action that a user can take.
+ * @param contentDescription text used by accessibility services to describe what this icon
+ *   represents. This should always be provided unless this icon is used for decorative purposes,
+ *   and does not represent a meaningful action that a user can take.
  * @param modifier optional [Modifier] for this Icon
- * @param tint tint to be applied to [bitmap]. If [Color.Unspecified] is
- *    provided, then no tint is applied
+ * @param tint tint to be applied to [bitmap]. If [Color.Unspecified] is provided, then no tint is
+ *   applied
  */
 @Composable
 public fun Icon(
@@ -283,17 +283,15 @@ public fun Icon(
 }
 
 /**
- * Icon component that draws a [painter] using [tint], defaulting to
- * [Color.Unspecified]
+ * Icon component that draws a [painter] using [tint], defaulting to [Color.Unspecified]
  *
  * @param painter [Painter] to draw inside this Icon
- * @param contentDescription text used by accessibility services to
- *    describe what this icon represents. This should always be provided
- *    unless this icon is used for decorative purposes, and does not
- *    represent a meaningful action that a user can take.
+ * @param contentDescription text used by accessibility services to describe what this icon
+ *   represents. This should always be provided unless this icon is used for decorative purposes,
+ *   and does not represent a meaningful action that a user can take.
  * @param modifier optional [Modifier] for this Icon
- * @param tint tint to be applied to [painter]. If [Color.Unspecified] is
- *    provided, then no tint is applied
+ * @param tint tint to be applied to [painter]. If [Color.Unspecified] is provided, then no tint is
+ *   applied
  */
 @Composable
 public fun Icon(
@@ -310,10 +308,9 @@ public fun Icon(
  * Icon component that draws a [painter] using a [colorFilter]
  *
  * @param painter [Painter] to draw inside this Icon
- * @param contentDescription text used by accessibility services to
- *    describe what this icon represents. This should always be provided
- *    unless this icon is used for decorative purposes, and does not
- *    represent a meaningful action that a user can take.
+ * @param contentDescription text used by accessibility services to describe what this icon
+ *   represents. This should always be provided unless this icon is used for decorative purposes,
+ *   and does not represent a meaningful action that a user can take.
  * @param colorFilter color filter to be applied to [painter]
  * @param modifier optional [Modifier] for this Icon
  */
@@ -342,7 +339,8 @@ public fun Icon(
                 painter,
                 colorFilter = colorFilter,
                 contentScale = ContentScale.Fit,
-            ).then(semantics),
+            )
+            .then(semantics),
     )
 }
 

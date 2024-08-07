@@ -1,15 +1,13 @@
 package org.jetbrains.jewel.foundation.lazy
 
-import org.jetbrains.jewel.foundation.lazy.SelectableLazyListKey.Selectable
 import kotlin.math.max
 import kotlin.math.min
+import org.jetbrains.jewel.foundation.lazy.SelectableLazyListKey.Selectable
 
 public interface SelectableColumnOnKeyEvent {
     public val keybindings: SelectableColumnKeybindings
 
-    /**
-     * Select First Node.
-     */
+    /** Select First Node. */
     public fun onSelectFirstItem(
         allKeys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -24,10 +22,7 @@ public interface SelectableColumnOnKeyEvent {
         }
     }
 
-    /**
-     * Extend Selection to First Node inherited from Move Caret to Text Start
-     * with Selection.
-     */
+    /** Extend Selection to First Node inherited from Move Caret to Text Start with Selection. */
     public fun onExtendSelectionToFirst(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -49,9 +44,7 @@ public interface SelectableColumnOnKeyEvent {
         state.selectedKeys = newSelection
     }
 
-    /**
-     * Select Last Node inherited from Move Caret to Text End.
-     */
+    /** Select Last Node inherited from Move Caret to Text End. */
     public fun onSelectLastItem(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -66,10 +59,7 @@ public interface SelectableColumnOnKeyEvent {
         }
     }
 
-    /**
-     * Extend Selection to Last Node inherited from Move Caret to Text End with
-     * Selection.
-     */
+    /** Extend Selection to Last Node inherited from Move Caret to Text End with Selection. */
     public fun onExtendSelectionToLastItem(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -91,9 +81,7 @@ public interface SelectableColumnOnKeyEvent {
         state.selectedKeys = newSelection
     }
 
-    /**
-     * Select Previous Node inherited from Up.
-     */
+    /** Select Previous Node inherited from Up. */
     public fun onSelectPreviousItem(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -109,9 +97,7 @@ public interface SelectableColumnOnKeyEvent {
         }
     }
 
-    /**
-     * Extend Selection with Previous Node inherited from Up with Selection.
-     */
+    /** Extend Selection with Previous Node inherited from Up with Selection. */
     public fun onExtendSelectionWithPreviousItem(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -128,9 +114,7 @@ public interface SelectableColumnOnKeyEvent {
         }
     }
 
-    /**
-     * Select Next Node inherited from Down.
-     */
+    /** Select Next Node inherited from Down. */
     public fun onSelectNextItem(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -146,9 +130,7 @@ public interface SelectableColumnOnKeyEvent {
         }
     }
 
-    /**
-     * Extend Selection with Next Node inherited from Down with Selection.
-     */
+    /** Extend Selection with Next Node inherited from Down with Selection. */
     public fun onExtendSelectionWithNextItem(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -165,9 +147,7 @@ public interface SelectableColumnOnKeyEvent {
         }
     }
 
-    /**
-     * Scroll Page Up and Select Node inherited from Page Up.
-     */
+    /** Scroll Page Up and Select Node inherited from Page Up. */
     public fun onScrollPageUpAndSelectItem(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -178,10 +158,7 @@ public interface SelectableColumnOnKeyEvent {
         state.lastActiveItemIndex = targetIndex
     }
 
-    /**
-     * Scroll Page Up and Extend Selection inherited from Page Up with
-     * Selection.
-     */
+    /** Scroll Page Up and Extend Selection inherited from Page Up with Selection. */
     public fun onScrollPageUpAndExtendSelection(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -198,9 +175,7 @@ public interface SelectableColumnOnKeyEvent {
         state.lastActiveItemIndex = targetIndex
     }
 
-    /**
-     * Scroll Page Down and Select Node inherited from Page Down.
-     */
+    /** Scroll Page Down and Select Node inherited from Page Down. */
     public fun onScrollPageDownAndSelectItem(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -211,10 +186,7 @@ public interface SelectableColumnOnKeyEvent {
         state.lastActiveItemIndex = targetIndex
     }
 
-    /**
-     * Scroll Page Down and Extend Selection inherited from Page Down with
-     * Selection.
-     */
+    /** Scroll Page Down and Extend Selection inherited from Page Down with Selection. */
     public fun onScrollPageDownAndExtendSelection(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,
@@ -222,24 +194,21 @@ public interface SelectableColumnOnKeyEvent {
         val visibleSize = state.layoutInfo.visibleItemsInfo.size
         val targetIndex = min((state.lastActiveItemIndex ?: 0) + visibleSize, keys.lastIndex)
         val newSelectionList =
-            keys.subList(state.lastActiveItemIndex ?: 0, targetIndex)
+            keys
+                .subList(state.lastActiveItemIndex ?: 0, targetIndex)
                 .filterIsInstance<Selectable>()
                 .let { state.selectedKeys + it.map { selectableKey -> selectableKey.key } }
         state.selectedKeys = newSelectionList
         state.lastActiveItemIndex = targetIndex
     }
 
-    /**
-     * Edit Item.
-     */
+    /** Edit Item. */
     public fun onEdit() {
         // IntelliJ focuses the first element with an issue when this is pressed.
         // It is thus unavailable here.
     }
 
-    /**
-     * Select All.
-     */
+    /** Select All. */
     public fun onSelectAll(
         keys: List<SelectableLazyListKey>,
         state: SelectableLazyListState,

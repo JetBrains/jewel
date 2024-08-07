@@ -14,6 +14,9 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.dp
 import com.jetbrains.JBR
+import java.awt.Frame
+import java.awt.event.MouseEvent
+import java.awt.event.WindowEvent
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconButton
@@ -23,9 +26,6 @@ import org.jetbrains.jewel.ui.painter.PainterProvider
 import org.jetbrains.jewel.ui.painter.PainterProviderScope
 import org.jetbrains.jewel.ui.painter.PainterSuffixHint
 import org.jetbrains.jewel.window.styling.TitleBarStyle
-import java.awt.Frame
-import java.awt.event.MouseEvent
-import java.awt.event.WindowEvent
 
 @Composable
 internal fun DecoratedWindowScope.TitleBarOnLinux(
@@ -39,12 +39,10 @@ internal fun DecoratedWindowScope.TitleBarOnLinux(
     TitleBarImpl(
         modifier.onPointerEvent(PointerEventType.Press, PointerEventPass.Main) {
             if (this.currentEvent.button == PointerButton.Primary &&
-                this.currentEvent.changes.any { changed -> !changed.isConsumed }
-            ) {
+                this.currentEvent.changes.any { changed -> !changed.isConsumed }) {
                 JBR.getWindowMove()?.startMovingTogetherWithMouse(window, MouseEvent.BUTTON1)
                 if (System.currentTimeMillis() - lastPress in
-                    viewConfig.doubleTapMinTimeMillis..viewConfig.doubleTapTimeoutMillis
-                ) {
+                    viewConfig.doubleTapMinTimeMillis..viewConfig.doubleTapTimeoutMillis) {
                     if (state.isMaximized) {
                         window.extendedState = Frame.NORMAL
                     } else {

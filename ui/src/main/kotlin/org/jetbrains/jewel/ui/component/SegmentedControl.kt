@@ -55,58 +55,62 @@ public fun SegmentedControl(
 
     val borderColor by style.colors.borderFor(segmentedControlState)
     val borderWidth = style.metrics.borderWidth
-    val selectedButtonIndex = remember(buttons) {
-        buttons.withIndex().singleOrNull { it.value.selected }?.index ?: -1
-    }
+    val selectedButtonIndex =
+        remember(buttons) { buttons.withIndex().singleOrNull { it.value.selected }?.index ?: -1 }
 
     Box(modifier) {
         val shape = RoundedCornerShape((style.metrics.cornerSize))
         Box(
             Modifier.matchParentSize()
                 .focusOutline(segmentedControlState, shape, expand = -borderWidth)
-                .border(Stroke.Alignment.Center, borderWidth, borderColor, shape, expand = -borderWidth)
-        )
+                .border(
+                    Stroke.Alignment.Center,
+                    borderWidth,
+                    borderColor,
+                    shape,
+                    expand = -borderWidth))
 
         Row(
-            modifier = Modifier
-                .onFocusEvent { segmentedControlState = segmentedControlState.copy(focused = it.isFocused) }
-                .onKeyEvent {
-                    when {
-                        KeyEventType.KeyUp == it.type && Key.DirectionRight == it.key -> {
-                            if (selectedButtonIndex < buttons.size - 1) {
-                                buttons[selectedButtonIndex + 1].onSelect()
-                            }
-                            true
-                        }
-
-                        KeyEventType.KeyUp == it.type && Key.DirectionLeft == it.key -> {
-                            if (selectedButtonIndex > 0) {
-                                buttons[selectedButtonIndex - 1].onSelect()
-                            }
-                            true
-                        }
-
-                        else -> false
+            modifier =
+                Modifier.onFocusEvent {
+                        segmentedControlState = segmentedControlState.copy(focused = it.isFocused)
                     }
-                }
-                .focusable(enabled, interactionSource)
-                .selectableGroup()
-                .padding(style.metrics.borderWidth),
+                    .onKeyEvent {
+                        when {
+                            KeyEventType.KeyUp == it.type && Key.DirectionRight == it.key -> {
+                                if (selectedButtonIndex < buttons.size - 1) {
+                                    buttons[selectedButtonIndex + 1].onSelect()
+                                }
+                                true
+                            }
+
+                            KeyEventType.KeyUp == it.type && Key.DirectionLeft == it.key -> {
+                                if (selectedButtonIndex > 0) {
+                                    buttons[selectedButtonIndex - 1].onSelect()
+                                }
+                                true
+                            }
+
+                            else -> false
+                        }
+                    }
+                    .focusable(enabled, interactionSource)
+                    .selectableGroup()
+                    .padding(style.metrics.borderWidth),
             horizontalArrangement = Arrangement.aligned(Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            buttons.forEach { data ->
-                SegmentedControlButton(
-                    isActive = segmentedControlState.isActive,
-                    isFocused = segmentedControlState.isFocused,
-                    enabled = enabled,
-                    modifier = Modifier.thenIf(data.selected) { zIndex(1f) },
-                    segmentedControlButtonData = data,
-                    style = buttonStyle,
-                    textStyle = textStyle,
-                )
+            verticalAlignment = Alignment.CenterVertically) {
+                buttons.forEach { data ->
+                    SegmentedControlButton(
+                        isActive = segmentedControlState.isActive,
+                        isFocused = segmentedControlState.isFocused,
+                        enabled = enabled,
+                        modifier = Modifier.thenIf(data.selected) { zIndex(1f) },
+                        segmentedControlButtonData = data,
+                        style = buttonStyle,
+                        textStyle = textStyle,
+                    )
+                }
             }
-        }
     }
 }
 
@@ -114,7 +118,10 @@ public fun SegmentedControl(
 @GenerateDataFunctions
 public class SegmentedControlButtonData(
     public val selected: Boolean,
-    public val content: @Composable SegmentedControlButtonScope.(segmentedControlButtonState: SegmentedControlButtonState) -> Unit,
+    public val content:
+        @Composable
+        SegmentedControlButtonScope.(
+            segmentedControlButtonState: SegmentedControlButtonState) -> Unit,
     public val onSelect: () -> Unit,
 )
 
@@ -143,13 +150,14 @@ public value class SegmentedControlState(public val state: ULong) : FocusableCom
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
-    ): SegmentedControlState = of(
-        enabled = enabled,
-        focused = focused,
-        pressed = pressed,
-        hovered = hovered,
-        active = active,
-    )
+    ): SegmentedControlState =
+        of(
+            enabled = enabled,
+            focused = focused,
+            pressed = pressed,
+            hovered = hovered,
+            active = active,
+        )
 
     override fun toString(): String =
         "${javaClass.simpleName}(isEnabled=$isEnabled, isFocused=$isFocused, isHovered=$isHovered, " +

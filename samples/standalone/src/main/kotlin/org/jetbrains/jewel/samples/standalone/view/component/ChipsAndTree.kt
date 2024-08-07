@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlin.random.Random
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
@@ -43,7 +44,6 @@ import org.jetbrains.jewel.ui.component.RadioButtonChip
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.ToggleableChip
 import org.jetbrains.jewel.ui.theme.colorPalette
-import kotlin.random.Random
 
 @Composable
 fun ChipsAndTrees() {
@@ -67,15 +67,11 @@ fun ChipsAndTrees() {
 
 @Composable
 fun SelectableLazyColumnSample() {
-    var listOfItems by remember {
-        mutableStateOf(emptyList<String>())
-    }
+    var listOfItems by remember { mutableStateOf(emptyList<String>()) }
 
     LaunchedEffect(Unit) {
         @Suppress("InjectDispatcher") // Ok for demo code
-        launch(Dispatchers.Default) {
-            listOfItems = List(5_000_000) { "Item $it" }
-        }
+        launch(Dispatchers.Default) { listOfItems = List(5_000_000) { "Item $it" } }
     }
 
     val interactionSource = remember { MutableInteractionSource() }
@@ -98,17 +94,18 @@ fun SelectableLazyColumnSample() {
                         Text(
                             text = listOfItems[index],
                             modifier =
-                                Modifier
-                                    .fillMaxWidth()
+                                Modifier.fillMaxWidth()
                                     .then(
                                         when {
-                                            isSelected && isActive -> Modifier.background(Color.Blue)
-                                            isSelected && !isActive -> Modifier.background(Color.Gray)
+                                            isSelected && isActive ->
+                                                Modifier.background(Color.Blue)
+                                            isSelected && !isActive ->
+                                                Modifier.background(Color.Gray)
                                             else -> Modifier
                                         },
-                                    ).clickable {
-                                        JewelLogger
-                                            .getInstance("ChipsAndTree")
+                                    )
+                                    .clickable {
+                                        JewelLogger.getInstance("ChipsAndTree")
                                             .info("Click on $index")
                                     },
                         )
@@ -158,9 +155,7 @@ fun ChipsSample(modifier: Modifier = Modifier) {
             var isChecked by remember { mutableStateOf(false) }
             ToggleableChip(
                 checked = isChecked,
-                onClick = {
-                    isChecked = it
-                },
+                onClick = { isChecked = it },
                 enabled = true,
             ) {
                 Text("Toggleable")
@@ -211,13 +206,12 @@ fun TreeSample(modifier: Modifier = Modifier) {
     }
 
     OutlinedButton({
-        tree =
-            buildTree {
-                addNode("root ${Random.nextInt()}") {
-                    addLeaf("leaf 1")
-                    addLeaf("leaf 2")
-                }
+        tree = buildTree {
+            addNode("root ${Random.nextInt()}") {
+                addLeaf("leaf 1")
+                addLeaf("leaf 2")
             }
+        }
     }) {
         Text("Update tree")
     }
@@ -236,9 +230,7 @@ fun TreeSample(modifier: Modifier = Modifier) {
             onElementClick = {},
             onElementDoubleClick = {},
         ) { element ->
-            Box(Modifier.fillMaxWidth()) {
-                Text(element.data, Modifier.padding(2.dp))
-            }
+            Box(Modifier.fillMaxWidth()) { Text(element.data, Modifier.padding(2.dp)) }
         }
     }
 }

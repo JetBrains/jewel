@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlin.math.max
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
 import org.jetbrains.jewel.ui.component.Icon
@@ -35,7 +36,6 @@ import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.ui.theme.defaultTabStyle
 import org.jetbrains.jewel.ui.theme.editorTabStyle
 import org.jetbrains.jewel.ui.util.thenIf
-import kotlin.math.max
 
 @Composable
 fun Tabs() {
@@ -62,7 +62,8 @@ private fun DefaultTabShowcase() {
                 TabData.Default(
                     selected = index == selectedTabIndex,
                     content = { tabState ->
-                        val iconProvider = rememberResourcePainterProvider(AllIconsKeys.Actions.Find)
+                        val iconProvider =
+                            rememberResourcePainterProvider(AllIconsKeys.Actions.Find)
                         val icon by iconProvider.getPainter(Stateful(tabState))
                         SimpleTabContent(
                             label = "Default Tab $id",
@@ -74,9 +75,7 @@ private fun DefaultTabShowcase() {
                         tabIds = tabIds.toMutableList().apply { removeAt(index) }
                         if (selectedTabIndex >= index) {
                             val maxPossibleIndex = max(0, tabIds.lastIndex)
-                            selectedTabIndex =
-                                (selectedTabIndex - 1)
-                                    .coerceIn(0..maxPossibleIndex)
+                            selectedTabIndex = (selectedTabIndex - 1).coerceIn(0..maxPossibleIndex)
                         }
                     },
                     onClick = { selectedTabIndex = index },
@@ -88,10 +87,7 @@ private fun DefaultTabShowcase() {
         val insertionIndex = (selectedTabIndex + 1).coerceIn(0..tabIds.size)
         val nextTabId = maxId + 1
 
-        tabIds =
-            tabIds
-                .toMutableList()
-                .apply { add(insertionIndex, nextTabId) }
+        tabIds = tabIds.toMutableList().apply { add(insertionIndex, nextTabId) }
         selectedTabIndex = insertionIndex
     }
 }
@@ -117,7 +113,8 @@ private fun EditorTabShowcase() {
                                     key = AllIconsKeys.Actions.Find,
                                     contentDescription = null,
                                     iconClass = StandaloneSampleIcons::class.java,
-                                    modifier = Modifier.size(16.dp).tabContentAlpha(state = tabState),
+                                    modifier =
+                                        Modifier.size(16.dp).tabContentAlpha(state = tabState),
                                     tint = Color.Magenta,
                                 )
                             },
@@ -125,24 +122,22 @@ private fun EditorTabShowcase() {
                         )
                         Box(
                             modifier =
-                                Modifier
-                                    .size(12.dp)
-                                    .thenIf(tabState.isHovered) {
-                                        drawWithCache {
-                                            onDrawBehind {
-                                                drawCircle(color = Color.Magenta.copy(alpha = .4f), radius = 6.dp.toPx())
-                                            }
+                                Modifier.size(12.dp).thenIf(tabState.isHovered) {
+                                    drawWithCache {
+                                        onDrawBehind {
+                                            drawCircle(
+                                                color = Color.Magenta.copy(alpha = .4f),
+                                                radius = 6.dp.toPx())
                                         }
-                                    },
+                                    }
+                                },
                         )
                     },
                     onClose = {
                         tabIds = tabIds.toMutableList().apply { removeAt(index) }
                         if (selectedTabIndex >= index) {
                             val maxPossibleIndex = max(0, tabIds.lastIndex)
-                            selectedTabIndex =
-                                (selectedTabIndex - 1)
-                                    .coerceIn(0..maxPossibleIndex)
+                            selectedTabIndex = (selectedTabIndex - 1).coerceIn(0..maxPossibleIndex)
                         }
                     },
                     onClick = { selectedTabIndex = index },
@@ -154,10 +149,7 @@ private fun EditorTabShowcase() {
         val insertionIndex = (selectedTabIndex + 1).coerceIn(0..tabIds.size)
         val nextTabId = maxId + 1
 
-        tabIds =
-            tabIds
-                .toMutableList()
-                .apply { add(insertionIndex, nextTabId) }
+        tabIds = tabIds.toMutableList().apply { add(insertionIndex, nextTabId) }
         selectedTabIndex = insertionIndex
     }
 }

@@ -62,6 +62,9 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.util.ui.JBUI
 import icons.JewelIcons
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toJavaLocalDate
@@ -88,9 +91,6 @@ import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.ui.theme.iconButtonStyle
 import org.jetbrains.jewel.ui.util.thenIf
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun ReleasesSampleCompose(project: Project) {
@@ -127,10 +127,7 @@ private fun LeftColumn(
 
     Column(modifier) {
         Row(
-            modifier =
-                Modifier.fillMaxWidth()
-                    .height(IntrinsicSize.Min)
-                    .padding(4.dp, 6.dp),
+            modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min).padding(4.dp, 6.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text("Filter elements:")
@@ -141,9 +138,7 @@ private fun LeftColumn(
 
             Spacer(Modifier.width(4.dp))
 
-            OverflowMenu(currentContentSource) {
-                service.setContentSource(it)
-            }
+            OverflowMenu(currentContentSource) { service.setContentSource(it) }
         }
 
         val listState = rememberSelectableLazyListState()
@@ -197,7 +192,8 @@ private fun ContentItemRow(
     val color =
         when {
             isSelected && isActive -> retrieveColorOrUnspecified("List.selectionBackground")
-            isSelected && !isActive -> retrieveColorOrUnspecified("List.selectionInactiveBackground")
+            isSelected && !isActive ->
+                retrieveColorOrUnspecified("List.selectionInactiveBackground")
             else -> Transparent
         }
     Row(
@@ -252,10 +248,7 @@ private fun ItemTag(
         text = text,
         style = Typography.medium(),
         color = foregroundColor,
-        modifier =
-            modifier
-                .background(backgroundColor, shape)
-                .padding(padding),
+        modifier = modifier.background(backgroundColor, shape).padding(padding),
     )
 }
 
@@ -273,9 +266,7 @@ private fun SearchBar(
 
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
     TextField(
         value = filterText,
@@ -310,13 +301,13 @@ private fun CloseIconButton(service: ReleasesSampleService) {
         key = if (hovered) AllIconsKeys.Actions.CloseHovered else AllIconsKeys.Actions.Close,
         contentDescription = "Clear",
         modifier =
-            Modifier
-                .pointerHoverIcon(PointerIcon.Default)
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    role = Role.Button,
-                ) { service.resetFilter() },
+            Modifier.pointerHoverIcon(PointerIcon.Default).clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                role = Role.Button,
+            ) {
+                service.resetFilter()
+            },
     )
 }
 
@@ -335,7 +326,8 @@ private fun OverflowMenu(
                 is HoverInteraction.Enter -> hovered = true
                 is HoverInteraction.Exit -> hovered = false
                 is PressInteraction.Press -> pressed = true
-                is PressInteraction.Release, is PressInteraction.Cancel -> pressed = false
+                is PressInteraction.Release,
+                is PressInteraction.Cancel -> pressed = false
             }
         }
     }
@@ -345,17 +337,17 @@ private fun OverflowMenu(
     // Emulates Swing actions that pop up menus — they stay pressed while the menu is open
     IconButton(
         modifier =
-            Modifier.fillMaxHeight()
-                .thenIf(menuVisible) {
-                    background(
+            Modifier.fillMaxHeight().thenIf(menuVisible) {
+                background(
                         color = JewelTheme.iconButtonStyle.colors.backgroundPressed,
                         shape = RoundedCornerShape(JewelTheme.iconButtonStyle.metrics.cornerSize),
-                    ).border(
+                    )
+                    .border(
                         width = JewelTheme.iconButtonStyle.metrics.borderWidth,
                         color = JewelTheme.iconButtonStyle.colors.backgroundPressed,
                         shape = RoundedCornerShape(JewelTheme.iconButtonStyle.metrics.cornerSize),
                     )
-                },
+            },
         onClick = { menuVisible = !menuVisible },
     ) {
         Icon(
@@ -365,10 +357,7 @@ private fun OverflowMenu(
         )
     }
 
-    val contentSources =
-        remember {
-            listOf(AndroidStudioReleases, AndroidReleases)
-        }
+    val contentSources = remember { listOf(AndroidStudioReleases, AndroidReleases) }
 
     if (menuVisible) {
         PopupMenu(
@@ -413,7 +402,9 @@ private fun RightColumn(
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
         if (selectedItem == null) {
-            Text("Nothing to see here", color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor())
+            Text(
+                "Nothing to see here",
+                color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor())
         } else {
             val scrollState = rememberScrollState()
             VerticalScrollbarContainer(scrollState, modifier = modifier) {
@@ -439,16 +430,19 @@ private fun ReleaseImage(imagePath: String) {
     val painterProvider = rememberResourcePainterProvider(imagePath, JewelIcons::class.java)
     val painter by painterProvider.getPainter()
     val transition = rememberInfiniteTransition("HoloFoil")
-    val offset by transition.animateFloat(
-        initialValue = -1f,
-        targetValue = 1f,
-        animationSpec =
-            infiniteRepeatable(
-                tween(durationMillis = 2.seconds.inWholeMilliseconds.toInt(), easing = FastOutSlowInEasing),
-                repeatMode = RepeatMode.Reverse,
-            ),
-        "holoFoil offset",
-    )
+    val offset by
+        transition.animateFloat(
+            initialValue = -1f,
+            targetValue = 1f,
+            animationSpec =
+                infiniteRepeatable(
+                    tween(
+                        durationMillis = 2.seconds.inWholeMilliseconds.toInt(),
+                        easing = FastOutSlowInEasing),
+                    repeatMode = RepeatMode.Reverse,
+                ),
+            "holoFoil offset",
+        )
     var isHovered by remember { mutableStateOf(false) }
     var applyModifier by remember { mutableStateOf(false) }
     val intensity by animateFloatAsState(if (isHovered) 1f else 0f, animationSpec = tween(300))

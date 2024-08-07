@@ -41,10 +41,7 @@ import org.jetbrains.jewel.foundation.lazy.tree.DefaultSelectableLazyColumnKeyAc
 import org.jetbrains.jewel.foundation.lazy.tree.KeyActions
 import org.jetbrains.jewel.foundation.lazy.tree.PointerEventActions
 
-/**
- * A composable that displays a scrollable and selectable list of items in
- * a column arrangement.
- */
+/** A composable that displays a scrollable and selectable list of items in a column arrangement. */
 @Composable
 public fun SelectableLazyColumn(
     modifier: Modifier = Modifier,
@@ -53,7 +50,8 @@ public fun SelectableLazyColumn(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     reverseLayout: Boolean = false,
     onSelectedIndexesChanged: (List<Int>) -> Unit = {},
-    verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
+    verticalArrangement: Arrangement.Vertical =
+        if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
     keyActions: KeyActions = DefaultSelectableLazyColumnKeyActions,
@@ -69,10 +67,11 @@ public fun SelectableLazyColumn(
 
     val latestOnSelectedIndexesChanged = rememberUpdatedState(onSelectedIndexesChanged)
     LaunchedEffect(state, container) {
-        snapshotFlow { state.selectedKeys }.collect { selectedKeys ->
-            val indices = selectedKeys.mapNotNull { key -> container.getKeyIndex(key) }
-            latestOnSelectedIndexesChanged.value.invoke(indices)
-        }
+        snapshotFlow { state.selectedKeys }
+            .collect { selectedKeys ->
+                val indices = selectedKeys.mapNotNull { key -> container.getKeyIndex(key) }
+                latestOnSelectedIndexesChanged.value.invoke(indices)
+            }
     }
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
@@ -92,16 +91,21 @@ public fun SelectableLazyColumn(
                 .onPreviewKeyEvent { event ->
                     // Handle Tab key press to move focus to next item
                     if (event.type == KeyEventType.KeyDown && event.key == Key.Tab) {
-                        val focusDirection = if (event.isShiftPressed) FocusDirection.Previous else FocusDirection.Next
+                        val focusDirection =
+                            if (event.isShiftPressed) FocusDirection.Previous
+                            else FocusDirection.Next
                         focusManager.moveFocus(focusDirection)
                         return@onPreviewKeyEvent true
                     }
                     if (state.lastActiveItemIndex != null) {
                         val actionHandled =
-                            keyActions.handleOnKeyEvent(event, keys, state, selectionMode)
+                            keyActions
+                                .handleOnKeyEvent(event, keys, state, selectionMode)
                                 .invoke(event)
                         if (actionHandled) {
-                            scope.launch { state.lastActiveItemIndex?.let { state.scrollToItem(it) } }
+                            scope.launch {
+                                state.lastActiveItemIndex?.let { state.scrollToItem(it) }
+                            }
                         }
                     }
                     true
@@ -215,8 +219,9 @@ private fun LazyListScope.appendEntry(
                         entry.content.invoke(itemScope)
                     }
                 } else {
-                    SelectableLazyItemScope(entry.key in state.selectedKeys, isFocused)
-                        .apply { entry.content.invoke(itemScope) }
+                    SelectableLazyItemScope(entry.key in state.selectedKeys, isFocused).apply {
+                        entry.content.invoke(itemScope)
+                    }
                 }
             }
     }
@@ -230,23 +235,24 @@ private fun Modifier.selectable(
     selectableState: SelectableLazyListState,
     allKeys: List<SelectableLazyListKey>,
     itemKey: Any,
-) = pointerInput(allKeys, itemKey) {
-    awaitPointerEventScope {
-        while (true) {
-            val event = awaitPointerEvent()
-            when (event.type) {
-                PointerEventType.Press -> {
-                    requester?.requestFocus()
-                    actionHandler.handlePointerEventPress(
-                        pointerEvent = event,
-                        keybindings = keybindings,
-                        selectableLazyListState = selectableState,
-                        selectionMode = selectionMode,
-                        allKeys = allKeys,
-                        key = itemKey,
-                    )
+) =
+    pointerInput(allKeys, itemKey) {
+        awaitPointerEventScope {
+            while (true) {
+                val event = awaitPointerEvent()
+                when (event.type) {
+                    PointerEventType.Press -> {
+                        requester?.requestFocus()
+                        actionHandler.handlePointerEventPress(
+                            pointerEvent = event,
+                            keybindings = keybindings,
+                            selectableLazyListState = selectableState,
+                            selectionMode = selectionMode,
+                            allKeys = allKeys,
+                            key = itemKey,
+                        )
+                    }
                 }
             }
         }
     }
-}

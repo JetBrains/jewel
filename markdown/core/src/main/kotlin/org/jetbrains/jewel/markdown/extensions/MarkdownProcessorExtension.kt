@@ -8,8 +8,8 @@ import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 @ExperimentalJewelApi
 public interface MarkdownProcessorExtension {
     /**
-     * A CommonMark [ParserExtension] that will be used to parse the extended
-     * syntax represented by this extension instance.
+     * A CommonMark [ParserExtension] that will be used to parse the extended syntax represented by
+     * this extension instance.
      *
      * Can be null if all required processing is already handled by an existing
      * [org.commonmark.parser.Parser].
@@ -18,9 +18,8 @@ public interface MarkdownProcessorExtension {
         get() = null
 
     /**
-     * A CommonMark [TextContentRendererExtension] that will be used to render
-     * the text content of the CommonMark [org.commonmark.node.CustomBlock]
-     * produced by the [parserExtension].
+     * A CommonMark [TextContentRendererExtension] that will be used to render the text content of
+     * the CommonMark [org.commonmark.node.CustomBlock] produced by the [parserExtension].
      *
      * Can be null if all required processing is already handled by an existing
      * [org.commonmark.renderer.Renderer].
@@ -30,9 +29,8 @@ public interface MarkdownProcessorExtension {
 
     /**
      * An extension for
-     * [`MarkdownProcessor`][org.jetbrains.jewel.markdown.processing.MarkdownProcessor]
-     * that will transform a supported [org.commonmark.node.CustomBlock] into
-     * the corresponding
+     * [`MarkdownProcessor`][org.jetbrains.jewel.markdown.processing.MarkdownProcessor] that will
+     * transform a supported [org.commonmark.node.CustomBlock] into the corresponding
      * [org.jetbrains.jewel.markdown.MarkdownBlock.CustomBlock].
      *
      * Can be null if all required processing is already handled by
@@ -44,9 +42,8 @@ public interface MarkdownProcessorExtension {
 
     /**
      * An extension for
-     * [`MarkdownProcessor`][org.jetbrains.jewel.markdown.processing.MarkdownProcessor]
-     * that will transform a supported [org.commonmark.node.CustomNode] into
-     * the corresponding
+     * [`MarkdownProcessor`][org.jetbrains.jewel.markdown.processing.MarkdownProcessor] that will
+     * transform a supported [org.commonmark.node.CustomNode] into the corresponding
      * [org.jetbrains.jewel.markdown.InlineMarkdown.CustomNode].
      *
      * Can be null if all required processing is already handled by

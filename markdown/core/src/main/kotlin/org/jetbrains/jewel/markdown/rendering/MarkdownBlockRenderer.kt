@@ -121,8 +121,7 @@ public interface MarkdownBlockRenderer {
         styling: MarkdownStyling.Code.Fenced,
     )
 
-    @Composable
-    public fun renderThematicBreak(styling: MarkdownStyling.ThematicBreak)
+    @Composable public fun renderThematicBreak(styling: MarkdownStyling.ThematicBreak)
 
     @Composable
     public fun render(

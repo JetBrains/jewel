@@ -39,7 +39,10 @@ internal fun MarkdownEditor(
 ) {
     Column(modifier) {
         ControlsRow(
-            modifier = Modifier.fillMaxWidth().background(JewelTheme.globalColors.panelBackground).padding(8.dp),
+            modifier =
+                Modifier.fillMaxWidth()
+                    .background(JewelTheme.globalColors.panelBackground)
+                    .padding(8.dp),
             onMarkdownChange = onMarkdownChange,
         )
         Divider(orientation = Orientation.Horizontal)
@@ -95,30 +98,32 @@ private fun ControlsRow(
 
             if (showPresets) {
                 var selected by remember { mutableStateOf("Jewel readme") }
-                PopupMenu(onDismissRequest = {
-                    showPresets = false
-                    false
-                }, horizontalAlignment = Alignment.Start) {
-                    selectableItem(
-                        selected = selected == "Jewel readme",
-                        onClick = {
-                            selected = "Jewel readme"
-                            onMarkdownChange(JewelReadme)
-                        },
-                    ) {
-                        Text("Jewel readme")
-                    }
+                PopupMenu(
+                    onDismissRequest = {
+                        showPresets = false
+                        false
+                    },
+                    horizontalAlignment = Alignment.Start) {
+                        selectableItem(
+                            selected = selected == "Jewel readme",
+                            onClick = {
+                                selected = "Jewel readme"
+                                onMarkdownChange(JewelReadme)
+                            },
+                        ) {
+                            Text("Jewel readme")
+                        }
 
-                    selectableItem(
-                        selected = selected == "Markdown catalog",
-                        onClick = {
-                            selected = "Markdown catalog"
-                            onMarkdownChange(MarkdownCatalog)
-                        },
-                    ) {
-                        Text("Markdown catalog")
+                        selectableItem(
+                            selected = selected == "Markdown catalog",
+                            onClick = {
+                                selected = "Markdown catalog"
+                                onMarkdownChange(MarkdownCatalog)
+                            },
+                        ) {
+                            Text("Markdown catalog")
+                        }
                     }
-                }
             }
         }
     }

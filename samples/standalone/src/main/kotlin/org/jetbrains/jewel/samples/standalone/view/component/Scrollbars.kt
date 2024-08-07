@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.util.Locale
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.intui.standalone.styling.macOsDark
@@ -40,7 +41,6 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.ui.theme.scrollbarStyle
 import org.jetbrains.skiko.hostOs
-import java.util.Locale
 
 @Composable
 fun Scrollbars() {
@@ -89,8 +89,7 @@ fun Scrollbars() {
                 Box(Modifier.border(1.dp, JewelTheme.globalColors.borders.normal)) {
                     val scrollState = rememberLazyListState()
                     LazyColumn(
-                        Modifier
-                            .width(200.dp)
+                        Modifier.width(200.dp)
                             .padding(end = JewelTheme.scrollbarStyle.metrics.thumbThicknessExpanded)
                             .align(Alignment.CenterStart),
                         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -121,9 +120,9 @@ fun Scrollbars() {
                     val scrollState = rememberScrollState()
                     Column(
                         modifier =
-                            Modifier
-                                .verticalScroll(scrollState)
-                                .padding(end = JewelTheme.scrollbarStyle.metrics.thumbThicknessExpanded)
+                            Modifier.verticalScroll(scrollState)
+                                .padding(
+                                    end = JewelTheme.scrollbarStyle.metrics.thumbThicknessExpanded)
                                 .align(Alignment.CenterStart),
                     ) {
                         LIST_ITEMS.forEach {
@@ -177,12 +176,8 @@ private const val LOREM_IPSUM =
         "Sed nec sapien nec dui rhoncus bibendum. Sed blandit bibendum libero."
 
 private val LIST_ITEMS =
-    LOREM_IPSUM
-        .split(",")
-        .map { lorem ->
-            lorem
-                .trim()
-                .replaceFirstChar {
-                    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-                }
+    LOREM_IPSUM.split(",").map { lorem ->
+        lorem.trim().replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
         }
+    }

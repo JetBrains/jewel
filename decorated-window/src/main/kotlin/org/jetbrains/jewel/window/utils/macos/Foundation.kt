@@ -4,12 +4,12 @@ import com.sun.jna.Function
 import com.sun.jna.Library
 import com.sun.jna.Native
 import com.sun.jna.Pointer
-import org.jetbrains.jewel.window.utils.JnaLoader
 import java.lang.reflect.Proxy
 import java.util.Arrays
 import java.util.Collections
 import java.util.logging.Level
 import java.util.logging.Logger
+import org.jetbrains.jewel.window.utils.JnaLoader
 
 internal object Foundation {
     private val logger = Logger.getLogger(Foundation::class.java.simpleName)
@@ -34,15 +34,15 @@ internal object Foundation {
 
     private val myObjcMsgSend: Function? by lazy {
         try {
-            (Proxy.getInvocationHandler(myFoundationLibrary) as Library.Handler).nativeLibrary.getFunction("objc_msgSend")
+            (Proxy.getInvocationHandler(myFoundationLibrary) as Library.Handler)
+                .nativeLibrary
+                .getFunction("objc_msgSend")
         } catch (_: Throwable) {
             null
         }
     }
 
-    /**
-     * Get the ID of the NSClass with className
-     */
+    /** Get the ID of the NSClass with className */
     fun getObjcClass(className: String?): ID? = myFoundationLibrary?.objc_getClass(className)
 
     fun getProtocol(name: String?): ID? = myFoundationLibrary?.objc_getProtocol(name)
@@ -62,7 +62,8 @@ internal object Foundation {
     }
 
     // objc_msgSend is called with the calling convention of the target method
-    // on x86_64 this does not make a difference, but arm64 uses a different calling convention for varargs
+    // on x86_64 this does not make a difference, but arm64 uses a different calling convention for
+    // varargs
     // it is therefore important to not call objc_msgSend as a vararg function
     operator fun invoke(
         id: ID?,
@@ -71,15 +72,16 @@ internal object Foundation {
     ): ID = ID(myObjcMsgSend?.invokeLong(prepInvoke(id, selector, args)) ?: 0)
 
     /**
-     * Invokes the given vararg selector.
-     * Expects `NSArray arrayWithObjects:(id), ...` like signature, i.e. exactly one fixed argument, followed by varargs.
+     * Invokes the given vararg selector. Expects `NSArray arrayWithObjects:(id), ...` like
+     * signature, i.e. exactly one fixed argument, followed by varargs.
      */
     fun invokeVarArg(
         id: ID?,
         selector: Pointer?,
         vararg args: Any?,
     ): ID {
-        // c functions and objc methods have at least 1 fixed argument, we therefore need to separate out the first argument
+        // c functions and objc methods have at least 1 fixed argument, we therefore need to
+        // separate out the first argument
         return myFoundationLibrary?.objc_msgSend(
             id,
             selector,

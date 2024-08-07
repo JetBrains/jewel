@@ -13,8 +13,8 @@ public interface MarkdownInlineRendererExtension {
     public fun canRender(inline: CustomNode): Boolean
 
     /**
-     * Render a [CustomNode] as an annotated string. Note that if
-     * [canRender] returns `false` for [inline], the implementation might throw.
+     * Render a [CustomNode] as an annotated string. Note that if [canRender] returns `false` for
+     * [inline], the implementation might throw.
      */
     public fun render(
         inline: CustomNode,

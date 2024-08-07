@@ -17,13 +17,12 @@ private class SizeImpl(
     private val width: Int,
     private val height: Int,
 ) : PainterSuffixHint(), PainterWrapperHint, SvgPainterHint {
-    override fun PainterProviderScope.suffix(): String =
-        buildString {
-            append("@")
-            append(width)
-            append("x")
-            append(height)
-        }
+    override fun PainterProviderScope.suffix(): String = buildString {
+        append("@")
+        append(width)
+        append("x")
+        append(height)
+    }
 
     override fun PainterProviderScope.wrap(painter: Painter): Painter {
         if (path.contains(suffix())) return painter
@@ -36,13 +35,12 @@ private class SizeImpl(
 }
 
 /**
- * Selects a size variant for the image. If the specific size that was
- * requested is not available, the base image will be used.
+ * Selects a size variant for the image. If the specific size that was requested is not available,
+ * the base image will be used.
  *
- * Note that combining a [Size] with [HiDpi] could lead to unexpected
- * results and is not supported as of now. Generally speaking, however, the
- * IntelliJ Platform tends to use only [Size] for SVGs and only [HiDpi]
- * for PNGs, even though both are in theory supported for all formats.
+ * Note that combining a [Size] with [HiDpi] could lead to unexpected results and is not supported
+ * as of now. Generally speaking, however, the IntelliJ Platform tends to use only [Size] for SVGs
+ * and only [HiDpi] for PNGs, even though both are in theory supported for all formats.
  *
  * | Base image name    | Sized image name         |
  * |--------------------|--------------------------|
@@ -58,13 +56,12 @@ public fun Size(size: Int): PainterHint {
 }
 
 /**
- * Selects a size variant for the image. If the specific size that was
- * requested is not available, the base image will be used.
+ * Selects a size variant for the image. If the specific size that was requested is not available,
+ * the base image will be used.
  *
- * Note that combining a [Size] with [HiDpi] could lead to unexpected
- * results and is not supported as of now. Generally speaking, however, the
- * IntelliJ Platform tends to use only [Size] for SVGs and only [HiDpi]
- * for PNGs, even though both are in theory supported for all formats.
+ * Note that combining a [Size] with [HiDpi] could lead to unexpected results and is not supported
+ * as of now. Generally speaking, however, the IntelliJ Platform tends to use only [Size] for SVGs
+ * and only [HiDpi] for PNGs, even though both are in theory supported for all formats.
  *
  * | Base image name    | Sized image name         |
  * |--------------------|--------------------------|

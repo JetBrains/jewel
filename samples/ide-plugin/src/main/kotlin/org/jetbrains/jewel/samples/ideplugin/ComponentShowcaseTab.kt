@@ -72,13 +72,15 @@ import org.jetbrains.jewel.ui.theme.colorPalette
 
 @Composable
 internal fun ComponentShowcaseTab() {
-    val bgColor by remember(JBColor.PanelBackground.rgb) { mutableStateOf(JBColor.PanelBackground.toComposeColor()) }
+    val bgColor by
+        remember(JBColor.PanelBackground.rgb) {
+            mutableStateOf(JBColor.PanelBackground.toComposeColor())
+        }
 
     val scrollState = rememberScrollState()
     Row(
         modifier =
-            Modifier
-                .trackComponentActivation(LocalComponent.current)
+            Modifier.trackComponentActivation(LocalComponent.current)
                 .fillMaxSize()
                 .background(bgColor)
                 .verticalScroll(scrollState)
@@ -99,24 +101,18 @@ private fun RowScope.ColumnOne() {
         var activated by remember { mutableStateOf(false) }
         Text(
             "Here is a selection of our finest components(activated: $activated):",
-            Modifier.onActivated {
-                activated = it
-            },
+            Modifier.onActivated { activated = it },
             style = Typography.h3TextStyle(),
         )
 
         var selectedItem by remember { mutableIntStateOf(-1) }
         Dropdown(
             menuContent = {
-                selectableItem(selectedItem == 0, onClick = { selectedItem = 0 }) {
-                    Text("Hello")
-                }
+                selectableItem(selectedItem == 0, onClick = { selectedItem = 0 }) { Text("Hello") }
 
                 separator()
 
-                selectableItem(selectedItem == 1, onClick = { selectedItem = 1 }) {
-                    Text("World")
-                }
+                selectableItem(selectedItem == 1, onClick = { selectedItem = 1 }) { Text("World") }
             },
         ) {
             Text("Selected item $selectedItem")
@@ -127,20 +123,12 @@ private fun RowScope.ColumnOne() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             var clicks1 by remember { mutableIntStateOf(0) }
-            OutlinedButton({ clicks1++ }) {
-                Text("Outlined: $clicks1")
-            }
-            OutlinedButton({ }, enabled = false) {
-                Text("Outlined")
-            }
+            OutlinedButton({ clicks1++ }) { Text("Outlined: $clicks1") }
+            OutlinedButton({}, enabled = false) { Text("Outlined") }
 
             var clicks2 by remember { mutableIntStateOf(0) }
-            DefaultButton({ clicks2++ }) {
-                Text("Default: $clicks2")
-            }
-            DefaultButton({ }, enabled = false) {
-                Text("Default")
-            }
+            DefaultButton({ clicks2++ }) { Text("Default: $clicks2") }
+            DefaultButton({}, enabled = false) { Text("Default") }
         }
 
         var textFieldValue by remember { mutableStateOf("") }
@@ -206,17 +194,20 @@ private fun RowScope.ColumnOne() {
         }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Tooltip(tooltip = {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Icon(AllIconsKeys.General.ShowInfos, contentDescription = null)
-                    Text("This is a tooltip")
+            Tooltip(
+                tooltip = {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Icon(AllIconsKeys.General.ShowInfos, contentDescription = null)
+                        Text("This is a tooltip")
+                    }
+                }) {
+                    Text(
+                        modifier =
+                            Modifier.border(1.dp, JewelTheme.globalColors.borders.normal)
+                                .padding(12.dp, 8.dp),
+                        text = "Hover Me!",
+                    )
                 }
-            }) {
-                Text(
-                    modifier = Modifier.border(1.dp, JewelTheme.globalColors.borders.normal).padding(12.dp, 8.dp),
-                    text = "Hover Me!",
-                )
-            }
         }
 
         var sliderValue by remember { mutableFloatStateOf(.15f) }
@@ -235,18 +226,23 @@ private fun IconsShowcase() {
         }
 
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Badge(Color.Red, DotBadgeShape.Default))
+            PlatformIcon(
+                AllIconsKeys.Nodes.ConfigFolder,
+                "taskGroup",
+                hint = Badge(Color.Red, DotBadgeShape.Default))
         }
 
         Box(
-            Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
+            Modifier.size(24.dp)
+                .background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
             PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Stroke(Color.White))
         }
 
         Box(
-            Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
+            Modifier.size(24.dp)
+                .background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
             PlatformIcon(
@@ -282,14 +278,14 @@ private fun IconsShowcase() {
             )
         }
 
-        IconButton(onClick = { }, Modifier.size(24.dp)) {
+        IconButton(onClick = {}, Modifier.size(24.dp)) {
             PlatformIcon(AllIconsKeys.Actions.Close, "Close")
         }
 
         IconActionButton(
             AllIconsKeys.Actions.AddList,
             "Close",
-            onClick = { },
+            onClick = {},
             modifier = Modifier.size(24.dp),
             hints = arrayOf(Size(24)),
             tooltip = { Text("Hello there") },
@@ -310,40 +306,35 @@ private fun RowScope.ColumnTwo() {
         var activated by remember { mutableStateOf(false) }
         Text(
             "activated: $activated",
-            Modifier.onActivated {
-                activated = it
-            },
+            Modifier.onActivated { activated = it },
         )
 
-        val tree =
-            remember {
-                buildTree {
-                    addNode("root 1") {
-                        addLeaf("leaf 1")
-                        addLeaf("leaf 2")
-                    }
-                    addNode("root 2") {
-                        addLeaf("leaf 1")
-                        addNode("node 1") {
-                            addLeaf("leaf 1")
-                            addLeaf("leaf 2")
-                        }
-                    }
-                    addNode("root 3") {
+        val tree = remember {
+            buildTree {
+                addNode("root 1") {
+                    addLeaf("leaf 1")
+                    addLeaf("leaf 2")
+                }
+                addNode("root 2") {
+                    addLeaf("leaf 1")
+                    addNode("node 1") {
                         addLeaf("leaf 1")
                         addLeaf("leaf 2")
                     }
                 }
+                addNode("root 3") {
+                    addLeaf("leaf 1")
+                    addLeaf("leaf 2")
+                }
             }
+        }
         LazyTree(
             tree = tree,
             modifier = Modifier.height(200.dp).fillMaxWidth(),
             onElementClick = {},
             onElementDoubleClick = {},
         ) { element ->
-            Box(Modifier.fillMaxWidth()) {
-                Text(element.data, Modifier.padding(2.dp))
-            }
+            Box(Modifier.fillMaxWidth()) { Text(element.data, Modifier.padding(2.dp)) }
         }
     }
 }
@@ -353,7 +344,8 @@ private fun MarkdownExample() {
     var enabled by remember { mutableStateOf(true) }
     CheckboxRow("Enabled", enabled, { enabled = it })
 
-    val contentColor = if (enabled) JewelTheme.globalColors.text.normal else JewelTheme.globalColors.text.disabled
+    val contentColor =
+        if (enabled) JewelTheme.globalColors.text.normal else JewelTheme.globalColors.text.disabled
     CompositionLocalProvider(LocalContentColor provides contentColor) {
         ProvideMarkdownStyling {
             Markdown(
@@ -369,19 +361,19 @@ private fun MarkdownExample() {
                 |```kotlin
                 |fun hello() = "World"
                 |```
-                """.trimMargin(),
-                Modifier
-                    .fillMaxWidth()
+                """
+                    .trimMargin(),
+                Modifier.fillMaxWidth()
                     .background(
-                        JBUI.CurrentTheme.Banner.INFO_BACKGROUND
-                            .toComposeColor(),
+                        JBUI.CurrentTheme.Banner.INFO_BACKGROUND.toComposeColor(),
                         RoundedCornerShape(8.dp),
-                    ).border(
+                    )
+                    .border(
                         1.dp,
-                        JBUI.CurrentTheme.Banner.INFO_BORDER_COLOR
-                            .toComposeColor(),
+                        JBUI.CurrentTheme.Banner.INFO_BORDER_COLOR.toComposeColor(),
                         RoundedCornerShape(8.dp),
-                    ).padding(8.dp),
+                    )
+                    .padding(8.dp),
                 enabled = enabled,
                 onUrlClick = { url -> BrowserUtil.open(url) },
             )

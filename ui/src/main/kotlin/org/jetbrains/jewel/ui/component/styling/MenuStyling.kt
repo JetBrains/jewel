@@ -161,7 +161,6 @@ public class MenuIcons(public val submenuChevron: IconKey) {
     public companion object
 }
 
-public val LocalMenuStyle: ProvidableCompositionLocal<MenuStyle> =
-    staticCompositionLocalOf {
-        error("No MenuStyle provided. Have you forgotten the theme?")
-    }
+public val LocalMenuStyle: ProvidableCompositionLocal<MenuStyle> = staticCompositionLocalOf {
+    error("No MenuStyle provided. Have you forgotten the theme?")
+}

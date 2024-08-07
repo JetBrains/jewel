@@ -9,7 +9,8 @@ import org.jetbrains.skia.RuntimeEffect
 import org.jetbrains.skia.RuntimeShaderBuilder
 
 @Language("GLSL") // Technically, SkSL
-private const val FOIL_SHADER_CODE = """
+private const val FOIL_SHADER_CODE =
+    """
 const float SCALE = 1.8; // Effect scale (> 1 means smaller rainbow)
 const float SATURATION = 0.9; // Color saturation (0.0 = grayscale, 1.0 = full color)
 const float LIGHTNESS = 0.65; // Color lightness (0.0 = black, 1.0 = white)
@@ -84,10 +85,11 @@ internal fun Modifier.holoFoil(
 
     renderEffect =
         ImageFilter.makeRuntimeShader(
-            runtimeShaderBuilder = shaderBuilder,
-            shaderNames = arrayOf("content"),
-            inputs = arrayOf(null),
-        ).asComposeRenderEffect()
+                runtimeShaderBuilder = shaderBuilder,
+                shaderNames = arrayOf("content"),
+                inputs = arrayOf(null),
+            )
+            .asComposeRenderEffect()
 
     rotationX = offset * 4f * intensity
     rotationY = offset * 10f * intensity

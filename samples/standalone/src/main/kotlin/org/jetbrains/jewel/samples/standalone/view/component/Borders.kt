@@ -62,26 +62,10 @@ internal fun Borders() {
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        OutlinedButton({
-            width += 1.dp
-        }) {
-            Text("+width")
-        }
-        OutlinedButton({
-            width -= 1.dp
-        }, enabled = width > 1.dp) {
-            Text("-width")
-        }
-        OutlinedButton({
-            expand += 1.dp
-        }) {
-            Text("+expand")
-        }
-        OutlinedButton({
-            expand -= 1.dp
-        }) {
-            Text("-expand")
-        }
+        OutlinedButton({ width += 1.dp }) { Text("+width") }
+        OutlinedButton({ width -= 1.dp }, enabled = width > 1.dp) { Text("-width") }
+        OutlinedButton({ expand += 1.dp }) { Text("+expand") }
+        OutlinedButton({ expand -= 1.dp }) { Text("-expand") }
     }
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -90,13 +74,9 @@ internal fun Borders() {
         val isDark = JewelTheme.isDark
         val colorPalette = JewelTheme.colorPalette
         val borderColor =
-            remember(isDark) {
-                if (isDark) colorPalette.blue(6) else colorPalette.blue(4)
-            }
+            remember(isDark) { if (isDark) colorPalette.blue(6) else colorPalette.blue(4) }
         val backgroundColor =
-            remember(isDark) {
-                if (isDark) colorPalette.gray(4) else colorPalette.gray(11)
-            }
+            remember(isDark) { if (isDark) colorPalette.gray(4) else colorPalette.gray(11) }
 
         Box(
             Modifier.size(28.dp, 28.dp)

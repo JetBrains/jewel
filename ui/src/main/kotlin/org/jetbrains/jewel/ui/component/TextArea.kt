@@ -33,8 +33,8 @@ import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 
 /**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
+ * @param placeholder the optional placeholder to be displayed over the component when the [value]
+ *   is empty.
  */
 @Composable
 public fun TextArea(
@@ -89,8 +89,8 @@ public fun TextArea(
 }
 
 /**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
+ * @param placeholder the optional placeholder to be displayed over the component when the [value]
+ *   is empty.
  */
 @Composable
 public fun TextArea(
@@ -185,17 +185,17 @@ private fun TextAreaDecorationBox(
                 .copy(minHeight = 0)
 
         val textAreaPlaceable =
-            measurables.single { it.layoutId == TEXT_AREA_ID }
-                .measure(textAreaConstraints)
+            measurables.single { it.layoutId == TEXT_AREA_ID }.measure(textAreaConstraints)
 
         // Measure placeholder
         val placeholderConstraints = textAreaConstraints.copy(minWidth = 0, minHeight = 0)
         val placeholderPlaceable =
-            measurables.find { it.layoutId == PLACEHOLDER_ID }
-                ?.measure(placeholderConstraints)
+            measurables.find { it.layoutId == PLACEHOLDER_ID }?.measure(placeholderConstraints)
 
         val width = calculateWidth(textAreaPlaceable, placeholderPlaceable, incomingConstraints)
-        val height = calculateHeight(textAreaPlaceable, placeholderPlaceable, verticalPadding, incomingConstraints)
+        val height =
+            calculateHeight(
+                textAreaPlaceable, placeholderPlaceable, verticalPadding, incomingConstraints)
 
         layout(width, height) {
             val startPadding = contentPadding.calculateStartPadding(layoutDirection).roundToPx()

@@ -30,7 +30,8 @@ public fun SwingBridgeTheme(content: @Composable () -> Unit) {
         swingCompatMode = true,
     ) {
         CompositionLocalProvider(
-            LocalPainterHintsProvider provides BridgePainterHintsProvider(themeData.themeDefinition.isDark),
+            LocalPainterHintsProvider provides
+                BridgePainterHintsProvider(themeData.themeDefinition.isDark),
             LocalNewUiChecker provides BridgeNewUiChecker,
             LocalDensity provides scaleDensityWithIdeScale(LocalDensity.current),
         ) {

@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.Density
+import javax.xml.XMLConstants
+import javax.xml.parsers.DocumentBuilderFactory
 import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
 import org.jetbrains.jewel.ui.component.CheckboxState
 import org.jetbrains.jewel.ui.painter.PainterHint
@@ -23,8 +25,6 @@ import org.jetbrains.jewel.ui.painter.writeToString
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import javax.xml.XMLConstants
-import javax.xml.parsers.DocumentBuilderFactory
 
 @Suppress("ImplicitUnitReturnType")
 class PainterHintTest : BasicJewelUiTest() {
@@ -55,8 +55,9 @@ class PainterHintTest : BasicJewelUiTest() {
         override val acceptedHints: List<PainterHint> = listOf(),
     ) : PainterProviderScope, Density by density {
         private val documentBuilderFactory =
-            DocumentBuilderFactory.newDefaultInstance()
-                .apply { setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true) }
+            DocumentBuilderFactory.newDefaultInstance().apply {
+                setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
+            }
 
         fun applyPathHints(vararg hints: PainterHint): String {
             var result = rawPath
@@ -74,7 +75,8 @@ class PainterHintTest : BasicJewelUiTest() {
             svg: String,
             vararg hints: PainterHint,
         ): String {
-            val doc = documentBuilderFactory.newDocumentBuilder().parse(svg.toByteArray().inputStream())
+            val doc =
+                documentBuilderFactory.newDocumentBuilder().parse(svg.toByteArray().inputStream())
 
             hints.filterIsInstance<PainterSvgPatchHint>().onEach {
                 with(it) {
@@ -187,7 +189,9 @@ class PainterHintTest : BasicJewelUiTest() {
         assertEquals("icons/checkboxDisabled.svg", patchedPath)
 
         testScope(basePath)
-            .applyPathHints(Stateful(state.copy(enabled = false, pressed = true, hovered = true, focused = true)))
+            .applyPathHints(
+                Stateful(
+                    state.copy(enabled = false, pressed = true, hovered = true, focused = true)))
             .let { assertEquals("icons/checkboxDisabled.svg", it) }
     }
 
@@ -197,7 +201,10 @@ class PainterHintTest : BasicJewelUiTest() {
         val state = CheckboxState.of(toggleableState = ToggleableState.Off)
         val patchedPath =
             testScope(basePath)
-                .applyPathHints(Stateful(state.copy(enabled = false, pressed = true, hovered = true, focused = true)))
+                .applyPathHints(
+                    Stateful(
+                        state.copy(
+                            enabled = false, pressed = true, hovered = true, focused = true)))
         assertEquals("icons/checkboxDisabled.svg", patchedPath)
     }
 
@@ -215,7 +222,8 @@ class PainterHintTest : BasicJewelUiTest() {
         val state = CheckboxState.of(toggleableState = ToggleableState.Off)
         val patchedPath =
             testScope(basePath)
-                .applyPathHints(Stateful(state.copy(pressed = true, hovered = true, focused = true)))
+                .applyPathHints(
+                    Stateful(state.copy(pressed = true, hovered = true, focused = true)))
         assertEquals("icons/checkboxFocused.svg", patchedPath)
     }
 
@@ -232,8 +240,7 @@ class PainterHintTest : BasicJewelUiTest() {
         val basePath = "icons/checkbox.svg"
         val state = CheckboxState.of(toggleableState = ToggleableState.Off)
         val patchedPath =
-            testScope(basePath)
-                .applyPathHints(Stateful(state.copy(pressed = true, hovered = true)))
+            testScope(basePath).applyPathHints(Stateful(state.copy(pressed = true, hovered = true)))
         assertEquals("icons/checkboxPressed.svg", patchedPath)
     }
 
@@ -268,7 +275,8 @@ class PainterHintTest : BasicJewelUiTest() {
             |    <rect fill="#00ff00" height="16" width="16" x="4" y="4"/>
             |    <rect fill="#123456" height="12" width="12" x="6" y="6"/>
             |</svg>
-            """.trimMargin()
+            """
+                .trimMargin()
 
         val patchedSvg =
             testScope("fake_icon.svg")
@@ -291,7 +299,8 @@ class PainterHintTest : BasicJewelUiTest() {
             |    <rect fill="#ff0000" height="16" width="16" x="4" y="4"/>
             |    <rect fill="#123456" height="12" width="12" x="6" y="6"/>
             |</svg>
-            """.trimMargin(),
+            """
+                .trimMargin(),
             patchedSvg,
         )
     }

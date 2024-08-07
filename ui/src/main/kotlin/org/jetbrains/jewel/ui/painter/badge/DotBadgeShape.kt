@@ -9,9 +9,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
-/**
- * @see com.intellij.ui.BadgeDotProvider
- */
+/** @see com.intellij.ui.BadgeDotProvider */
 @Immutable
 @GenerateDataFunctions
 public class DotBadgeShape(

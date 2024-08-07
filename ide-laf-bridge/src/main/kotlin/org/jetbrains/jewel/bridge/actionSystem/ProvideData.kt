@@ -11,19 +11,17 @@ import androidx.compose.ui.node.ModifierNodeElement
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.actionSystem.DataProvider
-import org.jetbrains.annotations.VisibleForTesting
 import javax.swing.JComponent
+import org.jetbrains.annotations.VisibleForTesting
 
 // TODO: choose better naming?
 
 /**
- * Layout composable that create the bridge between [Modifier.provideData]
- * used inside [content] and [component]. So, IntelliJ's [DataManager] can
- * use [component] as [DataProvider].
+ * Layout composable that create the bridge between [Modifier.provideData] used inside [content] and
+ * [component]. So, IntelliJ's [DataManager] can use [component] as [DataProvider].
  *
- * When IntelliJ requests [getData] from [component] Compose will traverse
- * [DataProviderNode] hierarchy and collect it according [DataProvider]
- * rules (see javadoc).
+ * When IntelliJ requests [getData] from [component] Compose will traverse [DataProviderNode]
+ * hierarchy and collect it according [DataProvider] rules (see javadoc).
  */
 @Suppress("unused", "FunctionName")
 @Composable
@@ -34,9 +32,7 @@ public fun ComponentDataProviderBridge(
 ) {
     val rootDataProviderModifier = remember { RootDataProviderModifier() }
 
-    Box(modifier = Modifier.then(rootDataProviderModifier).then(modifier)) {
-        content()
-    }
+    Box(modifier = Modifier.then(rootDataProviderModifier).then(modifier)) { content() }
 
     DisposableEffect(component) {
         DataManager.registerDataProvider(component, rootDataProviderModifier.dataProvider)
@@ -48,19 +44,19 @@ public fun ComponentDataProviderBridge(
 /**
  * Configure component to provide data for IntelliJ Actions system.
  *
- * Use this modifier to provide context related data that can be used by
- * IntelliJ Actions functionality such as Search Everywhere, Action Popups
- * etc.
+ * Use this modifier to provide context related data that can be used by IntelliJ Actions
+ * functionality such as Search Everywhere, Action Popups etc.
  *
- * Important note: modifiers order is important, so be careful with order
- * of [focusable] and [provideData] (see [FocusEventModifierNode]).
+ * Important note: modifiers order is important, so be careful with order of [focusable] and
+ * [provideData] (see [FocusEventModifierNode]).
  *
  * @see DataProvider
  * @see DataContext
  * @see ComponentDataProviderBridge
  */
 @Suppress("unused")
-public fun Modifier.provideData(dataProvider: (dataId: String) -> Any?): Modifier = this then DataProviderElement(dataProvider)
+public fun Modifier.provideData(dataProvider: (dataId: String) -> Any?): Modifier =
+    this then DataProviderElement(dataProvider)
 
 @VisibleForTesting
 internal class RootDataProviderModifier : ModifierNodeElement<DataProviderNode>() {

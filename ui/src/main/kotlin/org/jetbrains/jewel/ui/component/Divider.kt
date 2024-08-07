@@ -43,8 +43,6 @@ public fun Divider(
 
     val lineColor = color.takeOrElse { style.color }
     Box(
-        modifier.then(indentModifier)
-            .then(orientationModifier)
-            .background(color = lineColor),
+        modifier.then(indentModifier).then(orientationModifier).background(color = lineColor),
     )
 }

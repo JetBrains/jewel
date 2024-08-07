@@ -153,19 +153,21 @@ private fun RadioButtonImpl(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press ->
-                    radioButtonState =
-                        radioButtonState.copy(pressed = !swingCompatMode)
+                    radioButtonState = radioButtonState.copy(pressed = !swingCompatMode)
 
-                is PressInteraction.Cancel, is PressInteraction.Release ->
+                is PressInteraction.Cancel,
+                is PressInteraction.Release ->
                     radioButtonState = radioButtonState.copy(pressed = false)
 
                 is HoverInteraction.Enter ->
-                    radioButtonState =
-                        radioButtonState.copy(hovered = !swingCompatMode)
+                    radioButtonState = radioButtonState.copy(hovered = !swingCompatMode)
 
-                is HoverInteraction.Exit -> radioButtonState = radioButtonState.copy(hovered = false)
-                is FocusInteraction.Focus -> radioButtonState = radioButtonState.copy(focused = true)
-                is FocusInteraction.Unfocus -> radioButtonState = radioButtonState.copy(focused = false)
+                is HoverInteraction.Exit ->
+                    radioButtonState = radioButtonState.copy(hovered = false)
+                is FocusInteraction.Focus ->
+                    radioButtonState = radioButtonState.copy(focused = true)
+                is FocusInteraction.Unfocus ->
+                    radioButtonState = radioButtonState.copy(focused = false)
             }
         }
     }
@@ -192,10 +194,11 @@ private fun RadioButtonImpl(
             )
 
     val radioButtonPainterProvider = rememberResourcePainterProvider(style.icons.radioButton)
-    val radioButtonPainter by radioButtonPainterProvider.getPainter(
-        Selected(radioButtonState),
-        Stateful(radioButtonState),
-    )
+    val radioButtonPainter by
+        radioButtonPainterProvider.getPainter(
+            Selected(radioButtonState),
+            Stateful(radioButtonState),
+        )
 
     val radioButtonBoxModifier = Modifier.size(metrics.radioButtonSize)
 
@@ -217,11 +220,11 @@ private fun RadioButtonImpl(
 
             val contentColor by colors.contentFor(radioButtonState)
             val resolvedContentColor =
-                contentColor.takeOrElse { textStyle.color }
-                    .takeOrElse { LocalContentColor.current }
+                contentColor.takeOrElse { textStyle.color }.takeOrElse { LocalContentColor.current }
 
             CompositionLocalProvider(
-                LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
+                LocalTextStyle provides
+                    textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
                 LocalContentColor provides resolvedContentColor,
             ) {
                 content()
@@ -240,7 +243,8 @@ private fun RadioButtonImage(
 
 @Immutable
 @JvmInline
-public value class RadioButtonState(public val state: ULong) : SelectableComponentState, FocusableComponentState {
+public value class RadioButtonState(public val state: ULong) :
+    SelectableComponentState, FocusableComponentState {
     override val isActive: Boolean
         get() = state and Active != 0UL
 

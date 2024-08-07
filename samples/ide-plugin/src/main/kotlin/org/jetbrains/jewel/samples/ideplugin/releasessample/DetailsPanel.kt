@@ -12,14 +12,15 @@ import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.datetime.toJavaLocalDate
 import java.awt.BorderLayout
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import javax.swing.ScrollPaneConstants
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.datetime.toJavaLocalDate
 
-internal class DetailsPanel(private val scope: CoroutineScope) : JBPanelWithEmptyText(BorderLayout()), ComponentWithEmptyText {
+internal class DetailsPanel(private val scope: CoroutineScope) :
+    JBPanelWithEmptyText(BorderLayout()), ComponentWithEmptyText {
     fun display(contentItem: ContentItem?) {
         removeAll()
 
@@ -56,15 +57,14 @@ private class ItemDetailsPanel(
         }
 
         // Using the Kotlin DSL v2 to make this less painful
-        val mainContentPanel =
-            panel {
-                commonContent(contentItem)
+        val mainContentPanel = panel {
+            commonContent(contentItem)
 
-                when (contentItem) {
-                    is ContentItem.AndroidRelease -> androidReleaseContent(contentItem)
-                    is ContentItem.AndroidStudio -> androidStudioContent(contentItem)
-                }
+            when (contentItem) {
+                is ContentItem.AndroidRelease -> androidReleaseContent(contentItem)
+                is ContentItem.AndroidStudio -> androidStudioContent(contentItem)
             }
+        }
         mainContentPanel.border = JBUI.Borders.empty(12, 20)
 
         val scrollingContainer =
@@ -79,17 +79,20 @@ private class ItemDetailsPanel(
 
     private fun Panel.commonContent(contentItem: ContentItem) {
         row {
-            text(contentItem.displayText)
-                .let {
-                    val releaseDate = contentItem.releaseDate
-                    if (releaseDate != null) {
-                        it.comment("Released on ${formatter.format(releaseDate.toJavaLocalDate())}")
-                    } else {
-                        it
+                text(contentItem.displayText)
+                    .let {
+                        val releaseDate = contentItem.releaseDate
+                        if (releaseDate != null) {
+                            it.comment(
+                                "Released on ${formatter.format(releaseDate.toJavaLocalDate())}")
+                        } else {
+                            it
+                        }
                     }
-                }
-                .component.font = JBFont.h1()
-        }.bottomGap(BottomGap.MEDIUM)
+                    .component
+                    .font = JBFont.h1()
+            }
+            .bottomGap(BottomGap.MEDIUM)
     }
 
     private fun Panel.androidReleaseContent(contentItem: ContentItem.AndroidRelease) {

@@ -280,12 +280,13 @@ private fun CheckboxImpl(
     LaunchedEffect(interactionSource, swingCompatMode) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
-                is PressInteraction.Press -> checkboxState = checkboxState.copy(pressed = !swingCompatMode)
+                is PressInteraction.Press ->
+                    checkboxState = checkboxState.copy(pressed = !swingCompatMode)
                 is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                -> checkboxState = checkboxState.copy(pressed = false)
+                is PressInteraction.Release, -> checkboxState = checkboxState.copy(pressed = false)
 
-                is HoverInteraction.Enter -> checkboxState = checkboxState.copy(hovered = !swingCompatMode)
+                is HoverInteraction.Enter ->
+                    checkboxState = checkboxState.copy(hovered = !swingCompatMode)
                 is HoverInteraction.Exit -> checkboxState = checkboxState.copy(hovered = false)
                 is FocusInteraction.Focus -> checkboxState = checkboxState.copy(focused = true)
                 is FocusInteraction.Unfocus -> checkboxState = checkboxState.copy(focused = false)
@@ -308,20 +309,22 @@ private fun CheckboxImpl(
             .outline(
                 state = checkboxState,
                 outline = outline,
-                outlineShape = RoundedCornerShape(metrics.outlineCornerSizeFor(checkboxState).value),
+                outlineShape =
+                    RoundedCornerShape(metrics.outlineCornerSizeFor(checkboxState).value),
                 alignment = Stroke.Alignment.Center,
             )
 
     val painterProvider = rememberResourcePainterProvider(icons.checkbox)
-    val checkboxPainter by painterProvider.getPainter(
-        if (checkboxState.toggleableState == ToggleableState.Indeterminate) {
-            CheckBoxIndeterminate
-        } else {
-            PainterHint.None
-        },
-        Selected(checkboxState.toggleableState == ToggleableState.On),
-        Stateful(checkboxState),
-    )
+    val checkboxPainter by
+        painterProvider.getPainter(
+            if (checkboxState.toggleableState == ToggleableState.Indeterminate) {
+                CheckBoxIndeterminate
+            } else {
+                PainterHint.None
+            },
+            Selected(checkboxState.toggleableState == ToggleableState.On),
+            Stateful(checkboxState),
+        )
 
     val checkboxBoxModifier = Modifier.size(metrics.checkboxSize)
 
@@ -343,12 +346,11 @@ private fun CheckboxImpl(
 
             val contentColor by colors.contentFor(checkboxState)
             CompositionLocalProvider(
-                LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
+                LocalTextStyle provides
+                    textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
                 LocalContentColor provides contentColor.takeOrElse { LocalContentColor.current },
             ) {
-                Row(contentModifier) {
-                    content()
-                }
+                Row(contentModifier) { content() }
             }
         }
     }
@@ -368,7 +370,8 @@ private fun CheckBoxImage(
 
 @Immutable
 @JvmInline
-public value class CheckboxState(private val state: ULong) : ToggleableComponentState, FocusableComponentState {
+public value class CheckboxState(private val state: ULong) :
+    ToggleableComponentState, FocusableComponentState {
     override val toggleableState: ToggleableState
         get() = state.readToggleableState()
 
@@ -423,7 +426,8 @@ public value class CheckboxState(private val state: ULong) : ToggleableComponent
                     (if (hovered) Hovered else 0UL) or
                     (if (pressed) Pressed else 0UL) or
                     (if (toggleableState != ToggleableState.Off) Selected else 0UL) or
-                    (if (toggleableState == ToggleableState.Indeterminate) Indeterminate else 0UL) or
+                    (if (toggleableState == ToggleableState.Indeterminate) Indeterminate
+                    else 0UL) or
                     (if (active) Active else 0UL),
             )
     }

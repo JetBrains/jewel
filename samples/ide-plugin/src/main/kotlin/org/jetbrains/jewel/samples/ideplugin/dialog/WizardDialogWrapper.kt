@@ -8,6 +8,10 @@ import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.util.ui.JBDimension
+import java.awt.event.ActionEvent
+import javax.swing.Action
+import javax.swing.JComponent
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -20,10 +24,6 @@ import org.jetbrains.annotations.Nls
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.enableNewSwingCompositing
-import java.awt.event.ActionEvent
-import javax.swing.Action
-import javax.swing.JComponent
-import kotlin.coroutines.CoroutineContext
 
 internal class WizardDialogWrapper(
     project: Project,
@@ -75,8 +75,7 @@ internal class WizardDialogWrapper(
         newScope.launch(defaultDispatcher) {
             page.canGoForward.collect { canGoForward ->
                 logger.info("CanGoForward: $canGoForward")
-                nextAction.isEnabled =
-                    pageIndex < pages.lastIndex && canGoForward
+                nextAction.isEnabled = pageIndex < pages.lastIndex && canGoForward
                 finishAction.isEnabled = pageIndex == pages.lastIndex && canGoForward
             }
         }
@@ -87,14 +86,14 @@ internal class WizardDialogWrapper(
         enableNewSwingCompositing()
 
         return JewelComposePanel {
-            val index by currentPageIndex
-            pages[index].PageContent()
-        }.apply {
-            minimumSize = JBDimension(400, 400)
-        }
+                val index by currentPageIndex
+                pages[index].PageContent()
+            }
+            .apply { minimumSize = JBDimension(400, 400) }
     }
 
-    override fun createActions(): Array<Action> = arrayOf(cancelAction, backAction, nextAction, finishAction)
+    override fun createActions(): Array<Action> =
+        arrayOf(cancelAction, backAction, nextAction, finishAction)
 
     private fun onBackClick() {
         if (currentPageIndex.value <= 0) {
@@ -137,8 +136,7 @@ internal class WizardDialogWrapper(
 }
 
 interface WizardPage {
-    @Composable
-    fun PageContent()
+    @Composable fun PageContent()
 
     val canGoForward: StateFlow<Boolean>
     val canGoBackwards: StateFlow<Boolean>

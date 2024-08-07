@@ -50,7 +50,6 @@ public class OutlineColors(
     public companion object
 }
 
-public val LocalGlobalColors: ProvidableCompositionLocal<GlobalColors> =
-    staticCompositionLocalOf {
-        error("No GlobalColors provided. Have you forgotten the theme?")
-    }
+public val LocalGlobalColors: ProvidableCompositionLocal<GlobalColors> = staticCompositionLocalOf {
+    error("No GlobalColors provided. Have you forgotten the theme?")
+}

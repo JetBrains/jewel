@@ -26,28 +26,27 @@ fun List<MarkdownBlock>.assertEquals(vararg expected: MarkdownBlock) {
 fun List<MarkdownBlock>.findDifferences(
     expected: List<MarkdownBlock>,
     indentSize: Int,
-): List<String> =
-    buildList {
-        val indent = " ".repeat(indentSize)
-        val thisSize = this@findDifferences.size
-        if (expected.size != thisSize) {
-            add("$indent * Content size mismatch. Was $thisSize, but we expected ${expected.size}")
-            add("$indent     Actual:   ${this@findDifferences}")
-            add("$indent     Expected: $expected\n")
-            add("$indent   ℹ️ Note: skipping cells comparison as it's meaningless")
-            return@buildList
-        }
+): List<String> = buildList {
+    val indent = " ".repeat(indentSize)
+    val thisSize = this@findDifferences.size
+    if (expected.size != thisSize) {
+        add("$indent * Content size mismatch. Was $thisSize, but we expected ${expected.size}")
+        add("$indent     Actual:   ${this@findDifferences}")
+        add("$indent     Expected: $expected\n")
+        add("$indent   ℹ️ Note: skipping cells comparison as it's meaningless")
+        return@buildList
+    }
 
-        for ((i, item) in this@findDifferences.withIndex()) {
-            val difference = item.findDifferenceWith(expected[i], indentSize + 2)
-            if (difference.isNotEmpty()) {
-                add(
-                    "$indent * Item #$i is not the same as the expected value.\n\n" +
-                        "${difference.joinToString("\n")}\n",
-                )
-            }
+    for ((i, item) in this@findDifferences.withIndex()) {
+        val difference = item.findDifferenceWith(expected[i], indentSize + 2)
+        if (difference.isNotEmpty()) {
+            add(
+                "$indent * Item #$i is not the same as the expected value.\n\n" +
+                    "${difference.joinToString("\n")}\n",
+            )
         }
     }
+}
 
 private fun MarkdownBlock.findDifferenceWith(
     expected: MarkdownBlock,

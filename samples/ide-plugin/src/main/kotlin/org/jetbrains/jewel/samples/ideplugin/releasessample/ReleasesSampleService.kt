@@ -19,7 +19,8 @@ import kotlinx.coroutines.flow.onEach
 internal class ReleasesSampleService : CoroutineScope, Disposable {
     private val dispatcher = AppExecutorUtil.getAppExecutorService().asCoroutineDispatcher()
 
-    override val coroutineContext = SupervisorJob() + CoroutineName("ReleasesSampleService") + dispatcher
+    override val coroutineContext =
+        SupervisorJob() + CoroutineName("ReleasesSampleService") + dispatcher
 
     private val originalContentSource = MutableStateFlow<ContentSource<*>>(AndroidStudioReleases)
 
@@ -31,15 +32,13 @@ internal class ReleasesSampleService : CoroutineScope, Disposable {
 
     init {
         combine(originalContentSource, filter) { source, filter ->
-            val normalizedFilter = filter.trim()
-            if (normalizedFilter.isBlank()) return@combine source
+                val normalizedFilter = filter.trim()
+                if (normalizedFilter.isBlank()) return@combine source
 
-            val filteredContentItems =
-                source.items
-                    .filter { it.matches(normalizedFilter) }
+                val filteredContentItems = source.items.filter { it.matches(normalizedFilter) }
 
-            FilteredContentSource(filteredContentItems, source)
-        }
+                FilteredContentSource(filteredContentItems, source)
+            }
             .onEach { filteredContent.emit(it) }
             .launchIn(this)
     }

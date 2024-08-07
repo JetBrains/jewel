@@ -75,7 +75,8 @@ import org.jetbrains.jewel.ui.component.Text
 public open class DefaultMarkdownBlockRenderer(
     private val rootStyling: MarkdownStyling,
     private val rendererExtensions: List<MarkdownRendererExtension> = emptyList(),
-    private val inlineRenderer: InlineMarkdownRenderer = DefaultInlineMarkdownRenderer(rendererExtensions),
+    private val inlineRenderer: InlineMarkdownRenderer =
+        DefaultInlineMarkdownRenderer(rendererExtensions),
 ) : MarkdownBlockRenderer {
     @Composable
     override fun render(
@@ -104,8 +105,10 @@ public open class DefaultMarkdownBlockRenderer(
             is IndentedCodeBlock -> render(block, rootStyling.code.indented)
             is Heading -> render(block, rootStyling.heading, enabled, onUrlClick, onTextClick)
             is HtmlBlock -> render(block, rootStyling.htmlBlock)
-            is OrderedList -> render(block, rootStyling.list.ordered, enabled, onUrlClick, onTextClick)
-            is UnorderedList -> render(block, rootStyling.list.unordered, enabled, onUrlClick, onTextClick)
+            is OrderedList ->
+                render(block, rootStyling.list.ordered, enabled, onUrlClick, onTextClick)
+            is UnorderedList ->
+                render(block, rootStyling.list.unordered, enabled, onUrlClick, onTextClick)
             is ListItem -> render(block, enabled, onUrlClick, onTextClick)
             is Paragraph -> render(block, rootStyling.paragraph, enabled, onUrlClick, onTextClick)
             ThematicBreak -> renderThematicBreak(rootStyling.thematicBreak)
@@ -113,7 +116,13 @@ public open class DefaultMarkdownBlockRenderer(
                 rendererExtensions
                     .find { it.blockRenderer?.canRender(block) == true }
                     ?.blockRenderer
-                    ?.render(block, blockRenderer = this, inlineRenderer, enabled, onUrlClick, onTextClick)
+                    ?.render(
+                        block,
+                        blockRenderer = this,
+                        inlineRenderer,
+                        enabled,
+                        onUrlClick,
+                        onTextClick)
             }
         }
     }
@@ -142,8 +151,7 @@ public open class DefaultMarkdownBlockRenderer(
 
         Text(
             modifier =
-                Modifier
-                    .focusProperties { canFocus = false }
+                Modifier.focusProperties { canFocus = false }
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null,
@@ -209,8 +217,9 @@ public open class DefaultMarkdownBlockRenderer(
     ) {
         Column(modifier = Modifier.padding(paddingValues)) {
             val textColor =
-                textStyle.color
-                    .takeOrElse { LocalContentColor.current.takeOrElse { textStyle.color } }
+                textStyle.color.takeOrElse {
+                    LocalContentColor.current.takeOrElse { textStyle.color }
+                }
             val mergedStyle = textStyle.merge(TextStyle(color = textColor))
             Text(
                 text = renderedContent,
@@ -234,8 +243,7 @@ public open class DefaultMarkdownBlockRenderer(
         onTextClick: () -> Unit,
     ) {
         Column(
-            Modifier
-                .drawBehind {
+            Modifier.drawBehind {
                     val isLtr = layoutDirection == Ltr
                     val lineWidthPx = styling.lineWidth.toPx()
                     val x = if (isLtr) lineWidthPx / 2 else size.width - lineWidthPx / 2
@@ -248,7 +256,8 @@ public open class DefaultMarkdownBlockRenderer(
                         styling.strokeCap,
                         styling.pathEffect,
                     )
-                }.padding(styling.padding),
+                }
+                .padding(styling.padding),
             verticalArrangement = Arrangement.spacedBy(rootStyling.blockVerticalSpacing),
         ) {
             CompositionLocalProvider(LocalContentColor provides styling.textColor) {
@@ -298,8 +307,7 @@ public open class DefaultMarkdownBlockRenderer(
                         style = styling.numberStyle,
                         color = styling.numberStyle.color.takeOrElse { LocalContentColor.current },
                         modifier =
-                            Modifier
-                                .focusProperties { canFocus = false }
+                            Modifier.focusProperties { canFocus = false }
                                 .widthIn(min = styling.numberMinWidth)
                                 .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                         textAlign = styling.numberTextAlign,
@@ -381,8 +389,7 @@ public open class DefaultMarkdownBlockRenderer(
     ) {
         HorizontallyScrollingContainer(
             isScrollable = styling.scrollsHorizontally,
-            Modifier
-                .background(styling.background, styling.shape)
+            Modifier.background(styling.background, styling.shape)
                 .border(styling.borderWidth, styling.borderColor, styling.shape)
                 .then(if (styling.fillWidth) Modifier.fillMaxWidth() else Modifier),
         ) {
@@ -405,17 +412,18 @@ public open class DefaultMarkdownBlockRenderer(
     ) {
         HorizontallyScrollingContainer(
             isScrollable = styling.scrollsHorizontally,
-            Modifier
-                .background(styling.background, styling.shape)
+            Modifier.background(styling.background, styling.shape)
                 .border(styling.borderWidth, styling.borderColor, styling.shape)
                 .then(if (styling.fillWidth) Modifier.fillMaxWidth() else Modifier),
         ) {
             Column(Modifier.padding(styling.padding)) {
-                if (block.mimeType != null && styling.infoPosition.verticalAlignment == Alignment.Top) {
+                if (block.mimeType != null &&
+                    styling.infoPosition.verticalAlignment == Alignment.Top) {
                     FencedBlockInfo(
                         block.mimeType.displayName(),
                         styling.infoPosition.horizontalAlignment
-                            ?: error("No horizontal alignment for position ${styling.infoPosition.name}"),
+                            ?: error(
+                                "No horizontal alignment for position ${styling.infoPosition.name}"),
                         styling.infoTextStyle,
                         Modifier.fillMaxWidth().padding(styling.infoPadding),
                     )
@@ -430,11 +438,13 @@ public open class DefaultMarkdownBlockRenderer(
                             .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                 )
 
-                if (block.mimeType != null && styling.infoPosition.verticalAlignment == Alignment.Bottom) {
+                if (block.mimeType != null &&
+                    styling.infoPosition.verticalAlignment == Alignment.Bottom) {
                     FencedBlockInfo(
                         block.mimeType.displayName(),
                         styling.infoPosition.horizontalAlignment
-                            ?: error("No horizontal alignment for position ${styling.infoPosition.name}"),
+                            ?: error(
+                                "No horizontal alignment for position ${styling.infoPosition.name}"),
                         styling.infoTextStyle,
                         Modifier.fillMaxWidth().padding(styling.infoPadding),
                     )
@@ -464,7 +474,10 @@ public open class DefaultMarkdownBlockRenderer(
 
     @Composable
     override fun renderThematicBreak(styling: MarkdownStyling.ThematicBreak) {
-        Box(Modifier.padding(styling.padding).height(styling.lineWidth).background(styling.lineColor))
+        Box(
+            Modifier.padding(styling.padding)
+                .height(styling.lineWidth)
+                .background(styling.lineColor))
     }
 
     @Composable
@@ -481,9 +494,11 @@ public open class DefaultMarkdownBlockRenderer(
         styling: InlinesStyling,
         enabled: Boolean,
         onUrlClick: ((String) -> Unit)? = null,
-    ) = remember(block.inlineContent, styling, enabled) {
-        inlineRenderer.renderAsAnnotatedString(block.inlineContent, styling, enabled, onUrlClick)
-    }
+    ) =
+        remember(block.inlineContent, styling, enabled) {
+            inlineRenderer.renderAsAnnotatedString(
+                block.inlineContent, styling, enabled, onUrlClick)
+        }
 
     @Composable
     private fun HorizontallyScrollingContainer(
@@ -497,9 +512,9 @@ public open class DefaultMarkdownBlockRenderer(
             content = {
                 val scrollState = rememberScrollState()
                 Box(
-                    Modifier
-                        .layoutId("mainContent")
-                        .then(if (isScrollable) Modifier.horizontalScroll(scrollState) else Modifier),
+                    Modifier.layoutId("mainContent")
+                        .then(
+                            if (isScrollable) Modifier.horizontalScroll(scrollState) else Modifier),
                 ) {
                     content()
                 }
@@ -509,15 +524,15 @@ public open class DefaultMarkdownBlockRenderer(
                 }
 
                 if (isScrollable && canScroll) {
-                    val alpha by animateFloatAsState(
-                        if (isHovered) 1f else 0f,
-                        tween(durationMillis = 150, easing = LinearEasing),
-                    )
+                    val alpha by
+                        animateFloatAsState(
+                            if (isHovered) 1f else 0f,
+                            tween(durationMillis = 150, easing = LinearEasing),
+                        )
 
                     HorizontalScrollbar(
                         rememberScrollbarAdapter(scrollState),
-                        Modifier
-                            .layoutId("containerHScrollbar")
+                        Modifier.layoutId("containerHScrollbar")
                             .padding(start = 2.dp, end = 2.dp, bottom = 2.dp)
                             .alpha(alpha),
                     )

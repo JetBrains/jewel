@@ -24,17 +24,17 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.offset
+import kotlin.math.max
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.theme.textFieldStyle
-import kotlin.math.max
 
 /**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
+ * @param placeholder the optional placeholder to be displayed over the component when the [value]
+ *   is empty.
  */
 @Composable
 public fun TextField(
@@ -89,8 +89,8 @@ public fun TextField(
 }
 
 /**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
+ * @param placeholder the optional placeholder to be displayed over the component when the [value]
+ *   is empty.
  */
 @Composable
 public fun TextField(
@@ -165,18 +165,22 @@ private fun TextFieldDecorationBox(
                 }
             }
             if (trailingIcon != null) {
-                Box(modifier = Modifier.layoutId(TRAILING_ID), contentAlignment = Alignment.Center) {
-                    trailingIcon()
-                }
+                Box(
+                    modifier = Modifier.layoutId(TRAILING_ID),
+                    contentAlignment = Alignment.Center) {
+                        trailingIcon()
+                    }
             }
             if (placeholder != null) {
-                Box(modifier = Modifier.layoutId(PLACEHOLDER_ID), contentAlignment = Alignment.Center) {
-                    CompositionLocalProvider(
-                        LocalTextStyle provides textStyle.copy(color = placeholderTextColor),
-                        LocalContentColor provides placeholderTextColor,
-                        content = placeholder,
-                    )
-                }
+                Box(
+                    modifier = Modifier.layoutId(PLACEHOLDER_ID),
+                    contentAlignment = Alignment.Center) {
+                        CompositionLocalProvider(
+                            LocalTextStyle provides textStyle.copy(color = placeholderTextColor),
+                            LocalContentColor provides placeholderTextColor,
+                            content = placeholder,
+                        )
+                    }
             }
 
             Box(modifier = Modifier.layoutId(TEXT_FIELD_ID), propagateMinConstraints = true) {
@@ -192,22 +196,20 @@ private fun TextFieldDecorationBox(
         val trailingPlaceable =
             measurables.find { it.layoutId == TRAILING_ID }?.measure(iconConstraints)
 
-        val leadingPlaceable = measurables.find { it.layoutId == LEADING_ID }?.measure(iconConstraints)
+        val leadingPlaceable =
+            measurables.find { it.layoutId == LEADING_ID }?.measure(iconConstraints)
         occupiedSpaceHorizontally += trailingPlaceable?.width ?: 0
         occupiedSpaceHorizontally += leadingPlaceable?.width ?: 0
 
         val textFieldConstraints =
-            incomingConstraints.offset(horizontal = -occupiedSpaceHorizontally)
-                .copy(minHeight = 0)
+            incomingConstraints.offset(horizontal = -occupiedSpaceHorizontally).copy(minHeight = 0)
         val textFieldPlaceable =
-            measurables.single { it.layoutId == TEXT_FIELD_ID }
-                .measure(textFieldConstraints)
+            measurables.single { it.layoutId == TEXT_FIELD_ID }.measure(textFieldConstraints)
 
         // measure placeholder
         val placeholderConstraints = textFieldConstraints.copy(minWidth = 0)
         val placeholderPlaceable =
-            measurables.find { it.layoutId == PLACEHOLDER_ID }
-                ?.measure(placeholderConstraints)
+            measurables.find { it.layoutId == PLACEHOLDER_ID }?.measure(placeholderConstraints)
 
         val width =
             calculateWidth(

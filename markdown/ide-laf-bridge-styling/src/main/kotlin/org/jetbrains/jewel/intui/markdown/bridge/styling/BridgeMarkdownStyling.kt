@@ -48,7 +48,8 @@ public fun MarkdownStyling.Companion.create(
         InlinesStyling.create(
             baseTextStyle,
             defaultEditorTextStyle
-                .copy(fontSize = baseTextStyle.fontSize * .85, background = inlineCodeBackgroundColor)
+                .copy(
+                    fontSize = baseTextStyle.fontSize * .85, background = inlineCodeBackgroundColor)
                 .toSpanStyle(),
         ),
     blockVerticalSpacing: Dp = 16.dp,
@@ -73,7 +74,9 @@ public fun MarkdownStyling.Companion.create(
         htmlBlock,
     )
 
-public fun Paragraph.Companion.create(inlinesStyling: InlinesStyling = InlinesStyling.create()): Paragraph = Paragraph(inlinesStyling)
+public fun Paragraph.Companion.create(
+    inlinesStyling: InlinesStyling = InlinesStyling.create()
+): Paragraph = Paragraph(inlinesStyling)
 
 public fun Heading.Companion.create(
     baseTextStyle: TextStyle = defaultTextStyle,
@@ -241,7 +244,8 @@ public fun BlockQuote.Companion.create(
 public fun List.Companion.create(
     baseTextStyle: TextStyle = defaultTextStyle,
     ordered: Ordered = Ordered.create(numberStyle = baseTextStyle),
-    unordered: Unordered = Unordered.create(bulletStyle = baseTextStyle.copy(fontWeight = FontWeight.Black)),
+    unordered: Unordered =
+        Unordered.create(bulletStyle = baseTextStyle.copy(fontWeight = FontWeight.Black)),
 ): List = List(ordered, unordered)
 
 public fun Ordered.Companion.create(
@@ -367,12 +371,16 @@ public fun InlinesStyling.Companion.create(
             .copy(fontSize = textStyle.fontSize * .85, background = inlineCodeBackgroundColor)
             .toSpanStyle(),
     link: SpanStyle =
-        textStyle.copy(
-            color = JBUI.CurrentTheme.Link.Foreground.ENABLED.toComposeColor(),
-            textDecoration = TextDecoration.Underline,
-        ).toSpanStyle(),
-    linkDisabled: SpanStyle = link.copy(color = JBUI.CurrentTheme.Link.Foreground.DISABLED.toComposeColor()),
-    linkHovered: SpanStyle = link.copy(color = JBUI.CurrentTheme.Link.Foreground.HOVERED.toComposeColor()),
+        textStyle
+            .copy(
+                color = JBUI.CurrentTheme.Link.Foreground.ENABLED.toComposeColor(),
+                textDecoration = TextDecoration.Underline,
+            )
+            .toSpanStyle(),
+    linkDisabled: SpanStyle =
+        link.copy(color = JBUI.CurrentTheme.Link.Foreground.DISABLED.toComposeColor()),
+    linkHovered: SpanStyle =
+        link.copy(color = JBUI.CurrentTheme.Link.Foreground.HOVERED.toComposeColor()),
     linkFocused: SpanStyle =
         link.copy(
             color = JBUI.CurrentTheme.Link.Foreground.ENABLED.toComposeColor(),
@@ -383,7 +391,8 @@ public fun InlinesStyling.Companion.create(
             color = JBUI.CurrentTheme.Link.Foreground.PRESSED.toComposeColor(),
             background = JBUI.CurrentTheme.ActionButton.pressedBackground().toComposeColor(),
         ),
-    linkVisited: SpanStyle = link.copy(color = JBUI.CurrentTheme.Link.Foreground.VISITED.toComposeColor()),
+    linkVisited: SpanStyle =
+        link.copy(color = JBUI.CurrentTheme.Link.Foreground.VISITED.toComposeColor()),
     emphasis: SpanStyle = textStyle.copy(fontStyle = FontStyle.Italic).toSpanStyle(),
     strongEmphasis: SpanStyle = textStyle.copy(fontWeight = FontWeight.Bold).toSpanStyle(),
     inlineHtml: SpanStyle = textStyle.toSpanStyle(),

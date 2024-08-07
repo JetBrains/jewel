@@ -20,10 +20,9 @@ public open class DefaultInlineMarkdownRenderer(
         styling: InlinesStyling,
         enabled: Boolean,
         onUrlClicked: ((String) -> Unit)?,
-    ): AnnotatedString =
-        buildAnnotatedString {
-            appendInlineMarkdownFrom(inlineMarkdown, styling, enabled, onUrlClicked)
-        }
+    ): AnnotatedString = buildAnnotatedString {
+        appendInlineMarkdownFrom(inlineMarkdown, styling, enabled, onUrlClicked)
+    }
 
     private fun Builder.appendInlineMarkdownFrom(
         inlineMarkdown: Iterable<InlineMarkdown>,
@@ -58,7 +57,9 @@ public open class DefaultInlineMarkdownRenderer(
                             val link =
                                 LinkAnnotation.Clickable(
                                     tag = destination,
-                                    linkInteractionListener = { _ -> onUrlClicked?.invoke(destination) },
+                                    linkInteractionListener = { _ ->
+                                        onUrlClicked?.invoke(destination)
+                                    },
                                     styles = styling.textLinkStyles,
                                 )
                             pushLink(link)
@@ -83,7 +84,9 @@ public open class DefaultInlineMarkdownRenderer(
                         withStyles(
                             styling.inlineHtml.withEnabled(enabled),
                             child,
-                        ) { append(it.content.trim()) }
+                        ) {
+                            append(it.content.trim())
+                        }
                     }
                 }
 
@@ -105,7 +108,8 @@ public open class DefaultInlineMarkdownRenderer(
                     rendererExtensions
                         .find { it.inlineRenderer?.canRender(child) == true }
                         ?.inlineRenderer
-                        ?.render(child, inlineRenderer = this@DefaultInlineMarkdownRenderer, enabled)
+                        ?.render(
+                            child, inlineRenderer = this@DefaultInlineMarkdownRenderer, enabled)
             }
         }
     }

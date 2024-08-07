@@ -38,31 +38,33 @@ public fun TabStrip(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
-    var tabStripState: TabStripState by remember { mutableStateOf(TabStripState.of(enabled = true)) }
+    var tabStripState: TabStripState by remember {
+        mutableStateOf(TabStripState.of(enabled = true))
+    }
 
     remember(enabled) { tabStripState = tabStripState.copy(enabled) }
 
     val scrollState = rememberScrollState()
     Box(
-        modifier
-            .focusable(true, remember { MutableInteractionSource() })
-            .onHover { tabStripState = tabStripState.copy(hovered = it) },
+        modifier.focusable(true, remember { MutableInteractionSource() }).onHover {
+            tabStripState = tabStripState.copy(hovered = it)
+        },
     ) {
         Row(
             modifier =
-            Modifier
-                .horizontalScroll(scrollState)
-                .scrollable(
-                    orientation = Orientation.Vertical,
-                    reverseDirection =
-                    ScrollableDefaults.reverseDirection(
-                        LocalLayoutDirection.current,
-                        Orientation.Vertical,
-                        false,
-                    ),
-                    state = scrollState,
-                    interactionSource = remember { MutableInteractionSource() },
-                ).selectableGroup(),
+                Modifier.horizontalScroll(scrollState)
+                    .scrollable(
+                        orientation = Orientation.Vertical,
+                        reverseDirection =
+                            ScrollableDefaults.reverseDirection(
+                                LocalLayoutDirection.current,
+                                Orientation.Vertical,
+                                false,
+                            ),
+                        state = scrollState,
+                        interactionSource = remember { MutableInteractionSource() },
+                    )
+                    .selectableGroup(),
         ) {
             tabs.forEach { TabImpl(isActive = tabStripState.isActive, tabData = it) }
         }
