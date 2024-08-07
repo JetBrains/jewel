@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalDependencies">
+    <plugin id="com.facebook.ktfmt_idea_plugin" />
+    <plugin id="com.nbadal.ktlint" />
     <plugin id="detekt" />
     <plugin id="org.jetbrains.compose.desktop.ide" />
   </component>
