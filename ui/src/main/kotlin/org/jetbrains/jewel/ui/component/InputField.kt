@@ -59,7 +59,7 @@ internal fun InputField(
     style: InputFieldStyle,
     textStyle: TextStyle,
     showScrollbar: Boolean,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
 ) {
     var inputState by remember(interactionSource) {
@@ -166,7 +166,7 @@ internal fun InputField(
     interactionSource: MutableInteractionSource,
     style: InputFieldStyle,
     textStyle: TextStyle,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,
 ) {
     var inputState by remember(interactionSource) { mutableStateOf(InputFieldState.of(enabled = enabled)) }
@@ -209,11 +209,11 @@ internal fun InputField(
     BasicTextField(
         value = value,
         modifier =
-        modifier
-            .then(backgroundModifier)
-            .then(borderModifier)
-            .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
-            .outline(inputState, outline, shape, Stroke.Alignment.Center),
+            modifier
+                .then(backgroundModifier)
+                .then(borderModifier)
+                .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
+                .outline(inputState, outline, shape, Stroke.Alignment.Center),
         onValueChange = onValueChange,
         enabled = enabled,
         readOnly = readOnly,
@@ -234,9 +234,7 @@ internal fun InputField(
 
 @Immutable
 @JvmInline
-public value class InputFieldState(
-    public val state: ULong,
-) : FocusableComponentState {
+public value class InputFieldState(public val state: ULong) : FocusableComponentState {
     override val isActive: Boolean
         get() = state and Active != 0UL
 
@@ -281,11 +279,11 @@ public value class InputFieldState(
         ): InputFieldState =
             InputFieldState(
                 state =
-                (if (enabled) Enabled else 0UL) or
-                    (if (focused) Focused else 0UL) or
-                    (if (hovered) Hovered else 0UL) or
-                    (if (pressed) Pressed else 0UL) or
-                    (if (active) Active else 0UL),
+                    (if (enabled) Enabled else 0UL) or
+                        (if (focused) Focused else 0UL) or
+                        (if (hovered) Hovered else 0UL) or
+                        (if (pressed) Pressed else 0UL) or
+                        (if (active) Active else 0UL),
             )
     }
 }

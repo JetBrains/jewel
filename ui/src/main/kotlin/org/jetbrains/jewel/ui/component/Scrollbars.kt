@@ -307,9 +307,7 @@ private fun ScrollbarImpl(
         val isHovered by interactionSource.collectIsHoveredAsState()
 
         val isHighlighted by remember {
-            derivedStateOf {
-                isHovered || dragInteraction.value is DragInteraction.Start
-            }
+            derivedStateOf { isHovered || dragInteraction.value is DragInteraction.Start }
         }
 
         val thumbMinHeight = style.metrics.minThumbLength.toPx()
@@ -362,8 +360,8 @@ private fun ScrollbarImpl(
                         .layoutId("thumb")
                         .thenIf(isVisible) {
                             background(
-                                thumbColor,
-                                RoundedCornerShape(style.metrics.thumbCornerSize),
+                                color = thumbColor,
+                                shape = RoundedCornerShape(style.metrics.thumbCornerSize),
                             )
                         }.scrollbarDrag(
                             interactionSource = interactionSource,

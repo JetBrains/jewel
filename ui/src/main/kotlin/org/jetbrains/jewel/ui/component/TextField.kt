@@ -189,8 +189,8 @@ public fun TextField(
 
         TextFieldDecorationBox(
             modifier =
-            Modifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height)
-                .padding(style.metrics.contentPadding),
+                Modifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height)
+                    .padding(style.metrics.contentPadding),
             innerTextField = innerTextField,
             textStyle = textStyle,
             placeholderTextColor = style.colors.placeholder,
