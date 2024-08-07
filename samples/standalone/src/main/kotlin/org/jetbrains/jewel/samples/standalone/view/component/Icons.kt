@@ -55,16 +55,21 @@ internal fun Icons() {
             PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup")
         }
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Badge(Color.Red, DotBadgeShape.Default))
+            PlatformIcon(
+                AllIconsKeys.Nodes.ConfigFolder,
+                "taskGroup",
+                hint = Badge(Color.Red, DotBadgeShape.Default))
         }
         Box(
-            Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
+            Modifier.size(24.dp)
+                .background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
             PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Stroke(Color.White))
         }
         Box(
-            Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
+            Modifier.size(24.dp)
+                .background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
             PlatformIcon(

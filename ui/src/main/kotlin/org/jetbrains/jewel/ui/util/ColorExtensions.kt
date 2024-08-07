@@ -5,8 +5,8 @@ import androidx.compose.ui.graphics.luminance
 import kotlin.math.roundToInt
 
 /**
- * Converts a [java.awt.Color] to a RGBA formatted color `#RRGGBBAA` hex
- * string; e.g., `#FFFFFF1A` (a translucent white).
+ * Converts a [java.awt.Color] to a RGBA formatted color `#RRGGBBAA` hex string; e.g., `#FFFFFF1A`
+ * (a translucent white).
  */
 public fun java.awt.Color.toRgbaHexString(): String {
     val r = Integer.toHexString(red)
@@ -27,8 +27,8 @@ public fun java.awt.Color.toRgbaHexString(): String {
 }
 
 /**
- * Converts a [Color] to a RGBA formatted color `#RRGGBBAA` hex string;
- * e.g., `#FFFFFF1A` (a translucent white).
+ * Converts a [Color] to a RGBA formatted color `#RRGGBBAA` hex string; e.g., `#FFFFFF1A` (a
+ * translucent white).
  */
 public fun Color.toRgbaHexString(): String {
     val r = Integer.toHexString((red * 255).roundToInt())
@@ -49,8 +49,8 @@ public fun Color.toRgbaHexString(): String {
 }
 
 /**
- * Converts a RGBA formatted color `#RRGGBBAA` hex string to a [Color];
- * e.g., `#FFFFFF1A` (a translucent white).
+ * Converts a RGBA formatted color `#RRGGBBAA` hex string to a [Color]; e.g., `#FFFFFF1A` (a
+ * translucent white).
  */
 public fun Color.Companion.fromRGBAHexStringOrNull(rgba: String): Color? =
     rgba

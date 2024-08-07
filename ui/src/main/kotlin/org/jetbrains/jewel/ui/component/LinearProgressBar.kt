@@ -39,21 +39,21 @@ public fun HorizontalProgressBar(
     val shape = RoundedCornerShape(style.metrics.cornerSize)
 
     Box(
-        modifier.defaultMinSize(minHeight = style.metrics.minHeight).clip(shape)
-            .drawWithContent {
-                drawRect(color = colors.track) // Draw the background
-                val progressWidth = size.width * progress
-                val progressX = if (layoutDirection == LayoutDirection.Ltr) 0f else size.width - progressWidth
+        modifier.defaultMinSize(minHeight = style.metrics.minHeight).clip(shape).drawWithContent {
+            drawRect(color = colors.track) // Draw the background
+            val progressWidth = size.width * progress
+            val progressX =
+                if (layoutDirection == LayoutDirection.Ltr) 0f else size.width - progressWidth
 
-                val cornerSizePx = style.metrics.cornerSize.toPx(size, Density(density, fontScale))
-                val cornerRadius = CornerRadius(cornerSizePx, cornerSizePx)
-                drawRoundRect(
-                    color = colors.progress,
-                    topLeft = Offset(progressX, 0f),
-                    size = size.copy(width = progressWidth),
-                    cornerRadius = cornerRadius,
-                )
-            },
+            val cornerSizePx = style.metrics.cornerSize.toPx(size, Density(density, fontScale))
+            val cornerRadius = CornerRadius(cornerSizePx, cornerSizePx)
+            drawRoundRect(
+                color = colors.progress,
+                topLeft = Offset(progressX, 0f),
+                size = size.copy(width = progressWidth),
+                cornerRadius = cornerRadius,
+            )
+        },
     )
 }
 
@@ -67,15 +67,16 @@ public fun IndeterminateHorizontalProgressBar(
     val cycleDurationMillis by remember {
         mutableStateOf(style.indeterminateCycleDuration.inWholeMilliseconds.toInt())
     }
-    val animatedProgress by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 2f,
-        animationSpec =
-            infiniteRepeatable(
-                tween(durationMillis = cycleDurationMillis, easing = LinearEasing),
-                repeatMode = RepeatMode.Restart,
-            ),
-    )
+    val animatedProgress by
+        infiniteTransition.animateFloat(
+            initialValue = 0f,
+            targetValue = 2f,
+            animationSpec =
+                infiniteRepeatable(
+                    tween(durationMillis = cycleDurationMillis, easing = LinearEasing),
+                    repeatMode = RepeatMode.Restart,
+                ),
+        )
 
     val highlightWidth = style.metrics.indeterminateHighlightWidth
     val colors = style.colors

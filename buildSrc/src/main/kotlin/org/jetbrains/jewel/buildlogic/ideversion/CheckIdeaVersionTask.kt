@@ -1,9 +1,9 @@
 package org.jetbrains.jewel.buildlogic.ideversion
 
+import java.io.File
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import java.io.File
 
 open class CheckIdeaVersionTask : DefaultTask() {
 
@@ -12,8 +12,7 @@ open class CheckIdeaVersionTask : DefaultTask() {
             "fields=code,releases,releases.version,releases.build,releases.type,releases.majorVersion&" +
             "code=IC"
 
-    private val ideaVersionRegex =
-        "202\\d\\.(\\d\\.)?\\d".toRegex(RegexOption.IGNORE_CASE)
+    private val ideaVersionRegex = "202\\d\\.(\\d\\.)?\\d".toRegex(RegexOption.IGNORE_CASE)
 
     private val intelliJPlatformBuildRegex =
         "2\\d{2}\\.\\d+\\.\\d+(?:-EAP-SNAPSHOT)?".toRegex(RegexOption.IGNORE_CASE)
@@ -30,19 +29,19 @@ open class CheckIdeaVersionTask : DefaultTask() {
         val ideaVersion = readCurrentVersionInfo()
         validateIdeaVersion(ideaVersion)
 
-        val platformBuildsForThisMajorVersion = IJPVersionsFetcher.fetchBuildsForCurrentMajorVersion(
-            releasesUrl,
-            ideaVersion.majorVersion,
-            logger
-        )
+        val platformBuildsForThisMajorVersion =
+            IJPVersionsFetcher.fetchBuildsForCurrentMajorVersion(
+                releasesUrl, ideaVersion.majorVersion, logger)
 
         if (platformBuildsForThisMajorVersion == null) {
-            logger.error("Cannot check platform version, no builds found for current version $ideaVersion")
+            logger.error(
+                "Cannot check platform version, no builds found for current version $ideaVersion")
             return
         }
 
         val latestAvailableBuild = platformBuildsForThisMajorVersion.last()
-        logger.info("The latest IntelliJ Platform ${ideaVersion.version} build is ${latestAvailableBuild.build}")
+        logger.info(
+            "The latest IntelliJ Platform ${ideaVersion.version} build is ${latestAvailableBuild.build}")
 
         val isCurrentBuildStable = ideaVersion.type.lowercase() != "eap"
         if (IJPVersionsFetcher.compare(ideaVersion, latestAvailableBuild) < 0) {
@@ -72,15 +71,13 @@ open class CheckIdeaVersionTask : DefaultTask() {
 
                     appendLine(
                         "Please update the 'idea' and 'intelliJPlatformBuild' " +
-                            "versions in the catalog accordingly."
-                    )
+                            "versions in the catalog accordingly.")
                 })
         }
 
         logger.lifecycle(
             "No IntelliJ Platform version updates available. " +
-                "Current: ${ideaVersion.build} (${ideaVersion.version})"
-        )
+                "Current: ${ideaVersion.build} (${ideaVersion.version})")
     }
 
     private fun readCurrentVersionInfo(): ApiIdeaReleasesItem.Release {
@@ -104,8 +101,7 @@ open class CheckIdeaVersionTask : DefaultTask() {
         )
     }
 
-    private fun asMajorPlatformVersion(rawVersion: String) =
-        rawVersion.take(6)
+    private fun asMajorPlatformVersion(rawVersion: String) = rawVersion.take(6)
 
     private fun inferMajorPlatformVersion(rawBuildNumber: String) =
         "20${rawBuildNumber.take(2)}.${rawBuildNumber.substringBefore('.').last()}"
@@ -116,8 +112,7 @@ open class CheckIdeaVersionTask : DefaultTask() {
         val catalogDependencyLine =
             catalogFile.useLines { lines -> lines.find { it.startsWith(versionName) } }
                 ?: throw GradleException(
-                    "Unable to find IJP dependency '$versionName' in the catalog file '${catalogFile.path}'"
-                )
+                    "Unable to find IJP dependency '$versionName' in the catalog file '${catalogFile.path}'")
 
         val dependencyVersion =
             catalogDependencyLine
@@ -126,8 +121,10 @@ open class CheckIdeaVersionTask : DefaultTask() {
                 .trimEnd()
                 .trim('"')
 
-        if (!dependencyVersion.matches(ideaVersionRegex) && !dependencyVersion.matches(intelliJPlatformBuildRegex)) {
-            throw GradleException("Invalid IJ IDEA version found in version catalog: '$dependencyVersion'")
+        if (!dependencyVersion.matches(ideaVersionRegex) &&
+            !dependencyVersion.matches(intelliJPlatformBuildRegex)) {
+            throw GradleException(
+                "Invalid IJ IDEA version found in version catalog: '$dependencyVersion'")
         }
 
         return dependencyVersion
@@ -139,8 +136,7 @@ open class CheckIdeaVersionTask : DefaultTask() {
         val catalogDependencyLine =
             catalogFile.useLines { lines -> lines.find { it.startsWith(versionName) } }
                 ?: throw GradleException(
-                    "Unable to find IJP dependency '$versionName' in the catalog file '${catalogFile.path}'"
-                )
+                    "Unable to find IJP dependency '$versionName' in the catalog file '${catalogFile.path}'")
 
         val declaredPlatformBuild =
             catalogDependencyLine
@@ -150,7 +146,8 @@ open class CheckIdeaVersionTask : DefaultTask() {
                 .trim('"')
 
         if (!declaredPlatformBuild.matches(intelliJPlatformBuildRegex)) {
-            throw GradleException("Invalid IJP build found in version catalog: '$declaredPlatformBuild'")
+            throw GradleException(
+                "Invalid IJP build found in version catalog: '$declaredPlatformBuild'")
         }
 
         return declaredPlatformBuild
@@ -159,16 +156,20 @@ open class CheckIdeaVersionTask : DefaultTask() {
     private fun validateIdeaVersion(
         currentVersion: ApiIdeaReleasesItem.Release,
     ) {
-        val candidateMatches = IJPVersionsFetcher.fetchIJPVersions(releasesUrl, logger)
-            ?: throw GradleException("Can't fetch all IJP releases.")
+        val candidateMatches =
+            IJPVersionsFetcher.fetchIJPVersions(releasesUrl, logger)
+                ?: throw GradleException("Can't fetch all IJP releases.")
 
-        val match = candidateMatches.find { it.build == currentVersion.build }
-            ?: throw GradleException("IJ build ${currentVersion.build} seemingly does not exist")
+        val match =
+            candidateMatches.find { it.build == currentVersion.build }
+                ?: throw GradleException(
+                    "IJ build ${currentVersion.build} seemingly does not exist")
 
         if (currentVersion.type != "eap" && match.version != currentVersion.version) {
             throw GradleException(
                 buildString {
-                    appendLine("The 'idea' and 'intelliJPlatformBuild' properties in the catalog don't match.")
+                    appendLine(
+                        "The 'idea' and 'intelliJPlatformBuild' properties in the catalog don't match.")
                     append("'idea' = ")
                     append(currentVersion.version)
                     append(", 'intelliJPlatformBuild' = ")
@@ -176,15 +177,15 @@ open class CheckIdeaVersionTask : DefaultTask() {
                     appendLine()
                     appendLine("That build number is for version ${match.version}.")
                     appendLine("Adjust the values so they're aligned correctly.")
-                }
-            )
+                })
         }
 
         // The match's build doesn't contain the -EAP-SNAPSHOT SUFFIX
         if (currentVersion.type == "eap" && currentVersion.version != match.build) {
             throw GradleException(
                 buildString {
-                    appendLine("The 'idea' and 'intelliJPlatformBuild' properties in the catalog don't match.")
+                    appendLine(
+                        "The 'idea' and 'intelliJPlatformBuild' properties in the catalog don't match.")
                     append("'idea' = ")
                     append(currentVersion.version)
                     append(", 'intelliJPlatformBuild' = ")
@@ -193,8 +194,7 @@ open class CheckIdeaVersionTask : DefaultTask() {
                     appendLine("For non-stable IJP versions, the version and build should match,")
                     appendLine("minus the '-EAP-SNAPSHOT' suffix in the build number.")
                     appendLine("Adjust the values so they're aligned correctly.")
-                }
-            )
+                })
         }
     }
 }

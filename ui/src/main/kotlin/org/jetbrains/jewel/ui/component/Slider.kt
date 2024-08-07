@@ -68,6 +68,9 @@ import androidx.compose.ui.semantics.setProgress
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.Stroke
@@ -82,9 +85,6 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.theme.sliderStyle
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 
 // Note: a lot of code in this file is from the Material 2 implementation
 
@@ -104,10 +104,7 @@ public fun Slider(
 
     val onValueChangeState = rememberUpdatedState(onValueChange)
     val onValueChangeFinishedState = rememberUpdatedState(onValueChangeFinished)
-    val tickFractions =
-        remember(steps) {
-            stepsToTickFractions(steps)
-        }
+    val tickFractions = remember(steps) { stepsToTickFractions(steps) }
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
     val focusRequester = remember { FocusRequester() }
@@ -124,10 +121,18 @@ public fun Slider(
     BoxWithConstraints(
         modifier
             .requiredSizeIn(minWidth = thumbSize.height * 2, minHeight = minHeight)
-            .sliderSemantics(value, enabled, onValueChange, onValueChangeFinished, valueRange, steps)
+            .sliderSemantics(
+                value, enabled, onValueChange, onValueChangeFinished, valueRange, steps)
             .focusRequester(focusRequester)
             .focusable(enabled, interactionSource)
-            .slideOnKeyEvents(enabled, steps, valueRange, value, isRtl, onValueChangeState, onValueChangeFinishedState),
+            .slideOnKeyEvents(
+                enabled,
+                steps,
+                valueRange,
+                value,
+                isRtl,
+                onValueChangeState,
+                onValueChangeFinishedState),
     ) {
         val widthPx = constraints.maxWidth.toFloat()
         val maxPx: Float
@@ -138,9 +143,11 @@ public fun Slider(
             minPx = min(thumbSize.width.toPx(), maxPx)
         }
 
-        fun scaleToUserValue(offset: Float) = scale(minPx, maxPx, offset, valueRange.start, valueRange.endInclusive)
+        fun scaleToUserValue(offset: Float) =
+            scale(minPx, maxPx, offset, valueRange.start, valueRange.endInclusive)
 
-        fun scaleToOffset(userValue: Float) = scale(valueRange.start, valueRange.endInclusive, userValue, minPx, maxPx)
+        fun scaleToOffset(userValue: Float) =
+            scale(valueRange.start, valueRange.endInclusive, userValue, minPx, maxPx)
 
         val scope = rememberCoroutineScope()
         val rawOffset = remember { mutableFloatStateOf(scaleToOffset(value)) }
@@ -169,9 +176,7 @@ public fun Slider(
                         if (canAnimate) {
                             animateToTarget(draggableState, current, target, velocity)
                         } else {
-                            draggableState.drag {
-                                dragBy(target - current)
-                            }
+                            draggableState.drag { dragBy(target - current) }
                         }
                         onValueChangeFinished?.invoke()
                     }
@@ -233,15 +238,11 @@ private fun SliderImpl(
 ) {
     Box(
         modifier.then(
-            Modifier
-                .widthIn(min = SliderMinWidth)
-                .heightIn(min = minHeight),
+            Modifier.widthIn(min = SliderMinWidth).heightIn(min = minHeight),
         ),
     ) {
         val widthDp: Dp
-        with(LocalDensity.current) {
-            widthDp = width.toDp()
-        }
+        with(LocalDensity.current) { widthDp = width.toDp() }
 
         Track(
             modifier = Modifier.fillMaxWidth(),
@@ -299,7 +300,9 @@ private fun Track(
         val activeTrackStart = Offset(trackStart.x, trackYPx)
         val activeTrackEnd =
             Offset(
-                x = trackStart.x + (trackEnd.x - trackStart.x) * positionFractionEnd - thumbWidthPx / 2,
+                x =
+                    trackStart.x + (trackEnd.x - trackStart.x) * positionFractionEnd -
+                        thumbWidthPx / 2,
                 y = trackYPx,
             )
 
@@ -317,7 +320,8 @@ private fun Track(
             drawLine(
                 color = style.colors.stepMarker,
                 start = Offset(lerp(trackStart, trackEnd, fraction).x, stepMarkerY),
-                end = Offset(lerp(trackStart, trackEnd, fraction).x, stepMarkerY + stepLineHeightPx),
+                end =
+                    Offset(lerp(trackStart, trackEnd, fraction).x, stepMarkerY + stepLineHeightPx),
                 strokeWidth = stepLineWidthPx,
                 cap = StrokeCap.Round,
             )
@@ -334,8 +338,7 @@ private fun BoxScope.SliderThumb(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        Modifier
-            .padding(start = offset, top = style.metrics.thumbBorderWidth)
+        Modifier.padding(start = offset, top = style.metrics.thumbBorderWidth)
             .align(Alignment.TopStart),
     ) {
         var state by remember { mutableStateOf(SliderState.of(enabled)) }
@@ -344,13 +347,13 @@ private fun BoxScope.SliderThumb(
         LaunchedEffect(interactionSource) {
             interactionSource.interactions.collect { interaction ->
                 when (interaction) {
-                    is PressInteraction.Press, is DragInteraction.Start ->
-                        state = state.copy(pressed = true)
+                    is PressInteraction.Press,
+                    is DragInteraction.Start -> state = state.copy(pressed = true)
 
-                    is PressInteraction.Release, is PressInteraction.Cancel,
-                    is DragInteraction.Stop, is DragInteraction.Cancel,
-                    ->
-                        state = state.copy(pressed = false)
+                    is PressInteraction.Release,
+                    is PressInteraction.Cancel,
+                    is DragInteraction.Stop,
+                    is DragInteraction.Cancel, -> state = state.copy(pressed = false)
 
                     is HoverInteraction.Enter -> state = state.copy(hovered = true)
                     is HoverInteraction.Exit -> state = state.copy(hovered = false)
@@ -386,10 +389,10 @@ private fun snapValueToTick(
     // target is a closest anchor to the `current`, if exists
     tickFractions
         .minByOrNull { abs(lerp(minPx, maxPx, it) - current) }
-        ?.run { lerp(minPx, maxPx, this) }
-        ?: current
+        ?.run { lerp(minPx, maxPx, this) } ?: current
 
-private fun stepsToTickFractions(steps: Int): List<Float> = if (steps == 0) emptyList() else List(steps + 2) { it.toFloat() / (steps + 1) }
+private fun stepsToTickFractions(steps: Int): List<Float> =
+    if (steps == 0) emptyList() else List(steps + 2) { it.toFloat() / (steps + 1) }
 
 // Scale x1 from a1..b1 range to a2..b2 range
 private fun scale(
@@ -435,43 +438,44 @@ private fun Modifier.sliderSemantics(
     val coerced = value.coerceIn(valueRange.start, valueRange.endInclusive)
 
     return semantics {
-        if (!enabled) disabled()
+            if (!enabled) disabled()
 
-        setProgress(
-            action = { targetValue ->
-                var newValue = targetValue.coerceIn(valueRange.start, valueRange.endInclusive)
-                val originalVal = newValue
-                val resolvedValue =
-                    if (steps > 0) {
-                        var distance: Float = newValue
-                        for (i in 0..steps + 1) {
-                            val stepValue =
-                                lerp(
-                                    valueRange.start,
-                                    valueRange.endInclusive,
-                                    i.toFloat() / (steps + 1),
-                                )
-                            if (abs(stepValue - originalVal) <= distance) {
-                                distance = abs(stepValue - originalVal)
-                                newValue = stepValue
+            setProgress(
+                action = { targetValue ->
+                    var newValue = targetValue.coerceIn(valueRange.start, valueRange.endInclusive)
+                    val originalVal = newValue
+                    val resolvedValue =
+                        if (steps > 0) {
+                            var distance: Float = newValue
+                            for (i in 0..steps + 1) {
+                                val stepValue =
+                                    lerp(
+                                        valueRange.start,
+                                        valueRange.endInclusive,
+                                        i.toFloat() / (steps + 1),
+                                    )
+                                if (abs(stepValue - originalVal) <= distance) {
+                                    distance = abs(stepValue - originalVal)
+                                    newValue = stepValue
+                                }
                             }
+                            newValue
+                        } else {
+                            newValue
                         }
-                        newValue
+                    // This is to keep it consistent with AbsSeekbar.java: return false if no
+                    // change from current.
+                    if (resolvedValue == coerced) {
+                        false
                     } else {
-                        newValue
+                        onValueChange(resolvedValue)
+                        onValueChangeFinished?.invoke()
+                        true
                     }
-                // This is to keep it consistent with AbsSeekbar.java: return false if no
-                // change from current.
-                if (resolvedValue == coerced) {
-                    false
-                } else {
-                    onValueChange(resolvedValue)
-                    onValueChangeFinished?.invoke()
-                    true
-                }
-            },
-        )
-    }.progressSemantics(value, valueRange, steps)
+                },
+            )
+        }
+        .progressSemantics(value, valueRange, steps)
 }
 
 private fun Modifier.sliderTapModifier(
@@ -483,49 +487,50 @@ private fun Modifier.sliderTapModifier(
     gestureEndAction: State<(Float) -> Unit>,
     pressOffset: MutableState<Float>,
     enabled: Boolean,
-) = composed(
-    factory = {
-        if (enabled) {
-            val scope = rememberCoroutineScope()
-            pointerInput(draggableState, interactionSource, maxPx, isRtl) {
-                detectTapGestures(
-                    onPress = { pos ->
-                        val to = if (isRtl) maxPx - pos.x else pos.x
-                        pressOffset.value = to - rawOffset.value
-                        try {
-                            awaitRelease()
-                        } catch (_: GestureCancellationException) {
-                            pressOffset.value = 0f
-                        }
-                    },
-                    onTap = {
-                        scope.launch {
-                            draggableState.drag(MutatePriority.UserInput) {
-                                // just trigger animation, press offset will be applied
-                                dragBy(0f)
+) =
+    composed(
+        factory = {
+            if (enabled) {
+                val scope = rememberCoroutineScope()
+                pointerInput(draggableState, interactionSource, maxPx, isRtl) {
+                    detectTapGestures(
+                        onPress = { pos ->
+                            val to = if (isRtl) maxPx - pos.x else pos.x
+                            pressOffset.value = to - rawOffset.value
+                            try {
+                                awaitRelease()
+                            } catch (_: GestureCancellationException) {
+                                pressOffset.value = 0f
                             }
-                            gestureEndAction.value.invoke(0f)
-                        }
-                    },
-                )
+                        },
+                        onTap = {
+                            scope.launch {
+                                draggableState.drag(MutatePriority.UserInput) {
+                                    // just trigger animation, press offset will be applied
+                                    dragBy(0f)
+                                }
+                                gestureEndAction.value.invoke(0f)
+                            }
+                        },
+                    )
+                }
+            } else {
+                this
             }
-        } else {
-            this
-        }
-    },
-    inspectorInfo =
-        debugInspectorInfo {
-            name = "sliderTapModifier"
-            properties["draggableState"] = draggableState
-            properties["interactionSource"] = interactionSource
-            properties["maxPx"] = maxPx
-            properties["isRtl"] = isRtl
-            properties["rawOffset"] = rawOffset
-            properties["gestureEndAction"] = gestureEndAction
-            properties["pressOffset"] = pressOffset
-            properties["enabled"] = enabled
         },
-)
+        inspectorInfo =
+            debugInspectorInfo {
+                name = "sliderTapModifier"
+                properties["draggableState"] = draggableState
+                properties["interactionSource"] = interactionSource
+                properties["maxPx"] = maxPx
+                properties["isRtl"] = isRtl
+                properties["rawOffset"] = rawOffset
+                properties["gestureEndAction"] = gestureEndAction
+                properties["pressOffset"] = pressOffset
+                properties["enabled"] = enabled
+            },
+    )
 
 private val SliderToTickAnimation = TweenSpec<Float>(durationMillis = 100)
 
@@ -544,7 +549,8 @@ private suspend fun animateToTarget(
     }
 }
 
-// TODO: Edge case - losing focus on slider while key is pressed will end up with onValueChangeFinished not being invoked
+// TODO: Edge case - losing focus on slider while key is pressed will end up with
+// onValueChangeFinished not being invoked
 @OptIn(ExperimentalComposeUiApi::class)
 private fun Modifier.slideOnKeyEvents(
     enabled: Boolean,
@@ -563,9 +569,12 @@ private fun Modifier.slideOnKeyEvents(
         when (it.type) {
             KeyEventType.KeyDown -> {
                 val rangeLength = abs(valueRange.endInclusive - valueRange.start)
-                // When steps == 0, it means that a user is not limited by a step length (delta) when using touch or mouse.
-                // But it is not possible to adjust the value continuously when using keyboard buttons -
-                // the delta has to be discrete. In this case, 1% of the valueRange seems to make sense.
+                // When steps == 0, it means that a user is not limited by a step length (delta)
+                // when using touch or mouse.
+                // But it is not possible to adjust the value continuously when using keyboard
+                // buttons -
+                // the delta has to be discrete. In this case, 1% of the valueRange seems to make
+                // sense.
                 val actualSteps = if (steps > 0) steps + 1 else 100
                 val delta = rangeLength / actualSteps
                 when {
@@ -619,9 +628,14 @@ private fun Modifier.slideOnKeyEvents(
 
             KeyEventType.KeyUp -> {
                 @Suppress("ComplexCondition") // In original m2 code
-                if (it.isDirectionDown || it.isDirectionUp || it.isDirectionRight ||
-                    it.isDirectionLeft || it.isHome || it.isMoveEnd || it.isPgUp || it.isPgDn
-                ) {
+                if (it.isDirectionDown ||
+                    it.isDirectionUp ||
+                    it.isDirectionRight ||
+                    it.isDirectionLeft ||
+                    it.isHome ||
+                    it.isMoveEnd ||
+                    it.isPgUp ||
+                    it.isPgDn) {
                     onValueChangeFinishedState.value?.invoke()
                     true
                 } else {

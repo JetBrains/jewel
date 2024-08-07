@@ -48,8 +48,7 @@ public class SegmentedControlButtonColors(
             when {
                 !state.isEnabled -> contentDisabled
                 else -> content
-            }
-        )
+            })
 
     @Composable
     public fun backgroundFor(state: SegmentedControlButtonState, isFocused: Boolean): State<Brush> =
@@ -61,8 +60,7 @@ public class SegmentedControlButtonColors(
                 state.isPressed -> backgroundPressed
                 state.isHovered -> backgroundHovered
                 else -> background
-            }
-        )
+            })
 
     @Composable
     public fun borderFor(state: SegmentedControlButtonState, isFocused: Boolean): State<Brush> =
@@ -72,8 +70,7 @@ public class SegmentedControlButtonColors(
                 !state.isEnabled -> borderSelectedDisabled
                 isFocused -> borderSelectedFocused
                 else -> borderSelected
-            }
-        )
+            })
 
     public companion object
 }
@@ -106,7 +103,8 @@ private fun <T> SegmentedControlButtonState.chooseValueIgnoreCompat(
         else -> normal
     }
 
-public val LocalSegmentedControlButtonStyle: ProvidableCompositionLocal<SegmentedControlButtonStyle> =
+public val LocalSegmentedControlButtonStyle:
+    ProvidableCompositionLocal<SegmentedControlButtonStyle> =
     staticCompositionLocalOf {
         error("No LocalSegmentedControlButtonStyle provided. Have you forgotten the theme?")
     }

@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import java.awt.Window
+import kotlin.math.max
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
@@ -47,8 +49,6 @@ import org.jetbrains.jewel.ui.util.isDark
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import org.jetbrains.jewel.window.utils.DesktopPlatform
 import org.jetbrains.jewel.window.utils.macos.MacUtil
-import java.awt.Window
-import kotlin.math.max
 
 internal const val TITLE_BAR_COMPONENT_LAYOUT_ID_PREFIX = "__TITLE_BAR_"
 
@@ -67,7 +67,8 @@ public fun DecoratedWindowScope.TitleBar(
         DesktopPlatform.Linux -> TitleBarOnLinux(modifier, gradientStartColor, style, content)
         DesktopPlatform.Windows -> TitleBarOnWindows(modifier, gradientStartColor, style, content)
         DesktopPlatform.MacOS -> TitleBarOnMacOs(modifier, gradientStartColor, style, content)
-        DesktopPlatform.Unknown -> error("TitleBar is not supported on this platform(${System.getProperty("os.name")})")
+        DesktopPlatform.Unknown ->
+            error("TitleBar is not supported on this platform(${System.getProperty("os.name")})")
     }
 }
 
@@ -116,7 +117,8 @@ internal fun DecoratedWindowScope.TitleBarImpl(
             }
         },
         modifier =
-            modifier.background(backgroundBrush)
+            modifier
+                .background(backgroundBrush)
                 .focusProperties { canFocus = false }
                 .layoutId(TITLE_BAR_LAYOUT_ID)
                 .height(style.metrics.height)
@@ -158,7 +160,8 @@ internal class TitleBarMeasurePolicy(
         val measuredPlaceable = mutableListOf<Pair<Measurable, Placeable>>()
 
         for (it in measurables) {
-            val placeable = it.measure(contentConstraints.offset(horizontal = -occupiedSpaceHorizontally))
+            val placeable =
+                it.measure(contentConstraints.offset(horizontal = -occupiedSpaceHorizontally))
             if (constraints.maxWidth < occupiedSpaceHorizontally + placeable.width) {
                 break
             }
@@ -237,17 +240,14 @@ internal fun rememberTitleBarMeasurePolicy(
     state: DecoratedWindowState,
     applyTitleBar: (Dp, DecoratedWindowState) -> PaddingValues,
 ): MeasurePolicy =
-    remember(window, state, applyTitleBar) {
-        TitleBarMeasurePolicy(window, state, applyTitleBar)
-    }
+    remember(window, state, applyTitleBar) { TitleBarMeasurePolicy(window, state, applyTitleBar) }
 
 public interface TitleBarScope {
     public val title: String
 
     public val icon: Painter?
 
-    @Stable
-    public fun Modifier.align(alignment: Alignment.Horizontal): Modifier
+    @Stable public fun Modifier.align(alignment: Alignment.Horizontal): Modifier
 }
 
 private class TitleBarScopeImpl(

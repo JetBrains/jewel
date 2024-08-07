@@ -17,9 +17,7 @@ import org.junit.Test
 
 class GitHubAlertBlockExtensionTest {
     private val parser =
-        Parser.builder()
-            .extensions(listOf(GitHubAlertProcessorExtension.parserExtension))
-            .build()
+        Parser.builder().extensions(listOf(GitHubAlertProcessorExtension.parserExtension)).build()
 
     private val renderer =
         TextContentRenderer.builder()
@@ -552,11 +550,10 @@ class GitHubAlertBlockExtensionTest {
 }
 
 private val Node.children: List<Node>
-    get() =
-        buildList {
-            var nextChild = firstChild
-            while (nextChild != null) {
-                add(nextChild)
-                nextChild = nextChild.next
-            }
+    get() = buildList {
+        var nextChild = firstChild
+        while (nextChild != null) {
+            add(nextChild)
+            nextChild = nextChild.next
         }
+    }

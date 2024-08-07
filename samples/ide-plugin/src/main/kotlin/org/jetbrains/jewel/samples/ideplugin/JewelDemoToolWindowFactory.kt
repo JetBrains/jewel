@@ -7,6 +7,7 @@ import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.util.NlsContexts.TabTitle
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
+import javax.swing.JComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,7 +16,6 @@ import kotlinx.coroutines.cancel
 import org.jetbrains.jewel.bridge.addComposeTab
 import org.jetbrains.jewel.samples.ideplugin.releasessample.ReleasesSampleCompose
 import org.jetbrains.jewel.samples.ideplugin.releasessample.ReleasesSamplePanel
-import javax.swing.JComponent
 
 @Suppress("unused")
 @ExperimentalCoroutinesApi
@@ -24,18 +24,14 @@ internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
         project: Project,
         toolWindow: ToolWindow,
     ) {
-        toolWindow.addComposeTab("Components") {
-            ComponentShowcaseTab()
-        }
+        toolWindow.addComposeTab("Components") { ComponentShowcaseTab() }
 
         toolWindow.addSwingTab(
             ReleasesSamplePanel(toolWindow.disposable.createCoroutineScope()),
             "Swing Sample",
         )
 
-        toolWindow.addComposeTab("Compose Sample") {
-            ReleasesSampleCompose(project)
-        }
+        toolWindow.addComposeTab("Compose Sample") { ReleasesSampleCompose(project) }
 
         toolWindow.addSwingTab(SwingComparisonTabPanel(), "Swing Comparison")
     }

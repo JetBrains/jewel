@@ -35,26 +35,23 @@ internal object IntUiThemeDescriptorReader {
                     TypeSpec.objectBuilder(className)
                         .apply {
                             addSuperinterface(
-                                ClassName.bestGuess("org.jetbrains.jewel.foundation.theme.ThemeDescriptor")
-                            )
+                                ClassName.bestGuess(
+                                    "org.jetbrains.jewel.foundation.theme.ThemeDescriptor"))
 
                             addProperty(
                                 PropertySpec.builder("isDark", Boolean::class, KModifier.OVERRIDE)
                                     .initializer("%L", themeDescriptor.dark)
-                                    .build()
-                            )
+                                    .build())
 
                             addProperty(
                                 PropertySpec.builder("name", String::class, KModifier.OVERRIDE)
                                     .initializer("\"%L (Int UI)\"", themeDescriptor.name)
-                                    .build()
-                            )
+                                    .build())
 
                             readColors(themeDescriptor.colors)
                             readIcons(themeDescriptor)
                         }
-                        .build()
-                )
+                        .build())
             }
             .build()
 
@@ -64,35 +61,35 @@ internal object IntUiThemeDescriptorReader {
         ClassName.bestGuess("org.jetbrains.jewel.foundation.theme.ThemeIconData")
 
     private fun TypeSpec.Builder.readColors(colors: Map<String, String>) {
-        val colorGroups = colors.entries
-            .groupBy { it.key.replace("""\d+""".toRegex(), "") }
-            .filterKeys { colorGroups.contains(it) }
-            .map { (groupName, colors) ->
-                // We assume color lists are in the same order as in colorGroups
-                colors
-                    .map { (_, value) ->
-                        val colorHexString = value.replace("#", "0xFF")
-                        CodeBlock.of("Color(%L)", colorHexString)
-                    }
-                    .joinToCode(
-                        prefix = "\n${groupName.lowercase()} = listOf(\n",
-                        separator = ",\n",
-                        suffix = "\n)"
-                    )
-            }
+        val colorGroups =
+            colors.entries
+                .groupBy { it.key.replace("""\d+""".toRegex(), "") }
+                .filterKeys { colorGroups.contains(it) }
+                .map { (groupName, colors) ->
+                    // We assume color lists are in the same order as in colorGroups
+                    colors
+                        .map { (_, value) ->
+                            val colorHexString = value.replace("#", "0xFF")
+                            CodeBlock.of("Color(%L)", colorHexString)
+                        }
+                        .joinToCode(
+                            prefix = "\n${groupName.lowercase()} = listOf(\n",
+                            separator = ",\n",
+                            suffix = "\n)")
+                }
 
-        val rawMap = colors
-            .map { (key, value) ->
-                val colorHexString = value.replace("#", "0xFF")
-                CodeBlock.of("%S to Color(%L)", key, colorHexString)
-            }
-            .joinToCode(prefix = "\nrawMap = mapOf(\n", separator = ",\n", suffix = "\n)")
+        val rawMap =
+            colors
+                .map { (key, value) ->
+                    val colorHexString = value.replace("#", "0xFF")
+                    CodeBlock.of("%S to Color(%L)", key, colorHexString)
+                }
+                .joinToCode(prefix = "\nrawMap = mapOf(\n", separator = ",\n", suffix = "\n)")
 
         addProperty(
             PropertySpec.builder("colors", colorPaletteClassName, KModifier.OVERRIDE)
                 .initializer("ThemeColorPalette(%L,\n%L\n)", colorGroups.joinToCode(","), rawMap)
-                .build()
-        )
+                .build())
     }
 
     private fun TypeSpec.Builder.readIcons(theme: IntellijThemeDescriptor) {
@@ -125,13 +122,12 @@ internal object IntUiThemeDescriptorReader {
                         iconOverridesBlock,
                         colorPalette.toMapCodeBlock(),
                         selectionColorPaletteBlock,
-                    )
-                )
-                .build()
-        )
+                    ))
+                .build())
     }
 
     private inline fun <reified K, reified V> Map<K, V>.toMapCodeBlock() =
-        entries.map { (key, value) -> CodeBlock.of("\"%L\" to \"%L\"", key, value) }
+        entries
+            .map { (key, value) -> CodeBlock.of("\"%L\" to \"%L\"", key, value) }
             .joinToCode(prefix = "mapOf(", separator = ",\n", suffix = ")")
 }

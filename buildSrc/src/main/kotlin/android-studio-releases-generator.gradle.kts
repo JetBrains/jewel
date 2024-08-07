@@ -10,13 +10,13 @@ import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 
 val extension: StudioVersionsGenerationExtension =
     extensions.findByType<StudioVersionsGenerationExtension>()
-        ?: extensions.create("androidStudioReleasesGenerator", StudioVersionsGenerationExtension::class.java)
+        ?: extensions.create(
+            "androidStudioReleasesGenerator", StudioVersionsGenerationExtension::class.java)
 
 val task =
     tasks.register<AndroidStudioReleasesGeneratorTask>("generateAndroidStudioReleasesList") {
         val className = ClassName.bestGuess(STUDIO_RELEASES_OUTPUT_CLASS_NAME)
-        val filePath = className.packageName.replace(".", "/") +
-            "/${className.simpleName}.kt"
+        val filePath = className.packageName.replace(".", "/") + "/${className.simpleName}.kt"
         outputFile = extension.targetDir.file(filePath)
         dataUrl = extension.dataUrl
         resourcesDirs = extension.resourcesDirs

@@ -139,7 +139,6 @@ public class ChipMetrics(
     public companion object
 }
 
-public val LocalChipStyle: ProvidableCompositionLocal<ChipStyle> =
-    staticCompositionLocalOf {
-        error("No ChipStyle provided. Have you forgotten the theme?")
-    }
+public val LocalChipStyle: ProvidableCompositionLocal<ChipStyle> = staticCompositionLocalOf {
+    error("No ChipStyle provided. Have you forgotten the theme?")
+}

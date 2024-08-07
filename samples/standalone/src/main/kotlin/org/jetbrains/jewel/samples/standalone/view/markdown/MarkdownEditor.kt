@@ -30,6 +30,7 @@ import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.PopupMenu
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
+import org.jetbrains.jewel.ui.painter.PainterHint
 
 @Composable
 internal fun MarkdownEditor(
@@ -39,7 +40,10 @@ internal fun MarkdownEditor(
 ) {
     Column(modifier) {
         ControlsRow(
-            modifier = Modifier.fillMaxWidth().background(JewelTheme.globalColors.panelBackground).padding(8.dp),
+            modifier =
+                Modifier.fillMaxWidth()
+                    .background(JewelTheme.globalColors.panelBackground)
+                    .padding(8.dp),
             onMarkdownChange = onMarkdownChange,
         )
         Divider(orientation = Orientation.Horizontal)
@@ -86,39 +90,43 @@ private fun ControlsRow(
             OutlinedButton(onClick = { showPresets = true }) {
                 Text("Load preset")
                 Spacer(Modifier.width(8.dp))
-                Icon(
-                    resource = "expui/general/chevronDown.svg",
-                    contentDescription = null,
-                    iconClass = StandaloneSampleIcons::class.java,
-                )
+              Icon(
+                  PathIconKey(
+                      "expui/general/chevronDown.svg",
+                      StandaloneSampleIcons::class.java
+                  ), null,
+                  Color.Unspecified, Modifier, arrayOf<PainterHint>()
+              )
             }
 
             if (showPresets) {
                 var selected by remember { mutableStateOf("Jewel readme") }
-                PopupMenu(onDismissRequest = {
-                    showPresets = false
-                    false
-                }, horizontalAlignment = Alignment.Start) {
-                    selectableItem(
-                        selected = selected == "Jewel readme",
-                        onClick = {
-                            selected = "Jewel readme"
-                            onMarkdownChange(JewelReadme)
-                        },
-                    ) {
-                        Text("Jewel readme")
-                    }
+                PopupMenu(
+                    onDismissRequest = {
+                        showPresets = false
+                        false
+                    },
+                    horizontalAlignment = Alignment.Start) {
+                        selectableItem(
+                            selected = selected == "Jewel readme",
+                            onClick = {
+                                selected = "Jewel readme"
+                                onMarkdownChange(JewelReadme)
+                            },
+                        ) {
+                            Text("Jewel readme")
+                        }
 
-                    selectableItem(
-                        selected = selected == "Markdown catalog",
-                        onClick = {
-                            selected = "Markdown catalog"
-                            onMarkdownChange(MarkdownCatalog)
-                        },
-                    ) {
-                        Text("Markdown catalog")
+                        selectableItem(
+                            selected = selected == "Markdown catalog",
+                            onClick = {
+                                selected = "Markdown catalog"
+                                onMarkdownChange(MarkdownCatalog)
+                            },
+                        ) {
+                            Text("Markdown catalog")
+                        }
                     }
-                }
             }
         }
     }

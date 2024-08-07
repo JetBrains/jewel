@@ -296,13 +296,11 @@ internal val InfoPosition.verticalAlignment
         when (this) {
             TopStart,
             TopCenter,
-            TopEnd,
-            -> Alignment.Top
+            TopEnd, -> Alignment.Top
 
             BottomStart,
             BottomCenter,
-            BottomEnd,
-            -> Alignment.Bottom
+            BottomEnd, -> Alignment.Bottom
 
             Hide -> null
         }
@@ -311,16 +309,13 @@ internal val InfoPosition.horizontalAlignment
     get() =
         when (this) {
             TopStart,
-            BottomStart,
-            -> Alignment.Start
+            BottomStart, -> Alignment.Start
 
             TopCenter,
-            BottomCenter,
-            -> Alignment.CenterHorizontally
+            BottomCenter, -> Alignment.CenterHorizontally
 
             TopEnd,
-            BottomEnd,
-            -> Alignment.End
+            BottomEnd, -> Alignment.End
 
             Hide -> null
         }

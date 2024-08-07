@@ -26,4 +26,5 @@ private val disabledColorMatrixGammaEncoded =
         this[2, 2] = blueFactor
     }
 
-public fun ColorFilter.Companion.disabled(): ColorFilter = colorMatrix(disabledColorMatrixGammaEncoded)
+public fun ColorFilter.Companion.disabled(): ColorFilter =
+    colorMatrix(disabledColorMatrixGammaEncoded)

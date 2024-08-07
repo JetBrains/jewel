@@ -53,11 +53,14 @@ public class GitHubAlertBlockRenderer(
         val alert = block as? Alert
 
         when (alert) {
-            is Caution -> Alert(alert, styling.caution, enabled, blockRenderer, onUrlClick, onTextClick)
-            is Important -> Alert(alert, styling.important, enabled, blockRenderer, onUrlClick, onTextClick)
+            is Caution ->
+                Alert(alert, styling.caution, enabled, blockRenderer, onUrlClick, onTextClick)
+            is Important ->
+                Alert(alert, styling.important, enabled, blockRenderer, onUrlClick, onTextClick)
             is Note -> Alert(alert, styling.note, enabled, blockRenderer, onUrlClick, onTextClick)
             is Tip -> Alert(alert, styling.tip, enabled, blockRenderer, onUrlClick, onTextClick)
-            is Warning -> Alert(alert, styling.warning, enabled, blockRenderer, onUrlClick, onTextClick)
+            is Warning ->
+                Alert(alert, styling.warning, enabled, blockRenderer, onUrlClick, onTextClick)
             else -> error("Unsupported block of type ${block.javaClass.name} cannot be rendered")
         }
     }
@@ -73,19 +76,19 @@ public class GitHubAlertBlockRenderer(
     ) {
         Column(
             Modifier.drawBehind {
-                val isLtr = layoutDirection == Ltr
-                val lineWidthPx = styling.lineWidth.toPx()
-                val x = if (isLtr) lineWidthPx / 2 else size.width - lineWidthPx / 2
+                    val isLtr = layoutDirection == Ltr
+                    val lineWidthPx = styling.lineWidth.toPx()
+                    val x = if (isLtr) lineWidthPx / 2 else size.width - lineWidthPx / 2
 
-                drawLine(
-                    styling.lineColor,
-                    Offset(x, 0f),
-                    Offset(x, size.height),
-                    lineWidthPx,
-                    styling.strokeCap,
-                    styling.pathEffect,
-                )
-            }
+                    drawLine(
+                        styling.lineColor,
+                        Offset(x, 0f),
+                        Offset(x, size.height),
+                        lineWidthPx,
+                        styling.strokeCap,
+                        styling.pathEffect,
+                    )
+                }
                 .padding(styling.padding),
             verticalArrangement = Arrangement.spacedBy(rootStyling.blockVerticalSpacing),
         ) {
@@ -119,12 +122,15 @@ public class GitHubAlertBlockRenderer(
                     Text(
                         text = block.javaClass.simpleName,
                         style = styling.titleTextStyle,
-                        modifier = Modifier.pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+                        modifier =
+                            Modifier.pointerHoverIcon(
+                                PointerIcon.Default, overrideDescendants = true),
                     )
                 }
             }
             CompositionLocalProvider(
-                LocalContentColor provides styling.textColor.takeOrElse { LocalContentColor.current },
+                LocalContentColor provides
+                    styling.textColor.takeOrElse { LocalContentColor.current },
             ) {
                 blockRenderer.render(block.content, enabled, onUrlClick, onTextClick)
             }

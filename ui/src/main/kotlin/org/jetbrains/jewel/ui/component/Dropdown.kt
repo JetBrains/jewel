@@ -63,9 +63,8 @@ public fun Dropdown(
     var expanded by remember { mutableStateOf(false) }
     var skipNextClick by remember { mutableStateOf(false) }
 
-    var dropdownState by remember(interactionSource) {
-        mutableStateOf(DropdownState.of(enabled = enabled))
-    }
+    var dropdownState by
+        remember(interactionSource) { mutableStateOf(DropdownState.of(enabled = enabled)) }
 
     remember(enabled) { dropdownState = dropdownState.copy(enabled = enabled) }
 
@@ -74,8 +73,7 @@ public fun Dropdown(
             when (interaction) {
                 is PressInteraction.Press -> dropdownState = dropdownState.copy(pressed = true)
                 is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                -> dropdownState = dropdownState.copy(pressed = false)
+                is PressInteraction.Release, -> dropdownState = dropdownState.copy(pressed = false)
                 is HoverInteraction.Enter -> dropdownState = dropdownState.copy(hovered = true)
                 is HoverInteraction.Exit -> dropdownState = dropdownState.copy(hovered = false)
                 is FocusInteraction.Focus -> dropdownState = dropdownState.copy(focused = true)
@@ -120,28 +118,28 @@ public fun Dropdown(
                 .onSizeChanged { componentWidth = it.width },
         contentAlignment = Alignment.CenterStart,
     ) {
-        CompositionLocalProvider(LocalContentColor provides colors.contentFor(dropdownState).value) {
-            Box(
-                modifier =
-                    Modifier.fillMaxWidth()
-                        .padding(style.metrics.contentPadding)
-                        .padding(end = arrowMinSize.width),
-                contentAlignment = Alignment.CenterStart,
-                content = content,
-            )
-
-            Box(
-                modifier = Modifier.size(arrowMinSize).align(Alignment.CenterEnd),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    key = style.icons.chevronDown,
-                    contentDescription = null,
-                    tint = colors.iconTintFor(dropdownState).value,
-                    hint = Stateful(dropdownState)
+        CompositionLocalProvider(
+            LocalContentColor provides colors.contentFor(dropdownState).value) {
+                Box(
+                    modifier =
+                        Modifier.fillMaxWidth()
+                            .padding(style.metrics.contentPadding)
+                            .padding(end = arrowMinSize.width),
+                    contentAlignment = Alignment.CenterStart,
+                    content = content,
                 )
+
+                Box(
+                    modifier = Modifier.size(arrowMinSize).align(Alignment.CenterEnd),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        key = style.icons.chevronDown,
+                        contentDescription = null,
+                        tint = colors.iconTintFor(dropdownState).value,
+                        hint = Stateful(dropdownState))
+                }
             }
-        }
 
         if (expanded) {
             val density = LocalDensity.current
@@ -154,7 +152,8 @@ public fun Dropdown(
                     true
                 },
                 modifier =
-                    menuModifier.focusProperties { canFocus = true }
+                    menuModifier
+                        .focusProperties { canFocus = true }
                         .defaultMinSize(minWidth = with(density) { componentWidth.toDp() }),
                 style = style.menuStyle,
                 horizontalAlignment = Alignment.Start,

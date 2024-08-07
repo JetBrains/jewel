@@ -1,16 +1,15 @@
 package org.jetbrains.jewel.foundation.util
 
-import org.jetbrains.annotations.ApiStatus
 import java.lang.reflect.Method
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
+import org.jetbrains.annotations.ApiStatus
 
-public inline fun <reified T : Any> T.myLogger(): JewelLogger = JewelLogger.getInstance(T::class.java)
+public inline fun <reified T : Any> T.myLogger(): JewelLogger =
+    JewelLogger.getInstance(T::class.java)
 
-/**
- * A wrapper which uses either IDE logging subsystem (if available) or java.util.logging.
- */
+/** A wrapper which uses either IDE logging subsystem (if available) or java.util.logging. */
 @ApiStatus.NonExtendable
 @Suppress("OptionalUnit")
 public abstract class JewelLogger {
@@ -136,8 +135,7 @@ public abstract class JewelLogger {
                     ) {
                         try {
                             this@ReflectionBasedFactory.trace(message, t, logger)
-                        } catch (ignored: Exception) {
-                        }
+                        } catch (ignored: Exception) {}
                     }
 
                     override fun debug(
@@ -146,8 +144,7 @@ public abstract class JewelLogger {
                     ) {
                         try {
                             this@ReflectionBasedFactory.debug(message, t, logger)
-                        } catch (ignored: Exception) {
-                        }
+                        } catch (ignored: Exception) {}
                     }
 
                     override fun info(
@@ -156,8 +153,7 @@ public abstract class JewelLogger {
                     ) {
                         try {
                             this@ReflectionBasedFactory.info(message, t, logger)
-                        } catch (ignored: Exception) {
-                        }
+                        } catch (ignored: Exception) {}
                     }
 
                     override fun warn(
@@ -166,8 +162,7 @@ public abstract class JewelLogger {
                     ) {
                         try {
                             this@ReflectionBasedFactory.warn(message, t, logger)
-                        } catch (ignored: Exception) {
-                        }
+                        } catch (ignored: Exception) {}
                     }
 
                     override fun error(
@@ -176,8 +171,7 @@ public abstract class JewelLogger {
                     ) {
                         try {
                             this@ReflectionBasedFactory.error(message, t, logger)
-                        } catch (ignored: Exception) {
-                        }
+                        } catch (ignored: Exception) {}
                     }
                 }
             } catch (e: Exception) {
@@ -220,8 +214,7 @@ public abstract class JewelLogger {
             logger: Any?,
         )
 
-        @Throws(Exception::class)
-        protected abstract fun getLogger(category: String?): Any
+        @Throws(Exception::class) protected abstract fun getLogger(category: String?): Any
     }
 
     private class IdeaFactory : ReflectionBasedFactory() {
@@ -373,8 +366,7 @@ public abstract class JewelLogger {
     }
 
     public companion object {
-        @get:Synchronized
-        private val factory: Factory = createFactory()
+        @get:Synchronized private val factory: Factory = createFactory()
 
         @Suppress("SwallowedException", "TooGenericExceptionCaught")
         private fun createFactory(): Factory =

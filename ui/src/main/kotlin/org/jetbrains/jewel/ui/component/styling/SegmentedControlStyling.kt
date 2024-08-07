@@ -44,8 +44,7 @@ public class SegmentedControlColors(
                         hovered = borderHovered,
                         active = border,
                     )
-            }
-        )
+            })
 
     public companion object
 }

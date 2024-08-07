@@ -79,11 +79,12 @@ public fun Markdown(
 ) {
     if (selectable) {
         SelectionContainer(modifier.semantics { rawMarkdown = markdown }) {
-            Column(verticalArrangement = Arrangement.spacedBy(markdownStyling.blockVerticalSpacing)) {
-                for (block in markdownBlocks) {
-                    blockRenderer.render(block, enabled, onUrlClick, onTextClick)
+            Column(
+                verticalArrangement = Arrangement.spacedBy(markdownStyling.blockVerticalSpacing)) {
+                    for (block in markdownBlocks) {
+                        blockRenderer.render(block, enabled, onUrlClick, onTextClick)
+                    }
                 }
-            }
         }
     } else {
         Column(

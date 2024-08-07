@@ -1,6 +1,8 @@
 package org.jetbrains.jewel.buildlogic.demodata
 
 import com.squareup.kotlinpoet.ClassName
+import java.io.File
+import java.net.URI
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.gradle.api.DefaultTask
@@ -17,8 +19,6 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.property
 import org.gradle.kotlin.dsl.setProperty
-import java.io.File
-import java.net.URI
 
 open class StudioVersionsGenerationExtension(project: Project) {
 
@@ -30,15 +30,18 @@ open class StudioVersionsGenerationExtension(project: Project) {
     val resourcesDirs: SetProperty<File> =
         project.objects
             .setProperty<File>()
-            .convention(project.provider {
-                when {
-                    project.plugins.hasPlugin("org.gradle.jvm-ecosystem") ->
-                        project.extensions.getByType<SourceSetContainer>()["main"]
-                            .resources.srcDirs
+            .convention(
+                project.provider {
+                    when {
+                        project.plugins.hasPlugin("org.gradle.jvm-ecosystem") ->
+                            project.extensions
+                                .getByType<SourceSetContainer>()["main"]
+                                .resources
+                                .srcDirs
 
-                    else -> emptySet()
-                }
-            })
+                        else -> emptySet()
+                    }
+                })
 
     val dataUrl: Property<String> =
         project.objects
@@ -51,14 +54,11 @@ internal const val STUDIO_RELEASES_OUTPUT_CLASS_NAME =
 
 open class AndroidStudioReleasesGeneratorTask : DefaultTask() {
 
-    @get:OutputFile
-    val outputFile: RegularFileProperty = project.objects.fileProperty()
+    @get:OutputFile val outputFile: RegularFileProperty = project.objects.fileProperty()
 
-    @get:Input
-    val dataUrl = project.objects.property<String>()
+    @get:Input val dataUrl = project.objects.property<String>()
 
-    @get:Input
-    val resourcesDirs = project.objects.setProperty<File>()
+    @get:Input val resourcesDirs = project.objects.setProperty<File>()
 
     init {
         group = "jewel"
@@ -76,16 +76,18 @@ open class AndroidStudioReleasesGeneratorTask : DefaultTask() {
         logger.lifecycle("Fetching Android Studio releases list from $url...")
         logger.debug(
             "Registered resources directories:\n" +
-                lookupDirs.joinToString("\n") { " * ${it.absolutePath}" }
-        )
-        val releases = URI.create(url).toURL().openStream()
-            .use { json.decodeFromStream<ApiAndroidStudioReleases>(it) }
+                lookupDirs.joinToString("\n") { " * ${it.absolutePath}" })
+        val releases =
+            URI.create(url).toURL().openStream().use {
+                json.decodeFromStream<ApiAndroidStudioReleases>(it)
+            }
 
         val className = ClassName.bestGuess(STUDIO_RELEASES_OUTPUT_CLASS_NAME)
         val file = AndroidStudioReleasesReader.readFrom(releases, className, url, lookupDirs)
 
         val outputFile = outputFile.get().asFile
         outputFile.bufferedWriter().use { file.writeTo(it) }
-        logger.lifecycle("Android Studio releases from $url parsed and code generated into ${outputFile.path}")
+        logger.lifecycle(
+            "Android Studio releases from $url parsed and code generated into ${outputFile.path}")
     }
 }

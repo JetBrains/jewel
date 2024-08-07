@@ -46,7 +46,9 @@ public fun MarkdownStyling.Companion.light(
         InlinesStyling.light(
             baseTextStyle,
             editorTextStyle
-                .copy(fontSize = baseTextStyle.fontSize * .85, background = inlineCodeBackgroundColorLight)
+                .copy(
+                    fontSize = baseTextStyle.fontSize * .85,
+                    background = inlineCodeBackgroundColorLight)
                 .toSpanStyle(),
         ),
     blockVerticalSpacing: Dp = 16.dp,
@@ -78,7 +80,9 @@ public fun MarkdownStyling.Companion.dark(
         InlinesStyling.dark(
             baseTextStyle,
             editorTextStyle
-                .copy(fontSize = baseTextStyle.fontSize * .85, background = inlineCodeBackgroundColorDark)
+                .copy(
+                    fontSize = baseTextStyle.fontSize * .85,
+                    background = inlineCodeBackgroundColorDark)
                 .toSpanStyle(),
         ),
     blockVerticalSpacing: Dp = 16.dp,
@@ -103,9 +107,13 @@ public fun MarkdownStyling.Companion.dark(
         htmlBlock,
     )
 
-public fun Paragraph.Companion.light(inlinesStyling: InlinesStyling = InlinesStyling.light()): Paragraph = Paragraph(inlinesStyling)
+public fun Paragraph.Companion.light(
+    inlinesStyling: InlinesStyling = InlinesStyling.light()
+): Paragraph = Paragraph(inlinesStyling)
 
-public fun Paragraph.Companion.dark(inlinesStyling: InlinesStyling = InlinesStyling.dark()): Paragraph = Paragraph(inlinesStyling)
+public fun Paragraph.Companion.dark(
+    inlinesStyling: InlinesStyling = InlinesStyling.dark()
+): Paragraph = Paragraph(inlinesStyling)
 
 public fun Heading.Companion.light(
     baseTextStyle: TextStyle = defaultTextStyle,
@@ -412,13 +420,15 @@ public fun BlockQuote.Companion.dark(
 public fun List.Companion.light(
     baseTextStyle: TextStyle = defaultTextStyle,
     ordered: Ordered = Ordered.light(numberStyle = baseTextStyle),
-    unordered: Unordered = Unordered.light(bulletStyle = baseTextStyle.copy(fontWeight = FontWeight.Black)),
+    unordered: Unordered =
+        Unordered.light(bulletStyle = baseTextStyle.copy(fontWeight = FontWeight.Black)),
 ): List = List(ordered, unordered)
 
 public fun List.Companion.dark(
     baseTextStyle: TextStyle = defaultTextStyle,
     ordered: Ordered = Ordered.dark(numberStyle = baseTextStyle),
-    unordered: Unordered = Unordered.dark(bulletStyle = baseTextStyle.copy(fontWeight = FontWeight.Black)),
+    unordered: Unordered =
+        Unordered.dark(bulletStyle = baseTextStyle.copy(fontWeight = FontWeight.Black)),
 ): List = List(ordered, unordered)
 
 public fun Ordered.Companion.light(
@@ -650,10 +660,12 @@ public fun InlinesStyling.Companion.light(
             .copy(fontSize = textStyle.fontSize * .85, background = inlineCodeBackgroundColorLight)
             .toSpanStyle(),
     link: SpanStyle =
-        textStyle.copy(
-            color = IntUiLightTheme.colors.blue(2),
-            textDecoration = TextDecoration.Underline,
-        ).toSpanStyle(),
+        textStyle
+            .copy(
+                color = IntUiLightTheme.colors.blue(2),
+                textDecoration = TextDecoration.Underline,
+            )
+            .toSpanStyle(),
     linkDisabled: SpanStyle = link.copy(color = IntUiLightTheme.colors.gray(8)),
     linkHovered: SpanStyle = link,
     linkFocused: SpanStyle = link.copy(background = Color(0x12000000)),
@@ -686,10 +698,12 @@ public fun InlinesStyling.Companion.dark(
             .copy(fontSize = textStyle.fontSize * .85, background = inlineCodeBackgroundColorDark)
             .toSpanStyle(),
     link: SpanStyle =
-        textStyle.copy(
-            color = IntUiDarkTheme.colors.blue(9),
-            textDecoration = TextDecoration.Underline,
-        ).toSpanStyle(),
+        textStyle
+            .copy(
+                color = IntUiDarkTheme.colors.blue(9),
+                textDecoration = TextDecoration.Underline,
+            )
+            .toSpanStyle(),
     linkDisabled: SpanStyle = link.copy(color = IntUiDarkTheme.colors.gray(8)),
     linkHovered: SpanStyle = link,
     linkFocused: SpanStyle = link.copy(background = Color(0x16FFFFFF)),
@@ -739,5 +753,4 @@ private val defaultEditorTextStyle
 
 private val inlineCodeBackgroundColorLight =
     Color(red = 212, green = 222, blue = 231, alpha = 255 / 4)
-private val inlineCodeBackgroundColorDark =
-    Color(red = 212, green = 222, blue = 231, alpha = 25)
+private val inlineCodeBackgroundColorDark = Color(red = 212, green = 222, blue = 231, alpha = 25)

@@ -5,27 +5,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarColors
 import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarMetrics
 import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 public fun HorizontalProgressBarStyle.Companion.light(
     colors: HorizontalProgressBarColors = HorizontalProgressBarColors.light(),
     metrics: HorizontalProgressBarMetrics = HorizontalProgressBarMetrics.defaults(),
     indeterminateCycleDuration: Duration = 800.milliseconds,
-): HorizontalProgressBarStyle = HorizontalProgressBarStyle(colors, metrics, indeterminateCycleDuration)
+): HorizontalProgressBarStyle =
+    HorizontalProgressBarStyle(colors, metrics, indeterminateCycleDuration)
 
 @Composable
 public fun HorizontalProgressBarStyle.Companion.dark(
     colors: HorizontalProgressBarColors = HorizontalProgressBarColors.dark(),
     metrics: HorizontalProgressBarMetrics = HorizontalProgressBarMetrics.defaults(),
     indeterminateCycleDuration: Duration = 800.milliseconds,
-): HorizontalProgressBarStyle = HorizontalProgressBarStyle(colors, metrics, indeterminateCycleDuration)
+): HorizontalProgressBarStyle =
+    HorizontalProgressBarStyle(colors, metrics, indeterminateCycleDuration)
 
 @Composable
 public fun HorizontalProgressBarColors.Companion.light(
@@ -59,4 +61,5 @@ public fun HorizontalProgressBarMetrics.Companion.defaults(
     cornerSize: CornerSize = CornerSize(100),
     minHeight: Dp = 4.dp,
     indeterminateHighlightWidth: Dp = 140.dp,
-): HorizontalProgressBarMetrics = HorizontalProgressBarMetrics(cornerSize, minHeight, indeterminateHighlightWidth)
+): HorizontalProgressBarMetrics =
+    HorizontalProgressBarMetrics(cornerSize, minHeight, indeterminateHighlightWidth)

@@ -57,21 +57,22 @@ internal fun SegmentedControlButton(
             SegmentedControlButtonState.of(
                 selected = segmentedControlButtonData.selected,
                 active = isActive,
-                enabled = enabled
-            )
-        )
+                enabled = enabled))
     }
     remember(segmentedControlButtonData.selected, enabled, isActive) {
         buttonState =
-            buttonState.copy(selected = segmentedControlButtonData.selected, active = isActive, enabled = enabled)
+            buttonState.copy(
+                selected = segmentedControlButtonData.selected,
+                active = isActive,
+                enabled = enabled)
     }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> buttonState = buttonState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release ->
-                    buttonState = buttonState.copy(pressed = false)
+                is PressInteraction.Cancel,
+                is PressInteraction.Release -> buttonState = buttonState.copy(pressed = false)
 
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
@@ -85,25 +86,31 @@ internal fun SegmentedControlButton(
     val borderColor by colors.borderFor(buttonState, isFocused)
 
     Box(
-        modifier = modifier
-            .focusProperties { canFocus = false }
-            .selectable(
-                selected = buttonState.isSelected,
-                interactionSource = interactionSource,
-                enabled = enabled,
-                indication = null,
-                role = Role.Button,
-                onClick = segmentedControlButtonData.onSelect,
-            )
-            .background(backgroundColor, shape)
-            .border(alignment = Stroke.Alignment.Center, width = style.metrics.borderWidth, borderColor, shape),
+        modifier =
+            modifier
+                .focusProperties { canFocus = false }
+                .selectable(
+                    selected = buttonState.isSelected,
+                    interactionSource = interactionSource,
+                    enabled = enabled,
+                    indication = null,
+                    role = Role.Button,
+                    onClick = segmentedControlButtonData.onSelect,
+                )
+                .background(backgroundColor, shape)
+                .border(
+                    alignment = Stroke.Alignment.Center,
+                    width = style.metrics.borderWidth,
+                    borderColor,
+                    shape),
         propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)
 
         CompositionLocalProvider(
             LocalContentColor provides contentColor.takeOrElse { LocalContentColor.current },
-            LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
+            LocalTextStyle provides
+                textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
         ) {
             Row(
                 Modifier.defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
@@ -111,7 +118,8 @@ internal fun SegmentedControlButton(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                segmentedControlButtonData.content(SegmentedControlButtonScopeContainer(), buttonState)
+                segmentedControlButtonData.content(
+                    SegmentedControlButtonScopeContainer(), buttonState)
             }
         }
     }

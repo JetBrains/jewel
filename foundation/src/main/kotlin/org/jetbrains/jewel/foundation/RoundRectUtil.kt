@@ -9,10 +9,14 @@ internal fun RoundRect.grow(delta: Float) =
         top = top - delta,
         right = right + delta,
         bottom = bottom + delta,
-        topLeftCornerRadius = CornerRadius(topLeftCornerRadius.x + delta, topLeftCornerRadius.y + delta),
-        topRightCornerRadius = CornerRadius(topRightCornerRadius.x + delta, topRightCornerRadius.y + delta),
-        bottomLeftCornerRadius = CornerRadius(bottomLeftCornerRadius.x + delta, bottomLeftCornerRadius.y + delta),
-        bottomRightCornerRadius = CornerRadius(bottomRightCornerRadius.x + delta, bottomRightCornerRadius.y + delta),
+        topLeftCornerRadius =
+            CornerRadius(topLeftCornerRadius.x + delta, topLeftCornerRadius.y + delta),
+        topRightCornerRadius =
+            CornerRadius(topRightCornerRadius.x + delta, topRightCornerRadius.y + delta),
+        bottomLeftCornerRadius =
+            CornerRadius(bottomLeftCornerRadius.x + delta, bottomLeftCornerRadius.y + delta),
+        bottomRightCornerRadius =
+            CornerRadius(bottomRightCornerRadius.x + delta, bottomRightCornerRadius.y + delta),
     )
 
 internal fun RoundRect.shrink(delta: Float) =
@@ -21,10 +25,14 @@ internal fun RoundRect.shrink(delta: Float) =
         top = top + delta,
         right = right - delta,
         bottom = bottom - delta,
-        topLeftCornerRadius = CornerRadius(topLeftCornerRadius.x - delta, topLeftCornerRadius.y - delta),
-        topRightCornerRadius = CornerRadius(topRightCornerRadius.x - delta, topRightCornerRadius.y - delta),
-        bottomLeftCornerRadius = CornerRadius(bottomLeftCornerRadius.x - delta, bottomLeftCornerRadius.y - delta),
-        bottomRightCornerRadius = CornerRadius(bottomRightCornerRadius.x - delta, bottomRightCornerRadius.y - delta),
+        topLeftCornerRadius =
+            CornerRadius(topLeftCornerRadius.x - delta, topLeftCornerRadius.y - delta),
+        topRightCornerRadius =
+            CornerRadius(topRightCornerRadius.x - delta, topRightCornerRadius.y - delta),
+        bottomLeftCornerRadius =
+            CornerRadius(bottomLeftCornerRadius.x - delta, bottomLeftCornerRadius.y - delta),
+        bottomRightCornerRadius =
+            CornerRadius(bottomRightCornerRadius.x - delta, bottomRightCornerRadius.y - delta),
     )
 
 internal fun RoundRect.hasAtLeastOneNonRoundedCorner() =

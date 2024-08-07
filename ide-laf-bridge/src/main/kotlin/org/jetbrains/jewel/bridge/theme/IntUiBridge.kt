@@ -25,6 +25,8 @@ import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
+import javax.swing.UIManager
+import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.isNewUiTheme
@@ -122,8 +124,6 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
-import javax.swing.UIManager
-import kotlin.time.Duration.Companion.milliseconds
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
@@ -140,20 +140,22 @@ internal fun createBridgeThemeDefinition(): ThemeDefinition {
     return createBridgeThemeDefinition(textStyle, editorTextStyle, consoleTextStyle)
 }
 
-public fun retrieveDefaultTextStyle(): TextStyle = retrieveTextStyle("Label.font", "Label.foreground")
+public fun retrieveDefaultTextStyle(): TextStyle =
+    retrieveTextStyle("Label.font", "Label.foreground")
 
 @OptIn(ExperimentalTextApi::class)
 public fun retrieveEditorTextStyle(): TextStyle {
     val editorColorScheme = retrieveEditorColorScheme()
 
     val fontSize = editorColorScheme.editorFontSize.sp
-    return retrieveDefaultTextStyle().copy(
-        color = editorColorScheme.defaultForeground.toComposeColor(),
-        fontFamily = editorColorScheme.getFont(EditorFontType.PLAIN).asComposeFontFamily(),
-        fontSize = fontSize,
-        lineHeight = fontSize * editorColorScheme.lineSpacing,
-        fontFeatureSettings = if (!editorColorScheme.isUseLigatures) "liga 0" else "liga 1",
-    )
+    return retrieveDefaultTextStyle()
+        .copy(
+            color = editorColorScheme.defaultForeground.toComposeColor(),
+            fontFamily = editorColorScheme.getFont(EditorFontType.PLAIN).asComposeFontFamily(),
+            fontSize = fontSize,
+            lineHeight = fontSize * editorColorScheme.lineSpacing,
+            fontFeatureSettings = if (!editorColorScheme.isUseLigatures) "liga 0" else "liga 1",
+        )
 }
 
 @OptIn(ExperimentalTextApi::class)
@@ -166,13 +168,15 @@ public fun retrieveConsoleTextStyle(): TextStyle {
         editorColorScheme.getColor(ColorKey.createColorKey("BLOCK_TERMINAL_DEFAULT_FOREGROUND"))
             ?: editorColorScheme.defaultForeground
 
-    return retrieveDefaultTextStyle().copy(
-        color = fontColor.toComposeColor(),
-        fontFamily = editorColorScheme.getFont(EditorFontType.CONSOLE_PLAIN).asComposeFontFamily(),
-        fontSize = fontSize,
-        lineHeight = fontSize * editorColorScheme.lineSpacing,
-        fontFeatureSettings = if (!editorColorScheme.isUseLigatures) "liga 0" else "liga 1",
-    )
+    return retrieveDefaultTextStyle()
+        .copy(
+            color = fontColor.toComposeColor(),
+            fontFamily =
+                editorColorScheme.getFont(EditorFontType.CONSOLE_PLAIN).asComposeFontFamily(),
+            fontSize = fontSize,
+            lineHeight = fontSize * editorColorScheme.lineSpacing,
+            fontFeatureSettings = if (!editorColorScheme.isUseLigatures) "liga 0" else "liga 1",
+        )
 }
 
 private val isDark: Boolean
@@ -236,17 +240,19 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
 private fun readDefaultButtonStyle(): ButtonStyle {
     val normalBackground =
         listOf(
-            JBUI.CurrentTheme.Button.defaultButtonColorStart().toComposeColor(),
-            JBUI.CurrentTheme.Button.defaultButtonColorEnd().toComposeColor(),
-        ).createVerticalBrush()
+                JBUI.CurrentTheme.Button.defaultButtonColorStart().toComposeColor(),
+                JBUI.CurrentTheme.Button.defaultButtonColorEnd().toComposeColor(),
+            )
+            .createVerticalBrush()
 
     val normalContent = retrieveColorOrUnspecified("Button.default.foreground")
 
     val normalBorder =
         listOf(
-            JBUI.CurrentTheme.Button.buttonOutlineColorStart(true).toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(true).toComposeColor(),
-        ).createVerticalBrush()
+                JBUI.CurrentTheme.Button.buttonOutlineColorStart(true).toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(true).toComposeColor(),
+            )
+            .createVerticalBrush()
 
     val colors =
         ButtonColors(
@@ -261,8 +267,10 @@ private fun readDefaultButtonStyle(): ButtonStyle {
             contentPressed = normalContent,
             contentHovered = normalContent,
             border = normalBorder,
-            borderDisabled = SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
-            borderFocused = SolidColor(retrieveColorOrUnspecified("Button.default.focusedBorderColor")),
+            borderDisabled =
+                SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
+            borderFocused =
+                SolidColor(retrieveColorOrUnspecified("Button.default.focusedBorderColor")),
             borderPressed = normalBorder,
             borderHovered = normalBorder,
         )
@@ -272,8 +280,10 @@ private fun readDefaultButtonStyle(): ButtonStyle {
         colors = colors,
         metrics =
             ButtonMetrics(
-                cornerSize = retrieveArcAsCornerSizeWithFallbacks("Button.default.arc", "Button.arc"),
-                padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
+                cornerSize =
+                    retrieveArcAsCornerSizeWithFallbacks("Button.default.arc", "Button.arc"),
+                padding =
+                    PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
                 minSize = DpSize(minimumSize.width, minimumSize.height),
                 borderWidth = 1.dp,
                 focusOutlineExpand = 1.5.dp, // From DarculaButtonPainter.getBorderInsets
@@ -285,17 +295,19 @@ private fun readDefaultButtonStyle(): ButtonStyle {
 private fun readOutlinedButtonStyle(): ButtonStyle {
     val normalBackground =
         listOf(
-            JBUI.CurrentTheme.Button.buttonColorStart().toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonColorEnd().toComposeColor(),
-        ).createVerticalBrush()
+                JBUI.CurrentTheme.Button.buttonColorStart().toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonColorEnd().toComposeColor(),
+            )
+            .createVerticalBrush()
 
     val normalContent = retrieveColorOrUnspecified("Button.foreground")
 
     val normalBorder =
         listOf(
-            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
-        ).createVerticalBrush()
+                JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+            )
+            .createVerticalBrush()
 
     val colors =
         ButtonColors(
@@ -310,8 +322,10 @@ private fun readOutlinedButtonStyle(): ButtonStyle {
             contentPressed = normalContent,
             contentHovered = normalContent,
             border = normalBorder,
-            borderDisabled = SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
-            borderFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
+            borderDisabled =
+                SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
+            borderFocused =
+                SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
             borderPressed = normalBorder,
             borderHovered = normalBorder,
         )
@@ -322,7 +336,8 @@ private fun readOutlinedButtonStyle(): ButtonStyle {
         metrics =
             ButtonMetrics(
                 cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
-                padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
+                padding =
+                    PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
                 minSize = DpSize(minimumSize.width, minimumSize.height),
                 borderWidth = DarculaUIUtil.LW.dp,
                 focusOutlineExpand = Dp.Unspecified,
@@ -344,16 +359,16 @@ private fun readCheckboxStyle(): CheckboxStyle {
     val metrics = if (newUiTheme) NewUiCheckboxMetrics else ClassicUiCheckboxMetrics
 
     // This value is not normally defined in the themes, but Swing checks it anyway.
-    // The default hardcoded in com.intellij.ide.ui.laf.darcula.ui.DarculaCheckBoxUI.getDefaultIcon()
+    // The default hardcoded in
+    // com.intellij.ide.ui.laf.darcula.ui.DarculaCheckBoxUI.getDefaultIcon()
     // is not correct though, the SVG is 19x19 and is missing 1px on the right
     val checkboxSize =
-        retrieveIntAsDpOrUnspecified("CheckBox.iconSize")
-            .let {
-                when {
-                    it.isSpecified -> DpSize(it, it)
-                    else -> metrics.checkboxSize
-                }
+        retrieveIntAsDpOrUnspecified("CheckBox.iconSize").let {
+            when {
+                it.isSpecified -> DpSize(it, it)
+                else -> metrics.checkboxSize
             }
+        }
 
     return CheckboxStyle(
         colors = colors,
@@ -363,14 +378,17 @@ private fun readCheckboxStyle(): CheckboxStyle {
                 outlineCornerSize = CornerSize(metrics.outlineCornerSize),
                 outlineFocusedCornerSize = CornerSize(metrics.outlineFocusedCornerSize),
                 outlineSelectedCornerSize = CornerSize(metrics.outlineSelectedCornerSize),
-                outlineSelectedFocusedCornerSize = CornerSize(metrics.outlineSelectedFocusedCornerSize),
+                outlineSelectedFocusedCornerSize =
+                    CornerSize(metrics.outlineSelectedFocusedCornerSize),
                 outlineSize = metrics.outlineSize,
                 outlineSelectedSize = metrics.outlineSelectedSize,
                 outlineFocusedSize = metrics.outlineFocusedSize,
                 outlineSelectedFocusedSize = metrics.outlineSelectedFocusedSize,
                 iconContentGap = metrics.iconContentGap,
             ),
-        icons = CheckboxIcons(checkbox = PathIconKey("${iconsBasePath}checkBox.svg", CheckboxIcons::class.java)),
+        icons =
+            CheckboxIcons(
+                checkbox = PathIconKey("${iconsBasePath}checkBox.svg", CheckboxIcons::class.java)),
     )
 }
 
@@ -535,7 +553,8 @@ private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
 
 private fun readUndecoratedDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
-    val hoverBackground = retrieveColorOrUnspecified("MainToolbar.Dropdown.transparentHoverBackground")
+    val hoverBackground =
+        retrieveColorOrUnspecified("MainToolbar.Dropdown.transparentHoverBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
 
     val colors =
@@ -572,7 +591,11 @@ private fun readUndecoratedDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
                 arrowMinSize = DpSize(arrowWidth, minimumSize.height),
                 minSize = DpSize(minimumSize.width + arrowWidth, minimumSize.height),
                 cornerSize = CornerSize(JBUI.CurrentTheme.MainToolbar.Dropdown.hoverArc().dp),
-                contentPadding = PaddingValues(3.dp), // from com.intellij.ide.ui.laf.darcula.ui.DarculaComboBoxUI.getDefaultComboBoxInsets
+                contentPadding =
+                    PaddingValues(
+                        3
+                            .dp), // from
+                                  // com.intellij.ide.ui.laf.darcula.ui.DarculaComboBoxUI.getDefaultComboBoxInsets
                 borderWidth = 0.dp,
             ),
         icons = DropdownIcons(chevronDown = AllIconsKeys.General.ChevronDown),
@@ -582,7 +605,8 @@ private fun readUndecoratedDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
 
 private fun readGroupHeaderStyle() =
     GroupHeaderStyle(
-        colors = GroupHeaderColors(divider = retrieveColorOrUnspecified("Separator.separatorColor")),
+        colors =
+            GroupHeaderColors(divider = retrieveColorOrUnspecified("Separator.separatorColor")),
         metrics =
             GroupHeaderMetrics(
                 dividerThickness = 1.dp, // see DarculaSeparatorUI
@@ -596,8 +620,10 @@ private fun readHorizontalProgressBarStyle() =
             HorizontalProgressBarColors(
                 track = retrieveColorOrUnspecified("ProgressBar.trackColor"),
                 progress = retrieveColorOrUnspecified("ProgressBar.progressColor"),
-                indeterminateBase = retrieveColorOrUnspecified("ProgressBar.indeterminateStartColor"),
-                indeterminateHighlight = retrieveColorOrUnspecified("ProgressBar.indeterminateEndColor"),
+                indeterminateBase =
+                    retrieveColorOrUnspecified("ProgressBar.indeterminateStartColor"),
+                indeterminateHighlight =
+                    retrieveColorOrUnspecified("ProgressBar.indeterminateEndColor"),
             ),
         metrics =
             HorizontalProgressBarMetrics(
@@ -608,30 +634,36 @@ private fun readHorizontalProgressBarStyle() =
                 // and the "step" constant in DarculaProgressBarUI#paintIndeterminate
                 indeterminateHighlightWidth = (800 / 50 * 6).dp,
             ),
-        indeterminateCycleDuration = 800.milliseconds, // See DarculaProgressBarUI.CYCLE_TIME_DEFAULT
+        indeterminateCycleDuration =
+            800.milliseconds, // See DarculaProgressBarUI.CYCLE_TIME_DEFAULT
     )
 
 private fun readLinkStyle(): LinkStyle {
     val normalContent =
-        retrieveColorOrUnspecified("Link.activeForeground")
-            .takeOrElse { retrieveColorOrUnspecified("Link.activeForeground") }
+        retrieveColorOrUnspecified("Link.activeForeground").takeOrElse {
+            retrieveColorOrUnspecified("Link.activeForeground")
+        }
 
     val colors =
         LinkColors(
             content = normalContent,
             contentDisabled =
-                retrieveColorOrUnspecified("Link.disabledForeground")
-                    .takeOrElse { retrieveColorOrUnspecified("Label.disabledForeground") },
+                retrieveColorOrUnspecified("Link.disabledForeground").takeOrElse {
+                    retrieveColorOrUnspecified("Label.disabledForeground")
+                },
             contentFocused = normalContent,
             contentPressed =
-                retrieveColorOrUnspecified("Link.pressedForeground")
-                    .takeOrElse { retrieveColorOrUnspecified("link.pressed.foreground") },
+                retrieveColorOrUnspecified("Link.pressedForeground").takeOrElse {
+                    retrieveColorOrUnspecified("link.pressed.foreground")
+                },
             contentHovered =
-                retrieveColorOrUnspecified("Link.hoverForeground")
-                    .takeOrElse { retrieveColorOrUnspecified("link.hover.foreground") },
+                retrieveColorOrUnspecified("Link.hoverForeground").takeOrElse {
+                    retrieveColorOrUnspecified("link.hover.foreground")
+                },
             contentVisited =
-                retrieveColorOrUnspecified("Link.visitedForeground")
-                    .takeOrElse { retrieveColorOrUnspecified("link.visited.foreground") },
+                retrieveColorOrUnspecified("Link.visitedForeground").takeOrElse {
+                    retrieveColorOrUnspecified("link.visited.foreground")
+                },
         )
 
     return LinkStyle(
@@ -665,8 +697,9 @@ private fun readMenuStyle(): MenuStyle {
         MenuColors(
             background = retrieveColorOrUnspecified("PopupMenu.background"),
             border =
-                retrieveColorOrUnspecified("Popup.borderColor")
-                    .takeOrElse { retrieveColorOrUnspecified("Popup.Border.color") },
+                retrieveColorOrUnspecified("Popup.borderColor").takeOrElse {
+                    retrieveColorOrUnspecified("Popup.Border.color")
+                },
             shadow = Color.Black.copy(alpha = .6f),
             itemColors =
                 MenuItemColors(
@@ -707,7 +740,8 @@ private fun readMenuStyle(): MenuStyle {
                 borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
                 itemMetrics =
                     MenuItemMetrics(
-                        selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
+                        selectionCornerSize =
+                            CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
                         outerPadding = PaddingValues(horizontal = 7.dp),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp),
                         keybindingsPadding = PaddingValues(start = 36.dp),
@@ -724,10 +758,13 @@ private fun readMenuStyle(): MenuStyle {
                             retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeWidth")
                                 .takeOrElse { 1.dp },
                         separatorHeight =
-                            retrieveIntAsDpOrUnspecified("PopupMenuSeparator.height")
-                                .takeOrElse { 3.dp },
+                            retrieveIntAsDpOrUnspecified("PopupMenuSeparator.height").takeOrElse {
+                                3.dp
+                            },
                         iconSize = 16.dp,
-                        minHeight = if (isNewUiTheme()) JBUI.CurrentTheme.List.rowHeight().dp else Dp.Unspecified,
+                        minHeight =
+                            if (isNewUiTheme()) JBUI.CurrentTheme.List.rowHeight().dp
+                            else Dp.Unspecified,
                     ),
                 submenuMetrics = SubmenuMetrics(offset = DpOffset(0.dp, (-8).dp)),
             ),
@@ -752,7 +789,8 @@ private fun readRadioButtonStyle(): RadioButtonStyle {
     val metrics = if (newUiTheme) NewUiRadioButtonMetrics else ClassicUiRadioButtonMetrics
 
     // This value is not normally defined in the themes, but Swing checks it anyway
-    // The default hardcoded in com.intellij.ide.ui.laf.darcula.ui.DarculaRadioButtonUI.getDefaultIcon()
+    // The default hardcoded in
+    // com.intellij.ide.ui.laf.darcula.ui.DarculaRadioButtonUI.getDefaultIcon()
     // is not correct though, the SVG is 19x19 and is missing 1px on the right
     val radioButtonSize =
         retrieveIntAsDpOrUnspecified("RadioButton.iconSize")
@@ -771,10 +809,14 @@ private fun readRadioButtonStyle(): RadioButtonStyle {
                 outlineSelectedSize = metrics.outlineSelectedSize,
                 outlineSelectedFocusedSize = metrics.outlineSelectedFocusedSize,
                 iconContentGap =
-                    retrieveIntAsDpOrUnspecified("RadioButton.textIconGap")
-                        .takeOrElse { metrics.iconContentGap },
+                    retrieveIntAsDpOrUnspecified("RadioButton.textIconGap").takeOrElse {
+                        metrics.iconContentGap
+                    },
             ),
-        icons = RadioButtonIcons(radioButton = PathIconKey("${iconsBasePath}radio.svg", RadioButtonIcons::class.java)),
+        icons =
+            RadioButtonIcons(
+                radioButton =
+                    PathIconKey("${iconsBasePath}radio.svg", RadioButtonIcons::class.java)),
     )
 }
 
@@ -809,33 +851,41 @@ private object NewUiRadioButtonMetrics : BridgeRadioButtonMetrics {
 }
 
 private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
-    val selectedBackground = SolidColor(JBUI.CurrentTheme.SegmentedButton.SELECTED_BUTTON_COLOR.toComposeColor())
+    val selectedBackground =
+        SolidColor(JBUI.CurrentTheme.SegmentedButton.SELECTED_BUTTON_COLOR.toComposeColor())
 
     val normalBorder =
         listOf(
-            JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
-            JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
-        ).createVerticalBrush()
+                JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
+                JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
+            )
+            .createVerticalBrush()
 
     val selectedDisabledBorder =
         listOf(
-            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
-        ).createVerticalBrush()
+                JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+            )
+            .createVerticalBrush()
 
     val colors =
         SegmentedControlButtonColors(
             background = SolidColor(Color.Transparent),
             backgroundPressed = selectedBackground,
-            backgroundHovered = SolidColor(JBUI.CurrentTheme.ActionButton.hoverBackground().toComposeColor()),
+            backgroundHovered =
+                SolidColor(JBUI.CurrentTheme.ActionButton.hoverBackground().toComposeColor()),
             backgroundSelected = selectedBackground,
-            backgroundSelectedFocused = SolidColor(JBUI.CurrentTheme.SegmentedButton.FOCUSED_SELECTED_BUTTON_COLOR.toComposeColor()),
+            backgroundSelectedFocused =
+                SolidColor(
+                    JBUI.CurrentTheme.SegmentedButton.FOCUSED_SELECTED_BUTTON_COLOR
+                        .toComposeColor()),
             content = retrieveColorOrUnspecified("Button.foreground"),
             contentDisabled = retrieveColorOrUnspecified("Label.disabledForeground"),
             border = normalBorder,
             borderSelected = normalBorder,
             borderSelectedDisabled = selectedDisabledBorder,
-            borderSelectedFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
+            borderSelectedFocused =
+                SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
         )
 
     val minimumSize = JBUI.CurrentTheme.Button.minimumSize().toDpSize()
@@ -854,17 +904,20 @@ private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
 private fun readSegmentedControlStyle(): SegmentedControlStyle {
     val normalBorder =
         listOf(
-            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
-        ).createVerticalBrush()
+                JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+            )
+            .createVerticalBrush()
 
     val colors =
         SegmentedControlColors(
             border = normalBorder,
-            borderDisabled = SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
+            borderDisabled =
+                SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
             borderPressed = normalBorder,
             borderHovered = normalBorder,
-            borderFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
+            borderFocused =
+                SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
         )
 
     return SegmentedControlStyle(
@@ -978,7 +1031,8 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
     val normalContent = retrieveColorOrUnspecified("Tree.foreground")
     val selectedContent = retrieveColorOrUnspecified("Tree.selectionForeground")
     val selectedElementBackground = retrieveColorOrUnspecified("Tree.selectionBackground")
-    val inactiveSelectedElementBackground = retrieveColorOrUnspecified("Tree.selectionInactiveBackground")
+    val inactiveSelectedElementBackground =
+        retrieveColorOrUnspecified("Tree.selectionInactiveBackground")
 
     val colors =
         LazyTreeColors(
@@ -1002,7 +1056,8 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
                 elementBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
                 elementPadding = PaddingValues(horizontal = 12.dp),
                 elementContentPadding = PaddingValues(4.dp),
-                elementMinHeight = retrieveIntAsDpOrUnspecified("Tree.rowHeight").takeOrElse { 24.dp },
+                elementMinHeight =
+                    retrieveIntAsDpOrUnspecified("Tree.rowHeight").takeOrElse { 24.dp },
                 chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
             ),
         icons =
@@ -1018,7 +1073,8 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
 // See com.intellij.ui.tabs.impl.themes.DefaultTabTheme
 private fun readDefaultTabStyle(): TabStyle {
     val normalBackground = JBUI.CurrentTheme.DefaultTabs.background().toComposeColor()
-    val selectedBackground = JBUI.CurrentTheme.DefaultTabs.underlinedTabBackground().toComposeColorOrUnspecified()
+    val selectedBackground =
+        JBUI.CurrentTheme.DefaultTabs.underlinedTabBackground().toComposeColorOrUnspecified()
     val normalContent = retrieveColorOrUnspecified("TabbedPane.foreground")
     val selectedUnderline = retrieveColorOrUnspecified("TabbedPane.underlineColor")
 
@@ -1046,12 +1102,14 @@ private fun readDefaultTabStyle(): TabStyle {
         metrics =
             TabMetrics(
                 underlineThickness =
-                    retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight")
-                        .takeOrElse { 2.dp },
+                    retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight").takeOrElse {
+                        2.dp
+                    },
                 tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
                 closeContentGap = 4.dp,
                 tabContentSpacing = 4.dp,
-                tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
+                tabHeight =
+                    retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
             ),
         icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
         contentAlpha =
@@ -1073,7 +1131,8 @@ private fun readDefaultTabStyle(): TabStyle {
 
 private fun readEditorTabStyle(): TabStyle {
     val normalBackground = JBUI.CurrentTheme.EditorTabs.background().toComposeColor()
-    val selectedBackground = JBUI.CurrentTheme.EditorTabs.underlinedTabBackground().toComposeColorOrUnspecified()
+    val selectedBackground =
+        JBUI.CurrentTheme.EditorTabs.underlinedTabBackground().toComposeColorOrUnspecified()
     val normalContent = retrieveColorOrUnspecified("TabbedPane.foreground")
     val selectedUnderline = retrieveColorOrUnspecified("TabbedPane.underlineColor")
 
@@ -1101,14 +1160,14 @@ private fun readEditorTabStyle(): TabStyle {
         metrics =
             TabMetrics(
                 underlineThickness =
-                    retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight")
-                        .takeOrElse { 2.dp },
+                    retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight").takeOrElse {
+                        2.dp
+                    },
                 tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
                 closeContentGap = 4.dp,
                 tabContentSpacing = 4.dp,
                 tabHeight =
-                    retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight")
-                        .takeOrElse { 24.dp },
+                    retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
             ),
         icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
         contentAlpha =
@@ -1132,15 +1191,17 @@ private fun readCircularProgressStyle(isDark: Boolean) =
     CircularProgressStyle(
         frameTime = 125.milliseconds,
         color =
-            retrieveColorOrUnspecified("ProgressIcon.color")
-                .takeOrElse { if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD) },
+            retrieveColorOrUnspecified("ProgressIcon.color").takeOrElse {
+                if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD)
+            },
     )
 
 private fun readTooltipStyle(): TooltipStyle {
     return TooltipStyle(
         metrics =
             TooltipMetrics.defaults(
-                contentPadding = JBUI.CurrentTheme.HelpTooltip.smallTextBorderInsets().toPaddingValues(),
+                contentPadding =
+                    JBUI.CurrentTheme.HelpTooltip.smallTextBorderInsets().toPaddingValues(),
                 showDelay = Registry.intValue("ide.tooltip.initialDelay").milliseconds,
                 cornerSize = CornerSize(JBUI.CurrentTheme.Tooltip.CORNER_RADIUS.dp),
             ),
@@ -1165,18 +1226,21 @@ private fun readIconButtonStyle(): IconButtonStyle =
             ),
         colors =
             IconButtonColors(
-                foregroundSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedForeground"),
+                foregroundSelectedActivated =
+                    retrieveColorOrUnspecified("ToolWindow.Button.selectedForeground"),
                 background = Color.Unspecified,
                 backgroundDisabled = Color.Unspecified,
                 backgroundSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
-                backgroundSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
+                backgroundSelectedActivated =
+                    retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
                 backgroundPressed = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
                 backgroundHovered = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
                 backgroundFocused = retrieveColorOrUnspecified("ActionButton.hoverBackground"),
                 border = Color.Unspecified,
                 borderDisabled = Color.Unspecified,
                 borderSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
-                borderSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
+                borderSelectedActivated =
+                    retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
                 borderFocused = Color.Unspecified,
                 borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
                 borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),

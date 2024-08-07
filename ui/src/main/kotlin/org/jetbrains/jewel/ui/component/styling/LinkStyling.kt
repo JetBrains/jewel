@@ -71,11 +71,11 @@ public class LinkIcons(
     public companion object
 }
 
-public val LocalLinkStyle: ProvidableCompositionLocal<LinkStyle> =
-    staticCompositionLocalOf {
-        error("No LinkStyle provided. Have you forgotten the theme?")
-    }
+public val LocalLinkStyle: ProvidableCompositionLocal<LinkStyle> = staticCompositionLocalOf {
+    error("No LinkStyle provided. Have you forgotten the theme?")
+}
 
 public enum class LinkUnderlineBehavior {
-    ShowAlways, ShowOnHover
+    ShowAlways,
+    ShowOnHover
 }

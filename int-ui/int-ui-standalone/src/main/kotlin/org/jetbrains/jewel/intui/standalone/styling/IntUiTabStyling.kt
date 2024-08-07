@@ -218,7 +218,8 @@ public fun TabMetrics.Companion.defaults(
     closeContentGap: Dp = 8.dp,
     tabContentSpacing: Dp = 4.dp,
     tabHeight: Dp = 40.dp,
-): TabMetrics = TabMetrics(underlineThickness, tabPadding, tabHeight, tabContentSpacing, closeContentGap)
+): TabMetrics =
+    TabMetrics(underlineThickness, tabPadding, tabHeight, tabContentSpacing, closeContentGap)
 
 public fun TabContentAlpha.Companion.default(
     iconNormal: Float = 1f,
@@ -270,4 +271,5 @@ public fun TabContentAlpha.Companion.editor(
         contentSelected = contentSelected,
     )
 
-public fun TabIcons.Companion.defaults(close: IconKey = AllIconsKeys.General.CloseSmall): TabIcons = TabIcons(close)
+public fun TabIcons.Companion.defaults(close: IconKey = AllIconsKeys.General.CloseSmall): TabIcons =
+    TabIcons(close)

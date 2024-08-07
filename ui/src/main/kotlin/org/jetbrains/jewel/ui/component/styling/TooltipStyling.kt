@@ -10,10 +10,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.foundation.GenerateDataFunctions
-import org.jetbrains.jewel.ui.component.FixedCursorPoint
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
+import org.jetbrains.jewel.ui.component.FixedCursorPoint
 
 @Stable
 @GenerateDataFunctions
@@ -65,7 +65,6 @@ public class TooltipMetrics(
     }
 }
 
-public val LocalTooltipStyle: ProvidableCompositionLocal<TooltipStyle> =
-    staticCompositionLocalOf {
-        error("No TooltipStyle provided. Have you forgotten the theme?")
-    }
+public val LocalTooltipStyle: ProvidableCompositionLocal<TooltipStyle> = staticCompositionLocalOf {
+    error("No TooltipStyle provided. Have you forgotten the theme?")
+}

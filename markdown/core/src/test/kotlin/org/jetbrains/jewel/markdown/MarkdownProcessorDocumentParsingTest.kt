@@ -15,14 +15,13 @@ import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
 import org.junit.Test
 
 /**
- * This class tests that all the snippets in the CommonMark 0.31.2 specs
- * are rendered correctly into MarkdownBlocks, matching what the CommonMark
- * 0.20 HTML renderer tests also validate. Test cases are extracted from
- * [here]( https://spec.commonmark.org/0.31.2/spec.json).
+ * This class tests that all the snippets in the CommonMark 0.31.2 specs are rendered correctly into
+ * MarkdownBlocks, matching what the CommonMark 0.20 HTML renderer tests also validate. Test cases
+ * are extracted from [here]( https://spec.commonmark.org/0.31.2/spec.json).
  *
- * Note that the reference HTML output is only there as information; our
- * parsing logic performs various transformations that CommonMark wouldn't.
- * For more info, refer to [MarkdownProcessor.processMarkdownDocument].
+ * Note that the reference HTML output is only there as information; our parsing logic performs
+ * various transformations that CommonMark wouldn't. For more info, refer to
+ * [MarkdownProcessor.processMarkdownDocument].
  */
 @Suppress(
     "HtmlDeprecatedAttribute",
@@ -451,7 +450,8 @@ class MarkdownProcessorDocumentParsingTest {
          * <pre><code class="language-foo+bar">foo
          * </code></pre>
          */
-        parsed.assertEquals(fencedCodeBlock("foo", MimeType.Known.fromMarkdownLanguageName("foo\\+bar")))
+        parsed.assertEquals(
+            fencedCodeBlock("foo", MimeType.Known.fromMarkdownLanguageName("foo\\+bar")))
     }
 
     @Test
@@ -622,7 +622,8 @@ class MarkdownProcessorDocumentParsingTest {
          * <pre><code class="language-föö">foo
          * </code></pre>
          */
-        parsed.assertEquals(fencedCodeBlock("foo", mimeType = MimeType.Known.fromMarkdownLanguageName("föö")))
+        parsed.assertEquals(
+            fencedCodeBlock("foo", mimeType = MimeType.Known.fromMarkdownLanguageName("föö")))
     }
 
     @Test
@@ -1210,7 +1211,8 @@ class MarkdownProcessorDocumentParsingTest {
 
     @Test
     fun `should parse spec sample 67 correctly {ATX headings}`() {
-        val parsed = processor.processMarkdownDocument("#                  foo                     ")
+        val parsed =
+            processor.processMarkdownDocument("#                  foo                     ")
 
         /*
          * Expected HTML:
@@ -4408,7 +4410,8 @@ class MarkdownProcessorDocumentParsingTest {
          * <p><a href="my_(url)" title="title (with parens)">Foo*bar]</a></p>
          */
         parsed.assertEquals(
-            Paragraph(Link(destination = "my_(url)", title = "title (with parens)", Text("Foo*bar]"))),
+            Paragraph(
+                Link(destination = "my_(url)", title = "title (with parens)", Text("Foo*bar]"))),
         )
     }
 
@@ -4430,7 +4433,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><a href="my%20url" title="title">Foo bar</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "my url", title = "title", Text("Foo bar"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "my url", title = "title", Text("Foo bar"))))
     }
 
     @Test
@@ -4457,7 +4461,8 @@ class MarkdownProcessorDocumentParsingTest {
          * line2
          * ">foo</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "/url", title = "\ntitle\nline1\nline2\n", Text("foo"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "/url", title = "\ntitle\nline1\nline2\n", Text("foo"))))
     }
 
     @Test
@@ -4588,7 +4593,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><a href="/url%5Cbar*baz" title="foo&quot;bar\baz">foo</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "/url\\bar*baz", title = "foo\"bar\\baz", Text("foo"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "/url\\bar*baz", title = "foo\"bar\\baz", Text("foo"))))
     }
 
     @Test
@@ -6960,7 +6966,8 @@ class MarkdownProcessorDocumentParsingTest {
             blockQuote(
                 orderedList(
                     listItem(
-                        blockQuote(Paragraph(Text("Blockquote"), SoftLineBreak, Text("continued here."))),
+                        blockQuote(
+                            Paragraph(Text("Blockquote"), SoftLineBreak, Text("continued here."))),
                     ),
                 ),
             ),
@@ -6995,7 +7002,8 @@ class MarkdownProcessorDocumentParsingTest {
             blockQuote(
                 orderedList(
                     listItem(
-                        blockQuote(Paragraph(Text("Blockquote"), SoftLineBreak, Text("continued here."))),
+                        blockQuote(
+                            Paragraph(Text("Blockquote"), SoftLineBreak, Text("continued here."))),
                     ),
                 ),
             ),
@@ -8445,7 +8453,10 @@ class MarkdownProcessorDocumentParsingTest {
          */
         parsed.assertEquals(
             Paragraph(
-                Link(destination = "https://foo.bar.`baz", title = null, Text("https://foo.bar.`baz")),
+                Link(
+                    destination = "https://foo.bar.`baz",
+                    title = null,
+                    Text("https://foo.bar.`baz")),
                 Text("`"),
             ),
         )
@@ -8538,7 +8549,8 @@ class MarkdownProcessorDocumentParsingTest {
                 |*£*bravo.
                 |
                 |*€*charlie.
-                """.trimMargin(),
+                """
+                    .trimMargin(),
             )
 
         /*
@@ -10647,7 +10659,10 @@ class MarkdownProcessorDocumentParsingTest {
         parsed.assertEquals(
             Paragraph(
                 Text("**a"),
-                Link(destination = "https://foo.bar/?q=**", title = null, Text("https://foo.bar/?q=**")),
+                Link(
+                    destination = "https://foo.bar/?q=**",
+                    title = null,
+                    Text("https://foo.bar/?q=**")),
             ),
         )
     }
@@ -10663,7 +10678,10 @@ class MarkdownProcessorDocumentParsingTest {
         parsed.assertEquals(
             Paragraph(
                 Text("__a"),
-                Link(destination = "https://foo.bar/?q=__", title = null, Text("https://foo.bar/?q=__")),
+                Link(
+                    destination = "https://foo.bar/?q=__",
+                    title = null,
+                    Text("https://foo.bar/?q=__")),
             ),
         )
     }
@@ -10866,7 +10884,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><a href="foo(and(bar))">link</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "foo(and(bar))", title = null, Text("link"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "foo(and(bar))", title = null, Text("link"))))
     }
 
     @Test
@@ -10888,7 +10907,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><a href="foo(and(bar)">link</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "foo(and(bar)", title = null, Text("link"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "foo(and(bar)", title = null, Text("link"))))
     }
 
     @Test
@@ -10899,7 +10919,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><a href="foo(and(bar)">link</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "foo(and(bar)", title = null, Text("link"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "foo(and(bar)", title = null, Text("link"))))
     }
 
     @Test
@@ -10935,8 +10956,10 @@ class MarkdownProcessorDocumentParsingTest {
          */
         parsed.assertEquals(
             Paragraph(Link(destination = "#fragment", title = null, Text("link"))),
-            Paragraph(Link(destination = "https://example.com#fragment", title = null, Text("link"))),
-            Paragraph(Link(destination = "https://example.com?foo=3#frag", title = null, Text("link"))),
+            Paragraph(
+                Link(destination = "https://example.com#fragment", title = null, Text("link"))),
+            Paragraph(
+                Link(destination = "https://example.com?foo=3#frag", title = null, Text("link"))),
         )
     }
 
@@ -11010,7 +11033,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><a href="/url" title="title &quot;&quot;">link</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "/url", title = "title \"\"", Text("link"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "/url", title = "title \"\"", Text("link"))))
     }
 
     @Test
@@ -11021,7 +11045,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><a href="/url%C2%A0%22title%22">link</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "/url \"title\"", title = null, Text("link"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "/url \"title\"", title = null, Text("link"))))
     }
 
     @Test
@@ -11043,7 +11068,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><a href="/url" title="title &quot;and&quot; title">link</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "/url", title = "title \"and\" title", Text("link"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "/url", title = "title \"and\" title", Text("link"))))
     }
 
     @Test
@@ -11083,7 +11109,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><a href="/uri">link [foo [bar]]</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "/uri", title = null, Text("link [foo [bar]]"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "/uri", title = null, Text("link [foo [bar]]"))))
     }
 
     @Test
@@ -11358,7 +11385,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><a href="/uri">link [foo [bar]]</a></p>
          */
-        parsed.assertEquals(Paragraph(Link(destination = "/uri", title = null, Text("link [foo [bar]]"))))
+        parsed.assertEquals(
+            Paragraph(Link(destination = "/uri", title = null, Text("link [foo [bar]]"))))
     }
 
     @Test
@@ -12515,7 +12543,8 @@ class MarkdownProcessorDocumentParsingTest {
 
     @Test
     fun `should parse spec sample 579 correctly {Images}`() {
-        val parsed = processor.processMarkdownDocument("My ![foo bar](/path/to/train.jpg  \"title\"   )")
+        val parsed =
+            processor.processMarkdownDocument("My ![foo bar](/path/to/train.jpg  \"title\"   )")
 
         /*
          * Expected HTML:
@@ -12524,7 +12553,11 @@ class MarkdownProcessorDocumentParsingTest {
         parsed.assertEquals(
             Paragraph(
                 Text("My "),
-                Image(source = "/path/to/train.jpg", alt = "foo bar", title = "title", Text("foo bar")),
+                Image(
+                    source = "/path/to/train.jpg",
+                    alt = "foo bar",
+                    title = "title",
+                    Text("foo bar")),
             ),
         )
     }
@@ -12571,7 +12604,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><img src="/url" alt="foo" /></p>
          */
-        parsed.assertEquals(Paragraph(Image(source = "/url", alt = "foo", title = null, Text("foo"))))
+        parsed.assertEquals(
+            Paragraph(Image(source = "/url", alt = "foo", title = null, Text("foo"))))
     }
 
     @Test
@@ -12590,7 +12624,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><img src="/url" alt="foo" /></p>
          */
-        parsed.assertEquals(Paragraph(Image(source = "/url", alt = "foo", title = null, Text("foo"))))
+        parsed.assertEquals(
+            Paragraph(Image(source = "/url", alt = "foo", title = null, Text("foo"))))
     }
 
     @Test
@@ -12609,7 +12644,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><img src="/url" alt="foo" title="title" /></p>
          */
-        parsed.assertEquals(Paragraph(Image(source = "/url", alt = "foo", title = "title", Text("foo"))))
+        parsed.assertEquals(
+            Paragraph(Image(source = "/url", alt = "foo", title = "title", Text("foo"))))
     }
 
     @Test
@@ -12657,7 +12693,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><img src="/url" alt="Foo" title="title" /></p>
          */
-        parsed.assertEquals(Paragraph(Image(source = "/url", alt = "Foo", title = "title", Text("Foo"))))
+        parsed.assertEquals(
+            Paragraph(Image(source = "/url", alt = "Foo", title = "title", Text("Foo"))))
     }
 
     @Test
@@ -12704,7 +12741,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><img src="/url" alt="foo" title="title" /></p>
          */
-        parsed.assertEquals(Paragraph(Image(source = "/url", alt = "foo", title = "title", Text("foo"))))
+        parsed.assertEquals(
+            Paragraph(Image(source = "/url", alt = "foo", title = "title", Text("foo"))))
     }
 
     @Test
@@ -12775,7 +12813,8 @@ class MarkdownProcessorDocumentParsingTest {
          * Expected HTML:
          * <p><img src="/url" alt="Foo" title="title" /></p>
          */
-        parsed.assertEquals(Paragraph(Image(source = "/url", alt = "Foo", title = "title", Text("Foo"))))
+        parsed.assertEquals(
+            Paragraph(Image(source = "/url", alt = "Foo", title = "title", Text("Foo"))))
     }
 
     @Test
@@ -12838,7 +12877,8 @@ class MarkdownProcessorDocumentParsingTest {
 
     @Test
     fun `should parse spec sample 595 correctly {Autolinks}`() {
-        val parsed = processor.processMarkdownDocument("<https://foo.bar.baz/test?q=hello&id=22&boolean>")
+        val parsed =
+            processor.processMarkdownDocument("<https://foo.bar.baz/test?q=hello&id=22&boolean>")
 
         /*
          * Expected HTML:

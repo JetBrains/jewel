@@ -16,8 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class ProvideDataTest {
-    @JvmField @Rule
-    val rule = createComposeRule()
+    @JvmField @Rule val rule = createComposeRule()
 
     @Test
     fun `one component`() {
@@ -28,7 +27,8 @@ class ProvideDataTest {
                 focusManager = LocalFocusManager.current
                 Box(
                     modifier =
-                        rootDataProviderModifier.testTag("provider")
+                        rootDataProviderModifier
+                            .testTag("provider")
                             .provideData {
                                 when (it) {
                                     "data" -> "ok"
@@ -58,7 +58,8 @@ class ProvideDataTest {
                 focusManager = LocalFocusManager.current
                 Box(
                     modifier =
-                        rootDataProviderModifier.testTag("root_provider")
+                        rootDataProviderModifier
+                            .testTag("root_provider")
                             .provideData {
                                 when (it) {
                                     "isRoot" -> "yes"
@@ -95,7 +96,8 @@ class ProvideDataTest {
             rule.awaitIdle()
 
             rule.onNodeWithTag("non_data_provider").assertIsFocused()
-            // non_data_provider still should provide isRoot == true because it should be taken from root
+            // non_data_provider still should provide isRoot == true because it should be taken from
+            // root
             // but shouldn't provide "data" yet
             assertEquals("yes", rootDataProviderModifier.dataProvider("isRoot"))
             assertEquals(null, rootDataProviderModifier.dataProvider("data"))

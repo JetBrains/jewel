@@ -29,6 +29,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import java.awt.Cursor
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -50,7 +51,6 @@ import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.painter.hints.Stateful
 import org.jetbrains.jewel.ui.util.thenIf
-import java.awt.Cursor
 
 @Composable
 public fun Link(
@@ -165,7 +165,8 @@ private fun LinkImpl(
     interactionSource: MutableInteractionSource,
     icon: IconKey?,
 ) {
-    var linkState by remember(interactionSource, enabled) { mutableStateOf(LinkState.of(enabled = enabled)) }
+    var linkState by
+        remember(interactionSource, enabled) { mutableStateOf(LinkState.of(enabled = enabled)) }
     remember(enabled) { linkState = linkState.copy(enabled = enabled) }
 
     val inputModeManager = LocalInputModeManager.current
@@ -174,8 +175,7 @@ private fun LinkImpl(
             when (interaction) {
                 is PressInteraction.Press -> linkState = linkState.copy(pressed = true)
                 is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                -> linkState = linkState.copy(pressed = false)
+                is PressInteraction.Release, -> linkState = linkState.copy(pressed = false)
 
                 is HoverInteraction.Enter -> linkState = linkState.copy(hovered = true)
                 is HoverInteraction.Exit -> linkState = linkState.copy(hovered = false)
@@ -185,39 +185,43 @@ private fun LinkImpl(
                     }
                 }
 
-                is FocusInteraction.Unfocus -> linkState = linkState.copy(focused = false, pressed = false)
+                is FocusInteraction.Unfocus ->
+                    linkState = linkState.copy(focused = false, pressed = false)
             }
         }
     }
 
     val textColor by style.colors.contentFor(linkState)
-    val mergedTextStyle = remember(style.underlineBehavior, textStyle, linkState, textColor) {
-        val decoration =
-            when {
-                style.underlineBehavior == ShowAlways -> TextDecoration.Underline
-                style.underlineBehavior == ShowOnHover && linkState.isHovered -> TextDecoration.Underline
-                else -> TextDecoration.None
-            }
+    val mergedTextStyle =
+        remember(style.underlineBehavior, textStyle, linkState, textColor) {
+            val decoration =
+                when {
+                    style.underlineBehavior == ShowAlways -> TextDecoration.Underline
+                    style.underlineBehavior == ShowOnHover && linkState.isHovered ->
+                        TextDecoration.Underline
+                    else -> TextDecoration.None
+                }
 
-        textStyle.merge(textDecoration = decoration, color = textColor)
-    }
+            textStyle.merge(textDecoration = decoration, color = textColor)
+        }
 
     val pointerChangeModifier = Modifier.pointerHoverIcon(PointerIcon(Cursor(Cursor.HAND_CURSOR)))
 
     Row(
         modifier =
-        modifier
-            .thenIf(linkState.isEnabled) { pointerChangeModifier }
-            .clickable(
-                onClick = {
-                    linkState = linkState.copy(visited = true)
-                    onClick()
-                },
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = null,
-            ).focusOutline(linkState, RoundedCornerShape(style.metrics.focusHaloCornerSize)),
+            modifier
+                .thenIf(linkState.isEnabled) { pointerChangeModifier }
+                .clickable(
+                    onClick = {
+                        linkState = linkState.copy(visited = true)
+                        onClick()
+                    },
+                    enabled = enabled,
+                    role = Role.Button,
+                    interactionSource = interactionSource,
+                    indication = null,
+                )
+                .focusOutline(linkState, RoundedCornerShape(style.metrics.focusHaloCornerSize)),
         horizontalArrangement = Arrangement.spacedBy(style.metrics.textIconGap),
         verticalAlignment = Alignment.CenterVertically,
     ) {

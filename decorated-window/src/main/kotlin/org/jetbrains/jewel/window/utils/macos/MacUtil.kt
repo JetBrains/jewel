@@ -1,13 +1,13 @@
 package org.jetbrains.jewel.window.utils.macos
 
-import org.jetbrains.jewel.window.utils.UnsafeAccessing
-import org.jetbrains.jewel.window.utils.accessible
 import java.awt.Component
 import java.awt.Window
 import java.lang.reflect.InvocationTargetException
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.swing.SwingUtilities
+import org.jetbrains.jewel.window.utils.UnsafeAccessing
+import org.jetbrains.jewel.window.utils.accessible
 
 internal object MacUtil {
     private val logger = Logger.getLogger(MacUtil::class.java.simpleName)
@@ -18,9 +18,7 @@ internal object MacUtil {
                 UnsafeAccessing.desktopModule,
                 listOf("sun.awt", "sun.lwawt", "sun.lwawt.macosx"),
             )
-        } catch (
-            @Suppress("TooGenericExceptionCaught") e: Exception,
-        ) {
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception,) {
             logger.log(Level.WARNING, "Assign access for jdk.desktop failed.", e)
         }
     }
@@ -33,7 +31,7 @@ internal object MacUtil {
             val cPlatformWindow = getPlatformWindow(w)
             if (cPlatformWindow != null) {
                 val ptr = cPlatformWindow.javaClass.superclass.getDeclaredField("ptr")
-                ptr.setAccessible(true)
+              ptr.isAccessible = true
                 return ID(ptr.getLong(cPlatformWindow))
             }
         } catch (e: IllegalAccessException) {
@@ -48,11 +46,13 @@ internal object MacUtil {
         try {
             val awtAccessor = Class.forName("sun.awt.AWTAccessor")
             val componentAccessor = awtAccessor.getMethod("getComponentAccessor").invoke(null)
-            val getPeer = componentAccessor.javaClass.getMethod("getPeer", Component::class.java).accessible()
+            val getPeer =
+                componentAccessor.javaClass.getMethod("getPeer", Component::class.java).accessible()
             val peer = getPeer.invoke(componentAccessor, w)
             if (peer != null) {
                 val cWindowPeerClass: Class<*> = peer.javaClass
-                val getPlatformWindowMethod = cWindowPeerClass.getDeclaredMethod("getPlatformWindow")
+                val getPlatformWindowMethod =
+                    cWindowPeerClass.getDeclaredMethod("getPlatformWindow")
                 val cPlatformWindow = getPlatformWindowMethod.invoke(peer)
                 if (cPlatformWindow != null) {
                     return cPlatformWindow
@@ -74,9 +74,9 @@ internal object MacUtil {
         SwingUtilities.invokeLater {
             val window = getWindowFromJavaWindow(w)
             val delegate = Foundation.invoke(window, "delegate")
-            if (Foundation.invoke(delegate, "respondsToSelector:", Foundation.createSelector("updateColors"))
-                    .booleanValue()
-            ) {
+            if (Foundation.invoke(
+                    delegate, "respondsToSelector:", Foundation.createSelector("updateColors"))
+                .booleanValue()) {
                 Foundation.invoke(delegate, "updateColors")
             }
         }

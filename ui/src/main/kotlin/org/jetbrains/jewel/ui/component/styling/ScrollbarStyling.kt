@@ -8,8 +8,8 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
-import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import kotlin.time.Duration
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
 @Stable
 @GenerateDataFunctions

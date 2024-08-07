@@ -133,17 +133,21 @@ private fun ChipImpl(
     modifier: Modifier,
     content: @Composable () -> Unit,
 ) {
-    var chipState by remember(interactionSource) {
-        mutableStateOf(ChipState.of(enabled = enabled, selected = selected))
-    }
+    var chipState by
+        remember(interactionSource) {
+            mutableStateOf(ChipState.of(enabled = enabled, selected = selected))
+        }
 
-    remember(enabled, selected) { chipState = chipState.copy(enabled = enabled, selected = selected) }
+    remember(enabled, selected) {
+        chipState = chipState.copy(enabled = enabled, selected = selected)
+    }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> chipState = chipState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release -> chipState = chipState.copy(pressed = false)
+                is PressInteraction.Cancel,
+                is PressInteraction.Release -> chipState = chipState.copy(pressed = false)
                 is HoverInteraction.Enter -> chipState = chipState.copy(hovered = true)
                 is HoverInteraction.Exit -> chipState = chipState.copy(hovered = false)
                 is FocusInteraction.Focus -> chipState = chipState.copy(focused = true)
@@ -167,19 +171,18 @@ private fun ChipImpl(
         modifier =
             modifier
                 .background(colors.backgroundFor(chipState).value, shape)
-                .thenIf(!chipState.isFocused) { border(Stroke.Alignment.Center, borderWidth, borderColor, shape) }
+                .thenIf(!chipState.isFocused) {
+                    border(Stroke.Alignment.Center, borderWidth, borderColor, shape)
+                }
                 .focusOutline(chipState, shape)
                 .padding(style.metrics.padding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
         val resolvedContentColor =
-            colors.contentFor(state = chipState).value
-                .takeOrElse { LocalContentColor.current }
+            colors.contentFor(state = chipState).value.takeOrElse { LocalContentColor.current }
 
-        CompositionLocalProvider(LocalContentColor provides resolvedContentColor) {
-            content()
-        }
+        CompositionLocalProvider(LocalContentColor provides resolvedContentColor) { content() }
     }
 }
 

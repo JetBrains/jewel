@@ -9,9 +9,8 @@ import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.modifier.modifierLocalOf
 
 /**
- * Holder for parent node of current [DataProviderNode]. So, each
- * [DataProviderNode] provides itself and read parent node. It allows
- * building tree of [DataProviderNode] and traverse it later on.
+ * Holder for parent node of current [DataProviderNode]. So, each [DataProviderNode] provides itself
+ * and read parent node. It allows building tree of [DataProviderNode] and traverse it later on.
  *
  * @see ModifierLocalModifierNode
  */
@@ -29,7 +28,8 @@ internal class DataProviderNode(
     private val _children = mutableSetOf<DataProviderNode>()
     val children: Set<DataProviderNode> = _children
 
-    override val providedValues: ModifierLocalMap = modifierLocalMapOf(LocalDataProviderNode to this)
+    override val providedValues: ModifierLocalMap =
+        modifierLocalMapOf(LocalDataProviderNode to this)
 
     override fun onAttach() {
         val oldParent = parent
@@ -49,7 +49,7 @@ internal class DataProviderNode(
         hasFocus = focusState.hasFocus
     }
 
-    public fun updateParent() {
+    fun updateParent() {
         parent = LocalDataProviderNode.current
     }
 }

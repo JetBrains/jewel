@@ -2,17 +2,18 @@ package org.jetbrains.jewel.ui.painter.hints
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import kotlin.math.roundToInt
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.PainterProviderScope
 import org.jetbrains.jewel.ui.painter.PainterSvgPatchHint
 import org.jetbrains.jewel.ui.util.toRgbaHexString
 import org.w3c.dom.Element
-import kotlin.math.roundToInt
 
 @Immutable
 @GenerateDataFunctions
-private class ColorBasedReplacementPainterSvgPatchHint(val map: Map<Color, Color>) : PainterSvgPatchHint {
+private class ColorBasedReplacementPainterSvgPatchHint(val map: Map<Color, Color>) :
+    PainterSvgPatchHint {
     override fun PainterProviderScope.patch(element: Element) {
         element.patchPalette(map)
     }
@@ -117,10 +118,11 @@ private fun fromHexOrNull(
 }
 
 /**
- * Creates a PainterHint that replaces all colors in the [paletteMap] with their
- * corresponding new value. It is used in IJ up to 23.3 to support patching the
- * SVG colors for checkboxes and radio buttons.
+ * Creates a PainterHint that replaces all colors in the [paletteMap] with their corresponding new
+ * value. It is used in IJ up to 23.3 to support patching the SVG colors for checkboxes and radio
+ * buttons.
  */
 @Suppress("FunctionName")
 public fun ColorBasedPaletteReplacement(paletteMap: Map<Color, Color>): PainterHint =
-    if (paletteMap.isEmpty()) PainterHint.None else ColorBasedReplacementPainterSvgPatchHint(paletteMap)
+    if (paletteMap.isEmpty()) PainterHint.None
+    else ColorBasedReplacementPainterSvgPatchHint(paletteMap)

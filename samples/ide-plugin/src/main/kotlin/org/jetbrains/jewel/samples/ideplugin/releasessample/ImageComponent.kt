@@ -5,11 +5,6 @@ import com.intellij.openapi.ui.GraphicsConfig
 import com.intellij.ui.util.maximumHeight
 import com.intellij.ui.util.maximumWidth
 import com.intellij.util.ui.ImageUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 import java.awt.Dimension
 import java.awt.Graphics
 import java.awt.Graphics2D
@@ -18,6 +13,11 @@ import java.awt.event.ComponentEvent
 import java.awt.event.ComponentListener
 import java.awt.image.BufferedImage
 import javax.swing.JComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 // TODO: figure out how to show a placeholder while the image is being loaded,
 //  while avoiding infinite loops of resized -> updateScaledImage() ->
@@ -61,7 +61,10 @@ internal class ImageComponent(
         registerUiInspectorInfoProvider {
             mapOf(
                 "image" to image,
-                "imageSize" to image?.let { Dimension(ImageUtil.getUserWidth(it), ImageUtil.getUserHeight(it)) },
+                "imageSize" to
+                    image?.let {
+                        Dimension(ImageUtil.getUserWidth(it), ImageUtil.getUserHeight(it))
+                    },
             )
         }
     }

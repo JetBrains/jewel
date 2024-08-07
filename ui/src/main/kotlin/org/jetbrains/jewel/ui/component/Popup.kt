@@ -76,8 +76,10 @@ internal data class AnchorVerticalMenuPositionProvider(
     ): IntOffset {
         val topMargin = with(density) { contentMargin.calculateTopPadding().roundToPx() }
         val bottomMargin = with(density) { contentMargin.calculateBottomPadding().roundToPx() }
-        val leftMargin = with(density) { contentMargin.calculateLeftPadding(layoutDirection).roundToPx() }
-        val rightMargin = with(density) { contentMargin.calculateRightPadding(layoutDirection).roundToPx() }
+        val leftMargin =
+            with(density) { contentMargin.calculateLeftPadding(layoutDirection).roundToPx() }
+        val rightMargin =
+            with(density) { contentMargin.calculateRightPadding(layoutDirection).roundToPx() }
 
         val windowSpaceBounds =
             IntRect(
@@ -137,8 +139,10 @@ internal data class AnchorHorizontalMenuPositionProvider(
     ): IntOffset {
         val topMargin = with(density) { contentMargin.calculateTopPadding().roundToPx() }
         val bottomMargin = with(density) { contentMargin.calculateBottomPadding().roundToPx() }
-        val leftMargin = with(density) { contentMargin.calculateLeftPadding(layoutDirection).roundToPx() }
-        val rightMargin = with(density) { contentMargin.calculateRightPadding(layoutDirection).roundToPx() }
+        val leftMargin =
+            with(density) { contentMargin.calculateLeftPadding(layoutDirection).roundToPx() }
+        val rightMargin =
+            with(density) { contentMargin.calculateRightPadding(layoutDirection).roundToPx() }
 
         val windowSpaceBounds =
             IntRect(

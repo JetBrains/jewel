@@ -199,10 +199,15 @@ private fun CoreSelectableIconActionButton(
     extraHints: Array<PainterHint>,
     onClick: () -> Unit,
 ) {
-    SelectableIconButton(selected, onClick, modifier, enabled, focusable, style, interactionSource) {
-        val strokeColor by style.colors.selectableForegroundFor(it)
-        Icon(key, contentDescription, iconClass = iconClass, hints = arrayOf(Stroke(strokeColor), *extraHints))
-    }
+    SelectableIconButton(
+        selected, onClick, modifier, enabled, focusable, style, interactionSource) {
+            val strokeColor by style.colors.selectableForegroundFor(it)
+            Icon(
+                key,
+                contentDescription,
+                iconClass = iconClass,
+                hints = arrayOf(Stroke(strokeColor), *extraHints))
+        }
 }
 
 @Composable
@@ -288,10 +293,15 @@ private fun CoreToggleableIconActionButton(
     extraHints: Array<PainterHint>,
     onValueChange: (Boolean) -> Unit,
 ) {
-    ToggleableIconButton(value, onValueChange, modifier, enabled, focusable, style, interactionSource) {
-        val strokeColor by style.colors.toggleableForegroundFor(it)
-        Icon(key, contentDescription, iconClass = iconClass, hints = arrayOf(Stroke(strokeColor), *extraHints))
-    }
+    ToggleableIconButton(
+        value, onValueChange, modifier, enabled, focusable, style, interactionSource) {
+            val strokeColor by style.colors.toggleableForegroundFor(it)
+            Icon(
+                key,
+                contentDescription,
+                iconClass = iconClass,
+                hints = arrayOf(Stroke(strokeColor), *extraHints))
+        }
 }
 
 @Composable

@@ -31,29 +31,30 @@ open class MergeSarifTask : SourceTask() {
 
         logger.lifecycle("Merging ${source.files.size} SARIF file(s)...")
         logger.lifecycle(
-            source.files.joinToString("\n") { " *  ~${it.path.removePrefix(project.rootDir.path)}" }
-        )
+            source.files.joinToString("\n") {
+                " *  ~${it.path.removePrefix(project.rootDir.path)}"
+            })
 
         val merged =
             SarifSchema210(
                 schema = SARIF_SCHEMA,
                 version = Version.The210,
-                runs = source.files
-                    .asSequence()
-                    .filter { it.extension == "sarif" }
-                    .map { file ->
-                        file.inputStream().use { json.decodeFromStream<SarifSchema210>(it) }
-                    }
-                    .flatMap { report -> report.runs }
-                    .groupBy { run -> run.tool.driver.guid ?: run.tool.driver.name }
-                    .values
-                    .asSequence()
-                    .filter { it.isNotEmpty() }
-                    .map { run ->
-                        run.first().copy(results = run.flatMap { it.results ?: emptyList() })
-                    }
-                    .toList()
-            )
+                runs =
+                    source.files
+                        .asSequence()
+                        .filter { it.extension == "sarif" }
+                        .map { file ->
+                            file.inputStream().use { json.decodeFromStream<SarifSchema210>(it) }
+                        }
+                        .flatMap { report -> report.runs }
+                        .groupBy { run -> run.tool.driver.guid ?: run.tool.driver.name }
+                        .values
+                        .asSequence()
+                        .filter { it.isNotEmpty() }
+                        .map { run ->
+                            run.first().copy(results = run.flatMap { it.results ?: emptyList() })
+                        }
+                        .toList())
 
         logger.lifecycle("Merged SARIF file contains ${merged.runs.size} run(s)")
         logger.info("Writing merged SARIF file to $mergedSarifPath...")

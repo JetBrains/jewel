@@ -24,8 +24,7 @@ public interface SelectableScope {
 }
 
 /**
- * State object for a selectable lazy list, which extends
- * [ScrollableState].
+ * State object for a selectable lazy list, which extends [ScrollableState].
  *
  * @param lazyListState The state object for the underlying lazy list.
  */
@@ -72,24 +71,22 @@ public class SelectableLazyListState(
     public val layoutInfo: LazyListLayoutInfo
         get() = lazyListState.layoutInfo
 
-    /**
-     * The index of the first item that is visible.
-     */
+    /** The index of the first item that is visible. */
     public val firstVisibleItemIndex: Int
         get() = lazyListState.firstVisibleItemIndex
 
     /**
-     * The scroll offset of the first visible item. Scrolling forward is
-     * positive - i.e., the amount that the item is offset backwards.
+     * The scroll offset of the first visible item. Scrolling forward is positive - i.e., the amount
+     * that the item is offset backwards.
      */
     @Suppress("unused")
     public val firstVisibleItemScrollOffset: Int
         get() = lazyListState.firstVisibleItemScrollOffset
 
     /**
-     * [InteractionSource] that will be used to dispatch drag events when
-     * this list is being dragged. If you want to know whether the fling
-     * (or animated scroll) is in progress, use [isScrollInProgress].
+     * [InteractionSource] that will be used to dispatch drag events when this list is being
+     * dragged. If you want to know whether the fling (or animated scroll) is in progress, use
+     * [isScrollInProgress].
      */
     public val interactionSource: InteractionSource
         get() = lazyListState.interactionSource
@@ -107,13 +104,9 @@ private suspend fun LazyListState.scrollToItem(
     }
 }
 
-/**
- * Represents a selectable key used in a selectable lazy list.
- */
+/** Represents a selectable key used in a selectable lazy list. */
 public sealed class SelectableLazyListKey {
-    /**
-     * The key associated with the item.
-     */
+    /** The key associated with the item. */
     public abstract val key: Any
 
     /**
@@ -151,23 +144,15 @@ public interface SelectableLazyItemScope : LazyItemScope {
     public val isActive: Boolean
 }
 
-/**
- * Specifies the selection mode for a selectable lazy list.
- */
+/** Specifies the selection mode for a selectable lazy list. */
 public enum class SelectionMode {
-    /**
-     * No selection is allowed.
-     */
+    /** No selection is allowed. */
     None,
 
-    /**
-     * Only a single item can be selected.
-     */
+    /** Only a single item can be selected. */
     Single,
 
-    /**
-     * Multiple items can be selected.
-     */
+    /** Multiple items can be selected. */
     Multiple,
 }
 
@@ -175,17 +160,15 @@ public enum class SelectionMode {
  * Remembers the state of a selectable lazy list.
  *
  * @param firstVisibleItemIndex The index of the first visible item.
- * @param firstVisibleItemScrollOffset The scroll offset of the first
- *     visible item.
+ * @param firstVisibleItemScrollOffset The scroll offset of the first visible item.
  * @return The remembered state of the selectable lazy list.
  */
 @Composable
 public fun rememberSelectableLazyListState(
     firstVisibleItemIndex: Int = 0,
     firstVisibleItemScrollOffset: Int = 0,
-): SelectableLazyListState =
-    remember {
-        SelectableLazyListState(
-            LazyListState(firstVisibleItemIndex, firstVisibleItemScrollOffset),
-        )
-    }
+): SelectableLazyListState = remember {
+    SelectableLazyListState(
+        LazyListState(firstVisibleItemIndex, firstVisibleItemScrollOffset),
+    )
+}

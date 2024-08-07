@@ -72,14 +72,15 @@ private fun CircularProgressIndicatorImpl(
     val defaultColor = if (JewelTheme.isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD)
 
     val density = LocalDensity.current
-    val frames by produceState(emptyList(), density, style.color, defaultColor, dispatcher) {
-        value =
-            withContext(dispatcher) {
-                frameRetriever(style.color.takeOrElse { defaultColor }).map {
-                    loadSvgPainter(it.byteInputStream(), density)
+    val frames by
+        produceState(emptyList(), density, style.color, defaultColor, dispatcher) {
+            value =
+                withContext(dispatcher) {
+                    frameRetriever(style.color.takeOrElse { defaultColor }).map {
+                        loadSvgPainter(it.byteInputStream(), density)
+                    }
                 }
-            }
-    }
+        }
 
     if (frames.isEmpty()) {
         Box(modifier.size(iconSize))
@@ -95,14 +96,16 @@ private fun CircularProgressIndicatorImpl(
                     InfiniteRepeatableSpec(
                         tween(
                             easing = LinearEasing,
-                            durationMillis = (style.frameTime.inWholeMilliseconds * framesCount).toInt(),
+                            durationMillis =
+                                (style.frameTime.inWholeMilliseconds * framesCount).toInt(),
                         ),
                         repeatMode = RepeatMode.Restart,
                     ),
             )
 
         val currentPainter = frames[currentIndex]
-        Icon(modifier = modifier.size(iconSize), painter = currentPainter, contentDescription = null)
+        Icon(
+            modifier = modifier.size(iconSize), painter = currentPainter, contentDescription = null)
     }
 }
 
@@ -135,40 +138,50 @@ private object SpinnerProgressIconGenerator {
         opacityList: List<Float>,
     ) {
         appendLine()
-        appendLine("""    <rect fill="$colorHex" opacity="${opacityList[0]}" x="7" y="1" width="2" height="4" rx="1"/>""")
-        appendLine("""    <rect fill="$colorHex" opacity="${opacityList[1]}" x="2.34961" y="3.76416" width="2" height="4" rx="1"""")
+        appendLine(
+            """    <rect fill="$colorHex" opacity="${opacityList[0]}" x="7" y="1" width="2" height="4" rx="1"/>""")
+        appendLine(
+            """    <rect fill="$colorHex" opacity="${opacityList[1]}" x="2.34961" y="3.76416" width="2" height="4" rx="1"""")
         appendLine("""          transform="rotate(-45 2.34961 3.76416)"/>""")
-        appendLine("""    <rect fill="$colorHex" opacity="${opacityList[2]}" x="1" y="7" width="4" height="2" rx="1"/>""")
-        appendLine("""    <rect fill="$colorHex" opacity="${opacityList[3]}" x="5.17871" y="9.40991" width="2" height="4" rx="1"""")
+        appendLine(
+            """    <rect fill="$colorHex" opacity="${opacityList[2]}" x="1" y="7" width="4" height="2" rx="1"/>""")
+        appendLine(
+            """    <rect fill="$colorHex" opacity="${opacityList[3]}" x="5.17871" y="9.40991" width="2" height="4" rx="1"""")
         appendLine("""          transform="rotate(45 5.17871 9.40991)"/>""")
-        appendLine("""    <rect fill="$colorHex" opacity="${opacityList[4]}" x="7" y="11" width="2" height="4" rx="1"/>""")
-        appendLine("""    <rect fill="$colorHex" opacity="${opacityList[5]}" x="9.41016" y="10.8242" width="2" height="4" rx="1"""")
+        appendLine(
+            """    <rect fill="$colorHex" opacity="${opacityList[4]}" x="7" y="11" width="2" height="4" rx="1"/>""")
+        appendLine(
+            """    <rect fill="$colorHex" opacity="${opacityList[5]}" x="9.41016" y="10.8242" width="2" height="4" rx="1"""")
         appendLine("""          transform="rotate(-45 9.41016 10.8242)"/>""")
-        appendLine("""    <rect fill="$colorHex" opacity="${opacityList[6]}" x="11" y="7" width="4" height="2" rx="1"/>""")
-        appendLine("""    <rect fill="$colorHex" opacity="${opacityList[7]}" x="12.2383" y="2.3501" width="2" height="4" rx="1"""")
+        appendLine(
+            """    <rect fill="$colorHex" opacity="${opacityList[6]}" x="11" y="7" width="4" height="2" rx="1"/>""")
+        appendLine(
+            """    <rect fill="$colorHex" opacity="${opacityList[7]}" x="12.2383" y="2.3501" width="2" height="4" rx="1"""")
         appendLine("""          transform="rotate(45 12.2383 2.3501)"/>""")
     }
 
     object Small {
-        fun generateSvgFrames(colorHex: String): List<String> =
-            buildList {
-                val opacityListShifted = opacityList.toMutableList()
-                repeat(opacityList.count()) {
-                    add(generateSvgIcon(size = 16, colorHex = colorHex, opacityListShifted = opacityListShifted))
-                    opacityListShifted.shtr()
-                }
+        fun generateSvgFrames(colorHex: String): List<String> = buildList {
+            val opacityListShifted = opacityList.toMutableList()
+            repeat(opacityList.count()) {
+                add(
+                    generateSvgIcon(
+                        size = 16, colorHex = colorHex, opacityListShifted = opacityListShifted))
+                opacityListShifted.shtr()
             }
+        }
     }
 
     object Big {
-        fun generateSvgFrames(colorHex: String): List<String> =
-            buildList {
-                val opacityListShifted = opacityList.toMutableList()
-                repeat(opacityList.count()) {
-                    add(generateSvgIcon(size = 32, colorHex = colorHex, opacityListShifted = opacityListShifted))
-                    opacityListShifted.shtr()
-                }
+        fun generateSvgFrames(colorHex: String): List<String> = buildList {
+            val opacityListShifted = opacityList.toMutableList()
+            repeat(opacityList.count()) {
+                add(
+                    generateSvgIcon(
+                        size = 32, colorHex = colorHex, opacityListShifted = opacityListShifted))
+                opacityListShifted.shtr()
             }
+        }
     }
 
     private fun <T> MutableList<T>.shtr() {

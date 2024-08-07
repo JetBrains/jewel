@@ -33,7 +33,8 @@ public object GitHubAlertProcessorExtension : MarkdownProcessorExtension {
     override val textRendererExtension: TextContentRendererExtension =
         GitHubAlertCommonMarkExtension
 
-    override val blockProcessorExtension: MarkdownBlockProcessorExtension = GitHubAlertProcessorExtension
+    override val blockProcessorExtension: MarkdownBlockProcessorExtension =
+        GitHubAlertProcessorExtension
 
     private object GitHubAlertProcessorExtension : MarkdownBlockProcessorExtension {
         override fun canProcess(block: CustomBlock): Boolean = block is AlertBlock

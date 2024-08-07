@@ -44,8 +44,7 @@ public fun Tooltip(
             ) {
                 Box(
                     modifier =
-                        Modifier
-                            .shadow(
+                        Modifier.shadow(
                                 elevation = style.metrics.shadowSize,
                                 shape = RoundedCornerShape(style.metrics.cornerSize),
                                 ambientColor = style.colors.shadow,
@@ -62,9 +61,7 @@ public fun Tooltip(
                             )
                             .padding(style.metrics.contentPadding),
                 ) {
-                    OverrideDarkMode(style.colors.background.isDark()) {
-                        tooltip()
-                    }
+                    OverrideDarkMode(style.colors.background.isDark()) { tooltip() }
                 }
             }
         },
@@ -76,9 +73,9 @@ public fun Tooltip(
 }
 
 /**
- * [TooltipPlacement] implementation for providing a [PopupPositionProvider] that calculates
- * the position of the popup relative to the current mouse cursor position, but never changes
- * it after showing the popup.
+ * [TooltipPlacement] implementation for providing a [PopupPositionProvider] that calculates the
+ * position of the popup relative to the current mouse cursor position, but never changes it after
+ * showing the popup.
  *
  * @param offset [DpOffset] to be added to the position of the popup.
  * @param alignment The alignment of the popup relative to the current cursor position.

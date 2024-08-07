@@ -69,7 +69,8 @@ public class ThemeColorPalette(
         }
 
         return when (colorGroup) {
-            "grey", "gray" -> gray(colorIndex)
+            "grey",
+            "gray" -> gray(colorIndex)
             "blue" -> blue(colorIndex)
             "green" -> green(colorIndex)
             "red" -> red(colorIndex)

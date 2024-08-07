@@ -50,9 +50,7 @@ public fun ActionButton(
         interactionSource,
         modifier,
     ) {
-        Box(Modifier.padding(contentPadding)) {
-            content()
-        }
+        Box(Modifier.padding(contentPadding)) { content() }
     }
 }
 
@@ -83,9 +81,7 @@ public fun ActionButton(
             style = style,
             interactionSource = interactionSource,
         ) {
-            Box(Modifier.padding(contentPadding)) {
-                content()
-            }
+            Box(Modifier.padding(contentPadding)) { content() }
         }
     }
 }
@@ -100,7 +96,5 @@ private fun CoreActionButton(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    IconButton(onClick, modifier, enabled, focusable, style, interactionSource) {
-        content()
-    }
+    IconButton(onClick, modifier, enabled, focusable, style, interactionSource) { content() }
 }

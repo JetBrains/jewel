@@ -42,7 +42,8 @@ fun TextAreas() {
         TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f).fillMaxHeight())
 
         var text2 by remember { mutableStateOf(LOREM_IPSUM) }
-        TextArea(text2, { text2 = it }, modifier = Modifier.weight(1f).fillMaxHeight(), enabled = false)
+        TextArea(
+            text2, { text2 = it }, modifier = Modifier.weight(1f).fillMaxHeight(), enabled = false)
 
         var text3 by remember { mutableStateOf("") }
         TextArea(

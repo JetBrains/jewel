@@ -10,29 +10,24 @@ import org.jetbrains.jewel.markdown.MimeType.Known.TYPESCRIPT
 import org.jetbrains.jewel.markdown.MimeType.Known.YAML
 
 /**
- * Represents the language and dialect of a source snippet, as an RFC 2046
- * mime type.
+ * Represents the language and dialect of a source snippet, as an RFC 2046 mime type.
  *
- * For example, a Kotlin source file may have the mime type `text/kotlin`.
- * However, if it corresponds to a `build.gradle.kts` file, we'll also
- * attach the mime parameter `role=gradle`, resulting in mime type
- * `text/kotlin; role=gradle`.
+ * For example, a Kotlin source file may have the mime type `text/kotlin`. However, if it
+ * corresponds to a `build.gradle.kts` file, we'll also attach the mime parameter `role=gradle`,
+ * resulting in mime type `text/kotlin; role=gradle`.
  *
- * For XML resource files, we'll attach other attributes; for example
- * `role=manifest` for Android manifest files and `role=resource` for
- * XML resource files. For the latter we may also attach for example
- * `folderType=values`, and for XML files in general, the root tag, such
- * as `text/xml; role=resource; folderType=layout; rootTag=LinearLayout`.
+ * For XML resource files, we'll attach other attributes; for example `role=manifest` for Android
+ * manifest files and `role=resource` for XML resource files. For the latter we may also attach for
+ * example `folderType=values`, and for XML files in general, the root tag, such as `text/xml;
+ * role=resource; folderType=layout; rootTag=LinearLayout`.
  *
- * This class does not implement *all* aspects of the RFC; in particular,
- * we don't treat attributes as case-insensitive, and we only support
- * value tokens, not value strings -- neither of these are needed for our
- * purposes.
+ * This class does not implement *all* aspects of the RFC; in particular, we don't treat attributes
+ * as case-insensitive, and we only support value tokens, not value strings -- neither of these are
+ * needed for our purposes.
  *
- * This is implemented using a value class, such that behind the scenes
- * we're really just passing a String around. This also means we can't
- * initialize related values such as the corresponding Markdown fenced
- * block names, or IntelliJ language id's. Instead, these are looked up via
+ * This is implemented using a value class, such that behind the scenes we're really just passing a
+ * String around. This also means we can't initialize related values such as the corresponding
+ * Markdown fenced block names, or IntelliJ language id's. Instead, these are looked up via
  * `when`-tables. When adding a new language, update all lookup methods:
  * * [displayName]
  */
@@ -40,7 +35,7 @@ import org.jetbrains.jewel.markdown.MimeType.Known.YAML
 public value class MimeType(private val mimeType: String) {
     public fun displayName(): String =
         when (normalizeString()) {
-            Known.KOTLIN.mimeType -> if (isGradle()) "Gradle DSL" else "Kotlin"
+            KOTLIN.mimeType -> if (isGradle()) "Gradle DSL" else "Kotlin"
             Known.JAVA.mimeType -> "Java"
             Known.XML.mimeType -> {
                 when (getRole()) {
@@ -55,7 +50,7 @@ public value class MimeType(private val mimeType: String) {
                 }
             }
 
-            Known.JSON.mimeType -> "JSON"
+            JSON.mimeType -> "JSON"
             Known.TEXT.mimeType -> "Text"
             Known.REGEX.mimeType -> "Regular Expression"
             Known.GROOVY.mimeType -> if (isGradle()) "Gradle" else "Groovy"
@@ -68,13 +63,13 @@ public value class MimeType(private val mimeType: String) {
             Known.PROGUARD.mimeType -> "Shrinker Config"
             Known.PROPERTIES.mimeType -> "Properties"
             Known.PROTO.mimeType -> "Protobuf"
-            Known.PYTHON.mimeType -> "Python"
-            Known.DART.mimeType -> "Dart"
-            Known.RUST.mimeType -> "Rust"
+            PYTHON.mimeType -> "Python"
+            DART.mimeType -> "Dart"
+            RUST.mimeType -> "Rust"
             Known.JAVASCRIPT.mimeType -> "JavaScript"
-            Known.AGSL.mimeType -> "Android Graphics Shading Language"
+            AGSL.mimeType -> "Android Graphics Shading Language"
             Known.SHELL.mimeType -> "Shell Script"
-            Known.YAML.mimeType -> "YAML"
+            YAML.mimeType -> "YAML"
             Known.GO.mimeType -> "Go"
             else -> mimeType
         }
@@ -82,13 +77,13 @@ public value class MimeType(private val mimeType: String) {
     private fun normalizeString(): String {
         when (this) {
             // Built-ins are already normalized, don't do string and sorting work
-            Known.KOTLIN,
+            KOTLIN,
             Known.JAVA,
             Known.TEXT,
             Known.XML,
             Known.PROPERTIES,
             Known.TOML,
-            Known.JSON,
+            JSON,
             Known.REGEX,
             Known.GROOVY,
             Known.C,
@@ -103,17 +98,16 @@ public value class MimeType(private val mimeType: String) {
             Known.GRADLE,
             Known.GRADLE_KTS,
             Known.VERSION_CATALOG,
-            Known.PYTHON,
-            Known.DART,
-            Known.RUST,
+            PYTHON,
+            DART,
+            RUST,
             Known.JAVASCRIPT,
-            Known.TYPESCRIPT,
-            Known.AGSL,
+            TYPESCRIPT,
+            AGSL,
             Known.SHELL,
-            Known.YAML,
+            YAML,
             Known.GO,
-            Known.UNKNOWN,
-            -> return this.mimeType
+            Known.UNKNOWN, -> return this.mimeType
         }
 
         val baseEnd = mimeType.indexOf(';')
@@ -121,49 +115,41 @@ public value class MimeType(private val mimeType: String) {
             when (val base = if (baseEnd == -1) mimeType else mimeType.substring(0, baseEnd)) {
                 "text/x-java-source",
                 "application/x-java",
-                "text/x-java",
-                -> Known.JAVA.mimeType
+                "text/x-java", -> Known.JAVA.mimeType
 
                 "application/kotlin-source",
                 "text/x-kotlin",
-                "text/x-kotlin-source",
-                -> KOTLIN.mimeType
+                "text/x-kotlin-source", -> KOTLIN.mimeType
 
                 "application/xml" -> Known.XML.mimeType
                 "application/json",
                 "application/vnd.api+json",
                 "application/hal+json",
-                "application/ld+json",
-                -> JSON.mimeType
+                "application/ld+json", -> JSON.mimeType
 
                 "image/svg+xml" -> Known.XML.mimeType
                 "text/x-python",
-                "application/x-python-script",
-                -> PYTHON.mimeType
+                "application/x-python-script", -> PYTHON.mimeType
 
                 "text/dart",
                 "text/x-dart",
                 "application/dart",
-                "application/x-dart",
-                -> DART.mimeType
+                "application/x-dart", -> DART.mimeType
 
                 "application/javascript",
                 "application/x-javascript",
                 "text/ecmascript",
                 "application/ecmascript",
-                "application/x-ecmascript",
-                -> Known.JAVASCRIPT.mimeType
+                "application/x-ecmascript", -> Known.JAVASCRIPT.mimeType
 
                 "application/typescript" + "application/x-typescript" -> TYPESCRIPT.mimeType
                 "text/x-rust",
-                "application/x-rust",
-                -> RUST.mimeType
+                "application/x-rust", -> RUST.mimeType
 
                 "text/x-sksl" -> AGSL.mimeType
                 "application/yaml",
                 "text/x-yaml",
-                "application/x-yaml",
-                -> YAML.mimeType
+                "application/x-yaml", -> YAML.mimeType
 
                 else -> base
             }
@@ -197,16 +183,12 @@ public value class MimeType(private val mimeType: String) {
         }
     }
 
-    /**
-     * Returns whether the given attribute should be included in a normalized
-     * string
-     */
+    /** Returns whether the given attribute should be included in a normalized string */
     private fun isRelevantAttribute(attribute: String): Boolean =
         when (attribute) {
             ATTR_ROLE,
             ATTR_ROOT_TAG,
-            ATTR_FOLDER_TYPE,
-            -> true
+            ATTR_FOLDER_TYPE, -> true
 
             else -> false
         }
@@ -214,9 +196,8 @@ public value class MimeType(private val mimeType: String) {
     /**
      * Returns just the language portion of the mime type.
      *
-     * For example, for `text/kotlin; role=gradle` this will return
-     * `text/kotlin`. For `text/plain; charset=us-ascii` this returns
-     * `text/plain`
+     * For example, for `text/kotlin; role=gradle` this will return `text/kotlin`. For `text/plain;
+     * charset=us-ascii` this returns `text/plain`
      */
     public fun base(): MimeType = MimeType(mimeType.substringBefore(';').trim())
 
@@ -242,15 +223,12 @@ public value class MimeType(private val mimeType: String) {
 
     private companion object {
         /**
-         * Attribute used to indicate the role this source file plays; for example,
-         * an XML file may be a "manifest" or a "resource".
+         * Attribute used to indicate the role this source file plays; for example, an XML file may
+         * be a "manifest" or a "resource".
          */
         const val ATTR_ROLE: String = "role"
 
-        /**
-         * For XML resource files, the folder type if any (such as "values" or
-         * "layout")
-         */
+        /** For XML resource files, the folder type if any (such as "values" or "layout") */
         const val ATTR_FOLDER_TYPE: String = "folderType"
 
         /** For XML files, the root tag in the content */
@@ -264,10 +242,10 @@ public value class MimeType(private val mimeType: String) {
         // Well known mime types for major languages.
 
         /**
-         * Well known name for Kotlin source snippets. This is the base mime type;
-         * consider using [isKotlin] instead to check if a mime type represents
-         * Kotlin code such that it also picks up `build.gradle.kts` files
-         * (which carry extra attributes in the mime type; see [GRADLE_KTS].)
+         * Well known name for Kotlin source snippets. This is the base mime type; consider using
+         * [isKotlin] instead to check if a mime type represents Kotlin code such that it also picks
+         * up `build.gradle.kts` files (which carry extra attributes in the mime type; see
+         * [GRADLE_KTS].)
          */
         public val KOTLIN: MimeType = MimeType("text/kotlin")
 
@@ -278,23 +256,21 @@ public value class MimeType(private val mimeType: String) {
         public val TEXT: MimeType = MimeType("text/plain")
 
         /**
-         * Special marker mimetype for unknown or unspecified mime types. These
-         * will generally be treated as [TEXT] for editor purposes. (The standard
-         * "unknown" mime type is application/octet-stream (from RFC 2046) but we
-         * know this isn't binary data; it's text.)
+         * Special marker mimetype for unknown or unspecified mime types. These will generally be
+         * treated as [TEXT] for editor purposes. (The standard "unknown" mime type is
+         * application/octet-stream (from RFC 2046) but we know this isn't binary data; it's text.)
          *
-         * Note that [MimeType] is generally nullable in places where it's optional
-         * instead of being set to this value, but this mime type is there for
-         * places where we need a specific value to point to.
+         * Note that [MimeType] is generally nullable in places where it's optional instead of being
+         * set to this value, but this mime type is there for places where we need a specific value
+         * to point to.
          */
         public val UNKNOWN: MimeType = MimeType("text/unknown")
 
         /**
-         * Well known name for XML source snippets. This is the base mime type;
-         * consider using [isXml] instead to check if a mime type represents any
-         * XML such that it also picks up manifest files, resource files etc.,
-         * which all carry extra attributes in the mime type; see for example
-         * [MANIFEST] and [RESOURCE].
+         * Well known name for XML source snippets. This is the base mime type; consider using
+         * [isXml] instead to check if a mime type represents any XML such that it also picks up
+         * manifest files, resource files etc., which all carry extra attributes in the mime type;
+         * see for example [MANIFEST] and [RESOURCE].
          */
         public val XML: MimeType = MimeType("text/xml")
         public val PROPERTIES: MimeType = MimeType("text/properties")
@@ -320,8 +296,8 @@ public value class MimeType(private val mimeType: String) {
         public val GO: MimeType = MimeType("text/go")
 
         /**
-         * Note that most resource files will also have a folder type, so don't use
-         * equality on this mime type
+         * Note that most resource files will also have a folder type, so don't use equality on this
+         * mime type
          */
         public val RESOURCE: MimeType = MimeType("$XML; $ATTR_ROLE=resource")
         public val MANIFEST: MimeType = MimeType("$XML;$ATTR_ROLE=manifest $ATTR_ROOT_TAG=manifest")
@@ -334,18 +310,15 @@ public value class MimeType(private val mimeType: String) {
             when (name) {
                 "kotlin",
                 "kt",
-                "kts",
-                -> KOTLIN
+                "kts", -> KOTLIN
 
                 "java" -> JAVA
                 "xml" -> XML
                 "json",
-                "json5",
-                -> JSON
+                "json5", -> JSON
 
                 "regex",
-                "regexp",
-                -> REGEX
+                "regexp", -> REGEX
 
                 "groovy" -> GROOVY
                 "toml" -> TOML
@@ -359,30 +332,25 @@ public value class MimeType(private val mimeType: String) {
                 "python2",
                 "python3",
                 "py",
-                "python",
-                -> PYTHON
+                "python", -> PYTHON
 
                 "dart" -> DART
                 "rust" -> RUST
                 "js",
-                "javascript",
-                -> JAVASCRIPT
+                "javascript", -> JAVASCRIPT
 
                 "typescript" -> TYPESCRIPT
                 "sksl" -> AGSL
                 "sh",
                 "bash",
                 "zsh",
-                "shell",
-                -> SHELL
+                "shell", -> SHELL
 
                 "yaml",
-                "yml",
-                -> YAML
+                "yml", -> YAML
 
                 "go",
-                "golang",
-                -> YAML
+                "golang", -> YAML
 
                 else -> null
             }
@@ -390,7 +358,7 @@ public value class MimeType(private val mimeType: String) {
 }
 
 /** Is the base language for this mime type Kotlin? */
-public fun MimeType?.isKotlin(): Boolean = this?.base() == MimeType.Known.KOTLIN
+public fun MimeType?.isKotlin(): Boolean = this?.base() == KOTLIN
 
 /** Is the base language for this mime type Java? */
 public fun MimeType?.isJava(): Boolean = this?.base() == MimeType.Known.JAVA

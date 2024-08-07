@@ -20,19 +20,22 @@ import org.jetbrains.jewel.ui.component.Divider
 
 @Composable
 fun MarkdownDemo() {
-    Row(Modifier.trackActivation().fillMaxSize().background(JewelTheme.globalColors.panelBackground)) {
-        var currentMarkdown by remember { mutableStateOf(JewelReadme) }
-        MarkdownEditor(
-            currentMarkdown = currentMarkdown,
-            onMarkdownChange = { currentMarkdown = it },
-            modifier = Modifier.fillMaxHeight().weight(1f),
-        )
+    Row(
+        Modifier.trackActivation()
+            .fillMaxSize()
+            .background(JewelTheme.globalColors.panelBackground)) {
+            var currentMarkdown by remember { mutableStateOf(JewelReadme) }
+            MarkdownEditor(
+                currentMarkdown = currentMarkdown,
+                onMarkdownChange = { currentMarkdown = it },
+                modifier = Modifier.fillMaxHeight().weight(1f),
+            )
 
-        Divider(Orientation.Vertical, Modifier.fillMaxHeight())
+            Divider(Orientation.Vertical, Modifier.fillMaxHeight())
 
-        MarkdownPreview(
-            modifier = Modifier.fillMaxHeight().weight(1f),
-            rawMarkdown = currentMarkdown,
-        )
-    }
+            MarkdownPreview(
+                modifier = Modifier.fillMaxHeight().weight(1f),
+                rawMarkdown = currentMarkdown,
+            )
+        }
 }

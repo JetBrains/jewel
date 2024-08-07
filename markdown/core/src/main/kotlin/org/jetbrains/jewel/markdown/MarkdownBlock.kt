@@ -28,11 +28,13 @@ public sealed interface MarkdownBlock {
         override val inlineContent: List<InlineMarkdown>,
         public val level: Int,
     ) : MarkdownBlock, WithInlineMarkdown {
-        public constructor(level: Int, vararg inlineContent: InlineMarkdown) : this(inlineContent.toList(), level)
+        public constructor(
+            level: Int,
+            vararg inlineContent: InlineMarkdown
+        ) : this(inlineContent.toList(), level)
     }
 
-    @GenerateDataFunctions
-    public class HtmlBlock(public val content: String) : MarkdownBlock
+    @GenerateDataFunctions public class HtmlBlock(public val content: String) : MarkdownBlock
 
     public sealed interface ListBlock : MarkdownBlock {
         public val children: List<ListItem>

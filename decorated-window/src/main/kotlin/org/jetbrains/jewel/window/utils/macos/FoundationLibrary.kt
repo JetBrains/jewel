@@ -79,8 +79,8 @@ internal interface FoundationLibrary : Library {
     fun objc_getMetaClass(name: String?): ID?
 
     /**
-     * Note: Vararg version. Should only be used only for selectors with a
-     * single fixed argument followed by varargs.
+     * Note: Vararg version. Should only be used only for selectors with a single fixed argument
+     * followed by varargs.
      */
     fun objc_msgSend(
         receiver: ID?,

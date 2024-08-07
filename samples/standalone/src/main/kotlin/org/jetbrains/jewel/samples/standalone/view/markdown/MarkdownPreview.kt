@@ -17,6 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import java.awt.Desktop
+import java.net.URI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -37,8 +39,6 @@ import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 import org.jetbrains.jewel.ui.component.VerticalScrollbar
-import java.awt.Desktop
-import java.net.URI
 
 @Composable
 internal fun MarkdownPreview(
@@ -59,13 +59,12 @@ internal fun MarkdownPreview(
     val processor = remember { MarkdownProcessor(extensions, editorMode = true) }
 
     LaunchedEffect(rawMarkdown) {
-        // TODO you may want to debounce or drop on backpressure, in real usages. You should also not do this
+        // TODO you may want to debounce or drop on backpressure, in real usages. You should also
+        // not do this
         //  in the UI to begin with.
         @Suppress("InjectDispatcher") // This should never go in the composable IRL
         markdownBlocks =
-            withContext(Dispatchers.Default) {
-                processor.processMarkdownDocument(rawMarkdown)
-            }
+            withContext(Dispatchers.Default) { processor.processMarkdownDocument(rawMarkdown) }
     }
 
     val blockRenderer =
@@ -73,12 +72,14 @@ internal fun MarkdownPreview(
             if (isDark) {
                 MarkdownBlockRenderer.dark(
                     styling = markdownStyling,
-                    rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.dark(), markdownStyling)),
+                    rendererExtensions =
+                        listOf(GitHubAlertRendererExtension(AlertStyling.dark(), markdownStyling)),
                 )
             } else {
                 MarkdownBlockRenderer.light(
                     styling = markdownStyling,
-                    rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.light(), markdownStyling)),
+                    rendererExtensions =
+                        listOf(GitHubAlertRendererExtension(AlertStyling.light(), markdownStyling)),
                 )
             }
         }

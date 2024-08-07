@@ -201,6 +201,10 @@ public fun MenuItemMetrics.Companion.defaults(
         minHeight,
     )
 
-public fun SubmenuMetrics.Companion.defaults(offset: DpOffset = DpOffset(0.dp, (-8).dp)): SubmenuMetrics = SubmenuMetrics(offset)
+public fun SubmenuMetrics.Companion.defaults(
+    offset: DpOffset = DpOffset(0.dp, (-8).dp)
+): SubmenuMetrics = SubmenuMetrics(offset)
 
-public fun MenuIcons.Companion.defaults(submenuChevron: IconKey = AllIconsKeys.General.ChevronRight): MenuIcons = MenuIcons(submenuChevron)
+public fun MenuIcons.Companion.defaults(
+    submenuChevron: IconKey = AllIconsKeys.General.ChevronRight
+): MenuIcons = MenuIcons(submenuChevron)

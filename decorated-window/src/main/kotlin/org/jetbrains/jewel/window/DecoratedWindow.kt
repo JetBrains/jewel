@@ -32,16 +32,16 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
 import com.jetbrains.JBR
+import java.awt.event.ComponentEvent
+import java.awt.event.ComponentListener
+import java.awt.event.WindowAdapter
+import java.awt.event.WindowEvent
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.modifier.trackWindowActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.window.styling.DecoratedWindowStyle
 import org.jetbrains.jewel.window.utils.DesktopPlatform
-import java.awt.event.ComponentEvent
-import java.awt.event.ComponentListener
-import java.awt.event.WindowAdapter
-import java.awt.event.WindowEvent
 
 @Composable
 public fun DecoratedWindow(
@@ -142,11 +142,12 @@ public fun DecoratedWindow(
         val undecoratedWindowBorder =
             if (undecorated && !decoratedWindowState.isMaximized) {
                 Modifier.border(
-                    Stroke.Alignment.Inside,
-                    style.metrics.borderWidth,
-                    style.colors.borderFor(decoratedWindowState).value,
-                    RectangleShape,
-                ).padding(style.metrics.borderWidth)
+                        Stroke.Alignment.Inside,
+                        style.metrics.borderWidth,
+                        style.colors.borderFor(decoratedWindowState).value,
+                        RectangleShape,
+                    )
+                    .padding(style.metrics.borderWidth)
             } else {
                 Modifier
             }
@@ -208,7 +209,8 @@ private object DecoratedWindowMeasurePolicy : MeasurePolicy {
 
         for (it in measurables) {
             if (it.layoutId.toString().startsWith(TITLE_BAR_COMPONENT_LAYOUT_ID_PREFIX)) continue
-            val offsetConstraints = contentConstraints.offset(vertical = -titleBarHeight - titleBarBorderHeight)
+            val offsetConstraints =
+                contentConstraints.offset(vertical = -titleBarHeight - titleBarBorderHeight)
             val placeable = it.measure(offsetConstraints)
             measuredPlaceable += placeable
         }
@@ -250,7 +252,8 @@ public value class DecoratedWindowState(public val state: ULong) {
             active = active,
         )
 
-    override fun toString(): String = "${javaClass.simpleName}(isFullscreen=$isFullscreen, isActive=$isActive)"
+    override fun toString(): String =
+        "${javaClass.simpleName}(isFullscreen=$isFullscreen, isActive=$isActive)"
 
     public companion object {
         public val Active: ULong = 1UL shl 0
@@ -283,7 +286,6 @@ public value class DecoratedWindowState(public val state: ULong) {
 
 internal data class TitleBarInfo(val title: String, val icon: Painter?)
 
-internal val LocalTitleBarInfo: ProvidableCompositionLocal<TitleBarInfo> =
-    compositionLocalOf {
-        error("LocalTitleBarInfo not provided, TitleBar must be used in DecoratedWindow")
-    }
+internal val LocalTitleBarInfo: ProvidableCompositionLocal<TitleBarInfo> = compositionLocalOf {
+    error("LocalTitleBarInfo not provided, TitleBar must be used in DecoratedWindow")
+}

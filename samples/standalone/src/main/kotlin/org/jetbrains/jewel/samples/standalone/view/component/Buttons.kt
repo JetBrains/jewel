@@ -52,21 +52,13 @@ private fun NormalButtons() {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        OutlinedButton(onClick = { }) {
-            Text("Outlined")
-        }
+        OutlinedButton(onClick = {}) { Text("Outlined") }
 
-        OutlinedButton(onClick = {}, enabled = false) {
-            Text("Outlined Disabled")
-        }
+        OutlinedButton(onClick = {}, enabled = false) { Text("Outlined Disabled") }
 
-        DefaultButton(onClick = {}) {
-            Text("Default")
-        }
+        DefaultButton(onClick = {}) { Text("Default") }
 
-        DefaultButton(onClick = {}, enabled = false) {
-            Text("Default disabled")
-        }
+        DefaultButton(onClick = {}, enabled = false) { Text("Default disabled") }
     }
 }
 
@@ -132,12 +124,16 @@ private fun IconActionButtons(
         Text("IconActionButton", style = Typography.h4TextStyle())
 
         Text("With tooltip:")
-        IconActionButton(key = AllIconsKeys.Actions.Copy, contentDescription = "IconActionButton", onClick = {}) {
-            Text("I am a tooltip")
-        }
+        IconActionButton(
+            key = AllIconsKeys.Actions.Copy,
+            contentDescription = "IconActionButton",
+            onClick = {}) {
+                Text("I am a tooltip")
+            }
 
         Text("Without tooltip:")
-        IconActionButton(key = AllIconsKeys.Actions.Copy, contentDescription = "IconActionButton", onClick = {})
+        IconActionButton(
+            key = AllIconsKeys.Actions.Copy, contentDescription = "IconActionButton", onClick = {})
 
         Text("Selectable:")
         SelectableIconActionButton(
@@ -169,14 +165,10 @@ private fun ActionButtons() {
 
         Text("With tooltip:")
 
-        ActionButton(onClick = {}, tooltip = { Text("I am a tooltip") }) {
-            Text("Hover me!")
-        }
+        ActionButton(onClick = {}, tooltip = { Text("I am a tooltip") }) { Text("Hover me!") }
 
         Text("Without tooltip:")
 
-        ActionButton(onClick = {}) {
-            Text("Do something")
-        }
+        ActionButton(onClick = {}) { Text("Do something") }
     }
 }

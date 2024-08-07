@@ -49,10 +49,15 @@ fun TextFields() {
         TextField(text2, { text2 = it }, placeholder = { Text("Placeholder") })
 
         var text3 by remember { mutableStateOf("") }
-        TextField(text3, { text3 = it }, outline = Outline.Error, placeholder = { Text("Error outline") })
+        TextField(
+            text3, { text3 = it }, outline = Outline.Error, placeholder = { Text("Error outline") })
 
         var text4 by remember { mutableStateOf("") }
-        TextField(text4, { text4 = it }, outline = Outline.Warning, placeholder = { Text("Warning outline") })
+        TextField(
+            text4,
+            { text4 = it },
+            outline = Outline.Warning,
+            placeholder = { Text("Warning outline") })
 
         var text5 by remember { mutableStateOf("Disabled") }
         TextField(text5, { text5 = it }, enabled = false)
@@ -66,9 +71,7 @@ fun TextFields() {
         TextField(
             value = text1,
             onValueChange = { text1 = it },
-            placeholder = {
-                Text("With leading icon")
-            },
+            placeholder = { Text("With leading icon") },
             leadingIcon = {
                 Icon(
                     key = AllIconsKeys.Actions.Find,
@@ -83,12 +86,8 @@ fun TextFields() {
         TextField(
             value = text2,
             onValueChange = { text2 = it },
-            placeholder = {
-                Text("With trailing button")
-            },
-            trailingIcon = {
-                CloseIconButton(text2.isNotEmpty()) { text2 = "" }
-            },
+            placeholder = { Text("With trailing button") },
+            trailingIcon = { CloseIconButton(text2.isNotEmpty()) { text2 = "" } },
         )
     }
 }
@@ -109,16 +108,17 @@ private fun CloseIconButton(
 
             val colors = noBackgroundIconButtonColors(isDark)
             val style =
-                remember(isDark, colors) {
-                    IconButtonStyle(colors, IconButtonMetrics.defaults())
-                }
+                remember(isDark, colors) { IconButtonStyle(colors, IconButtonMetrics.defaults()) }
 
             IconButton(
                 onClick,
                 style = style,
                 modifier = Modifier.pointerHoverIcon(PointerIcon.Default),
             ) { state ->
-                Icon(AllIconsKeys.General.Close, contentDescription = "Clear", hint = Stateful(state))
+                Icon(
+                    AllIconsKeys.General.Close,
+                    contentDescription = "Clear",
+                    hint = Stateful(state))
             }
         }
     }

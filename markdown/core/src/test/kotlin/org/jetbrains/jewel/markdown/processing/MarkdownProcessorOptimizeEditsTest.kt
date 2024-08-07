@@ -35,7 +35,8 @@ private val rawMarkdown =
     
     Paragraph 8
     continue p8
-    """.trimIndent()
+    """
+        .trimIndent()
 
 @Suppress(
     "LargeClass", // Detekt triggers on files > 600 lines
@@ -57,7 +58,8 @@ class MarkdownProcessorOptimizeEditsTest {
                 
                 * list item 3-1
                 * list item 3-2
-                """.trimIndent(),
+                """
+                    .trimIndent(),
             )
         assertSame(firstRun[0], secondRun[0])
         assertSame(firstRun[1], secondRun[1])
@@ -73,7 +75,8 @@ class MarkdownProcessorOptimizeEditsTest {
             <li>list item 3-2</li>
             </ul>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
     }
@@ -104,7 +107,8 @@ class MarkdownProcessorOptimizeEditsTest {
                 
                 Paragraph 8
                 continue p8
-                """.trimIndent(),
+                """
+                    .trimIndent(),
             )
         assertHtmlEquals(
             """
@@ -126,7 +130,8 @@ class MarkdownProcessorOptimizeEditsTest {
             <p>Paragraph 8
             continue p8</p>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
         assertNotSame(firstRun[0], secondRun[0])
@@ -161,7 +166,8 @@ class MarkdownProcessorOptimizeEditsTest {
                 
                 Paragraph *CHANGE*
                 continue p8
-                """.trimIndent(),
+                """
+                    .trimIndent(),
             )
         assertHtmlEquals(
             """
@@ -184,7 +190,8 @@ class MarkdownProcessorOptimizeEditsTest {
             <p>Paragraph <em>CHANGE</em>
             continue p8</p>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
         assertSame(firstRun[5], secondRun[5])
@@ -220,7 +227,8 @@ class MarkdownProcessorOptimizeEditsTest {
                 
                 Paragraph 8
                 continue p8
-                """.trimIndent(),
+                """
+                    .trimIndent(),
             )
         assertHtmlEquals(
             """
@@ -243,7 +251,8 @@ class MarkdownProcessorOptimizeEditsTest {
             <p>Paragraph 8
             continue p8</p>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
         assertSame(firstRun[0], secondRun[0])
@@ -280,7 +289,8 @@ class MarkdownProcessorOptimizeEditsTest {
                 Paragraph 7
                 Paragraph 8
                 continue p8
-                """.trimIndent(),
+                """
+                    .trimIndent(),
             )
         assertHtmlEquals(
             """
@@ -303,7 +313,8 @@ class MarkdownProcessorOptimizeEditsTest {
             Paragraph 8
             continue p8</p>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
         assertSame(firstRun[5], secondRun[5])
@@ -337,7 +348,8 @@ class MarkdownProcessorOptimizeEditsTest {
                 
                 Paragraph 8
                 continue p8
-                """.trimIndent(),
+                """
+                    .trimIndent(),
             )
         assertHtmlEquals(
             """
@@ -360,7 +372,8 @@ class MarkdownProcessorOptimizeEditsTest {
             <p>Paragraph 8
             continue p8</p>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
         assertSame(firstRun[3], secondRun[3])
@@ -391,7 +404,8 @@ class MarkdownProcessorOptimizeEditsTest {
                 
                 Paragraph 8
                 continue p8
-                """.trimIndent(),
+                """
+                    .trimIndent(),
             )
         assertHtmlEquals(
             """
@@ -411,7 +425,8 @@ class MarkdownProcessorOptimizeEditsTest {
             <p>Paragraph 8
             continue p8</p>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
         assertSame(firstRun[2], secondRun[2])
@@ -451,7 +466,8 @@ class MarkdownProcessorOptimizeEditsTest {
             
             Paragraph 8
             continue p8
-            """.trimIndent()
+            """
+                .trimIndent()
         val secondRun =
             processor.processWithQuickEdits(
                 secondDocument,
@@ -478,7 +494,8 @@ class MarkdownProcessorOptimizeEditsTest {
             <p>Paragraph 8
             continue p8</p>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
         assertSame(firstRun[2], secondRun[2])
@@ -515,7 +532,8 @@ class MarkdownProcessorOptimizeEditsTest {
             <p>Paragraph 8
             continue p8</p>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
         assertSame(firstRun[0], secondRun[0])
@@ -547,7 +565,8 @@ class MarkdownProcessorOptimizeEditsTest {
             <p>Paragraph 8
             continue p8</p>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
         assertNotSame(firstRun[0], secondRun[0])
@@ -562,7 +581,8 @@ class MarkdownProcessorOptimizeEditsTest {
         val secondRun = processor.processWithQuickEdits("")
         assertHtmlEquals(
             """
-            """.trimIndent(),
+            """
+                .trimIndent(),
             secondRun,
         )
         processor.processWithQuickEdits(rawMarkdown)
@@ -588,7 +608,8 @@ class MarkdownProcessorOptimizeEditsTest {
             # Header 8
             # Header 9
 
-            """.trimIndent(),
+            """
+                .trimIndent(),
         )
         processor.processWithQuickEdits(
             """
@@ -605,7 +626,8 @@ class MarkdownProcessorOptimizeEditsTest {
             # Header 8
             # Header 9
 
-            """.trimIndent(),
+            """
+                .trimIndent(),
         )
         val forthRun =
             processor.processWithQuickEdits(
@@ -620,7 +642,8 @@ class MarkdownProcessorOptimizeEditsTest {
                 # Header 8
                 # Header 9
 
-                """.trimIndent(),
+                """
+                    .trimIndent(),
             )
         val fifthDocument =
             """
@@ -638,7 +661,8 @@ class MarkdownProcessorOptimizeEditsTest {
             # Header 8
             # Header 9
 
-            """.trimIndent()
+            """
+                .trimIndent()
         val fifthRun =
             processor.processWithQuickEdits(
                 fifthDocument,
@@ -666,7 +690,8 @@ class MarkdownProcessorOptimizeEditsTest {
             <h1>Header 8</h1>
             <h1>Header 9</h1>
             
-            """.trimIndent(),
+            """
+                .trimIndent(),
             fifthRun,
         )
     }
@@ -694,12 +719,15 @@ private fun assertIndexesEqual(
     currentIndexes: List<Pair<Int, Int>>,
 ) {
     val commonmarkDocument =
-        Parser.builder().includeSourceSpans(IncludeSourceSpans.BLOCKS).build()
+        Parser.builder()
+            .includeSourceSpans(IncludeSourceSpans.BLOCKS)
+            .build()
             .parse(lastProcessedDocument) as Document
     val expected =
-        (commonmarkDocument).children().map {
-            it.sourceSpans.first().lineIndex to it.sourceSpans.last().lineIndex
-        }.toTypedArray()
+        (commonmarkDocument)
+            .children()
+            .map { it.sourceSpans.first().lineIndex to it.sourceSpans.last().lineIndex }
+            .toTypedArray()
     assertArrayEquals(
         expected,
         currentIndexes.toTypedArray(),

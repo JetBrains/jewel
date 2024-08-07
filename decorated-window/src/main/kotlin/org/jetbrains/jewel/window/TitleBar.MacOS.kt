@@ -33,9 +33,7 @@ private class NewFullscreenControlsElement(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        val otherModifier =
-            other as? NewFullscreenControlsElement
-                ?: return false
+        val otherModifier = other as? NewFullscreenControlsElement ?: return false
         return newControls == otherModifier.newControls
     }
 

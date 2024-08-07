@@ -16,15 +16,14 @@ internal fun PublishingExtension.configureJewelRepositories(project: Project) {
             }
         }
 
-        maven(project.rootProject.layout.buildDirectory.dir("maven-test")) {
-            name = "LocalTest"
-        }
+        maven(project.rootProject.layout.buildDirectory.dir("maven-test")) { name = "LocalTest" }
     }
 }
 
 internal fun MavenPom.configureJewelPom() {
     name = "Jewel"
-    description = "A theme for Compose for Desktop that implements the IntelliJ Platform look and feel."
+    description =
+        "A theme for Compose for Desktop that implements the IntelliJ Platform look and feel."
     url = "https://github.com/JetBrains/jewel"
     licenses {
         license {
