@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.samples.standalone.IntUiThemes
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
+import org.jetbrains.jewel.samples.standalone.view.component.FpsCounter
 import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel
 import org.jetbrains.jewel.samples.standalone.viewmodel.forCurrentOs
 import org.jetbrains.jewel.ui.component.Dropdown
@@ -60,6 +61,8 @@ fun DecoratedWindowScope.TitleBarView() {
                 }
             }
         }
+
+        FpsCounter(Modifier.align(Alignment.Start))
 
         Text(title)
 

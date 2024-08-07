@@ -25,7 +25,7 @@ public final class org/jetbrains/jewel/ui/ComponentStyling$DefaultImpls {
 
 public final class org/jetbrains/jewel/ui/DefaultComponentStyling : org/jetbrains/jewel/ui/ComponentStyling {
 	public static final field $stable I
-	public fun <init> (Lorg/jetbrains/jewel/ui/component/styling/CheckboxStyle;Lorg/jetbrains/jewel/ui/component/styling/ChipStyle;Lorg/jetbrains/jewel/ui/component/styling/CircularProgressStyle;Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;Lorg/jetbrains/jewel/ui/component/styling/TabStyle;Lorg/jetbrains/jewel/ui/component/styling/DividerStyle;Lorg/jetbrains/jewel/ui/component/styling/TabStyle;Lorg/jetbrains/jewel/ui/component/styling/GroupHeaderStyle;Lorg/jetbrains/jewel/ui/component/styling/HorizontalProgressBarStyle;Lorg/jetbrains/jewel/ui/component/styling/IconButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/LazyTreeStyle;Lorg/jetbrains/jewel/ui/component/styling/LinkStyle;Lorg/jetbrains/jewel/ui/component/styling/MenuStyle;Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/RadioButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/ScrollbarStyle;Lorg/jetbrains/jewel/ui/component/styling/SegmentedControlButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/SegmentedControlStyle;Lorg/jetbrains/jewel/ui/component/styling/SliderStyle;Lorg/jetbrains/jewel/ui/component/styling/TextAreaStyle;Lorg/jetbrains/jewel/ui/component/styling/TextFieldStyle;Lorg/jetbrains/jewel/ui/component/styling/TooltipStyle;Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;)V
+	public fun <init> (Lorg/jetbrains/jewel/ui/component/styling/CheckboxStyle;Lorg/jetbrains/jewel/ui/component/styling/ChipStyle;Lorg/jetbrains/jewel/ui/component/styling/CircularProgressStyle;Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;Lorg/jetbrains/jewel/ui/component/styling/TabStyle;Lorg/jetbrains/jewel/ui/component/styling/DividerStyle;Lorg/jetbrains/jewel/ui/component/styling/TabStyle;Lorg/jetbrains/jewel/ui/component/styling/GroupHeaderStyle;Lorg/jetbrains/jewel/ui/component/styling/HorizontalProgressBarStyle;Lorg/jetbrains/jewel/ui/component/styling/IconButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/LazyTableStyle;Lorg/jetbrains/jewel/ui/component/styling/LazyTreeStyle;Lorg/jetbrains/jewel/ui/component/styling/LinkStyle;Lorg/jetbrains/jewel/ui/component/styling/MenuStyle;Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/RadioButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/ScrollbarStyle;Lorg/jetbrains/jewel/ui/component/styling/SegmentedControlButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/SegmentedControlStyle;Lorg/jetbrains/jewel/ui/component/styling/SliderStyle;Lorg/jetbrains/jewel/ui/component/styling/TextAreaStyle;Lorg/jetbrains/jewel/ui/component/styling/TextFieldStyle;Lorg/jetbrains/jewel/ui/component/styling/TooltipStyle;Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCheckboxStyle ()Lorg/jetbrains/jewel/ui/component/styling/CheckboxStyle;
 	public final fun getChipStyle ()Lorg/jetbrains/jewel/ui/component/styling/ChipStyle;
@@ -38,6 +38,7 @@ public final class org/jetbrains/jewel/ui/DefaultComponentStyling : org/jetbrain
 	public final fun getGroupHeaderStyle ()Lorg/jetbrains/jewel/ui/component/styling/GroupHeaderStyle;
 	public final fun getHorizontalProgressBarStyle ()Lorg/jetbrains/jewel/ui/component/styling/HorizontalProgressBarStyle;
 	public final fun getIconButtonStyle ()Lorg/jetbrains/jewel/ui/component/styling/IconButtonStyle;
+	public final fun getLazyTableStyle ()Lorg/jetbrains/jewel/ui/component/styling/LazyTableStyle;
 	public final fun getLazyTreeStyle ()Lorg/jetbrains/jewel/ui/component/styling/LazyTreeStyle;
 	public final fun getLinkStyle ()Lorg/jetbrains/jewel/ui/component/styling/LinkStyle;
 	public final fun getMenuStyle ()Lorg/jetbrains/jewel/ui/component/styling/MenuStyle;
@@ -405,6 +406,11 @@ public final class org/jetbrains/jewel/ui/component/InputFieldState : org/jetbra
 public final class org/jetbrains/jewel/ui/component/InputFieldState$Companion {
 	public final fun of-raUdB0Y (ZZZZZ)J
 	public static synthetic fun of-raUdB0Y$default (Lorg/jetbrains/jewel/ui/component/InputFieldState$Companion;ZZZZZILjava/lang/Object;)J
+}
+
+public final class org/jetbrains/jewel/ui/component/LazyTableKt {
+	public static final fun LazyTableCell (Landroidx/compose/ui/Modifier;Landroidx/compose/ui/Alignment;Lorg/jetbrains/jewel/ui/component/styling/LazyTableStyle;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun LazyTableHeader (Landroidx/compose/ui/Modifier;Landroidx/compose/ui/Alignment;Lorg/jetbrains/jewel/ui/component/styling/LazyTableStyle;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class org/jetbrains/jewel/ui/component/LazyTreeKt {
@@ -1520,6 +1526,52 @@ public abstract interface class org/jetbrains/jewel/ui/component/styling/InputFi
 public abstract interface class org/jetbrains/jewel/ui/component/styling/InputFieldStyle {
 	public abstract fun getColors ()Lorg/jetbrains/jewel/ui/component/styling/InputFieldColors;
 	public abstract fun getMetrics ()Lorg/jetbrains/jewel/ui/component/styling/InputFieldMetrics;
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/LazyTableColors {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/LazyTableColors$Companion;
+	public synthetic fun <init> (JJJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBackground-0d7_KjU ()J
+	public final fun getBackgroundInactiveSelected-0d7_KjU ()J
+	public final fun getBackgroundSelected-0d7_KjU ()J
+	public final fun getForeground-0d7_KjU ()J
+	public final fun getForegroundInactiveSelected-0d7_KjU ()J
+	public final fun getForegroundSelected-0d7_KjU ()J
+	public final fun getGridColor-0d7_KjU ()J
+	public final fun getHeaderBackground-0d7_KjU ()J
+	public final fun getHeaderForeground-0d7_KjU ()J
+	public final fun getHeaderSeparatorColor-0d7_KjU ()J
+	public final fun getStripeColor-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/LazyTableColors$Companion {
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/LazyTableMetrics {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/LazyTableMetrics$Companion;
+	public fun <init> ()V
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/LazyTableMetrics$Companion {
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/LazyTableStyle {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/LazyTableStyle$Companion;
+	public fun <init> (Lorg/jetbrains/jewel/ui/component/styling/LazyTableColors;Lorg/jetbrains/jewel/ui/component/styling/LazyTableMetrics;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getColors ()Lorg/jetbrains/jewel/ui/component/styling/LazyTableColors;
+	public final fun getMetrics ()Lorg/jetbrains/jewel/ui/component/styling/LazyTableMetrics;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/LazyTableStyle$Companion {
 }
 
 public final class org/jetbrains/jewel/ui/component/styling/LazyTreeColors {
@@ -4257,6 +4309,7 @@ public final class org/jetbrains/jewel/ui/theme/JewelThemeKt {
 	public static final fun getSegmentedControlButtonStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/SegmentedControlButtonStyle;
 	public static final fun getSegmentedControlStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/SegmentedControlStyle;
 	public static final fun getSliderStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/SliderStyle;
+	public static final fun getTableStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/LazyTableStyle;
 	public static final fun getTextAreaStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TextAreaStyle;
 	public static final fun getTextFieldStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TextFieldStyle;
 	public static final fun getTooltipStyle (Lorg/jetbrains/jewel/foundation/theme/JewelTheme$Companion;Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/ui/component/styling/TooltipStyle;

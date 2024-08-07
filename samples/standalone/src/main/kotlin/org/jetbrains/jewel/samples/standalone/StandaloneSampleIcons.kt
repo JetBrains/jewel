@@ -12,6 +12,7 @@ object StandaloneSampleIcons {
     val themeLightWithLightHeader = PathIconKey("icons/lightWithLightHeaderTheme.svg", StandaloneSampleIcons::class.java)
     val themeSystem = PathIconKey("icons/systemTheme.svg", StandaloneSampleIcons::class.java)
     val welcome = PathIconKey("icons/meetNewUi.svg", StandaloneSampleIcons::class.java)
+    val stub = PathIconKey("icons/stub.svg", StandaloneSampleIcons::class.java)
 
     object Components {
         val borders = PathIconKey("icons/components/borders.svg", StandaloneSampleIcons::class.java)
@@ -22,6 +23,7 @@ object StandaloneSampleIcons {
         val progressBar = PathIconKey("icons/components/progressbar.svg", StandaloneSampleIcons::class.java)
         val radioButton = PathIconKey("icons/components/radioButton.svg", StandaloneSampleIcons::class.java)
         val scrollbar = PathIconKey("icons/components/scrollbar.svg", StandaloneSampleIcons::class.java)
+        val table = PathIconKey("icons/components/dataTables.svg", StandaloneSampleIcons::class.java)
         val segmentedControls = PathIconKey("icons/components/segmentedControl.svg", StandaloneSampleIcons::class.java)
         val slider = PathIconKey("icons/components/slider.svg", StandaloneSampleIcons::class.java)
         val tabs = PathIconKey("icons/components/tabs.svg", StandaloneSampleIcons::class.java)
