@@ -3,6 +3,7 @@
 plugins {
     id("io.gitlab.arturbosch.detekt")
     id("org.jmailen.kotlinter")
+    id("com.ncorti.ktfmt.gradle")
 }
 
 configurations {
@@ -14,3 +15,5 @@ configurations {
         attributes { attribute(Usage.USAGE_ATTRIBUTE, objects.named("sarif")) }
     }
 }
+
+ktfmt { kotlinLangStyle() }

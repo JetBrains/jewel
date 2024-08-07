@@ -30,6 +30,7 @@ dependencies {
     implementation(libs.kotlinSarif)
     implementation(libs.kotlinpoet)
     implementation(libs.kotlinter.gradlePlugin)
+    implementation(libs.ktfmt.gradlePlugin)
     implementation(libs.kotlinx.binaryCompatValidator.gradlePlugin)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.poko.gradlePlugin)
