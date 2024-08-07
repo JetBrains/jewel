@@ -37,6 +37,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSliderStyle
+import org.jetbrains.jewel.ui.component.styling.LocalTableStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTooltipStyle
@@ -48,6 +49,7 @@ import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
+import org.jetbrains.jewel.ui.component.styling.TableStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
@@ -66,6 +68,7 @@ public class DefaultComponentStyling(
     public val groupHeaderStyle: GroupHeaderStyle,
     public val horizontalProgressBarStyle: HorizontalProgressBarStyle,
     public val iconButtonStyle: IconButtonStyle,
+    public val tableStyle: TableStyle,
     public val lazyTreeStyle: LazyTreeStyle,
     public val linkStyle: LinkStyle,
     public val menuStyle: MenuStyle,
@@ -95,6 +98,7 @@ public class DefaultComponentStyling(
             LocalGroupHeaderStyle provides groupHeaderStyle,
             LocalHorizontalProgressBarStyle provides horizontalProgressBarStyle,
             LocalIconButtonStyle provides iconButtonStyle,
+            LocalTableStyle provides tableStyle,
             LocalLazyTreeStyle provides lazyTreeStyle,
             LocalLinkStyle provides linkStyle,
             LocalMenuStyle provides menuStyle,

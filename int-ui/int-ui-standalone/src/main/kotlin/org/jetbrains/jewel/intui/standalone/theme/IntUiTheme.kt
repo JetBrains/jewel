@@ -40,6 +40,7 @@ import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
+import org.jetbrains.jewel.ui.component.styling.TableStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
@@ -115,6 +116,7 @@ public fun ComponentStyling.dark(
     groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.dark(),
     horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.dark(),
     iconButtonStyle: IconButtonStyle = IconButtonStyle.dark(),
+    tableStyle: TableStyle = TableStyle.dark(),
     lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.dark(),
     linkStyle: LinkStyle = LinkStyle.dark(),
     menuStyle: MenuStyle = MenuStyle.dark(),
@@ -142,6 +144,7 @@ public fun ComponentStyling.dark(
             groupHeaderStyle = groupHeaderStyle,
             horizontalProgressBarStyle = horizontalProgressBarStyle,
             iconButtonStyle = iconButtonStyle,
+            tableStyle = tableStyle,
             lazyTreeStyle = lazyTreeStyle,
             linkStyle = linkStyle,
             menuStyle = menuStyle,
@@ -171,6 +174,7 @@ public fun ComponentStyling.light(
     groupHeaderStyle: GroupHeaderStyle = GroupHeaderStyle.light(),
     horizontalProgressBarStyle: HorizontalProgressBarStyle = HorizontalProgressBarStyle.light(),
     iconButtonStyle: IconButtonStyle = IconButtonStyle.light(),
+    tableStyle: TableStyle = TableStyle.light(),
     lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.light(),
     linkStyle: LinkStyle = LinkStyle.light(),
     menuStyle: MenuStyle = MenuStyle.light(),
@@ -198,6 +202,7 @@ public fun ComponentStyling.light(
             groupHeaderStyle = groupHeaderStyle,
             horizontalProgressBarStyle = horizontalProgressBarStyle,
             iconButtonStyle = iconButtonStyle,
+            tableStyle = tableStyle,
             lazyTreeStyle = lazyTreeStyle,
             linkStyle = linkStyle,
             menuStyle = menuStyle,
