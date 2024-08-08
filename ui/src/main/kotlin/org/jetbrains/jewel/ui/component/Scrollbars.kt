@@ -148,40 +148,15 @@ private fun MyScrollbar(
     )
 
     LaunchedEffect(scrollState.isScrollInProgress, hovered, style.scrollbarVisibility) {
-        when (style.scrollbarVisibility) {
-            AlwaysVisible -> {
-                visible = true
-                trackIsVisible = true
-            }
-
-            is WhenScrolling -> {
-                when {
-                    scrollState.isScrollInProgress -> visible = true
-                    hovered -> {
-                        visible = true
-                        trackIsVisible = true
-                    }
-
-                    !hovered -> {
-                        delay(style.scrollbarVisibility.lingerDuration)
-                        trackIsVisible = false
-                        visible = false
-                    }
-
-                    !scrollState.isScrollInProgress && !hovered -> {
-                        delay(style.scrollbarVisibility.lingerDuration)
-                        visible = false
-                    }
-                }
-            }
+        if(style.scrollbarVisibility is AlwaysVisible || scrollState.isScrollInProgress || hovered) {
+            visible = true
+            trackIsVisible = true
         }
 
-        when {
-            scrollState.isScrollInProgress -> visible = true
-            hovered -> {
-                visible = true
-                trackIsVisible = true
-            }
+        if (style.scrollbarVisibility is WhenScrolling && !hovered) {
+            delay(style.scrollbarVisibility.lingerDuration)
+            trackIsVisible = false
+            visible = false
         }
     }
 
