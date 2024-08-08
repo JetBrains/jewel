@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.dp
 import com.intellij.ui.mac.foundation.Foundation
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.component.styling.ScrollbarColors
 import org.jetbrains.jewel.ui.component.styling.ScrollbarMetrics
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
@@ -31,12 +32,15 @@ private fun readScrollbarVisibility() =
         ScrollbarVisibility.AlwaysVisible
     }
 
-private fun readScrollbarColors(isDark: Boolean) =
-    if (hostOs.isMacOS) {
+private fun readScrollbarColors(isDark: Boolean): ScrollbarColors {
+    val scrollbarColors = if (hostOs.isMacOS) {
         readScrollbarMacColors(isDark)
     } else {
         readScrollbarWinColors(isDark)
     }
+    JewelLogger.getInstance("ScrollbarColors").debug(scrollbarColors.toString())
+    return scrollbarColors
+}
 
 private fun readTrackClickBehavior() =
     if (hostOs.isMacOS) {
@@ -50,7 +54,7 @@ private fun readScrollbarWinColors(isDark: Boolean): ScrollbarColors =
         thumbBackground =
             readScrollBarColorForKey(
                 isDark,
-                "ScrollBar.Transparent.thumbColor",
+                "ScrollBar.thumbColor",
                 0x33737373,
                 0x47A6A6A6,
             ),
@@ -110,9 +114,9 @@ private fun readScrollbarMacColors(isDark: Boolean): ScrollbarColors =
         thumbBackground =
             readScrollBarColorForKey(
                 isDark,
-                "ScrollBar.Mac.Transparent.thumbColor",
-                0x00000000,
-                0x00808080,
+                "ScrollBar.Mac.thumbColor",
+                0x33000000,
+                0x59808080,
             ),
         thumbBackgroundHovered =
             readScrollBarColorForKey(
@@ -152,16 +156,16 @@ private fun readScrollbarMacColors(isDark: Boolean): ScrollbarColors =
         trackBackground =
             readScrollBarColorForKey(
                 isDark,
-                "ScrollBar.Mac.Transparent.trackColor",
+                "ScrollBar.Mac.trackColor",
                 0x00808080,
                 0x00808080,
             ),
         trackBackgroundHovered =
             readScrollBarColorForKey(
                 isDark,
-                "ScrollBar.Mac.Transparent.hoverTrackColor",
-                0x1A808080,
-                0x1A808080,
+                "ScrollBar.Mac.hoverTrackColor",
+                0x00808080,
+                0x00808080,
             ),
     )
 

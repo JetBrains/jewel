@@ -94,12 +94,12 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.defaults(
     )
 
 public fun ScrollbarColors.Companion.macOsLight(
-    thumbBackground: Color = Color(0x00000000),
+    thumbBackground: Color = Color(0x33000000),
     thumbBackgroundHovered: Color = Color(0x80000000),
-    thumbBackgroundPressed: Color = thumbBackgroundHovered,
+    thumbBackgroundPressed: Color = Color(0x80000000),
     thumbBorder: Color = Color(0x33000000),
     thumbBorderHovered: Color = Color(0x80000000),
-    thumbBorderPressed: Color = thumbBorderHovered,
+    thumbBorderPressed: Color = Color(0x80000000),
     trackBackground: Color = Color(0x00808080),
     trackBackgroundHovered: Color = Color(0x00808080),
 ): ScrollbarColors =
@@ -143,7 +143,7 @@ public fun ScrollbarColors.Companion.macOsDark(
     thumbBorderHovered: Color = Color(0x8C262626),
     thumbBorderPressed: Color = Color(0x8C262626),
     trackBackground: Color = Color(0x00808080),
-    trackBackgroundHovered: Color = Color(0x1A808080),
+    trackBackgroundHovered: Color = Color(0x00808080),
 ): ScrollbarColors =
     ScrollbarColors(
         thumbBackground,
