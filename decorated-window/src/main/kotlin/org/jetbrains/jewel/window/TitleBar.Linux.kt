@@ -28,7 +28,7 @@ import java.awt.event.MouseEvent
 import java.awt.event.WindowEvent
 
 @Composable
-internal fun DecoratedWindowScope.TitleBarOnLinux(
+internal fun DecoratedFrameWindowScope.TitleBarOnLinux(
     modifier: Modifier = Modifier,
     gradientStartColor: Color = Color.Unspecified,
     style: TitleBarStyle = JewelTheme.defaultTitleBarStyle,
@@ -85,6 +85,35 @@ internal fun DecoratedWindowScope.TitleBarOnLinux(
             style.icons.minimizeButton,
             "Minimize",
         )
+        content(state)
+    }
+}
+
+@Composable
+internal fun DecoratedDialogWindowScope.TitleBarOnLinux(
+    modifier: Modifier = Modifier,
+    gradientStartColor: Color = Color.Unspecified,
+    style: TitleBarStyle = JewelTheme.defaultTitleBarStyle,
+    content: @Composable TitleBarScope.(DecoratedWindowState) -> Unit,
+) {
+    TitleBarImpl(
+        modifier.onPointerEvent(PointerEventType.Press, PointerEventPass.Main) {
+            if (this.currentEvent.button == PointerButton.Primary &&
+                this.currentEvent.changes.any { changed -> !changed.isConsumed }
+            ) {
+                JBR.getWindowMove()?.startMovingTogetherWithMouse(window, MouseEvent.BUTTON1)
+            }
+        },
+        gradientStartColor,
+        style,
+        { _, _ -> PaddingValues(0.dp) },
+    ) { state ->
+        CloseButton(
+            { window.dispatchEvent(WindowEvent(window, WindowEvent.WINDOW_CLOSING)) },
+            state,
+            style,
+        )
+
         content(state)
     }
 }

@@ -18,6 +18,7 @@ import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Tooltip
 import org.jetbrains.jewel.ui.painter.hints.Size
+import org.jetbrains.jewel.window.DecoratedFrameWindowScope
 import org.jetbrains.jewel.window.DecoratedWindowScope
 import org.jetbrains.jewel.window.TitleBar
 import org.jetbrains.jewel.window.newFullscreenControls
@@ -25,7 +26,7 @@ import java.awt.Desktop
 import java.net.URI
 
 @Composable
-fun DecoratedWindowScope.TitleBarView() {
+fun DecoratedFrameWindowScope.TitleBarView() {
     TitleBar(Modifier.newFullscreenControls(), gradientStartColor = MainViewModel.projectColor) {
         Row(Modifier.align(Alignment.Start)) {
             Dropdown(Modifier.height(30.dp), menuContent = {
