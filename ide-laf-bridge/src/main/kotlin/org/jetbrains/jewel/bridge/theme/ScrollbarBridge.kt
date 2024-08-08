@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.dp
 import com.intellij.ui.mac.foundation.Foundation
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
-import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.component.styling.ScrollbarColors
 import org.jetbrains.jewel.ui.component.styling.ScrollbarMetrics
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
@@ -32,15 +31,12 @@ private fun readScrollbarVisibility() =
         ScrollbarVisibility.AlwaysVisible
     }
 
-private fun readScrollbarColors(isDark: Boolean): ScrollbarColors {
-    val scrollbarColors = if (hostOs.isMacOS) {
+private fun readScrollbarColors(isDark: Boolean): ScrollbarColors =
+    if (hostOs.isMacOS) {
         readScrollbarMacColors(isDark)
     } else {
         readScrollbarWinColors(isDark)
     }
-    JewelLogger.getInstance("ScrollbarColors").debug(scrollbarColors.toString())
-    return scrollbarColors
-}
 
 private fun readTrackClickBehavior() =
     if (hostOs.isMacOS) {
