@@ -12,11 +12,13 @@ import org.jetbrains.jewel.samples.standalone.view.component.ChipsAndTrees
 import org.jetbrains.jewel.samples.standalone.view.component.Dropdowns
 import org.jetbrains.jewel.samples.standalone.view.component.Icons
 import org.jetbrains.jewel.samples.standalone.view.component.Links
+import org.jetbrains.jewel.samples.standalone.view.component.LongList
 import org.jetbrains.jewel.samples.standalone.view.component.ProgressBar
 import org.jetbrains.jewel.samples.standalone.view.component.RadioButtons
 import org.jetbrains.jewel.samples.standalone.view.component.Scrollbars
 import org.jetbrains.jewel.samples.standalone.view.component.SegmentedControls
 import org.jetbrains.jewel.samples.standalone.view.component.Sliders
+import org.jetbrains.jewel.samples.standalone.view.component.TableView
 import org.jetbrains.jewel.samples.standalone.view.component.Tabs
 import org.jetbrains.jewel.samples.standalone.view.component.TextAreas
 import org.jetbrains.jewel.samples.standalone.view.component.TextFields
@@ -109,5 +111,15 @@ private val componentsMenuItems =
             title = "Scrollbars",
             iconKey = StandaloneSampleIcons.Components.scrollbar,
             content = { Scrollbars() },
+        ),
+        ViewInfo(
+            title = "TableView",
+            iconKey = StandaloneSampleIcons.Components.table,
+            content = { TableView() },
+        ),
+        ViewInfo(
+            title = "LongList",
+            iconKey = StandaloneSampleIcons.stub,
+            content = { LongList() },
         ),
     )
