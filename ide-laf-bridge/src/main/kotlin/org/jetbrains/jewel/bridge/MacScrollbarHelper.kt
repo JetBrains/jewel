@@ -8,27 +8,41 @@ import com.sun.jna.Callback
 import com.sun.jna.Pointer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.jetbrains.jewel.bridge.theme.defaults
+import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
+import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior
 
 internal object MacScrollbarHelper {
-
-    private val _scrollbarVisibilityStyle = MutableStateFlow(scrollbarStyle)
-    val scrollbarVisibilityStyleFlow: StateFlow<ScrollbarStyle> = _scrollbarVisibilityStyle
+    private val _scrollbarVisibilityStyle = MutableStateFlow(scrollbarVisibility)
+    val scrollbarVisibilityStyleFlow: StateFlow<ScrollbarVisibility> = _scrollbarVisibilityStyle
 
     private val _trackClickBehavior = MutableStateFlow(trackClickBehavior)
     val trackClickBehaviorFlow: StateFlow<TrackClickBehavior> = _trackClickBehavior
 
-    private val APPEARANCE_CALLBACK: Callback = object : Callback {
-        @SuppressWarnings("UnusedDeclaration")
-        fun callback(self: ID?, selector: Pointer?, event: ID?) {
-            _scrollbarVisibilityStyle.tryEmit(scrollbarStyle)
+    private val APPEARANCE_CALLBACK: Callback =
+        object : Callback {
+            @Suppress("UNUSED_PARAMETER")
+            @SuppressWarnings("UnusedDeclaration")
+            fun callback(
+                self: ID?,
+                selector: Pointer?,
+                event: ID?,
+            ) {
+                _scrollbarVisibilityStyle.tryEmit(scrollbarVisibility)
+            }
         }
-    }
-    private val BEHAVIOR_CALLBACK: Callback = object : Callback {
-        @SuppressWarnings("UnusedDeclaration")
-        fun callback(self: ID?, selector: Pointer?, event: ID?) {
-            _trackClickBehavior.tryEmit(trackClickBehavior)
+    private val BEHAVIOR_CALLBACK: Callback =
+        object : Callback {
+            @Suppress("UNUSED_PARAMETER")
+            @SuppressWarnings("UnusedDeclaration")
+            fun callback(
+                self: ID?,
+                selector: Pointer?,
+                event: ID?,
+            ) {
+                _trackClickBehavior.tryEmit(trackClickBehavior)
+            }
         }
-    }
 
     init {
         if (SystemInfoRt.isMac) {
@@ -48,16 +62,18 @@ internal object MacScrollbarHelper {
                     delegateClass,
                     Foundation.createSelector("handleScrollerStyleChanged:"),
                     APPEARANCE_CALLBACK,
-                    "v@"
-                )) {
+                    "v@",
+                )
+            ) {
                 throw RuntimeException("Cannot add observer method")
             }
             if (!Foundation.addMethod(
                     delegateClass,
                     Foundation.createSelector("handleBehaviorChanged:"),
                     BEHAVIOR_CALLBACK,
-                    "v@"
-                )) {
+                    "v@",
+                )
+            ) {
                 throw RuntimeException("Cannot add observer method")
             }
 
@@ -69,21 +85,23 @@ internal object MacScrollbarHelper {
             var center =
                 Foundation.invoke("NSNotificationCenter", "defaultCenter")
             Foundation.invoke(
-                center, "addObserver:selector:name:object:",
+                center,
+                "addObserver:selector:name:object:",
                 delegate,
                 Foundation.createSelector("handleScrollerStyleChanged:"),
                 Foundation.nsString("NSPreferredScrollerStyleDidChangeNotification"),
-                ID.NIL
+                ID.NIL,
             )
 
             center = Foundation.invoke("NSDistributedNotificationCenter", "defaultCenter")
             Foundation.invoke(
-                center, "addObserver:selector:name:object:",
+                center,
+                "addObserver:selector:name:object:",
                 delegate,
                 Foundation.createSelector("handleBehaviorChanged:"),
                 Foundation.nsString("AppleNoRedisplayAppearancePreferenceChanged"),
                 ID.NIL,
-                2 // NSNotificationSuspensionBehaviorCoalesce
+                2, // NSNotificationSuspensionBehaviorCoalesce
             )
         } finally {
             pool.drain()
@@ -94,36 +112,41 @@ internal object MacScrollbarHelper {
         get() {
             val pool = NSAutoreleasePool()
             try {
-                val defaults = Foundation.invoke("NSUserDefaults", "standardUserDefaults")
-                Foundation.invoke(defaults, "synchronize")
-                return if (Foundation.invoke(defaults, "boolForKey:", Foundation.nsString("AppleScrollerPagingBehavior")).booleanValue())
-                    TrackClickBehavior.JumpToSpot
-                else
-                    TrackClickBehavior.NextPage
+                return readMacScrollbarBehavior()
             } finally {
                 pool.drain()
             }
         }
 
-    val scrollbarStyle: ScrollbarStyle
+    val scrollbarVisibility: ScrollbarVisibility
         get() {
             val pool = NSAutoreleasePool()
             try {
-                if (Foundation.invoke(Foundation.getObjcClass("NSScroller"), "preferredScrollerStyle").toInt() == 1) {
-                    return ScrollbarStyle.Overlay
-                }
+                return readMacScrollbarStyle()
             } catch (ignore: Throwable) {
             } finally {
                 pool.drain()
             }
-            return ScrollbarStyle.Legacy
+            return ScrollbarVisibility.AlwaysVisible
         }
 
-    internal enum class TrackClickBehavior {
-        NextPage, JumpToSpot
+    private fun readMacScrollbarBehavior(): TrackClickBehavior {
+        val defaults = Foundation.invoke("NSUserDefaults", "standardUserDefaults")
+        Foundation.invoke(defaults, "synchronize")
+        return Foundation
+            .invoke(defaults, "boolForKey:", Foundation.nsString("AppleScrollerPagingBehavior"))
+            .run { if (toInt() == 1) TrackClickBehavior.JumpToSpot else TrackClickBehavior.NextPage }
     }
 
-    internal enum class ScrollbarStyle {
-        Legacy, Overlay
+    private fun readMacScrollbarStyle(): ScrollbarVisibility {
+        val nsScroller = Foundation.invoke(Foundation.getObjcClass("NSScroller"), "preferredScrollerStyle")
+
+        val visibility: ScrollbarVisibility =
+            if (1 == nsScroller.toInt()) {
+                ScrollbarVisibility.WhenScrolling.Companion.defaults()
+            } else {
+                ScrollbarVisibility.AlwaysVisible
+            }
+        return visibility
     }
 }
