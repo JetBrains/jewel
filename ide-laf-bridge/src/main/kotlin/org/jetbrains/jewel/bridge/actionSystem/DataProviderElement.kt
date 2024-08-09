@@ -3,13 +3,12 @@ package org.jetbrains.jewel.bridge.actionSystem
 import androidx.compose.ui.node.ModifierNodeElement
 
 internal class DataProviderElement(
-    val dataProvider: (dataId: String) -> Any?,
+    val dataProvider: DataProviderContext.() -> Unit,
 ) : ModifierNodeElement<DataProviderNode>() {
     override fun create(): DataProviderNode = DataProviderNode(dataProvider)
 
     override fun update(node: DataProviderNode) {
         node.dataProvider = dataProvider
-        node.updateParent()
     }
 
     override fun equals(other: Any?): Boolean {

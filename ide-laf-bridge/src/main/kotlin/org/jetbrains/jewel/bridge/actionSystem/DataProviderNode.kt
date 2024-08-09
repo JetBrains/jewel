@@ -3,53 +3,26 @@ package org.jetbrains.jewel.bridge.actionSystem
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusEventModifierNode
 import androidx.compose.ui.focus.FocusState
-import androidx.compose.ui.modifier.ModifierLocalMap
-import androidx.compose.ui.modifier.ModifierLocalModifierNode
-import androidx.compose.ui.modifier.modifierLocalMapOf
-import androidx.compose.ui.modifier.modifierLocalOf
+import androidx.compose.ui.node.TraversableNode
+import com.intellij.openapi.actionSystem.DataKey
 
-/**
- * Holder for parent node of current [DataProviderNode]. So, each
- * [DataProviderNode] provides itself and read parent node. It allows
- * building tree of [DataProviderNode] and traverse it later on.
- *
- * @see ModifierLocalModifierNode
- */
-private val LocalDataProviderNode = modifierLocalOf<DataProviderNode?> { null }
+public interface DataProviderContext {
+    public fun <TValue: Any> set(key: DataKey<TValue>, value: TValue?)
+    public fun <TValue: Any> lazy(key: DataKey<TValue>, initializer: () -> TValue?)
+}
 
 internal class DataProviderNode(
-    var dataProvider: (dataId: String) -> Any?,
-) : Modifier.Node(), ModifierLocalModifierNode, FocusEventModifierNode {
+    var dataProvider: DataProviderContext.() -> Unit,
+) : Modifier.Node(), FocusEventModifierNode, TraversableNode {
     // TODO: should we use state here and in parent with children for thread safety? Will it trigger
     // recompositions?
     var hasFocus = false
-
-    var parent: DataProviderNode? = null
-
-    private val _children = mutableSetOf<DataProviderNode>()
-    val children: Set<DataProviderNode> = _children
-
-    override val providedValues: ModifierLocalMap = modifierLocalMapOf(LocalDataProviderNode to this)
-
-    override fun onAttach() {
-        val oldParent = parent
-        parent = LocalDataProviderNode.current
-        if (parent !== oldParent) {
-            oldParent?._children?.remove(this)
-            parent?._children?.add(this)
-        }
-    }
-
-    override fun onDetach() {
-        parent?._children?.remove(this)
-        parent = null
-    }
 
     override fun onFocusEvent(focusState: FocusState) {
         hasFocus = focusState.hasFocus
     }
 
-    public fun updateParent() {
-        parent = LocalDataProviderNode.current
-    }
+    override val traverseKey = TraverseKey
+
+    companion object TraverseKey
 }
