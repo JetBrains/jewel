@@ -20,36 +20,33 @@ internal object MacScrollbarHelper {
     private val _trackClickBehaviorFlow = MutableStateFlow(trackClickBehavior)
     val trackClickBehaviorFlow: StateFlow<TrackClickBehavior> = _trackClickBehaviorFlow
 
-    private val APPEARANCE_CALLBACK: Callback =
-        object : Callback {
-            @Suppress("UNUSED_PARAMETER", "unused")
-            @SuppressWarnings("UnusedDeclaration")
-            fun callback(
-                self: ID?,
-                selector: Pointer?,
-                event: ID?,
-            ) {
-                _scrollbarVisibilityStyleFlow.tryEmit(scrollbarVisibility)
-            }
-        }
-    private val BEHAVIOR_CALLBACK: Callback =
-        object : Callback {
-            @Suppress("UNUSED_PARAMETER", "unused")
-            @SuppressWarnings("UnusedDeclaration")
-            fun callback(
-                self: ID?,
-                selector: Pointer?,
-                event: ID?,
-            ) {
-                _trackClickBehaviorFlow.tryEmit(trackClickBehavior)
-            }
-        }
-
     init {
         if (SystemInfoRt.isMac) {
             initNotificationObserver()
         }
     }
+
+    val trackClickBehavior: TrackClickBehavior
+        get() {
+            val pool = NSAutoreleasePool()
+            try {
+                return readMacScrollbarBehavior()
+            } finally {
+                pool.drain()
+            }
+        }
+
+    val scrollbarVisibility: ScrollbarVisibility
+        get() {
+            val pool = NSAutoreleasePool()
+            try {
+                return readMacScrollbarStyle()
+            } catch (ignore: Throwable) {
+            } finally {
+                pool.drain()
+            }
+            return ScrollbarVisibility.AlwaysVisible
+        }
 
     private fun initNotificationObserver() {
         val pool = NSAutoreleasePool()
@@ -94,26 +91,30 @@ internal object MacScrollbarHelper {
         }
     }
 
-    val trackClickBehavior: TrackClickBehavior
-        get() {
-            val pool = NSAutoreleasePool()
-            try {
-                return readMacScrollbarBehavior()
-            } finally {
-                pool.drain()
+    private val APPEARANCE_CALLBACK: Callback =
+        object : Callback {
+            @Suppress("UNUSED_PARAMETER", "unused")
+            @SuppressWarnings("UnusedDeclaration")
+            fun callback(
+                self: ID?,
+                selector: Pointer?,
+                event: ID?,
+            ) {
+                _scrollbarVisibilityStyleFlow.tryEmit(scrollbarVisibility)
             }
         }
 
-    val scrollbarVisibility: ScrollbarVisibility
-        get() {
-            val pool = NSAutoreleasePool()
-            try {
-                return readMacScrollbarStyle()
-            } catch (ignore: Throwable) {
-            } finally {
-                pool.drain()
+    private val BEHAVIOR_CALLBACK: Callback =
+        object : Callback {
+            @Suppress("UNUSED_PARAMETER", "unused")
+            @SuppressWarnings("UnusedDeclaration")
+            fun callback(
+                self: ID?,
+                selector: Pointer?,
+                event: ID?,
+            ) {
+                _trackClickBehaviorFlow.tryEmit(trackClickBehavior)
             }
-            return ScrollbarVisibility.AlwaysVisible
         }
 
     private fun readMacScrollbarBehavior(): TrackClickBehavior {
