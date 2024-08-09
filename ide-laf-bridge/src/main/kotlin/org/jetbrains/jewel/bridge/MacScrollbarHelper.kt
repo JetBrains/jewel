@@ -9,38 +9,39 @@ import com.sun.jna.Pointer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.jewel.bridge.theme.defaults
+import org.jetbrains.jewel.foundation.util.myLogger
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior
 
 internal object MacScrollbarHelper {
-    private val _scrollbarVisibilityStyle = MutableStateFlow(scrollbarVisibility)
-    val scrollbarVisibilityStyleFlow: StateFlow<ScrollbarVisibility> = _scrollbarVisibilityStyle
+    private val _scrollbarVisibilityStyleFlow = MutableStateFlow(scrollbarVisibility)
+    val scrollbarVisibilityStyleFlow: StateFlow<ScrollbarVisibility> = _scrollbarVisibilityStyleFlow
 
-    private val _trackClickBehavior = MutableStateFlow(trackClickBehavior)
-    val trackClickBehaviorFlow: StateFlow<TrackClickBehavior> = _trackClickBehavior
+    private val _trackClickBehaviorFlow = MutableStateFlow(trackClickBehavior)
+    val trackClickBehaviorFlow: StateFlow<TrackClickBehavior> = _trackClickBehaviorFlow
 
     private val APPEARANCE_CALLBACK: Callback =
         object : Callback {
-            @Suppress("UNUSED_PARAMETER")
+            @Suppress("UNUSED_PARAMETER", "unused")
             @SuppressWarnings("UnusedDeclaration")
             fun callback(
                 self: ID?,
                 selector: Pointer?,
                 event: ID?,
             ) {
-                _scrollbarVisibilityStyle.tryEmit(scrollbarVisibility)
+                _scrollbarVisibilityStyleFlow.tryEmit(scrollbarVisibility)
             }
         }
     private val BEHAVIOR_CALLBACK: Callback =
         object : Callback {
-            @Suppress("UNUSED_PARAMETER")
+            @Suppress("UNUSED_PARAMETER", "unused")
             @SuppressWarnings("UnusedDeclaration")
             fun callback(
                 self: ID?,
                 selector: Pointer?,
                 event: ID?,
             ) {
-                _trackClickBehavior.tryEmit(trackClickBehavior)
+                _trackClickBehaviorFlow.tryEmit(trackClickBehavior)
             }
         }
 
@@ -56,34 +57,19 @@ internal object MacScrollbarHelper {
         val delegateClass =
             Foundation.allocateObjcClassPair(Foundation.getObjcClass("NSObject"), "NSScrollerChangesObserver")
         if (ID.NIL != delegateClass) {
-            // This static initializer might be called more than once (with different class loaders). In that case NSScrollerChangesObserver
-            // already exists.
-            if (!Foundation.addMethod(
-                    delegateClass,
-                    Foundation.createSelector("handleScrollerStyleChanged:"),
-                    APPEARANCE_CALLBACK,
-                    "v@",
-                )
-            ) {
-                throw RuntimeException("Cannot add observer method")
-            }
-            if (!Foundation.addMethod(
-                    delegateClass,
-                    Foundation.createSelector("handleBehaviorChanged:"),
-                    BEHAVIOR_CALLBACK,
-                    "v@",
-                )
-            ) {
-                throw RuntimeException("Cannot add observer method")
+            if (!addScrollbarVisibilityChangeListener(delegateClass)) {
+                myLogger().error("Cannot add observer method")
             }
 
+            if (!addTrackClickBehaviorChangeListener(delegateClass)) {
+                myLogger().error("Cannot add observer method")
+            }
             Foundation.registerObjcClassPair(delegateClass)
         }
         val delegate = Foundation.invoke("NSScrollerChangesObserver", "new")
 
         try {
-            var center =
-                Foundation.invoke("NSNotificationCenter", "defaultCenter")
+            var center = Foundation.invoke("NSNotificationCenter", "defaultCenter")
             Foundation.invoke(
                 center,
                 "addObserver:selector:name:object:",
@@ -149,4 +135,20 @@ internal object MacScrollbarHelper {
             }
         return visibility
     }
+
+    private fun addScrollbarVisibilityChangeListener(delegateClass: ID?) =
+        Foundation.addMethod(
+            delegateClass,
+            Foundation.createSelector("handleScrollerStyleChanged:"),
+            APPEARANCE_CALLBACK,
+            "v@",
+        )
+
+    private fun addTrackClickBehaviorChangeListener(delegateClass: ID?) =
+        Foundation.addMethod(
+            delegateClass,
+            Foundation.createSelector("handleBehaviorChanged:"),
+            BEHAVIOR_CALLBACK,
+            "v@",
+        )
 }
