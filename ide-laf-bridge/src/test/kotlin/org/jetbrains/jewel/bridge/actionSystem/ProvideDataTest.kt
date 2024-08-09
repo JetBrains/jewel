@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.intellij.openapi.actionSystem.DataKey
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -22,6 +23,7 @@ class ProvideDataTest {
     @Test
     fun `one component`() {
         runBlocking {
+            val sink = TestDataSink()
             val rootDataProviderModifier = RootDataProviderModifier()
             var focusManager: FocusManager? = null
             rule.setContent {
@@ -30,10 +32,7 @@ class ProvideDataTest {
                     modifier =
                         rootDataProviderModifier.testTag("provider")
                             .provideData {
-                                when (it) {
-                                    "data" -> "ok"
-                                    else -> null
-                                }
+                                set(TestDataKeys.DATA, "ok")
                             }
                             .focusable(),
                 )
@@ -43,9 +42,10 @@ class ProvideDataTest {
             rule.awaitIdle()
 
             rule.onNodeWithTag("provider").assertIsFocused()
+            rootDataProviderModifier.uiDataSnapshot(sink)
 
-            assertEquals("ok", rootDataProviderModifier.dataProvider("data"))
-            assertEquals(null, rootDataProviderModifier.dataProvider("another_data"))
+            assertEquals("ok", sink.get(TestDataKeys.DATA))
+            assertEquals(null, sink.get(TestDataKeys.ANOTHER_DATA))
         }
     }
 
@@ -60,10 +60,8 @@ class ProvideDataTest {
                     modifier =
                         rootDataProviderModifier.testTag("root_provider")
                             .provideData {
-                                when (it) {
-                                    "isRoot" -> "yes"
-                                    else -> null
-                                }
+                                set(TestDataKeys.IS_ROOT, "yes")
+                                set(TestDataKeys.DATA, "notOk")
                             }
                             .focusable(),
                 ) {
@@ -72,10 +70,8 @@ class ProvideDataTest {
                             modifier =
                                 Modifier.testTag("data_provider_item")
                                     .provideData {
-                                        when (it) {
-                                            "data" -> "ok"
-                                            else -> null
-                                        }
+                                        set(TestDataKeys.DATA, "ok")
+                                        set(TestDataKeys.ONE, "1")
                                     }
                                     .focusable(),
                         )
@@ -87,26 +83,41 @@ class ProvideDataTest {
             focusManager!!.moveFocus(FocusDirection.Next)
             rule.awaitIdle()
 
+            val sink = TestDataSink()
             rule.onNodeWithTag("root_provider").assertIsFocused()
-            assertEquals("yes", rootDataProviderModifier.dataProvider("isRoot"))
-            assertEquals(null, rootDataProviderModifier.dataProvider("data"))
+            rootDataProviderModifier.uiDataSnapshot(sink)
+            assertEquals("yes", sink.get(TestDataKeys.IS_ROOT))
+            assertEquals("notOk", sink.get(TestDataKeys.DATA))
+            assertEquals(null, sink.get(TestDataKeys.ONE))
 
             focusManager!!.moveFocus(FocusDirection.Next)
             rule.awaitIdle()
+            sink.clear()
 
             rule.onNodeWithTag("non_data_provider").assertIsFocused()
+            rootDataProviderModifier.uiDataSnapshot(sink)
             // non_data_provider still should provide isRoot == true because it should be taken from root
-            // but shouldn't provide "data" yet
-            assertEquals("yes", rootDataProviderModifier.dataProvider("isRoot"))
-            assertEquals(null, rootDataProviderModifier.dataProvider("data"))
+            // but shouldn't provide "one" yet
+            assertEquals("yes", sink.get(TestDataKeys.IS_ROOT))
+            assertEquals("notOk", sink.get(TestDataKeys.DATA))
+            assertEquals(null, sink.get(TestDataKeys.ONE))
 
             focusManager!!.moveFocus(FocusDirection.Next)
             rule.awaitIdle()
+            sink.clear()
 
             rule.onNodeWithTag("data_provider_item").assertIsFocused()
-
-            assertEquals("yes", rootDataProviderModifier.dataProvider("isRoot"))
-            assertEquals("ok", rootDataProviderModifier.dataProvider("data"))
+            rootDataProviderModifier.uiDataSnapshot(sink)
+            assertEquals("yes", sink.get(TestDataKeys.IS_ROOT))
+            assertEquals("ok", sink.get(TestDataKeys.DATA))
+            assertEquals("1", sink.get(TestDataKeys.ONE))
         }
     }
+}
+
+private object TestDataKeys {
+    val DATA = DataKey.create<String>("data")
+    val ANOTHER_DATA = DataKey.create<String>("another_data")
+    val IS_ROOT = DataKey.create<String>("isRoot")
+    val ONE = DataKey.create<String>("one")
 }
