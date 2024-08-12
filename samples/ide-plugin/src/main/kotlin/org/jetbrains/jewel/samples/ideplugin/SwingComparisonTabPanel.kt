@@ -27,6 +27,7 @@ import com.intellij.ui.dsl.builder.Panel
 import com.intellij.ui.dsl.builder.Row
 import com.intellij.ui.dsl.builder.RowLayout
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.text
 import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
@@ -129,7 +130,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
 
     private fun Panel.textAreasRow() {
         row("Text areas:") {
-            textArea().align(AlignY.CENTER).applyToComponent { rows = 3 }
+            textArea().align(AlignY.CENTER).applyToComponent { rows = 3 }.text("Hello")
 
             compose {
                 val metrics = remember(JBFont.label(), LocalDensity.current) { getFontMetrics(JBFont.label()) }
