@@ -28,6 +28,10 @@ internal object MacScrollbarHelper {
 
     val trackClickBehavior: TrackClickBehavior
         get() {
+            if (!SystemInfoRt.isMac) {
+                return TrackClickBehavior.JumpToSpot
+            }
+
             val pool = NSAutoreleasePool()
             try {
                 return readMacScrollbarBehavior()
@@ -38,6 +42,10 @@ internal object MacScrollbarHelper {
 
     val scrollbarVisibility: ScrollbarVisibility
         get() {
+            if (!SystemInfoRt.isMac) {
+                return ScrollbarVisibility.AlwaysVisible
+            }
+
             val pool = NSAutoreleasePool()
             try {
                 return readMacScrollbarStyle()
