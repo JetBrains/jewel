@@ -13,5 +13,11 @@
     </option>
     <option name="enableDetekt" value="true" />
     <option name="enableForProjectResult" value="Accepted" />
+    <option name="pluginJars">
+      <list>
+        <option value="$PROJECT_DIR$/config/detekt-compose-0.4.9-all.jar" />
+      </list>
+    </option>
+    <option name="treatAsErrors" value="true" />
   </component>
 </project>
