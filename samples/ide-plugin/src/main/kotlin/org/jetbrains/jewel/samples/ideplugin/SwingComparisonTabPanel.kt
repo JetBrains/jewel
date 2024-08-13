@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -123,7 +124,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
 
             compose {
                 val state = rememberTextFieldState("")
-                TextField(state)
+                TextField(state, modifier = Modifier.width(196.dp))
             }
         }.layout(RowLayout.PARENT_GRID)
     }
