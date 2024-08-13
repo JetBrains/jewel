@@ -1514,6 +1514,7 @@ public abstract interface class org/jetbrains/jewel/ui/component/styling/InputFi
 	public abstract fun getBorderWidth-D9Ej5fM ()F
 	public abstract fun getContentPadding ()Landroidx/compose/foundation/layout/PaddingValues;
 	public abstract fun getCornerSize ()Landroidx/compose/foundation/shape/CornerSize;
+	public abstract fun getFocusOutlineExpand-D9Ej5fM ()F
 	public abstract fun getMinSize-MYxV2XQ ()J
 }
 
@@ -2312,11 +2313,12 @@ public final class org/jetbrains/jewel/ui/component/styling/TextAreaColors$Compa
 public final class org/jetbrains/jewel/ui/component/styling/TextAreaMetrics : org/jetbrains/jewel/ui/component/styling/InputFieldMetrics {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/TextAreaMetrics$Companion;
-	public synthetic fun <init> (FLandroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/shape/CornerSize;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FLandroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/shape/CornerSize;JFLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getBorderWidth-D9Ej5fM ()F
 	public fun getContentPadding ()Landroidx/compose/foundation/layout/PaddingValues;
 	public fun getCornerSize ()Landroidx/compose/foundation/shape/CornerSize;
+	public fun getFocusOutlineExpand-D9Ej5fM ()F
 	public fun getMinSize-MYxV2XQ ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -2385,11 +2387,12 @@ public final class org/jetbrains/jewel/ui/component/styling/TextFieldColors$Comp
 public final class org/jetbrains/jewel/ui/component/styling/TextFieldMetrics : org/jetbrains/jewel/ui/component/styling/InputFieldMetrics {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/TextFieldMetrics$Companion;
-	public synthetic fun <init> (FLandroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/shape/CornerSize;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FLandroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/shape/CornerSize;JFLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getBorderWidth-D9Ej5fM ()F
 	public fun getContentPadding ()Landroidx/compose/foundation/layout/PaddingValues;
 	public fun getCornerSize ()Landroidx/compose/foundation/shape/CornerSize;
+	public fun getFocusOutlineExpand-D9Ej5fM ()F
 	public fun getMinSize-MYxV2XQ ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
