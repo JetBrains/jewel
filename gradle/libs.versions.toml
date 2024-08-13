@@ -13,6 +13,7 @@ kotlinpoet = "1.17.0"
 kotlinterGradlePlugin = "4.3.0"
 kotlinxSerialization = "1.6.3"
 kotlinxBinaryCompat = "0.14.0"
+materialKolor = "1.7.0"
 poko = "0.15.3"
 
 [libraries]
@@ -26,6 +27,8 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 
 jna-core = { module = "net.java.dev.jna:jna", version.ref = "jna" }
+
+material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 
 intellijPlatform-util-ui = { module = "com.jetbrains.intellij.platform:util-ui", version.ref = "intelliJPlatformBuild" }
 intellijPlatform-icons = { module = "com.jetbrains.intellij.platform:icons", version.ref = "intelliJPlatformBuild" }

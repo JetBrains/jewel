@@ -47,7 +47,7 @@ fun main() {
 
         val themeDefinition =
             if (MainViewModel.theme.isDark()) {
-                JewelTheme.darkThemeDefinition(defaultTextStyle = textStyle, editorTextStyle = editorStyle)
+                JewelTheme.darkThemeDefinition(colors = DynamicTheme.GlobalColors.dark(), defaultTextStyle = textStyle, editorTextStyle = editorStyle)
             } else {
                 JewelTheme.lightThemeDefinition(defaultTextStyle = textStyle, editorTextStyle = editorStyle)
             }

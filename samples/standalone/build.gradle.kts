@@ -10,6 +10,7 @@ plugins {
 dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.filePicker)
+    implementation(libs.material.kolor)
     implementation(projects.intUi.intUiStandalone)
     implementation(projects.intUi.intUiDecoratedWindow)
     implementation(projects.markdown.intUiStandaloneStyling)
@@ -18,6 +19,7 @@ dependencies {
     implementation(compose.desktop.currentOs) {
         exclude(group = "org.jetbrains.compose.material")
     }
+    implementation(compose.material3)
     implementation(libs.intellijPlatform.icons)
 }
 
