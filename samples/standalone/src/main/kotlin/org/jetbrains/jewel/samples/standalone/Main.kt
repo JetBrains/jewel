@@ -47,15 +47,15 @@ fun main() {
 
         val themeDefinition =
             if (MainViewModel.theme.isDark()) {
-                JewelTheme.darkThemeDefinition(colors = DynamicTheme.GlobalColors.dark(), defaultTextStyle = textStyle, editorTextStyle = editorStyle)
+                JewelTheme.dynamicDarkThemeDefinition(defaultTextStyle = textStyle, editorTextStyle = editorStyle)
             } else {
-                JewelTheme.lightThemeDefinition(defaultTextStyle = textStyle, editorTextStyle = editorStyle)
+                JewelTheme.dynamicLightThemeDefinition(defaultTextStyle = textStyle, editorTextStyle = editorStyle)
             }
 
-        IntUiTheme(
-            theme = themeDefinition,
+        DynamicColorUiTheme(
+            isDark = MainViewModel.theme.isDark(),
             styling =
-                ComponentStyling.default().decoratedWindow(
+                ComponentStyling.dynamicDefault().decoratedWindow(
                     titleBarStyle =
                         when (MainViewModel.theme) {
                             IntUiThemes.Light -> TitleBarStyle.light()
