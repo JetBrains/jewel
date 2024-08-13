@@ -39,6 +39,7 @@ include(
     ":markdown:core",
     ":markdown:extension:autolink",
     ":markdown:extension:gfm-alerts",
+    ":markdown:extension:gfm-tables",
     ":markdown:int-ui-standalone-styling",
     ":markdown:ide-laf-bridge-styling",
     ":samples:ide-plugin",
