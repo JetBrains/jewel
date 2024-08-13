@@ -126,4 +126,5 @@ public fun TextAreaMetrics.Companion.defaults(
     contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
     minSize: DpSize = DpSize(144.dp, 28.dp),
     borderWidth: Dp = 1.dp,
-): TextAreaMetrics = TextAreaMetrics(borderWidth, contentPadding, cornerSize, minSize)
+    focusOutlineExpand: Dp = 1.dp,
+): TextAreaMetrics = TextAreaMetrics(borderWidth, contentPadding, cornerSize, minSize, focusOutlineExpand)

@@ -922,9 +922,10 @@ private fun readTextAreaStyle(metrics: TextFieldMetrics): TextAreaStyle {
         metrics =
             TextAreaMetrics(
                 cornerSize = metrics.cornerSize,
-                contentPadding = metrics.contentPadding,
+                contentPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
                 minSize = metrics.minSize,
                 borderWidth = metrics.borderWidth,
+                focusOutlineExpand = metrics.focusOutlineExpand,
             ),
     )
 }
@@ -965,12 +966,13 @@ private fun readTextFieldStyle(): TextFieldStyle {
     return TextFieldStyle(
         colors = colors,
         metrics =
-            TextFieldMetrics(
-                cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2),
-                contentPadding = PaddingValues(horizontal = 5.dp, vertical = 2.dp),
-                minSize = DpSize(144.dp, minimumSize.height),
-                borderWidth = DarculaUIUtil.LW.dp,
-            ),
+        TextFieldMetrics(
+            cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2),
+            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
+            minSize = DpSize(minimumSize.width, minimumSize.height),
+            borderWidth = DarculaUIUtil.LW.dp,
+            focusOutlineExpand = 2.dp,
+        ),
     )
 }
 

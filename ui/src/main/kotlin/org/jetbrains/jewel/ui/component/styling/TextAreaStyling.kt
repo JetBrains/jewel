@@ -55,6 +55,7 @@ public class TextAreaMetrics(
     override val contentPadding: PaddingValues,
     override val cornerSize: CornerSize,
     override val minSize: DpSize,
+    override val focusOutlineExpand: Dp,
 ) : InputFieldMetrics {
     public companion object
 }
