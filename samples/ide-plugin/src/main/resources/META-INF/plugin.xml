@@ -20,6 +20,9 @@ See the <a href="https://github.com/JetBrains/jewel">Jewel repository</a> for mo
                     factoryClass="org.jetbrains.jewel.samples.ideplugin.JewelDemoToolWindowFactory"/>
 
         <iconMapper mappingFile="JewelIntUiIconMappings.json"/>
+        <fileType name="Journey File" implementationClass="org.jetbrains.jewel.samples.ideplugin.journeys.JourneyFileType"
+                  fieldName="INSTANCE" language="JSON" extensions="journey"/>
+        <fileEditorProvider implementation="org.jetbrains.jewel.samples.ideplugin.journeys.JourneyEditorProvider"/>
     </extensions>
 
     <actions>
