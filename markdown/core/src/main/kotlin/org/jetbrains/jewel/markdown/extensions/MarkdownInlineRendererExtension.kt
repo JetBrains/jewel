@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.markdown.extensions
 
+import androidx.compose.ui.text.AnnotatedString
 import org.jetbrains.jewel.markdown.InlineMarkdown
 import org.jetbrains.jewel.markdown.InlineMarkdown.CustomNode
 import org.jetbrains.jewel.markdown.rendering.InlineMarkdownRenderer
@@ -13,5 +14,10 @@ public interface MarkdownInlineRendererExtension {
      * Render a [CustomNode] as an annotated string. Note that if [canRender] returns `false` for [inline], the
      * implementation might throw.
      */
-    public fun render(inline: CustomNode, inlineRenderer: InlineMarkdownRenderer, enabled: Boolean)
+    public fun render(
+        builder: AnnotatedString.Builder,
+        inline: CustomNode,
+        inlineRenderer: InlineMarkdownRenderer,
+        enabled: Boolean,
+    )
 }

@@ -1,0 +1,29 @@
+public final class org/jetbrains/jewel/markdown/extension/strikethrough/CustomStrikethroughNode : org/jetbrains/jewel/markdown/InlineMarkdown$CustomNode, org/jetbrains/jewel/markdown/WithInlineMarkdown {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+	public fun <init> (Lorg/commonmark/ext/gfm/strikethrough/Strikethrough;Lorg/jetbrains/jewel/markdown/processing/MarkdownProcessor;Ljava/util/List;)V
+	public fun contentOrNull ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getClosingDelimiter ()Ljava/lang/String;
+	public fun getInlineContent ()Ljava/util/List;
+	public final fun getOpeningDelimiter ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/markdown/extension/strikethrough/StrikethroughProcessorExtension : org/jetbrains/jewel/markdown/extensions/MarkdownProcessorExtension {
+	public static final field $stable I
+	public static final field INSTANCE Lorg/jetbrains/jewel/markdown/extension/strikethrough/StrikethroughProcessorExtension;
+	public fun getBlockProcessorExtension ()Lorg/jetbrains/jewel/markdown/extensions/MarkdownBlockProcessorExtension;
+	public fun getInlineProcessorExtension ()Lorg/jetbrains/jewel/markdown/extensions/MarkdownInlineProcessorExtension;
+	public fun getParserExtension ()Lorg/commonmark/parser/Parser$ParserExtension;
+	public fun getTextRendererExtension ()Lorg/commonmark/renderer/text/TextContentRenderer$TextContentRendererExtension;
+}
+
+public final class org/jetbrains/jewel/markdown/extension/strikethrough/StrikethroughRendererExtension : org/jetbrains/jewel/markdown/extensions/MarkdownRendererExtension {
+	public static final field $stable I
+	public fun <init> (Lorg/jetbrains/jewel/markdown/rendering/InlinesStyling;)V
+	public fun getBlockRenderer ()Lorg/jetbrains/jewel/markdown/extensions/MarkdownBlockRendererExtension;
+	public fun getInlineRenderer ()Lorg/jetbrains/jewel/markdown/extensions/MarkdownInlineRendererExtension;
+}
+
