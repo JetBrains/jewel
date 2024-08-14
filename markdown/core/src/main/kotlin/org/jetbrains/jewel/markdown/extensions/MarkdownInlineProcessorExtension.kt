@@ -17,5 +17,9 @@ public interface MarkdownInlineProcessorExtension {
      * [canProcess] returns true for the same [node], as implementations might throw an exception for unsupported node
      * types.
      */
-    public fun processInlineMarkdown(node: CustomNode, processor: MarkdownProcessor): InlineMarkdown.CustomNode?
+    public fun processInlineMarkdown(
+        node: CustomNode,
+        markdownProcessor: MarkdownProcessor,
+        extensions: List<MarkdownProcessorExtension>,
+    ): InlineMarkdown.CustomNode?
 }
