@@ -30,6 +30,7 @@ import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.isNewUiTheme
 import org.jetbrains.jewel.bridge.lafName
 import org.jetbrains.jewel.bridge.readFromLaF
+import org.jetbrains.jewel.bridge.retrieveArcAsCornerSize
 import org.jetbrains.jewel.bridge.retrieveArcAsCornerSizeOrDefault
 import org.jetbrains.jewel.bridge.retrieveArcAsCornerSizeWithFallbacks
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
@@ -966,13 +967,13 @@ private fun readTextFieldStyle(): TextFieldStyle {
     return TextFieldStyle(
         colors = colors,
         metrics =
-            TextFieldMetrics(
-                cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2),
-                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
-                minSize = DpSize(minimumSize.width, minimumSize.height),
-                borderWidth = DarculaUIUtil.LW.dp,
-                focusOutlineExpand = 2.dp,
-            ),
+        TextFieldMetrics(
+            cornerSize = retrieveArcAsCornerSize("Component.arc"),
+            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
+            minSize = DpSize(minimumSize.width, minimumSize.height),
+            borderWidth = DarculaUIUtil.LW.dp,
+            focusOutlineExpand = 2.dp,
+        ),
     )
 }
 
