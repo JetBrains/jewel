@@ -967,13 +967,13 @@ private fun readTextFieldStyle(): TextFieldStyle {
     return TextFieldStyle(
         colors = colors,
         metrics =
-        TextFieldMetrics(
-            cornerSize = retrieveArcAsCornerSize("Component.arc"),
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
-            minSize = DpSize(minimumSize.width, minimumSize.height),
-            borderWidth = DarculaUIUtil.LW.dp,
-            focusOutlineExpand = 2.dp,
-        ),
+            TextFieldMetrics(
+                cornerSize = retrieveArcAsCornerSize("Component.arc"),
+                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
+                minSize = DpSize(minimumSize.width, minimumSize.height),
+                borderWidth = DarculaUIUtil.LW.dp,
+                focusOutlineExpand = 2.dp,
+            ),
     )
 }
 

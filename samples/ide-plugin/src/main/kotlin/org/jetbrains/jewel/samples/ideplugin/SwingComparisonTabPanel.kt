@@ -129,7 +129,8 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             compose {
                 Column(
                     modifier = Modifier.background(Color.Green).padding(4.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
                     val state1 = rememberTextFieldState("")
                     TextField(
                         state = state1,
