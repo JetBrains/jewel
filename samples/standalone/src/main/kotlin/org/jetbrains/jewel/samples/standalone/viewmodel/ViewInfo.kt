@@ -6,5 +6,6 @@ import org.jetbrains.jewel.ui.icon.IconKey
 data class ViewInfo(
     val title: String,
     val iconKey: IconKey,
+    val keyboardShortcut: Set<String>? = null,
     val content: @Composable () -> Unit,
 )
