@@ -10,9 +10,8 @@ data class KeyBinding(
     val linux: Set<String> = emptySet(),
 )
 
-fun KeyBinding?.forCurrentOs(): Set<String> =
+fun KeyBinding.forCurrentOs(): Set<String> =
     when {
-        this == null -> emptySet()
         hostOs.isMacOS -> macOs
         hostOs.isLinux -> linux
         else -> windows

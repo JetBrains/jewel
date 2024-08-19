@@ -34,7 +34,7 @@ fun DecoratedWindowScope.TitleBarView() {
                     selectableItem(
                         selected = MainViewModel.currentView == it,
                         onClick = { MainViewModel.currentView = it },
-                        keybinding = it.keyboardShortcut.forCurrentOs(),
+                        keybinding = it.keyboardShortcut?.forCurrentOs(),
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(4.dp),
