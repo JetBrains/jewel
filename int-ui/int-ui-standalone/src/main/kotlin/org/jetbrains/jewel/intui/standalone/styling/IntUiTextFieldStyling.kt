@@ -126,5 +126,4 @@ public fun TextFieldMetrics.Companion.defaults(
     contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
     minSize: DpSize = DpSize(49.dp, 28.dp),
     borderWidth: Dp = 1.dp,
-    focusOutlineExpand: Dp = 1.dp,
-): TextFieldMetrics = TextFieldMetrics(borderWidth, contentPadding, cornerSize, minSize, focusOutlineExpand)
+): TextFieldMetrics = TextFieldMetrics(borderWidth, contentPadding, cornerSize, minSize)

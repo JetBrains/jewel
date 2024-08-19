@@ -103,5 +103,4 @@ public interface InputFieldMetrics {
     public val contentPadding: PaddingValues
     public val minSize: DpSize
     public val borderWidth: Dp
-    public val focusOutlineExpand: Dp
 }

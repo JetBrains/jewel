@@ -926,7 +926,6 @@ private fun readTextAreaStyle(metrics: TextFieldMetrics): TextAreaStyle {
                 contentPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
                 minSize = metrics.minSize,
                 borderWidth = metrics.borderWidth,
-                focusOutlineExpand = metrics.focusOutlineExpand,
             ),
     )
 }
@@ -972,7 +971,6 @@ private fun readTextFieldStyle(): TextFieldStyle {
                 contentPadding = PaddingValues(horizontal = 8.dp),
                 minSize = DpSize(minimumSize.width, minimumSize.height),
                 borderWidth = DarculaUIUtil.LW.dp,
-                focusOutlineExpand = 2.dp,
             ),
     )
 }
