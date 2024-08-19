@@ -90,18 +90,14 @@ public fun ScrollbarVisibility.AlwaysVisible.Companion.default(): ScrollbarVisib
 public fun ScrollbarVisibility.AlwaysVisible.Companion.macOs(
     trackThickness: Dp = 14.dp,
     trackPadding: PaddingValues = PaddingValues(2.dp),
-    trackPaddingWithBorder: PaddingValues = PaddingValues(1.dp),
     thumbColorAnimationDuration: Duration = 330.milliseconds,
-): ScrollbarVisibility.AlwaysVisible =
-    ScrollbarVisibility.AlwaysVisible(trackThickness, trackPadding, trackPaddingWithBorder, thumbColorAnimationDuration)
+): ScrollbarVisibility.AlwaysVisible = ScrollbarVisibility.AlwaysVisible(trackThickness, trackPadding, trackPadding, thumbColorAnimationDuration)
 
 public fun ScrollbarVisibility.AlwaysVisible.Companion.windowsAndLinux(
     trackThickness: Dp = 18.dp,
     trackPadding: PaddingValues = PaddingValues(),
-    trackPaddingWithBorder: PaddingValues = trackPadding,
     thumbColorAnimationDuration: Duration = 330.milliseconds,
-): ScrollbarVisibility.AlwaysVisible =
-    ScrollbarVisibility.AlwaysVisible(trackThickness, trackPadding, trackPaddingWithBorder, thumbColorAnimationDuration)
+): ScrollbarVisibility.AlwaysVisible = ScrollbarVisibility.AlwaysVisible(trackThickness, trackPadding, trackPadding, thumbColorAnimationDuration)
 
 public fun ScrollbarVisibility.WhenScrolling.Companion.default(): ScrollbarVisibility.WhenScrolling =
     if (hostOs.isMacOS) {
@@ -271,11 +267,9 @@ public fun ScrollbarColors.Companion.windowsAndLinuxDark(
 public fun ScrollbarMetrics.Companion.macOs(
     thumbCornerSize: CornerSize = CornerSize(100),
     minThumbLength: Dp = 20.dp,
-): ScrollbarMetrics =
-    ScrollbarMetrics(thumbCornerSize, minThumbLength)
+): ScrollbarMetrics = ScrollbarMetrics(thumbCornerSize, minThumbLength)
 
 public fun ScrollbarMetrics.Companion.windowsAndLinux(
     thumbCornerSize: CornerSize = CornerSize(0),
     minThumbLength: Dp = 20.dp,
-): ScrollbarMetrics =
-    ScrollbarMetrics(thumbCornerSize, minThumbLength)
+): ScrollbarMetrics = ScrollbarMetrics(thumbCornerSize, minThumbLength)

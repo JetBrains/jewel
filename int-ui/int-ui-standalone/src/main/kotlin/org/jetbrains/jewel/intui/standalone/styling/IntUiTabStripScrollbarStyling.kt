@@ -81,17 +81,15 @@ public fun ScrollbarStyle.Companion.tabStripWindowsAndLinuxDark(
 public fun ScrollbarMetrics.Companion.tabStripMacOs(
     thumbCornerSize: CornerSize = CornerSize(100),
     minThumbLength: Dp = 20.dp,
-): ScrollbarMetrics =
-    ScrollbarMetrics(thumbCornerSize, minThumbLength)
+): ScrollbarMetrics = ScrollbarMetrics(thumbCornerSize, minThumbLength)
 
 public fun ScrollbarMetrics.Companion.tabStripWindowsAndLinux(
     thumbCornerSize: CornerSize = CornerSize(0),
     minThumbLength: Dp = 16.dp,
-): ScrollbarMetrics =
-    ScrollbarMetrics(thumbCornerSize, minThumbLength)
+): ScrollbarMetrics = ScrollbarMetrics(thumbCornerSize, minThumbLength)
 
 public fun ScrollbarVisibility.AlwaysVisible.Companion.tabStrip(
-    thumbThickness: Dp = 3.dp,
+    thumbThickness: Dp = 4.dp,
     trackPadding: PaddingValues = PaddingValues(),
     trackPaddingWithBorder: PaddingValues = trackPadding,
 ): ScrollbarVisibility.AlwaysVisible =
@@ -99,5 +97,5 @@ public fun ScrollbarVisibility.AlwaysVisible.Companion.tabStrip(
         thumbThickness,
         trackPadding,
         trackPaddingWithBorder,
-        thumbColorAnimationDuration = 0.milliseconds
+        thumbColorAnimationDuration = 0.milliseconds,
     )
