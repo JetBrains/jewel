@@ -35,7 +35,7 @@ private fun readScrollbarColors(isDark: Boolean) =
     if (hostOs.isMacOS) {
         readScrollbarMacColors(isDark)
     } else {
-        readScrollbarWinColors(isDark)
+        readScrollbarWindowsAndLinuxColors(isDark)
     }
 
 private fun readTrackClickBehavior() =
@@ -45,7 +45,7 @@ private fun readTrackClickBehavior() =
         TrackClickBehavior.JumpToSpot
     }
 
-private fun readScrollbarWinColors(isDark: Boolean): ScrollbarColors =
+private fun readScrollbarWindowsAndLinuxColors(isDark: Boolean): ScrollbarColors =
     ScrollbarColors(
         thumbBackground =
             readScrollBarColorForKey(
@@ -54,14 +54,7 @@ private fun readScrollbarWinColors(isDark: Boolean): ScrollbarColors =
                 0x33737373,
                 0x47A6A6A6,
             ),
-        thumbBackgroundHovered =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.hoverThumbColor",
-                0x47737373,
-                0x59A6A6A6,
-            ),
-        thumbBackgroundPressed =
+        thumbBackgroundActive =
             readScrollBarColorForKey(
                 isDark,
                 "ScrollBar.hoverThumbColor",
@@ -75,14 +68,7 @@ private fun readScrollbarWinColors(isDark: Boolean): ScrollbarColors =
                 0x33595959,
                 0x47383838,
             ),
-        thumbBorderHovered =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.hoverThumbBorderColor",
-                0x47595959,
-                0x59383838,
-            ),
-        thumbBorderPressed =
+        thumbBorderActive =
             readScrollBarColorForKey(
                 isDark,
                 "ScrollBar.hoverThumbBorderColor",
@@ -96,13 +82,27 @@ private fun readScrollbarWinColors(isDark: Boolean): ScrollbarColors =
                 0x00808080,
                 0x00808080,
             ),
-        trackBackgroundHovered =
+        trackBackgroundExpanded =
             readScrollBarColorForKey(
                 isDark,
                 "ScrollBar.Transparent.hoverTrackColor",
                 0x1A808080,
                 0x1A808080,
             ),
+        trackOpaqueBackground =
+        readScrollBarColorForKey(
+            isDark,
+            "ScrollBar.trackColor",
+            0x00808080,
+            0x00808080,
+            ),
+        trackOpaqueBackgroundHovered =
+        readScrollBarColorForKey(
+            isDark,
+            "ScrollBar.hoverTrackColor",
+            0x00808080,
+            0x00808080,
+        ),
     )
 
 private fun readScrollbarMacColors(isDark: Boolean): ScrollbarColors =
@@ -114,14 +114,7 @@ private fun readScrollbarMacColors(isDark: Boolean): ScrollbarColors =
                 0x33000000,
                 0x59808080,
             ),
-        thumbBackgroundHovered =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.hoverThumbColor",
-                0x80000000,
-                0x8C808080,
-            ),
-        thumbBackgroundPressed =
+        thumbBackgroundActive =
             readScrollBarColorForKey(
                 isDark,
                 "ScrollBar.Mac.hoverThumbColor",
@@ -135,14 +128,7 @@ private fun readScrollbarMacColors(isDark: Boolean): ScrollbarColors =
                 0x33000000,
                 0x59262626,
             ),
-        thumbBorderHovered =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.hoverThumbBorderColor",
-                0x80000000,
-                0x8C262626,
-            ),
-        thumbBorderPressed =
+        thumbBorderActive =
             readScrollBarColorForKey(
                 isDark,
                 "ScrollBar.Mac.hoverThumbBorderColor",
@@ -150,19 +136,33 @@ private fun readScrollbarMacColors(isDark: Boolean): ScrollbarColors =
                 0x8C262626,
             ),
         trackBackground =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.trackColor",
-                0x00808080,
-                0x00808080,
-            ),
-        trackBackgroundHovered =
-            readScrollBarColorForKey(
-                isDark,
-                "ScrollBar.Mac.hoverTrackColor",
-                0x00808080,
-                0x00808080,
-            ),
+        readScrollBarColorForKey(
+            isDark,
+            "ScrollBar.Mac.Transparent.trackColor",
+            0x00808080,
+            0x00808080,
+        ),
+        trackBackgroundExpanded =
+        readScrollBarColorForKey(
+            isDark,
+            "ScrollBar.Mac.Transparent.hoverTrackColor",
+            0x1A808080,
+            0x1A808080,
+        ),
+        trackOpaqueBackground =
+        readScrollBarColorForKey(
+            isDark,
+            "ScrollBar.Mac.trackColor",
+            0x00808080,
+            0x00808080,
+        ),
+        trackOpaqueBackgroundHovered =
+        readScrollBarColorForKey(
+            isDark,
+            "ScrollBar.Mac.hoverTrackColor",
+            0x00808080,
+            0x00808080,
+        ),
     )
 
 private fun readScrollBarColorForKey(
@@ -181,7 +181,6 @@ private fun readScrollbarMetrics(): ScrollbarMetrics =
             thumbThicknessExpanded = 14.dp,
             minThumbLength = 20.dp,
             trackPadding = PaddingValues(2.dp),
-            trackPaddingExpanded = PaddingValues(2.dp),
         )
     } else {
         ScrollbarMetrics(
@@ -190,7 +189,6 @@ private fun readScrollbarMetrics(): ScrollbarMetrics =
             thumbThicknessExpanded = 8.dp,
             minThumbLength = 16.dp,
             trackPadding = PaddingValues(),
-            trackPaddingExpanded = PaddingValues(),
         )
     }
 

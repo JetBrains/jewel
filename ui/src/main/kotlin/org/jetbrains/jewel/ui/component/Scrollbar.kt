@@ -1,8 +1,7 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -12,7 +11,6 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.awaitHorizontalDragOrCancellation
 import androidx.compose.foundation.gestures.awaitVerticalDragOrCancellation
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.drag
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.hoverable
@@ -21,7 +19,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.rememberScrollbarAdapter
@@ -33,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -43,7 +39,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerInputScope
@@ -52,7 +47,6 @@ import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.constrainHeight
@@ -65,10 +59,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.jetbrains.jewel.foundation.Stroke
+import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
+import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility.AlwaysVisible
-import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility.WhenScrolling
+import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior
 import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior.JumpToSpot
 import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior.NextPage
 import org.jetbrains.jewel.ui.theme.scrollbarStyle
@@ -80,16 +77,20 @@ public fun VerticalScrollbar(
     scrollState: ScrollableState,
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
+    enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
+    keepVisible: Boolean = false,
 ) {
-    MyScrollbar(
+    BaseScrollbar(
         scrollState = scrollState,
         modifier = modifier,
         reverseLayout = reverseLayout,
+        enabled = enabled,
         interactionSource = interactionSource,
         isVertical = true,
         style = style,
+        keepVisible = keepVisible,
     )
 }
 
@@ -98,64 +99,76 @@ public fun HorizontalScrollbar(
     scrollState: ScrollableState,
     modifier: Modifier = Modifier,
     reverseLayout: Boolean = false,
+    enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
+    keepVisible: Boolean = false,
 ) {
-    MyScrollbar(
+    BaseScrollbar(
         scrollState = scrollState,
         modifier = modifier,
         reverseLayout = reverseLayout,
+        enabled = enabled,
         interactionSource = interactionSource,
         isVertical = false,
         style = style,
+        keepVisible = keepVisible,
     )
 }
 
 @Composable
-private fun MyScrollbar(
+private fun BaseScrollbar(
     scrollState: ScrollableState,
-    modifier: Modifier = Modifier,
-    reverseLayout: Boolean = false,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    modifier: Modifier,
+    reverseLayout: Boolean,
+    enabled: Boolean,
+    interactionSource: MutableInteractionSource,
     isVertical: Boolean,
     style: ScrollbarStyle,
+    keepVisible: Boolean,
 ) {
-    // Click to scroll
-    var clickPosition by remember { mutableIntStateOf(0) }
-    val scrollbarWidth = remember { mutableIntStateOf(0) }
-    val scrollbarHeight = remember { mutableIntStateOf(0) }
-    LaunchedEffect(clickPosition) {
-        if (scrollState is ScrollState) {
-            if (scrollbarHeight.value == 0) return@LaunchedEffect
-
-            val jumpTo = when (style.trackClickBehavior) {
-                NextPage -> scrollbarHeight.value + scrollState.viewportSize
-                JumpToSpot -> (scrollState.maxValue * clickPosition) / scrollbarHeight.value
+    val dragInteraction = remember { mutableStateOf<DragInteraction.Start?>(null) }
+    DisposableEffect(interactionSource) {
+        onDispose {
+            dragInteraction.value?.let { interaction ->
+                interactionSource.tryEmit(DragInteraction.Cancel(interaction))
+                dragInteraction.value = null
             }
-
-            scrollState.scrollTo(jumpTo)
         }
     }
 
-    // Visibility, hover and fade out
-    var visible by remember { mutableStateOf(scrollState.canScrollBackward) }
-    val hovered = interactionSource.collectIsHoveredAsState().value
+    val visibilityStyle = style.scrollbarVisibility
+    val isOpaque = visibilityStyle is AlwaysVisible
+    var isExpanded by remember { mutableStateOf(false) }
+    val isHovered by interactionSource.collectIsHoveredAsState()
+    var showScrollbar by remember { mutableStateOf(false) }
 
-    val animatedAlpha by animateFloatAsState(
-        targetValue = if (visible) 1.0f else 0f,
-        label = "alpha",
+    val isActive =
+        isOpaque ||
+            scrollState.isScrollInProgress ||
+            dragInteraction.value != null ||
+            (keepVisible && showScrollbar)
+
+    if (isHovered && showScrollbar) isExpanded = true
+
+    LaunchedEffect(isActive, isHovered, showScrollbar) {
+        val isVisibleAndHovered = showScrollbar && isHovered
+        if (isActive || isVisibleAndHovered) {
+            showScrollbar = true
+        } else {
+            launch {
+                delay(visibilityStyle.lingerDuration)
+                showScrollbar = false
+                isExpanded = false
+            }
+        }
+    }
+
+    val thumbWidth by animateDpAsState(
+        if (isExpanded) visibilityStyle.thumbThicknessExpanded else visibilityStyle.thumbThickness,
+        tween(visibilityStyle.expandAnimationDuration.inWholeMilliseconds.toInt()),
+        "scrollbar_thumbWidth",
     )
-
-    LaunchedEffect(scrollState.isScrollInProgress, hovered, style.scrollbarVisibility) {
-        if(style.scrollbarVisibility is AlwaysVisible || scrollState.isScrollInProgress || hovered) {
-            visible = true
-        }
-
-        if (style.scrollbarVisibility is WhenScrolling && !hovered) {
-            delay(style.scrollbarVisibility.lingerDuration)
-            visible = false
-        }
-    }
 
     val adapter =
         when (scrollState) {
@@ -163,141 +176,20 @@ private fun MyScrollbar(
             is LazyGridState -> rememberScrollbarAdapter(scrollState)
             is ScrollState -> rememberScrollbarAdapter(scrollState)
             is TextFieldScrollState -> rememberScrollbarAdapter(scrollState)
-            else -> error("Unsupported scroll state type: ${scrollState::class}")
+            else -> error("Unsupported scroll state type: ${scrollState::class.qualifiedName}")
         }
 
-    val thumbWidth = if (visible) style.metrics.thumbThicknessExpanded else style.metrics.thumbThickness
-    val trackBackground = if (visible) style.colors.trackBackground else Color.Transparent
-    val trackPadding = if (visible) style.metrics.trackPaddingExpanded else style.metrics.trackPadding
-    ScrollbarImpl(
-        adapter = adapter,
-        modifier =
-        modifier
-            .alpha(animatedAlpha)
-            .animateContentSize()
-            .width(thumbWidth)
-            .background(trackBackground)
-            .padding(trackPadding)
-            .scrollable(
-                scrollState,
-                orientation = Orientation.Vertical,
-                reverseDirection = true,
-            ).pointerInput(Unit) {
-                detectTapGestures { offset ->
-                    clickPosition = offset.y.toInt()
-                }
-            }.onSizeChanged {
-                scrollbarWidth.value = it.width
-                scrollbarHeight.value = it.height
-            },
-        reverseLayout = reverseLayout,
-        style = style,
-        interactionSource = interactionSource,
-        isVertical = isVertical,
-    )
-}
-
-@Composable
-public fun VerticalScrollbar(
-    adapter: ScrollbarAdapter,
-    modifier: Modifier = Modifier,
-    reverseLayout: Boolean = false,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: ScrollbarStyle = JewelTheme.scrollbarStyle,
-) {
-    ScrollbarImpl(
-        adapter = adapter,
-        modifier = modifier,
-        reverseLayout = reverseLayout,
-        style = style,
-        interactionSource = interactionSource,
-        isVertical = true,
-    )
-}
-
-@Composable
-public fun HorizontalScrollbar(
-    adapter: ScrollbarAdapter,
-    modifier: Modifier = Modifier,
-    reverseLayout: Boolean = false,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: ScrollbarStyle = JewelTheme.scrollbarStyle,
-) {
-    ScrollbarImpl(
-        adapter = adapter,
-        modifier = modifier,
-        reverseLayout = reverseLayout,
-        style = style,
-        interactionSource = interactionSource,
-        isVertical = false,
-    )
-}
-
-@Deprecated("Use HorizontalScrollbar with an appropriate style.")
-@Composable
-public fun TabStripHorizontalScrollbar(
-    adapter: ScrollbarAdapter,
-    style: ScrollbarStyle,
-    modifier: Modifier = Modifier,
-    reverseLayout: Boolean = false,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-) {
-    HorizontalScrollbar(
-        adapter = adapter,
-        modifier = modifier.padding(1.dp),
-        reverseLayout = reverseLayout,
-        style = style,
-        interactionSource = interactionSource,
-    )
-}
-
-// ===========================================================================
-// Note: most of the code below is copied and adapted from the stock scrollbar
-// ===========================================================================
-
-@Composable
-private fun ScrollbarImpl(
-    adapter: ScrollbarAdapter,
-    reverseLayout: Boolean,
-    style: ScrollbarStyle,
-    interactionSource: MutableInteractionSource,
-    isVertical: Boolean,
-    modifier: Modifier = Modifier,
-) {
     with(LocalDensity.current) {
-        val dragInteraction = remember { mutableStateOf<DragInteraction.Start?>(null) }
-        DisposableEffect(interactionSource) {
-            onDispose {
-                dragInteraction.value?.let { interaction ->
-                    interactionSource.tryEmit(DragInteraction.Cancel(interaction))
-                    dragInteraction.value = null
-                }
-            }
-        }
-
         var containerSize by remember { mutableIntStateOf(0) }
-        val isHovered by interactionSource.collectIsHoveredAsState()
-
-        val isHighlighted by remember {
-            derivedStateOf { isHovered || dragInteraction.value is DragInteraction.Start }
-        }
-
         val thumbMinHeight = style.metrics.minThumbLength.toPx()
 
         val coroutineScope = rememberCoroutineScope()
         val sliderAdapter =
-            remember(
-                adapter,
-                containerSize,
-                thumbMinHeight,
-                reverseLayout,
-                isVertical,
-                coroutineScope,
-            ) {
+            remember(adapter, containerSize, thumbMinHeight, reverseLayout, isVertical, coroutineScope) {
                 SliderAdapter(adapter, containerSize, thumbMinHeight, reverseLayout, isVertical, coroutineScope)
             }
 
-        val thumbThickness = style.metrics.thumbThickness.roundToPx()
+        val thumbThickness = thumbWidth.roundToPx()
         val measurePolicy =
             if (isVertical) {
                 remember(sliderAdapter, thumbThickness) {
@@ -309,46 +201,116 @@ private fun ScrollbarImpl(
                 }
             }
 
-        val targetColor = if (isHighlighted) {
-            style.colors.thumbBackgroundHovered
-        } else {
-            style.colors.thumbBackground
-        }
-        val thumbColor = if (style.scrollbarVisibility is WhenScrolling) {
-            val durationMillis = style.scrollbarVisibility.expandAnimationDuration.inWholeMilliseconds.toInt()
-            animateColorAsState(
-                targetValue = targetColor,
-                animationSpec = tween(durationMillis),
-            ).value
-        } else {
-            targetColor
-        }
-        val isVisible = sliderAdapter.thumbSize < containerSize
+        val canScroll = sliderAdapter.thumbSize < containerSize
+
+        val trackBackground by animateColorAsState(
+            if (isOpaque) {
+                if (isHovered) {
+                    style.colors.trackOpaqueBackgroundHovered
+                } else {
+                    style.colors.trackOpaqueBackground
+                }
+            } else {
+                if (isExpanded) {
+                    style.colors.trackBackgroundExpanded
+                } else {
+                    style.colors.trackBackground
+                }
+            },
+            appearanceTween(showScrollbar, visibilityStyle),
+            "scrollbar_trackBackground",
+        )
 
         Layout(
-            {
+            content = {
+                val animatedThumbBackground by animateColorAsState(
+                    targetValue =
+                    if (isOpaque) {
+                        if (isHovered) {
+                            style.colors.thumbOpaqueBackgroundHovered
+                        } else {
+                            style.colors.thumbOpaqueBackground
+                        }
+                    } else {
+                        if (showScrollbar) {
+                            style.colors.thumbBackgroundActive
+                        } else {
+                            style.colors.thumbBackground
+                        }
+                    },
+                    animationSpec = appearanceTween(showScrollbar, visibilityStyle),
+                    "scrollbar_thumbBackground",
+                )
+                val animatedThumbBorder by animateColorAsState(
+                    targetValue =
+                    if (isOpaque) {
+                        if (isHovered) {
+                            style.colors.thumbOpaqueBorderHovered
+                        } else {
+                            style.colors.thumbOpaqueBorder
+                        }
+                    } else {
+                        if (showScrollbar) {
+                            style.colors.thumbBorderActive
+                        } else {
+                            style.colors.thumbBorder
+                        }
+                    },
+                    animationSpec = appearanceTween(showScrollbar, visibilityStyle),
+                    "scrollbar_thumbBorder",
+                )
+
+                val thumbShape = RoundedCornerShape(style.metrics.thumbCornerSize)
                 Box(
                     Modifier
                         .layoutId("thumb")
-                        .thenIf(isVisible) {
-                            background(
-                                color = thumbColor,
-                                shape = RoundedCornerShape(style.metrics.thumbCornerSize),
+                        .thenIf(canScroll) {
+                            border(
+                                Stroke.Alignment.Inside,
+                                1.dp,
+                                color = animatedThumbBorder,
+                                shape = thumbShape
                             )
-                        }.scrollbarDrag(
-                            interactionSource = interactionSource,
-                            draggedInteraction = dragInteraction,
-                            sliderAdapter = sliderAdapter,
-                        ),
+                                .padding(1.dp)
+                                .background(color = animatedThumbBackground, shape = thumbShape)
+                        }
+                        .thenIf(enabled) {
+                            scrollbarDrag(interactionSource, dragInteraction, sliderAdapter)
+                        },
                 )
             },
-            modifier
+            modifier = modifier
+                .thenIf(showScrollbar && canScroll && isExpanded) { background(trackBackground) }
+                .scrollable(
+                    state = scrollState,
+                    orientation = if (isVertical) Orientation.Vertical else Orientation.Horizontal,
+                    enabled = enabled,
+                    reverseDirection = true, // Not sure why it's needed, but it is — TODO revisit this
+                )
+                .padding(style.metrics.trackPadding)
                 .hoverable(interactionSource = interactionSource)
-                .scrollOnPressTrack(isVertical, reverseLayout, sliderAdapter),
-            measurePolicy,
+                .thenIf(enabled && showScrollbar) {
+                    scrollOnPressTrack(style.trackClickBehavior, isVertical, reverseLayout, sliderAdapter)
+                },
+            measurePolicy = measurePolicy,
         )
     }
 }
+
+private fun appearanceTween(
+    showScrollbar: Boolean,
+    visibility: ScrollbarVisibility,
+) = tween<Color>(
+    if (showScrollbar) {
+        visibility.appearAnimationDuration.inWholeMilliseconds.toInt()
+    } else {
+        visibility.disappearAnimationDuration.inWholeMilliseconds.toInt()
+    }
+)
+
+// ===========================================================================
+// Note: most of the code below is copied and adapted from the stock scrollbar
+// ===========================================================================
 
 private val SliderAdapter.thumbPixelRange: IntRange
     get() {
@@ -433,15 +395,17 @@ private fun Modifier.scrollbarDrag(
     }
 
 private fun Modifier.scrollOnPressTrack(
+    clickBehavior: TrackClickBehavior,
     isVertical: Boolean,
     reverseLayout: Boolean,
     sliderAdapter: SliderAdapter,
 ) = composed {
     val coroutineScope = rememberCoroutineScope()
     val scroller =
-        remember(sliderAdapter, coroutineScope, reverseLayout) {
-            TrackPressScroller(coroutineScope, sliderAdapter, reverseLayout)
+        remember(sliderAdapter, coroutineScope, reverseLayout, clickBehavior) {
+            TrackPressScroller(coroutineScope, sliderAdapter, reverseLayout, clickBehavior)
         }
+
     Modifier.pointerInput(scroller) {
         detectScrollViaTrackGestures(
             isVertical = isVertical,
@@ -458,6 +422,7 @@ private class TrackPressScroller(
     private val coroutineScope: CoroutineScope,
     private val sliderAdapter: SliderAdapter,
     private val reverseLayout: Boolean,
+    private val clickBehavior: TrackClickBehavior,
 ) {
     /**
      * The current direction of scroll (1: down/right, -1: up/left, 0: not
@@ -501,7 +466,7 @@ private class TrackPressScroller(
     }
 
     /** Starts the job that scrolls continuously towards the current offset. */
-    private fun startScrolling() {
+    private fun startScrollingByPage() {
         job?.cancel()
         job =
             coroutineScope.launch {
@@ -519,14 +484,17 @@ private class TrackPressScroller(
         this.offset = offset
         this.direction = directionOfScrollTowards(offset)
 
-        if (direction != 0) {
-            startScrolling()
-        }
+        if (direction == 0) return
+
+        if (clickBehavior == NextPage) startScrollingByPage()
+        else if (clickBehavior == JumpToSpot) scrollToOffset(offset)
     }
+
 
     /** Invoked when the pointer moves while pressed during the gesture. */
     fun onMovePressed(offset: Float) {
         this.offset = offset
+        if (clickBehavior == JumpToSpot) scrollToOffset(offset)
     }
 
     /** Cleans up when the gesture finishes. */
@@ -539,6 +507,15 @@ private class TrackPressScroller(
     /** Invoked when the button is released. */
     fun onRelease() {
         cleanupAfterGesture()
+    }
+
+    private fun scrollToOffset(offset: Float) {
+        job?.cancel()
+        job = coroutineScope.launch {
+            val contentSize = sliderAdapter.adapter.contentSize
+            val scrollOffset = offset / sliderAdapter.adapter.viewportSize * contentSize
+            sliderAdapter.adapter.scrollTo(scrollOffset)
+        }
     }
 
     /** Invoked when the gesture is cancelled. */

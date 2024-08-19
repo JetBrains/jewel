@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -99,7 +98,7 @@ internal fun MarkdownPreview(
             )
 
             VerticalScrollbar(
-                rememberScrollbarAdapter(lazyListState),
+                lazyListState,
                 Modifier.align(Alignment.TopEnd).fillMaxHeight().padding(2.dp),
             )
         }
