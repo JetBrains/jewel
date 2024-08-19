@@ -238,7 +238,7 @@ private fun BaseScrollbar(
                             style.colors.thumbBackground
                         }
                     },
-                    animationSpec = appearanceTween(showScrollbar, visibilityStyle),
+                    animationSpec = thumbColorTween(showScrollbar, visibilityStyle),
                     "scrollbar_thumbBackground",
                 )
                 val animatedThumbBorder by animateColorAsState(
@@ -256,7 +256,7 @@ private fun BaseScrollbar(
                             style.colors.thumbBorder
                         }
                     },
-                    animationSpec = appearanceTween(showScrollbar, visibilityStyle),
+                    animationSpec = thumbColorTween(showScrollbar, visibilityStyle),
                     "scrollbar_thumbBorder",
                 )
 
@@ -269,7 +269,7 @@ private fun BaseScrollbar(
                                 Stroke.Alignment.Inside,
                                 1.dp,
                                 color = animatedThumbBorder,
-                                shape = thumbShape
+                                shape = thumbShape,
                             )
                                 .padding(1.dp)
                                 .background(color = animatedThumbBackground, shape = thumbShape)
@@ -287,7 +287,7 @@ private fun BaseScrollbar(
                     enabled = enabled,
                     reverseDirection = true, // Not sure why it's needed, but it is — TODO revisit this
                 )
-                .padding(style.metrics.trackPadding)
+                .padding(visibilityStyle.trackPadding)
                 .hoverable(interactionSource = interactionSource)
                 .thenIf(enabled && showScrollbar) {
                     scrollOnPressTrack(style.trackClickBehavior, isVertical, reverseLayout, sliderAdapter)
@@ -305,6 +305,17 @@ private fun appearanceTween(
         visibility.appearAnimationDuration.inWholeMilliseconds.toInt()
     } else {
         visibility.disappearAnimationDuration.inWholeMilliseconds.toInt()
+    }
+)
+
+private fun thumbColorTween(
+    showScrollbar: Boolean,
+    visibility: ScrollbarVisibility,
+) = tween<Color>(
+    durationMillis = visibility.thumbColorAnimationDuration.inWholeMilliseconds.toInt(),
+    delayMillis = when {
+        visibility is AlwaysVisible && !showScrollbar -> visibility.lingerDuration.inWholeMilliseconds.toInt()
+        else -> 0
     }
 )
 

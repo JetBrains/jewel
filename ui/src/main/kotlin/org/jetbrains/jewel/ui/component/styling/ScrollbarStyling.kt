@@ -47,7 +47,6 @@ public class ScrollbarColors(
 public class ScrollbarMetrics(
     public val thumbCornerSize: CornerSize,
     public val minThumbLength: Dp,
-    public val trackPadding: PaddingValues,
 ) {
     public companion object
 }
@@ -55,16 +54,20 @@ public class ScrollbarMetrics(
 public sealed interface ScrollbarVisibility {
     public val thumbThickness: Dp
     public val thumbThicknessExpanded: Dp
+    public val trackPadding: PaddingValues
     public val appearAnimationDuration: Duration
     public val disappearAnimationDuration: Duration
     public val expandAnimationDuration: Duration
     public val lingerDuration: Duration
+    public val thumbColorAnimationDuration: Duration
 
     @GenerateDataFunctions
     public class AlwaysVisible(
         public override val thumbThickness: Dp,
+        public override val trackPadding: PaddingValues,
+        public override val thumbColorAnimationDuration: Duration,
     ) : ScrollbarVisibility {
-        override val thumbThicknessExpanded: Dp = thumbThickness
+        public override val thumbThicknessExpanded: Dp = thumbThickness
         public override val appearAnimationDuration: Duration = 0.milliseconds
         public override val disappearAnimationDuration: Duration = 0.milliseconds
         public override val expandAnimationDuration: Duration = 0.milliseconds
@@ -77,11 +80,14 @@ public sealed interface ScrollbarVisibility {
     public class WhenScrolling(
         public override val thumbThickness: Dp,
         public override val thumbThicknessExpanded: Dp,
+        public override val trackPadding: PaddingValues,
         public override val appearAnimationDuration: Duration,
         public override val disappearAnimationDuration: Duration,
         public override val expandAnimationDuration: Duration,
         public override val lingerDuration: Duration,
     ) : ScrollbarVisibility {
+        public override val thumbColorAnimationDuration: Duration = 0.milliseconds
+
         public companion object
     }
 }

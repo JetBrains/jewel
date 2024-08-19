@@ -1,7 +1,6 @@
 package org.jetbrains.jewel.samples.standalone.view.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.singleWindowApplication
+import org.jetbrains.jewel.foundation.Stroke
+import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.standalone.styling.dark
 import org.jetbrains.jewel.intui.standalone.styling.default
@@ -49,7 +50,7 @@ import org.jetbrains.jewel.ui.theme.textAreaStyle
 import java.util.Locale
 
 // STOPSHIP testing only
-fun main() = singleWindowApplication {
+fun main() = singleWindowApplication(title = "Scrollbars") {
     IntUiTheme {
         Box(Modifier.fillMaxSize().background(JewelTheme.globalColors.panelBackground).padding(16.dp)) {
             Scrollbars()
@@ -150,7 +151,7 @@ private fun LazyColumnWithScrollbar(style: ScrollbarStyle, modifier: Modifier) {
             scrollState,
             modifier = Modifier.weight(1f)
                 .fillMaxWidth()
-                .border(1.dp, JewelTheme.globalColors.borders.normal),
+                .border(Stroke.Alignment.Outside, 1.dp, JewelTheme.globalColors.borders.normal),
             style = style,
         ) {
             LazyColumn(
@@ -184,7 +185,7 @@ private fun ColumnWithScrollbar(style: ScrollbarStyle, modifier: Modifier) {
         Text("Column", fontSize = 18.sp)
         Spacer(Modifier.height(8.dp))
 
-        Box(Modifier.border(1.dp, JewelTheme.globalColors.borders.normal)) {
+        Box(Modifier.border(Stroke.Alignment.Outside, 1.dp, JewelTheme.globalColors.borders.normal)) {
             val scrollState = rememberScrollState()
             Column(
                 modifier =

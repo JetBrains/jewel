@@ -10,6 +10,7 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior
 import org.jetbrains.skiko.hostOs
+import kotlin.time.Duration.Companion.milliseconds
 
 public fun ScrollbarStyle.Companion.tabStripLight(): ScrollbarStyle =
     if (hostOs.isMacOS) {
@@ -80,18 +81,17 @@ public fun ScrollbarStyle.Companion.tabStripWindowsAndLinuxDark(
 public fun ScrollbarMetrics.Companion.tabStripMacOs(
     thumbCornerSize: CornerSize = CornerSize(100),
     minThumbLength: Dp = 20.dp,
-    trackPadding: PaddingValues = PaddingValues(),
 ): ScrollbarMetrics =
-    ScrollbarMetrics(thumbCornerSize, minThumbLength, trackPadding)
+    ScrollbarMetrics(thumbCornerSize, minThumbLength)
 
 public fun ScrollbarMetrics.Companion.tabStripWindowsAndLinux(
     thumbCornerSize: CornerSize = CornerSize(0),
     minThumbLength: Dp = 16.dp,
-    trackPadding: PaddingValues = PaddingValues(),
 ): ScrollbarMetrics =
-    ScrollbarMetrics(thumbCornerSize, minThumbLength, trackPadding)
+    ScrollbarMetrics(thumbCornerSize, minThumbLength)
 
 public fun ScrollbarVisibility.AlwaysVisible.Companion.tabStrip(
     thumbThickness: Dp = 3.dp,
+    trackPadding: PaddingValues = PaddingValues(),
 ): ScrollbarVisibility.AlwaysVisible =
-    ScrollbarVisibility.AlwaysVisible(thumbThickness)
+    ScrollbarVisibility.AlwaysVisible(thumbThickness, trackPadding, thumbColorAnimationDuration = 0.milliseconds)

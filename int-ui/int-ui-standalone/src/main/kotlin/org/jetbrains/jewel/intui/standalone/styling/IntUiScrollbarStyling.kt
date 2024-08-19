@@ -88,14 +88,18 @@ public fun ScrollbarVisibility.AlwaysVisible.Companion.default(): ScrollbarVisib
     }
 
 public fun ScrollbarVisibility.AlwaysVisible.Companion.macOs(
-    thumbThickness: Dp = 14.dp,
+    thumbThickness: Dp = 8.dp,
+    trackPadding: PaddingValues = PaddingValues(3.dp),
+    thumbColorAnimationDuration: Duration = 330.milliseconds,
 ): ScrollbarVisibility.AlwaysVisible =
-    ScrollbarVisibility.AlwaysVisible(thumbThickness)
+    ScrollbarVisibility.AlwaysVisible(thumbThickness, trackPadding, thumbColorAnimationDuration)
 
 public fun ScrollbarVisibility.AlwaysVisible.Companion.windowsAndLinux(
     thumbThickness: Dp = 18.dp,
+    trackPadding: PaddingValues = PaddingValues(),
+    thumbColorAnimationDuration: Duration = 330.milliseconds,
 ): ScrollbarVisibility.AlwaysVisible =
-    ScrollbarVisibility.AlwaysVisible(thumbThickness)
+    ScrollbarVisibility.AlwaysVisible(thumbThickness, trackPadding, thumbColorAnimationDuration)
 
 public fun ScrollbarVisibility.WhenScrolling.Companion.default(): ScrollbarVisibility.WhenScrolling =
     if (hostOs.isMacOS) {
@@ -107,6 +111,7 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.default(): ScrollbarVisib
 public fun ScrollbarVisibility.WhenScrolling.Companion.macOs(
     thumbThickness: Dp = 7.dp,
     thumbThicknessExpanded: Dp = 10.dp,
+    trackPadding: PaddingValues = PaddingValues(3.dp),
     appearAnimationDuration: Duration = 125.milliseconds,
     disappearAnimationDuration: Duration = 125.milliseconds,
     expandAnimationDuration: Duration = 125.milliseconds,
@@ -115,6 +120,7 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.macOs(
     ScrollbarVisibility.WhenScrolling(
         thumbThickness = thumbThickness,
         thumbThicknessExpanded = thumbThicknessExpanded,
+        trackPadding = trackPadding,
         appearAnimationDuration = appearAnimationDuration,
         disappearAnimationDuration = disappearAnimationDuration,
         expandAnimationDuration = expandAnimationDuration,
@@ -124,6 +130,7 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.macOs(
 public fun ScrollbarVisibility.WhenScrolling.Companion.windowsAndLinux(
     thumbThickness: Dp = 7.dp,
     thumbThicknessExpanded: Dp = 10.dp,
+    trackPadding: PaddingValues = PaddingValues(),
     appearAnimationDuration: Duration = 125.milliseconds,
     disappearAnimationDuration: Duration = 125.milliseconds,
     expandAnimationDuration: Duration = 125.milliseconds,
@@ -132,6 +139,7 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.windowsAndLinux(
     ScrollbarVisibility.WhenScrolling(
         thumbThickness = thumbThickness,
         thumbThicknessExpanded = thumbThicknessExpanded,
+        trackPadding = trackPadding,
         appearAnimationDuration = appearAnimationDuration,
         disappearAnimationDuration = disappearAnimationDuration,
         expandAnimationDuration = expandAnimationDuration,
@@ -257,13 +265,11 @@ public fun ScrollbarColors.Companion.windowsAndLinuxDark(
 public fun ScrollbarMetrics.Companion.macOs(
     thumbCornerSize: CornerSize = CornerSize(100),
     minThumbLength: Dp = 20.dp,
-    trackPadding: PaddingValues = PaddingValues(3.dp),
 ): ScrollbarMetrics =
-    ScrollbarMetrics(thumbCornerSize, minThumbLength, trackPadding)
+    ScrollbarMetrics(thumbCornerSize, minThumbLength)
 
 public fun ScrollbarMetrics.Companion.windowsAndLinux(
     thumbCornerSize: CornerSize = CornerSize(0),
     minThumbLength: Dp = 20.dp,
-    trackPadding: PaddingValues = PaddingValues(),
 ): ScrollbarMetrics =
-    ScrollbarMetrics(thumbCornerSize, minThumbLength, trackPadding)
+    ScrollbarMetrics(thumbCornerSize, minThumbLength)
