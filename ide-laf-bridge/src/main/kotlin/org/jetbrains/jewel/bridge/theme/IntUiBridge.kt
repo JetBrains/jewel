@@ -923,7 +923,7 @@ private fun readTextAreaStyle(metrics: TextFieldMetrics): TextAreaStyle {
         metrics =
             TextAreaMetrics(
                 cornerSize = metrics.cornerSize,
-                contentPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
+                contentPadding = PaddingValues(horizontal = 5.dp, vertical = 4.dp),
                 minSize = metrics.minSize,
                 borderWidth = metrics.borderWidth,
             ),
