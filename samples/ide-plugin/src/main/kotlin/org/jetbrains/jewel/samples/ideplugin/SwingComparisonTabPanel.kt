@@ -1,10 +1,7 @@
 package org.jetbrains.jewel.samples.ideplugin
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -40,7 +37,6 @@ import icons.JewelIcons
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.DefaultButton
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.OutlinedButton
@@ -127,28 +123,11 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             textField().align(AlignY.CENTER)
 
             compose {
-                Column(
-                    modifier = Modifier.background(Color.Green).padding(4.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    val state1 = rememberTextFieldState("")
-                    TextField(
-                        state = state1,
-                        modifier = Modifier.width(198.dp),
-                    )
-
-                    TextField(
-                        state = state1,
-                        outline = Outline.Warning,
-                        modifier = Modifier.width(198.dp),
-                    )
-
-                    TextField(
-                        state = state1,
-                        outline = Outline.Error,
-                        modifier = Modifier.width(198.dp),
-                    )
-                }
+                val state1 = rememberTextFieldState("")
+                TextField(
+                    state = state1,
+                    modifier = Modifier.width(198.dp),
+                )
             }
         }.layout(RowLayout.PARENT_GRID)
     }
