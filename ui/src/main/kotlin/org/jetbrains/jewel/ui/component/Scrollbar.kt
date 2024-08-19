@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ScrollState
@@ -22,7 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.text.TextFieldScrollState
 import androidx.compose.foundation.v2.ScrollbarAdapter
 import androidx.compose.foundation.v2.maxScrollOffset
@@ -39,8 +40,13 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
@@ -48,7 +54,10 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
@@ -59,8 +68,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.jetbrains.jewel.foundation.Stroke
-import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
@@ -164,10 +171,10 @@ private fun BaseScrollbar(
         }
     }
 
-    val thumbWidth by animateDpAsState(
-        if (isExpanded) visibilityStyle.thumbThicknessExpanded else visibilityStyle.thumbThickness,
-        tween(visibilityStyle.expandAnimationDuration.inWholeMilliseconds.toInt()),
-        "scrollbar_thumbWidth",
+    val animatedThickness by animateDpAsState(
+        if (isExpanded) visibilityStyle.trackThicknessExpanded else visibilityStyle.trackThickness,
+        tween(visibilityStyle.expandAnimationDuration.inWholeMilliseconds.toInt(), easing = LinearEasing),
+        "scrollbar_thickness",
     )
 
     val adapter =
@@ -189,15 +196,31 @@ private fun BaseScrollbar(
                 SliderAdapter(adapter, containerSize, thumbMinHeight, reverseLayout, isVertical, coroutineScope)
             }
 
-        val thumbThickness = thumbWidth.roundToPx()
+        val thumbBackgroundColor = getThumbBackgroundColor(isOpaque, isHovered, style, showScrollbar)
+        val thumbBorderColor = getThumbBorderColor(isOpaque, isHovered, style, showScrollbar)
+        val hasVisibleBorder = !areTheSameColor(thumbBackgroundColor, thumbBorderColor)
+        val trackPadding =
+            if (hasVisibleBorder) visibilityStyle.trackPaddingWithBorder else visibilityStyle.trackPadding
+
+        val thumbThicknessPx = if (isVertical) {
+            val layoutDirection = LocalLayoutDirection.current
+            animatedThickness -
+                trackPadding.calculateLeftPadding(layoutDirection) -
+                trackPadding.calculateRightPadding(layoutDirection)
+        } else {
+            animatedThickness -
+                trackPadding.calculateTopPadding() -
+                trackPadding.calculateBottomPadding()
+        }.roundToPx()
+
         val measurePolicy =
             if (isVertical) {
-                remember(sliderAdapter, thumbThickness) {
-                    verticalMeasurePolicy(sliderAdapter, { containerSize = it }, thumbThickness)
+                remember(sliderAdapter, thumbThicknessPx) {
+                    verticalMeasurePolicy(sliderAdapter, { containerSize = it }, thumbThicknessPx)
                 }
             } else {
-                remember(sliderAdapter, thumbThickness) {
-                    horizontalMeasurePolicy(sliderAdapter, { containerSize = it }, thumbThickness)
+                remember(sliderAdapter, thumbThicknessPx) {
+                    horizontalMeasurePolicy(sliderAdapter, { containerSize = it }, thumbThicknessPx)
                 }
             }
 
@@ -223,76 +246,150 @@ private fun BaseScrollbar(
 
         Layout(
             content = {
-                val animatedThumbBackground by animateColorAsState(
-                    targetValue =
-                    if (isOpaque) {
-                        if (isHovered) {
-                            style.colors.thumbOpaqueBackgroundHovered
-                        } else {
-                            style.colors.thumbOpaqueBackground
-                        }
-                    } else {
-                        if (showScrollbar) {
-                            style.colors.thumbBackgroundActive
-                        } else {
-                            style.colors.thumbBackground
-                        }
-                    },
-                    animationSpec = thumbColorTween(showScrollbar, visibilityStyle),
-                    "scrollbar_thumbBackground",
-                )
-                val animatedThumbBorder by animateColorAsState(
-                    targetValue =
-                    if (isOpaque) {
-                        if (isHovered) {
-                            style.colors.thumbOpaqueBorderHovered
-                        } else {
-                            style.colors.thumbOpaqueBorder
-                        }
-                    } else {
-                        if (showScrollbar) {
-                            style.colors.thumbBorderActive
-                        } else {
-                            style.colors.thumbBorder
-                        }
-                    },
-                    animationSpec = thumbColorTween(showScrollbar, visibilityStyle),
-                    "scrollbar_thumbBorder",
-                )
-
-                val thumbShape = RoundedCornerShape(style.metrics.thumbCornerSize)
-                Box(
-                    Modifier
-                        .layoutId("thumb")
-                        .thenIf(canScroll) {
-                            border(
-                                Stroke.Alignment.Inside,
-                                1.dp,
-                                color = animatedThumbBorder,
-                                shape = thumbShape,
-                            )
-                                .padding(1.dp)
-                                .background(color = animatedThumbBackground, shape = thumbShape)
-                        }
-                        .thenIf(enabled) {
-                            scrollbarDrag(interactionSource, dragInteraction, sliderAdapter)
-                        },
+                Thumb(
+                    showScrollbar,
+                    visibilityStyle,
+                    canScroll,
+                    enabled,
+                    interactionSource,
+                    dragInteraction,
+                    sliderAdapter,
+                    thumbBackgroundColor,
+                    thumbBorderColor,
+                    hasVisibleBorder,
+                    style.metrics.thumbCornerSize
                 )
             },
             modifier = modifier
-                .thenIf(showScrollbar && canScroll && isExpanded) { background(trackBackground) }
+                .thenIf(showScrollbar && canScroll && isExpanded) {
+                    background(trackBackground)
+                }
                 .scrollable(
                     state = scrollState,
                     orientation = if (isVertical) Orientation.Vertical else Orientation.Horizontal,
                     enabled = enabled,
                     reverseDirection = true, // Not sure why it's needed, but it is — TODO revisit this
                 )
-                .padding(visibilityStyle.trackPadding)
+                .padding(trackPadding)
                 .hoverable(interactionSource = interactionSource)
                 .thenIf(enabled && showScrollbar) {
                     scrollOnPressTrack(style.trackClickBehavior, isVertical, reverseLayout, sliderAdapter)
                 },
             measurePolicy = measurePolicy,
+        )
+    }
+}
+
+private fun getThumbBackgroundColor(
+    isOpaque: Boolean,
+    isHovered: Boolean,
+    style: ScrollbarStyle,
+    showScrollbar: Boolean,
+) = if (isOpaque) {
+    if (isHovered) {
+        style.colors.thumbOpaqueBackgroundHovered
+    } else {
+        style.colors.thumbOpaqueBackground
+    }
+} else {
+    if (showScrollbar) {
+        style.colors.thumbBackgroundActive
+    } else {
+        style.colors.thumbBackground
+    }
+}
+
+private fun getThumbBorderColor(
+    isOpaque: Boolean,
+    isHovered: Boolean,
+    style: ScrollbarStyle,
+    showScrollbar: Boolean,
+) = if (isOpaque) {
+    if (isHovered) {
+        style.colors.thumbOpaqueBorderHovered
+    } else {
+        style.colors.thumbOpaqueBorder
+    }
+} else {
+    if (showScrollbar) {
+        style.colors.thumbBorderActive
+    } else {
+        style.colors.thumbBorder
+    }
+}
+
+private fun areTheSameColor(first: Color, second: Color) =
+    first.toArgb() == second.toArgb()
+
+@Composable
+private fun Thumb(
+    showScrollbar: Boolean,
+    visibilityStyle: ScrollbarVisibility,
+    canScroll: Boolean,
+    enabled: Boolean,
+    interactionSource: MutableInteractionSource,
+    dragInteraction: MutableState<DragInteraction.Start?>,
+    sliderAdapter: SliderAdapter,
+    thumbBackgroundColor: Color,
+    thumbBorderColor: Color,
+    hasVisibleBorder: Boolean,
+    cornerSize: CornerSize,
+) {
+    val background by animateColorAsState(
+        targetValue = thumbBackgroundColor,
+        animationSpec = thumbColorTween(showScrollbar, visibilityStyle),
+        "scrollbar_thumbBackground",
+    )
+
+    val border by animateColorAsState(
+        targetValue = thumbBorderColor,
+        animationSpec = thumbColorTween(showScrollbar, visibilityStyle),
+        "scrollbar_thumbBorder",
+    )
+
+    val borderWidth = 1.dp
+    val density = LocalDensity.current
+    Box(
+        Modifier
+            .layoutId("thumb")
+            .thenIf(canScroll) {
+                drawThumb(background, borderWidth, border, hasVisibleBorder, cornerSize, density)
+            }
+            .thenIf(enabled) {
+                scrollbarDrag(interactionSource, dragInteraction, sliderAdapter)
+            },
+    )
+}
+
+private fun Modifier.drawThumb(
+    backgroundColor: Color,
+    borderWidth: Dp,
+    borderColor: Color,
+    hasVisibleBorder: Boolean,
+    cornerSize: CornerSize,
+    density: Density,
+) = drawBehind {
+    val borderWidthPx = if (hasVisibleBorder) borderWidth.toPx() else 0f
+
+    // First, draw the background, leaving room for the border around it
+    val bgCornerRadius =
+        CornerRadius((cornerSize.toPx(size, density) - borderWidthPx * 2).coerceAtLeast(0f))
+    drawRoundRect(
+        color = backgroundColor,
+        topLeft = Offset(borderWidthPx, borderWidthPx),
+        size = Size(size.width - borderWidthPx * 2, size.height - borderWidthPx * 2f),
+        cornerRadius = bgCornerRadius,
+    )
+
+    // Then, draw the border itself
+    if (hasVisibleBorder) {
+        val strokeCornerRadius = CornerRadius(cornerSize.toPx(size, density))
+        drawRoundRect(
+            color = borderColor,
+            topLeft = Offset(borderWidthPx / 2, borderWidthPx / 2),
+            size = Size(size.width - borderWidthPx, size.height - borderWidthPx),
+            cornerRadius = strokeCornerRadius,
+            style = Stroke(borderWidthPx)
         )
     }
 }
@@ -305,7 +402,8 @@ private fun appearanceTween(
         visibility.appearAnimationDuration.inWholeMilliseconds.toInt()
     } else {
         visibility.disappearAnimationDuration.inWholeMilliseconds.toInt()
-    }
+    },
+    easing = LinearEasing
 )
 
 private fun thumbColorTween(
@@ -316,7 +414,8 @@ private fun thumbColorTween(
     delayMillis = when {
         visibility is AlwaysVisible && !showScrollbar -> visibility.lingerDuration.inWholeMilliseconds.toInt()
         else -> 0
-    }
+    },
+    easing = LinearEasing
 )
 
 // ===========================================================================
@@ -336,14 +435,14 @@ private val IntRange.size get() = last + 1 - first
 private fun verticalMeasurePolicy(
     sliderAdapter: SliderAdapter,
     setContainerSize: (Int) -> Unit,
-    scrollThickness: Int,
+    thumbThickness: Int,
 ) = MeasurePolicy { measurables, constraints ->
     setContainerSize(constraints.maxHeight)
     val pixelRange = sliderAdapter.thumbPixelRange
     val placeable =
         measurables.first().measure(
             Constraints.fixed(
-                constraints.constrainWidth(scrollThickness),
+                constraints.constrainWidth(thumbThickness),
                 pixelRange.size,
             ),
         )
@@ -355,7 +454,7 @@ private fun verticalMeasurePolicy(
 private fun horizontalMeasurePolicy(
     sliderAdapter: SliderAdapter,
     setContainerSize: (Int) -> Unit,
-    scrollThickness: Int,
+    thumbThickness: Int,
 ) = MeasurePolicy { measurables, constraints ->
     setContainerSize(constraints.maxWidth)
     val pixelRange = sliderAdapter.thumbPixelRange
@@ -363,7 +462,7 @@ private fun horizontalMeasurePolicy(
         measurables.first().measure(
             Constraints.fixed(
                 pixelRange.size,
-                constraints.constrainHeight(scrollThickness),
+                constraints.constrainHeight(thumbThickness),
             ),
         )
     layout(constraints.maxWidth, placeable.height) {

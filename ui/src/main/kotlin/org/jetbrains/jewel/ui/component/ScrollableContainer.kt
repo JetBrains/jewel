@@ -286,7 +286,7 @@ private fun ScrollableContainerImpl(
         // Leaving the bottom-end corner empty when both scrollbars visible at the same time
         val sizeOffsetWhenBothVisible =
             if (verticalScrollbarMeasurable != null && horizontalScrollbarMeasurable != null) {
-                scrollbarStyle.scrollbarVisibility.thumbThicknessExpanded.roundToPx()
+                scrollbarStyle.scrollbarVisibility.trackThicknessExpanded.roundToPx()
             } else 0
 
         val verticalScrollbarPlaceable = if (verticalScrollbarMeasurable != null) {
@@ -345,5 +345,5 @@ private fun ScrollableContainerImpl(
 public fun scrollbarContentSafePadding(style: ScrollbarStyle = JewelTheme.scrollbarStyle): Dp =
     when (style.scrollbarVisibility) {
         is AlwaysVisible -> 0.dp
-        is WhenScrolling -> style.scrollbarVisibility.thumbThicknessExpanded
+        is WhenScrolling -> style.scrollbarVisibility.trackThicknessExpanded
     }

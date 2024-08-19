@@ -93,5 +93,11 @@ public fun ScrollbarMetrics.Companion.tabStripWindowsAndLinux(
 public fun ScrollbarVisibility.AlwaysVisible.Companion.tabStrip(
     thumbThickness: Dp = 3.dp,
     trackPadding: PaddingValues = PaddingValues(),
+    trackPaddingWithBorder: PaddingValues = trackPadding,
 ): ScrollbarVisibility.AlwaysVisible =
-    ScrollbarVisibility.AlwaysVisible(thumbThickness, trackPadding, thumbColorAnimationDuration = 0.milliseconds)
+    ScrollbarVisibility.AlwaysVisible(
+        thumbThickness,
+        trackPadding,
+        trackPaddingWithBorder,
+        thumbColorAnimationDuration = 0.milliseconds
+    )

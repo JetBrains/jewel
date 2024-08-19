@@ -52,9 +52,10 @@ public class ScrollbarMetrics(
 }
 
 public sealed interface ScrollbarVisibility {
-    public val thumbThickness: Dp
-    public val thumbThicknessExpanded: Dp
+    public val trackThickness: Dp
+    public val trackThicknessExpanded: Dp
     public val trackPadding: PaddingValues
+    public val trackPaddingWithBorder: PaddingValues
     public val appearAnimationDuration: Duration
     public val disappearAnimationDuration: Duration
     public val expandAnimationDuration: Duration
@@ -63,11 +64,12 @@ public sealed interface ScrollbarVisibility {
 
     @GenerateDataFunctions
     public class AlwaysVisible(
-        public override val thumbThickness: Dp,
+        public override val trackThickness: Dp,
         public override val trackPadding: PaddingValues,
+        public override val trackPaddingWithBorder: PaddingValues,
         public override val thumbColorAnimationDuration: Duration,
     ) : ScrollbarVisibility {
-        public override val thumbThicknessExpanded: Dp = thumbThickness
+        public override val trackThicknessExpanded: Dp = trackThickness
         public override val appearAnimationDuration: Duration = 0.milliseconds
         public override val disappearAnimationDuration: Duration = 0.milliseconds
         public override val expandAnimationDuration: Duration = 0.milliseconds
@@ -78,9 +80,10 @@ public sealed interface ScrollbarVisibility {
 
     @GenerateDataFunctions
     public class WhenScrolling(
-        public override val thumbThickness: Dp,
-        public override val thumbThicknessExpanded: Dp,
+        public override val trackThickness: Dp,
+        public override val trackThicknessExpanded: Dp,
         public override val trackPadding: PaddingValues,
+        public override val trackPaddingWithBorder: PaddingValues,
         public override val appearAnimationDuration: Duration,
         public override val disappearAnimationDuration: Duration,
         public override val expandAnimationDuration: Duration,
