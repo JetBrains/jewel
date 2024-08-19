@@ -8,9 +8,13 @@ object StandaloneSampleIcons {
     val jewelLogo = PathIconKey("icons/jewel-logo.svg", StandaloneSampleIcons::class.java)
     val markdown = PathIconKey("icons/markdown.svg", StandaloneSampleIcons::class.java)
     val themeDark = PathIconKey("icons/darkTheme.svg", StandaloneSampleIcons::class.java)
+    val themeDark20 = PathIconKey("icons/darkTheme@20x20.svg", StandaloneSampleIcons::class.java)
     val themeLight = PathIconKey("icons/lightTheme.svg", StandaloneSampleIcons::class.java)
+    val themeLight20 = PathIconKey("icons/lightTheme@20x20.svg", StandaloneSampleIcons::class.java)
     val themeLightWithLightHeader = PathIconKey("icons/lightWithLightHeaderTheme.svg", StandaloneSampleIcons::class.java)
+    val themeLightWithLightHeader20 = PathIconKey("icons/lightWithLightHeaderTheme@20x20.svg", StandaloneSampleIcons::class.java)
     val themeSystem = PathIconKey("icons/systemTheme.svg", StandaloneSampleIcons::class.java)
+    val themeSystem20 = PathIconKey("icons/systemTheme@20x20.svg", StandaloneSampleIcons::class.java)
     val welcome = PathIconKey("icons/meetNewUi.svg", StandaloneSampleIcons::class.java)
 
     object Components {
