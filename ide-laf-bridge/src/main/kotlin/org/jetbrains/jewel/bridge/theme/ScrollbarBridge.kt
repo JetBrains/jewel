@@ -292,6 +292,13 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.windowsAndLinux(
         lingerDuration = lingerDuration,
     )
 
+public fun ScrollbarVisibility.AlwaysVisible.Companion.default(): ScrollbarVisibility.AlwaysVisible =
+    if (hostOs.isMacOS) {
+        ScrollbarVisibility.AlwaysVisible.macOs()
+    } else {
+        ScrollbarVisibility.AlwaysVisible.windowsAndLinux()
+    }
+
 public fun ScrollbarVisibility.AlwaysVisible.Companion.macOs(
     trackThickness: Dp = 14.dp,
     trackPadding: PaddingValues = PaddingValues(2.dp),
