@@ -8,7 +8,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,11 +29,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.onClick
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -59,7 +55,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.intellij.icons.AllIcons
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.util.ui.JBUI
@@ -84,7 +79,7 @@ import org.jetbrains.jewel.ui.component.PopupMenu
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
-import org.jetbrains.jewel.ui.component.VerticalScrollbar
+import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import org.jetbrains.jewel.ui.component.items
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
@@ -149,7 +144,7 @@ private fun LeftColumn(
         }
 
         val listState = rememberSelectableLazyListState()
-        Box(modifier) {
+        VerticallyScrollableContainer(listState.lazyListState, modifier) {
             SelectableLazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 state = listState,
@@ -180,11 +175,6 @@ private fun LeftColumn(
                     }
                 }
             }
-
-            VerticalScrollbar(
-                adapter = rememberScrollbarAdapter(listState.lazyListState),
-                modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
-            )
         }
     }
 }
@@ -364,11 +354,7 @@ private fun OverflowMenu(
                 },
         onClick = { menuVisible = !menuVisible },
     ) {
-        Icon(
-            resource = "actions/more.svg",
-            iconClass = AllIcons::class.java,
-            contentDescription = "Select data source",
-        )
+        Icon(key = AllIconsKeys.Ide.Notification.Gear, contentDescription = "Select data source")
     }
 
     val contentSources =
@@ -421,10 +407,8 @@ private fun RightColumn(
         if (selectedItem == null) {
             Text("Nothing to see here", color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor())
         } else {
-            val scrollState = rememberScrollState()
-            VerticalScrollbarContainer(scrollState, modifier = modifier) {
+            VerticallyScrollableContainer(modifier = modifier) {
                 Column(
-                    modifier = Modifier.verticalScroll(scrollState),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start,
                 ) {
@@ -477,22 +461,6 @@ private fun ReleaseImage(imagePath: String) {
                 .thenIf(applyModifier) { holoFoil(offset, intensity) },
         contentScale = ContentScale.Fit,
     )
-}
-
-@Composable
-private fun VerticalScrollbarContainer(
-    scrollState: ScrollState,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
-    Box(modifier) {
-        content()
-
-        VerticalScrollbar(
-            adapter = rememberScrollbarAdapter(scrollState),
-            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
-        )
-    }
 }
 
 @Composable

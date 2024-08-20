@@ -1,11 +1,10 @@
 package org.jetbrains.jewel.samples.ideplugin
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,16 +16,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.intellij.ui.JBColor
 import org.jetbrains.jewel.bridge.LocalComponent
-import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.foundation.modifier.trackActivation
 import org.jetbrains.jewel.foundation.modifier.trackComponentActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -34,44 +27,36 @@ import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
-import org.jetbrains.jewel.ui.component.VerticalScrollbar
-import org.jetbrains.jewel.ui.theme.scrollbarStyle
+import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import java.util.Locale
 
 @Composable
 internal fun ScrollbarsShowcaseTab() {
-    val bgColor by remember(JBColor.PanelBackground.rgb) { mutableStateOf(JBColor.PanelBackground.toComposeColor()) }
-
     Column(
         Modifier
             .trackComponentActivation(LocalComponent.current)
             .fillMaxSize()
-            .background(bgColor)
             .padding(16.dp)
             .trackActivation(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Row(modifier = Modifier.fillMaxWidth().height(200.dp)) {
             val textFieldState = rememberTextFieldState(ANDROID_IPSUM)
-            TextArea(
-                state = textFieldState,
-                modifier = Modifier.size(300.dp),
-            )
+            TextArea(state = textFieldState, modifier = Modifier.size(300.dp))
 
-            Divider(Orientation.Vertical, modifier = Modifier.width(10.dp))
+            Spacer(Modifier.width(10.dp))
 
-            Box(Modifier.border(1.dp, JewelTheme.globalColors.borders.normal)) {
-                val scrollState = rememberLazyListState()
+            val scrollState = rememberLazyListState()
+            VerticallyScrollableContainer(
+                scrollState,
+                Modifier.width(200.dp).border(1.dp, JewelTheme.globalColors.borders.normal),
+            ) {
                 LazyColumn(
-                    Modifier
-                        .width(200.dp)
-                        .padding(end = JewelTheme.scrollbarStyle.metrics.thumbThicknessExpanded)
-                        .align(Alignment.CenterStart),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     state = scrollState,
                 ) {
                     items(LIST_ITEMS) { item ->
-                        Column(modifier = Modifier.height(48.dp)) {
+                        Column {
                             Text(
                                 modifier = Modifier.padding(horizontal = 8.dp),
                                 text = item,
@@ -80,10 +65,6 @@ internal fun ScrollbarsShowcaseTab() {
                         }
                     }
                 }
-                VerticalScrollbar(
-                    scrollState = scrollState,
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                )
             }
         }
     }

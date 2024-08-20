@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.ui.component
 
+import androidx.compose.foundation.defaultScrollbarStyle
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,7 +31,9 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Outline
+import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
+import org.jetbrains.jewel.ui.theme.scrollbarStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 
 /**
@@ -52,6 +55,7 @@ public fun TextArea(
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     showScrollbar: Boolean = true,
+    scrollbarStyle: ScrollbarStyle = JewelTheme.scrollbarStyle
 ) {
     val minSize = style.metrics.minSize
     InputField(
@@ -66,6 +70,7 @@ public fun TextArea(
         interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
+        scrollbarStyle = scrollbarStyle,
         showScrollbar = showScrollbar,
         modifier = modifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height),
         decorationBox = { innerTextField, _ ->

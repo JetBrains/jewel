@@ -66,6 +66,7 @@ public fun TextField(
         style = style,
         textStyle = textStyle,
         showScrollbar = false,
+        scrollbarStyle = null,
         modifier = modifier,
         decorationBox = { innerTextField, _ ->
             val minSize = style.metrics.minSize

@@ -41,6 +41,7 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.InputFieldStyle
+import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.util.thenIf
@@ -58,6 +59,7 @@ internal fun InputField(
     interactionSource: MutableInteractionSource,
     style: InputFieldStyle,
     textStyle: TextStyle,
+    scrollbarStyle: ScrollbarStyle?,
     showScrollbar: Boolean,
     modifier: Modifier,
     decorationBox: @Composable (innerTextField: @Composable () -> Unit, state: InputFieldState) -> Unit,

@@ -8,12 +8,15 @@ import com.sun.jna.Callback
 import com.sun.jna.Pointer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import org.jetbrains.jewel.bridge.theme.defaults
+import org.jetbrains.jewel.bridge.theme.macOs
+import org.jetbrains.jewel.bridge.theme.windowsAndLinux
 import org.jetbrains.jewel.foundation.util.myLogger
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior
 
 internal object MacScrollbarHelper {
+    private val logger = myLogger()
+
     private val _scrollbarVisibilityStyleFlow = MutableStateFlow(scrollbarVisibility)
     val scrollbarVisibilityStyleFlow: StateFlow<ScrollbarVisibility> = _scrollbarVisibilityStyleFlow
 
@@ -43,7 +46,7 @@ internal object MacScrollbarHelper {
     val scrollbarVisibility: ScrollbarVisibility
         get() {
             if (!SystemInfoRt.isMac) {
-                return ScrollbarVisibility.AlwaysVisible
+                return ScrollbarVisibility.AlwaysVisible.windowsAndLinux()
             }
 
             val pool = NSAutoreleasePool()
@@ -53,7 +56,7 @@ internal object MacScrollbarHelper {
             } finally {
                 pool.drain()
             }
-            return ScrollbarVisibility.AlwaysVisible
+            return readMacScrollbarStyle()
         }
 
     private fun initNotificationObserver() {
@@ -61,13 +64,13 @@ internal object MacScrollbarHelper {
 
         val delegateClass =
             Foundation.allocateObjcClassPair(Foundation.getObjcClass("NSObject"), "NSScrollerChangesObserver")
-        if (ID.NIL != delegateClass) {
+        if (delegateClass != ID.NIL) {
             if (!addScrollbarVisibilityChangeListener(delegateClass)) {
-                myLogger().error("Cannot add observer method")
+                logger.error("Cannot add scrollbar visibility observer method")
             }
 
             if (!addTrackClickBehaviorChangeListener(delegateClass)) {
-                myLogger().error("Cannot add observer method")
+                logger.error("Cannot add scrollbar track click behavior observer method")
             }
             Foundation.registerObjcClassPair(delegateClass)
         }
@@ -126,6 +129,7 @@ internal object MacScrollbarHelper {
         }
 
     private fun readMacScrollbarBehavior(): TrackClickBehavior {
+        logger.info("Reading scrollbar track click behavior...")
         val defaults = Foundation.invoke("NSUserDefaults", "standardUserDefaults")
         Foundation.invoke(defaults, "synchronize")
         return Foundation
@@ -134,13 +138,14 @@ internal object MacScrollbarHelper {
     }
 
     private fun readMacScrollbarStyle(): ScrollbarVisibility {
+        logger.info("Reading scrollbar visibility...")
         val nsScroller = Foundation.invoke(Foundation.getObjcClass("NSScroller"), "preferredScrollerStyle")
 
         val visibility: ScrollbarVisibility =
             if (1 == nsScroller.toInt()) {
-                ScrollbarVisibility.WhenScrolling.Companion.defaults()
+                ScrollbarVisibility.WhenScrolling.macOs()
             } else {
-                ScrollbarVisibility.AlwaysVisible
+                ScrollbarVisibility.AlwaysVisible.macOs()
             }
         return visibility
     }
