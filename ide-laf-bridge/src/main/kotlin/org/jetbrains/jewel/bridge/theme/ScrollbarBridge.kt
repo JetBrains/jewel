@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.bridge.MacScrollbarHelper
+import org.jetbrains.jewel.bridge.ScrollbarHelper
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.ui.component.styling.ScrollbarColors
 import org.jetbrains.jewel.ui.component.styling.ScrollbarMetrics
@@ -27,7 +27,7 @@ internal fun readScrollbarStyle(isDark: Boolean): ScrollbarStyle =
 
 private fun readScrollbarVisibility() =
     if (hostOs.isMacOS) {
-        MacScrollbarHelper.scrollbarVisibility
+        ScrollbarHelper.getInstance().scrollbarVisibilityStyleFlow.value
     } else {
         ScrollbarVisibility.AlwaysVisible.windowsAndLinux()
     }
@@ -41,7 +41,7 @@ private fun readScrollbarColors(isDark: Boolean) =
 
 private fun readTrackClickBehavior() =
     if (hostOs.isMacOS) {
-        MacScrollbarHelper.trackClickBehavior
+        ScrollbarHelper.getInstance().trackClickBehaviorFlow.value
     } else {
         TrackClickBehavior.JumpToSpot
     }

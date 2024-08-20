@@ -139,6 +139,7 @@ public final class org/jetbrains/jewel/bridge/theme/IntUiBridgeKt {
 }
 
 public final class org/jetbrains/jewel/bridge/theme/ScrollbarBridgeKt {
+	public static final fun default (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$AlwaysVisible$Companion;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$AlwaysVisible;
 	public static final fun default (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$WhenScrolling$Companion;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$WhenScrolling;
 	public static final fun macOs-TZvXluI (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$WhenScrolling$Companion;FFLandroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;JJJJ)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$WhenScrolling;
 	public static synthetic fun macOs-TZvXluI$default (Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$WhenScrolling$Companion;FFLandroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;JJJJILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$WhenScrolling;

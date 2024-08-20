@@ -81,6 +81,7 @@ import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import org.jetbrains.jewel.ui.component.items
+import org.jetbrains.jewel.ui.component.scrollbarContentSafePadding
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.ui.theme.iconButtonStyle
@@ -196,7 +197,8 @@ private fun ContentItemRow(
         modifier =
             Modifier.height(JewelTheme.globalMetrics.rowHeight)
                 .background(color)
-                .padding(start = 4.dp, end = 12.dp),
+                .padding(horizontal = 4.dp)
+                .padding(end = scrollbarContentSafePadding()),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {

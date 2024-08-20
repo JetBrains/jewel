@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.ui.component
 
-import androidx.compose.foundation.defaultScrollbarStyle
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -54,6 +53,7 @@ public fun TextArea(
     style: TextAreaStyle = JewelTheme.textAreaStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    decorationBoxModifier: Modifier = Modifier,
     showScrollbar: Boolean = true,
     scrollbarStyle: ScrollbarStyle = JewelTheme.scrollbarStyle
 ) {
@@ -80,6 +80,7 @@ public fun TextArea(
                 placeholderTextColor = style.colors.placeholder,
                 placeholder = if (state.text.isEmpty()) placeholder else null,
                 textStyle = textStyle,
+                modifier = decorationBoxModifier,
             )
         },
     )
@@ -108,6 +109,7 @@ public fun TextArea(
     style: TextAreaStyle = JewelTheme.textAreaStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    decorationBoxModifier: Modifier = Modifier,
 ) {
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
     val textFieldValue = textFieldValueState.copy(text = value)
@@ -139,6 +141,7 @@ public fun TextArea(
         style = style,
         textStyle = textStyle,
         interactionSource = interactionSource,
+        decorationBoxModifier = decorationBoxModifier,
     )
 }
 
@@ -165,6 +168,7 @@ public fun TextArea(
     style: TextAreaStyle = JewelTheme.textAreaStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    decorationBoxModifier: Modifier = Modifier,
 ) {
     val minSize = style.metrics.minSize
     InputField(
@@ -191,6 +195,7 @@ public fun TextArea(
             placeholderTextColor = style.colors.placeholder,
             placeholder = if (value.text.isEmpty()) placeholder else null,
             textStyle = textStyle,
+            modifier = decorationBoxModifier,
         )
     }
 }
@@ -200,6 +205,7 @@ private fun TextAreaDecorationBox(
     innerTextField: @Composable () -> Unit,
     contentPadding: PaddingValues,
     textStyle: TextStyle,
+    modifier: Modifier,
     placeholderTextColor: Color,
     placeholder: @Composable (() -> Unit)?,
 ) {
@@ -226,6 +232,7 @@ private fun TextAreaDecorationBox(
                 innerTextField()
             }
         },
+        modifier,
     ) { measurables, incomingConstraints ->
         val leftPadding = contentPadding.calculateLeftPadding(layoutDirection)
         val rightPadding = contentPadding.calculateRightPadding(layoutDirection)
