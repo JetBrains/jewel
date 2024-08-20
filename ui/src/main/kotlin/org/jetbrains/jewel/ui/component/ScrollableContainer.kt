@@ -59,7 +59,7 @@ public fun VerticallyScrollableContainer(
         modifier = modifier.onHover { keepVisible = it },
         scrollbarStyle = style,
     ) {
-        Box(modifier.layoutId(ID_CONTENT).verticalScroll(scrollState)) { content() }
+        Box(Modifier.layoutId(ID_CONTENT).verticalScroll(scrollState)) { content() }
     }
 }
 

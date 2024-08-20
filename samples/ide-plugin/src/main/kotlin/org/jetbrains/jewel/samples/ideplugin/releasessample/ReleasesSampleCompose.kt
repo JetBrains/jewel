@@ -403,22 +403,22 @@ private fun RightColumn(
     selectedItem: ContentItem?,
     modifier: Modifier,
 ) {
-    Box(modifier, contentAlignment = Alignment.Center) {
-        if (selectedItem == null) {
+    if (selectedItem == null) {
+        Box(modifier, contentAlignment = Alignment.Center) {
             Text("Nothing to see here", color = JBUI.CurrentTheme.Label.disabledForeground().toComposeColor())
-        } else {
-            VerticallyScrollableContainer(modifier = modifier) {
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.Start,
-                ) {
-                    val imagePath = selectedItem.imagePath
-                    if (imagePath != null) {
-                        ReleaseImage(imagePath)
-                    }
-
-                    ItemDetailsText(selectedItem)
+        }
+    } else {
+        VerticallyScrollableContainer(modifier = modifier) {
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start,
+            ) {
+                val imagePath = selectedItem.imagePath
+                if (imagePath != null) {
+                    ReleaseImage(imagePath)
                 }
+
+                ItemDetailsText(selectedItem)
             }
         }
     }
