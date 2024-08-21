@@ -25,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.jewel.foundation.Stroke
@@ -211,7 +210,7 @@ private fun HorizontalScrollbarContent(
     modifier: Modifier,
 ) {
     HorizontallyScrollableContainer(
-        modifier = modifier.border(Stroke.Alignment.Outside, 1.dp, JewelTheme.globalColors.borders.normal).background(Color.Red),
+        modifier = modifier.border(Stroke.Alignment.Outside, 1.dp, JewelTheme.globalColors.borders.normal),
         style = scrollbarStyle,
     ) {
         Column(

@@ -1928,11 +1928,10 @@ public final class org/jetbrains/jewel/ui/component/styling/ScrollbarStylingKt {
 }
 
 public abstract interface class org/jetbrains/jewel/ui/component/styling/ScrollbarVisibility {
-	public abstract fun getAppearAnimationDuration-UwyO8pc ()J
-	public abstract fun getDisappearAnimationDuration-UwyO8pc ()J
 	public abstract fun getExpandAnimationDuration-UwyO8pc ()J
 	public abstract fun getLingerDuration-UwyO8pc ()J
 	public abstract fun getThumbColorAnimationDuration-UwyO8pc ()J
+	public abstract fun getTrackColorAnimationDuration-UwyO8pc ()J
 	public abstract fun getTrackPadding ()Landroidx/compose/foundation/layout/PaddingValues;
 	public abstract fun getTrackPaddingWithBorder ()Landroidx/compose/foundation/layout/PaddingValues;
 	public abstract fun getTrackThickness-D9Ej5fM ()F
@@ -1944,11 +1943,10 @@ public final class org/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$AlwaysVisible$Companion;
 	public synthetic fun <init> (FLandroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getAppearAnimationDuration-UwyO8pc ()J
-	public fun getDisappearAnimationDuration-UwyO8pc ()J
 	public fun getExpandAnimationDuration-UwyO8pc ()J
 	public fun getLingerDuration-UwyO8pc ()J
 	public fun getThumbColorAnimationDuration-UwyO8pc ()J
+	public fun getTrackColorAnimationDuration-UwyO8pc ()J
 	public fun getTrackPadding ()Landroidx/compose/foundation/layout/PaddingValues;
 	public fun getTrackPaddingWithBorder ()Landroidx/compose/foundation/layout/PaddingValues;
 	public fun getTrackThickness-D9Ej5fM ()F
@@ -1965,11 +1963,10 @@ public final class org/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$WhenScrolling$Companion;
 	public synthetic fun <init> (FFLandroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;JJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getAppearAnimationDuration-UwyO8pc ()J
-	public fun getDisappearAnimationDuration-UwyO8pc ()J
 	public fun getExpandAnimationDuration-UwyO8pc ()J
 	public fun getLingerDuration-UwyO8pc ()J
 	public fun getThumbColorAnimationDuration-UwyO8pc ()J
+	public fun getTrackColorAnimationDuration-UwyO8pc ()J
 	public fun getTrackPadding ()Landroidx/compose/foundation/layout/PaddingValues;
 	public fun getTrackPaddingWithBorder ()Landroidx/compose/foundation/layout/PaddingValues;
 	public fun getTrackThickness-D9Ej5fM ()F

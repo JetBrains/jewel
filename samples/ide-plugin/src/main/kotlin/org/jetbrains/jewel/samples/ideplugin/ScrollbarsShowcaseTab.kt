@@ -2,7 +2,9 @@ package org.jetbrains.jewel.samples.ideplugin
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,12 +14,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.bridge.LocalComponent
 import org.jetbrains.jewel.foundation.modifier.trackActivation
@@ -28,16 +30,13 @@ import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
+import org.jetbrains.jewel.ui.component.scrollbarContentSafePadding
 import java.util.Locale
 
 @Composable
 internal fun ScrollbarsShowcaseTab() {
     Column(
-        Modifier
-            .trackComponentActivation(LocalComponent.current)
-            .fillMaxSize()
-            .padding(16.dp)
-            .trackActivation(),
+        Modifier.trackComponentActivation(LocalComponent.current).fillMaxSize().padding(16.dp).trackActivation(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Row(modifier = Modifier.fillMaxWidth().height(200.dp)) {
@@ -51,17 +50,22 @@ internal fun ScrollbarsShowcaseTab() {
                 scrollState,
                 Modifier.width(200.dp).border(1.dp, JewelTheme.globalColors.borders.normal),
             ) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    state = scrollState,
-                ) {
-                    items(LIST_ITEMS) { item ->
+                LazyColumn(state = scrollState, contentPadding = PaddingValues(vertical = 8.dp)) {
+                    itemsIndexed(LIST_ITEMS) { index, item ->
                         Column {
                             Text(
-                                modifier = Modifier.padding(horizontal = 8.dp),
                                 text = item,
+                                modifier = Modifier.padding(start = 8.dp, end = 8.dp + scrollbarContentSafePadding()),
                             )
-                            Divider(orientation = Orientation.Horizontal, color = Color.Gray)
+
+                            if (index < LIST_ITEMS.lastIndex) {
+                                Box(Modifier.height(8.dp)) {
+                                    Divider(
+                                        orientation = Orientation.Horizontal,
+                                        modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -87,12 +91,6 @@ private const val ANDROID_IPSUM =
         " sunt in culpa qui officia material design deserunt mollit anim id est laborum."
 
 private val LIST_ITEMS =
-    ANDROID_IPSUM
-        .split(",")
-        .map { lorem ->
-            lorem
-                .trim()
-                .replaceFirstChar {
-                    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-                }
-        }
+    ANDROID_IPSUM.split(",").map { lorem ->
+        lorem.trim().replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+    }

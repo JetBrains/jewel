@@ -111,9 +111,9 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.macOs(
     trackThicknessExpanded: Dp = 14.dp,
     trackPadding: PaddingValues = PaddingValues(2.dp),
     trackPaddingWithBorder: PaddingValues = PaddingValues(1.dp),
-    appearAnimationDuration: Duration = 125.milliseconds,
-    disappearAnimationDuration: Duration = 125.milliseconds,
-    expandAnimationDuration: Duration = 125.milliseconds,
+    trackColorAnimationDuration: Duration = 125.milliseconds,
+    expandAnimationDuration: Duration = trackColorAnimationDuration,
+    thumbColorAnimationDuration: Duration = trackColorAnimationDuration,
     lingerDuration: Duration = 700.milliseconds,
 ): ScrollbarVisibility.WhenScrolling =
     ScrollbarVisibility.WhenScrolling(
@@ -121,9 +121,9 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.macOs(
         trackThicknessExpanded = trackThicknessExpanded,
         trackPadding = trackPadding,
         trackPaddingWithBorder = trackPaddingWithBorder,
-        appearAnimationDuration = appearAnimationDuration,
-        disappearAnimationDuration = disappearAnimationDuration,
+        trackColorAnimationDuration = trackColorAnimationDuration,
         expandAnimationDuration = expandAnimationDuration,
+        thumbColorAnimationDuration = thumbColorAnimationDuration,
         lingerDuration = lingerDuration,
     )
 
@@ -132,9 +132,9 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.windowsAndLinux(
     trackThicknessExpanded: Dp = 14.dp,
     trackPadding: PaddingValues = PaddingValues(),
     trackPaddingWithBorder: PaddingValues = trackPadding,
-    appearAnimationDuration: Duration = 125.milliseconds,
-    disappearAnimationDuration: Duration = 125.milliseconds,
-    expandAnimationDuration: Duration = 125.milliseconds,
+    trackColorAnimationDuration: Duration = 125.milliseconds,
+    expandAnimationDuration: Duration = trackColorAnimationDuration,
+    thumbColorAnimationDuration: Duration = trackColorAnimationDuration,
     lingerDuration: Duration = 700.milliseconds,
 ): ScrollbarVisibility.WhenScrolling =
     ScrollbarVisibility.WhenScrolling(
@@ -142,9 +142,9 @@ public fun ScrollbarVisibility.WhenScrolling.Companion.windowsAndLinux(
         trackThicknessExpanded = trackThicknessExpanded,
         trackPadding = trackPadding,
         trackPaddingWithBorder = trackPaddingWithBorder,
-        appearAnimationDuration = appearAnimationDuration,
-        disappearAnimationDuration = disappearAnimationDuration,
+        trackColorAnimationDuration = trackColorAnimationDuration,
         expandAnimationDuration = expandAnimationDuration,
+        thumbColorAnimationDuration = thumbColorAnimationDuration,
         lingerDuration = lingerDuration,
     )
 
@@ -156,11 +156,11 @@ public fun ScrollbarColors.Companion.macOsLight(
     thumbBorder: Color = thumbBackground,
     thumbBorderActive: Color = thumbBackgroundActive,
     thumbOpaqueBorder: Color = thumbOpaqueBackground,
-    thumbOpaqueBorderHovered: Color = thumbOpaqueBackgroundHovered,
+    thumbOpaqueBorderHovered: Color = thumbBackgroundActive,
     trackBackground: Color = Color(0x00808080),
     trackBackgroundHovered: Color = Color(0x1A808080),
     trackOpaqueBackground: Color = trackBackground,
-    trackOpaqueBackgroundHovered: Color = trackOpaqueBackground,
+    trackOpaqueBackgroundHovered: Color = trackBackground,
 ): ScrollbarColors =
     ScrollbarColors(
         thumbBackground = thumbBackground,
@@ -189,7 +189,7 @@ public fun ScrollbarColors.Companion.windowsAndLinuxLight(
     trackBackground: Color = Color(0x00808080),
     trackBackgroundHovered: Color = Color(0x1A808080),
     trackOpaqueBackground: Color = trackBackground,
-    trackOpaqueBackgroundHovered: Color = trackOpaqueBackground,
+    trackOpaqueBackgroundHovered: Color = trackBackground,
 ): ScrollbarColors =
     ScrollbarColors(
         thumbBackground = thumbBackground,
@@ -218,7 +218,7 @@ public fun ScrollbarColors.Companion.macOsDark(
     trackBackground: Color = Color(0x00808080),
     trackBackgroundHovered: Color = Color(0x1A808080),
     trackOpaqueBackground: Color = trackBackground,
-    trackOpaqueBackgroundHovered: Color = trackOpaqueBackground,
+    trackOpaqueBackgroundHovered: Color = trackBackground,
 ): ScrollbarColors =
     ScrollbarColors(
         thumbBackground = thumbBackground,
@@ -247,7 +247,7 @@ public fun ScrollbarColors.Companion.windowsAndLinuxDark(
     trackBackground: Color = Color(0x00808080),
     trackBackgroundHovered: Color = Color(0x1A808080),
     trackOpaqueBackground: Color = trackBackground,
-    trackOpaqueBackgroundHovered: Color = trackOpaqueBackground,
+    trackOpaqueBackgroundHovered: Color = trackBackground,
 ): ScrollbarColors =
     ScrollbarColors(
         thumbBackground = thumbBackground,
