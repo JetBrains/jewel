@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.jewel.foundation.Stroke
@@ -35,6 +37,7 @@ import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.CheckboxRow
 import org.jetbrains.jewel.ui.component.Divider
+import org.jetbrains.jewel.ui.component.HorizontallyScrollableContainer
 import org.jetbrains.jewel.ui.component.RadioButtonRow
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Typography
@@ -49,48 +52,45 @@ import java.util.Locale
 
 @Composable
 fun Scrollbars() {
-    Column {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         val isDark = JewelTheme.isDark
-        val baseStyle =
-            remember(isDark) {
-                if (isDark) ScrollbarStyle.dark() else ScrollbarStyle.light()
-            }
+        val baseStyle = remember(isDark) { if (isDark) ScrollbarStyle.dark() else ScrollbarStyle.light() }
 
         var alwaysVisible by remember { mutableStateOf(false) }
         var clickBehavior by remember { mutableStateOf(baseStyle.trackClickBehavior) }
         SettingsRow(alwaysVisible, clickBehavior, { alwaysVisible = it }, { clickBehavior = it })
 
-        Spacer(modifier = Modifier.height(16.dp))
+        val style by
+            remember(alwaysVisible, clickBehavior, baseStyle) {
+                mutableStateOf(
+                    if (alwaysVisible) {
+                        ScrollbarStyle(
+                            colors = baseStyle.colors,
+                            metrics = baseStyle.metrics,
+                            trackClickBehavior = clickBehavior,
+                            scrollbarVisibility = ScrollbarVisibility.AlwaysVisible.default(),
+                        )
+                    } else {
+                        ScrollbarStyle(
+                            colors = baseStyle.colors,
+                            metrics = baseStyle.metrics,
+                            trackClickBehavior = clickBehavior,
+                            scrollbarVisibility = ScrollbarVisibility.WhenScrolling.default(),
+                        )
+                    },
+                )
+            }
 
         Row(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            val style by
-                remember(alwaysVisible, clickBehavior, baseStyle) {
-                    mutableStateOf(
-                        if (alwaysVisible) {
-                            ScrollbarStyle(
-                                colors = baseStyle.colors,
-                                metrics = baseStyle.metrics,
-                                trackClickBehavior = clickBehavior,
-                                scrollbarVisibility = ScrollbarVisibility.AlwaysVisible.default(),
-                            )
-                        } else {
-                            ScrollbarStyle(
-                                colors = baseStyle.colors,
-                                metrics = baseStyle.metrics,
-                                trackClickBehavior = clickBehavior,
-                                scrollbarVisibility = ScrollbarVisibility.WhenScrolling.default(),
-                            )
-                        },
-                    )
-                }
-
-            LazyColumnWithScrollbar(style, Modifier.weight(1f).height(200.dp))
-            ColumnWithScrollbar(style, Modifier.weight(1f).height(200.dp))
+            LazyColumnWithScrollbar(style, Modifier.height(200.dp).weight(1f))
+            ColumnWithScrollbar(style, Modifier.height(200.dp).weight(1f))
         }
+
+        HorizontalScrollbarContent(style, Modifier.fillMaxWidth())
     }
 }
 
@@ -102,11 +102,7 @@ private fun SettingsRow(
     onClickBehaviorChange: (TrackClickBehavior) -> Unit,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        CheckboxRow(
-            checked = alwaysVisible,
-            onCheckedChange = onAlwaysVisibleChange,
-            text = "Always visible",
-        )
+        CheckboxRow(checked = alwaysVisible, onCheckedChange = onAlwaysVisibleChange, text = "Always visible")
 
         Spacer(Modifier.weight(1f))
 
@@ -187,24 +183,47 @@ private fun ColumnWithScrollbar(
             val scrollState = rememberScrollState()
             Column(
                 modifier =
-                    Modifier
-                        .background(JewelTheme.textAreaStyle.colors.background)
+                    Modifier.background(JewelTheme.textAreaStyle.colors.background)
                         .verticalScroll(scrollState)
-                        .padding(end = scrollbarContentSafePadding(style))
                         .align(Alignment.CenterStart),
             ) {
-                LIST_ITEMS.forEach {
+                LIST_ITEMS.forEachIndexed { index, line ->
                     Text(
-                        modifier = Modifier.padding(horizontal = 8.dp),
-                        text = it,
+                        modifier =
+                            Modifier.padding(horizontal = 8.dp).padding(end = scrollbarContentSafePadding(style)),
+                        text = line,
                     )
+                    if (index < LIST_ITEMS.lastIndex) {
+                        Box(Modifier.height(8.dp), contentAlignment = Alignment.CenterStart) {
+                            Divider(Orientation.Horizontal, Modifier.fillMaxWidth())
+                        }
+                    }
                 }
             }
-            VerticalScrollbar(
-                scrollState = scrollState,
-                modifier = Modifier.align(Alignment.CenterEnd),
-                style = style,
-            )
+            VerticalScrollbar(scrollState = scrollState, modifier = Modifier.align(Alignment.CenterEnd), style = style)
+        }
+    }
+}
+
+@Composable
+private fun HorizontalScrollbarContent(
+    scrollbarStyle: ScrollbarStyle,
+    modifier: Modifier,
+) {
+    HorizontallyScrollableContainer(
+        modifier = modifier.border(Stroke.Alignment.Outside, 1.dp, JewelTheme.globalColors.borders.normal).background(Color.Red),
+        style = scrollbarStyle,
+    ) {
+        Column(
+            modifier =
+                Modifier.fillMaxHeight()
+                    .background(JewelTheme.textAreaStyle.colors.background)
+                    .padding(bottom = scrollbarContentSafePadding(scrollbarStyle))
+                    .padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            val oneLineIpsum = LOREM_IPSUM.replace('\n', ' ')
+            repeat(4) { Text(oneLineIpsum) }
         }
     }
 }
@@ -224,12 +243,8 @@ private const val LOREM_IPSUM =
         "Sed nec sapien nec dui rhoncus bibendum. Sed blandit bibendum libero."
 
 private val LIST_ITEMS =
-    LOREM_IPSUM
-        .split(",")
+    LOREM_IPSUM.split(",")
         .map { lorem ->
-            lorem
-                .trim()
-                .replaceFirstChar {
-                    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-                }
-        }.let { it + it + it + it + it + it }
+            lorem.trim().replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        }
+        .let { it + it + it + it + it + it }

@@ -1,3 +1,5 @@
+@file:Suppress("DuplicatedCode") // Lots of identical-looking but not deduplicable code
+
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.ScrollState
@@ -23,11 +25,12 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.jetbrains.jewel.foundation.modifier.onHover
+import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility.AlwaysVisible
@@ -47,12 +50,14 @@ public fun VerticallyScrollableContainer(
     content: @Composable () -> Unit,
 ) {
     var keepVisible by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
     ScrollableContainerImpl(
         verticalScrollbar = {
             VerticalScrollbar(scrollState, scrollbarModifier, style = style, keepVisible = keepVisible)
         },
         horizontalScrollbar = null,
-        modifier = modifier.onHover { keepVisible = it },
+        modifier = modifier.withKeepVisible(style.scrollbarVisibility.lingerDuration, scope) { keepVisible = it },
         scrollbarStyle = style,
     ) {
         Box(Modifier.layoutId(ID_CONTENT).verticalScroll(scrollState)) { content() }
@@ -68,7 +73,6 @@ public fun VerticallyScrollableContainer(
     content: @Composable () -> Unit,
 ) {
     var keepVisible by remember { mutableStateOf(false) }
-    var delayJob by remember { mutableStateOf<Job?>(null) }
     val scope = rememberCoroutineScope()
 
     ScrollableContainerImpl(
@@ -76,21 +80,7 @@ public fun VerticallyScrollableContainer(
             VerticalScrollbar(scrollState, scrollbarModifier, style = style, keepVisible = keepVisible)
         },
         horizontalScrollbar = null,
-        modifier =
-            modifier.pointerInput(scrollState) {
-                awaitEachGesture {
-                    val event = awaitPointerEvent()
-                    if (event.type == PointerEventType.Move) {
-                        delayJob?.cancel()
-                        keepVisible = true
-                        delayJob =
-                            scope.launch {
-                                delay(50.milliseconds)
-                                keepVisible = false
-                            }
-                    }
-                }
-            },
+        modifier = modifier.withKeepVisible(style.scrollbarVisibility.lingerDuration, scope) { keepVisible = it },
         scrollbarStyle = style,
     ) {
         Box(Modifier.layoutId(ID_CONTENT)) { content() }
@@ -105,10 +95,15 @@ public fun VerticallyScrollableContainer(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     content: @Composable () -> Unit,
 ) {
+    var keepVisible by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
     ScrollableContainerImpl(
-        verticalScrollbar = { VerticalScrollbar(scrollState, scrollbarModifier, style = style) },
+        verticalScrollbar = {
+            VerticalScrollbar(scrollState, scrollbarModifier, style = style, keepVisible = keepVisible)
+        },
         horizontalScrollbar = null,
-        modifier = modifier,
+        modifier = modifier.withKeepVisible(style.scrollbarVisibility.lingerDuration, scope) { keepVisible = it },
         scrollbarStyle = style,
     ) {
         Box(Modifier.layoutId(ID_CONTENT)) { content() }
@@ -123,10 +118,15 @@ public fun HorizontallyScrollableContainer(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     content: @Composable () -> Unit,
 ) {
+    var keepVisible by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
     ScrollableContainerImpl(
         verticalScrollbar = null,
-        horizontalScrollbar = { HorizontalScrollbar(scrollState, scrollbarModifier, style = style) },
-        modifier = modifier,
+        horizontalScrollbar = {
+            HorizontalScrollbar(scrollState, scrollbarModifier, style = style, keepVisible = keepVisible)
+        },
+        modifier = modifier.withKeepVisible(style.scrollbarVisibility.lingerDuration, scope) { keepVisible = it },
         scrollbarStyle = style,
     ) {
         Box(Modifier.layoutId(ID_CONTENT).horizontalScroll(scrollState)) { content() }
@@ -141,10 +141,15 @@ public fun HorizontallyScrollableContainer(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     content: @Composable () -> Unit,
 ) {
+    var keepVisible by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
     ScrollableContainerImpl(
         verticalScrollbar = null,
-        horizontalScrollbar = { HorizontalScrollbar(scrollState, scrollbarModifier, style = style) },
-        modifier = modifier,
+        horizontalScrollbar = {
+            HorizontalScrollbar(scrollState, scrollbarModifier, style = style, keepVisible = keepVisible)
+        },
+        modifier = modifier.withKeepVisible(style.scrollbarVisibility.lingerDuration, scope) { keepVisible = it },
         scrollbarStyle = style,
     ) {
         Box(Modifier.layoutId(ID_CONTENT)) { content() }
@@ -159,16 +164,22 @@ public fun HorizontallyScrollableContainer(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     content: @Composable () -> Unit,
 ) {
+    var keepVisible by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
     ScrollableContainerImpl(
         verticalScrollbar = null,
-        horizontalScrollbar = { HorizontalScrollbar(scrollState, scrollbarModifier, style = style) },
-        modifier = modifier,
+        horizontalScrollbar = {
+            HorizontalScrollbar(scrollState, scrollbarModifier, style = style, keepVisible = keepVisible)
+        },
+        modifier = modifier.withKeepVisible(style.scrollbarVisibility.lingerDuration, scope) { keepVisible = it },
         scrollbarStyle = style,
     ) {
         Box(Modifier.layoutId(ID_CONTENT)) { content() }
     }
 }
 
+@ExperimentalJewelApi
 @Composable
 public fun ScrollableContainer(
     modifier: Modifier = Modifier,
@@ -179,12 +190,22 @@ public fun ScrollableContainer(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     content: @Composable () -> Unit,
 ) {
+    var keepVisible by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
     ScrollableContainerImpl(
-        verticalScrollbar = { VerticalScrollbar(verticalScrollState, verticalScrollbarModifier, style = style) },
-        horizontalScrollbar = {
-            HorizontalScrollbar(horizontalScrollState, horizontalScrollbarModifier, style = style)
+        verticalScrollbar = {
+            VerticalScrollbar(verticalScrollState, verticalScrollbarModifier, style = style, keepVisible = keepVisible)
         },
-        modifier = modifier,
+        horizontalScrollbar = {
+            HorizontalScrollbar(
+                horizontalScrollState,
+                horizontalScrollbarModifier,
+                style = style,
+                keepVisible = keepVisible,
+            )
+        },
+        modifier = modifier.withKeepVisible(style.scrollbarVisibility.lingerDuration, scope) { keepVisible = it },
         scrollbarStyle = style,
     ) {
         Box(Modifier.layoutId(ID_CONTENT).verticalScroll(verticalScrollState).horizontalScroll(horizontalScrollState)) {
@@ -193,6 +214,7 @@ public fun ScrollableContainer(
     }
 }
 
+@ExperimentalJewelApi
 @Composable
 public fun ScrollableContainer(
     verticalScrollState: LazyListState,
@@ -203,18 +225,29 @@ public fun ScrollableContainer(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     content: @Composable () -> Unit,
 ) {
+    var keepVisible by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
     ScrollableContainerImpl(
-        verticalScrollbar = { VerticalScrollbar(verticalScrollState, verticalScrollbarModifier, style = style) },
-        horizontalScrollbar = {
-            HorizontalScrollbar(horizontalScrollState, horizontalScrollbarModifier, style = style)
+        verticalScrollbar = {
+            VerticalScrollbar(verticalScrollState, verticalScrollbarModifier, style = style, keepVisible = keepVisible)
         },
-        modifier = modifier,
+        horizontalScrollbar = {
+            HorizontalScrollbar(
+                horizontalScrollState,
+                horizontalScrollbarModifier,
+                style = style,
+                keepVisible = keepVisible,
+            )
+        },
+        modifier = modifier.withKeepVisible(style.scrollbarVisibility.lingerDuration, scope) { keepVisible = it },
         scrollbarStyle = style,
     ) {
         Box(Modifier.layoutId(ID_CONTENT)) { content() }
     }
 }
 
+@ExperimentalJewelApi
 @Composable
 public fun ScrollableContainer(
     verticalScrollState: LazyGridState,
@@ -225,17 +258,48 @@ public fun ScrollableContainer(
     style: ScrollbarStyle = JewelTheme.scrollbarStyle,
     content: @Composable () -> Unit,
 ) {
+    var keepVisible by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
     ScrollableContainerImpl(
-        verticalScrollbar = { VerticalScrollbar(verticalScrollState, verticalScrollbarModifier, style = style) },
-        horizontalScrollbar = {
-            HorizontalScrollbar(horizontalScrollState, horizontalScrollbarModifier, style = style)
+        verticalScrollbar = {
+            VerticalScrollbar(verticalScrollState, verticalScrollbarModifier, style = style, keepVisible = keepVisible)
         },
-        modifier = modifier,
+        horizontalScrollbar = {
+            HorizontalScrollbar(
+                horizontalScrollState,
+                horizontalScrollbarModifier,
+                style = style,
+                keepVisible = keepVisible,
+            )
+        },
+        modifier = modifier.withKeepVisible(style.scrollbarVisibility.lingerDuration, scope) { keepVisible = it },
         scrollbarStyle = style,
     ) {
         Box(Modifier.layoutId(ID_CONTENT)) { content() }
     }
 }
+
+private fun Modifier.withKeepVisible(
+    lingerDuration: Duration,
+    scope: CoroutineScope,
+    onKeepVisibleChange: (Boolean) -> Unit,
+) =
+    pointerInput(scope) {
+        var delayJob: Job? = null
+        awaitEachGesture {
+            val event = awaitPointerEvent()
+            if (event.type == PointerEventType.Move) {
+                delayJob?.cancel()
+                onKeepVisibleChange(true)
+                delayJob =
+                    scope.launch {
+                        delay(lingerDuration)
+                        onKeepVisibleChange(false)
+                    }
+            }
+        }
+    }
 
 @Composable
 private fun ScrollableContainerImpl(
@@ -282,6 +346,7 @@ private fun ScrollableContainerImpl(
                 horizontalScrollbarMeasurable.measure(horizontalScrollbarConstraints)
             } else null
 
+        val contentMeasurable = measurables.find { it.layoutId == ID_CONTENT } ?: error("Content not provided")
         val contentConstraints =
             computeContentConstraints(
                 scrollbarStyle,
@@ -289,22 +354,21 @@ private fun ScrollableContainerImpl(
                 verticalScrollbarPlaceable,
                 horizontalScrollbarPlaceable,
             )
-        val contentMeasurable = measurables.find { it.layoutId == ID_CONTENT } ?: error("Content not provided")
         val contentPlaceable = contentMeasurable.measure(contentConstraints)
 
-        layout(
-            width = contentPlaceable.width + (verticalScrollbarPlaceable?.width ?: 0),
-            height = contentPlaceable.height + (horizontalScrollbarPlaceable?.height ?: 0),
-        ) {
+        val isAlwaysVisible = scrollbarStyle.scrollbarVisibility is AlwaysVisible
+        val vScrollbarWidth = if (isAlwaysVisible) verticalScrollbarPlaceable?.width ?: 0 else 0
+        val width = contentPlaceable.width + vScrollbarWidth
+
+        val hScrollbarHeight = if (isAlwaysVisible) horizontalScrollbarPlaceable?.height ?: 0 else 0
+        val height = contentPlaceable.height + hScrollbarHeight
+
+        layout(width, height) {
             contentPlaceable.placeRelative(x = 0, y = 0, zIndex = 0f)
-            verticalScrollbarPlaceable?.placeRelative(
-                x = incomingConstraints.maxWidth - verticalScrollbarPlaceable.width,
-                y = 0,
-                zIndex = 1f,
-            )
+            verticalScrollbarPlaceable?.placeRelative(x = width - verticalScrollbarPlaceable.width, y = 0, zIndex = 1f)
             horizontalScrollbarPlaceable?.placeRelative(
                 x = 0,
-                y = incomingConstraints.maxHeight - horizontalScrollbarPlaceable.height,
+                y = height - horizontalScrollbarPlaceable.height,
                 zIndex = 1f,
             )
         }
@@ -319,9 +383,10 @@ private fun computeContentConstraints(
 ): Constraints {
     fun width() =
         if (incomingConstraints.hasBoundedWidth) {
+            val maxWidth = incomingConstraints.maxWidth
             when (scrollbarStyle.scrollbarVisibility) {
-                is AlwaysVisible -> incomingConstraints.maxWidth - (verticalScrollbarPlaceable?.width ?: 0)
-                is WhenScrolling -> incomingConstraints.maxWidth
+                is AlwaysVisible -> maxWidth - (verticalScrollbarPlaceable?.width ?: 0)
+                is WhenScrolling -> maxWidth
             }
         } else {
             error("Incoming constraints have infinite width, should not use fixed width")
@@ -329,9 +394,10 @@ private fun computeContentConstraints(
 
     fun height() =
         if (incomingConstraints.hasBoundedHeight) {
+            val maxHeight = incomingConstraints.maxHeight
             when (scrollbarStyle.scrollbarVisibility) {
-                is AlwaysVisible -> incomingConstraints.maxHeight - (horizontalScrollbarPlaceable?.height ?: 0)
-                is WhenScrolling -> incomingConstraints.maxHeight
+                is AlwaysVisible -> maxHeight - (horizontalScrollbarPlaceable?.height ?: 0)
+                is WhenScrolling -> maxHeight
             }
         } else {
             error("Incoming constraints have infinite height, should not use fixed height")
