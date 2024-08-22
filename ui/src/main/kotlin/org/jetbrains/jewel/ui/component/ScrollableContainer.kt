@@ -18,6 +18,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
@@ -61,6 +63,33 @@ public fun VerticallyScrollableContainer(
         scrollbarStyle = style,
     ) {
         Box(Modifier.layoutId(ID_CONTENT).verticalScroll(scrollState)) { content() }
+    }
+}
+
+@Composable
+internal fun TextAreaScrollableContainer(
+    scrollState: ScrollState,
+    style: ScrollbarStyle,
+    contentModifier: Modifier,
+    content: @Composable () -> Unit,
+) {
+    var keepVisible by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
+    ScrollableContainerImpl(
+        verticalScrollbar = {
+            VerticalScrollbar(
+                scrollState,
+                style = style,
+                modifier = Modifier.pointerHoverIcon(PointerIcon.Default),
+                keepVisible = keepVisible,
+            )
+        },
+        horizontalScrollbar = null,
+        modifier = Modifier.withKeepVisible(style.scrollbarVisibility.lingerDuration, scope) { keepVisible = it },
+        scrollbarStyle = style,
+    ) {
+        Box(contentModifier.layoutId(ID_CONTENT)) { content() }
     }
 }
 
