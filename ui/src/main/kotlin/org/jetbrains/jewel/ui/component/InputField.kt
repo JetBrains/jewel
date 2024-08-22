@@ -31,6 +31,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import org.jetbrains.annotations.ApiStatus.ScheduledForRemoval
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -46,6 +47,7 @@ import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.util.thenIf
 
+@Suppress("DuplicatedCode") // The dupe is deprecated and is scheduled for removal
 @Composable
 internal fun InputField(
     state: TextFieldState,
@@ -140,16 +142,19 @@ internal fun InputField(
             scrollState = scrollState,
         )
 
-        if (showScrollbar) {
+        if (showScrollbar && scrollbarStyle != null) {
             VerticalScrollbar(
                 scrollState = scrollState,
                 modifier = Modifier.align(Alignment.CenterEnd),
                 interactionSource = interactionSource,
+                style = scrollbarStyle
             )
         }
     }
 }
 
+@ScheduledForRemoval(inVersion = "Before 1.0")
+@Suppress("DuplicatedCode") // This is deprecated and will be removed before 1.0
 @Deprecated("Please use InputField(state) instead. If you want to observe text changes, use snapshotFlow { state.text }")
 @Composable
 internal fun InputField(

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.offset
+import org.jetbrains.annotations.ApiStatus.ScheduledForRemoval
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
@@ -33,10 +34,7 @@ import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.theme.textFieldStyle
 import kotlin.math.max
 
-/**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
- */
+@Suppress("DuplicatedCode") // The dupe is scheduled for removal
 @Composable
 public fun TextField(
     state: TextFieldState,
@@ -44,9 +42,9 @@ public fun TextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     outline: Outline = Outline.None,
-    placeholder: @Composable() (() -> Unit)? = null,
-    leadingIcon: @Composable() (() -> Unit)? = null,
-    trailingIcon: @Composable() (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     undecorated: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     style: TextFieldStyle = JewelTheme.textFieldStyle,
@@ -86,10 +84,7 @@ public fun TextField(
     )
 }
 
-/**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
- */
+@ScheduledForRemoval(inVersion = "Before 1.0")
 @Deprecated("Please use TextField(state) instead. If you want to observe text changes, use snapshotFlow { state.text }")
 @Composable
 public fun TextField(
@@ -114,6 +109,7 @@ public fun TextField(
     val textFieldValue = textFieldValueState.copy(text = value)
     var lastTextValue by remember(value) { mutableStateOf(value) }
 
+    @Suppress("DEPRECATION")
     TextField(
         value = textFieldValue,
         onValueChange = { newTextFieldValueState ->
@@ -143,10 +139,8 @@ public fun TextField(
     )
 }
 
-/**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
- */
+@Suppress("DuplicatedCode") // This is scheduled for removal
+@ScheduledForRemoval(inVersion = "Before 1.0")
 @Deprecated("Please use TextField(state) instead. If you want to observe text changes, use snapshotFlow { state.text }")
 @Composable
 public fun TextField(
@@ -168,6 +162,7 @@ public fun TextField(
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
+    @Suppress("DEPRECATION")
     InputField(
         value = value,
         onValueChange = onValueChange,

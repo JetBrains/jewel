@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.offset
+import org.jetbrains.annotations.ApiStatus.ScheduledForRemoval
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
@@ -35,10 +36,6 @@ import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.theme.scrollbarStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 
-/**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
- */
 @Composable
 public fun TextArea(
     state: TextFieldState,
@@ -46,7 +43,7 @@ public fun TextArea(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     outline: Outline = Outline.None,
-    placeholder: @Composable() (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
     undecorated: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     maxLines: Int = Int.MAX_VALUE,
@@ -55,7 +52,7 @@ public fun TextArea(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     decorationBoxModifier: Modifier = Modifier,
     showScrollbar: Boolean = true,
-    scrollbarStyle: ScrollbarStyle = JewelTheme.scrollbarStyle
+    scrollbarStyle: ScrollbarStyle = JewelTheme.scrollbarStyle,
 ) {
     val minSize = style.metrics.minSize
     InputField(
@@ -86,10 +83,7 @@ public fun TextArea(
     )
 }
 
-/**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
- */
+@ScheduledForRemoval(inVersion = "Before 1.0")
 @Deprecated("Please use TextArea(state) instead. If you want to observe text changes, use snapshotFlow { state.text }")
 @Composable
 public fun TextArea(
@@ -115,6 +109,7 @@ public fun TextArea(
     val textFieldValue = textFieldValueState.copy(text = value)
     var lastTextValue by remember(value) { mutableStateOf(value) }
 
+    @Suppress("DEPRECATION")
     TextArea(
         value = textFieldValue,
         onValueChange = { newTextFieldValueState ->
@@ -145,10 +140,7 @@ public fun TextArea(
     )
 }
 
-/**
- * @param placeholder the optional placeholder to be displayed over the
- *     component when the [value] is empty.
- */
+@ScheduledForRemoval(inVersion = "Before 1.0")
 @Deprecated("Please use TextArea(state) instead. If you want to observe text changes, use snapshotFlow { state.text }")
 @Composable
 public fun TextArea(
@@ -171,6 +163,7 @@ public fun TextArea(
     decorationBoxModifier: Modifier = Modifier,
 ) {
     val minSize = style.metrics.minSize
+    @Suppress("DEPRECATION")
     InputField(
         value = value,
         onValueChange = onValueChange,
@@ -212,10 +205,7 @@ private fun TextAreaDecorationBox(
     Layout(
         content = {
             if (placeholder != null) {
-                Box(
-                    modifier = Modifier.layoutId(PLACEHOLDER_ID),
-                    contentAlignment = Alignment.TopStart,
-                ) {
+                Box(modifier = Modifier.layoutId(PLACEHOLDER_ID), contentAlignment = Alignment.TopStart) {
                     CompositionLocalProvider(
                         LocalTextStyle provides textStyle.copy(color = placeholderTextColor),
                         LocalContentColor provides placeholderTextColor,
@@ -238,25 +228,16 @@ private fun TextAreaDecorationBox(
         val rightPadding = contentPadding.calculateRightPadding(layoutDirection)
         val horizontalPadding = (leftPadding + rightPadding).roundToPx()
         val verticalPadding =
-            (contentPadding.calculateTopPadding() + contentPadding.calculateBottomPadding())
-                .roundToPx()
+            (contentPadding.calculateTopPadding() + contentPadding.calculateBottomPadding()).roundToPx()
 
         val textAreaConstraints =
-            incomingConstraints
-                .offset(horizontal = -horizontalPadding, vertical = -verticalPadding)
-                .copy(minHeight = 0)
+            incomingConstraints.offset(horizontal = -horizontalPadding, vertical = -verticalPadding).copy(minHeight = 0)
 
-        val textAreaPlaceable =
-            measurables
-                .single { it.layoutId == TEXT_AREA_ID }
-                .measure(textAreaConstraints)
+        val textAreaPlaceable = measurables.single { it.layoutId == TEXT_AREA_ID }.measure(textAreaConstraints)
 
         // Measure placeholder
         val placeholderConstraints = textAreaConstraints.copy(minWidth = 0, minHeight = 0)
-        val placeholderPlaceable =
-            measurables
-                .find { it.layoutId == PLACEHOLDER_ID }
-                ?.measure(placeholderConstraints)
+        val placeholderPlaceable = measurables.find { it.layoutId == PLACEHOLDER_ID }?.measure(placeholderConstraints)
 
         val width = calculateWidth(textAreaPlaceable, placeholderPlaceable, incomingConstraints)
         val height = calculateHeight(textAreaPlaceable, placeholderPlaceable, verticalPadding, incomingConstraints)
@@ -278,9 +259,7 @@ private fun calculateWidth(
     textFieldPlaceable: Placeable,
     placeholderPlaceable: Placeable?,
     incomingConstraints: Constraints,
-): Int =
-    maxOf(textFieldPlaceable.width, placeholderPlaceable?.width ?: 0)
-        .coerceAtLeast(incomingConstraints.minWidth)
+): Int = maxOf(textFieldPlaceable.width, placeholderPlaceable?.width ?: 0).coerceAtLeast(incomingConstraints.minWidth)
 
 private fun calculateHeight(
     textFieldPlaceable: Placeable,
