@@ -16,6 +16,8 @@ import kotlinx.coroutines.isActive
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.util.isDark
 import org.jetbrains.jewel.window.styling.TitleBarStyle
+import java.awt.Dialog
+import java.awt.Frame
 
 @Composable
 internal fun DecoratedWindowScope.TitleBarOnWindows(
@@ -33,7 +35,10 @@ internal fun DecoratedWindowScope.TitleBarOnWindows(
         applyTitleBar = { height, _ ->
             titleBar.height = height.value
             titleBar.putProperty("controls.dark", style.colors.background.isDark())
-            JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
+            when (val window = window) {
+                is Dialog -> JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
+                is Frame -> JBR.getWindowDecorations().setCustomTitleBar(window, titleBar)
+            }
             PaddingValues(start = titleBar.leftInset.dp, end = titleBar.rightInset.dp)
         },
         content = content,

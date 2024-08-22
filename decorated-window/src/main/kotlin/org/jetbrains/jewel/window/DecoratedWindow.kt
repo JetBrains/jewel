@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.ComposeDialog
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.offset
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
+import androidx.compose.ui.window.WindowScope
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
 import com.jetbrains.JBR
@@ -57,7 +59,7 @@ public fun DecoratedWindow(
     onPreviewKeyEvent: (KeyEvent) -> Boolean = { false },
     onKeyEvent: (KeyEvent) -> Boolean = { false },
     style: DecoratedWindowStyle = JewelTheme.defaultDecoratedWindowStyle,
-    content: @Composable DecoratedWindowScope.() -> Unit,
+    content: @Composable DecoratedFrameWindowScope.() -> Unit,
 ) {
     remember {
         if (!JBR.isAvailable()) {
@@ -141,12 +143,13 @@ public fun DecoratedWindow(
 
         val undecoratedWindowBorder =
             if (undecorated && !decoratedWindowState.isMaximized) {
-                Modifier.border(
-                    Stroke.Alignment.Inside,
-                    style.metrics.borderWidth,
-                    style.colors.borderFor(decoratedWindowState).value,
-                    RectangleShape,
-                ).padding(style.metrics.borderWidth)
+                Modifier
+                    .border(
+                        Stroke.Alignment.Inside,
+                        style.metrics.borderWidth,
+                        style.colors.borderFor(decoratedWindowState).value,
+                        RectangleShape,
+                    ).padding(style.metrics.borderWidth)
             } else {
                 Modifier
             }
@@ -157,7 +160,7 @@ public fun DecoratedWindow(
             Layout(
                 content = {
                     val scope =
-                        object : DecoratedWindowScope {
+                        object : DecoratedFrameWindowScope {
                             override val state: DecoratedWindowState
                                 get() = decoratedWindowState
 
@@ -174,13 +177,16 @@ public fun DecoratedWindow(
 }
 
 @Stable
-public interface DecoratedWindowScope : FrameWindowScope {
-    override val window: ComposeWindow
-
+public interface DecoratedWindowScope : WindowScope {
     public val state: DecoratedWindowState
 }
 
-private object DecoratedWindowMeasurePolicy : MeasurePolicy {
+@Stable
+public interface DecoratedFrameWindowScope :
+    DecoratedWindowScope,
+    FrameWindowScope
+
+internal object DecoratedWindowMeasurePolicy : MeasurePolicy {
     override fun MeasureScope.measure(
         measurables: List<Measurable>,
         constraints: Constraints,
@@ -224,7 +230,9 @@ private object DecoratedWindowMeasurePolicy : MeasurePolicy {
 
 @Immutable
 @JvmInline
-public value class DecoratedWindowState(public val state: ULong) {
+public value class DecoratedWindowState(
+    public val state: ULong,
+) {
     public val isActive: Boolean
         get() = state and Active != 0UL
 
@@ -278,10 +286,21 @@ public value class DecoratedWindowState(public val state: ULong) {
                 maximized = window.placement == WindowPlacement.Maximized,
                 active = window.isActive,
             )
+
+        public fun of(window: ComposeDialog): DecoratedWindowState =
+            of(
+                fullscreen = false,
+                minimized = false,
+                maximized = false,
+                active = window.isActive,
+            )
     }
 }
 
-internal data class TitleBarInfo(val title: String, val icon: Painter?)
+internal data class TitleBarInfo(
+    val title: String,
+    val icon: Painter?,
+)
 
 internal val LocalTitleBarInfo: ProvidableCompositionLocal<TitleBarInfo> =
     compositionLocalOf {
