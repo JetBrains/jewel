@@ -1941,10 +1941,12 @@ public abstract interface class org/jetbrains/jewel/ui/component/styling/Scrollb
 public final class org/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$AlwaysVisible : org/jetbrains/jewel/ui/component/styling/ScrollbarVisibility {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/ScrollbarVisibility$AlwaysVisible$Companion;
-	public synthetic fun <init> (FLandroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FLandroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;JJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getExpandAnimationDuration-UwyO8pc ()J
 	public fun getLingerDuration-UwyO8pc ()J
+	public final fun getScrollbarBackgroundColorDark-0d7_KjU ()J
+	public final fun getScrollbarBackgroundColorLight-0d7_KjU ()J
 	public fun getThumbColorAnimationDuration-UwyO8pc ()J
 	public fun getTrackColorAnimationDuration-UwyO8pc ()J
 	public fun getTrackPadding ()Landroidx/compose/foundation/layout/PaddingValues;

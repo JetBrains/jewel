@@ -61,7 +61,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
-import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
@@ -78,6 +77,7 @@ import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior.JumpToSpot
 import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior.NextPage
 import org.jetbrains.jewel.ui.theme.scrollbarStyle
 import org.jetbrains.jewel.ui.util.thenIf
+import kotlin.math.roundToInt
 
 @Composable
 public fun VerticalScrollbar(
@@ -150,7 +150,8 @@ private fun BaseScrollbar(
     val isHovered by interactionSource.collectIsHoveredAsState()
     var showScrollbar by remember { mutableStateOf(false) }
 
-    val isScrolling = scrollState.isScrollInProgress || dragInteraction.value != null
+    val isDragging = dragInteraction.value != null
+    val isScrolling = scrollState.isScrollInProgress || isDragging
     val isActive = isOpaque || isScrolling || (keepVisible && showScrollbar)
 
     if (isHovered && showScrollbar) isExpanded = true
@@ -226,8 +227,8 @@ private fun BaseScrollbar(
 
         val trackBackground by
             animateColorAsState(
-                targetValue = getTrackColor(isOpaque, isHovered, style, isExpanded),
-                animationSpec = trackColorTween(showScrollbar, visibilityStyle),
+                targetValue = getTrackColor(isOpaque, isDragging, isHovered, style, isExpanded),
+                animationSpec = trackColorTween(visibilityStyle),
                 label = "scrollbar_trackBackground",
             )
 
@@ -266,9 +267,15 @@ private fun BaseScrollbar(
     }
 }
 
-private fun getTrackColor(isOpaque: Boolean, isHovered: Boolean, style: ScrollbarStyle, isExpanded: Boolean) =
+private fun getTrackColor(
+    isOpaque: Boolean,
+    isDragging: Boolean,
+    isHovered: Boolean,
+    style: ScrollbarStyle,
+    isExpanded: Boolean,
+) =
     if (isOpaque) {
-        if (isHovered) {
+        if (isHovered || isDragging) {
             style.colors.trackOpaqueBackgroundHovered
         } else {
             style.colors.trackOpaqueBackground
@@ -394,15 +401,8 @@ private fun Modifier.drawThumb(
     }
 }
 
-private fun trackColorTween(showScrollbar: Boolean, visibility: ScrollbarVisibility) =
-    tween<Color>(
-        if (showScrollbar) {
-            0
-        } else {
-            visibility.trackColorAnimationDuration.inWholeMilliseconds.toInt()
-        },
-        easing = LinearEasing,
-    )
+private fun trackColorTween(visibility: ScrollbarVisibility) =
+    tween<Color>(visibility.trackColorAnimationDuration.inWholeMilliseconds.toInt(), easing = LinearEasing)
 
 private fun thumbColorTween(showScrollbar: Boolean, visibility: ScrollbarVisibility) =
     tween<Color>(

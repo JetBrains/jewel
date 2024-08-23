@@ -2,6 +2,7 @@ package org.jetbrains.jewel.intui.standalone.styling
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.ui.component.styling.ScrollbarColors
@@ -30,7 +31,7 @@ public fun ScrollbarStyle.Companion.tabStripMacOsLight(
     colors: ScrollbarColors = ScrollbarColors.macOsLight(),
     metrics: ScrollbarMetrics = ScrollbarMetrics.tabStripMacOs(),
     trackClickBehavior: TrackClickBehavior = TrackClickBehavior.NextPage,
-    scrollbarVisibility: ScrollbarVisibility = ScrollbarVisibility.WhenScrolling.macOs(),
+    scrollbarVisibility: ScrollbarVisibility = ScrollbarVisibility.WhenScrolling.default(),
 ): ScrollbarStyle =
     ScrollbarStyle(
         colors = colors,
@@ -43,7 +44,7 @@ public fun ScrollbarStyle.Companion.tabStripMacOsDark(
     colors: ScrollbarColors = ScrollbarColors.macOsDark(),
     metrics: ScrollbarMetrics = ScrollbarMetrics.tabStripMacOs(),
     trackClickBehavior: TrackClickBehavior = TrackClickBehavior.NextPage,
-    scrollbarVisibility: ScrollbarVisibility = ScrollbarVisibility.WhenScrolling.macOs(),
+    scrollbarVisibility: ScrollbarVisibility = ScrollbarVisibility.WhenScrolling.default(),
 ): ScrollbarStyle =
     ScrollbarStyle(
         colors = colors,
@@ -85,7 +86,7 @@ public fun ScrollbarMetrics.Companion.tabStripMacOs(
 
 public fun ScrollbarMetrics.Companion.tabStripWindowsAndLinux(
     thumbCornerSize: CornerSize = CornerSize(0),
-    minThumbLength: Dp = 16.dp,
+    minThumbLength: Dp = 20.dp,
 ): ScrollbarMetrics = ScrollbarMetrics(thumbCornerSize, minThumbLength)
 
 public fun ScrollbarVisibility.AlwaysVisible.Companion.tabStrip(
@@ -98,4 +99,7 @@ public fun ScrollbarVisibility.AlwaysVisible.Companion.tabStrip(
         trackPadding,
         trackPaddingWithBorder,
         thumbColorAnimationDuration = 0.milliseconds,
+        trackColorAnimationDuration = 0.milliseconds,
+        scrollbarBackgroundColorLight = Color.Unspecified,
+        scrollbarBackgroundColorDark = Color.Unspecified,
     )

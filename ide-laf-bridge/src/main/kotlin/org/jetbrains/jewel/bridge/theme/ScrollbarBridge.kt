@@ -288,10 +288,31 @@ public fun ScrollbarVisibility.AlwaysVisible.Companion.macOs(
     trackThickness: Dp = 14.dp,
     trackPadding: PaddingValues = PaddingValues(2.dp),
     thumbColorAnimationDuration: Duration = 330.milliseconds,
-): ScrollbarVisibility.AlwaysVisible = ScrollbarVisibility.AlwaysVisible(trackThickness, trackPadding, trackPadding, thumbColorAnimationDuration)
+    scrollbarBackgroundColorLight: Color = retrieveColor("ScrollBar.background", Color(0xFFF5F5F5)),
+    scrollbarBackgroundColorDark: Color = retrieveColor("ScrollBar.background", Color(0xFF3F4244)),
+): ScrollbarVisibility.AlwaysVisible =
+    ScrollbarVisibility.AlwaysVisible(
+        trackThickness = trackThickness,
+        trackPadding = trackPadding,
+        trackPaddingWithBorder = trackPadding,
+        thumbColorAnimationDuration = thumbColorAnimationDuration,
+        trackColorAnimationDuration = 0.milliseconds,
+        scrollbarBackgroundColorLight = scrollbarBackgroundColorLight,
+        scrollbarBackgroundColorDark = scrollbarBackgroundColorDark,
+    )
 
 public fun ScrollbarVisibility.AlwaysVisible.Companion.windowsAndLinux(
-    trackThickness: Dp = 18.dp,
-    trackPadding: PaddingValues = PaddingValues(),
+    trackThickness: Dp = 10.dp,
+    trackPadding: PaddingValues = PaddingValues(0.5.dp),
     thumbColorAnimationDuration: Duration = 330.milliseconds,
-): ScrollbarVisibility.AlwaysVisible = ScrollbarVisibility.AlwaysVisible(trackThickness, trackPadding, trackPadding, thumbColorAnimationDuration)
+    trackColorAnimationDuration: Duration = thumbColorAnimationDuration,
+): ScrollbarVisibility.AlwaysVisible =
+    ScrollbarVisibility.AlwaysVisible(
+        trackThickness,
+        trackPadding,
+        trackPadding,
+        thumbColorAnimationDuration,
+        trackColorAnimationDuration,
+        Color.Unspecified,
+        Color.Unspecified,
+    )

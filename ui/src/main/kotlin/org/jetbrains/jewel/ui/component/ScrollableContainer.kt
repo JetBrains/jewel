@@ -27,7 +27,6 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlin.time.Duration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -38,6 +37,9 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility.AlwaysVisible
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility.WhenScrolling
 import org.jetbrains.jewel.ui.theme.scrollbarStyle
+import org.jetbrains.skiko.OS
+import org.jetbrains.skiko.hostOs
+import kotlin.time.Duration
 
 private const val ID_CONTENT = "VerticallyScrollableContainer_content"
 private const val ID_VERTICAL_SCROLLBAR = "VerticallyScrollableContainer_verticalScrollbar"
@@ -375,10 +377,12 @@ private fun ScrollableContainerImpl(
                 horizontalScrollbarMeasurable.measure(horizontalScrollbarConstraints)
             } else null
 
+        val isMacOs = hostOs == OS.MacOS
         val contentMeasurable = measurables.find { it.layoutId == ID_CONTENT } ?: error("Content not provided")
         val contentConstraints =
             computeContentConstraints(
                 scrollbarStyle,
+                isMacOs,
                 incomingConstraints,
                 verticalScrollbarPlaceable,
                 horizontalScrollbarPlaceable,
@@ -386,10 +390,20 @@ private fun ScrollableContainerImpl(
         val contentPlaceable = contentMeasurable.measure(contentConstraints)
 
         val isAlwaysVisible = scrollbarStyle.scrollbarVisibility is AlwaysVisible
-        val vScrollbarWidth = if (isAlwaysVisible) verticalScrollbarPlaceable?.width ?: 0 else 0
+        val vScrollbarWidth =
+            when {
+                !isMacOs -> 0
+                isAlwaysVisible -> verticalScrollbarPlaceable?.width ?: 0
+                else -> 0
+            }
         val width = contentPlaceable.width + vScrollbarWidth
 
-        val hScrollbarHeight = if (isAlwaysVisible) horizontalScrollbarPlaceable?.height ?: 0 else 0
+        val hScrollbarHeight =
+            when {
+                !isMacOs -> 0
+                isAlwaysVisible -> horizontalScrollbarPlaceable?.height ?: 0
+                else -> 0
+            }
         val height = contentPlaceable.height + hScrollbarHeight
 
         layout(width, height) {
@@ -406,16 +420,21 @@ private fun ScrollableContainerImpl(
 
 private fun computeContentConstraints(
     scrollbarStyle: ScrollbarStyle,
+    isMacOs: Boolean,
     incomingConstraints: Constraints,
     verticalScrollbarPlaceable: Placeable?,
     horizontalScrollbarPlaceable: Placeable?,
 ): Constraints {
+    val visibility = scrollbarStyle.scrollbarVisibility
+
     fun width() =
         if (incomingConstraints.hasBoundedWidth) {
             val maxWidth = incomingConstraints.maxWidth
-            when (scrollbarStyle.scrollbarVisibility) {
-                is AlwaysVisible -> maxWidth - (verticalScrollbarPlaceable?.width ?: 0)
-                is WhenScrolling -> maxWidth
+            when {
+                !isMacOs -> maxWidth // Scrollbars on Win/Linux are always overlaid
+                visibility is AlwaysVisible -> maxWidth - (verticalScrollbarPlaceable?.width ?: 0)
+                visibility is WhenScrolling -> maxWidth
+                else -> error("Unsupported visibility style: $visibility")
             }
         } else {
             error("Incoming constraints have infinite width, should not use fixed width")
@@ -424,9 +443,11 @@ private fun computeContentConstraints(
     fun height() =
         if (incomingConstraints.hasBoundedHeight) {
             val maxHeight = incomingConstraints.maxHeight
-            when (scrollbarStyle.scrollbarVisibility) {
-                is AlwaysVisible -> maxHeight - (horizontalScrollbarPlaceable?.height ?: 0)
-                is WhenScrolling -> maxHeight
+            when {
+                !isMacOs -> maxHeight // Scrollbars on Win/Linux are always overlaid
+                visibility is AlwaysVisible -> maxHeight - (horizontalScrollbarPlaceable?.height ?: 0)
+                visibility is WhenScrolling -> maxHeight
+                else -> error("Unsupported visibility style: $visibility")
             }
         } else {
             error("Incoming constraints have infinite height, should not use fixed height")
@@ -455,7 +476,9 @@ private fun computeContentConstraints(
  */
 @Composable
 public fun scrollbarContentSafePadding(style: ScrollbarStyle = JewelTheme.scrollbarStyle): Dp =
-    when (style.scrollbarVisibility) {
-        is AlwaysVisible -> 0.dp
-        is WhenScrolling -> style.scrollbarVisibility.trackThicknessExpanded
+    when {
+        hostOs != OS.MacOS -> style.scrollbarVisibility.trackThicknessExpanded
+        style.scrollbarVisibility is AlwaysVisible -> 0.dp
+        style.scrollbarVisibility is WhenScrolling -> style.scrollbarVisibility.trackThicknessExpanded
+        else -> error("Unsupported visibility: ${style.scrollbarVisibility}")
     }

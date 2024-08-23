@@ -128,7 +128,12 @@ private fun TextAreaDecorator(
                         0.dp,
                         calculateBottomPadding(),
                     )
-                paddingValues to calculateEndPadding(direction)
+                val scrollbarExtraPadding =
+                    if (scrollState.canScrollForward || scrollState.canScrollBackward) {
+                        scrollbarContentSafePadding(scrollbarStyle)
+                    } else 0.dp
+
+                paddingValues to calculateEndPadding(direction) + scrollbarExtraPadding
             }
         } else {
             style.metrics.contentPadding to 0.dp

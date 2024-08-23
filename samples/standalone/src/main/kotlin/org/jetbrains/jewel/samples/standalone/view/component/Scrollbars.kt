@@ -47,6 +47,8 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior
 import org.jetbrains.jewel.ui.theme.textAreaStyle
+import org.jetbrains.skiko.OS
+import org.jetbrains.skiko.hostOs
 import java.util.Locale
 
 @Composable
@@ -55,7 +57,7 @@ fun Scrollbars() {
         val isDark = JewelTheme.isDark
         val baseStyle = remember(isDark) { if (isDark) ScrollbarStyle.dark() else ScrollbarStyle.light() }
 
-        var alwaysVisible by remember { mutableStateOf(false) }
+        var alwaysVisible by remember { mutableStateOf(hostOs != OS.MacOS) }
         var clickBehavior by remember { mutableStateOf(baseStyle.trackClickBehavior) }
         SettingsRow(alwaysVisible, clickBehavior, { alwaysVisible = it }, { clickBehavior = it })
 
@@ -86,10 +88,10 @@ fun Scrollbars() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             LazyColumnWithScrollbar(style, Modifier.height(200.dp).weight(1f))
-            ColumnWithScrollbar(style, Modifier.height(200.dp).weight(1f))
+//            ColumnWithScrollbar(style, Modifier.height(200.dp).weight(1f))
         }
 
-        HorizontalScrollbarContent(style, Modifier.fillMaxWidth())
+//        HorizontalScrollbarContent(style, Modifier.fillMaxWidth())
     }
 }
 

@@ -67,9 +67,11 @@ public sealed interface ScrollbarVisibility {
         public override val trackPadding: PaddingValues,
         public override val trackPaddingWithBorder: PaddingValues,
         public override val thumbColorAnimationDuration: Duration,
+        public override val trackColorAnimationDuration: Duration,
+        public val scrollbarBackgroundColorLight: Color,
+        public val scrollbarBackgroundColorDark: Color,
     ) : ScrollbarVisibility {
         public override val trackThicknessExpanded: Dp = trackThickness
-        public override val trackColorAnimationDuration: Duration = 0.milliseconds
         public override val expandAnimationDuration: Duration = 0.milliseconds
         public override val lingerDuration: Duration = 0.milliseconds
 
