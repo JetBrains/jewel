@@ -88,10 +88,10 @@ fun Scrollbars() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             LazyColumnWithScrollbar(style, Modifier.height(200.dp).weight(1f))
-//            ColumnWithScrollbar(style, Modifier.height(200.dp).weight(1f))
+            ColumnWithScrollbar(style, Modifier.height(200.dp).weight(1f))
         }
 
-//        HorizontalScrollbarContent(style, Modifier.fillMaxWidth())
+        HorizontalScrollbarContent(style, Modifier.fillMaxWidth())
     }
 }
 

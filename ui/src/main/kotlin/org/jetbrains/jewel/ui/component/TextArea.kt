@@ -36,7 +36,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import org.jetbrains.annotations.ApiStatus.ScheduledForRemoval
@@ -89,7 +91,7 @@ public fun TextArea(
         outputTransformation = outputTransformation,
         decorator =
             if (undecorated) {
-                null
+                NoTextAreaDecorator(style, scrollbarStyle, scrollState)
             } else {
                 TextAreaDecorator(
                     style,
@@ -102,9 +104,28 @@ public fun TextArea(
                     scrollState,
                 )
             },
+        undecorated = undecorated,
         scrollState = scrollState,
     )
 }
+
+@Composable
+private fun NoTextAreaDecorator(style: TextAreaStyle, scrollbarStyle: ScrollbarStyle?, scrollState: ScrollState) =
+    TextFieldDecorator { innerTextField ->
+        val (contentPadding, innerEndPadding) =
+            calculatePaddings(scrollbarStyle, style, scrollState, LocalLayoutDirection.current)
+
+        if (scrollbarStyle != null) {
+            TextAreaScrollableContainer(
+                scrollState = scrollState,
+                style = scrollbarStyle,
+                contentModifier = Modifier.padding(end = innerEndPadding),
+                content = { Box(Modifier.padding(contentPadding)) { innerTextField() } },
+            )
+        } else {
+            Box(Modifier.padding(contentPadding)) { innerTextField() }
+        }
+    }
 
 @Composable
 private fun TextAreaDecorator(
@@ -118,26 +139,7 @@ private fun TextAreaDecorator(
     scrollState: ScrollState,
 ) = TextFieldDecorator { innerTextField ->
     val (contentPadding, innerEndPadding) =
-        if (scrollbarStyle != null) {
-            with(style.metrics.contentPadding) {
-                val direction = LocalLayoutDirection.current
-                val paddingValues =
-                    PaddingValues(
-                        calculateStartPadding(direction),
-                        calculateTopPadding(),
-                        0.dp,
-                        calculateBottomPadding(),
-                    )
-                val scrollbarExtraPadding =
-                    if (scrollState.canScrollForward || scrollState.canScrollBackward) {
-                        scrollbarContentSafePadding(scrollbarStyle)
-                    } else 0.dp
-
-                paddingValues to calculateEndPadding(direction) + scrollbarExtraPadding
-            }
-        } else {
-            style.metrics.contentPadding to 0.dp
-        }
+        calculatePaddings(scrollbarStyle, style, scrollState, LocalLayoutDirection.current)
 
     TextAreaDecorationBox(
         innerTextField = {
@@ -159,6 +161,34 @@ private fun TextAreaDecorator(
         modifier = decorationBoxModifier.defaultMinSize(minWidth = minSize.width, minHeight = minSize.height),
     )
 }
+
+@Composable
+private fun calculatePaddings(
+    scrollbarStyle: ScrollbarStyle?,
+    style: TextAreaStyle,
+    scrollState: ScrollState,
+    layoutDirection: LayoutDirection,
+): Pair<PaddingValues, Dp> =
+    if (scrollbarStyle != null) {
+        with(style.metrics.contentPadding) {
+            val paddingValues =
+                PaddingValues(
+                    start = calculateStartPadding(layoutDirection),
+                    top = calculateTopPadding(),
+                    end = 0.dp,
+                    bottom = calculateBottomPadding(),
+                )
+
+            val scrollbarExtraPadding =
+                if (scrollState.canScrollForward || scrollState.canScrollBackward) {
+                    scrollbarContentSafePadding(scrollbarStyle)
+                } else 0.dp
+
+            paddingValues to calculateEndPadding(layoutDirection) + scrollbarExtraPadding
+        }
+    } else {
+        style.metrics.contentPadding to 0.dp
+    }
 
 @ScheduledForRemoval(inVersion = "Before 1.0")
 @Deprecated("Please use TextArea(state) instead. If you want to observe text changes, use snapshotFlow { state.text }")

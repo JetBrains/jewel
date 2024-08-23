@@ -61,6 +61,7 @@ internal fun InputField(
     outline: Outline,
     outputTransformation: OutputTransformation?,
     decorator: TextFieldDecorator?,
+    undecorated: Boolean = decorator == null,
     scrollState: ScrollState,
 ) {
     var inputFieldState by remember(interactionSource) { mutableStateOf(InputFieldState.of(enabled = enabled)) }
@@ -79,14 +80,13 @@ internal fun InputField(
     val backgroundColor by colors.backgroundFor(inputFieldState)
     val shape = RoundedCornerShape(style.metrics.cornerSize)
 
-    val isUndecorated = decorator == null
     val backgroundModifier =
-        Modifier.thenIf(!isUndecorated && backgroundColor.isSpecified) { background(backgroundColor, shape) }
+        Modifier.thenIf(!undecorated && backgroundColor.isSpecified) { background(backgroundColor, shape) }
 
     val borderColor by style.colors.borderFor(inputFieldState)
     val hasNoOutline = outline == Outline.None
     val borderModifier =
-        Modifier.thenIf(!isUndecorated && borderColor.isSpecified && hasNoOutline) {
+        Modifier.thenIf(!undecorated && borderColor.isSpecified && hasNoOutline) {
             border(
                 alignment = Stroke.Alignment.Center,
                 width = style.metrics.borderWidth,
@@ -105,7 +105,7 @@ internal fun InputField(
             modifier
                 .then(backgroundModifier)
                 .then(borderModifier)
-                .thenIf(!isUndecorated && hasNoOutline) { focusOutline(inputFieldState, shape) }
+                .thenIf(!undecorated && hasNoOutline) { focusOutline(inputFieldState, shape) }
                 .outline(inputFieldState, outline, shape, Stroke.Alignment.Center),
         enabled = enabled,
         readOnly = readOnly,
