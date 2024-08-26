@@ -121,22 +121,22 @@ private fun ButtonImpl(
 
     Box(
         modifier =
-        modifier
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = null,
-            )
-            .background(colors.backgroundFor(buttonState).value, shape)
-            .focusOutline(
-                state = buttonState,
-                outlineShape = shape,
-                alignment = style.focusOutlineAlignment,
-                expand = style.metrics.focusOutlineExpand,
-            )
-            .border(Stroke.Alignment.Center, style.metrics.borderWidth, borderColor, shape),
+            modifier
+                .clickable(
+                    onClick = onClick,
+                    enabled = enabled,
+                    role = Role.Button,
+                    interactionSource = interactionSource,
+                    indication = null,
+                )
+                .background(colors.backgroundFor(buttonState).value, shape)
+                .focusOutline(
+                    state = buttonState,
+                    outlineShape = shape,
+                    alignment = style.focusOutlineAlignment,
+                    expand = style.metrics.focusOutlineExpand,
+                )
+                .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
         propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)

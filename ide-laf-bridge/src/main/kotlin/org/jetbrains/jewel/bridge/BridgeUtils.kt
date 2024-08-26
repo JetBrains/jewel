@@ -49,6 +49,13 @@ public fun retrieveColor(
     default: Color,
 ): Color = retrieveColorOrNull(key) ?: default
 
+public fun retrieveColor(
+    key: String,
+    isDark: Boolean,
+    default: Color,
+    defaultDark: Color,
+): Color = retrieveColorOrNull(key) ?: if (isDark) defaultDark else default
+
 public fun retrieveColorOrNull(key: String): Color? =
     try {
         JBColor.namedColor(key, marker("JEWEL_JBCOLOR_MARKER")).toComposeColor()
@@ -62,7 +69,7 @@ public fun retrieveColorOrNull(key: String): Color? =
 public fun retrieveColorOrUnspecified(key: String): Color {
     val color = retrieveColorOrNull(key)
     if (color == null) {
-        logger.warn("Color with key \"$key\" not found, fallback to 'Color.Unspecified'")
+        logger.debug("Color with key \"$key\" not found, fallback to 'Color.Unspecified'")
     }
     return color ?: Color.Unspecified
 }
@@ -107,9 +114,8 @@ public fun retrieveInsetsAsPaddingValues(
 ): PaddingValues = UIManager.getInsets(key)?.toPaddingValues() ?: default ?: keyNotFound(key, "Insets")
 
 /**
- * Converts a [Insets] to [PaddingValues]. If the receiver is a [JBInsets]
- * instance, this function delegates to the specific [toPaddingValues] for
- * it, which is scaling-aware.
+ * Converts a [Insets] to [PaddingValues]. If the receiver is a [JBInsets] instance, this function delegates to the
+ * specific [toPaddingValues] for it, which is scaling-aware.
  */
 public fun Insets.toPaddingValues(): PaddingValues =
     if (this is JBInsets) {
@@ -119,26 +125,22 @@ public fun Insets.toPaddingValues(): PaddingValues =
     }
 
 /**
- * Converts a [JBInsets] to [PaddingValues], in a scaling-aware way. This
- * means that the resulting [PaddingValues] will be constructed from the
- * [JBInsets.getUnscaled] values, treated as [Dp]. This avoids double
- * scaling.
+ * Converts a [JBInsets] to [PaddingValues], in a scaling-aware way. This means that the resulting [PaddingValues] will
+ * be constructed from the [JBInsets.getUnscaled] values, treated as [Dp]. This avoids double scaling.
  */
 @Suppress("ktlint:standard:function-signature") // False positive
 public fun JBInsets.toPaddingValues(): PaddingValues =
     PaddingValues(unscaled.left.dp, unscaled.top.dp, unscaled.right.dp, unscaled.bottom.dp)
 
 /**
- * Converts a [Dimension] to [DpSize]. If the receiver is a [JBDimension]
- * instance, this function delegates to the specific [toDpSize] for it,
- * which is scaling-aware.
+ * Converts a [Dimension] to [DpSize]. If the receiver is a [JBDimension] instance, this function delegates to the
+ * specific [toDpSize] for it, which is scaling-aware.
  */
 public fun Dimension.toDpSize(): DpSize = if (this is JBDimension) toDpSize() else DpSize(width.dp, height.dp)
 
 /**
- * Converts a [JBDimension] to [DpSize], in a scaling-aware way. This means
- * that the resulting [DpSize] will be constructed by first obtaining the
- * unscaled values. This avoids double scaling.
+ * Converts a [JBDimension] to [DpSize], in a scaling-aware way. This means that the resulting [DpSize] will be
+ * constructed by first obtaining the unscaled values. This avoids double scaling.
  */
 public fun JBDimension.toDpSize(): DpSize {
     val scaleFactor = scale(1f)
@@ -191,7 +193,8 @@ public fun retrieveTextStyle(
     val jbFont = JBFont.create(lafFont, false)
 
     val derivedFont =
-        jbFont.let { if (bold) it.asBold() else it.asPlain() }
+        jbFont
+            .let { if (bold) it.asBold() else it.asPlain() }
             .let { if (fontStyle == FontStyle.Italic) it.asItalic() else it }
 
     return TextStyle(

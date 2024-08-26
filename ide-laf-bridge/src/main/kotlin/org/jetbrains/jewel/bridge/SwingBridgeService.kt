@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import org.jetbrains.jewel.bridge.theme.createBridgeComponentStyling
 import org.jetbrains.jewel.bridge.theme.createBridgeThemeDefinition
@@ -19,9 +19,16 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @Service(Level.APP)
 internal class SwingBridgeService(scope: CoroutineScope) {
+    private val scrollbarHelper = ScrollbarHelper.getInstance()
+
     internal val currentBridgeThemeData: StateFlow<BridgeThemeData> =
-        IntelliJApplication.lookAndFeelChangedFlow(scope)
-            .mapLatest { tryGettingThemeData() }
+        combine(
+            IntelliJApplication.lookAndFeelChangedFlow(scope),
+            scrollbarHelper.scrollbarVisibilityStyleFlow,
+            scrollbarHelper.trackClickBehaviorFlow,
+        ) { _, _, _ ->
+            tryGettingThemeData()
+        }
             .stateIn(scope, SharingStarted.Eagerly, BridgeThemeData.DEFAULT)
 
     private suspend fun tryGettingThemeData(): BridgeThemeData {
@@ -39,16 +46,10 @@ internal class SwingBridgeService(scope: CoroutineScope) {
 
     private fun readThemeData(): BridgeThemeData {
         val themeDefinition = createBridgeThemeDefinition()
-        return BridgeThemeData(
-            themeDefinition = createBridgeThemeDefinition(),
-            componentStyling = createBridgeComponentStyling(themeDefinition),
-        )
+        return BridgeThemeData(themeDefinition = createBridgeThemeDefinition(), componentStyling = createBridgeComponentStyling(themeDefinition))
     }
 
-    internal data class BridgeThemeData(
-        val themeDefinition: ThemeDefinition,
-        val componentStyling: ComponentStyling,
-    ) {
+    internal data class BridgeThemeData(val themeDefinition: ThemeDefinition, val componentStyling: ComponentStyling) {
         companion object {
             val DEFAULT =
                 run {
@@ -61,10 +62,7 @@ internal class SwingBridgeService(scope: CoroutineScope) {
                             consoleTextStyle = monospaceTextStyle,
                         )
 
-                    BridgeThemeData(
-                        themeDefinition = themeDefinition,
-                        componentStyling = createBridgeComponentStyling(themeDefinition),
-                    )
+                    BridgeThemeData(themeDefinition = themeDefinition, componentStyling = createBridgeComponentStyling(themeDefinition))
                 }
         }
     }

@@ -71,7 +71,9 @@ tasks {
         }
     }
 
-    formatKotlinMain { exclude { it.file.absolutePath.contains("build/generated") } }
+    formatKotlinMain {
+        exclude { it.file.absolutePath.replace('\\', '/').contains("build/generated") }
+    }
 
     lintKotlinMain {
         exclude { it.file.absolutePath.replace('\\', '/').contains("build/generated") }
