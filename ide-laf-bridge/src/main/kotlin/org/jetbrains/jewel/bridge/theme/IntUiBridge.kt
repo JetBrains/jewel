@@ -968,7 +968,7 @@ private fun readTextFieldStyle(): TextFieldStyle {
         metrics =
             TextFieldMetrics(
                 cornerSize = retrieveArcAsCornerSize("Component.arc"),
-                contentPadding = PaddingValues(horizontal = 8.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp + DarculaUIUtil.LW.dp),
                 minSize = DpSize(144.dp, minimumSize.height),
                 borderWidth = DarculaUIUtil.LW.dp,
             ),
