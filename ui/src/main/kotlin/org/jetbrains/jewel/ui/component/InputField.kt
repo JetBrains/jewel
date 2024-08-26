@@ -88,7 +88,7 @@ internal fun InputField(
     val borderModifier =
         Modifier.thenIf(!undecorated && borderColor.isSpecified && hasNoOutline) {
             border(
-                alignment = Stroke.Alignment.Center,
+                alignment = Stroke.Alignment.Inside,
                 width = style.metrics.borderWidth,
                 color = borderColor,
                 shape = shape,
@@ -104,8 +104,14 @@ internal fun InputField(
         modifier =
             modifier
                 .then(backgroundModifier)
+                .thenIf(!undecorated && hasNoOutline) {
+                    focusOutline(
+                        state = inputFieldState,
+                        outlineShape = shape,
+                        alignment = Stroke.Alignment.Center,
+                    )
+                }
                 .then(borderModifier)
-                .thenIf(!undecorated && hasNoOutline) { focusOutline(inputFieldState, shape) }
                 .outline(inputFieldState, outline, shape, Stroke.Alignment.Center),
         enabled = enabled,
         readOnly = readOnly,
@@ -183,11 +189,11 @@ internal fun InputField(
     BasicTextField(
         value = value,
         modifier =
-            modifier
-                .then(backgroundModifier)
-                .then(borderModifier)
-                .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
-                .outline(inputState, outline, shape, Stroke.Alignment.Center),
+        modifier
+            .then(backgroundModifier)
+            .then(borderModifier)
+            .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
+            .outline(inputState, outline, shape, Stroke.Alignment.Center),
         onValueChange = onValueChange,
         enabled = enabled,
         readOnly = readOnly,
@@ -201,7 +207,7 @@ internal fun InputField(
         singleLine = singleLine,
         maxLines = maxLines,
         decorationBox =
-            @Composable { innerTextField: @Composable () -> Unit -> decorationBox(innerTextField, inputState) },
+        @Composable { innerTextField: @Composable () -> Unit -> decorationBox(innerTextField, inputState) },
     )
 }
 
@@ -245,11 +251,11 @@ public value class InputFieldState(public val state: ULong) : FocusableComponent
         ): InputFieldState =
             InputFieldState(
                 state =
-                    (if (enabled) Enabled else 0UL) or
-                        (if (focused) Focused else 0UL) or
-                        (if (hovered) Hovered else 0UL) or
-                        (if (pressed) Pressed else 0UL) or
-                        (if (active) Active else 0UL)
+                (if (enabled) Enabled else 0UL) or
+                    (if (focused) Focused else 0UL) or
+                    (if (hovered) Hovered else 0UL) or
+                    (if (pressed) Pressed else 0UL) or
+                    (if (active) Active else 0UL)
             )
     }
 }
