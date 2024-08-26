@@ -30,7 +30,6 @@ import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.isNewUiTheme
 import org.jetbrains.jewel.bridge.lafName
 import org.jetbrains.jewel.bridge.readFromLaF
-import org.jetbrains.jewel.bridge.retrieveArcAsCornerSize
 import org.jetbrains.jewel.bridge.retrieveArcAsCornerSizeOrDefault
 import org.jetbrains.jewel.bridge.retrieveArcAsCornerSizeWithFallbacks
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
@@ -525,7 +524,7 @@ private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
             DropdownMetrics(
                 arrowMinSize = DpSize(arrowWidth, minimumSize.height),
                 minSize = DpSize(minimumSize.width + arrowWidth, minimumSize.height),
-                cornerSize = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2),
+                cornerSize = componentArc,
                 contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
                 borderWidth = DarculaUIUtil.LW.dp,
             ),
@@ -967,7 +966,7 @@ private fun readTextFieldStyle(): TextFieldStyle {
         colors = colors,
         metrics =
             TextFieldMetrics(
-                cornerSize = retrieveArcAsCornerSize("Component.arc"),
+                cornerSize = componentArc,
                 contentPadding = PaddingValues(horizontal = 8.dp + DarculaUIUtil.LW.dp),
                 minSize = DpSize(144.dp, minimumSize.height),
                 borderWidth = DarculaUIUtil.LW.dp,
@@ -1183,3 +1182,6 @@ private fun readIconButtonStyle(): IconButtonStyle =
                 borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
             ),
     )
+
+private val componentArc: CornerSize
+    get() = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2)
