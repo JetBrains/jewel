@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -28,7 +27,6 @@ import com.intellij.ui.dsl.builder.Panel
 import com.intellij.ui.dsl.builder.Row
 import com.intellij.ui.dsl.builder.RowLayout
 import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.builder.text
 import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
@@ -123,18 +121,15 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             textField().align(AlignY.CENTER)
 
             compose {
-                val state1 = rememberTextFieldState("")
-                TextField(
-                    state = state1,
-                    modifier = Modifier.width(198.dp),
-                )
+                val state = rememberTextFieldState("")
+                TextField(state)
             }
         }.layout(RowLayout.PARENT_GRID)
     }
 
     private fun Panel.textAreasRow() {
         row("Text areas:") {
-            textArea().align(AlignY.CENTER).applyToComponent { rows = 3 }.text("Hello")
+            textArea().align(AlignY.CENTER).applyToComponent { rows = 3 }
 
             compose {
                 val metrics = remember(JBFont.label(), LocalDensity.current) { getFontMetrics(JBFont.label()) }

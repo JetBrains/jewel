@@ -969,7 +969,7 @@ private fun readTextFieldStyle(): TextFieldStyle {
             TextFieldMetrics(
                 cornerSize = retrieveArcAsCornerSize("Component.arc"),
                 contentPadding = PaddingValues(horizontal = 8.dp),
-                minSize = DpSize(minimumSize.width, minimumSize.height),
+                minSize = DpSize(144.dp, minimumSize.height),
                 borderWidth = DarculaUIUtil.LW.dp,
             ),
     )

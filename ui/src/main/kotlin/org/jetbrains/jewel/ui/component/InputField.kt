@@ -207,7 +207,7 @@ internal fun InputField(
         singleLine = singleLine,
         maxLines = maxLines,
         decorationBox =
-        @Composable { innerTextField: @Composable () -> Unit -> decorationBox(innerTextField, inputState) },
+            @Composable { innerTextField: @Composable () -> Unit -> decorationBox(innerTextField, inputState) },
     )
 }
 
