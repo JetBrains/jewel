@@ -189,11 +189,11 @@ internal fun InputField(
     BasicTextField(
         value = value,
         modifier =
-        modifier
-            .then(backgroundModifier)
-            .then(borderModifier)
-            .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
-            .outline(inputState, outline, shape, Stroke.Alignment.Center),
+            modifier
+                .then(backgroundModifier)
+                .then(borderModifier)
+                .thenIf(!undecorated && hasNoOutline) { focusOutline(inputState, shape) }
+                .outline(inputState, outline, shape, Stroke.Alignment.Center),
         onValueChange = onValueChange,
         enabled = enabled,
         readOnly = readOnly,
@@ -251,11 +251,11 @@ public value class InputFieldState(public val state: ULong) : FocusableComponent
         ): InputFieldState =
             InputFieldState(
                 state =
-                (if (enabled) Enabled else 0UL) or
-                    (if (focused) Focused else 0UL) or
-                    (if (hovered) Hovered else 0UL) or
-                    (if (pressed) Pressed else 0UL) or
-                    (if (active) Active else 0UL)
+                    (if (enabled) Enabled else 0UL) or
+                        (if (focused) Focused else 0UL) or
+                        (if (hovered) Hovered else 0UL) or
+                        (if (pressed) Pressed else 0UL) or
+                        (if (active) Active else 0UL)
             )
     }
 }
