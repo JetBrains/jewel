@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.darkrockstudios.libraries.mpfilepicker.JvmFile
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.Icon
@@ -30,22 +30,21 @@ import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.PopupMenu
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 @Composable
 internal fun MarkdownEditor(
-    currentMarkdown: String,
-    onMarkdownChange: (String) -> Unit,
+    state: TextFieldState,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
         ControlsRow(
             modifier = Modifier.fillMaxWidth().background(JewelTheme.globalColors.panelBackground).padding(8.dp),
-            onMarkdownChange = onMarkdownChange,
+            onLoadMarkdown = { state.edit { replace(0, length, it) } },
         )
         Divider(orientation = Orientation.Horizontal)
         Editor(
-            currentMarkdown = currentMarkdown,
-            onMarkdownChange = onMarkdownChange,
+            state = state,
             modifier = Modifier.fillMaxWidth().weight(1f),
         )
     }
@@ -54,7 +53,7 @@ internal fun MarkdownEditor(
 @Composable
 private fun ControlsRow(
     modifier: Modifier = Modifier,
-    onMarkdownChange: (String) -> Unit,
+    onLoadMarkdown: (String) -> Unit,
 ) {
     Row(
         modifier.horizontalScroll(rememberScrollState()),
@@ -75,22 +74,18 @@ private fun ControlsRow(
                 val jvmFile = platformFile as JvmFile
                 val contents = jvmFile.platformFile.readText()
 
-                onMarkdownChange(contents)
+                onLoadMarkdown(contents)
             }
         }
 
-        OutlinedButton(onClick = { onMarkdownChange("") }) { Text("Clear") }
+        OutlinedButton(onClick = { onLoadMarkdown("") }) { Text("Clear") }
 
         Box {
             var showPresets by remember { mutableStateOf(false) }
             OutlinedButton(onClick = { showPresets = true }) {
                 Text("Load preset")
                 Spacer(Modifier.width(8.dp))
-                Icon(
-                    resource = "expui/general/chevronDown.svg",
-                    contentDescription = null,
-                    iconClass = StandaloneSampleIcons::class.java,
-                )
+                Icon(AllIconsKeys.General.ChevronDown, contentDescription = null)
             }
 
             if (showPresets) {
@@ -103,7 +98,7 @@ private fun ControlsRow(
                         selected = selected == "Jewel readme",
                         onClick = {
                             selected = "Jewel readme"
-                            onMarkdownChange(JewelReadme)
+                            onLoadMarkdown(JewelReadme)
                         },
                     ) {
                         Text("Jewel readme")
@@ -113,7 +108,7 @@ private fun ControlsRow(
                         selected = selected == "Markdown catalog",
                         onClick = {
                             selected = "Markdown catalog"
-                            onMarkdownChange(MarkdownCatalog)
+                            onLoadMarkdown(MarkdownCatalog)
                         },
                     ) {
                         Text("Markdown catalog")
@@ -126,17 +121,16 @@ private fun ControlsRow(
 
 @Composable
 private fun Editor(
-    currentMarkdown: String,
-    onMarkdownChange: (String) -> Unit,
+    state: TextFieldState,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier.padding(16.dp)) {
+    Box(modifier) {
         TextArea(
-            value = currentMarkdown,
-            onValueChange = onMarkdownChange,
+            state = state,
             modifier = Modifier.align(Alignment.TopStart).fillMaxWidth(),
             undecorated = true,
             textStyle = JewelTheme.editorTextStyle,
+            decorationBoxModifier = Modifier.padding(horizontal = 8.dp),
         )
     }
 }

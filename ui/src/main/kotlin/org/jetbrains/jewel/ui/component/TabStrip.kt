@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -29,10 +28,12 @@ import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
+import org.jetbrains.jewel.ui.component.styling.TabStyle
 
 @Composable
 public fun TabStrip(
     tabs: List<TabData>,
+    style: TabStyle,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
@@ -42,12 +43,14 @@ public fun TabStrip(
 
     val scrollState = rememberScrollState()
     Box(
-        modifier.focusable(true, remember { MutableInteractionSource() })
+        modifier
+            .focusable(true, remember { MutableInteractionSource() })
             .onHover { tabStripState = tabStripState.copy(hovered = it) },
     ) {
         Row(
             modifier =
-                Modifier.horizontalScroll(scrollState)
+                Modifier
+                    .horizontalScroll(scrollState)
                     .scrollable(
                         orientation = Orientation.Vertical,
                         reverseDirection =
@@ -58,8 +61,7 @@ public fun TabStrip(
                             ),
                         state = scrollState,
                         interactionSource = remember { MutableInteractionSource() },
-                    )
-                    .selectableGroup(),
+                    ).selectableGroup(),
         ) {
             tabs.forEach { TabImpl(isActive = tabStripState.isActive, tabData = it) }
         }
@@ -69,8 +71,9 @@ public fun TabStrip(
             enter = fadeIn(tween(durationMillis = 125, delayMillis = 0, easing = LinearEasing)),
             exit = fadeOut(tween(durationMillis = 125, delayMillis = 700, easing = LinearEasing)),
         ) {
-            TabStripHorizontalScrollbar(
-                adapter = rememberScrollbarAdapter(scrollState),
+            HorizontalScrollbar(
+                scrollState,
+                style = style.scrollbarStyle,
                 modifier = Modifier.fillMaxWidth(),
             )
         }

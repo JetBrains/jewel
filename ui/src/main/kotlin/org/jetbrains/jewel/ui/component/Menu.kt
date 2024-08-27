@@ -84,6 +84,7 @@ import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.painter.hints.Stateful
 import org.jetbrains.jewel.ui.theme.menuStyle
+import org.jetbrains.skiko.hostOs
 
 @Composable
 public fun PopupMenu(
@@ -91,6 +92,7 @@ public fun PopupMenu(
     horizontalAlignment: Alignment.Horizontal,
     modifier: Modifier = Modifier,
     style: MenuStyle = JewelTheme.menuStyle,
+    popupProperties: PopupProperties = PopupProperties(focusable = true),
     content: MenuScope.() -> Unit,
 ) {
     val density = LocalDensity.current
@@ -110,7 +112,7 @@ public fun PopupMenu(
     Popup(
         popupPositionProvider = popupPositionProvider,
         onDismissRequest = { onDismissRequest(InputMode.Touch) },
-        properties = PopupProperties(focusable = true),
+        properties = popupProperties,
         onPreviewKeyEvent = { false },
         onKeyEvent = {
             val currentFocusManager = checkNotNull(focusManager) { "FocusManager must not be null" }
@@ -221,7 +223,7 @@ public interface MenuScope {
         selected: Boolean,
         iconKey: IconKey? = null,
         iconClass: Class<*>? = iconKey?.let { it::class.java },
-        keybinding: Set<Char>? = null,
+        keybinding: Set<String>? = null,
         onClick: () -> Unit,
         enabled: Boolean = true,
         content: @Composable () -> Unit,
@@ -274,7 +276,7 @@ private fun (MenuScope.() -> Unit).asList() =
                     selected: Boolean,
                     iconKey: IconKey?,
                     iconClass: Class<*>?,
-                    keybinding: Set<Char>?,
+                    keybinding: Set<String>?,
                     onClick: () -> Unit,
                     enabled: Boolean,
                     content: @Composable () -> Unit,
@@ -318,7 +320,7 @@ private data class MenuSelectableItem(
     val isEnabled: Boolean,
     val iconKey: IconKey?,
     val iconClass: Class<*>?,
-    val keybinding: Set<Char>?,
+    val keybinding: Set<String>?,
     val onClick: () -> Unit = {},
     override val content: @Composable () -> Unit,
 ) : MenuItem
@@ -359,7 +361,7 @@ internal fun MenuItem(
     enabled: Boolean = true,
     iconKey: IconKey?,
     iconClass: Class<*>?,
-    keybinding: Set<Char>?,
+    keybinding: Set<String>?,
     canShowIcon: Boolean,
     canShowKeybinding: Boolean,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -458,7 +460,11 @@ internal fun MenuItem(
                 if (canShowKeybinding) {
                     val keybindingText =
                         remember(keybinding) {
-                            keybinding?.joinToString("") { it.toString() }.orEmpty()
+                            if(hostOs.isMacOS) {
+                                keybinding?.joinToString(" ") { it }.orEmpty()
+                            } else {
+                                keybinding?.joinToString(" + ") { it }.orEmpty()
+                            }
                         }
                     Text(
                         modifier = Modifier.padding(style.metrics.itemMetrics.keybindingsPadding),

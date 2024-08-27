@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.samples.standalone.IntUiThemes
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
 import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel
+import org.jetbrains.jewel.samples.standalone.viewmodel.forCurrentOs
 import org.jetbrains.jewel.ui.component.Dropdown
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconButton
@@ -32,9 +33,8 @@ fun DecoratedWindowScope.TitleBarView() {
                 MainViewModel.views.forEach {
                     selectableItem(
                         selected = MainViewModel.currentView == it,
-                        onClick = {
-                            MainViewModel.currentView = it
-                        },
+                        onClick = { MainViewModel.currentView = it },
+                        keybinding = it.keyboardShortcut?.forCurrentOs(),
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -92,30 +92,30 @@ fun DecoratedWindowScope.TitleBarView() {
                     when (MainViewModel.theme) {
                         IntUiThemes.Light ->
                             Icon(
-                                "icons/lightTheme@20x20.svg",
-                                "Themes",
-                                StandaloneSampleIcons::class.java,
+                                key = StandaloneSampleIcons.themeLight,
+                                contentDescription = "Light",
+                                hints = arrayOf(Size(20)),
                             )
 
                         IntUiThemes.LightWithLightHeader ->
                             Icon(
-                                "icons/lightWithLightHeaderTheme@20x20.svg",
-                                "Themes",
-                                StandaloneSampleIcons::class.java,
+                                key = StandaloneSampleIcons.themeLightWithLightHeader,
+                                contentDescription = "Light with light header",
+                                hints = arrayOf(Size(20)),
                             )
 
                         IntUiThemes.Dark ->
                             Icon(
-                                "icons/darkTheme@20x20.svg",
-                                "Themes",
-                                StandaloneSampleIcons::class.java,
+                                key = StandaloneSampleIcons.themeDark,
+                                contentDescription = "Dark",
+                                hints = arrayOf(Size(20)),
                             )
 
                         IntUiThemes.System ->
                             Icon(
-                                "icons/systemTheme@20x20.svg",
-                                "Themes",
-                                StandaloneSampleIcons::class.java,
+                                key = StandaloneSampleIcons.themeSystem,
+                                contentDescription = "System",
+                                hints = arrayOf(Size(20)),
                             )
                     }
                 }

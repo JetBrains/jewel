@@ -1,6 +1,8 @@
 package org.jetbrains.jewel.buildlogic.demodata
 
 import com.squareup.kotlinpoet.ClassName
+import gradle.kotlin.dsl.accessors._34fcf23848cfa0f534eebf6913e08a53.kotlin
+import gradle.kotlin.dsl.accessors._34fcf23848cfa0f534eebf6913e08a53.sourceSets
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.gradle.api.DefaultTask
@@ -15,7 +17,6 @@ import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskAction
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.hasPlugin
 import org.gradle.kotlin.dsl.property
 import org.gradle.kotlin.dsl.setProperty
 import java.io.File
@@ -26,7 +27,11 @@ open class StudioVersionsGenerationExtension(project: Project) {
     val targetDir: DirectoryProperty =
         project.objects
             .directoryProperty()
-            .convention(project.layout.buildDirectory.dir("generated/studio-releases/"))
+            .convention(
+                project.layout.dir(
+                    project.provider { project.sourceSets.named("main").get().kotlin.srcDirs.first() }
+                )
+            )
 
     val resourcesDirs: SetProperty<File> =
         project.objects
@@ -36,6 +41,7 @@ open class StudioVersionsGenerationExtension(project: Project) {
                     project.plugins.hasPlugin("org.gradle.jvm-ecosystem") ->
                         project.extensions.getByType<SourceSetContainer>()["main"]
                             .resources.srcDirs
+
                     else -> emptySet()
                 }
             })

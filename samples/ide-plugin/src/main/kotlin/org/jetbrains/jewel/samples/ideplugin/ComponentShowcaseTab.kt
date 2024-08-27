@@ -13,9 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -34,6 +33,7 @@ import com.intellij.util.ui.JBUI
 import icons.IdeSampleIconKeys
 import org.jetbrains.jewel.bridge.LocalComponent
 import org.jetbrains.jewel.bridge.toComposeColor
+import org.jetbrains.jewel.foundation.actionSystem.provideData
 import org.jetbrains.jewel.foundation.lazy.tree.buildTree
 import org.jetbrains.jewel.foundation.modifier.onActivated
 import org.jetbrains.jewel.foundation.modifier.trackActivation
@@ -62,6 +62,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Tooltip
 import org.jetbrains.jewel.ui.component.Typography
+import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.badge.DotBadgeShape
@@ -74,19 +75,19 @@ import org.jetbrains.jewel.ui.theme.colorPalette
 internal fun ComponentShowcaseTab() {
     val bgColor by remember(JBColor.PanelBackground.rgb) { mutableStateOf(JBColor.PanelBackground.toComposeColor()) }
 
-    val scrollState = rememberScrollState()
-    Row(
-        modifier =
-            Modifier
-                .trackComponentActivation(LocalComponent.current)
-                .fillMaxSize()
-                .background(bgColor)
-                .verticalScroll(scrollState)
-                .padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        ColumnOne()
-        ColumnTwo()
+    VerticallyScrollableContainer {
+        Row(
+            modifier =
+                Modifier
+                    .trackComponentActivation(LocalComponent.current)
+                    .fillMaxSize()
+                    .background(bgColor)
+                    .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            ColumnOne()
+            ColumnTwo()
+        }
     }
 }
 
@@ -143,11 +144,18 @@ private fun RowScope.ColumnOne() {
             }
         }
 
-        var textFieldValue by remember { mutableStateOf("") }
+        val state = rememberTextFieldState("")
         TextField(
-            value = textFieldValue,
-            onValueChange = { textFieldValue = it },
-            modifier = Modifier.width(200.dp),
+            state = state,
+            modifier =
+                Modifier
+                    .width(200.dp)
+                    .provideData {
+                        set(ActionSystemTestAction.COMPONENT_DATA_KEY.name, "TextField")
+                        lazy(ActionSystemTestAction.COMPONENT_DATA_KEY.name) {
+                            Math.random().toString()
+                        }
+                    },
             placeholder = { Text("Write something...") },
         )
 
@@ -160,6 +168,10 @@ private fun RowScope.ColumnOne() {
                 checked = checked,
                 onCheckedChange = { checked = it },
                 outline = outline,
+                modifier =
+                    Modifier.provideData {
+                        set(ActionSystemTestAction.COMPONENT_DATA_KEY.name, "Checkbox")
+                    },
             ) {
                 Text("Hello, I am a themed checkbox")
             }
