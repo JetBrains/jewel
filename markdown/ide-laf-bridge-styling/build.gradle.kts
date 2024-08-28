@@ -21,7 +21,9 @@ repositories {
 dependencies {
     api(projects.markdown.core)
     api(projects.ideLafBridge)
+    api(libs.highlights)
     compileOnly(projects.markdown.extension.gfmAlerts)
+
 
     intellijPlatform {
         intellijIdeaCommunity(libs.versions.idea)

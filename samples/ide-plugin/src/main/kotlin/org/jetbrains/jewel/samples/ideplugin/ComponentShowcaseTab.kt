@@ -252,14 +252,22 @@ private fun IconsShowcase() {
         }
 
         Box(
-            Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
+            Modifier.size(24.dp)
+                .background(
+                    JewelTheme.colorPalette.blueOrNull(4) ?: JewelTheme.globalColors.panelBackground,
+                    shape = RoundedCornerShape(4.dp),
+                ),
             contentAlignment = Alignment.Center,
         ) {
             PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Stroke(Color.White))
         }
 
         Box(
-            Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
+            Modifier.size(24.dp)
+                .background(
+                    JewelTheme.colorPalette.blueOrNull(4) ?: JewelTheme.globalColors.panelBackground,
+                    shape = RoundedCornerShape(4.dp),
+                ),
             contentAlignment = Alignment.Center,
         ) {
             PlatformIcon(
@@ -382,6 +390,9 @@ private fun MarkdownExample() {
                 |```kotlin
                 |fun hello() = "World"
                 |```
+                |    val indented = "This is an indented code block"
+                |
+                |
                 """.trimMargin(),
                 Modifier
                     .fillMaxWidth()

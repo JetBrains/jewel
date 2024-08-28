@@ -12,6 +12,7 @@ import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import dev.snipme.highlights.model.SyntaxTheme
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling.Code.Fenced.InfoPosition
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling.Code.Fenced.InfoPosition.BottomCenter
@@ -183,6 +184,7 @@ public class MarkdownStyling(
             public val borderColor: Color,
             public val fillWidth: Boolean,
             public val scrollsHorizontally: Boolean,
+            public val coloringTheme: SyntaxTheme,
         ) {
             public companion object
         }
@@ -200,6 +202,7 @@ public class MarkdownStyling(
             public val infoTextStyle: TextStyle,
             public val infoPadding: PaddingValues,
             public val infoPosition: InfoPosition,
+            public val coloringTheme: SyntaxTheme,
         ) {
             public enum class InfoPosition {
                 TopStart,

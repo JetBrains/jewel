@@ -2,12 +2,14 @@ package org.jetbrains.jewel.intui.markdown.bridge.styling
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -18,13 +20,18 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
+import com.intellij.openapi.editor.colors.EditorColorsScheme
+import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.JBUI
+import dev.snipme.highlights.model.SyntaxTheme
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.bridge.retrieveEditorColorScheme
 import org.jetbrains.jewel.bridge.theme.retrieveDefaultTextStyle
 import org.jetbrains.jewel.bridge.theme.retrieveEditorTextStyle
 import org.jetbrains.jewel.bridge.toComposeColor
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.markdown.rendering.InlinesStyling
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling.BlockQuote
@@ -295,6 +302,7 @@ public fun Indented.Companion.create(
     borderColor: Color = Color.Unspecified,
     fillWidth: Boolean = true,
     scrollsHorizontally: Boolean = true,
+    coloringTheme: SyntaxTheme = defaultSyntaxTheme,
 ): Indented =
     Indented(
         textStyle,
@@ -305,6 +313,7 @@ public fun Indented.Companion.create(
         borderColor,
         fillWidth,
         scrollsHorizontally,
+        coloringTheme,
     )
 
 public fun Fenced.Companion.create(
@@ -319,6 +328,7 @@ public fun Fenced.Companion.create(
     infoTextStyle: TextStyle = TextStyle(color = infoContentColor, fontSize = 12.sp),
     infoPadding: PaddingValues = PaddingValues(bottom = 16.dp),
     infoPosition: InfoPosition = InfoPosition.Hide,
+    coloringTheme: SyntaxTheme = defaultSyntaxTheme,
 ): Fenced =
     Fenced(
         textStyle,
@@ -332,6 +342,7 @@ public fun Fenced.Companion.create(
         infoTextStyle,
         infoPadding,
         infoPosition,
+        coloringTheme,
     )
 
 public fun Image.Companion.default(
@@ -421,6 +432,30 @@ private val blockContentColor
 
 private val infoContentColor
     get() = retrieveColorOrUnspecified("Component.infoForeground")
+
+private val defaultSyntaxTheme
+    get() =
+        with(retrieveEditorColorScheme()) {
+            SyntaxTheme(
+                key = "IDE Current Theme",
+                code = defaultForeground.toComposeColor().toArgb(),
+                keyword = colorForAttribute(DefaultLanguageHighlighterColors.KEYWORD).toArgb(),
+                string = colorForAttribute(DefaultLanguageHighlighterColors.STRING).toArgb(),
+                literal = colorForAttribute(DefaultLanguageHighlighterColors.NUMBER).toArgb(),
+                comment = colorForAttribute(DefaultLanguageHighlighterColors.LINE_COMMENT).toArgb(),
+                metadata = colorForAttribute(DefaultLanguageHighlighterColors.METADATA).toArgb(),
+                multilineComment =
+                    colorForAttribute(DefaultLanguageHighlighterColors.BLOCK_COMMENT)
+                        .toArgb(),
+                punctuation = colorForAttribute(DefaultLanguageHighlighterColors.SEMICOLON).toArgb(),
+                mark = defaultForeground.toComposeColor().toArgb(),
+            )
+        }
+
+private fun EditorColorsScheme.colorForAttribute(attributeKey: TextAttributesKey): Color {
+    val attributes = getAttributes(attributeKey)
+    return attributes.foregroundColor?.toComposeColor() ?: defaultForeground.toComposeColor()
+}
 
 // Copied from org.intellij.plugins.markdown.ui.preview.PreviewLAFThemeStyles#createStylesheet
 private val inlineCodeBackgroundColor

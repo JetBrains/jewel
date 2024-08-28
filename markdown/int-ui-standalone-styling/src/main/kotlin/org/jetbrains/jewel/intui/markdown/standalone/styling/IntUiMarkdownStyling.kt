@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.snipme.highlights.model.SyntaxTheme
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
@@ -514,6 +516,7 @@ public fun Indented.Companion.light(
     borderColor: Color = Color.Unspecified,
     fillWidth: Boolean = true,
     scrollsHorizontally: Boolean = true,
+    coloringTheme: SyntaxTheme = lightSyntaxTheme,
 ): Indented =
     Indented(
         editorTextStyle,
@@ -524,6 +527,7 @@ public fun Indented.Companion.light(
         borderColor,
         fillWidth,
         scrollsHorizontally,
+        coloringTheme,
     )
 
 public fun Indented.Companion.dark(
@@ -535,6 +539,7 @@ public fun Indented.Companion.dark(
     borderColor: Color = Color.Unspecified,
     fillWidth: Boolean = true,
     scrollsHorizontally: Boolean = true,
+    coloringTheme: SyntaxTheme = darkSyntaxTheme,
 ): Indented =
     Indented(
         editorTextStyle,
@@ -545,6 +550,7 @@ public fun Indented.Companion.dark(
         borderColor,
         fillWidth,
         scrollsHorizontally,
+        coloringTheme,
     )
 
 public fun Fenced.Companion.light(
@@ -559,6 +565,7 @@ public fun Fenced.Companion.light(
     infoTextStyle: TextStyle = TextStyle(color = Color.Gray, fontSize = 12.sp),
     infoPadding: PaddingValues = PaddingValues(bottom = 16.dp),
     infoPosition: InfoPosition = InfoPosition.Hide,
+    coloringTheme: SyntaxTheme = lightSyntaxTheme,
 ): Fenced =
     Fenced(
         editorTextStyle,
@@ -572,6 +579,7 @@ public fun Fenced.Companion.light(
         infoTextStyle,
         infoPadding,
         infoPosition,
+        coloringTheme,
     )
 
 public fun Fenced.Companion.dark(
@@ -586,6 +594,7 @@ public fun Fenced.Companion.dark(
     infoTextStyle: TextStyle = TextStyle(color = Color.Gray, fontSize = 12.sp),
     infoPadding: PaddingValues = PaddingValues(start = 8.dp, end = 8.dp, bottom = 8.dp),
     infoPosition: InfoPosition = InfoPosition.Hide,
+    coloringTheme: SyntaxTheme = darkSyntaxTheme,
 ): Fenced =
     Fenced(
         editorTextStyle,
@@ -599,6 +608,7 @@ public fun Fenced.Companion.dark(
         infoTextStyle,
         infoPadding,
         infoPosition,
+        coloringTheme,
     )
 
 public fun Image.Companion.default(
@@ -741,3 +751,31 @@ private val inlineCodeBackgroundColorLight =
     Color(red = 212, green = 222, blue = 231, alpha = 255 / 4)
 private val inlineCodeBackgroundColorDark =
     Color(red = 212, green = 222, blue = 231, alpha = 25)
+
+private val darkSyntaxTheme =
+    SyntaxTheme(
+        key = "IntUIDark",
+        code = Color(0xFFBDC0C9).toArgb(),
+        comment = Color(0xFF6E798A).toArgb(),
+        keyword = Color(0xFFD69A6B).toArgb(),
+        literal = Color(0xFF51C0CF).toArgb(),
+        string = Color(0xFF6CAB74).toArgb(),
+        metadata = Color(0xFFB8B167).toArgb(),
+        multilineComment = Color(0xFF648769).toArgb(),
+        punctuation = Color(0xFFBDC0C9).toArgb(),
+        mark = Color(0xFFBDC0C9).toArgb(),
+    )
+
+private val lightSyntaxTheme =
+    SyntaxTheme(
+        key = "IntUILight",
+        code = Color(0xFF000000).toArgb(),
+        comment = Color(0xFF8C8C8C).toArgb(),
+        keyword = Color(0xFF0033B3).toArgb(),
+        literal = Color(0xFF1750EB).toArgb(),
+        string = Color(0xFF067D17).toArgb(),
+        metadata = Color(0xFF9E880D).toArgb(),
+        multilineComment = Color(0xFF8C8C8C).toArgb(),
+        punctuation = Color(0xFF000000).toArgb(),
+        mark = Color(0xFF000000).toArgb(),
+    )

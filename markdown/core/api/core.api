@@ -513,11 +513,12 @@ public final class org/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$C
 public final class org/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Fenced {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Fenced$Companion;
-	public synthetic fun <init> (Landroidx/compose/ui/text/TextStyle;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/graphics/Shape;JFJZZLandroidx/compose/ui/text/TextStyle;Landroidx/compose/foundation/layout/PaddingValues;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Fenced$InfoPosition;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Landroidx/compose/ui/text/TextStyle;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/graphics/Shape;JFJZZLandroidx/compose/ui/text/TextStyle;Landroidx/compose/foundation/layout/PaddingValues;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Fenced$InfoPosition;Ldev/snipme/highlights/model/SyntaxTheme;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBackground-0d7_KjU ()J
 	public final fun getBorderColor-0d7_KjU ()J
 	public final fun getBorderWidth-D9Ej5fM ()F
+	public final fun getColoringTheme ()Ldev/snipme/highlights/model/SyntaxTheme;
 	public final fun getEditorTextStyle ()Landroidx/compose/ui/text/TextStyle;
 	public final fun getFillWidth ()Z
 	public final fun getInfoPadding ()Landroidx/compose/foundation/layout/PaddingValues;
@@ -549,11 +550,12 @@ public final class org/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$F
 public final class org/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Indented {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Indented$Companion;
-	public synthetic fun <init> (Landroidx/compose/ui/text/TextStyle;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/graphics/Shape;JFJZZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Landroidx/compose/ui/text/TextStyle;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/graphics/Shape;JFJZZLdev/snipme/highlights/model/SyntaxTheme;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBackground-0d7_KjU ()J
 	public final fun getBorderColor-0d7_KjU ()J
 	public final fun getBorderWidth-D9Ej5fM ()F
+	public final fun getColoringTheme ()Ldev/snipme/highlights/model/SyntaxTheme;
 	public final fun getEditorTextStyle ()Landroidx/compose/ui/text/TextStyle;
 	public final fun getFillWidth ()Z
 	public final fun getPadding ()Landroidx/compose/foundation/layout/PaddingValues;

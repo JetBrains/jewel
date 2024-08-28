@@ -44,10 +44,17 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection.Ltr
 import androidx.compose.ui.unit.dp
+import dev.snipme.highlights.Highlights
+import dev.snipme.highlights.model.BoldHighlight
+import dev.snipme.highlights.model.ColorHighlight
+import dev.snipme.highlights.model.SyntaxLanguage
+import dev.snipme.highlights.model.SyntaxTheme
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
@@ -387,7 +394,7 @@ public open class DefaultMarkdownBlockRenderer(
                 .then(if (styling.fillWidth) Modifier.fillMaxWidth() else Modifier),
         ) {
             Text(
-                text = block.content,
+                text = getSyntaxHighlightedCode(block.content, styling.coloringTheme),
                 style = styling.editorTextStyle,
                 color = styling.editorTextStyle.color.takeOrElse { LocalContentColor.current },
                 modifier =
@@ -422,7 +429,12 @@ public open class DefaultMarkdownBlockRenderer(
                 }
 
                 Text(
-                    text = block.content,
+                    text =
+                        getSyntaxHighlightedCode(
+                            block.content,
+                            styling.coloringTheme,
+                            block.mimeType?.displayName(),
+                        ),
                     style = styling.editorTextStyle,
                     color = styling.editorTextStyle.color.takeOrElse { LocalContentColor.current },
                     modifier =
@@ -441,6 +453,43 @@ public open class DefaultMarkdownBlockRenderer(
                 }
             }
         }
+    }
+
+    private fun getSyntaxHighlightedCode(
+        blockContent: String,
+        theme: SyntaxTheme,
+        infoText: String? = null,
+    ): AnnotatedString {
+        val language =
+            SyntaxLanguage.entries.firstOrNull { it.name.equals(infoText, ignoreCase = true) } ?: SyntaxLanguage.DEFAULT
+
+        val highlights =
+            Highlights.Builder()
+                .code(blockContent)
+                .theme(theme)
+                .language(language)
+                .build()
+        val content =
+            AnnotatedString.Builder(blockContent).apply {
+                highlights.getHighlights().forEach { highlight ->
+                    when (highlight) {
+                        is BoldHighlight ->
+                            addStyle(
+                                SpanStyle(fontWeight = FontWeight.Bold),
+                                highlight.location.start,
+                                highlight.location.end,
+                            )
+
+                        is ColorHighlight ->
+                            addStyle(
+                                SpanStyle(color = Color(highlight.rgb)),
+                                highlight.location.start,
+                                highlight.location.end,
+                            )
+                    }
+                }
+            }.toAnnotatedString()
+        return content
     }
 
     @Composable

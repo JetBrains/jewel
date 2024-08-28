@@ -8,6 +8,7 @@ plugins {
 dependencies {
     api(projects.markdown.core)
     api(projects.intUi.intUiStandalone)
+    api(libs.highlights)
     compileOnly(projects.markdown.extension.gfmAlerts)
 
     testImplementation(compose.desktop.uiTestJUnit4)

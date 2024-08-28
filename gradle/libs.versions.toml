@@ -20,6 +20,7 @@ commonmark-core = { module = "org.commonmark:commonmark", version.ref = "commonm
 commonmark-ext-autolink = { module = "org.commonmark:commonmark-ext-autolink", version.ref = "commonmark" }
 
 filePicker = { module = "com.darkrockstudios:mpfilepicker", version = "3.1.0" }
+highlights = { module = "dev.snipme:highlights", version = "0.9.1" }
 
 kotlinSarif = { module = "io.github.detekt.sarif4k:sarif4k", version.ref = "kotlinSarif" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
