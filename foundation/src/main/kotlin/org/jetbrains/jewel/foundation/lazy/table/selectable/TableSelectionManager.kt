@@ -1,5 +1,7 @@
 package org.jetbrains.jewel.foundation.lazy.table.selectable
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import org.jetbrains.jewel.foundation.lazy.selectable.SelectionManager
 
 public interface TableSelectionManager : SelectionManager {
@@ -29,3 +31,18 @@ public interface TableSelectionManager : SelectionManager {
         return false
     }
 }
+
+@Composable
+public fun rememberSingleCellSelectionManager(
+    initialColumnKey: Any? = null,
+    initialRowKey: Any? = null,
+): TableSelectionManager =
+    remember {
+        SingleCellSelectionManager(initialColumnKey, initialRowKey)
+    }
+
+@Composable
+public fun rememberSingleRowSelectionManager(initialRowKey: Any? = null): TableSelectionManager =
+    remember {
+        SingleRowSelectionManager(initialRowKey)
+    }

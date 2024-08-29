@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,16 +23,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import org.jetbrains.jewel.foundation.lazy.selectable.selectionManager
 import org.jetbrains.jewel.foundation.lazy.table.LazyTable
 import org.jetbrains.jewel.foundation.lazy.table.LazyTableItemScope
 import org.jetbrains.jewel.foundation.lazy.table.LazyTableLayoutScope
 import org.jetbrains.jewel.foundation.lazy.table.rememberLazyTableState
 import org.jetbrains.jewel.foundation.lazy.table.rememberTableHorizontalScrollbarAdapter
 import org.jetbrains.jewel.foundation.lazy.table.rememberTableVerticalScrollbarAdapter
-import org.jetbrains.jewel.foundation.lazy.table.view.ColumnAccessor
+import org.jetbrains.jewel.foundation.lazy.table.selectable.rememberSingleRowSelectionManager
+import org.jetbrains.jewel.foundation.lazy.table.view.ColumnView
 import org.jetbrains.jewel.foundation.lazy.table.view.toTableView
 import org.jetbrains.jewel.foundation.lazy.table.view.withHeader
-import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.HorizontalScrollbar
 import org.jetbrains.jewel.ui.component.OutlinedButton
@@ -56,7 +58,7 @@ fun TableView() {
                         add(Order.fake(id))
                         id++
                     }
-                }.toTableView(OrderColumnAccessor) {
+                }.toTableView(OrderColumnView) {
                     Constraints(minHeight = 24.dp.roundToPx())
                 }
             }
@@ -81,8 +83,8 @@ fun TableView() {
             }
 
             OutlinedButton(onClick = {
-                if (view.isNotEmpty()) {
-                    view.removeLast()
+                if (view.size > 0) {
+                    view.removeAt(view.size - 1)
                 }
             }) {
                 Text("Remove row")
@@ -153,7 +155,7 @@ fun TableView() {
 
         Box(Modifier.weight(1f).fillMaxWidth().border(1.dp, JewelTheme.globalColors.borders.normal)) {
             LazyTable(
-                modifier = Modifier,
+                modifier = Modifier.selectionManager(rememberSingleRowSelectionManager()),
                 state = state,
                 verticalArrangement = Arrangement.spacedBy(1.dp),
                 horizontalArrangement = Arrangement.spacedBy(1.dp),
@@ -174,7 +176,7 @@ fun TableView() {
     }
 }
 
-object OrderColumnAccessor : ColumnAccessor<Order> {
+object OrderColumnView : ColumnView<Order> {
     val columns =
         Order::class
             .declaredMemberProperties

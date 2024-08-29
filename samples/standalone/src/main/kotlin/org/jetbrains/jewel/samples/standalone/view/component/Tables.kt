@@ -31,6 +31,7 @@ import org.jetbrains.jewel.foundation.lazy.table.rememberLazyTableState
 import org.jetbrains.jewel.foundation.lazy.table.rememberTableHorizontalScrollbarAdapter
 import org.jetbrains.jewel.foundation.lazy.table.rememberTableVerticalScrollbarAdapter
 import org.jetbrains.jewel.foundation.lazy.table.selectable.SingleCellSelectionManager
+import org.jetbrains.jewel.foundation.lazy.table.selectable.rememberSingleRowSelectionManager
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.HorizontalScrollbar
 import org.jetbrains.jewel.ui.component.OutlinedButton
@@ -284,13 +285,11 @@ fun Tables() {
     Box(Modifier.fillMaxSize()) {
         println("Recompose Box")
 
-        val selectionManager: SelectionManager = remember { SingleCellSelectionManager() }
-
         LazyTable(
             modifier =
                 Modifier
                     .lazyTableDraggable(draggableRowState, draggableColumnState)
-                    .selectionManager(selectionManager),
+                    .selectionManager(rememberSingleRowSelectionManager()),
             state = state,
             verticalArrangement = Arrangement.spacedBy(1.dp),
             horizontalArrangement = Arrangement.spacedBy(1.dp),

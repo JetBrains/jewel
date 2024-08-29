@@ -7,8 +7,10 @@ import androidx.compose.runtime.setValue
 import org.jetbrains.jewel.foundation.lazy.selectable.SelectionEvent
 import org.jetbrains.jewel.foundation.lazy.selectable.SelectionType
 
-public class SingleRowSelectionManager : TableSelectionManager {
-    private var selectedRowKey: Any? by mutableStateOf(null)
+public class SingleRowSelectionManager(
+    initialRowKey: Any?,
+) : TableSelectionManager {
+    private var selectedRowKey: Any? by mutableStateOf(initialRowKey)
 
     override val interactionSource: MutableInteractionSource = MutableInteractionSource()
 

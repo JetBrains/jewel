@@ -64,6 +64,9 @@ internal class LazyTableViewContent(
         index: Int,
     ) {
         val position = getPosition(index)
+        if (position.x >= columnCount) return
+        if (position.y >= rowCount) return
+
         val (columnKey, rowKey) = getKey(position)
         with(style) {
             state.container(position.x, position.y, columnKey, rowKey) {

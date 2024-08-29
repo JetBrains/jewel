@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.Constraints
 import org.jetbrains.jewel.foundation.lazy.table.LazyTableItemScope
 import org.jetbrains.jewel.foundation.lazy.table.LazyTableLayoutScope
 
-public interface ColumnAccessor<T> {
+public interface ColumnView<T> {
     public fun columns(): Int
 
     public fun pinnedColumns(): Int
@@ -26,14 +26,6 @@ public interface ColumnAccessor<T> {
     public fun LazyTableItemScope.header(
         rowKey: Any?,
         columnKey: Any?,
-    ) {
-    }
-
-    @Composable
-    public fun container(
-        rowKey: Any?,
-        columnKey: Any?,
-        content: @Composable () -> Unit,
     ) {
     }
 

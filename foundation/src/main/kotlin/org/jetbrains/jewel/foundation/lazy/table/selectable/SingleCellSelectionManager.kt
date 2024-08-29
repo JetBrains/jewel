@@ -10,9 +10,12 @@ import org.jetbrains.jewel.foundation.lazy.selectable.SelectionType
 /**
  * A [SelectionManager] that support single cell selection.
  */
-public open class SingleCellSelectionManager : TableSelectionManager {
-    private var selectedRowKey: Any? by mutableStateOf(null)
-    private var selectedColumnKey: Any? by mutableStateOf(null)
+public open class SingleCellSelectionManager(
+    initialColumnKey: Any?,
+    initialRowKey: Any?,
+) : TableSelectionManager {
+    private var selectedRowKey: Any? by mutableStateOf(initialRowKey)
+    private var selectedColumnKey: Any? by mutableStateOf(initialColumnKey)
 
     override val interactionSource: MutableInteractionSource = MutableInteractionSource()
 
