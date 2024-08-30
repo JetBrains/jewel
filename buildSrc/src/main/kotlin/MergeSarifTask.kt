@@ -1,4 +1,7 @@
+import io.github.detekt.sarif4k.Run
 import io.github.detekt.sarif4k.SarifSchema210
+import io.github.detekt.sarif4k.Tool
+import io.github.detekt.sarif4k.ToolComponent
 import io.github.detekt.sarif4k.Version
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
@@ -44,7 +47,12 @@ open class MergeSarifTask : SourceTask() {
                         .values
                         .asSequence()
                         .filter { it.isNotEmpty() }
-                        .map { run -> run.first().copy(results = run.flatMap { it.results ?: emptyList() }) }
+                        .map { runs ->
+                            Run(
+                                results = runs.flatMap { it.results.orEmpty() },
+                                tool = Tool(driver = ToolComponent(name = "Jewel static analysis")),
+                            )
+                        }
                         .toList(),
             )
 
