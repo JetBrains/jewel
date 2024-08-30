@@ -194,13 +194,12 @@ private fun SplitLayoutImpl(
         val dividerHandleMeasurable = measurables.find { it.layoutId == "divider-handle" }
             ?: error("No divider-handle component found.")
 
-        if (layoutCoordinates == null) {
-            layout(constraints.minWidth, constraints.minHeight) {}
-        } else {
+        // The aesthetics of this block is meh but we can't use !! operator
+        layoutCoordinates?.let {
             val splitResult = strategy.calculateSplitResult(
                 density = density,
                 layoutDirection = layoutDirection,
-                layoutCoordinates = layoutCoordinates!!,
+                layoutCoordinates = it,
                 dividerPosition = dividerPosition
             )
 
@@ -313,7 +312,7 @@ private fun SplitLayoutImpl(
                     }
                 }
             }
-        }
+        } ?: layout(constraints.minWidth, constraints.minHeight) {}
     }
 }
 
