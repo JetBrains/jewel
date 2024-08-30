@@ -16,4 +16,10 @@ configurations {
     }
 }
 
-ktfmt { kotlinLangStyle() }
+ktfmt {
+    maxWidth = 120
+    blockIndent = 4
+    continuationIndent = 4
+    manageTrailingCommas = true
+    removeUnusedImports = true
+}
