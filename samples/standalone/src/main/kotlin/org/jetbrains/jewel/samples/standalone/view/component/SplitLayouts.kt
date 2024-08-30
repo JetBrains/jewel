@@ -1,5 +1,3 @@
-package org.jetbrains.jewel.samples.standalone.view.component
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -15,16 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.samples.standalone.viewmodel.ComponentsViewModel
 import org.jetbrains.jewel.ui.component.HorizontalSplitLayout
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 
 @Composable
-fun SplitLayouts() {
+fun SplitLayouts(viewModel: ComponentsViewModel = remember { ComponentsViewModel }) {
     Box(
         Modifier.fillMaxSize().border(1.dp, Color.Red),
     ) {
         HorizontalSplitLayout(
+            state = viewModel.outerSplitState,
             first = {
                 Box(
                     modifier =
@@ -40,6 +40,7 @@ fun SplitLayouts() {
             },
             second = {
                 HorizontalSplitLayout(
+                    state = viewModel.innerSplitState,
                     first = {
                         Box(
                             modifier =

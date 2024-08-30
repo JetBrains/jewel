@@ -107,7 +107,7 @@ fun ReleasesSampleCompose(project: Project) {
                 modifier = Modifier.fillMaxSize(),
             )
         },
-        Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
     )
 }
 
