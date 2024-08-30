@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg fill="none" viewBox="0 0 16 16" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+    <!-- Left arrow -->
+    <path d="M2 8L6 5V11L2 8Z" fill="#CED0D6"/>
+
+    <!-- Right arrow -->
+    <path d="M14 8L10 11V5L14 8Z" fill="#CED0D6"/>
+
+    <!-- Connecting line -->
+    <line x1="6" y1="8" x2="10" y2="8" stroke="#CED0D6" stroke-width="1"/>
+</svg>
