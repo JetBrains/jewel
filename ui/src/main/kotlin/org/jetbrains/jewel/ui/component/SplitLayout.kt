@@ -39,17 +39,16 @@ import java.awt.Cursor
 import kotlin.math.roundToInt
 
 /**
- * A customizable horizontal split layout Composable function that allows you to divide the available space
- * between two components using a draggable divider.
- * The divider can be dragged to resize the panes, but cannot be focused.
+ * A customizable horizontal split layout Composable function that allows you to divide the available space between two
+ * components using a draggable divider. The divider can be dragged to resize the panes, but cannot be focused.
  *
- * @param first The Composable function representing the first component,
- * that will be placed on one side of the divider, typically on the left or above.
- * @param second The Composable function representing the second component,
- * that will be placed on the other side of the divider, typically on the right or below.
+ * @param first The Composable function representing the first component, that will be placed on one side of the
+ *   divider, typically on the left or above.
+ * @param second The Composable function representing the second component, that will be placed on the other side of the
+ *   divider, typically on the right or below.
  * @param modifier The modifier to be applied to the layout.
- * @param draggableWidth The width of the draggable area around the divider.
- * This is a invisible, wider area around the divider that can be dragged by the user to resize the panes.
+ * @param draggableWidth The width of the draggable area around the divider. This is a invisible, wider area around the
+ *   divider that can be dragged by the user to resize the panes.
  * @param firstPaneMinWidth The minimum size of the first component.
  * @param secondPaneMinWidth The minimum size of the second component.
  * @param dividerStyle The divider style to be applied to the layout.
@@ -63,7 +62,7 @@ public fun HorizontalSplitLayout(
     draggableWidth: Dp = 8.dp,
     firstPaneMinWidth: Dp = Dp.Unspecified,
     secondPaneMinWidth: Dp = Dp.Unspecified,
-    state: SplitLayoutState = rememberSplitLayoutState()
+    state: SplitLayoutState = rememberSplitLayoutState(),
 ) {
     SplitLayoutImpl(
         first = first,
@@ -74,22 +73,21 @@ public fun HorizontalSplitLayout(
         minFirstPaneSize = firstPaneMinWidth,
         minSecondPaneSize = secondPaneMinWidth,
         strategy = horizontalTwoPaneStrategy(),
-        state = state
+        state = state,
     )
 }
 
 /**
- * A customizable vertical split layout Composable function that allows you to divide the available space
- * between two components using a draggable divider.
- * The divider can be dragged to resize the panes, but cannot be focused.
+ * A customizable vertical split layout Composable function that allows you to divide the available space between two
+ * components using a draggable divider. The divider can be dragged to resize the panes, but cannot be focused.
  *
- * @param first The Composable function representing the first component,
- * that will be placed on one side of the divider, typically on the left or above.
- * @param second The Composable function representing the second component,
- * that will be placed on the other side of the divider, typically on the right or below.
+ * @param first The Composable function representing the first component, that will be placed on one side of the
+ *   divider, typically on the left or above.
+ * @param second The Composable function representing the second component, that will be placed on the other side of the
+ *   divider, typically on the right or below.
  * @param modifier The modifier to be applied to the layout.
- * @param draggableWidth The width of the draggable area around the divider.
- * This is a invisible, wider area around the divider that can be dragged by the user to resize the panes.
+ * @param draggableWidth The width of the draggable area around the divider. This is a invisible, wider area around the
+ *   divider that can be dragged by the user to resize the panes.
  * @param firstPaneMinWidth The minimum size of the first component.
  * @param secondPaneMinWidth The minimum size of the second component.
  * @param dividerStyle The divider style to be applied to the layout.
@@ -103,7 +101,7 @@ public fun VerticalSplitLayout(
     draggableWidth: Dp = 8.dp,
     firstPaneMinWidth: Dp = Dp.Unspecified,
     secondPaneMinWidth: Dp = Dp.Unspecified,
-    state: SplitLayoutState = rememberSplitLayoutState()
+    state: SplitLayoutState = rememberSplitLayoutState(),
 ) {
     SplitLayoutImpl(
         first = first,
@@ -114,7 +112,7 @@ public fun VerticalSplitLayout(
         minFirstPaneSize = firstPaneMinWidth,
         minSecondPaneSize = secondPaneMinWidth,
         strategy = verticalTwoPaneStrategy(),
-        state = state
+        state = state,
     )
 }
 
@@ -124,8 +122,9 @@ public class SplitLayoutState(initialSplitFraction: Float) {
 }
 
 @Composable
-public fun rememberSplitLayoutState(initialSplitFraction: Float = 0.5f): SplitLayoutState =
-    remember { SplitLayoutState(initialSplitFraction) }
+public fun rememberSplitLayoutState(initialSplitFraction: Float = 0.5f): SplitLayoutState = remember {
+    SplitLayoutState(initialSplitFraction)
+}
 
 @Composable
 private fun SplitLayoutImpl(
@@ -137,7 +136,7 @@ private fun SplitLayoutImpl(
     minFirstPaneSize: Dp,
     minSecondPaneSize: Dp,
     dividerStyle: DividerStyle,
-    state: SplitLayoutState
+    state: SplitLayoutState,
 ) {
     val density = LocalDensity.current
 
@@ -149,36 +148,36 @@ private fun SplitLayoutImpl(
 
             val dividerInteractionSource = remember { MutableInteractionSource() }
 
-            val dividerOrientation = when {
-                strategy.isHorizontal() -> Vertical
-                else -> Horizontal
-            }
-            val fillMaxDirection = when {
-                strategy.isHorizontal() -> Modifier.fillMaxHeight()
-                else -> Modifier.fillMaxWidth()
-            }
-            val orientation = when {
-                strategy.isHorizontal() -> Orientation.Horizontal
-                else -> Orientation.Vertical
-            }
-            val cursor = when {
-                strategy.isHorizontal() -> Cursor(Cursor.E_RESIZE_CURSOR)
-                else -> Cursor(Cursor.N_RESIZE_CURSOR)
-            }
+            val dividerOrientation =
+                when {
+                    strategy.isHorizontal() -> Vertical
+                    else -> Horizontal
+                }
+            val fillMaxDirection =
+                when {
+                    strategy.isHorizontal() -> Modifier.fillMaxHeight()
+                    else -> Modifier.fillMaxWidth()
+                }
+            val orientation =
+                when {
+                    strategy.isHorizontal() -> Orientation.Horizontal
+                    else -> Orientation.Vertical
+                }
+            val cursor =
+                when {
+                    strategy.isHorizontal() -> Cursor(Cursor.E_RESIZE_CURSOR)
+                    else -> Cursor(Cursor.N_RESIZE_CURSOR)
+                }
 
             Divider(
                 orientation = dividerOrientation,
-                modifier = Modifier
-                    .then(fillMaxDirection)
-                    .layoutId("divider")
-                    .focusable(false),
+                modifier = Modifier.then(fillMaxDirection).layoutId("divider").focusable(false),
                 color = dividerStyle.color,
                 thickness = dividerStyle.metrics.thickness,
             )
 
             Box(
-                Modifier
-                    .let { modifier ->
+                Modifier.let { modifier ->
                         if (strategy.isHorizontal()) {
                             modifier.fillMaxHeight().width(draggableWidth)
                         } else {
@@ -187,39 +186,35 @@ private fun SplitLayoutImpl(
                     }
                     .draggable(
                         orientation = orientation,
-                        state = rememberDraggableState { delta ->
-                            val layoutSize = when {
-                                strategy.isHorizontal() -> state.layoutCoordinates?.size?.width
-                                else -> state.layoutCoordinates?.size?.height
-                            }
-                            layoutSize?.let { size ->
-                                state.dividerPosition = (state.dividerPosition + delta / size).coerceIn(0f, 1f)
-                            }
-                        },
+                        state =
+                            rememberDraggableState { delta ->
+                                val layoutSize =
+                                    when {
+                                        strategy.isHorizontal() -> state.layoutCoordinates?.size?.width
+                                        else -> state.layoutCoordinates?.size?.height
+                                    }
+                                layoutSize?.let { size ->
+                                    state.dividerPosition = (state.dividerPosition + delta / size).coerceIn(0f, 1f)
+                                }
+                            },
                         interactionSource = dividerInteractionSource,
                     )
                     .pointerHoverIcon(PointerIcon(cursor))
                     .layoutId("divider-handle")
                     .focusable(false)
             )
-        }
+        },
     ) { measurables, constraints ->
-        val firstMeasurable = measurables.find { it.layoutId == "first" }
-            ?: error("No first component found.")
-        val secondMeasurable = measurables.find { it.layoutId == "second" }
-            ?: error("No second component found.")
-        val dividerMeasurable = measurables.find { it.layoutId == "divider" }
-            ?: error("No divider component found.")
-        val dividerHandleMeasurable = measurables.find { it.layoutId == "divider-handle" }
-            ?: error("No divider-handle component found.")
+        val firstMeasurable = measurables.find { it.layoutId == "first" } ?: error("No first component found.")
+        val secondMeasurable = measurables.find { it.layoutId == "second" } ?: error("No second component found.")
+        val dividerMeasurable = measurables.find { it.layoutId == "divider" } ?: error("No divider component found.")
+        val dividerHandleMeasurable =
+            measurables.find { it.layoutId == "divider-handle" } ?: error("No divider-handle component found.")
 
         // The aesthetics of this block is meh but we can't use !! operator
         state.layoutCoordinates?.let {
-            val splitResult = strategy.calculateSplitResult(
-                density = density,
-                layoutDirection = layoutDirection,
-                state = state,
-            )
+            val splitResult =
+                strategy.calculateSplitResult(density = density, layoutDirection = layoutDirection, state = state)
 
             val gapOrientation = splitResult.gapOrientation
             val gapBounds = splitResult.gapBounds
@@ -230,82 +225,84 @@ private fun SplitLayoutImpl(
             val minSecondPaneSizePx = with(density) { minSecondPaneSize.roundToPx() }
 
             // The visual divider itself. It's a thin line that separates the two panes
-            val dividerPlaceable = dividerMeasurable.measure(
+            val dividerPlaceable =
+                dividerMeasurable.measure(
+                    when (gapOrientation) {
+                        Orientation.Vertical -> {
+                            constraints.copy(
+                                minWidth = dividerWidth,
+                                maxWidth = dividerWidth,
+                                minHeight = constraints.minHeight,
+                                maxHeight = constraints.maxHeight,
+                            )
+                        }
+
+                        Orientation.Horizontal -> {
+                            constraints.copy(
+                                minWidth = constraints.minWidth,
+                                maxWidth = constraints.maxWidth,
+                                minHeight = dividerWidth,
+                                maxHeight = dividerWidth,
+                            )
+                        }
+                    }
+                )
+
+            // This is an invisible, wider area around the divider that can be dragged by the user
+            // to resize the panes
+            val dividerHandlePlaceable =
+                dividerHandleMeasurable.measure(
+                    when (gapOrientation) {
+                        Orientation.Vertical -> {
+                            constraints.copy(
+                                minWidth = handleWidth,
+                                maxWidth = handleWidth,
+                                minHeight = constraints.minHeight,
+                                maxHeight = constraints.maxHeight,
+                            )
+                        }
+
+                        Orientation.Horizontal -> {
+                            constraints.copy(
+                                minWidth = constraints.minWidth,
+                                maxWidth = constraints.maxWidth,
+                                minHeight = handleWidth,
+                                maxHeight = handleWidth,
+                            )
+                        }
+                    }
+                )
+
+            val availableSpace =
                 when (gapOrientation) {
-                    Orientation.Vertical -> {
-                        constraints.copy(
-                            minWidth = dividerWidth,
-                            maxWidth = dividerWidth,
-                            minHeight = constraints.minHeight,
-                            maxHeight = constraints.maxHeight
-                        )
-                    }
-
-                    Orientation.Horizontal -> {
-                        constraints.copy(
-                            minWidth = constraints.minWidth,
-                            maxWidth = constraints.maxWidth,
-                            minHeight = dividerWidth,
-                            maxHeight = dividerWidth
-                        )
-                    }
+                    Orientation.Vertical -> constraints.maxWidth - dividerWidth
+                    else -> constraints.maxHeight - dividerWidth
                 }
-            )
 
-            // This is an invisible, wider area around the divider that can be dragged by the user to resize the panes
-            val dividerHandlePlaceable = dividerHandleMeasurable.measure(
+            val (adjustedFirstSize, adjustedSecondSize) =
+                calculateAdjustedSizes(availableSpace, minFirstPaneSizePx, minSecondPaneSizePx)
+
+            val firstGap =
                 when (gapOrientation) {
-                    Orientation.Vertical -> {
-                        constraints.copy(
-                            minWidth = handleWidth,
-                            maxWidth = handleWidth,
-                            minHeight = constraints.minHeight,
-                            maxHeight = constraints.maxHeight
-                        )
-                    }
-
-                    Orientation.Horizontal -> {
-                        constraints.copy(
-                            minWidth = constraints.minWidth,
-                            maxWidth = constraints.maxWidth,
-                            minHeight = handleWidth,
-                            maxHeight = handleWidth
-                        )
-                    }
+                    Orientation.Vertical -> gapBounds.left
+                    Orientation.Horizontal -> gapBounds.top
                 }
-            )
 
-            val availableSpace = when (gapOrientation) {
-                Orientation.Vertical -> constraints.maxWidth - dividerWidth
-                else -> constraints.maxHeight - dividerWidth
-            }
-
-            val (adjustedFirstSize, adjustedSecondSize) = calculateAdjustedSizes(
-                availableSpace,
-                minFirstPaneSizePx,
-                minSecondPaneSizePx
-            )
-
-            val firstGap = when (gapOrientation) {
-                Orientation.Vertical -> gapBounds.left
-                Orientation.Horizontal -> gapBounds.top
-            }
-
-            val firstSize: Int = firstGap
-                .roundToInt()
-                .coerceIn(adjustedFirstSize, availableSpace - adjustedSecondSize)
+            val firstSize: Int = firstGap.roundToInt().coerceIn(adjustedFirstSize, availableSpace - adjustedSecondSize)
 
             val secondSize = availableSpace - firstSize
 
-            val firstConstraints = when (gapOrientation) {
-                Orientation.Vertical -> constraints.copy(minWidth = adjustedFirstSize, maxWidth = firstSize)
-                Orientation.Horizontal -> constraints.copy(minHeight = adjustedFirstSize, maxHeight = firstSize)
-            }
+            val firstConstraints =
+                when (gapOrientation) {
+                    Orientation.Vertical -> constraints.copy(minWidth = adjustedFirstSize, maxWidth = firstSize)
+                    Orientation.Horizontal -> constraints.copy(minHeight = adjustedFirstSize, maxHeight = firstSize)
+                }
 
-            val secondConstraints = when (gapOrientation) {
-                Orientation.Vertical -> constraints.copy(minWidth = adjustedSecondSize, maxWidth = secondSize)
-                Orientation.Horizontal -> constraints.copy(minHeight = adjustedSecondSize, maxHeight = secondSize)
-            }
+            val secondConstraints =
+                when (gapOrientation) {
+                    Orientation.Vertical -> constraints.copy(minWidth = adjustedSecondSize, maxWidth = secondSize)
+                    Orientation.Horizontal -> constraints.copy(minHeight = adjustedSecondSize, maxHeight = secondSize)
+                }
 
             val firstPlaceable = firstMeasurable.measure(firstConstraints)
             val secondPlaceable = secondMeasurable.measure(secondConstraints)
@@ -331,76 +328,68 @@ private fun SplitLayoutImpl(
 }
 
 private interface SplitLayoutStrategy {
-    fun calculateSplitResult(
-        density: Density,
-        layoutDirection: LayoutDirection,
-        state: SplitLayoutState,
-    ): SplitResult
+    fun calculateSplitResult(density: Density, layoutDirection: LayoutDirection, state: SplitLayoutState): SplitResult
 
     fun isHorizontal(): Boolean
 }
 
-private fun horizontalTwoPaneStrategy(
-    gapWidth: Dp = 0.dp,
-): SplitLayoutStrategy = object : SplitLayoutStrategy {
-    override fun calculateSplitResult(
-        density: Density,
-        layoutDirection: LayoutDirection,
-        state: SplitLayoutState
-    ): SplitResult {
-        val layoutCoordinates = state.layoutCoordinates ?: return SplitResult(Orientation.Vertical, Rect.Zero)
-        val availableWidth = layoutCoordinates.size.width
-        val splitWidthPixel = with(density) { gapWidth.toPx() }
+private fun horizontalTwoPaneStrategy(gapWidth: Dp = 0.dp): SplitLayoutStrategy =
+    object : SplitLayoutStrategy {
+        override fun calculateSplitResult(
+            density: Density,
+            layoutDirection: LayoutDirection,
+            state: SplitLayoutState,
+        ): SplitResult {
+            val layoutCoordinates = state.layoutCoordinates ?: return SplitResult(Orientation.Vertical, Rect.Zero)
+            val availableWidth = layoutCoordinates.size.width
+            val splitWidthPixel = with(density) { gapWidth.toPx() }
 
-        val splitX = (availableWidth * state.dividerPosition).coerceIn(0f, availableWidth.toFloat())
+            val splitX = (availableWidth * state.dividerPosition).coerceIn(0f, availableWidth.toFloat())
 
-        return SplitResult(
-            gapOrientation = Orientation.Vertical,
-            gapBounds = Rect(
-                left = splitX - splitWidthPixel / 2f,
-                top = 0f,
-                right = (splitX + splitWidthPixel / 2f).coerceAtMost(availableWidth.toFloat()),
-                bottom = layoutCoordinates.size.height.toFloat(),
+            return SplitResult(
+                gapOrientation = Orientation.Vertical,
+                gapBounds =
+                    Rect(
+                        left = splitX - splitWidthPixel / 2f,
+                        top = 0f,
+                        right = (splitX + splitWidthPixel / 2f).coerceAtMost(availableWidth.toFloat()),
+                        bottom = layoutCoordinates.size.height.toFloat(),
+                    ),
             )
-        )
+        }
+
+        override fun isHorizontal(): Boolean = true
     }
 
-    override fun isHorizontal(): Boolean = true
-}
+private fun verticalTwoPaneStrategy(gapHeight: Dp = 0.dp): SplitLayoutStrategy =
+    object : SplitLayoutStrategy {
+        override fun calculateSplitResult(
+            density: Density,
+            layoutDirection: LayoutDirection,
+            state: SplitLayoutState,
+        ): SplitResult {
+            val layoutCoordinates = state.layoutCoordinates ?: return SplitResult(Orientation.Horizontal, Rect.Zero)
+            val availableHeight = layoutCoordinates.size.height
+            val splitHeightPixel = with(density) { gapHeight.toPx() }
 
-private fun verticalTwoPaneStrategy(
-    gapHeight: Dp = 0.dp,
-): SplitLayoutStrategy = object : SplitLayoutStrategy {
-    override fun calculateSplitResult(
-        density: Density,
-        layoutDirection: LayoutDirection,
-        state: SplitLayoutState
-    ): SplitResult {
-        val layoutCoordinates = state.layoutCoordinates ?: return SplitResult(Orientation.Horizontal, Rect.Zero)
-        val availableHeight = layoutCoordinates.size.height
-        val splitHeightPixel = with(density) { gapHeight.toPx() }
+            val splitY = (availableHeight * state.dividerPosition).coerceIn(0f, availableHeight.toFloat())
 
-        val splitY = (availableHeight * state.dividerPosition).coerceIn(0f, availableHeight.toFloat())
-
-        return SplitResult(
-            gapOrientation = Orientation.Horizontal,
-            gapBounds = Rect(
-                left = 0f,
-                top = splitY - splitHeightPixel / 2f,
-                right = layoutCoordinates.size.width.toFloat(),
-                bottom = (splitY + splitHeightPixel / 2f).coerceAtMost(availableHeight.toFloat()),
+            return SplitResult(
+                gapOrientation = Orientation.Horizontal,
+                gapBounds =
+                    Rect(
+                        left = 0f,
+                        top = splitY - splitHeightPixel / 2f,
+                        right = layoutCoordinates.size.width.toFloat(),
+                        bottom = (splitY + splitHeightPixel / 2f).coerceAtMost(availableHeight.toFloat()),
+                    ),
             )
-        )
+        }
+
+        override fun isHorizontal(): Boolean = false
     }
 
-    override fun isHorizontal(): Boolean = false
-}
-
-private fun calculateAdjustedSizes(
-    availableSpace: Int,
-    minFirstPaneSize: Int,
-    minSecondPaneSize: Int
-): Pair<Int, Int> {
+private fun calculateAdjustedSizes(availableSpace: Int, minFirstPaneSize: Int, minSecondPaneSize: Int): Pair<Int, Int> {
     val totalMinSize = minFirstPaneSize + minSecondPaneSize
     if (availableSpace >= totalMinSize) {
         return minFirstPaneSize to minSecondPaneSize
@@ -411,7 +400,4 @@ private fun calculateAdjustedSizes(
     return adjustedFirstSize to availableSpace - adjustedFirstSize
 }
 
-private class SplitResult(
-    val gapOrientation: Orientation,
-    val gapBounds: Rect,
-)
+private class SplitResult(val gapOrientation: Orientation, val gapBounds: Rect)
