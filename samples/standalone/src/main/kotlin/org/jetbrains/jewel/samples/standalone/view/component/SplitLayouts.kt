@@ -39,42 +39,21 @@ fun SplitLayouts(viewModel: ComponentsViewModel = remember { ComponentsViewModel
                 }
             },
             second = {
-                HorizontalSplitLayout(
-                    state = viewModel.innerSplitState,
-                    first = {
-                        Box(
-                            modifier =
-                                Modifier
-                                    .fillMaxSize()
-                                    .background(JewelTheme.globalColors.panelBackground)
-                                    .padding(16.dp),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            val state by remember { mutableStateOf(TextFieldState()) }
-                            TextField(state, placeholder = { Text("Nested - Left Panel Content") })
-                        }
-                    },
-                    second = {
-                        Box(
-                            modifier =
-                                Modifier
-                                    .fillMaxSize()
-                                    .background(JewelTheme.globalColors.panelBackground)
-                                    .padding(16.dp),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            val state by remember { mutableStateOf(TextFieldState()) }
-                            TextField(state, placeholder = { Text("Nested - Right Panel Content") })
-                        }
-                    },
-                    modifier = Modifier.fillMaxSize(),
-                    firstPaneMinWidth = 200.dp,
-                    secondPaneMinWidth = 100.dp,
-                )
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(JewelTheme.globalColors.panelBackground)
+                            .padding(16.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    val state by remember { mutableStateOf(TextFieldState()) }
+                    TextField(state, placeholder = { Text("Right Panel Content") })
+                }
             },
             modifier = Modifier.fillMaxSize(),
-            firstPaneMinWidth = 100.dp,
-            secondPaneMinWidth = 302.dp,
+            firstPaneMinWidth = 300.dp,
+            secondPaneMinWidth = 100.dp,
         )
     }
 }
