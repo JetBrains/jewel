@@ -177,24 +177,30 @@ private fun SplitLayoutImpl(
             )
 
             Box(
-                Modifier.let { modifier ->
-                        if (strategy.isHorizontal()) {
-                            modifier.fillMaxHeight().width(draggableWidth)
-                        } else {
-                            modifier.fillMaxWidth().height(draggableWidth)
+                Modifier.let {
+                        when {
+                            strategy.isHorizontal() -> it.fillMaxHeight().width(draggableWidth)
+                            else -> it.fillMaxWidth().height(draggableWidth)
                         }
                     }
                     .draggable(
                         orientation = orientation,
                         state =
                             rememberDraggableState { delta ->
-                                val layoutSize =
-                                    when {
-                                        strategy.isHorizontal() -> state.layoutCoordinates?.size?.width
-                                        else -> state.layoutCoordinates?.size?.height
-                                    }
-                                layoutSize?.let { size ->
-                                    state.dividerPosition = (state.dividerPosition + delta / size).coerceIn(0f, 1f)
+                                state.layoutCoordinates?.let { coordinates ->
+                                    val size =
+                                        when {
+                                            strategy.isHorizontal() -> coordinates.size.width
+                                            else -> coordinates.size.height
+                                        }
+                                    val minFirstSize = with(density) { minFirstPaneSize.toPx() }
+                                    val minSecondSize = with(density) { minSecondPaneSize.toPx() }
+                                    val newPosition =
+                                        (state.dividerPosition * size + delta).coerceIn(
+                                            minFirstSize,
+                                            size - minSecondSize,
+                                        )
+                                    state.dividerPosition = newPosition / size
                                 }
                             },
                         interactionSource = dividerInteractionSource,

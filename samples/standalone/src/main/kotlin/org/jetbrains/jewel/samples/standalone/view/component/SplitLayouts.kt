@@ -46,7 +46,7 @@ fun SplitLayouts(
             second = { SecondPane(innerSplitState, verticalSplitState) },
             modifier = Modifier.fillMaxWidth().weight(1f).border(1.dp, color = JewelTheme.globalColors.borders.normal),
             firstPaneMinWidth = 300.dp,
-            secondPaneMinWidth = 100.dp,
+            secondPaneMinWidth = 200.dp,
         )
     }
 }
@@ -84,7 +84,11 @@ private fun SecondPane(innerSplitState: SplitLayoutState, verticalSplitState: Sp
                 },
                 modifier = Modifier.fillMaxSize(),
                 state = verticalSplitState,
+                firstPaneMinWidth = 100.dp,
+                secondPaneMinWidth = 100.dp,
             )
         },
+        firstPaneMinWidth = 300.dp,
+        secondPaneMinWidth = 100.dp,
     )
 }
