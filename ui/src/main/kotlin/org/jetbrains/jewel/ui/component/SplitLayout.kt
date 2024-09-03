@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.foundation.util.myLogger
 import org.jetbrains.jewel.ui.Orientation.Horizontal
 import org.jetbrains.jewel.ui.Orientation.Vertical
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
@@ -281,35 +280,31 @@ private fun SplitLayoutImpl(
                 else -> constraints.maxHeight - dividerWidth
             }
 
+            val (adjustedFirstSize, adjustedSecondSize) = calculateAdjustedSizes(
+                availableSpace,
+                minFirstPaneSizePx,
+                minSecondPaneSizePx
+            )
+
             val firstGap = when (gapOrientation) {
                 Orientation.Vertical -> gapBounds.left
                 Orientation.Horizontal -> gapBounds.top
             }
 
-            require(availableSpace - minSecondPaneSizePx > minFirstPaneSizePx) {
-                myLogger().error(
-                    "Not enough space for first pane:\n" +
-                        "minFirstPaneSizePx: $minFirstPaneSizePx\n" +
-                        "availableSpace - minSecondPaneSizePx: ${availableSpace - minSecondPaneSizePx}\n" +
-                        "Please, adjust the panes sizes."
-                )
-                // I'm adding this to have something meaningful in the error dialog
-                IllegalStateException("Not enough space for first pane")
-            }
             val firstSize: Int = firstGap
                 .roundToInt()
-                .coerceIn(minFirstPaneSizePx, availableSpace - minSecondPaneSizePx)
+                .coerceIn(adjustedFirstSize, availableSpace - adjustedSecondSize)
 
             val secondSize = availableSpace - firstSize
 
             val firstConstraints = when (gapOrientation) {
-                Orientation.Vertical -> constraints.copy(minWidth = minFirstPaneSizePx, maxWidth = firstSize)
-                Orientation.Horizontal -> constraints.copy(minHeight = minFirstPaneSizePx, maxHeight = firstSize)
+                Orientation.Vertical -> constraints.copy(minWidth = adjustedFirstSize, maxWidth = firstSize)
+                Orientation.Horizontal -> constraints.copy(minHeight = adjustedFirstSize, maxHeight = firstSize)
             }
 
             val secondConstraints = when (gapOrientation) {
-                Orientation.Vertical -> constraints.copy(minWidth = minSecondPaneSizePx, maxWidth = secondSize)
-                Orientation.Horizontal -> constraints.copy(minHeight = minSecondPaneSizePx, maxHeight = secondSize)
+                Orientation.Vertical -> constraints.copy(minWidth = adjustedSecondSize, maxWidth = secondSize)
+                Orientation.Horizontal -> constraints.copy(minHeight = adjustedSecondSize, maxHeight = secondSize)
             }
 
             val firstPlaceable = firstMeasurable.measure(firstConstraints)
@@ -399,6 +394,21 @@ private fun verticalTwoPaneStrategy(
     }
 
     override fun isHorizontal(): Boolean = false
+}
+
+private fun calculateAdjustedSizes(
+    availableSpace: Int,
+    minFirstPaneSize: Int,
+    minSecondPaneSize: Int
+): Pair<Int, Int> {
+    val totalMinSize = minFirstPaneSize + minSecondPaneSize
+    if (availableSpace >= totalMinSize) {
+        return Pair(minFirstPaneSize, minSecondPaneSize)
+    }
+
+    val ratio = minFirstPaneSize.toFloat() / totalMinSize
+    val adjustedFirstSize = (availableSpace * ratio).roundToInt()
+    return Pair(adjustedFirstSize, availableSpace - adjustedFirstSize)
 }
 
 private class SplitResult(
