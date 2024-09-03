@@ -275,8 +275,8 @@ private fun SplitLayoutImpl(
 
             val availableSpace =
                 when (gapOrientation) {
-                    Orientation.Vertical -> constraints.maxWidth - dividerWidth
-                    else -> constraints.maxHeight - dividerWidth
+                    Orientation.Vertical -> (constraints.maxWidth - dividerWidth).coerceAtLeast(1)
+                    else -> (constraints.maxHeight - dividerWidth).coerceAtLeast(1)
                 }
 
             val (adjustedFirstSize, adjustedSecondSize) =
@@ -341,10 +341,11 @@ private fun horizontalTwoPaneStrategy(gapWidth: Dp = 0.dp): SplitLayoutStrategy 
             state: SplitLayoutState,
         ): SplitResult {
             val layoutCoordinates = state.layoutCoordinates ?: return SplitResult(Orientation.Vertical, Rect.Zero)
-            val availableWidth = layoutCoordinates.size.width
+            val availableWidth = layoutCoordinates.size.width.toFloat().coerceAtLeast(1f)
             val splitWidthPixel = with(density) { gapWidth.toPx() }
 
-            val splitX = (availableWidth * state.dividerPosition).coerceIn(0f, availableWidth.toFloat())
+            val dividerPosition = state.dividerPosition.coerceIn(0f, 1f)
+            val splitX = (availableWidth * dividerPosition).coerceIn(0f, availableWidth)
 
             return SplitResult(
                 gapOrientation = Orientation.Vertical,
@@ -352,8 +353,8 @@ private fun horizontalTwoPaneStrategy(gapWidth: Dp = 0.dp): SplitLayoutStrategy 
                     Rect(
                         left = splitX - splitWidthPixel / 2f,
                         top = 0f,
-                        right = (splitX + splitWidthPixel / 2f).coerceAtMost(availableWidth.toFloat()),
-                        bottom = layoutCoordinates.size.height.toFloat(),
+                        right = (splitX + splitWidthPixel / 2f).coerceAtMost(availableWidth),
+                        bottom = layoutCoordinates.size.height.toFloat().coerceAtLeast(1f),
                     ),
             )
         }
@@ -369,10 +370,11 @@ private fun verticalTwoPaneStrategy(gapHeight: Dp = 0.dp): SplitLayoutStrategy =
             state: SplitLayoutState,
         ): SplitResult {
             val layoutCoordinates = state.layoutCoordinates ?: return SplitResult(Orientation.Horizontal, Rect.Zero)
-            val availableHeight = layoutCoordinates.size.height
+            val availableHeight = layoutCoordinates.size.height.toFloat().coerceAtLeast(1f)
             val splitHeightPixel = with(density) { gapHeight.toPx() }
 
-            val splitY = (availableHeight * state.dividerPosition).coerceIn(0f, availableHeight.toFloat())
+            val dividerPosition = state.dividerPosition.coerceIn(0f, 1f)
+            val splitY = (availableHeight * dividerPosition).coerceIn(0f, availableHeight)
 
             return SplitResult(
                 gapOrientation = Orientation.Horizontal,
@@ -380,8 +382,8 @@ private fun verticalTwoPaneStrategy(gapHeight: Dp = 0.dp): SplitLayoutStrategy =
                     Rect(
                         left = 0f,
                         top = splitY - splitHeightPixel / 2f,
-                        right = layoutCoordinates.size.width.toFloat(),
-                        bottom = (splitY + splitHeightPixel / 2f).coerceAtMost(availableHeight.toFloat()),
+                        right = layoutCoordinates.size.width.toFloat().coerceAtLeast(1f),
+                        bottom = (splitY + splitHeightPixel / 2f).coerceAtMost(availableHeight),
                     ),
             )
         }
