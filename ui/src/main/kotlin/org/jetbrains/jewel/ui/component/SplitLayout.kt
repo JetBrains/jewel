@@ -403,12 +403,12 @@ private fun calculateAdjustedSizes(
 ): Pair<Int, Int> {
     val totalMinSize = minFirstPaneSize + minSecondPaneSize
     if (availableSpace >= totalMinSize) {
-        return Pair(minFirstPaneSize, minSecondPaneSize)
+        return minFirstPaneSize to minSecondPaneSize
     }
 
     val ratio = minFirstPaneSize.toFloat() / totalMinSize
     val adjustedFirstSize = (availableSpace * ratio).roundToInt()
-    return Pair(adjustedFirstSize, availableSpace - adjustedFirstSize)
+    return adjustedFirstSize to availableSpace - adjustedFirstSize
 }
 
 private class SplitResult(
