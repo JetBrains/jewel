@@ -149,24 +149,28 @@ private fun SplitLayoutImpl(
             val dividerInteractionSource = remember { MutableInteractionSource() }
 
             val dividerOrientation =
-                when {
-                    strategy.isHorizontal() -> Vertical
-                    else -> Horizontal
+                if (strategy.isHorizontal()) {
+                    Vertical
+                } else {
+                    Horizontal
                 }
             val fillMaxDirection =
-                when {
-                    strategy.isHorizontal() -> Modifier.fillMaxHeight()
-                    else -> Modifier.fillMaxWidth()
+                if (strategy.isHorizontal()) {
+                    Modifier.fillMaxHeight()
+                } else {
+                    Modifier.fillMaxWidth()
                 }
             val orientation =
-                when {
-                    strategy.isHorizontal() -> Orientation.Horizontal
-                    else -> Orientation.Vertical
+                if (strategy.isHorizontal()) {
+                    Orientation.Horizontal
+                } else {
+                    Orientation.Vertical
                 }
             val cursor =
-                when {
-                    strategy.isHorizontal() -> Cursor(Cursor.E_RESIZE_CURSOR)
-                    else -> Cursor(Cursor.N_RESIZE_CURSOR)
+                if (strategy.isHorizontal()) {
+                    Cursor(Cursor.E_RESIZE_CURSOR)
+                } else {
+                    Cursor(Cursor.N_RESIZE_CURSOR)
                 }
 
             Divider(
@@ -178,9 +182,10 @@ private fun SplitLayoutImpl(
 
             Box(
                 Modifier.let {
-                        when {
-                            strategy.isHorizontal() -> it.fillMaxHeight().width(draggableWidth)
-                            else -> it.fillMaxWidth().height(draggableWidth)
+                        if (strategy.isHorizontal()) {
+                            it.fillMaxHeight().width(draggableWidth)
+                        } else {
+                            it.fillMaxWidth().height(draggableWidth)
                         }
                     }
                     .draggable(
@@ -189,9 +194,10 @@ private fun SplitLayoutImpl(
                             rememberDraggableState { delta ->
                                 state.layoutCoordinates?.let { coordinates ->
                                     val size =
-                                        when {
-                                            strategy.isHorizontal() -> coordinates.size.width
-                                            else -> coordinates.size.height
+                                        if (strategy.isHorizontal()) {
+                                            coordinates.size.width
+                                        } else {
+                                            coordinates.size.height
                                         }
                                     val minFirstSize = with(density) { minFirstPaneSize.toPx() }
                                     val minSecondSize = with(density) { minSecondPaneSize.toPx() }
@@ -280,9 +286,10 @@ private fun SplitLayoutImpl(
                 )
 
             val availableSpace =
-                when (gapOrientation) {
-                    Orientation.Vertical -> (constraints.maxWidth - dividerWidth).coerceAtLeast(1)
-                    else -> (constraints.maxHeight - dividerWidth).coerceAtLeast(1)
+                if (gapOrientation == Orientation.Vertical) {
+                    (constraints.maxWidth - dividerWidth).coerceAtLeast(1)
+                } else {
+                    (constraints.maxHeight - dividerWidth).coerceAtLeast(1)
                 }
 
             val (adjustedFirstSize, adjustedSecondSize) =
