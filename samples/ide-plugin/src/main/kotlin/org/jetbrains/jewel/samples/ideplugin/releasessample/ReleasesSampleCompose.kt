@@ -103,6 +103,8 @@ fun ReleasesSampleCompose(project: Project) {
         },
         second = { RightColumn(selectedItem = selectedItem, modifier = Modifier.fillMaxSize()) },
         modifier = Modifier.fillMaxSize(),
+        firstPaneMinWidth = 300.dp,
+        secondPaneMinWidth = 300.dp,
     )
 }
 
