@@ -141,9 +141,15 @@ private fun SplitLayoutImpl(
     val density = LocalDensity.current
     var dragStartPosition by remember { mutableStateOf(0f) }
     var currentDragPosition by remember { mutableStateOf(0f) }
+    var isDragging by remember { mutableStateOf(false) }
+    val resizeCursor = if (strategy.isHorizontal()) Cursor(Cursor.E_RESIZE_CURSOR) else Cursor(Cursor.N_RESIZE_CURSOR)
+    val defaultCursor = Cursor(Cursor.DEFAULT_CURSOR)
 
     Layout(
-        modifier = modifier.onGloballyPositioned { coordinates -> state.layoutCoordinates = coordinates },
+        modifier =
+            modifier
+                .onGloballyPositioned { coordinates -> state.layoutCoordinates = coordinates }
+                .pointerHoverIcon(PointerIcon(if (isDragging) resizeCursor else defaultCursor)),
         content = {
             Box(Modifier.layoutId("first")) { first() }
             Box(Modifier.layoutId("second")) { second() }
@@ -152,7 +158,6 @@ private fun SplitLayoutImpl(
             val dividerOrientation = if (strategy.isHorizontal()) Vertical else Horizontal
             val fillMaxDirection = if (strategy.isHorizontal()) Modifier.fillMaxHeight() else Modifier.fillMaxWidth()
             val orientation = if (strategy.isHorizontal()) Orientation.Horizontal else Orientation.Vertical
-            val cursor = if (strategy.isHorizontal()) Cursor(Cursor.E_RESIZE_CURSOR) else Cursor(Cursor.N_RESIZE_CURSOR)
 
             Divider(
                 orientation = dividerOrientation,
@@ -198,6 +203,7 @@ private fun SplitLayoutImpl(
                                 }
                             },
                         onDragStarted = { offset ->
+                            isDragging = true
                             state.layoutCoordinates?.let { coordinates ->
                                 dragStartPosition =
                                     if (strategy.isHorizontal()) {
@@ -208,10 +214,10 @@ private fun SplitLayoutImpl(
                                 currentDragPosition = dragStartPosition
                             }
                         },
-                        onDragStopped = {},
+                        onDragStopped = { isDragging = false },
                         interactionSource = dividerInteractionSource,
                     )
-                    .pointerHoverIcon(PointerIcon(cursor))
+                    .pointerHoverIcon(PointerIcon(resizeCursor))
                     .layoutId("divider-handle")
                     .focusable(false)
             )
