@@ -139,6 +139,8 @@ private fun SplitLayoutImpl(
     state: SplitLayoutState,
 ) {
     val density = LocalDensity.current
+    var dragStartPosition by remember { mutableStateOf(0f) }
+    var currentDragPosition by remember { mutableStateOf(0f) }
 
     Layout(
         modifier = modifier.onGloballyPositioned { coordinates -> state.layoutCoordinates = coordinates },
@@ -147,31 +149,10 @@ private fun SplitLayoutImpl(
             Box(Modifier.layoutId("second")) { second() }
 
             val dividerInteractionSource = remember { MutableInteractionSource() }
-
-            val dividerOrientation =
-                if (strategy.isHorizontal()) {
-                    Vertical
-                } else {
-                    Horizontal
-                }
-            val fillMaxDirection =
-                if (strategy.isHorizontal()) {
-                    Modifier.fillMaxHeight()
-                } else {
-                    Modifier.fillMaxWidth()
-                }
-            val orientation =
-                if (strategy.isHorizontal()) {
-                    Orientation.Horizontal
-                } else {
-                    Orientation.Vertical
-                }
-            val cursor =
-                if (strategy.isHorizontal()) {
-                    Cursor(Cursor.E_RESIZE_CURSOR)
-                } else {
-                    Cursor(Cursor.N_RESIZE_CURSOR)
-                }
+            val dividerOrientation = if (strategy.isHorizontal()) Vertical else Horizontal
+            val fillMaxDirection = if (strategy.isHorizontal()) Modifier.fillMaxHeight() else Modifier.fillMaxWidth()
+            val orientation = if (strategy.isHorizontal()) Orientation.Horizontal else Orientation.Vertical
+            val cursor = if (strategy.isHorizontal()) Cursor(Cursor.E_RESIZE_CURSOR) else Cursor(Cursor.N_RESIZE_CURSOR)
 
             Divider(
                 orientation = dividerOrientation,
@@ -181,11 +162,11 @@ private fun SplitLayoutImpl(
             )
 
             Box(
-                Modifier.let {
+                Modifier.let { modifier ->
                         if (strategy.isHorizontal()) {
-                            it.fillMaxHeight().width(draggableWidth)
+                            modifier.fillMaxHeight().width(draggableWidth)
                         } else {
-                            it.fillMaxWidth().height(draggableWidth)
+                            modifier.fillMaxWidth().height(draggableWidth)
                         }
                     }
                     .draggable(
@@ -194,21 +175,40 @@ private fun SplitLayoutImpl(
                             rememberDraggableState { delta ->
                                 state.layoutCoordinates?.let { coordinates ->
                                     val size =
-                                        if (strategy.isHorizontal()) {
-                                            coordinates.size.width
-                                        } else {
-                                            coordinates.size.height
-                                        }
+                                        if (strategy.isHorizontal()) coordinates.size.width else coordinates.size.height
                                     val minFirstSize = with(density) { minFirstPaneSize.toPx() }
                                     val minSecondSize = with(density) { minSecondPaneSize.toPx() }
+                                    val maxSize = size - minSecondSize
+
+                                    currentDragPosition += delta
+                                    val clampedPosition = currentDragPosition.coerceIn(minFirstSize, maxSize)
+
+                                    if (clampedPosition != currentDragPosition) {
+                                        // The mouse is outside the allowed range, don't update the
+                                        // divider position
+                                        return@rememberDraggableState
+                                    }
+
                                     val newPosition =
-                                        (state.dividerPosition * size + delta).coerceIn(
+                                        (dragStartPosition + clampedPosition - dragStartPosition).coerceIn(
                                             minFirstSize,
-                                            size - minSecondSize,
+                                            maxSize,
                                         )
                                     state.dividerPosition = newPosition / size
                                 }
                             },
+                        onDragStarted = { offset ->
+                            state.layoutCoordinates?.let { coordinates ->
+                                dragStartPosition =
+                                    if (strategy.isHorizontal()) {
+                                        coordinates.size.width * state.dividerPosition
+                                    } else {
+                                        coordinates.size.height * state.dividerPosition
+                                    }
+                                currentDragPosition = dragStartPosition
+                            }
+                        },
+                        onDragStopped = {},
                         interactionSource = dividerInteractionSource,
                     )
                     .pointerHoverIcon(PointerIcon(cursor))
