@@ -43,7 +43,7 @@ fun SplitLayouts(
         HorizontalSplitLayout(
             state = outerSplitState,
             first = { FirstPane() },
-            second = { SecondPane(innerSplitState, verticalSplitState) },
+            second = { SecondPane(innerSplitState = innerSplitState, verticalSplitState = verticalSplitState) },
             modifier = Modifier.fillMaxWidth().weight(1f).border(1.dp, color = JewelTheme.globalColors.borders.normal),
             firstPaneMinWidth = 300.dp,
             secondPaneMinWidth = 200.dp,
@@ -62,7 +62,7 @@ private fun FirstPane() {
 @Composable
 private fun SecondPane(innerSplitState: SplitLayoutState, verticalSplitState: SplitLayoutState) {
     VerticalSplitLayout(
-        state = innerSplitState,
+        state = verticalSplitState,
         modifier = Modifier.fillMaxSize(),
         first = {
             val state by remember { mutableStateOf(TextFieldState()) }
@@ -83,7 +83,7 @@ private fun SecondPane(innerSplitState: SplitLayoutState, verticalSplitState: Sp
                     }
                 },
                 modifier = Modifier.fillMaxSize(),
-                state = verticalSplitState,
+                state = innerSplitState,
                 firstPaneMinWidth = 100.dp,
                 secondPaneMinWidth = 100.dp,
             )
