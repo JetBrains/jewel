@@ -246,12 +246,6 @@ private fun SplitLayoutImpl(
             )
         },
     ) { measurables, constraints ->
-        val firstMeasurable = measurables.find { it.layoutId == "first" } ?: error("No first component found.")
-        val secondMeasurable = measurables.find { it.layoutId == "second" } ?: error("No second component found.")
-        val dividerMeasurable = measurables.find { it.layoutId == "divider" } ?: error("No divider component found.")
-        val dividerHandleMeasurable =
-            measurables.find { it.layoutId == "divider-handle" } ?: error("No divider-handle component found.")
-
         if (state.layoutCoordinates == null) {
             notReadyLayout(constraints)
         } else {
@@ -263,11 +257,8 @@ private fun SplitLayoutImpl(
                 draggableWidth,
                 firstPaneMinWidth,
                 secondPaneMinWidth,
-                dividerMeasurable,
                 constraints,
-                dividerHandleMeasurable,
-                firstMeasurable,
-                secondMeasurable,
+                measurables,
             )
         }
     }
@@ -284,12 +275,15 @@ private fun MeasureScope.doLayout(
     draggableWidth: Dp,
     firstPaneMinWidth: Dp,
     secondPaneMinWidth: Dp,
-    dividerMeasurable: Measurable,
     constraints: Constraints,
-    dividerHandleMeasurable: Measurable,
-    firstMeasurable: Measurable,
-    secondMeasurable: Measurable,
+    measurables: List<Measurable>,
 ): MeasureResult {
+    val firstMeasurable = measurables.find { it.layoutId == "first" } ?: error("No first component found.")
+    val secondMeasurable = measurables.find { it.layoutId == "second" } ?: error("No second component found.")
+    val dividerMeasurable = measurables.find { it.layoutId == "divider" } ?: error("No divider component found.")
+    val dividerHandleMeasurable =
+        measurables.find { it.layoutId == "divider-handle" } ?: error("No divider-handle component found.")
+
     val splitResult = strategy.calculateSplitResult(density = density, layoutDirection = layoutDirection, state = state)
 
     val gapOrientation = splitResult.gapOrientation
