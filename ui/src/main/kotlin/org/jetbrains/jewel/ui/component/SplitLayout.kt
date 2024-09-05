@@ -175,12 +175,11 @@ private fun SplitLayoutImpl(
     val draggableState = rememberDraggableState { delta ->
         state.layoutCoordinates?.let { coordinates ->
             val size = if (strategy.isHorizontal()) coordinates.size.width else coordinates.size.height
-            val minFirstSize = with(density) { firstPaneMinWidth.toPx() }
-            val minSecondSize = with(density) { secondPaneMinWidth.toPx() }
-            val maxPositionPx = size - minSecondSize
+            val minFirstPositionPx = with(density) { firstPaneMinWidth.toPx() }
+            val minSecondPositionPx = with(density) { secondPaneMinWidth.toPx() }
 
             currentDragPosition += delta
-            val clampedPosition = currentDragPosition.coerceIn(minFirstSize, maxPositionPx)
+            val clampedPosition = currentDragPosition.coerceIn(minFirstPositionPx, size - minSecondPositionPx)
 
             if (clampedPosition != currentDragPosition) {
                 // The mouse is outside the allowed range, don't update the
