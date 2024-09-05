@@ -118,11 +118,35 @@ public fun VerticalSplitLayout(
     )
 }
 
+/**
+ * Represents the state for a split layout, which is used to control the position of the divider and layout coordinates.
+ *
+ * @param initialSplitFraction The initial fraction value that determines the position of the divider.
+ * @constructor Creates a [SplitLayoutState] with the given initial split fraction.
+ */
 public class SplitLayoutState(initialSplitFraction: Float) {
+    /**
+     * A mutable floating-point value representing the position of the divider within the split layout. The position is
+     * expressed as a fraction of the total layout size, ranging from 0.0 (divider at the start) to 1.0 (divider at the
+     * end). This allows dynamic adjustment of the layout's two panes, reflecting the current state of the divider's
+     * placement.
+     */
     public var dividerPosition: Float by mutableStateOf(initialSplitFraction.coerceIn(0f, 1f))
+
+    /**
+     * Holds the layout coordinates for the split layout. These coordinates are used to track the position and size of
+     * the layout parts, facilitating the adjustment of the divider and the layout's panes during interactions like
+     * dragging.
+     */
     public var layoutCoordinates: LayoutCoordinates? by mutableStateOf(null)
 }
 
+/**
+ * Remembers a [SplitLayoutState] instance with the provided initial split fraction.
+ *
+ * @param initialSplitFraction The initial fraction value that determines the position of the divider.
+ * @return A remembered [SplitLayoutState] instance.
+ */
 @Composable
 public fun rememberSplitLayoutState(initialSplitFraction: Float = 0.5f): SplitLayoutState = remember {
     SplitLayoutState(initialSplitFraction)
