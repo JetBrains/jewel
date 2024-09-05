@@ -70,8 +70,8 @@ public fun HorizontalSplitLayout(
         modifier = modifier,
         dividerStyle = dividerStyle,
         draggableWidth = draggableWidth,
-        minFirstPaneSize = firstPaneMinWidth,
-        minSecondPaneSize = secondPaneMinWidth,
+        firstPaneMinWidth = firstPaneMinWidth,
+        secondPaneMinWidth = secondPaneMinWidth,
         strategy = horizontalTwoPaneStrategy(),
         state = state,
     )
@@ -109,8 +109,8 @@ public fun VerticalSplitLayout(
         modifier = modifier,
         dividerStyle = dividerStyle,
         draggableWidth = draggableWidth,
-        minFirstPaneSize = firstPaneMinWidth,
-        minSecondPaneSize = secondPaneMinWidth,
+        firstPaneMinWidth = firstPaneMinWidth,
+        secondPaneMinWidth = secondPaneMinWidth,
         strategy = verticalTwoPaneStrategy(),
         state = state,
     )
@@ -133,8 +133,8 @@ private fun SplitLayoutImpl(
     strategy: SplitLayoutStrategy,
     modifier: Modifier,
     draggableWidth: Dp,
-    minFirstPaneSize: Dp,
-    minSecondPaneSize: Dp,
+    firstPaneMinWidth: Dp,
+    secondPaneMinWidth: Dp,
     dividerStyle: DividerStyle,
     state: SplitLayoutState,
 ) {
@@ -181,8 +181,8 @@ private fun SplitLayoutImpl(
                                 state.layoutCoordinates?.let { coordinates ->
                                     val size =
                                         if (strategy.isHorizontal()) coordinates.size.width else coordinates.size.height
-                                    val minFirstSize = with(density) { minFirstPaneSize.toPx() }
-                                    val minSecondSize = with(density) { minSecondPaneSize.toPx() }
+                                    val minFirstSize = with(density) { firstPaneMinWidth.toPx() }
+                                    val minSecondSize = with(density) { secondPaneMinWidth.toPx() }
                                     val maxSize = size - minSecondSize
 
                                     currentDragPosition += delta
@@ -239,8 +239,8 @@ private fun SplitLayoutImpl(
 
             val dividerWidth = with(density) { dividerStyle.metrics.thickness.roundToPx() }
             val handleWidth = with(density) { draggableWidth.roundToPx() }
-            val minFirstPaneSizePx = with(density) { minFirstPaneSize.roundToPx() }
-            val minSecondPaneSizePx = with(density) { minSecondPaneSize.roundToPx() }
+            val minFirstPaneSizePx = with(density) { firstPaneMinWidth.roundToPx() }
+            val minSecondPaneSizePx = with(density) { secondPaneMinWidth.roundToPx() }
 
             // The visual divider itself. It's a thin line that separates the two panes
             val dividerPlaceable =
