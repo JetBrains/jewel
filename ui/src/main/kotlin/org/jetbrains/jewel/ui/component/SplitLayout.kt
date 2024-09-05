@@ -52,6 +52,7 @@ import kotlin.math.roundToInt
  * @param firstPaneMinWidth The minimum size of the first component.
  * @param secondPaneMinWidth The minimum size of the second component.
  * @param dividerStyle The divider style to be applied to the layout.
+ * @param state The [SplitLayoutState] object that will be used to store the split state.
  */
 @Composable
 public fun HorizontalSplitLayout(
@@ -91,6 +92,7 @@ public fun HorizontalSplitLayout(
  * @param firstPaneMinWidth The minimum size of the first component.
  * @param secondPaneMinWidth The minimum size of the second component.
  * @param dividerStyle The divider style to be applied to the layout.
+ * @param state The [SplitLayoutState] object that will be used to store the split state.
  */
 @Composable
 public fun VerticalSplitLayout(
