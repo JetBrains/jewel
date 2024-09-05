@@ -170,6 +170,25 @@ private fun SplitLayoutImpl(
     val resizeCursor = if (strategy.isHorizontal()) Cursor(Cursor.E_RESIZE_CURSOR) else Cursor(Cursor.N_RESIZE_CURSOR)
     val defaultCursor = Cursor(Cursor.DEFAULT_CURSOR)
 
+    val draggableState = rememberDraggableState { delta ->
+        state.layoutCoordinates?.let { coordinates ->
+            val size = if (strategy.isHorizontal()) coordinates.size.width else coordinates.size.height
+            val minFirstSize = with(density) { firstPaneMinWidth.toPx() }
+            val minSecondSize = with(density) { secondPaneMinWidth.toPx() }
+            val maxSize = size - minSecondSize
+
+            currentDragPosition += delta
+            val clampedPosition = currentDragPosition.coerceIn(minFirstSize, maxSize)
+
+            if (clampedPosition != currentDragPosition) {
+                // The mouse is outside the allowed range, don't update the
+                // divider position
+                return@rememberDraggableState
+            }
+            state.dividerPosition = clampedPosition / size
+        }
+    }
+
     Layout(
         modifier =
             modifier
@@ -201,26 +220,7 @@ private fun SplitLayoutImpl(
                     }
                     .draggable(
                         orientation = orientation,
-                        state =
-                            rememberDraggableState { delta ->
-                                state.layoutCoordinates?.let { coordinates ->
-                                    val size =
-                                        if (strategy.isHorizontal()) coordinates.size.width else coordinates.size.height
-                                    val minFirstSize = with(density) { firstPaneMinWidth.toPx() }
-                                    val minSecondSize = with(density) { secondPaneMinWidth.toPx() }
-                                    val maxSize = size - minSecondSize
-
-                                    currentDragPosition += delta
-                                    val clampedPosition = currentDragPosition.coerceIn(minFirstSize, maxSize)
-
-                                    if (clampedPosition != currentDragPosition) {
-                                        // The mouse is outside the allowed range, don't update the
-                                        // divider position
-                                        return@rememberDraggableState
-                                    }
-                                    state.dividerPosition = clampedPosition / size
-                                }
-                            },
+                        state = draggableState,
                         onDragStarted = { offset ->
                             isDragging = true
                             state.layoutCoordinates?.let { coordinates ->
