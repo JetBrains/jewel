@@ -207,7 +207,7 @@ private fun SplitLayoutImpl(
 
             Divider(
                 orientation = dividerOrientation,
-                modifier = Modifier.then(fillModifier).layoutId("divider").focusable(false),
+                modifier = fillModifier.layoutId("divider").focusable(false),
                 color = dividerStyle.color,
                 thickness = dividerStyle.metrics.thickness,
             )
