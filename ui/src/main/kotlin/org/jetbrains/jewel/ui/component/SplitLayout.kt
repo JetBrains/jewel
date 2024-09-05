@@ -23,9 +23,13 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.Measurable
+import androidx.compose.ui.layout.MeasureResult
+import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
@@ -248,120 +252,153 @@ private fun SplitLayoutImpl(
         val dividerHandleMeasurable =
             measurables.find { it.layoutId == "divider-handle" } ?: error("No divider-handle component found.")
 
-        // The aesthetics of this block is meh but we can't use !! operator
-        state.layoutCoordinates?.let {
-            val splitResult =
-                strategy.calculateSplitResult(density = density, layoutDirection = layoutDirection, state = state)
+        if (state.layoutCoordinates == null) {
+            notReadyLayout(constraints)
+        } else {
+            doLayout(
+                strategy,
+                density,
+                state,
+                dividerStyle,
+                draggableWidth,
+                firstPaneMinWidth,
+                secondPaneMinWidth,
+                dividerMeasurable,
+                constraints,
+                dividerHandleMeasurable,
+                firstMeasurable,
+                secondMeasurable,
+            )
+        }
+    }
+}
 
-            val gapOrientation = splitResult.gapOrientation
-            val gapBounds = splitResult.gapBounds
+private fun MeasureScope.notReadyLayout(constraints: Constraints) =
+    layout(constraints.minWidth, constraints.minHeight) {}
 
-            val dividerWidth = with(density) { dividerStyle.metrics.thickness.roundToPx() }
-            val handleWidth = with(density) { draggableWidth.roundToPx() }
-            val minFirstPaneSizePx = with(density) { firstPaneMinWidth.roundToPx() }
-            val minSecondPaneSizePx = with(density) { secondPaneMinWidth.roundToPx() }
+private fun MeasureScope.doLayout(
+    strategy: SplitLayoutStrategy,
+    density: Density,
+    state: SplitLayoutState,
+    dividerStyle: DividerStyle,
+    draggableWidth: Dp,
+    firstPaneMinWidth: Dp,
+    secondPaneMinWidth: Dp,
+    dividerMeasurable: Measurable,
+    constraints: Constraints,
+    dividerHandleMeasurable: Measurable,
+    firstMeasurable: Measurable,
+    secondMeasurable: Measurable,
+): MeasureResult {
+    val splitResult = strategy.calculateSplitResult(density = density, layoutDirection = layoutDirection, state = state)
 
-            // The visual divider itself. It's a thin line that separates the two panes
-            val dividerPlaceable =
-                dividerMeasurable.measure(
-                    when (gapOrientation) {
-                        Orientation.Vertical -> {
-                            constraints.copy(
-                                minWidth = dividerWidth,
-                                maxWidth = dividerWidth,
-                                minHeight = constraints.minHeight,
-                                maxHeight = constraints.maxHeight,
-                            )
-                        }
+    val gapOrientation = splitResult.gapOrientation
+    val gapBounds = splitResult.gapBounds
 
-                        Orientation.Horizontal -> {
-                            constraints.copy(
-                                minWidth = constraints.minWidth,
-                                maxWidth = constraints.maxWidth,
-                                minHeight = dividerWidth,
-                                maxHeight = dividerWidth,
-                            )
-                        }
-                    }
-                )
+    val dividerWidth = with(density) { dividerStyle.metrics.thickness.roundToPx() }
+    val handleWidth = with(density) { draggableWidth.roundToPx() }
+    val minFirstPaneSizePx = with(density) { firstPaneMinWidth.roundToPx() }
+    val minSecondPaneSizePx = with(density) { secondPaneMinWidth.roundToPx() }
 
-            // This is an invisible, wider area around the divider that can be dragged by the user
-            // to resize the panes
-            val dividerHandlePlaceable =
-                dividerHandleMeasurable.measure(
-                    when (gapOrientation) {
-                        Orientation.Vertical -> {
-                            constraints.copy(
-                                minWidth = handleWidth,
-                                maxWidth = handleWidth,
-                                minHeight = constraints.minHeight,
-                                maxHeight = constraints.maxHeight,
-                            )
-                        }
-
-                        Orientation.Horizontal -> {
-                            constraints.copy(
-                                minWidth = constraints.minWidth,
-                                maxWidth = constraints.maxWidth,
-                                minHeight = handleWidth,
-                                maxHeight = handleWidth,
-                            )
-                        }
-                    }
-                )
-
-            val availableSpace =
-                if (gapOrientation == Orientation.Vertical) {
-                    (constraints.maxWidth - dividerWidth).coerceAtLeast(1)
-                } else {
-                    (constraints.maxHeight - dividerWidth).coerceAtLeast(1)
+    // The visual divider itself. It's a thin line that separates the two panes
+    val dividerPlaceable =
+        dividerMeasurable.measure(
+            when (gapOrientation) {
+                Orientation.Vertical -> {
+                    constraints.copy(
+                        minWidth = dividerWidth,
+                        maxWidth = dividerWidth,
+                        minHeight = constraints.minHeight,
+                        maxHeight = constraints.maxHeight,
+                    )
                 }
 
-            val (adjustedFirstSize, adjustedSecondSize) =
-                calculateAdjustedSizes(availableSpace, minFirstPaneSizePx, minSecondPaneSizePx)
-
-            val firstGap =
-                when (gapOrientation) {
-                    Orientation.Vertical -> gapBounds.left
-                    Orientation.Horizontal -> gapBounds.top
-                }
-
-            val firstSize: Int = firstGap.roundToInt().coerceIn(adjustedFirstSize, availableSpace - adjustedSecondSize)
-
-            val secondSize = availableSpace - firstSize
-
-            val firstConstraints =
-                when (gapOrientation) {
-                    Orientation.Vertical -> constraints.copy(minWidth = adjustedFirstSize, maxWidth = firstSize)
-                    Orientation.Horizontal -> constraints.copy(minHeight = adjustedFirstSize, maxHeight = firstSize)
-                }
-
-            val secondConstraints =
-                when (gapOrientation) {
-                    Orientation.Vertical -> constraints.copy(minWidth = adjustedSecondSize, maxWidth = secondSize)
-                    Orientation.Horizontal -> constraints.copy(minHeight = adjustedSecondSize, maxHeight = secondSize)
-                }
-
-            val firstPlaceable = firstMeasurable.measure(firstConstraints)
-            val secondPlaceable = secondMeasurable.measure(secondConstraints)
-
-            layout(constraints.maxWidth, constraints.maxHeight) {
-                firstPlaceable.placeRelative(0, 0)
-                when (gapOrientation) {
-                    Orientation.Vertical -> {
-                        dividerPlaceable.placeRelative(firstSize, 0)
-                        dividerHandlePlaceable.placeRelative(firstSize - handleWidth / 2, 0)
-                        secondPlaceable.placeRelative(firstSize + dividerWidth, 0)
-                    }
-
-                    Orientation.Horizontal -> {
-                        dividerPlaceable.placeRelative(0, firstSize)
-                        dividerHandlePlaceable.placeRelative(0, firstSize - handleWidth / 2)
-                        secondPlaceable.placeRelative(0, firstSize + dividerWidth)
-                    }
+                Orientation.Horizontal -> {
+                    constraints.copy(
+                        minWidth = constraints.minWidth,
+                        maxWidth = constraints.maxWidth,
+                        minHeight = dividerWidth,
+                        maxHeight = dividerWidth,
+                    )
                 }
             }
-        } ?: layout(constraints.minWidth, constraints.minHeight) {}
+        )
+
+    // This is an invisible, wider area around the divider that can be dragged by the user
+    // to resize the panes
+    val dividerHandlePlaceable =
+        dividerHandleMeasurable.measure(
+            when (gapOrientation) {
+                Orientation.Vertical -> {
+                    constraints.copy(
+                        minWidth = handleWidth,
+                        maxWidth = handleWidth,
+                        minHeight = constraints.minHeight,
+                        maxHeight = constraints.maxHeight,
+                    )
+                }
+
+                Orientation.Horizontal -> {
+                    constraints.copy(
+                        minWidth = constraints.minWidth,
+                        maxWidth = constraints.maxWidth,
+                        minHeight = handleWidth,
+                        maxHeight = handleWidth,
+                    )
+                }
+            }
+        )
+
+    val availableSpace =
+        if (gapOrientation == Orientation.Vertical) {
+            (constraints.maxWidth - dividerWidth).coerceAtLeast(1)
+        } else {
+            (constraints.maxHeight - dividerWidth).coerceAtLeast(1)
+        }
+
+    val (adjustedFirstSize, adjustedSecondSize) =
+        calculateAdjustedSizes(availableSpace, minFirstPaneSizePx, minSecondPaneSizePx)
+
+    val firstGap =
+        when (gapOrientation) {
+            Orientation.Vertical -> gapBounds.left
+            Orientation.Horizontal -> gapBounds.top
+        }
+
+    val firstSize: Int = firstGap.roundToInt().coerceIn(adjustedFirstSize, availableSpace - adjustedSecondSize)
+
+    val secondSize = availableSpace - firstSize
+
+    val firstConstraints =
+        when (gapOrientation) {
+            Orientation.Vertical -> constraints.copy(minWidth = adjustedFirstSize, maxWidth = firstSize)
+            Orientation.Horizontal -> constraints.copy(minHeight = adjustedFirstSize, maxHeight = firstSize)
+        }
+
+    val secondConstraints =
+        when (gapOrientation) {
+            Orientation.Vertical -> constraints.copy(minWidth = adjustedSecondSize, maxWidth = secondSize)
+            Orientation.Horizontal -> constraints.copy(minHeight = adjustedSecondSize, maxHeight = secondSize)
+        }
+
+    val firstPlaceable = firstMeasurable.measure(firstConstraints)
+    val secondPlaceable = secondMeasurable.measure(secondConstraints)
+
+    return layout(constraints.maxWidth, constraints.maxHeight) {
+        firstPlaceable.placeRelative(0, 0)
+        when (gapOrientation) {
+            Orientation.Vertical -> {
+                dividerPlaceable.placeRelative(firstSize, 0)
+                dividerHandlePlaceable.placeRelative(firstSize - handleWidth / 2, 0)
+                secondPlaceable.placeRelative(firstSize + dividerWidth, 0)
+            }
+
+            Orientation.Horizontal -> {
+                dividerPlaceable.placeRelative(0, firstSize)
+                dividerHandlePlaceable.placeRelative(0, firstSize - handleWidth / 2)
+                secondPlaceable.placeRelative(0, firstSize + dividerWidth)
+            }
+        }
     }
 }
 
