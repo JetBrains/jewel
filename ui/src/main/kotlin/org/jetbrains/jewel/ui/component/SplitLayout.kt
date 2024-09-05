@@ -176,6 +176,8 @@ private fun SplitLayoutImpl(
     var isDragging by remember { mutableStateOf(false) }
     val resizePointerIcon = if (strategy.isHorizontal()) HorizontalResizePointerIcon else VerticalResizePointerIcon
 
+    var previousLayoutSize by remember { mutableStateOf(0) }
+
     val draggableState = rememberDraggableState { delta ->
         state.layoutCoordinates?.let { coordinates ->
             val size = if (strategy.isHorizontal()) coordinates.size.width else coordinates.size.height
@@ -197,7 +199,16 @@ private fun SplitLayoutImpl(
     Layout(
         modifier =
             modifier
-                .onGloballyPositioned { coordinates -> state.layoutCoordinates = coordinates }
+                .onGloballyPositioned { coordinates ->
+                    state.layoutCoordinates = coordinates
+                    val currentSize = if (strategy.isHorizontal()) coordinates.size.width else coordinates.size.height
+                    if (currentSize != previousLayoutSize) {
+                        // Reset state when layout size changes
+                        currentDragPosition = currentSize * state.dividerPosition
+                        isDragging = false
+                        previousLayoutSize = currentSize
+                    }
+                }
                 .pointerHoverIcon((if (isDragging) resizePointerIcon else PointerIcon.Default)),
         content = {
             Box(Modifier.layoutId("first")) { first() }
