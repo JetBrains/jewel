@@ -152,6 +152,9 @@ public fun rememberSplitLayoutState(initialSplitFraction: Float = 0.5f): SplitLa
     SplitLayoutState(initialSplitFraction)
 }
 
+private val HorizontalResizePointerIcon = PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR))
+private val VerticalResizePointerIcon = PointerIcon(Cursor(Cursor.N_RESIZE_CURSOR))
+
 @Composable
 private fun SplitLayoutImpl(
     first: @Composable () -> Unit,
@@ -167,8 +170,7 @@ private fun SplitLayoutImpl(
     val density = LocalDensity.current
     var currentDragPosition by remember { mutableStateOf(0f) }
     var isDragging by remember { mutableStateOf(false) }
-    val resizeCursor = if (strategy.isHorizontal()) Cursor(Cursor.E_RESIZE_CURSOR) else Cursor(Cursor.N_RESIZE_CURSOR)
-    val defaultCursor = Cursor(Cursor.DEFAULT_CURSOR)
+    val resizePointerIcon = if (strategy.isHorizontal()) HorizontalResizePointerIcon else VerticalResizePointerIcon
 
     val draggableState = rememberDraggableState { delta ->
         state.layoutCoordinates?.let { coordinates ->
@@ -193,7 +195,7 @@ private fun SplitLayoutImpl(
         modifier =
             modifier
                 .onGloballyPositioned { coordinates -> state.layoutCoordinates = coordinates }
-                .pointerHoverIcon(PointerIcon(if (isDragging) resizeCursor else defaultCursor)),
+                .pointerHoverIcon((if (isDragging) resizePointerIcon else PointerIcon.Default)),
         content = {
             Box(Modifier.layoutId("first")) { first() }
             Box(Modifier.layoutId("second")) { second() }
@@ -235,7 +237,7 @@ private fun SplitLayoutImpl(
                         onDragStopped = { isDragging = false },
                         interactionSource = dividerInteractionSource,
                     )
-                    .pointerHoverIcon(PointerIcon(resizeCursor))
+                    .pointerHoverIcon(resizePointerIcon)
                     .layoutId("divider-handle")
                     .focusable(false)
             )
@@ -364,6 +366,8 @@ private fun SplitLayoutImpl(
     }
 }
 
+private class SplitResult(val gapOrientation: Orientation, val gapBounds: Rect)
+
 private interface SplitLayoutStrategy {
     fun calculateSplitResult(density: Density, layoutDirection: LayoutDirection, state: SplitLayoutState): SplitResult
 
@@ -438,5 +442,3 @@ private fun calculateAdjustedSizes(availableSpace: Int, minFirstPaneSize: Int, m
     val adjustedFirstSize = (availableSpace * ratio).roundToInt()
     return adjustedFirstSize to availableSpace - adjustedFirstSize
 }
-
-private class SplitResult(val gapOrientation: Orientation, val gapBounds: Rect)
