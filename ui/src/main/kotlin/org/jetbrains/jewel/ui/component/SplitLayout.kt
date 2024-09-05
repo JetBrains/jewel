@@ -165,7 +165,6 @@ private fun SplitLayoutImpl(
     state: SplitLayoutState,
 ) {
     val density = LocalDensity.current
-    var dragStartPosition by remember { mutableStateOf(0f) }
     var currentDragPosition by remember { mutableStateOf(0f) }
     var isDragging by remember { mutableStateOf(false) }
     val resizeCursor = if (strategy.isHorizontal()) Cursor(Cursor.E_RESIZE_CURSOR) else Cursor(Cursor.N_RESIZE_CURSOR)
@@ -225,13 +224,12 @@ private fun SplitLayoutImpl(
                         onDragStarted = { offset ->
                             isDragging = true
                             state.layoutCoordinates?.let { coordinates ->
-                                dragStartPosition =
+                                currentDragPosition =
                                     if (strategy.isHorizontal()) {
                                         coordinates.size.width * state.dividerPosition
                                     } else {
                                         coordinates.size.height * state.dividerPosition
                                     }
-                                currentDragPosition = dragStartPosition
                             }
                         },
                         onDragStopped = { isDragging = false },
