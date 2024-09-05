@@ -202,12 +202,12 @@ private fun SplitLayoutImpl(
 
             val dividerInteractionSource = remember { MutableInteractionSource() }
             val dividerOrientation = if (strategy.isHorizontal()) Vertical else Horizontal
-            val fillMaxDirection = if (strategy.isHorizontal()) Modifier.fillMaxHeight() else Modifier.fillMaxWidth()
+            val fillModifier = if (strategy.isHorizontal()) Modifier.fillMaxHeight() else Modifier.fillMaxWidth()
             val orientation = if (strategy.isHorizontal()) Orientation.Horizontal else Orientation.Vertical
 
             Divider(
                 orientation = dividerOrientation,
-                modifier = Modifier.then(fillMaxDirection).layoutId("divider").focusable(false),
+                modifier = Modifier.then(fillModifier).layoutId("divider").focusable(false),
                 color = dividerStyle.color,
                 thickness = dividerStyle.metrics.thickness,
             )
