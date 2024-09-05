@@ -219,13 +219,7 @@ private fun SplitLayoutImpl(
                                         // divider position
                                         return@rememberDraggableState
                                     }
-
-                                    val newPosition =
-                                        (dragStartPosition + clampedPosition - dragStartPosition).coerceIn(
-                                            minFirstSize,
-                                            maxSize,
-                                        )
-                                    state.dividerPosition = newPosition / size
+                                    state.dividerPosition = clampedPosition / size
                                 }
                             },
                         onDragStarted = { offset ->
