@@ -1,3 +1,4 @@
+import com.ncorti.ktfmt.gradle.tasks.KtfmtBaseTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -73,7 +74,8 @@ tasks {
         }
     }
 
-    formatKotlinMain { exclude { it.file.absolutePath.replace('\\', '/').contains("build/generated") } }
+    formatKotlinMain { exclude { it.file.absolutePath.replace('\\', '/').contains("build/generated") }}
+    withType<KtfmtBaseTask> { exclude { it.file.absolutePath.contains("build/generated") } }
 
     lintKotlinMain {
         exclude { it.file.absolutePath.replace('\\', '/').contains("build/generated") }
