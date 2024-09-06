@@ -34,13 +34,13 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import org.jetbrains.skiko.Cursor
+import kotlin.math.roundToInt
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Orientation.Horizontal
 import org.jetbrains.jewel.ui.Orientation.Vertical
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
 import org.jetbrains.jewel.ui.theme.dividerStyle
-import java.awt.Cursor
-import kotlin.math.roundToInt
 
 /**
  * A customizable horizontal split layout Composable function that allows you to divide the available space between two
@@ -172,11 +172,10 @@ private fun SplitLayoutImpl(
     state: SplitLayoutState,
 ) {
     val density = LocalDensity.current
-    var currentDragPosition by remember { mutableStateOf(0f) }
     var isDragging by remember { mutableStateOf(false) }
     val resizePointerIcon = if (strategy.isHorizontal()) HorizontalResizePointerIcon else VerticalResizePointerIcon
 
-    var previousLayoutSize by remember { mutableStateOf(0) }
+    var dragOffset by remember { mutableStateOf(0f) }
 
     val draggableState = rememberDraggableState { delta ->
         state.layoutCoordinates?.let { coordinates ->
@@ -184,15 +183,10 @@ private fun SplitLayoutImpl(
             val minFirstPositionPx = with(density) { firstPaneMinWidth.toPx() }
             val minSecondPositionPx = with(density) { secondPaneMinWidth.toPx() }
 
-            currentDragPosition += delta
-            val clampedPosition = currentDragPosition.coerceIn(minFirstPositionPx, size - minSecondPositionPx)
-
-            if (clampedPosition != currentDragPosition) {
-                // The mouse is outside the allowed range, don't update the
-                // divider position
-                return@rememberDraggableState
-            }
-            state.dividerPosition = clampedPosition / size
+            dragOffset += delta
+            val position = size * state.dividerPosition + dragOffset
+            val newPosition = position.coerceIn(minFirstPositionPx, size - minSecondPositionPx)
+            state.dividerPosition = newPosition / size
         }
     }
 
@@ -201,15 +195,10 @@ private fun SplitLayoutImpl(
             modifier
                 .onGloballyPositioned { coordinates ->
                     state.layoutCoordinates = coordinates
-                    val currentSize = if (strategy.isHorizontal()) coordinates.size.width else coordinates.size.height
-                    if (currentSize != previousLayoutSize) {
-                        // Reset state when layout size changes
-                        currentDragPosition = currentSize * state.dividerPosition
-                        isDragging = false
-                        previousLayoutSize = currentSize
-                    }
+                    // Reset drag offset when layout changes
+                    dragOffset = 0f
                 }
-                .pointerHoverIcon((if (isDragging) resizePointerIcon else PointerIcon.Default)),
+                .pointerHoverIcon(if (isDragging) resizePointerIcon else PointerIcon.Default),
         content = {
             Box(Modifier.layoutId("first")) { first() }
             Box(Modifier.layoutId("second")) { second() }
@@ -239,16 +228,12 @@ private fun SplitLayoutImpl(
                         state = draggableState,
                         onDragStarted = {
                             isDragging = true
-                            state.layoutCoordinates?.let { coordinates ->
-                                currentDragPosition =
-                                    if (strategy.isHorizontal()) {
-                                        coordinates.size.width * state.dividerPosition
-                                    } else {
-                                        coordinates.size.height * state.dividerPosition
-                                    }
-                            }
+                            dragOffset = 0f
                         },
-                        onDragStopped = { isDragging = false },
+                        onDragStopped = {
+                            isDragging = false
+                            dragOffset = 0f
+                        },
                         interactionSource = dividerInteractionSource,
                     )
                     .pointerHoverIcon(resizePointerIcon)
