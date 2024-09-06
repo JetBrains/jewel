@@ -6,21 +6,15 @@ plugins {
 }
 
 val properties = Properties()
+
 project.file("../gradle.properties").inputStream().use { properties.load(it) }
 
 val jdkLevel = properties.getProperty("jdk.level") as String
-kotlin {
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(jdkLevel)
-    }
 
-    sourceSets {
-        all {
-            languageSettings {
-                optIn("kotlinx.serialization.ExperimentalSerializationApi")
-            }
-        }
-    }
+kotlin {
+    jvmToolchain { languageVersion = JavaLanguageVersion.of(jdkLevel) }
+
+    sourceSets { all { languageSettings { optIn("kotlinx.serialization.ExperimentalSerializationApi") } } }
 }
 
 dependencies {

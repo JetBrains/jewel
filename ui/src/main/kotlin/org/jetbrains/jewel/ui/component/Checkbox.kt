@@ -269,13 +269,9 @@ private fun CheckboxImpl(
     verticalAlignment: Alignment.Vertical,
     content: (@Composable RowScope.() -> Unit)?,
 ) {
-    var checkboxState by remember {
-        mutableStateOf(CheckboxState.of(toggleableState = state, enabled = enabled))
-    }
+    var checkboxState by remember { mutableStateOf(CheckboxState.of(toggleableState = state, enabled = enabled)) }
 
-    remember(state, enabled) {
-        checkboxState = checkboxState.copy(toggleableState = state, enabled = enabled)
-    }
+    remember(state, enabled) { checkboxState = checkboxState.copy(toggleableState = state, enabled = enabled) }
 
     val swingCompatMode = JewelTheme.isSwingCompatMode
     LaunchedEffect(interactionSource, swingCompatMode) {
@@ -283,8 +279,7 @@ private fun CheckboxImpl(
             when (interaction) {
                 is PressInteraction.Press -> checkboxState = checkboxState.copy(pressed = !swingCompatMode)
                 is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                -> checkboxState = checkboxState.copy(pressed = false)
+                is PressInteraction.Release -> checkboxState = checkboxState.copy(pressed = false)
 
                 is HoverInteraction.Enter -> checkboxState = checkboxState.copy(hovered = !swingCompatMode)
                 is HoverInteraction.Exit -> checkboxState = checkboxState.copy(hovered = false)
@@ -305,25 +300,27 @@ private fun CheckboxImpl(
         )
 
     val checkBoxImageModifier = Modifier.size(metrics.checkboxSize)
-    val outlineModifier = Modifier.size(metrics.outlineSize)
-        .offset(metrics.outlineOffset.x, metrics.outlineOffset.y)
-        .outline(
-            state = checkboxState,
-            outline = outline,
-            outlineShape = RoundedCornerShape(metrics.checkboxCornerSize),
-            alignment = Stroke.Alignment.Center,
-        )
+    val outlineModifier =
+        Modifier.size(metrics.outlineSize)
+            .offset(metrics.outlineOffset.x, metrics.outlineOffset.y)
+            .outline(
+                state = checkboxState,
+                outline = outline,
+                outlineShape = RoundedCornerShape(metrics.checkboxCornerSize),
+                alignment = Stroke.Alignment.Center,
+            )
 
     val painterProvider = rememberResourcePainterProvider(icons.checkbox)
-    val checkboxPainter by painterProvider.getPainter(
-        if (checkboxState.toggleableState == ToggleableState.Indeterminate) {
-            CheckBoxIndeterminate
-        } else {
-            PainterHint.None
-        },
-        Selected(checkboxState.toggleableState == ToggleableState.On),
-        Stateful(checkboxState),
-    )
+    val checkboxPainter by
+        painterProvider.getPainter(
+            if (checkboxState.toggleableState == ToggleableState.Indeterminate) {
+                CheckBoxIndeterminate
+            } else {
+                PainterHint.None
+            },
+            Selected(checkboxState.toggleableState == ToggleableState.On),
+            Stateful(checkboxState),
+        )
 
     if (content == null) {
         Box(wrapperModifier, contentAlignment = Alignment.TopStart) {
@@ -346,9 +343,7 @@ private fun CheckboxImpl(
                 LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
                 LocalContentColor provides contentColor.takeOrElse { LocalContentColor.current },
             ) {
-                Row(contentModifier) {
-                    content()
-                }
+                Row(contentModifier) { content() }
             }
         }
     }
@@ -360,11 +355,7 @@ private object CheckBoxIndeterminate : PainterSuffixHint() {
 }
 
 @Composable
-private fun CheckBoxImage(
-    modifier: Modifier,
-    checkboxPainter: Painter,
-    checkBoxModifier: Modifier,
-) {
+private fun CheckBoxImage(modifier: Modifier, checkboxPainter: Painter, checkBoxModifier: Modifier) {
     Box(modifier, contentAlignment = Alignment.Center) {
         Image(checkboxPainter, contentDescription = null, modifier = checkBoxModifier)
     }
@@ -430,7 +421,7 @@ public value class CheckboxState(private val state: ULong) : ToggleableComponent
                     (if (pressed) Pressed else 0UL) or
                     (if (toggleableState != ToggleableState.Off) Selected else 0UL) or
                     (if (toggleableState == ToggleableState.Indeterminate) Indeterminate else 0UL) or
-                    (if (active) Active else 0UL),
+                    (if (active) Active else 0UL)
             )
     }
 }

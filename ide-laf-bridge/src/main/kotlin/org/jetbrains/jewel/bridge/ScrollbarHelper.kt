@@ -11,8 +11,7 @@ internal interface ScrollbarHelper {
     val trackClickBehaviorFlow: StateFlow<TrackClickBehavior>
 
     companion object {
-        @JvmStatic
-        fun getInstance(): ScrollbarHelper = DummyScrollbarHelper
+        @JvmStatic fun getInstance(): ScrollbarHelper = DummyScrollbarHelper
     }
 }
 

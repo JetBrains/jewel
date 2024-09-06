@@ -13,9 +13,8 @@ import org.jetbrains.jewel.ui.painter.hints.PathOverride
 import org.jetbrains.jewel.ui.util.fromRGBAHexStringOrNull
 
 /** Provides the default [PainterHint]s to use to load images. */
-public class StandalonePainterHintsProvider(
-    theme: ThemeDefinition,
-) : PalettePainterHintsProvider(
+public class StandalonePainterHintsProvider(theme: ThemeDefinition) :
+    PalettePainterHintsProvider(
         theme.isDark,
         intellijColorPalette,
         theme.iconData.colorPalette,
@@ -23,9 +22,7 @@ public class StandalonePainterHintsProvider(
     ) {
     private val overrideHint: PainterHint =
         PathOverride(
-            theme.iconData.iconOverrides.entries.associate { (k, v) ->
-                k.removePrefix("/") to v.removePrefix("/")
-            },
+            theme.iconData.iconOverrides.entries.associate { (k, v) -> k.removePrefix("/") to v.removePrefix("/") }
         )
 
     protected override val checkBoxByColorPaletteHint: PainterHint
@@ -59,13 +56,12 @@ public class StandalonePainterHintsProvider(
     }
 
     @Composable
-    override fun hints(path: String): List<PainterHint> =
-        buildList {
-            add(getPaletteHint(path))
-            add(overrideHint)
-            add(HiDpi())
-            add(Dark(JewelTheme.isDark))
-        }
+    override fun hints(path: String): List<PainterHint> = buildList {
+        add(getPaletteHint(path))
+        add(overrideHint)
+        add(HiDpi())
+        add(Dark(JewelTheme.isDark))
+    }
 
     public companion object {
         // Extracted from com.intellij.ide.ui.UITheme#colorPalette

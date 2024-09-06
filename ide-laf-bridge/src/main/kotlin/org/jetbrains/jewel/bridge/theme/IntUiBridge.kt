@@ -25,6 +25,8 @@ import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
+import javax.swing.UIManager
+import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.isNewUiTheme
@@ -121,8 +123,6 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
-import javax.swing.UIManager
-import kotlin.time.Duration.Companion.milliseconds
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
@@ -237,18 +237,18 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
 private fun readDefaultButtonStyle(): ButtonStyle {
     val normalBackground =
         listOf(
-            JBUI.CurrentTheme.Button.defaultButtonColorStart().toComposeColor(),
-            JBUI.CurrentTheme.Button.defaultButtonColorEnd().toComposeColor(),
-        )
+                JBUI.CurrentTheme.Button.defaultButtonColorStart().toComposeColor(),
+                JBUI.CurrentTheme.Button.defaultButtonColorEnd().toComposeColor(),
+            )
             .createVerticalBrush()
 
     val normalContent = retrieveColorOrUnspecified("Button.default.foreground")
 
     val normalBorder =
         listOf(
-            JBUI.CurrentTheme.Button.buttonOutlineColorStart(true).toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(true).toComposeColor(),
-        )
+                JBUI.CurrentTheme.Button.buttonOutlineColorStart(true).toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(true).toComposeColor(),
+            )
             .createVerticalBrush()
 
     val colors =
@@ -287,18 +287,18 @@ private fun readDefaultButtonStyle(): ButtonStyle {
 private fun readOutlinedButtonStyle(): ButtonStyle {
     val normalBackground =
         listOf(
-            JBUI.CurrentTheme.Button.buttonColorStart().toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonColorEnd().toComposeColor(),
-        )
+                JBUI.CurrentTheme.Button.buttonColorStart().toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonColorEnd().toComposeColor(),
+            )
             .createVerticalBrush()
 
     val normalContent = retrieveColorOrUnspecified("Button.foreground")
 
     val normalBorder =
         listOf(
-            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
-        )
+                JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+            )
             .createVerticalBrush()
 
     val colors =
@@ -417,7 +417,8 @@ private fun readChipStyle(): ChipStyle {
     )
 }
 
-private fun readDividerStyle() = DividerStyle(color = JBColor.border().toComposeColorOrUnspecified(), metrics = DividerMetrics.defaults())
+private fun readDividerStyle() =
+    DividerStyle(color = JBColor.border().toComposeColorOrUnspecified(), metrics = DividerMetrics.defaults())
 
 private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
@@ -695,16 +696,16 @@ private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
 
     val normalBorder =
         listOf(
-            JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
-            JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
-        )
+                JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
+                JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
+            )
             .createVerticalBrush()
 
     val selectedDisabledBorder =
         listOf(
-            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
-        )
+                JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+            )
             .createVerticalBrush()
 
     val colors =
@@ -738,9 +739,9 @@ private fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
 private fun readSegmentedControlStyle(): SegmentedControlStyle {
     val normalBorder =
         listOf(
-            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
-        )
+                JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+            )
             .createVerticalBrush()
 
     val colors =

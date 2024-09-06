@@ -40,7 +40,7 @@ public class CheckboxColors(
                 !state.isEnabled -> contentDisabled
                 state.toggleableState == ToggleableState.On -> contentSelected
                 else -> content
-            },
+            }
         )
 
     public companion object
@@ -65,7 +65,6 @@ public class CheckboxIcons(public val checkbox: IconKey) {
     public companion object
 }
 
-public val LocalCheckboxStyle: ProvidableCompositionLocal<CheckboxStyle> =
-    staticCompositionLocalOf {
-        error("No CheckboxStyle provided. Have you forgotten the theme?")
-    }
+public val LocalCheckboxStyle: ProvidableCompositionLocal<CheckboxStyle> = staticCompositionLocalOf {
+    error("No CheckboxStyle provided. Have you forgotten the theme?")
+}

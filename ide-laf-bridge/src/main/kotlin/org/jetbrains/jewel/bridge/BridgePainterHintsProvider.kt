@@ -19,7 +19,8 @@ import org.jetbrains.jewel.ui.util.toRgbaHexString
  * This is an internal Jewel API and should not be used directly.
  */
 @InternalJewelApi
-public class BridgePainterHintsProvider private constructor(
+public class BridgePainterHintsProvider
+private constructor(
     isDark: Boolean,
     intellijIconPalette: Map<String, String?> = emptyMap(),
     themeIconPalette: Map<String, String?> = emptyMap(),
@@ -47,11 +48,7 @@ public class BridgePainterHintsProvider private constructor(
         uiPaletteHint = ColorBasedPaletteReplacement(ui)
     }
 
-    private fun registerColorBasedReplacement(
-        map: MutableMap<Color, Color>,
-        key: String,
-        value: String,
-    ) {
+    private fun registerColorBasedReplacement(map: MutableMap<Color, Color>, key: String, value: String) {
         // If either the key or the resolved value aren't valid colors, ignore the entry
         val keyAsColor = resolveKeyColor(key, intellijIconPalette, isDark) ?: return
         val resolvedColor = resolveColor(value) ?: return
@@ -61,13 +58,12 @@ public class BridgePainterHintsProvider private constructor(
     }
 
     @Composable
-    override fun hints(path: String): List<PainterHint> =
-        buildList {
-            add(BridgeOverride)
-            add(getPaletteHint(path))
-            add(HiDpi())
-            add(Dark(JewelTheme.isDark))
-        }
+    override fun hints(path: String): List<PainterHint> = buildList {
+        add(BridgeOverride)
+        add(getPaletteHint(path))
+        add(HiDpi())
+        add(Dark(JewelTheme.isDark))
+    }
 
     public companion object {
         private val logger = thisLogger()

@@ -50,29 +50,16 @@ public fun CheckboxMetrics.Companion.defaults(
     outlineSize: DpSize = DpSize(15.dp, 15.dp),
     outlineOffset: DpOffset = DpOffset(2.5.dp, 1.5.dp),
     iconContentGap: Dp = 5.dp,
-): CheckboxMetrics =
-    CheckboxMetrics(
-        checkboxSize,
-        checkboxCornerSize,
-        outlineSize,
-        outlineOffset,
-        iconContentGap,
-    )
+): CheckboxMetrics = CheckboxMetrics(checkboxSize, checkboxCornerSize, outlineSize, outlineOffset, iconContentGap)
 
 @Composable
 public fun CheckboxIcons.Companion.light(
     checkbox: IconKey =
-        PathIconKey(
-            path = "com/intellij/ide/ui/laf/icons/intellij/checkBox.svg",
-            iconClass = CheckboxIcons::class.java,
-        ),
+        PathIconKey(path = "com/intellij/ide/ui/laf/icons/intellij/checkBox.svg", iconClass = CheckboxIcons::class.java)
 ): CheckboxIcons = CheckboxIcons(checkbox)
 
 @Composable
 public fun CheckboxIcons.Companion.dark(
     checkbox: IconKey =
-        PathIconKey(
-            path = "com/intellij/ide/ui/laf/icons/darcula/checkBox.svg",
-            iconClass = CheckboxIcons::class.java,
-        ),
+        PathIconKey(path = "com/intellij/ide/ui/laf/icons/darcula/checkBox.svg", iconClass = CheckboxIcons::class.java)
 ): CheckboxIcons = CheckboxIcons(checkbox)
