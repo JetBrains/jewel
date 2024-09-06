@@ -2,8 +2,8 @@ import org.jetbrains.compose.ComposeBuildConfig
 
 plugins {
     jewel
-    `jewel-publish`
     `jewel-check-public-api`
+    `jewel-publish`
     alias(libs.plugins.composeDesktop)
 }
 
@@ -14,7 +14,5 @@ dependencies {
     api("org.jetbrains.compose.foundation:foundation-desktop:$composeVersion")
 
     testImplementation(compose.desktop.uiTestJUnit4)
-    testImplementation(compose.desktop.currentOs) {
-        exclude(group = "org.jetbrains.compose.material")
-    }
+    testImplementation(compose.desktop.currentOs) { exclude(group = "org.jetbrains.compose.material") }
 }

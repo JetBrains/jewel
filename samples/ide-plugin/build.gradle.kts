@@ -22,13 +22,9 @@ repositories {
 }
 
 dependencies {
-    implementation(projects.ideLafBridge) {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
+    implementation(projects.ideLafBridge) { exclude(group = "org.jetbrains.kotlinx") }
 
-    implementation(projects.markdown.ideLafBridgeStyling) {
-        exclude(group = "org.jetbrains.kotlinx")
-    }
+    implementation(projects.markdown.ideLafBridgeStyling) { exclude(group = "org.jetbrains.kotlinx") }
 
     implementation(compose.desktop.currentOs) {
         exclude(group = "org.jetbrains.compose.material")
@@ -38,9 +34,7 @@ dependencies {
 
 tasks {
     // We don't have any settings in the demo plugin
-    buildSearchableOptions {
-        enabled = false
-    }
+    buildSearchableOptions { enabled = false }
 
     runIde {
         systemProperties["org.jetbrains.jewel.debug"] = "true"
