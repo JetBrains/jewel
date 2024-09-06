@@ -1,3 +1,6 @@
+import com.ncorti.ktfmt.gradle.tasks.KtfmtBaseTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("jewel-linting")
     kotlin("jvm")
@@ -37,6 +40,8 @@ val jdkLevel = project.property("jdk.level") as String
 kotlin {
     jvmToolchain { languageVersion = JavaLanguageVersion.of(jdkLevel) }
 
+    compilerOptions.jvmTarget.set(JvmTarget.fromTarget(jdkLevel))
+
     target {
         compilations.all { kotlinOptions { freeCompilerArgs += "-Xcontext-receivers" } }
         sourceSets.all {
@@ -70,6 +75,7 @@ tasks {
     }
 
     formatKotlinMain { exclude { it.file.absolutePath.replace('\\', '/').contains("build/generated") } }
+    withType<KtfmtBaseTask> { exclude { it.file.absolutePath.contains("build/generated") } }
 
     lintKotlinMain {
         exclude { it.file.absolutePath.replace('\\', '/').contains("build/generated") }

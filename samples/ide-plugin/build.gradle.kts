@@ -38,6 +38,4 @@ tasks {
 
     runIde {
         systemProperties["org.jetbrains.jewel.debug"] = "true"
-        jvmArgs = listOf("-Xmx3g")
-    }
-}
+        jvmArgs = listOf("-Xmx3g")} }

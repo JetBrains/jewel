@@ -55,7 +55,6 @@ import org.jetbrains.jewel.ui.component.IconActionButton
 import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.LazyTree
 import org.jetbrains.jewel.ui.component.OutlinedButton
-import org.jetbrains.jewel.ui.component.PlatformIcon
 import org.jetbrains.jewel.ui.component.RadioButtonRow
 import org.jetbrains.jewel.ui.component.Slider
 import org.jetbrains.jewel.ui.component.Text
@@ -175,7 +174,7 @@ private fun RowScope.ColumnOne() {
             Tooltip(
                 tooltip = {
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Icon(AllIconsKeys.General.ShowInfos, contentDescription = null)
+                        Icon(key = AllIconsKeys.General.ShowInfos, contentDescription = null)
                         Text("This is a tooltip")
                     }
                 }
@@ -194,63 +193,72 @@ private fun RowScope.ColumnOne() {
 
 @Composable
 private fun IconsShowcase() {
+    val iconBackgroundColor =
+        JewelTheme.colorPalette.blueOrNull(4) ?: JBUI.CurrentTheme.Banner.INFO_BACKGROUND.toComposeColor()
+
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup")
+            Icon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup")
         }
 
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Badge(Color.Red, DotBadgeShape.Default))
+            Icon(
+                key = AllIconsKeys.Nodes.ConfigFolder,
+                contentDescription = "taskGroup",
+                hint = Badge(Color.Red, DotBadgeShape.Default),
+            )
         }
 
         Box(
-            Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
+            Modifier.size(24.dp).background(iconBackgroundColor, shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
-            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Stroke(Color.White))
+            Icon(key = AllIconsKeys.Nodes.ConfigFolder, contentDescription = "taskGroup", hint = Stroke(Color.White))
         }
 
         Box(
-            Modifier.size(24.dp).background(JewelTheme.colorPalette.blue(4), shape = RoundedCornerShape(4.dp)),
+            Modifier.size(24.dp).background(iconBackgroundColor, shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
-            PlatformIcon(
-                AllIconsKeys.Nodes.ConfigFolder,
-                "taskGroup",
+            Icon(
+                key = AllIconsKeys.Nodes.ConfigFolder,
+                contentDescription = "taskGroup",
                 hints = arrayOf(Stroke(Color.White), Badge(Color.Red, DotBadgeShape.Default)),
             )
         }
 
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Size(20))
+            Icon(key = AllIconsKeys.Nodes.ConfigFolder, contentDescription = "taskGroup", hint = Size(20))
         }
 
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            PlatformIcon(
-                AllIconsKeys.Actions.Close,
-                "An icon",
+            Icon(
+                key = AllIconsKeys.Actions.Close,
+                contentDescription = "An icon",
                 modifier = Modifier.border(1.dp, Color.Magenta),
                 hint = Size(20),
             )
         }
 
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            PlatformIcon(AllIconsKeys.Nodes.ConfigFolder, "taskGroup", hint = Size(20))
+            Icon(key = AllIconsKeys.Nodes.ConfigFolder, contentDescription = "taskGroup", hint = Size(20))
         }
 
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
             Icon(
-                IdeSampleIconKeys.gitHub,
+                key = IdeSampleIconKeys.gitHub,
                 iconClass = IdeSampleIconKeys::class.java,
                 modifier = Modifier.border(1.dp, Color.Magenta),
                 contentDescription = "An owned icon",
             )
         }
 
-        IconButton(onClick = {}, Modifier.size(24.dp)) { PlatformIcon(AllIconsKeys.Actions.Close, "Close") }
+        IconButton(onClick = {}, Modifier.size(24.dp)) {
+            Icon(key = AllIconsKeys.Actions.Close, contentDescription = "Close")
+        }
 
         IconActionButton(
             AllIconsKeys.Actions.AddList,
