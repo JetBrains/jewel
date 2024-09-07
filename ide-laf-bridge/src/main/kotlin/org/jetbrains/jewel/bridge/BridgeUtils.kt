@@ -36,6 +36,7 @@ import com.intellij.util.ui.JBValue
 import java.awt.Dimension
 import java.awt.Insets
 import javax.swing.UIManager
+import org.jetbrains.jewel.ui.component.Typography
 
 private val logger = Logger.getInstance("JewelBridge")
 
@@ -158,7 +159,9 @@ public fun retrieveTextStyle(
 ): TextStyle {
     val baseColor = colorKey?.let { retrieveColorOrUnspecified(colorKey) } ?: Color.Unspecified
     val resolvedStyle = retrieveTextStyle(fontKey, color = baseColor, lineHeight, bold, fontStyle, size)
-    return resolvedStyle.copy(lineHeight = resolvedStyle.fontSize * 1.3)
+    return resolvedStyle.copy(
+        lineHeight = lineHeight.takeOrElse { resolvedStyle.fontSize * Typography.DefaultLineHeightMultiplier }
+    )
 }
 
 @OptIn(ExperimentalTextApi::class)
