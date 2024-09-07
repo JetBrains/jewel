@@ -148,9 +148,17 @@ public fun retrieveArcAsCornerSizeWithFallbacks(vararg keys: String): CornerSize
     keysNotFound(keys.toList(), "Int")
 }
 
-public fun retrieveTextStyle(fontKey: String, colorKey: String? = null): TextStyle {
+public fun retrieveTextStyle(
+    fontKey: String,
+    colorKey: String? = null,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    bold: Boolean = false,
+    fontStyle: FontStyle = FontStyle.Normal,
+    size: TextUnit = TextUnit.Unspecified,
+): TextStyle {
     val baseColor = colorKey?.let { retrieveColorOrUnspecified(colorKey) } ?: Color.Unspecified
-    return retrieveTextStyle(fontKey, color = baseColor)
+    val resolvedStyle = retrieveTextStyle(fontKey, color = baseColor, lineHeight, bold, fontStyle, size)
+    return resolvedStyle.copy(lineHeight = resolvedStyle.fontSize * 1.3)
 }
 
 @OptIn(ExperimentalTextApi::class)
