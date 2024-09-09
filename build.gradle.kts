@@ -21,10 +21,10 @@ dependencies {
 
 tasks {
 //    val mergeSarifReports by
-       // registering(MergeSarifTask::class) {
-    //        source(configurations.outgoingSarif)
-    //        include { it.file.extension == "sarif" }
-    //        }
+//        registering(MergeSarifTask::class) {
+//            source(configurations.outgoingSarif)
+//            include { it.file.extension == "sarif" }
+//        }
 //
 //    register("check") { dependsOn(mergeSarifReports) }
 }
