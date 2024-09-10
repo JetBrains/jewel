@@ -26,9 +26,7 @@ import org.jetbrains.jewel.samples.standalone.view.component.Tooltips
 import org.jetbrains.jewel.ui.component.SplitLayoutState
 
 object ComponentsViewModel {
-    private var outerSplitState by mutableStateOf(SplitLayoutState(0.5f))
-    private var verticalSplitState by mutableStateOf(SplitLayoutState(0.5f))
-    private var innerSplitState by mutableStateOf(SplitLayoutState(0.5f))
+    private var outerSplitState by mutableStateOf(SplitLayoutState(0.3f))
 
     val views: SnapshotStateList<ViewInfo> =
         mutableStateListOf(
@@ -88,11 +86,9 @@ object ComponentsViewModel {
                 title = "SplitLayout",
                 iconKey = StandaloneSampleIcons.Components.splitlayout,
                 content = {
-                    SplitLayouts(outerSplitState, verticalSplitState, innerSplitState) {
-                        outerSplitState = SplitLayoutState(0.5f)
-                        verticalSplitState = SplitLayoutState(0.5f)
-                        innerSplitState = SplitLayoutState(0.5f)
-                    }
+                    SplitLayouts(
+                        outerSplitState = outerSplitState
+                    )
                 },
             ),
         )
