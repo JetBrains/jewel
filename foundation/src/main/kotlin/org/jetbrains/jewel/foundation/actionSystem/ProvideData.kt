@@ -10,8 +10,8 @@ import androidx.compose.ui.focus.FocusEventModifierNode
  * Use this modifier to provide context related data that can be used by IntelliJ Actions functionality such as Search
  * Everywhere, Action Popups etc.
  *
- * Important note: modifiers order is important, so be careful with order
- * of [focusable] and [provideData] (see [FocusEventModifierNode]).
+ * Important note: modifiers order is important, so be careful with order of [focusable] and [provideData] (see
+ * [FocusEventModifierNode]).
  *
  * This can be traversed from Modifier.Node() using Compose traversal API using DataProviderNode as a TraverseKey
  */
