@@ -25,6 +25,6 @@ public class RootDataProviderNode : Modifier.Node() {
             TraversableNode.Companion.TraverseDescendantsAction.ContinueTraversal
         }
 
-        return context.lazyValue ?: context.value
+        return context.lazyValue?.invoke() ?: context.value
     }
 }
