@@ -126,10 +126,14 @@ private fun RowScope.ColumnOne() {
         TextField(
             state = state,
             modifier =
-                Modifier.width(200.dp).provideData {
-                    set(ActionSystemTestAction.COMPONENT_DATA_KEY.name, "TextField")
-                    lazy(ActionSystemTestAction.COMPONENT_DATA_KEY.name) { Math.random().toString() }
-                },
+                Modifier
+                    .width(200.dp)
+                    .provideData {
+                        set(ActionSystemTestAction.COMPONENT_DATA_KEY.name, "TextField")
+                        lazy(ActionSystemTestAction.COMPONENT_DATA_KEY.name) {
+                            Math.random().toString()
+                        }
+                    },
             placeholder = { Text("Write something...") },
         )
 
@@ -142,7 +146,10 @@ private fun RowScope.ColumnOne() {
                 checked = checked,
                 onCheckedChange = { checked = it },
                 outline = outline,
-                modifier = Modifier.provideData { set(ActionSystemTestAction.COMPONENT_DATA_KEY.name, "Checkbox") },
+                modifier =
+                    Modifier.provideData {
+                        set(ActionSystemTestAction.COMPONENT_DATA_KEY.name, "Checkbox")
+                    },
             ) {
                 Text("Hello, I am a themed checkbox")
             }

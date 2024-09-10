@@ -11,7 +11,9 @@ import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.jewel.foundation.actionSystem.provideData
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Rule
 import org.junit.Test
 
@@ -29,16 +31,12 @@ class ProvideDataTest {
             rule.setContent {
                 focusManager = LocalFocusManager.current
                 Box(
-                    modifier = Modifier
-                        .then(rootDataProviderModifier)
-                        .testTag("provider")
-                        .provideData {
-                            when (it) {
-                                "data" -> "ok"
-                                else -> null
+                    modifier =
+                        rootDataProviderModifier.testTag("provider")
+                            .provideData {
+                                set("data", "ok")
                             }
-                        }
-                        .focusable(),
+                            .focusable(),
                 )
             }
             rule.awaitIdle()
@@ -47,8 +45,8 @@ class ProvideDataTest {
 
             rule.onNodeWithTag("provider").assertIsFocused()
 
-            assertEquals("ok", rootDataProviderModifier.dataProvider("data"))
-            assertEquals(null, rootDataProviderModifier.dataProvider("another_data"))
+            assertEquals("ok", rootDataProviderModifier.getData("data"))
+            assertNull(rootDataProviderModifier.getData("another_data"))
         }
     }
 
@@ -60,27 +58,23 @@ class ProvideDataTest {
             rule.setContent {
                 focusManager = LocalFocusManager.current
                 Box(
-                    modifier = Modifier
-                        .then(rootDataProviderModifier)
-                        .testTag("root_provider")
-                        .provideData {
-                            when (it) {
-                                "isRoot" -> "yes"
-                                else -> null
+                    modifier =
+                        rootDataProviderModifier.testTag("root_provider")
+                            .provideData {
+                                set("is_root", "yes")
+                                set("data", "notOk")
                             }
-                        }
-                        .focusable(),
+                            .focusable(),
                 ) {
                     Box(modifier = Modifier.testTag("non_data_provider").focusable()) {
                         Box(
-                            modifier = Modifier
-                                .testTag("data_provider_item")
-                                .provideData {
-                                    when (it) {
-                                        "data" -> "ok"
-                                        else -> null
+                            modifier =
+                                Modifier.testTag("data_provider_item")
+                                    .provideData {
+                                        set("data", "ok")
+                                        set("one", "1")
                                     }
-                                }.focusable(),
+                                    .focusable(),
                         )
                     }
                 }
@@ -91,25 +85,28 @@ class ProvideDataTest {
             rule.awaitIdle()
 
             rule.onNodeWithTag("root_provider").assertIsFocused()
-            assertEquals("yes", rootDataProviderModifier.dataProvider("isRoot"))
-            assertEquals(null, rootDataProviderModifier.dataProvider("data"))
+
+            assertEquals("yes", rootDataProviderModifier.getData("is_root"))
+            assertEquals("notOk", rootDataProviderModifier.getData("data"))
+            assertNull(rootDataProviderModifier.getData("one"))
 
             focusManager!!.moveFocus(FocusDirection.Next)
             rule.awaitIdle()
 
             rule.onNodeWithTag("non_data_provider").assertIsFocused()
             // non_data_provider still should provide isRoot == true because it should be taken from root
-            // but shouldn't provide "data" yet
-            assertEquals("yes", rootDataProviderModifier.dataProvider("isRoot"))
-            assertEquals(null, rootDataProviderModifier.dataProvider("data"))
+            // but shouldn't provide "one" yet
+            assertEquals("yes", rootDataProviderModifier.getData("is_root"))
+            assertEquals("notOk", rootDataProviderModifier.getData("data"))
+            assertNull(rootDataProviderModifier.getData("one"))
 
             focusManager!!.moveFocus(FocusDirection.Next)
             rule.awaitIdle()
 
             rule.onNodeWithTag("data_provider_item").assertIsFocused()
-
-            assertEquals("yes", rootDataProviderModifier.dataProvider("isRoot"))
-            assertEquals("ok", rootDataProviderModifier.dataProvider("data"))
+            assertEquals("yes", rootDataProviderModifier.getData("is_root"))
+            assertEquals("ok", rootDataProviderModifier.getData("data"))
+            assertEquals("1", rootDataProviderModifier.getData("one"))
         }
     }
 }
