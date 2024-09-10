@@ -10,20 +10,42 @@ import com.intellij.lang.Language
 import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
+import com.intellij.openapi.editor.colors.EditorColorsListener
 import com.intellij.openapi.editor.colors.EditorColorsManager
+import com.intellij.openapi.editor.colors.EditorColorsScheme
 import com.intellij.openapi.editor.markup.TextAttributes
+import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.project.Project
 import com.intellij.testFramework.LightVirtualFile
 import java.awt.Font
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.jewel.bridge.toComposeColorOrUnspecified
 import org.jetbrains.jewel.foundation.code.MimeType
 import org.jetbrains.jewel.foundation.code.highlighting.CodeHighlighter
 
 @Service(Service.Level.PROJECT)
-public class LexerBasedCodeHighlighter(private val project: Project) : CodeHighlighter {
+public class LexerBasedCodeHighlighter(private val project: Project, private val coroutineScope: CoroutineScope) :
+    CodeHighlighter {
+    private val reHighlightingRequests = MutableSharedFlow<Unit>(replay = 0)
+
+    init {
+        project.messageBus
+            .connect(coroutineScope)
+            .subscribe(
+                EditorColorsManager.TOPIC,
+                EditorColorsListener { coroutineScope.launch { reHighlightingRequests.emit(Unit) } },
+            )
+    }
 
     override fun highlight(code: String, mimeType: MimeType): Flow<AnnotatedString> {
         val language = mimeType.toLanguageOrNull() ?: return flowOf(AnnotatedString(code))
@@ -34,29 +56,45 @@ public class LexerBasedCodeHighlighter(private val project: Project) : CodeHighl
                 code,
             )
         val colorScheme = EditorColorsManager.getInstance().globalScheme
-        val highlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(language, project, virtualFile)
+        val highlighter =
+            SyntaxHighlighterFactory.getSyntaxHighlighter(language, project, virtualFile)
+                ?: return flowOf(AnnotatedString(code))
 
-        return flowOf(
-            buildAnnotatedString {
-                with(highlighter.highlightingLexer) {
-                    start(code)
+        return flow {
+            highlightAndEmit(highlighter, code, colorScheme)
+            reHighlightingRequests.collect { highlightAndEmit(highlighter, code, colorScheme) }
+        }
+    }
 
-                    while (tokenType != null) {
-                        val attributes: TextAttributes? = run {
-                            val attrKey = highlighter.getTokenHighlights(tokenType).lastOrNull() ?: return@run null
-                            colorScheme.getAttributes(attrKey) ?: attrKey.defaultAttributes
-                        }
-                        withTextAttributes(attributes) { append(tokenText) }
-                        advance()
-                    }
+    private suspend fun FlowCollector<AnnotatedString>.highlightAndEmit(
+        highlighter: SyntaxHighlighter,
+        code: String,
+        colorScheme: EditorColorsScheme,
+        highlightDispatcher: CoroutineContext = Dispatchers.Default,
+    ) {
+        emit(withContext(highlightDispatcher) { doHighlight(highlighter, code, colorScheme) })
+    }
+
+    private fun doHighlight(
+        highlighter: SyntaxHighlighter,
+        code: String,
+        colorScheme: EditorColorsScheme,
+    ): AnnotatedString = buildAnnotatedString {
+        with(highlighter.highlightingLexer) {
+            start(code)
+
+            while (tokenType != null) {
+                val attributes: TextAttributes? = run {
+                    val attrKey = highlighter.getTokenHighlights(tokenType).lastOrNull() ?: return@run null
+                    colorScheme.getAttributes(attrKey) ?: attrKey.defaultAttributes
                 }
+                withTextAttributes(attributes) { append(tokenText) }
+                advance()
             }
-        )
+        }
     }
 
-    private fun MimeType.toLanguageOrNull(): Language? {
-        return LanguageUtil.findRegisteredLanguage(displayName().lowercase())
-    }
+    private fun MimeType.toLanguageOrNull(): Language? = LanguageUtil.findRegisteredLanguage(displayName().lowercase())
 
     private fun AnnotatedString.Builder.withTextAttributes(
         textAttributes: TextAttributes?,
