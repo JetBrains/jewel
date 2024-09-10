@@ -21,9 +21,7 @@ import org.jetbrains.jewel.foundation.InternalJewelApi
 public fun JewelComposePanel(content: @Composable () -> Unit): JComponent = createJewelComposePanel {
     setContent {
         SwingBridgeTheme {
-            CompositionLocalProvider(
-                LocalComponent provides this@createJewelComposePanel
-            ) {
+            CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel) {
                 ComponentDataProviderBridge(this, content = content)
             }
         }
