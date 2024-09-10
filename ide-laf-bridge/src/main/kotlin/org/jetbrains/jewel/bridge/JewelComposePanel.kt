@@ -11,16 +11,22 @@ import androidx.compose.ui.awt.ComposePanel
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.toSize
+import javax.swing.JComponent
 import org.jetbrains.jewel.bridge.actionSystem.ComponentDataProviderBridge
 import org.jetbrains.jewel.bridge.theme.SwingBridgeTheme
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.InternalJewelApi
-import javax.swing.JComponent
 
 @Suppress("ktlint:standard:function-naming", "FunctionName") // Swing to Compose bridge API
 public fun JewelComposePanel(content: @Composable () -> Unit): JComponent = createJewelComposePanel {
     setContent {
-        SwingBridgeTheme { CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel, content) }
+        SwingBridgeTheme {
+            CompositionLocalProvider(
+                LocalComponent provides this@createJewelComposePanel
+            ) {
+                ComponentDataProviderBridge(this, content = content)
+            }
+        }
     }
 }
 
@@ -29,28 +35,36 @@ public fun JewelComposePanel(content: @Composable () -> Unit): JComponent = crea
 public fun JewelToolWindowComposePanel(content: @Composable () -> Unit): JComponent = createJewelComposePanel {
     setContent {
         Compose17IJSizeBugWorkaround {
-            SwingBridgeTheme { CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel, content) }
+            SwingBridgeTheme {
+                CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel) {
+                    ComponentDataProviderBridge(this, content = content)
+                }
+            }
         }
     }
 }
 
 @ExperimentalJewelApi
 @Suppress("ktlint:standard:function-naming", "FunctionName") // Swing to Compose bridge API
-public fun JewelComposeNoThemePanel(content: @Composable () -> Unit): JComponent =
-    createJewelComposePanel {
-        setContent { CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel, content = content) }
+public fun JewelComposeNoThemePanel(content: @Composable () -> Unit): JComponent = createJewelComposePanel {
+    setContent {
+        CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel) {
+            ComponentDataProviderBridge(this, content = content)
+        }
     }
+}
 
 @ExperimentalJewelApi
 @Suppress("ktlint:standard:function-naming", "FunctionName") // Swing to Compose bridge API
-public fun JewelToolWindowNoThemeComposePanel(content: @Composable () -> Unit): JComponent =
-    createJewelComposePanel {
-        setContent {
-            Compose17IJSizeBugWorkaround {
-                CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel, content = content)
+public fun JewelToolWindowNoThemeComposePanel(content: @Composable () -> Unit): JComponent = createJewelComposePanel {
+    setContent {
+        Compose17IJSizeBugWorkaround {
+            CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel) {
+                ComponentDataProviderBridge(this, content = content)
             }
         }
     }
+}
 
 private fun createJewelComposePanel(config: ComposePanel.() -> Unit): ComposePanel {
     val composePanel = ComposePanel()
@@ -59,10 +73,9 @@ private fun createJewelComposePanel(config: ComposePanel.() -> Unit): ComposePan
 }
 
 @ExperimentalJewelApi
-public val LocalComponent: ProvidableCompositionLocal<JComponent> =
-    staticCompositionLocalOf {
-        error("CompositionLocal LocalComponent not provided")
-    }
+public val LocalComponent: ProvidableCompositionLocal<JComponent> = staticCompositionLocalOf {
+    error("CompositionLocal LocalComponent not provided")
+}
 
 /**
  * Workaround until the issue with Compose 1.7 + fillMax__ + IntelliJ Panels is fixed:
@@ -71,8 +84,6 @@ public val LocalComponent: ProvidableCompositionLocal<JComponent> =
 @Composable
 private fun Compose17IJSizeBugWorkaround(content: @Composable () -> Unit) {
     with(LocalDensity.current) {
-        Box(modifier = Modifier.requiredSize(LocalWindowInfo.current.containerSize.toSize().toDpSize())) {
-            content()
-        }
+        Box(modifier = Modifier.requiredSize(LocalWindowInfo.current.containerSize.toSize().toDpSize())) { content() }
     }
 }
