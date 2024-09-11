@@ -34,7 +34,7 @@ import com.intellij.ui.JBColor
 import com.intellij.util.ui.JBUI
 import icons.IdeSampleIconKeys
 import org.jetbrains.jewel.bridge.LocalComponent
-import org.jetbrains.jewel.bridge.code.highlighting.LexerBasedCodeHighlighter
+import org.jetbrains.jewel.bridge.code.highlighting.CodeHighlighterFactory
 import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.foundation.actionSystem.provideData
 import org.jetbrains.jewel.foundation.lazy.tree.buildTree
@@ -321,7 +321,9 @@ private fun MarkdownExample(project: Project) {
 
     val contentColor = if (enabled) JewelTheme.globalColors.text.normal else JewelTheme.globalColors.text.disabled
     CompositionLocalProvider(LocalContentColor provides contentColor) {
-        ProvideMarkdownStyling(codeHighlighter = remember(project) { project.service<LexerBasedCodeHighlighter>() }) {
+        ProvideMarkdownStyling(
+            codeHighlighter = remember(project) { project.service<CodeHighlighterFactory>().createHighlighter() }
+        ) {
             Markdown(
                 """
                 |Hi! This is an example of **Markdown** rendering. We support the [CommonMark specs](https://commonmark.org/)

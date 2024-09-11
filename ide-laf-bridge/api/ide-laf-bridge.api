@@ -105,15 +105,15 @@ public final class org/jetbrains/jewel/bridge/actionSystem/RootDataProviderNode 
 	public fun uiDataSnapshot (Lcom/intellij/openapi/actionSystem/DataSink;)V
 }
 
-public final class org/jetbrains/jewel/bridge/code/highlighting/LexerBasedCodeHighlighter : org/jetbrains/jewel/foundation/code/highlighting/CodeHighlighter {
+public final class org/jetbrains/jewel/bridge/code/highlighting/CodeHighlighterFactory {
 	public static final field $stable I
-	public static final field Companion Lorg/jetbrains/jewel/bridge/code/highlighting/LexerBasedCodeHighlighter$Companion;
+	public static final field Companion Lorg/jetbrains/jewel/bridge/code/highlighting/CodeHighlighterFactory$Companion;
 	public fun <init> (Lcom/intellij/openapi/project/Project;Lkotlinx/coroutines/CoroutineScope;)V
-	public fun highlight-C7ITchA (Ljava/lang/String;Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
+	public final fun createHighlighter ()Lorg/jetbrains/jewel/foundation/code/highlighting/CodeHighlighter;
 }
 
-public final class org/jetbrains/jewel/bridge/code/highlighting/LexerBasedCodeHighlighter$Companion {
-	public final fun getInstance (Lcom/intellij/openapi/project/Project;)Lorg/jetbrains/jewel/bridge/code/highlighting/LexerBasedCodeHighlighter;
+public final class org/jetbrains/jewel/bridge/code/highlighting/CodeHighlighterFactory$Companion {
+	public final fun getInstance (Lcom/intellij/openapi/project/Project;)Lorg/jetbrains/jewel/bridge/code/highlighting/CodeHighlighterFactory;
 }
 
 public final class org/jetbrains/jewel/bridge/icon/IntelliJIconKeyKt {
