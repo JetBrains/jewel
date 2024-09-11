@@ -3,6 +3,9 @@ package org.jetbrains.jewel.intui.markdown.bridge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import com.intellij.openapi.components.service
+import com.intellij.openapi.project.Project
+import org.jetbrains.jewel.bridge.code.highlighting.CodeHighlighterFactory
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.code.highlighting.CodeHighlighter
 import org.jetbrains.jewel.foundation.code.highlighting.LocalCodeHighlighter
@@ -35,4 +38,27 @@ public fun ProvideMarkdownStyling(
     ) {
         content()
     }
+}
+
+@ExperimentalJewelApi
+@Composable
+public fun ProvideMarkdownStyling(
+    project: Project,
+    themeName: String = JewelTheme.name,
+    markdownStyling: MarkdownStyling = remember(themeName) { MarkdownStyling.create() },
+    markdownProcessor: MarkdownProcessor = remember { MarkdownProcessor() },
+    markdownBlockRenderer: MarkdownBlockRenderer =
+        remember(markdownStyling) { MarkdownBlockRenderer.create(markdownStyling) },
+    content: @Composable () -> Unit,
+) {
+    val codeHighlighter = remember { project.service<CodeHighlighterFactory>().createHighlighter() }
+
+    ProvideMarkdownStyling(
+        themeName = themeName,
+        markdownStyling = markdownStyling,
+        markdownProcessor = markdownProcessor,
+        markdownBlockRenderer = markdownBlockRenderer,
+        codeHighlighter = codeHighlighter,
+        content = content,
+    )
 }

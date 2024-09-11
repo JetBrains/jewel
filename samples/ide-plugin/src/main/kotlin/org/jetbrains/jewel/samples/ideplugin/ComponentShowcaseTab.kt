@@ -28,13 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.intellij.ide.BrowserUtil
-import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.JBUI
 import icons.IdeSampleIconKeys
 import org.jetbrains.jewel.bridge.LocalComponent
-import org.jetbrains.jewel.bridge.code.highlighting.CodeHighlighterFactory
 import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.foundation.actionSystem.provideData
 import org.jetbrains.jewel.foundation.lazy.tree.buildTree
@@ -321,9 +319,7 @@ private fun MarkdownExample(project: Project) {
 
     val contentColor = if (enabled) JewelTheme.globalColors.text.normal else JewelTheme.globalColors.text.disabled
     CompositionLocalProvider(LocalContentColor provides contentColor) {
-        ProvideMarkdownStyling(
-            codeHighlighter = remember(project) { project.service<CodeHighlighterFactory>().createHighlighter() }
-        ) {
+        ProvideMarkdownStyling(project) {
             Markdown(
                 """
                 |Hi! This is an example of **Markdown** rendering. We support the [CommonMark specs](https://commonmark.org/)
