@@ -34,12 +34,8 @@ internal class LexerBasedCodeHighlighter(
 ) : CodeHighlighter {
     override fun highlight(code: String, mimeType: MimeType): Flow<AnnotatedString> {
         val language = mimeType.toLanguageOrNull() ?: return flowOf(AnnotatedString(code))
-        val virtualFile =
-            LightVirtualFile(
-                "markdown_code_block_${code.hashCode()}.${language.associatedFileType?.defaultExtension ?: "txt"}",
-                language,
-                code,
-            )
+        val fileExtension = language.associatedFileType?.defaultExtension ?: return flowOf(AnnotatedString(code))
+        val virtualFile = LightVirtualFile("markdown_code_block_${code.hashCode()}.$fileExtension", language, code)
         val colorScheme = EditorColorsManager.getInstance().globalScheme
         val highlighter =
             SyntaxHighlighterFactory.getSyntaxHighlighter(language, project, virtualFile)
