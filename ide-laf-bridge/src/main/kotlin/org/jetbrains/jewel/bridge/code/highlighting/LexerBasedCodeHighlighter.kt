@@ -5,11 +5,13 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import com.intellij.lang.Language
 import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.colors.EditorColorsScheme
+import com.intellij.openapi.editor.markup.EffectType
 import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
@@ -91,5 +93,12 @@ internal class LexerBasedCodeHighlighter(
             color = foregroundColor.toComposeColorOrUnspecified(),
             fontWeight = if (fontType and Font.BOLD != 0) FontWeight.Bold else null,
             fontStyle = if (fontType and Font.ITALIC != 0) FontStyle.Italic else null,
+            background = backgroundColor.toComposeColorOrUnspecified(),
+            textDecoration =
+                when (effectType) {
+                    EffectType.LINE_UNDERSCORE -> TextDecoration.Underline
+                    EffectType.STRIKEOUT -> TextDecoration.LineThrough
+                    else -> null
+                },
         )
 }
