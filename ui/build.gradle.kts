@@ -7,7 +7,8 @@ plugins {
     `jewel-publish`
     `jewel-check-public-api`
     `icon-keys-generator`
-    alias(libs.plugins.composeDesktop)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinx.serialization)
 }
 

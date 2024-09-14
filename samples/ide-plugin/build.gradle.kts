@@ -1,6 +1,7 @@
 plugins {
     jewel
-    alias(libs.plugins.composeDesktop)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
     alias(libs.plugins.ideaPlugin)
     `android-studio-releases-generator`
 }

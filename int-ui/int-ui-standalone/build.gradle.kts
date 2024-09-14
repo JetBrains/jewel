@@ -2,14 +2,15 @@ plugins {
     jewel
     `jewel-publish`
     `jewel-check-public-api`
-    alias(libs.plugins.composeDesktop)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
     `intellij-theme-generator`
 }
 
 dependencies { api(projects.ui) }
 
 intelliJThemeGenerator {
-    val targetIdeaVersion = "idea/242.20224.91"
+    val targetIdeaVersion = "idea/243.12818.47"
     register("intUiLight") {
         themeClassName = "org.jetbrains.jewel.intui.core.theme.IntUiLightTheme"
         themeFile = "platform/platform-resources/src/themes/expUI/expUI_light.theme.json"

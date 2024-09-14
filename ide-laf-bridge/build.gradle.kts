@@ -3,7 +3,8 @@ plugins {
     `jewel-publish`
     `jewel-check-public-api`
     `ide-version-checker`
-    alias(libs.plugins.composeDesktop)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
     alias(libs.plugins.ideaPluginBase)
 }
 

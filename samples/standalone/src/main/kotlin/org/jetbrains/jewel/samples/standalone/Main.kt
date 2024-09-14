@@ -1,5 +1,12 @@
 package org.jetbrains.jewel.samples.standalone
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
@@ -11,6 +18,7 @@ import androidx.compose.ui.res.ResourceLoader
 import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.application
 import java.io.InputStream
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -115,3 +123,9 @@ private fun processKeyShortcuts(keyEvent: KeyEvent, onNavigateTo: (String) -> Un
 
 private fun svgResource(resourcePath: String, loader: ResourceLoader = ResourceLoader.Default): Painter =
     loader.load(resourcePath).use { stream: InputStream -> loadSvgPainter(stream, Density(1f)) }
+
+@Preview
+@Composable
+fun MyThing() {
+    Box(Modifier.background(Color.Red).size(50.dp))
+}

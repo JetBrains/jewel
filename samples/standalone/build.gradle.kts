@@ -4,7 +4,8 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     jewel
-    alias(libs.plugins.composeDesktop)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
 }
 
 dependencies {

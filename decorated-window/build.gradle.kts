@@ -4,7 +4,8 @@ plugins {
     jewel
     `jewel-publish`
     `jewel-check-public-api`
-    alias(libs.plugins.composeDesktop)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
 }
 
 private val composeVersion
