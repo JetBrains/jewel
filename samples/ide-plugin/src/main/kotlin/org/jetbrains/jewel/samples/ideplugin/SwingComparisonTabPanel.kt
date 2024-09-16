@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -71,6 +73,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                 textAreasRow()
                 separator()
                 comboBoxesRow()
+                separator()
             }
             .apply {
                 border = JBUI.Borders.empty(0, 10)
@@ -287,6 +290,8 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                     }
                                 },
                             )
+
+                            Spacer(Modifier.height(200.dp))
                         }
                     }
                 }
