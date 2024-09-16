@@ -80,8 +80,8 @@ public object IntUiDefaultDropdownColorsFactory {
         borderFocused: Color = IntUiLightTheme.colors.blue(4),
         borderPressed: Color = border,
         borderHovered: Color = border,
-        iconTint: Color = IntUiLightTheme.colors.gray(7),
-        iconTintDisabled: Color = IntUiLightTheme.colors.gray(9),
+        iconTint: Color = Color.Unspecified,
+        iconTintDisabled: Color = iconTint,
         iconTintFocused: Color = iconTint,
         iconTintPressed: Color = iconTint,
         iconTintHovered: Color = iconTint,
@@ -244,18 +244,18 @@ public object IntUiUndecoratedDropdownColorsFactory {
 }
 
 public fun DropdownMetrics.Companion.default(
-    arrowMinSize: DpSize = DpSize((23 + 3).dp, 24.dp),
+    arrowMinSize: DpSize = DpSize(21.dp, 22.dp),
     minSize: DpSize = DpSize((49 + 23 + 6).dp, 24.dp),
     cornerSize: CornerSize = CornerSize(4.dp),
-    contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 3.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
     borderWidth: Dp = 1.dp,
 ): DropdownMetrics = DropdownMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
 
 public fun DropdownMetrics.Companion.undecorated(
-    arrowMinSize: DpSize = DpSize((23 + 3).dp, 24.dp),
+    arrowMinSize: DpSize = DpSize(21.dp, 22.dp),
     minSize: DpSize = DpSize((49 + 23 + 6).dp, 24.dp),
     cornerSize: CornerSize = CornerSize(4.dp),
-    contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 3.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
     borderWidth: Dp = 0.dp,
 ): DropdownMetrics = DropdownMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
 
