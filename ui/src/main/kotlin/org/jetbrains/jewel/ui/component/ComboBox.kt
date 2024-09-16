@@ -142,6 +142,7 @@ public fun ComboBox(
                         state = inputTextFieldState,
                         modifier = Modifier.fillMaxWidth(),
                         lineLimits = TextFieldLineLimits.SingleLine,
+                        textStyle = JewelTheme.defaultTextStyle,
                     )
                 },
             )
