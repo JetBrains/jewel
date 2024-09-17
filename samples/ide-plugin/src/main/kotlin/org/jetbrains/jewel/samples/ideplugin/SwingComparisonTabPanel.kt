@@ -43,6 +43,7 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import icons.IdeSampleIconKeys
 import icons.JewelIcons
+import javax.swing.DefaultComboBoxModel
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -57,7 +58,6 @@ import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.theme.textAreaStyle
-import javax.swing.DefaultComboBoxModel
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private val mainContent =
@@ -202,14 +202,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                 comboBox1.isEditable = false
                 cell(comboBox1).align(AlignY.CENTER)
 
-                val itemsComboBox =
-                    arrayOf(
-                        "Cat",
-                        "Elephant",
-                        "Sun",
-                        "Book",
-                        "Laughter",
-                    )
+                val itemsComboBox = arrayOf("Cat", "Elephant", "Sun", "Book", "Laughter")
                 val comboBox2 = ComboBox(DefaultComboBoxModel(itemsComboBox))
                 comboBox2.isEditable = true
                 cell(comboBox2).align(AlignY.CENTER)
