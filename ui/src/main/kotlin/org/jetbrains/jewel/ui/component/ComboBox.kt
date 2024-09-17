@@ -29,10 +29,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
@@ -61,6 +63,7 @@ public fun ComboBox(
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: DropdownStyle = JewelTheme.dropdownStyle,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
     menuContent: MenuScope.() -> Unit,
 ) {
     var skipNextClick by remember { mutableStateOf(false) }
@@ -142,7 +145,8 @@ public fun ComboBox(
                         state = inputTextFieldState,
                         modifier = Modifier.fillMaxWidth(),
                         lineLimits = TextFieldLineLimits.SingleLine,
-                        textStyle = JewelTheme.defaultTextStyle,
+                        textStyle = textStyle,
+                        cursorBrush = SolidColor(textStyle.color),
                     )
                 },
             )
