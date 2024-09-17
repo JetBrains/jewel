@@ -98,41 +98,45 @@ public fun ComboBox(
     var componentWidth by remember { mutableIntStateOf(-1) }
     Box(
         modifier =
-            modifier
-                .clickable(
-                    onClick = {
-                        // TODO: Trick to skip click event when close menu by click dropdown
-                        if (!skipNextClick) {
-                            popupExpanded = !popupExpanded
-                        }
-                        skipNextClick = false
-                    },
-                    enabled = enabled,
-                    role = Role.Button,
-                    interactionSource = interactionSource,
-                    indication = null,
-                )
-                .background(colors.backgroundFor(comboBoxState).value, shape)
-                .thenIf(hasNoOutline) {
-                    border(
-                        alignment = Stroke.Alignment.Inside,
-                        width = style.metrics.borderWidth,
-                        color = borderColor,
-                        shape = shape,
-                    )
-                }
-                .thenIf(outline == Outline.None) {
-                    focusOutline(state = comboBoxState, outlineShape = shape, alignment = Stroke.Alignment.Center)
-                }
-                .outline(
+        modifier
+            .clickable(
+                onClick = {
+                    // TODO: Trick to skip click event when close menu by click dropdown
+                    if (!skipNextClick) {
+                        popupExpanded = !popupExpanded
+                    }
+                    skipNextClick = false
+                },
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            )
+            .background(colors.backgroundFor(comboBoxState).value, shape)
+            .thenIf(outline == Outline.None) {
+                focusOutline(
                     state = comboBoxState,
-                    outline = outline,
                     outlineShape = shape,
                     alignment = Stroke.Alignment.Center,
                 )
-                .width(IntrinsicSize.Max)
-                .defaultMinSize(minSize.width, minSize.height)
-                .onSizeChanged { componentWidth = it.width },
+            }
+            .thenIf(hasNoOutline) {
+                border(
+                    alignment = Stroke.Alignment.Inside,
+                    width = style.metrics.borderWidth,
+                    color = borderColor,
+                    shape = shape,
+                )
+            }
+            .outline(
+                state = comboBoxState,
+                outline = outline,
+                outlineShape = shape,
+                alignment = Stroke.Alignment.Inside,
+            )
+            .width(IntrinsicSize.Max)
+            .defaultMinSize(minSize.width, minSize.height)
+            .onSizeChanged { componentWidth = it.width },
         contentAlignment = Alignment.CenterStart,
     ) {
         CompositionLocalProvider(LocalContentColor provides colors.contentFor(comboBoxState).value) {
