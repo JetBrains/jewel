@@ -25,8 +25,6 @@ import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
-import javax.swing.UIManager
-import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.isNewUiTheme
@@ -124,6 +122,8 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import javax.swing.UIManager
+import kotlin.time.Duration.Companion.milliseconds
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
@@ -489,7 +489,7 @@ private fun readDividerStyle() =
     DividerStyle(color = JBColor.border().toComposeColorOrUnspecified(), metrics = DividerMetrics.defaults())
 
 private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
-    val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
+    val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
     val normalBorder = retrieveColorOrUnspecified("Component.borderColor")
     val focusedBorder = retrieveColorOrUnspecified("Component.focusedBorderColor")
@@ -536,7 +536,7 @@ private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
 }
 
 private fun readUndecoratedDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
-    val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
+    val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
     val hoverBackground = retrieveColorOrUnspecified("MainToolbar.Dropdown.transparentHoverBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
 
