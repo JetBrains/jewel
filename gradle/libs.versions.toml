@@ -1,6 +1,6 @@
 [versions]
 commonmark = "0.22.0"
-composeMultiplatform = "1.7.0-beta01"
+composeMultiplatform = "1.7.0-beta02"
 detekt = "1.23.6"
 dokka = "1.9.20"
 idea = "243.12818.47"
