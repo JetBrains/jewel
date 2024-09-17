@@ -2,6 +2,7 @@ package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -28,7 +29,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.layout.onSizeChanged
@@ -81,6 +81,8 @@ public fun ComboBox(
                 is PressInteraction.Release -> comboBoxState = comboBoxState.copy(pressed = false)
                 is HoverInteraction.Enter -> comboBoxState = comboBoxState.copy(hovered = false)
                 is HoverInteraction.Exit -> comboBoxState = comboBoxState.copy(hovered = false)
+                is FocusInteraction.Focus -> comboBoxState = comboBoxState.copy(focused = true)
+                is FocusInteraction.Unfocus -> comboBoxState = comboBoxState.copy(focused = false)
             }
         }
     }
@@ -96,59 +98,59 @@ public fun ComboBox(
     var componentWidth by remember { mutableIntStateOf(-1) }
     Box(
         modifier =
-            modifier
-                .clickable(
-                    onClick = {
-                        // TODO: Trick to skip click event when close menu by click dropdown
-                        if (!skipNextClick) {
-                            popupExpanded = !popupExpanded
-                        }
-                        skipNextClick = false
-                        comboBoxState = comboBoxState.copy(focused = popupExpanded)
-                    },
-                    enabled = enabled,
-                    role = Role.Button,
-                    interactionSource = interactionSource,
-                    indication = null,
-                )
-                .background(colors.backgroundFor(comboBoxState).value, shape)
-                .thenIf(outline == Outline.None) {
-                    focusOutline(state = comboBoxState, outlineShape = shape, alignment = Stroke.Alignment.Center)
-                }
-                .thenIf(hasNoOutline) {
-                    border(
-                        alignment = Stroke.Alignment.Inside,
-                        width = style.metrics.borderWidth,
-                        color = borderColor,
-                        shape = shape,
-                    )
-                }
-                .outline(
+        modifier
+            .clickable(
+                onClick = {
+                    // TODO: Trick to skip click event when close menu by click dropdown
+                    if (!skipNextClick) {
+                        popupExpanded = !popupExpanded
+                    }
+                    skipNextClick = false
+                },
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            )
+            .background(colors.backgroundFor(comboBoxState).value, shape)
+            .thenIf(outline == Outline.None) {
+                focusOutline(
                     state = comboBoxState,
-                    outline = outline,
                     outlineShape = shape,
-                    alignment = Stroke.Alignment.Inside,
+                    alignment = Stroke.Alignment.Center,
                 )
-                .width(IntrinsicSize.Max)
-                .defaultMinSize(minSize.width, minSize.height)
-                .onSizeChanged { componentWidth = it.width },
+            }
+            .thenIf(hasNoOutline) {
+                border(
+                    alignment = Stroke.Alignment.Inside,
+                    width = style.metrics.borderWidth,
+                    color = borderColor,
+                    shape = shape,
+                )
+            }
+            .outline(
+                state = comboBoxState,
+                outline = outline,
+                outlineShape = shape,
+                alignment = Stroke.Alignment.Inside,
+            )
+            .width(IntrinsicSize.Max)
+            .defaultMinSize(minSize.width, minSize.height)
+            .onSizeChanged { componentWidth = it.width },
         contentAlignment = Alignment.CenterStart,
     ) {
         CompositionLocalProvider(LocalContentColor provides colors.contentFor(comboBoxState).value) {
             Box(
-                modifier = Modifier.fillMaxWidth().padding(end = arrowMinSize.width),
+                modifier =
+                    Modifier.fillMaxWidth().padding(style.metrics.contentPadding).padding(end = arrowMinSize.width),
                 contentAlignment = Alignment.CenterStart,
                 content = {
                     BasicTextField(
                         state = inputTextFieldState,
-                        modifier =
-                            Modifier.fillMaxWidth().padding(style.metrics.contentPadding).onFocusChanged { focusState ->
-                                comboBoxState = comboBoxState.copy(focused = focusState.isFocused)
-                            },
+                        modifier = Modifier.fillMaxWidth(),
                         lineLimits = TextFieldLineLimits.SingleLine,
                         textStyle = textStyle,
                         cursorBrush = SolidColor(textStyle.color),
-                        interactionSource = interactionSource,
                     )
                 },
             )
@@ -165,9 +167,9 @@ public fun ComboBox(
                     thickness = metrics.borderWidth,
                     color = colors.border,
                     modifier =
-                        Modifier
-                            .align(Alignment.CenterStart)
-                            .thenIf(comboBoxState.isFocused) { padding(vertical = 2.dp) },
+                        Modifier.align(Alignment.CenterStart).thenIf(comboBoxState.isFocused) {
+                            padding(vertical = 1.dp)
+                        },
                 )
                 Icon(key = style.icons.chevronDown, contentDescription = null, tint = colors.iconTint)
             }
