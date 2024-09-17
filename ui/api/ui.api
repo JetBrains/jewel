@@ -229,6 +229,44 @@ public final class org/jetbrains/jewel/ui/component/CircularProgressIndicatorKt 
 	public static final fun CircularProgressIndicatorBig (Landroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/ui/component/styling/CircularProgressStyle;Lkotlinx/coroutines/CoroutineDispatcher;Landroidx/compose/runtime/Composer;II)V
 }
 
+public final class org/jetbrains/jewel/ui/component/ComboBoxKt {
+	public static final fun ComboBox (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/text/input/TextFieldState;ZLandroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/ui/Outline;Landroidx/compose/foundation/interaction/MutableInteractionSource;Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;Landroidx/compose/ui/text/TextStyle;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class org/jetbrains/jewel/ui/component/ComboBoxState : org/jetbrains/jewel/foundation/state/FocusableComponentState {
+	public static final field Companion Lorg/jetbrains/jewel/ui/component/ComboBoxState$Companion;
+	public static final synthetic fun box-impl (J)Lorg/jetbrains/jewel/ui/component/ComboBoxState;
+	public fun chooseValue (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Landroidx/compose/runtime/Composer;I)Ljava/lang/Object;
+	public static fun chooseValue-impl (JLjava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Landroidx/compose/runtime/Composer;I)Ljava/lang/Object;
+	public static fun constructor-impl (J)J
+	public static final fun copy-b6bHBqw (JZZZZZ)J
+	public static synthetic fun copy-b6bHBqw$default (JZZZZZILjava/lang/Object;)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public final fun getState-s-VKNKU ()J
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun isActive ()Z
+	public static fun isActive-impl (J)Z
+	public fun isEnabled ()Z
+	public static fun isEnabled-impl (J)Z
+	public fun isFocused ()Z
+	public static fun isFocused-impl (J)Z
+	public fun isHovered ()Z
+	public static fun isHovered-impl (J)Z
+	public fun isPressed ()Z
+	public static fun isPressed-impl (J)Z
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class org/jetbrains/jewel/ui/component/ComboBoxState$Companion {
+	public final fun of-b6bHBqw (ZZZZZ)J
+	public static synthetic fun of-b6bHBqw$default (Lorg/jetbrains/jewel/ui/component/ComboBoxState$Companion;ZZZZZILjava/lang/Object;)J
+}
+
 public final class org/jetbrains/jewel/ui/component/ComposableSingletons$MenuKt {
 	public static final field INSTANCE Lorg/jetbrains/jewel/ui/component/ComposableSingletons$MenuKt;
 	public static field lambda-1 Lkotlin/jvm/functions/Function2;
