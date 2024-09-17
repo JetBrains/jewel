@@ -179,7 +179,6 @@ public fun ComboBox(
                 },
                 modifier =
                     menuModifier
-                        .padding(horizontal = 3.dp)
                         .focusProperties { canFocus = true }
                         .defaultMinSize(minWidth = with(density) { componentWidth.toDp() }),
                 style = style.menuStyle,

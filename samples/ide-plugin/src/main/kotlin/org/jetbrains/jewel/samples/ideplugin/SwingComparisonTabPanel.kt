@@ -209,11 +209,6 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         "Sun",
                         "Book",
                         "Laughter",
-                        "Whisper",
-                        "Ocean",
-                        "Serendipity lorem ipsum",
-                        "Umbrella",
-                        "Joy",
                     )
                 val comboBox2 = ComboBox(DefaultComboBoxModel(itemsComboBox))
                 comboBox2.isEditable = true
@@ -228,6 +223,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
 
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             ComboBox(
+                                modifier = Modifier.width(100.dp),
                                 inputTextFieldState = inputTextFieldState,
                                 menuContent = {
                                     itemsComboBox.forEach {
