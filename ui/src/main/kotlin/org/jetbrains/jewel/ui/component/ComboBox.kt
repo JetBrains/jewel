@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.layout.onSizeChanged
@@ -142,12 +143,15 @@ public fun ComboBox(
         CompositionLocalProvider(LocalContentColor provides colors.contentFor(comboBoxState).value) {
             Box(
                 modifier =
-                    Modifier.fillMaxWidth().padding(style.metrics.contentPadding).padding(end = arrowMinSize.width),
+                    Modifier.fillMaxWidth()
+                        .padding(end = arrowMinSize.width).onFocusChanged {
+                            comboBoxState = comboBoxState.copy(focused = it.isFocused)
+                        },
                 contentAlignment = Alignment.CenterStart,
                 content = {
                     BasicTextField(
                         state = inputTextFieldState,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().padding(style.metrics.contentPadding),
                         lineLimits = TextFieldLineLimits.SingleLine,
                         textStyle = textStyle,
                         cursorBrush = SolidColor(textStyle.color),
@@ -167,9 +171,8 @@ public fun ComboBox(
                     thickness = metrics.borderWidth,
                     color = colors.border,
                     modifier =
-                        Modifier.align(Alignment.CenterStart).thenIf(comboBoxState.isFocused) {
-                            padding(vertical = 1.dp)
-                        },
+                        Modifier.align(Alignment.CenterStart)
+                            .thenIf(comboBoxState.isFocused) { padding(vertical = 2.dp) },
                 )
                 Icon(key = style.icons.chevronDown, contentDescription = null, tint = colors.iconTint)
             }
