@@ -56,6 +56,7 @@ import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable
 public fun ComboBox(
+    isEditable: Boolean = true,
     modifier: Modifier = Modifier,
     inputTextFieldState: TextFieldState,
     enabled: Boolean = true,
@@ -144,6 +145,7 @@ public fun ComboBox(
                 contentAlignment = Alignment.CenterStart,
                 content = {
                     BasicTextField(
+                        readOnly = !isEditable,
                         state = inputTextFieldState,
                         modifier = Modifier.fillMaxWidth().padding(style.metrics.contentPadding),
                         lineLimits = TextFieldLineLimits.SingleLine,
