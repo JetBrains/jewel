@@ -3,6 +3,7 @@ package org.jetbrains.jewel.samples.standalone.view.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -10,8 +11,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlin.random.Random
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.ComboBox
 import org.jetbrains.jewel.ui.component.Dropdown
@@ -19,6 +20,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import kotlin.random.Random
 
 @Composable
 fun Dropdowns() {
@@ -181,6 +183,7 @@ fun Dropdowns() {
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             ComboBox(
+                modifier = Modifier.width(140.dp),
                 inputTextFieldState = inputTextFieldState,
                 menuContent = {
                     itemsComboBox.forEach {
@@ -201,8 +204,8 @@ fun Dropdowns() {
                 },
             )
             ComboBox(
-                outline = Outline.Warning,
                 inputTextFieldState = inputTextFieldState,
+                outline = Outline.Warning,
                 menuContent = {
                     itemsComboBox.forEach {
                         if (it == "---") {
@@ -223,8 +226,8 @@ fun Dropdowns() {
             )
 
             ComboBox(
-                outline = Outline.Error,
                 inputTextFieldState = inputTextFieldState,
+                outline = Outline.Error,
                 menuContent = {
                     itemsComboBox.forEach {
                         if (it == "---") {
