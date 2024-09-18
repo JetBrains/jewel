@@ -43,7 +43,6 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import icons.IdeSampleIconKeys
 import icons.JewelIcons
-import javax.swing.DefaultComboBoxModel
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -58,6 +57,11 @@ import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.theme.textAreaStyle
+import java.awt.Component
+import javax.swing.BoxLayout
+import javax.swing.DefaultComboBoxModel
+import javax.swing.JLabel
+import javax.swing.JPanel
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private val mainContent =
@@ -198,24 +202,42 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
         row("ComboBoxes:") {
                 // Swing ComboBoxes
                 val zoomLevels = arrayOf("100%", "125%", "150%", "175%", "200%", "300%")
-                val comboBox1 = ComboBox(DefaultComboBoxModel(zoomLevels))
-                comboBox1.isEditable = false
-                cell(comboBox1).align(AlignY.CENTER)
+
+                JPanel()
+                    .apply {
+                        layout = BoxLayout(this, BoxLayout.Y_AXIS)
+                        add(JLabel("Not editable").apply { alignmentX = Component.LEFT_ALIGNMENT })
+                        add(
+                            ComboBox(DefaultComboBoxModel(zoomLevels)).apply {
+                                isEditable = false
+                                alignmentX = Component.LEFT_ALIGNMENT
+                            }
+                        )
+                    }
+                    .run { cell(this).align(AlignY.TOP) }
 
                 val itemsComboBox = arrayOf("Cat", "Elephant", "Sun", "Book", "Laughter")
-                val comboBox2 = ComboBox(DefaultComboBoxModel(itemsComboBox))
-                comboBox2.isEditable = true
-                cell(comboBox2).align(AlignY.CENTER)
+                JPanel()
+                    .apply {
+                        layout = BoxLayout(this, BoxLayout.Y_AXIS)
+                        add(JLabel("Editable").apply { alignmentX = Component.LEFT_ALIGNMENT })
+                        add(
+                            ComboBox(DefaultComboBoxModel(itemsComboBox)).apply {
+                                isEditable = true
+                                alignmentX = Component.LEFT_ALIGNMENT
+                            }
+                        )
+                    }
+                    .run { cell(this).align(AlignY.TOP) }
 
-                compose {
+                compose(modifier = Modifier.padding(horizontal = 8.dp, vertical = 0.dp)) {
                     var selectedComboBox: String? by remember { mutableStateOf(itemsComboBox.first()) }
                     val inputTextFieldState = rememberTextFieldState(itemsComboBox.first())
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(text = "Selected item: $selectedComboBox")
-                        Text(text = "Input text: ${inputTextFieldState.text}")
-
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text("Not editable")
                             ComboBox(
+                                isEditable = false,
                                 modifier = Modifier.width(100.dp),
                                 inputTextFieldState = inputTextFieldState,
                                 menuContent = {
@@ -236,52 +258,78 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                     }
                                 },
                             )
-                            ComboBox(
-                                outline = Outline.Warning,
-                                inputTextFieldState = inputTextFieldState,
-                                menuContent = {
-                                    itemsComboBox.forEach {
-                                        if (it == "---") {
-                                            separator()
-                                        } else {
-                                            selectableItem(
-                                                selected = selectedComboBox == it,
-                                                onClick = {
-                                                    selectedComboBox = it
-                                                    inputTextFieldState.edit { replace(0, length, it) }
-                                                },
-                                            ) {
-                                                Text(it)
-                                            }
-                                        }
-                                    }
-                                },
-                            )
-
-                            ComboBox(
-                                outline = Outline.Error,
-                                inputTextFieldState = inputTextFieldState,
-                                menuContent = {
-                                    itemsComboBox.forEach {
-                                        if (it == "---") {
-                                            separator()
-                                        } else {
-                                            selectableItem(
-                                                selected = selectedComboBox == it,
-                                                onClick = {
-                                                    selectedComboBox = it
-                                                    inputTextFieldState.edit { replace(0, length, it) }
-                                                },
-                                            ) {
-                                                Text(it)
-                                            }
-                                        }
-                                    }
-                                },
-                            )
-
-                            Spacer(Modifier.height(200.dp))
                         }
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text("Editable")
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                ComboBox(
+                                    modifier = Modifier.width(100.dp),
+                                    inputTextFieldState = inputTextFieldState,
+                                    menuContent = {
+                                        itemsComboBox.forEach {
+                                            if (it == "---") {
+                                                separator()
+                                            } else {
+                                                selectableItem(
+                                                    selected = selectedComboBox == it,
+                                                    onClick = {
+                                                        selectedComboBox = it
+                                                        inputTextFieldState.edit { replace(0, length, it) }
+                                                    },
+                                                ) {
+                                                    Text(it)
+                                                }
+                                            }
+                                        }
+                                    },
+                                )
+                                ComboBox(
+                                    outline = Outline.Warning,
+                                    inputTextFieldState = inputTextFieldState,
+                                    menuContent = {
+                                        itemsComboBox.forEach {
+                                            if (it == "---") {
+                                                separator()
+                                            } else {
+                                                selectableItem(
+                                                    selected = selectedComboBox == it,
+                                                    onClick = {
+                                                        selectedComboBox = it
+                                                        inputTextFieldState.edit { replace(0, length, it) }
+                                                    },
+                                                ) {
+                                                    Text(it)
+                                                }
+                                            }
+                                        }
+                                    },
+                                )
+
+                                ComboBox(
+                                    outline = Outline.Error,
+                                    inputTextFieldState = inputTextFieldState,
+                                    menuContent = {
+                                        itemsComboBox.forEach {
+                                            if (it == "---") {
+                                                separator()
+                                            } else {
+                                                selectableItem(
+                                                    selected = selectedComboBox == it,
+                                                    onClick = {
+                                                        selectedComboBox = it
+                                                        inputTextFieldState.edit { replace(0, length, it) }
+                                                    },
+                                                ) {
+                                                    Text(it)
+                                                }
+                                            }
+                                        }
+                                    },
+                                )
+                            }
+                        }
+
+                        Spacer(Modifier.height(200.dp))
                     }
                 }
             }
@@ -324,6 +372,6 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private fun PaddingValues.horizontal(layoutDirection: LayoutDirection): Dp =
         calculateStartPadding(layoutDirection) + calculateEndPadding(layoutDirection)
 
-    private fun Row.compose(content: @Composable () -> Unit) =
-        cell(JewelComposePanel { Box(Modifier.padding(8.dp)) { content() } }.apply { isOpaque = false })
+    private fun Row.compose(modifier: Modifier = Modifier.padding(8.dp), content: @Composable () -> Unit) =
+        cell(JewelComposePanel { Box(modifier) { content() } }.apply { isOpaque = false })
 }
