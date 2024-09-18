@@ -25,8 +25,6 @@ import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
-import javax.swing.UIManager
-import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.isNewUiTheme
@@ -124,6 +122,8 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import javax.swing.UIManager
+import kotlin.time.Duration.Companion.milliseconds
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
@@ -709,15 +709,15 @@ private fun readMenuStyle(): MenuStyle {
         metrics =
             MenuMetrics(
                 cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
-                menuMargin = PaddingValues(0.dp),
-                contentPadding = PaddingValues(horizontal = 0.dp, vertical = 6.dp),
+                menuMargin = PaddingValues(),
+                contentPadding = PaddingValues(),
                 offset = DpOffset(0.dp, 2.dp),
                 shadowSize = 12.dp,
                 borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
                 itemMetrics =
                     MenuItemMetrics(
-                        selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
-                        outerPadding = PaddingValues(horizontal = 7.dp),
+                        selectionCornerSize = CornerSize(0.dp),
+                        outerPadding = PaddingValues(),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp),
                         keybindingsPadding = PaddingValues(start = 36.dp),
                         separatorPadding =
