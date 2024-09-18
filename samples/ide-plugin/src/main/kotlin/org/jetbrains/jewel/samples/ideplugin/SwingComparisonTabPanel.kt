@@ -237,8 +237,8 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text("Not editable")
                             ComboBox(
-                                isEditable = false,
                                 modifier = Modifier.width(100.dp),
+                                isEditable = false,
                                 inputTextFieldState = inputTextFieldState,
                                 menuContent = {
                                     itemsComboBox.forEach {
@@ -284,8 +284,8 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                     },
                                 )
                                 ComboBox(
-                                    outline = Outline.Warning,
                                     inputTextFieldState = inputTextFieldState,
+                                    outline = Outline.Warning,
                                     menuContent = {
                                         itemsComboBox.forEach {
                                             if (it == "---") {
@@ -306,8 +306,8 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 )
 
                                 ComboBox(
-                                    outline = Outline.Error,
                                     inputTextFieldState = inputTextFieldState,
+                                    outline = Outline.Error,
                                     menuContent = {
                                         itemsComboBox.forEach {
                                             if (it == "---") {
