@@ -149,7 +149,7 @@ public fun MenuMetrics.Companion.defaults(
     cornerSize: CornerSize = CornerSize(8.dp),
     menuMargin: PaddingValues = PaddingValues(vertical = 6.dp),
     contentPadding: PaddingValues = PaddingValues(vertical = 8.dp),
-    offset: DpOffset = DpOffset((-6).dp, 2.dp),
+    offset: DpOffset = DpOffset(0.dp, 2.dp),
     shadowSize: Dp = 12.dp,
     borderWidth: Dp = 1.dp,
     itemMetrics: MenuItemMetrics = MenuItemMetrics.defaults(),
