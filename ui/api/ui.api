@@ -230,7 +230,7 @@ public final class org/jetbrains/jewel/ui/component/CircularProgressIndicatorKt 
 }
 
 public final class org/jetbrains/jewel/ui/component/ComboBoxKt {
-	public static final fun ComboBox (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/text/input/TextFieldState;ZLandroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/ui/Outline;Landroidx/compose/foundation/interaction/MutableInteractionSource;Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;Landroidx/compose/ui/text/TextStyle;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ComboBox (ZLandroidx/compose/ui/Modifier;Landroidx/compose/foundation/text/input/TextFieldState;ZLandroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/ui/Outline;Landroidx/compose/foundation/interaction/MutableInteractionSource;Lorg/jetbrains/jewel/ui/component/styling/DropdownStyle;Landroidx/compose/ui/text/TextStyle;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class org/jetbrains/jewel/ui/component/ComboBoxState : org/jetbrains/jewel/foundation/state/FocusableComponentState {
