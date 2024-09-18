@@ -30,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -149,7 +148,6 @@ public fun ComboBox(
                         modifier = Modifier.fillMaxWidth().padding(style.metrics.contentPadding),
                         lineLimits = TextFieldLineLimits.SingleLine,
                         textStyle = textStyle,
-                        cursorBrush = SolidColor(textStyle.color),
                     )
                 },
             )
