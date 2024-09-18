@@ -162,15 +162,17 @@ public fun ComboBox(
                         .align(Alignment.CenterEnd),
                 contentAlignment = Alignment.Center,
             ) {
-                Divider(
-                    orientation = Orientation.Vertical,
-                    thickness = metrics.borderWidth,
-                    color = colors.border,
-                    modifier =
-                        Modifier.align(Alignment.CenterStart).thenIf(comboBoxState.isFocused) {
-                            padding(vertical = 2.dp)
-                        },
-                )
+                if (isEditable) {
+                    Divider(
+                        orientation = Orientation.Vertical,
+                        thickness = metrics.borderWidth,
+                        color = colors.border,
+                        modifier =
+                            Modifier.align(Alignment.CenterStart).thenIf(comboBoxState.isFocused) {
+                                padding(vertical = 2.dp)
+                            },
+                    )
+                }
                 Icon(key = style.icons.chevronDown, contentDescription = null, tint = colors.iconTint)
             }
         }
@@ -187,7 +189,6 @@ public fun ComboBox(
                 },
                 modifier =
                     menuModifier
-                        .padding(horizontal = 4.dp)
                         .focusProperties { canFocus = true }
                         .defaultMinSize(minWidth = with(density) { componentWidth.toDp() }),
                 style = style.menuStyle,
