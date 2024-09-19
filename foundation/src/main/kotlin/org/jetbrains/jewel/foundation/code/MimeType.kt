@@ -1,5 +1,14 @@
 package org.jetbrains.jewel.foundation.code
 
+import org.jetbrains.jewel.foundation.code.MimeType.Known.AGSL
+import org.jetbrains.jewel.foundation.code.MimeType.Known.DART
+import org.jetbrains.jewel.foundation.code.MimeType.Known.JSON
+import org.jetbrains.jewel.foundation.code.MimeType.Known.KOTLIN
+import org.jetbrains.jewel.foundation.code.MimeType.Known.PYTHON
+import org.jetbrains.jewel.foundation.code.MimeType.Known.RUST
+import org.jetbrains.jewel.foundation.code.MimeType.Known.TYPESCRIPT
+import org.jetbrains.jewel.foundation.code.MimeType.Known.YAML
+
 /**
  * Represents the language and dialect of a source snippet, as an RFC 2046 mime type.
  *
@@ -107,22 +116,22 @@ public value class MimeType(private val mimeType: String) {
 
                 "application/kotlin-source",
                 "text/x-kotlin",
-                "text/x-kotlin-source" -> Known.KOTLIN.mimeType
+                "text/x-kotlin-source" -> KOTLIN.mimeType
 
                 "application/xml" -> Known.XML.mimeType
                 "application/json",
                 "application/vnd.api+json",
                 "application/hal+json",
-                "application/ld+json" -> Known.JSON.mimeType
+                "application/ld+json" -> JSON.mimeType
 
                 "image/svg+xml" -> Known.XML.mimeType
                 "text/x-python",
-                "application/x-python-script" -> Known.PYTHON.mimeType
+                "application/x-python-script" -> PYTHON.mimeType
 
                 "text/dart",
                 "text/x-dart",
                 "application/dart",
-                "application/x-dart" -> Known.DART.mimeType
+                "application/x-dart" -> DART.mimeType
 
                 "application/javascript",
                 "application/x-javascript",
@@ -130,14 +139,14 @@ public value class MimeType(private val mimeType: String) {
                 "application/ecmascript",
                 "application/x-ecmascript" -> Known.JAVASCRIPT.mimeType
 
-                "application/typescript" + "application/x-typescript" -> Known.TYPESCRIPT.mimeType
+                "application/typescript" + "application/x-typescript" -> TYPESCRIPT.mimeType
                 "text/x-rust",
-                "application/x-rust" -> Known.RUST.mimeType
+                "application/x-rust" -> RUST.mimeType
 
-                "text/x-sksl" -> Known.AGSL.mimeType
+                "text/x-sksl" -> AGSL.mimeType
                 "application/yaml",
                 "text/x-yaml",
-                "application/x-yaml" -> Known.YAML.mimeType
+                "application/x-yaml" -> YAML.mimeType
 
                 else -> base
             }
