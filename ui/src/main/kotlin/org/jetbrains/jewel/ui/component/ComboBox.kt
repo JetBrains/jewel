@@ -58,10 +58,10 @@ import org.jetbrains.jewel.ui.util.thenIf
 @Composable
 public fun ComboBox(
     modifier: Modifier = Modifier,
-    isEditable: Boolean = true,
-    inputTextFieldState: TextFieldState = rememberTextFieldState(),
-    enabled: Boolean = true,
     menuModifier: Modifier = Modifier,
+    isEditable: Boolean = true,
+    isEnabled: Boolean = true,
+    inputTextFieldState: TextFieldState = rememberTextFieldState(),
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: DropdownStyle = JewelTheme.dropdownStyle,
@@ -71,9 +71,9 @@ public fun ComboBox(
     var skipNextClick by remember { mutableStateOf(false) }
 
     var popupExpanded by remember { mutableStateOf(false) }
-    var comboBoxState by remember(interactionSource) { mutableStateOf(DropdownState.of(enabled = enabled)) }
+    var comboBoxState by remember(interactionSource) { mutableStateOf(DropdownState.of(enabled = isEnabled)) }
 
-    remember(enabled) { comboBoxState = comboBoxState.copy(enabled = enabled) }
+    remember(isEnabled) { comboBoxState = comboBoxState.copy(enabled = isEnabled) }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
@@ -109,7 +109,7 @@ public fun ComboBox(
                         }
                         skipNextClick = false
                     },
-                    enabled = enabled,
+                    enabled = isEnabled,
                     role = Role.Button,
                     interactionSource = interactionSource,
                     indication = null,
