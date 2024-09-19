@@ -13,7 +13,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlin.random.Random
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.ComboBox
 import org.jetbrains.jewel.ui.component.Dropdown
@@ -21,6 +20,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import kotlin.random.Random
 
 @Composable
 fun Dropdowns() {
@@ -182,6 +182,29 @@ fun Dropdowns() {
         Text(text = "Input text: ${inputTextFieldState.text}")
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            ComboBox(
+                modifier = Modifier.width(140.dp),
+                inputTextFieldState = inputTextFieldState,
+                isEditable = false,
+                menuContent = {
+                    itemsComboBox.forEach {
+                        if (it == "---") {
+                            separator()
+                        } else {
+                            selectableItem(
+                                selected = selectedComboBox == it,
+                                onClick = {
+                                    selectedComboBox = it
+                                    inputTextFieldState.edit { replace(0, length, it) }
+                                },
+                            ) {
+                                Text(it)
+                            }
+                        }
+                    }
+                },
+            )
+
             ComboBox(
                 modifier = Modifier.width(140.dp),
                 inputTextFieldState = inputTextFieldState,
