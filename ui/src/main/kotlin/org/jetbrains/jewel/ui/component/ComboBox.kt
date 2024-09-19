@@ -145,13 +145,20 @@ public fun ComboBox(
                     },
                 contentAlignment = Alignment.CenterStart,
                 content = {
-                    BasicTextField(
-                        readOnly = !isEditable,
-                        state = inputTextFieldState,
-                        modifier = Modifier.fillMaxWidth().padding(style.metrics.contentPadding),
-                        lineLimits = TextFieldLineLimits.SingleLine,
-                        textStyle = textStyle,
-                    )
+                    if (isEditable) {
+                        BasicTextField(
+                            state = inputTextFieldState,
+                            modifier = Modifier.fillMaxWidth().padding(style.metrics.contentPadding),
+                            lineLimits = TextFieldLineLimits.SingleLine,
+                            textStyle = textStyle,
+                        )
+                    } else {
+                        Text(
+                            text = inputTextFieldState.text.toString(),
+                            style = textStyle,
+                            modifier = Modifier.fillMaxWidth().padding(style.metrics.contentPadding),
+                        )
+                    }
                 },
             )
 
