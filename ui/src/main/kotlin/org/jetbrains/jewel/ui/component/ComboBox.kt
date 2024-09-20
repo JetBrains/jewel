@@ -106,7 +106,6 @@ public fun ComboBox(
             modifier
                 .clickable(
                     onClick = {
-                        // TODO: Trick to skip click event when close menu by click dropdown
                         if (!skipNextClick) {
                             popupExpanded = !popupExpanded
                         }
@@ -118,16 +117,14 @@ public fun ComboBox(
                     indication = null,
                 )
                 .background(colors.backgroundFor(comboBoxState, isEditable).value, shape)
-                .thenIf(outline == Outline.None) {
-                    focusOutline(state = comboBoxState, outlineShape = shape, alignment = Stroke.Alignment.Center)
-                }
                 .thenIf(hasNoOutline) {
-                    border(
-                        alignment = Stroke.Alignment.Inside,
-                        width = style.metrics.borderWidth,
-                        color = borderColor,
-                        shape = shape,
-                    )
+                    focusOutline(state = comboBoxState, outlineShape = shape, alignment = Stroke.Alignment.Center)
+                        .border(
+                            alignment = Stroke.Alignment.Inside,
+                            width = style.metrics.borderWidth,
+                            color = borderColor,
+                            shape = shape,
+                        )
                 }
                 .outline(
                     state = comboBoxState,
@@ -147,39 +144,38 @@ public fun ComboBox(
                         comboBoxState = comboBoxState.copy(focused = it.isFocused)
                     },
                 contentAlignment = Alignment.CenterStart,
-                content = {
-                    if (isEditable) {
-                        BasicTextField(
-                            state = inputTextFieldState,
-                            modifier =
-                                modifier
-                                    .padding(style.metrics.contentPadding)
-                                    .onSizeChanged { size ->
-                                        // Track the size of the BasicTextField when it first
-                                        // renders
-                                        if (initialTextFieldWidth == null) {
-                                            initialTextFieldWidth = size.width
-                                        }
+            ) {
+                if (isEditable) {
+                    BasicTextField(
+                        state = inputTextFieldState,
+                        modifier =
+                            modifier
+                                .padding(style.metrics.contentPadding)
+                                .onSizeChanged { size ->
+                                    // Track the size of the BasicTextField when it first
+                                    // renders
+                                    if (initialTextFieldWidth == null) {
+                                        initialTextFieldWidth = size.width
                                     }
-                                    .then(
-                                        // Apply the initial width to prevent expansion
-                                        initialTextFieldWidth?.let { Modifier.width(it.dp) } ?: Modifier
-                                    ),
-                            lineLimits = TextFieldLineLimits.SingleLine,
-                            textStyle = JewelTheme.defaultTextStyle.copy(color = colors.content),
-                            cursorBrush = SolidColor(colors.content),
-                        )
-                    } else {
-                        Text(
-                            text = inputTextFieldState.text.toString(),
-                            style = textStyle,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = modifier.fillMaxWidth().padding(style.metrics.contentPadding),
-                        )
-                    }
-                },
-            )
+                                }
+                                .then(
+                                    // Apply the initial width to prevent expansion
+                                    initialTextFieldWidth?.let { Modifier.width(it.dp) } ?: Modifier
+                                ),
+                        lineLimits = TextFieldLineLimits.SingleLine,
+                        textStyle = JewelTheme.defaultTextStyle.copy(color = colors.content),
+                        cursorBrush = SolidColor(colors.content),
+                    )
+                } else {
+                    Text(
+                        text = inputTextFieldState.text.toString(),
+                        style = textStyle,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = modifier.fillMaxWidth().padding(style.metrics.contentPadding),
+                    )
+                }
+            }
 
             Box(
                 modifier =
