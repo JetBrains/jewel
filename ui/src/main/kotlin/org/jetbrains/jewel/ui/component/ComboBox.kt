@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -116,7 +117,7 @@ public fun ComboBox(
                     interactionSource = interactionSource,
                     indication = null,
                 )
-                .background(colors.backgroundFor(comboBoxState).value, shape)
+                .background(colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(outline == Outline.None) {
                     focusOutline(state = comboBoxState, outlineShape = shape, alignment = Stroke.Alignment.Center)
                 }
@@ -165,7 +166,8 @@ public fun ComboBox(
                                         initialTextFieldWidth?.let { Modifier.width(it.dp) } ?: Modifier
                                     ),
                             lineLimits = TextFieldLineLimits.SingleLine,
-                            textStyle = textStyle,
+                            textStyle = JewelTheme.defaultTextStyle.copy(color = colors.content),
+                            cursorBrush = SolidColor(colors.content),
                         )
                     } else {
                         Text(
