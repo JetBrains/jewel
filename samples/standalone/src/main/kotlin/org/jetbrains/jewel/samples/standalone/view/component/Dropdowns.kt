@@ -227,6 +227,7 @@ fun Dropdowns() {
                 },
             )
             ComboBox(
+                modifier = Modifier.width(140.dp),
                 inputTextFieldState = inputTextFieldState,
                 outline = Outline.Warning,
                 menuContent = {

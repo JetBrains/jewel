@@ -99,6 +99,7 @@ public fun ComboBox(
     val hasNoOutline = outline == Outline.None
 
     var componentWidth by remember { mutableIntStateOf(-1) }
+    var initialTextFieldWidth by remember { mutableStateOf<Int?>(null) }
     Box(
         modifier =
             modifier
@@ -141,7 +142,7 @@ public fun ComboBox(
         CompositionLocalProvider(LocalContentColor provides colors.contentFor(comboBoxState).value) {
             Box(
                 modifier =
-                    Modifier.fillMaxWidth().padding(end = arrowMinSize.width).onFocusChanged {
+                    modifier.fillMaxWidth().padding(end = arrowMinSize.width).onFocusChanged {
                         comboBoxState = comboBoxState.copy(focused = it.isFocused)
                     },
                 contentAlignment = Alignment.CenterStart,
@@ -149,7 +150,20 @@ public fun ComboBox(
                     if (isEditable) {
                         BasicTextField(
                             state = inputTextFieldState,
-                            modifier = Modifier.fillMaxWidth().padding(style.metrics.contentPadding),
+                            modifier =
+                                modifier
+                                    .padding(style.metrics.contentPadding)
+                                    .onSizeChanged { size ->
+                                        // Track the size of the BasicTextField when it first
+                                        // renders
+                                        if (initialTextFieldWidth == null) {
+                                            initialTextFieldWidth = size.width
+                                        }
+                                    }
+                                    .then(
+                                        // Apply the initial width to prevent expansion
+                                        initialTextFieldWidth?.let { Modifier.width(it.dp) } ?: Modifier
+                                    ),
                             lineLimits = TextFieldLineLimits.SingleLine,
                             textStyle = textStyle,
                         )
@@ -159,7 +173,7 @@ public fun ComboBox(
                             style = textStyle,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.fillMaxWidth().padding(style.metrics.contentPadding),
+                            modifier = modifier.fillMaxWidth().padding(style.metrics.contentPadding),
                         )
                     }
                 },
