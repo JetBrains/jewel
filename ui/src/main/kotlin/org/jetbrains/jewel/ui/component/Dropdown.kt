@@ -106,7 +106,7 @@ public fun Dropdown(
                     interactionSource = interactionSource,
                     indication = null,
                 )
-                .background(colors.backgroundFor(dropdownState).value, shape)
+                .background(colors.backgroundFor(dropdownState, false).value, shape)
                 .thenIf(hasNoOutline) { border(Stroke.Alignment.Center, style.metrics.borderWidth, borderColor, shape) }
                 .thenIf(outline == Outline.None) { focusOutline(dropdownState, shape) }
                 .outline(dropdownState, outline, shape)
