@@ -388,7 +388,6 @@ public open class DefaultMarkdownBlockRenderer(
         Text(
             text = annotatedCode,
             style = styling.editorTextStyle,
-            color = styling.editorTextStyle.color.takeOrElse { LocalContentColor.current },
             modifier =
                 Modifier.focusProperties { canFocus = false }
                     .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
