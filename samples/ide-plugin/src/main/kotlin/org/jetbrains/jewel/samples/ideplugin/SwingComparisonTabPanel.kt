@@ -201,15 +201,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private fun Panel.comboBoxesRow() {
         row("ComboBoxes:") {
                 // Swing ComboBoxes
-                val zoomLevels =
-                    arrayOf(
-                        "100%",
-                        "125%",
-                        "150%",
-                        "175%",
-                        "200%",
-                        "300% eiojrwehiaeuhfd hfhiufh wephf wfnf fjoheiufhweuirh wqr",
-                    )
+                val zoomLevels = arrayOf("100%", "125%", "150%", "175%", "200%", "300%")
 
                 JPanel()
                     .apply {
