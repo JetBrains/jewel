@@ -93,8 +93,8 @@ public final class org/jetbrains/jewel/intui/standalone/styling/IntUiDefaultButt
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiDefaultDropdownColorsFactory {
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/intui/standalone/styling/IntUiDefaultDropdownColorsFactory;
-	public final fun dark-Xf8s2Ik (JJJJJJJJJJJJJJJJJJJJLandroidx/compose/runtime/Composer;IIII)Lorg/jetbrains/jewel/ui/component/styling/DropdownColors;
-	public final fun light-Xf8s2Ik (JJJJJJJJJJJJJJJJJJJJLandroidx/compose/runtime/Composer;IIII)Lorg/jetbrains/jewel/ui/component/styling/DropdownColors;
+	public final fun dark-dx8h9Zs (JJJJJJJJJJJJJJJJJJJJJLandroidx/compose/runtime/Composer;IIII)Lorg/jetbrains/jewel/ui/component/styling/DropdownColors;
+	public final fun light-dx8h9Zs (JJJJJJJJJJJJJJJJJJJJJLandroidx/compose/runtime/Composer;IIII)Lorg/jetbrains/jewel/ui/component/styling/DropdownColors;
 }
 
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiDefaultDropdownStyleFactory {
@@ -372,8 +372,8 @@ public final class org/jetbrains/jewel/intui/standalone/styling/IntUiTooltipStyl
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiUndecoratedDropdownColorsFactory {
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/intui/standalone/styling/IntUiUndecoratedDropdownColorsFactory;
-	public final fun dark-0ik9mME (JJJJJJJJJJJJJJJLandroidx/compose/runtime/Composer;III)Lorg/jetbrains/jewel/ui/component/styling/DropdownColors;
-	public final fun light-0ik9mME (JJJJJJJJJJJJJJJLandroidx/compose/runtime/Composer;III)Lorg/jetbrains/jewel/ui/component/styling/DropdownColors;
+	public final fun dark-V1nXRL4 (JJJJJJJJJJJJJJJJLandroidx/compose/runtime/Composer;III)Lorg/jetbrains/jewel/ui/component/styling/DropdownColors;
+	public final fun light-V1nXRL4 (JJJJJJJJJJJJJJJJLandroidx/compose/runtime/Composer;III)Lorg/jetbrains/jewel/ui/component/styling/DropdownColors;
 }
 
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiUndecoratedDropdownStyleFactory {
