@@ -544,7 +544,6 @@ private fun readDefaultComboBoxStyle(menuStyle: MenuStyle): ComboBoxStyle {
 
 private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
-    val nonEditableBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
     val normalBorder = retrieveColorOrUnspecified("Component.borderColor")
     val focusedBorder = retrieveColorOrUnspecified("Component.focusedBorderColor")
@@ -552,7 +551,6 @@ private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
     val colors =
         DropdownColors(
             background = normalBackground,
-            nonEditableBackground = nonEditableBackground,
             backgroundDisabled = retrieveColorOrUnspecified("ComboBox.disabledBackground"),
             backgroundFocused = normalBackground,
             backgroundPressed = normalBackground,
@@ -593,14 +591,12 @@ private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
 
 private fun readUndecoratedDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
-    val nonEditableBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
     val hoverBackground = retrieveColorOrUnspecified("MainToolbar.Dropdown.transparentHoverBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
 
     val colors =
         DropdownColors(
             background = normalBackground,
-            nonEditableBackground = nonEditableBackground,
             backgroundDisabled = retrieveColorOrUnspecified("ComboBox.disabledBackground"),
             backgroundFocused = normalBackground,
             backgroundPressed = normalBackground,
