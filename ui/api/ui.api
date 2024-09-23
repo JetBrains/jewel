@@ -1295,8 +1295,8 @@ public final class org/jetbrains/jewel/ui/component/styling/DividerStylingKt {
 public final class org/jetbrains/jewel/ui/component/styling/DropdownColors {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/DropdownColors$Companion;
-	public synthetic fun <init> (JJJJJJJJJJJJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun backgroundFor-6nTENxs (JLandroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/State;
+	public synthetic fun <init> (JJJJJJJJJJJJJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun backgroundFor-NBC9eMM (JZLandroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/State;
 	public final fun borderFor-6nTENxs (JLandroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/State;
 	public final fun contentFor-6nTENxs (JLandroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/State;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1320,6 +1320,7 @@ public final class org/jetbrains/jewel/ui/component/styling/DropdownColors {
 	public final fun getIconTintFocused-0d7_KjU ()J
 	public final fun getIconTintHovered-0d7_KjU ()J
 	public final fun getIconTintPressed-0d7_KjU ()J
+	public final fun getNonEditableBackground-0d7_KjU ()J
 	public fun hashCode ()I
 	public final fun iconTintFor-6nTENxs (JLandroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/State;
 	public fun toString ()Ljava/lang/String;
