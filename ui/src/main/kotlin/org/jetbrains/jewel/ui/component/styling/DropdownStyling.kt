@@ -31,7 +31,6 @@ public class DropdownStyle(
 @GenerateDataFunctions
 public class DropdownColors(
     public val background: Color,
-    public val nonEditableBackground: Color,
     public val backgroundDisabled: Color,
     public val backgroundFocused: Color,
     public val backgroundPressed: Color,
@@ -53,15 +52,14 @@ public class DropdownColors(
     public val iconTintHovered: Color,
 ) {
     @Composable
-    public fun backgroundFor(state: DropdownState, isEditable: Boolean): State<Color> =
+    public fun backgroundFor(state: DropdownState): State<Color> =
         rememberUpdatedState(
             when {
-                !isEditable -> nonEditableBackground
                 !state.isEnabled -> backgroundDisabled
                 state.isPressed -> backgroundPressed
                 state.isHovered -> backgroundHovered
-                state.isFocused && isEditable -> backgroundFocused
-                state.isActive && isEditable -> background
+                state.isFocused -> backgroundFocused
+                state.isActive -> background
                 else -> background
             }
         )
