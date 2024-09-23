@@ -1,8 +1,7 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.FocusInteraction
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -29,10 +28,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.input.InputMode
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
@@ -71,11 +76,15 @@ public fun ComboBox(
     menuContent: MenuScope.() -> Unit,
 ) {
     var skipNextClick by remember { mutableStateOf(false) }
-
     var popupExpanded by remember { mutableStateOf(false) }
-    var comboBoxState by remember(interactionSource) { mutableStateOf(DropdownState.of(enabled = isEnabled)) }
+    var comboBoxState by remember { mutableStateOf(DropdownState.of(enabled = isEnabled)) }
+    var isFocused by remember { mutableStateOf(false) }
+
+    val focusRequester = remember { FocusRequester() }
 
     remember(isEnabled) { comboBoxState = comboBoxState.copy(enabled = isEnabled) }
+
+    LaunchedEffect(isFocused) { comboBoxState = comboBoxState.copy(focused = isFocused) }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
@@ -83,10 +92,8 @@ public fun ComboBox(
                 is PressInteraction.Press -> comboBoxState = comboBoxState.copy(pressed = true)
                 is PressInteraction.Cancel,
                 is PressInteraction.Release -> comboBoxState = comboBoxState.copy(pressed = false)
-                is HoverInteraction.Enter -> comboBoxState = comboBoxState.copy(hovered = false)
+                is HoverInteraction.Enter -> comboBoxState = comboBoxState.copy(hovered = true)
                 is HoverInteraction.Exit -> comboBoxState = comboBoxState.copy(hovered = false)
-                is FocusInteraction.Focus -> comboBoxState = comboBoxState.copy(focused = true)
-                is FocusInteraction.Unfocus -> comboBoxState = comboBoxState.copy(focused = false)
             }
         }
     }
@@ -104,18 +111,6 @@ public fun ComboBox(
     Box(
         modifier =
             modifier
-                .clickable(
-                    onClick = {
-                        if (!skipNextClick) {
-                            popupExpanded = !popupExpanded
-                        }
-                        skipNextClick = false
-                    },
-                    enabled = isEnabled,
-                    role = Role.Button,
-                    interactionSource = interactionSource,
-                    indication = null,
-                )
                 .background(colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(hasNoOutline) {
                     focusOutline(state = comboBoxState, outlineShape = shape, alignment = Stroke.Alignment.Center)
@@ -132,15 +127,54 @@ public fun ComboBox(
                     outlineShape = shape,
                     alignment = Stroke.Alignment.Center,
                 )
-                .width(IntrinsicSize.Max)
                 .defaultMinSize(minSize.width, minSize.height)
-                .onSizeChanged { componentWidth = it.width },
+                .onSizeChanged { componentWidth = it.width }
+                // Ensure the clickable modifier is after handling the focus and background
+                .combinedClickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    enabled = isEnabled,
+                    role = Role.Button,
+                    onClick = {
+                        // Only handle clicks when not focused
+                        if (!isFocused) {
+                            if (!skipNextClick) {
+                                popupExpanded = !popupExpanded
+                                if (isEditable) {
+                                    focusRequester.requestFocus()
+                                }
+                            }
+                            skipNextClick = false
+                        }
+                    },
+                )
+                .onKeyEvent { keyEvent ->
+                    // When focused, let the BasicTextField handle the key events
+                    if (isFocused) {
+                        false
+                    } else {
+                        // When not focused, handle spacebar and enter keys to expand/collapse the
+                        // popup
+                        if (keyEvent.type == KeyEventType.KeyDown) {
+                            when (keyEvent.key) {
+                                Key.Spacebar,
+                                Key.Enter -> {
+                                    popupExpanded = !popupExpanded
+                                    true
+                                }
+                                else -> false
+                            }
+                        } else {
+                            false
+                        }
+                    }
+                },
         contentAlignment = Alignment.CenterStart,
     ) {
         CompositionLocalProvider(LocalContentColor provides colors.contentFor(comboBoxState).value) {
             Box(
                 modifier =
-                    modifier.fillMaxWidth().padding(end = arrowMinSize.width).onFocusChanged {
+                    modifier.padding(end = arrowMinSize.width).onFocusChanged {
                         comboBoxState = comboBoxState.copy(focused = it.isFocused)
                     },
                 contentAlignment = Alignment.CenterStart,
@@ -158,13 +192,16 @@ public fun ComboBox(
                                         initialTextFieldWidth = size.width
                                     }
                                 }
+                                .focusRequester(focusRequester)
+                                .onFocusChanged { focusState -> isFocused = focusState.isFocused }
                                 .then(
                                     // Apply the initial width to prevent expansion
                                     initialTextFieldWidth?.let { Modifier.width(it.dp) } ?: Modifier
                                 ),
                         lineLimits = TextFieldLineLimits.SingleLine,
-                        textStyle = JewelTheme.defaultTextStyle.copy(color = colors.content),
+                        textStyle = textStyle.copy(color = colors.content),
                         cursorBrush = SolidColor(colors.content),
+                        interactionSource = interactionSource,
                     )
                 } else {
                     Text(
@@ -172,7 +209,10 @@ public fun ComboBox(
                         style = textStyle,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = modifier.fillMaxWidth().padding(style.metrics.contentPadding),
+                        modifier =
+                            Modifier.fillMaxWidth().padding(metrics.contentPadding).onFocusChanged { focusState ->
+                                isFocused = focusState.isFocused
+                            },
                     )
                 }
             }
@@ -204,8 +244,9 @@ public fun ComboBox(
             PopupMenu(
                 onDismissRequest = {
                     popupExpanded = false
-                    if (it == InputMode.Touch && comboBoxState.isHovered) {
-                        skipNextClick = true
+                    // Reset focus when the popup is dismissed
+                    if (isEditable) {
+                        focusRequester.requestFocus()
                     }
                     true
                 },
