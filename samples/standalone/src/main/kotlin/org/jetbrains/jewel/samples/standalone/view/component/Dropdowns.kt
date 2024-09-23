@@ -13,7 +13,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlin.random.Random
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.ComboBox
 import org.jetbrains.jewel.ui.component.Dropdown
@@ -21,6 +20,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import kotlin.random.Random
 
 @Composable
 fun Dropdowns() {
@@ -175,7 +175,10 @@ fun Dropdowns() {
         )
     }
     var selectedComboBox: String? by remember { mutableStateOf(itemsComboBox.first()) }
-    val inputTextFieldState = rememberTextFieldState(itemsComboBox.first())
+    val inputTextFieldState = rememberTextFieldState(itemsComboBox.random())
+    val inputTextFieldState2 = rememberTextFieldState(itemsComboBox.random())
+    val inputTextFieldState3 = rememberTextFieldState(itemsComboBox.random())
+    val inputTextFieldState4 = rememberTextFieldState(itemsComboBox.random())
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(text = "ComboBoxes", style = Typography.h1TextStyle())
         Text(text = "Selected item: $selectedComboBox")
@@ -207,7 +210,7 @@ fun Dropdowns() {
 
             ComboBox(
                 modifier = Modifier.width(140.dp),
-                inputTextFieldState = inputTextFieldState,
+                inputTextFieldState = inputTextFieldState2,
                 menuContent = {
                     itemsComboBox.forEach {
                         if (it == "---") {
@@ -228,7 +231,7 @@ fun Dropdowns() {
             )
             ComboBox(
                 modifier = Modifier.width(140.dp),
-                inputTextFieldState = inputTextFieldState,
+                inputTextFieldState = inputTextFieldState3,
                 outline = Outline.Warning,
                 menuContent = {
                     itemsComboBox.forEach {
@@ -250,7 +253,7 @@ fun Dropdowns() {
             )
 
             ComboBox(
-                inputTextFieldState = inputTextFieldState,
+                inputTextFieldState = inputTextFieldState4,
                 outline = Outline.Error,
                 menuContent = {
                     itemsComboBox.forEach {
@@ -275,4 +278,4 @@ fun Dropdowns() {
 }
 
 private val dropdownIconsSample = listOf(AllIconsKeys.Actions.Find, AllIconsKeys.Actions.Close, null)
-private val dropdownKeybindingsSample = setOf("A", "B", "↑", "→", "␡")
+private val dropdownKeybindingsSample = setOf("A", "B", "?", "?", "?")
