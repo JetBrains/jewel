@@ -57,10 +57,10 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.Outline
-import org.jetbrains.jewel.ui.component.styling.DropdownStyle
+import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.outline
-import org.jetbrains.jewel.ui.theme.dropdownStyle
+import org.jetbrains.jewel.ui.theme.comboBoxStyle
 import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable
@@ -72,12 +72,12 @@ public fun ComboBox(
     inputTextFieldState: TextFieldState = rememberTextFieldState(),
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: DropdownStyle = JewelTheme.dropdownStyle,
+    style: ComboBoxStyle = JewelTheme.comboBoxStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     menuContent: MenuScope.() -> Unit,
 ) {
     var popupExpanded by remember { mutableStateOf(false) }
-    var comboBoxState by remember { mutableStateOf(DropdownState.of(enabled = isEnabled)) }
+    var comboBoxState by remember { mutableStateOf(ComboBoxState.of(enabled = isEnabled)) }
     var isFocused by remember { mutableStateOf(false) }
 
     val focusRequester = remember { FocusRequester() }
