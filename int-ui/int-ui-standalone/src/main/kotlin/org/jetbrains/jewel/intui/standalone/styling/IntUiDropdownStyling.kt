@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -71,7 +70,6 @@ public object IntUiDefaultDropdownColorsFactory {
         backgroundFocused: Color = background,
         backgroundPressed: Color = background,
         backgroundHovered: Color = background,
-        nonEditableBackground: Color = White,
         content: Color = IntUiLightTheme.colors.gray(1),
         contentDisabled: Color = IntUiLightTheme.colors.gray(8),
         contentFocused: Color = content,
@@ -82,8 +80,8 @@ public object IntUiDefaultDropdownColorsFactory {
         borderFocused: Color = IntUiLightTheme.colors.blue(4),
         borderPressed: Color = border,
         borderHovered: Color = border,
-        iconTint: Color = Color.Unspecified,
-        iconTintDisabled: Color = iconTint,
+        iconTint: Color = IntUiLightTheme.colors.gray(7),
+        iconTintDisabled: Color = IntUiLightTheme.colors.gray(9),
         iconTintFocused: Color = iconTint,
         iconTintPressed: Color = iconTint,
         iconTintHovered: Color = iconTint,
@@ -94,7 +92,6 @@ public object IntUiDefaultDropdownColorsFactory {
             backgroundFocused = backgroundFocused,
             backgroundPressed = backgroundPressed,
             backgroundHovered = backgroundHovered,
-            nonEditableBackground = nonEditableBackground,
             content = content,
             contentDisabled = contentDisabled,
             contentFocused = contentFocused,
@@ -119,7 +116,6 @@ public object IntUiDefaultDropdownColorsFactory {
         backgroundFocused: Color = background,
         backgroundPressed: Color = background,
         backgroundHovered: Color = background,
-        nonEditableBackground: Color = IntUiDarkTheme.colors.gray(3),
         content: Color = IntUiDarkTheme.colors.gray(12),
         contentDisabled: Color = IntUiDarkTheme.colors.gray(7),
         contentFocused: Color = content,
@@ -142,7 +138,6 @@ public object IntUiDefaultDropdownColorsFactory {
             backgroundFocused = backgroundFocused,
             backgroundPressed = backgroundPressed,
             backgroundHovered = backgroundHovered,
-            nonEditableBackground = nonEditableBackground,
             content = content,
             contentDisabled = contentDisabled,
             contentFocused = contentFocused,
@@ -172,7 +167,6 @@ public object IntUiUndecoratedDropdownColorsFactory {
         backgroundFocused: Color = background,
         backgroundPressed: Color = IntUiLightTheme.colors.gray(14).copy(alpha = 0.1f),
         backgroundHovered: Color = backgroundPressed,
-        nonEditableBackground: Color = White,
         content: Color = IntUiLightTheme.colors.gray(1),
         contentDisabled: Color = IntUiLightTheme.colors.gray(8),
         contentFocused: Color = content,
@@ -190,7 +184,6 @@ public object IntUiUndecoratedDropdownColorsFactory {
             backgroundFocused = backgroundFocused,
             backgroundPressed = backgroundPressed,
             backgroundHovered = backgroundHovered,
-            nonEditableBackground = nonEditableBackground,
             content = content,
             contentDisabled = contentDisabled,
             contentFocused = contentFocused,
@@ -215,7 +208,6 @@ public object IntUiUndecoratedDropdownColorsFactory {
         backgroundFocused: Color = background,
         backgroundPressed: Color = Color(0x0D000000), // Not a palette color
         backgroundHovered: Color = backgroundPressed,
-        nonEditableBackground: Color = IntUiDarkTheme.colors.gray(3),
         content: Color = IntUiDarkTheme.colors.gray(12),
         contentDisabled: Color = IntUiDarkTheme.colors.gray(7),
         contentFocused: Color = content,
@@ -233,7 +225,6 @@ public object IntUiUndecoratedDropdownColorsFactory {
             backgroundFocused = backgroundFocused,
             backgroundPressed = backgroundPressed,
             backgroundHovered = backgroundHovered,
-            nonEditableBackground = nonEditableBackground,
             content = content,
             contentDisabled = contentDisabled,
             contentFocused = contentFocused,
@@ -253,18 +244,18 @@ public object IntUiUndecoratedDropdownColorsFactory {
 }
 
 public fun DropdownMetrics.Companion.default(
-    arrowMinSize: DpSize = DpSize(21.dp, 22.dp),
+    arrowMinSize: DpSize = DpSize((23 + 3).dp, 24.dp),
     minSize: DpSize = DpSize((49 + 23 + 6).dp, 24.dp),
     cornerSize: CornerSize = CornerSize(4.dp),
-    contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 3.dp),
     borderWidth: Dp = 1.dp,
 ): DropdownMetrics = DropdownMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
 
 public fun DropdownMetrics.Companion.undecorated(
-    arrowMinSize: DpSize = DpSize(21.dp, 22.dp),
+    arrowMinSize: DpSize = DpSize((23 + 3).dp, 24.dp),
     minSize: DpSize = DpSize((49 + 23 + 6).dp, 24.dp),
     cornerSize: CornerSize = CornerSize(4.dp),
-    contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 3.dp),
     borderWidth: Dp = 0.dp,
 ): DropdownMetrics = DropdownMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
 
