@@ -64,6 +64,10 @@ import org.jetbrains.jewel.ui.component.styling.ChipColors
 import org.jetbrains.jewel.ui.component.styling.ChipMetrics
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
 import org.jetbrains.jewel.ui.component.styling.CircularProgressStyle
+import org.jetbrains.jewel.ui.component.styling.ComboBoxColors
+import org.jetbrains.jewel.ui.component.styling.ComboBoxIcons
+import org.jetbrains.jewel.ui.component.styling.ComboBoxMetrics
+import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
 import org.jetbrains.jewel.ui.component.styling.DividerMetrics
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
 import org.jetbrains.jewel.ui.component.styling.DropdownColors
@@ -212,6 +216,7 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         chipStyle = readChipStyle(),
         circularProgressStyle = readCircularProgressStyle(theme.isDark),
         defaultButtonStyle = readDefaultButtonStyle(),
+        comboBoxStyle = readDefaultComboBoxStyle(menuStyle),
         defaultDropdownStyle = readDefaultDropdownStyle(menuStyle),
         defaultTabStyle = readDefaultTabStyle(),
         dividerStyle = readDividerStyle(),
@@ -487,6 +492,55 @@ private fun readChipStyle(): ChipStyle {
 
 private fun readDividerStyle() =
     DividerStyle(color = JBColor.border().toComposeColorOrUnspecified(), metrics = DividerMetrics.defaults())
+
+private fun readDefaultComboBoxStyle(menuStyle: MenuStyle): ComboBoxStyle {
+    val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
+    val nonEditableBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
+    val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
+    val normalBorder = retrieveColorOrUnspecified("Component.borderColor")
+    val focusedBorder = retrieveColorOrUnspecified("Component.focusedBorderColor")
+
+    val colors =
+        ComboBoxColors(
+            background = normalBackground,
+            nonEditableBackground = nonEditableBackground,
+            backgroundDisabled = retrieveColorOrUnspecified("ComboBox.disabledBackground"),
+            backgroundFocused = normalBackground,
+            backgroundPressed = normalBackground,
+            backgroundHovered = normalBackground,
+            content = normalContent,
+            contentDisabled = retrieveColorOrUnspecified("ComboBox.disabledForeground"),
+            contentFocused = normalContent,
+            contentPressed = normalContent,
+            contentHovered = normalContent,
+            border = normalBorder,
+            borderDisabled = retrieveColorOrUnspecified("Component.disabledBorderColor"),
+            borderFocused = focusedBorder,
+            borderPressed = focusedBorder,
+            borderHovered = normalBorder,
+            iconTint = Color.Unspecified,
+            iconTintDisabled = Color.Unspecified,
+            iconTintFocused = Color.Unspecified,
+            iconTintPressed = Color.Unspecified,
+            iconTintHovered = Color.Unspecified,
+        )
+
+    val minimumSize = JBUI.CurrentTheme.ComboBox.minimumSize().toDpSize()
+    val arrowWidth = JBUI.CurrentTheme.Component.ARROW_AREA_WIDTH.dp
+    return ComboBoxStyle(
+        colors = colors,
+        metrics =
+            ComboBoxMetrics(
+                arrowMinSize = DpSize(arrowWidth, minimumSize.height),
+                minSize = DpSize(minimumSize.width + arrowWidth, minimumSize.height),
+                cornerSize = componentArc,
+                contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
+                borderWidth = DarculaUIUtil.LW.dp,
+            ),
+        icons = ComboBoxIcons(chevronDown = AllIconsKeys.General.ChevronDown),
+        menuStyle = menuStyle,
+    )
+}
 
 private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
