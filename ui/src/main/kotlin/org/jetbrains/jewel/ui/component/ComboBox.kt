@@ -2,6 +2,7 @@ package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -111,6 +112,12 @@ public fun ComboBox(
     Box(
         modifier =
             modifier
+                .thenIf(!isEditable) {
+                    Modifier.focusable(isEnabled, interactionSource).focusRequester(focusRequester).onFocusChanged {
+                        focusState ->
+                        isFocused = focusState.isFocused
+                    }
+                }
                 .background(colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(hasNoOutline) {
                     focusOutline(state = comboBoxState, outlineShape = shape, alignment = Stroke.Alignment.Center)
@@ -136,25 +143,27 @@ public fun ComboBox(
                     enabled = isEnabled,
                     role = Role.Button,
                     onClick = {
-                        // Only handle clicks when not focused
-                        if (!isFocused) {
-                            if (!skipNextClick) {
-                                popupExpanded = !popupExpanded
-                                if (isEditable) {
+                        popupExpanded = !popupExpanded
+                        if (isEnabled) {
+                            if (isEditable) {
+                                focusRequester.requestFocus()
+                            } else {
+                                // For non-editable, we toggle focus
+                                if (isFocused) {
+                                    // If already focused, do nothing (keep focus)
+                                } else {
                                     focusRequester.requestFocus()
                                 }
                             }
-                            skipNextClick = false
                         }
                     },
                 )
                 .onKeyEvent { keyEvent ->
-                    // When focused, let the BasicTextField handle the key events
                     if (isFocused) {
+                        // When focused, let the BasicTextField handle the key events
                         false
                     } else {
-                        // When not focused, handle spacebar and enter keys to expand/collapse the
-                        // popup
+                        // Handle spacebar and enter keys to expand/collapse the popup
                         if (keyEvent.type == KeyEventType.KeyDown) {
                             when (keyEvent.key) {
                                 Key.Spacebar,
