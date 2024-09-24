@@ -73,6 +73,9 @@ public fun ComboBox(
     var comboBoxState by remember { mutableStateOf(ComboBoxState.of(enabled = isEnabled)) }
     var isFocused by remember { mutableStateOf(false) }
 
+    // Separate InteractionSource for the BasicTextField
+    val textFieldInteractionSource = remember { MutableInteractionSource() }
+
     remember(isEnabled) { comboBoxState = comboBoxState.copy(enabled = isEnabled) }
 
     LaunchedEffect(isFocused) { comboBoxState = comboBoxState.copy(focused = isFocused) }
@@ -97,11 +100,8 @@ public fun ComboBox(
     Box(
         modifier =
             modifier
-                .thenIf(!isEditable) {
-                    Modifier.focusable(isEnabled, interactionSource).onFocusChanged { focusState ->
-                        isFocused = focusState.isFocused
-                    }
-                }
+                .focusable(isEnabled, interactionSource)
+                .onFocusChanged { focusState -> isFocused = focusState.isFocused }
                 .background(style.colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(outline == Outline.None) {
                     focusOutline(state = comboBoxState, outlineShape = shape, alignment = Stroke.Alignment.Center)
@@ -126,8 +126,13 @@ public fun ComboBox(
                     enabled = isEnabled,
                     role = Role.Button,
                     onClick = {
-                        if (isEnabled && !isEditable) {
-                            popupExpanded = !popupExpanded
+                        if (isEnabled) {
+                            if (isEditable) {
+                                // Request focus for the BasicTextField on click
+                                isFocused = true
+                            } else {
+                                popupExpanded = !popupExpanded
+                            }
                         }
                     },
                 ),
@@ -145,8 +150,7 @@ public fun ComboBox(
                     BasicTextField(
                         state = inputTextFieldState,
                         modifier =
-                            modifier
-                                .padding(style.metrics.contentPadding)
+                            Modifier.padding(style.metrics.contentPadding)
                                 .onSizeChanged { size ->
                                     if (initialTextFieldWidth == null) {
                                         initialTextFieldWidth = size.width
@@ -156,7 +160,8 @@ public fun ComboBox(
                         lineLimits = TextFieldLineLimits.SingleLine,
                         textStyle = textStyle.copy(color = style.colors.content),
                         cursorBrush = SolidColor(style.colors.content),
-                        interactionSource = interactionSource,
+                        interactionSource = textFieldInteractionSource,
+                        readOnly = !isEnabled,
                     )
                 } else {
                     Text(
