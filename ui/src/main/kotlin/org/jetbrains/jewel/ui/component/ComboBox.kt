@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.onClick
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -178,7 +179,8 @@ public fun ComboBox(
                 modifier =
                     Modifier.height(IntrinsicSize.Min)
                         .defaultMinSize(style.metrics.arrowMinSize.width, style.metrics.arrowMinSize.height)
-                        .align(Alignment.CenterEnd),
+                        .align(Alignment.CenterEnd)
+                        .onClick { popupExpanded = !popupExpanded },
                 contentAlignment = Alignment.Center,
             ) {
                 if (isEditable) {
