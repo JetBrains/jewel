@@ -188,10 +188,7 @@ public fun ComboBox(
                         orientation = Orientation.Vertical,
                         thickness = style.metrics.borderWidth,
                         color = style.colors.border,
-                        modifier =
-                            Modifier.align(Alignment.CenterStart).thenIf(comboBoxState.isFocused) {
-                                padding(vertical = 2.dp)
-                            },
+                        modifier = Modifier.align(Alignment.CenterStart),
                     )
                 }
                 Icon(key = style.icons.chevronDown, contentDescription = null, tint = style.colors.iconTint)
