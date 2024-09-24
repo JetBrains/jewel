@@ -30,7 +30,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.onSizeChanged
@@ -74,9 +76,8 @@ public fun ComboBox(
     var comboBoxState by remember { mutableStateOf(ComboBoxState.of(enabled = isEnabled)) }
     var isFocused by remember { mutableStateOf(false) }
 
-    // Separate InteractionSource for the BasicTextField
     val textFieldInteractionSource = remember { MutableInteractionSource() }
-
+    val textFieldFocusRequester = remember { FocusRequester() }
     remember(isEnabled) { comboBoxState = comboBoxState.copy(enabled = isEnabled) }
 
     LaunchedEffect(isFocused) { comboBoxState = comboBoxState.copy(focused = isFocused) }
@@ -101,8 +102,12 @@ public fun ComboBox(
     Box(
         modifier =
             modifier
-                .focusable(isEnabled, interactionSource)
-                .onFocusChanged { focusState -> isFocused = focusState.isFocused }
+                .thenIf(!isEditable) {
+                    focusable(isEnabled, interactionSource).onFocusChanged { focusState ->
+                        isFocused = focusState.isFocused
+                    }
+                }
+                .thenIf(isEditable) { onFocusChanged { if (!it.hasFocus && !popupExpanded) {} } }
                 .background(style.colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(outline == Outline.None) {
                     focusOutline(state = comboBoxState, outlineShape = shape, alignment = Stroke.Alignment.Center)
@@ -128,11 +133,13 @@ public fun ComboBox(
                     role = Role.Button,
                     onClick = {
                         if (isEnabled) {
-                            if (isEditable) {
-                                // Request focus for the BasicTextField on click
-                                isFocused = true
-                            } else {
-                                popupExpanded = !popupExpanded
+                            popupExpanded = !popupExpanded
+                            if (popupExpanded) {
+                                if (isEditable) {
+                                    textFieldFocusRequester.requestFocus()
+                                } else {
+                                    isFocused = true
+                                }
                             }
                         }
                     },
@@ -157,7 +164,9 @@ public fun ComboBox(
                                         initialTextFieldWidth = size.width
                                     }
                                 }
-                                .then(initialTextFieldWidth?.let { Modifier.width(it.dp) } ?: Modifier),
+                                .then(initialTextFieldWidth?.let { Modifier.width(it.dp) } ?: Modifier)
+                                .onFocusChanged { isFocused = it.isFocused }
+                                .focusRequester(textFieldFocusRequester),
                         lineLimits = TextFieldLineLimits.SingleLine,
                         textStyle = textStyle.copy(color = style.colors.content),
                         cursorBrush = SolidColor(style.colors.content),
@@ -180,7 +189,16 @@ public fun ComboBox(
                     Modifier.height(IntrinsicSize.Min)
                         .defaultMinSize(style.metrics.arrowMinSize.width, style.metrics.arrowMinSize.height)
                         .align(Alignment.CenterEnd)
-                        .onClick { popupExpanded = !popupExpanded },
+                        .onClick {
+                            popupExpanded = !popupExpanded
+                            if (popupExpanded) {
+                                if (isEditable) {
+                                    textFieldFocusRequester.requestFocus()
+                                } else {
+                                    isFocused = true
+                                }
+                            }
+                        },
                 contentAlignment = Alignment.Center,
             ) {
                 if (isEditable) {
