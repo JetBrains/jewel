@@ -35,6 +35,11 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -102,9 +107,19 @@ public fun ComboBox(
         modifier =
             modifier
                 .thenIf(!isEditable) {
-                    focusable(isEnabled, interactionSource).onFocusChanged { focusState ->
-                        isFocused = focusState.isFocused
-                    }
+                    focusable(isEnabled, interactionSource)
+                        .onFocusChanged { focusState -> isFocused = focusState.isFocused }
+                        .onKeyEvent { keyEvent ->
+                            if (
+                                keyEvent.type == KeyEventType.KeyDown &&
+                                    (keyEvent.key == Key.Spacebar || keyEvent.key == Key.Enter)
+                            ) {
+                                popupExpanded = !popupExpanded
+                                true
+                            } else {
+                                false
+                            }
+                        }
                 }
                 .background(style.colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(outline == Outline.None) {
