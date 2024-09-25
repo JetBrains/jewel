@@ -33,7 +33,7 @@ class ComboBoxUiTest {
 
     @OptIn(ExperimentalTestApi::class)
     @Test
-    fun test1() {
+    fun `TAB navigation focuses only the text field`() {
         val focusRequester = FocusRequester()
         composeRule.setContent {
             IntUiTheme {
