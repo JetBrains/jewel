@@ -1,7 +1,7 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -37,7 +37,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -107,7 +106,6 @@ public fun ComboBox(
                         isFocused = focusState.isFocused
                     }
                 }
-                .thenIf(isEditable) { onFocusChanged { if (!it.hasFocus && !popupExpanded) {} } }
                 .background(style.colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(outline == Outline.None) {
                     focusOutline(state = comboBoxState, outlineShape = shape, alignment = Stroke.Alignment.Center)
@@ -126,20 +124,16 @@ public fun ComboBox(
                 )
                 .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
                 .onSizeChanged { comboBoxWidth = it.width }
-                .combinedClickable(
+                .thenIf(isEditable) { focusProperties { canFocus = false } }
+                .clickable(
                     interactionSource = interactionSource,
                     indication = null,
                     enabled = isEnabled,
-                    role = Role.Button,
                     onClick = {
                         if (isEnabled) {
                             popupExpanded = !popupExpanded
-                            if (popupExpanded) {
-                                if (isEditable) {
-                                    textFieldFocusRequester.requestFocus()
-                                } else {
-                                    isFocused = true
-                                }
+                            if (popupExpanded && isEditable) {
+                                textFieldFocusRequester.requestFocus()
                             }
                         }
                     },
@@ -149,7 +143,7 @@ public fun ComboBox(
         CompositionLocalProvider(LocalContentColor provides style.colors.contentFor(comboBoxState).value) {
             Box(
                 modifier =
-                    modifier.padding(end = style.metrics.arrowMinSize.width).onFocusChanged {
+                    Modifier.padding(end = style.metrics.arrowMinSize.width).onFocusChanged {
                         comboBoxState = comboBoxState.copy(focused = it.isFocused)
                     },
                 contentAlignment = Alignment.CenterStart,
@@ -189,14 +183,11 @@ public fun ComboBox(
                     Modifier.height(IntrinsicSize.Min)
                         .defaultMinSize(style.metrics.arrowMinSize.width, style.metrics.arrowMinSize.height)
                         .align(Alignment.CenterEnd)
+                        .focusProperties { canFocus = false }
                         .onClick {
                             popupExpanded = !popupExpanded
-                            if (popupExpanded) {
-                                if (isEditable) {
-                                    textFieldFocusRequester.requestFocus()
-                                } else {
-                                    isFocused = true
-                                }
+                            if (popupExpanded && isEditable) {
+                                textFieldFocusRequester.requestFocus()
                             }
                         },
                 contentAlignment = Alignment.Center,
@@ -220,10 +211,7 @@ public fun ComboBox(
                     popupExpanded = false
                     true
                 },
-                modifier =
-                    menuModifier
-                        .focusProperties { canFocus = true }
-                        .defaultMinSize(minWidth = with(density) { comboBoxWidth.toDp() }),
+                modifier = menuModifier.defaultMinSize(minWidth = with(density) { comboBoxWidth.toDp() }),
                 style = style.menuStyle,
                 horizontalAlignment = Alignment.Start,
                 content = menuContent,
