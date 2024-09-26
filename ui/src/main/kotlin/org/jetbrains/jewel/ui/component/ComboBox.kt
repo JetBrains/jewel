@@ -42,6 +42,9 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -140,19 +143,21 @@ public fun ComboBox(
                 .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
                 .onSizeChanged { comboBoxWidth = it.width }
                 .thenIf(isEditable) { focusProperties { canFocus = false } }
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    enabled = isEnabled,
-                    onClick = {
-                        if (isEnabled) {
-                            popupExpanded = !popupExpanded
-                            if (popupExpanded && isEditable) {
-                                textFieldFocusRequester.requestFocus()
+                .thenIf(isEnabled) {
+                    clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        enabled = isEnabled,
+                        onClick = {
+                            if (isEnabled) {
+                                popupExpanded = !popupExpanded
+                                if (popupExpanded && isEditable) {
+                                    textFieldFocusRequester.requestFocus()
+                                }
                             }
-                        }
-                    },
-                ),
+                        },
+                    )
+                },
         contentAlignment = Alignment.CenterStart,
     ) {
         CompositionLocalProvider(LocalContentColor provides style.colors.contentFor(comboBoxState).value) {
@@ -163,11 +168,12 @@ public fun ComboBox(
                     },
                 contentAlignment = Alignment.CenterStart,
             ) {
-                if (isEditable) {
+                if (isEnabled && isEditable) {
                     BasicTextField(
                         state = inputTextFieldState,
                         modifier =
-                            Modifier.padding(style.metrics.contentPadding)
+                            Modifier.testTag("Jewel.ComboBox.TextField")
+                                .padding(style.metrics.contentPadding)
                                 .onSizeChanged { size ->
                                     if (initialTextFieldWidth == null) {
                                         initialTextFieldWidth = size.width
@@ -180,7 +186,6 @@ public fun ComboBox(
                         textStyle = textStyle.copy(color = style.colors.content),
                         cursorBrush = SolidColor(style.colors.content),
                         interactionSource = textFieldInteractionSource,
-                        readOnly = !isEnabled,
                     )
                 } else {
                     Text(
@@ -188,21 +193,27 @@ public fun ComboBox(
                         style = textStyle,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.fillMaxWidth().padding(style.metrics.contentPadding),
+                        modifier =
+                            Modifier.testTag("Jewel.ComboBox.NonEditableText")
+                                .fillMaxWidth()
+                                .padding(style.metrics.contentPadding),
                     )
                 }
             }
 
             Box(
                 modifier =
-                    Modifier.height(IntrinsicSize.Min)
+                    Modifier.testTag("Jewel.ComboBox.ChevronContainer")
+                        .height(IntrinsicSize.Min)
                         .defaultMinSize(style.metrics.arrowMinSize.width, style.metrics.arrowMinSize.height)
                         .align(Alignment.CenterEnd)
                         .focusProperties { canFocus = false }
-                        .onClick {
-                            popupExpanded = !popupExpanded
-                            if (popupExpanded && isEditable) {
-                                textFieldFocusRequester.requestFocus()
+                        .thenIf(isEnabled) {
+                            onClick {
+                                popupExpanded = !popupExpanded
+                                if (popupExpanded && isEditable) {
+                                    textFieldFocusRequester.requestFocus()
+                                }
                             }
                         },
                 contentAlignment = Alignment.Center,
@@ -212,7 +223,10 @@ public fun ComboBox(
                         orientation = Orientation.Vertical,
                         thickness = style.metrics.borderWidth,
                         color = style.colors.border,
-                        modifier = Modifier.align(Alignment.CenterStart),
+                        modifier =
+                            Modifier.testTag("Jewel.ComboBox.Divider")
+                                .semantics { contentDescription = "Jewel.ComboBox.Divider" }
+                                .align(Alignment.CenterStart),
                     )
                 }
                 Icon(key = style.icons.chevronDown, contentDescription = null, tint = style.colors.iconTint)
@@ -226,7 +240,10 @@ public fun ComboBox(
                     popupExpanded = false
                     true
                 },
-                modifier = menuModifier.defaultMinSize(minWidth = with(density) { comboBoxWidth.toDp() }),
+                modifier =
+                    menuModifier
+                        .testTag("Jewel.ComboBox.PopupMenu")
+                        .defaultMinSize(minWidth = with(density) { comboBoxWidth.toDp() }),
                 style = style.menuStyle,
                 horizontalAlignment = Alignment.Start,
                 content = menuContent,

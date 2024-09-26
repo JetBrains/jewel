@@ -188,6 +188,29 @@ fun Dropdowns() {
             ComboBox(
                 modifier = Modifier.width(140.dp),
                 isEditable = false,
+                isEnabled = false,
+                inputTextFieldState = inputTextFieldState,
+                menuContent = {
+                    itemsComboBox.forEach {
+                        if (it == "---") {
+                            separator()
+                        } else {
+                            selectableItem(
+                                selected = selectedComboBox == it,
+                                onClick = {
+                                    selectedComboBox = it
+                                    inputTextFieldState.edit { replace(0, length, it) }
+                                },
+                            ) {
+                                Text(it)
+                            }
+                        }
+                    }
+                },
+            )
+            ComboBox(
+                modifier = Modifier.width(140.dp),
+                isEditable = false,
                 inputTextFieldState = inputTextFieldState,
                 menuContent = {
                     itemsComboBox.forEach {
