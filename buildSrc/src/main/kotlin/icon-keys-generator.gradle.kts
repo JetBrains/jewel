@@ -191,7 +191,7 @@ open class IconKeysGeneratorTask : DefaultTask() {
 
                 if (field.annotations.any { it.annotationClass == java.lang.Deprecated::class }) {
                     logger.lifecycle("Ignoring deprecated field: $fieldName")
-                    return
+                    return@forEach
                 }
 
                 val icon = field.get(sourceClass)
