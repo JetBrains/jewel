@@ -339,24 +339,24 @@ public fun InlinesStyling.Companion.create(
         defaultEditorTextStyle
             .copy(fontSize = textStyle.fontSize * .85, background = inlineCodeBackgroundColor)
             .toSpanStyle(),
-    link: SpanStyle =
-        textStyle
-            .copy(
-                color = JBUI.CurrentTheme.Link.Foreground.ENABLED.toComposeColor(),
-                textDecoration = TextDecoration.Underline,
-            )
-            .toSpanStyle(),
+    link: SpanStyle = textStyle.copy(color = JBUI.CurrentTheme.Link.Foreground.ENABLED.toComposeColor()).toSpanStyle(),
     linkDisabled: SpanStyle = link.copy(color = JBUI.CurrentTheme.Link.Foreground.DISABLED.toComposeColor()),
-    linkHovered: SpanStyle = link.copy(color = JBUI.CurrentTheme.Link.Foreground.HOVERED.toComposeColor()),
+    linkHovered: SpanStyle =
+        link.copy(
+            color = JBUI.CurrentTheme.Link.Foreground.HOVERED.toComposeColor(),
+            textDecoration = TextDecoration.Underline,
+        ),
     linkFocused: SpanStyle =
         link.copy(
             color = JBUI.CurrentTheme.Link.Foreground.ENABLED.toComposeColor(),
             background = JBUI.CurrentTheme.ActionButton.hoverBackground().toComposeColor(),
+            textDecoration = TextDecoration.Underline,
         ),
     linkPressed: SpanStyle =
         link.copy(
             color = JBUI.CurrentTheme.Link.Foreground.PRESSED.toComposeColor(),
             background = JBUI.CurrentTheme.ActionButton.pressedBackground().toComposeColor(),
+            textDecoration = TextDecoration.Underline,
         ),
     linkVisited: SpanStyle = link.copy(color = JBUI.CurrentTheme.Link.Foreground.VISITED.toComposeColor()),
     emphasis: SpanStyle = textStyle.copy(fontStyle = FontStyle.Italic).toSpanStyle(),
