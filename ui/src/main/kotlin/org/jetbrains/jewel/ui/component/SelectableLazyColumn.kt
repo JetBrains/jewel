@@ -10,7 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.foundation.lazy.BaseSelectableLazyColumn
+import org.jetbrains.jewel.foundation.lazy.BasicSelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListScope
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListState
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
@@ -36,7 +36,7 @@ public fun SelectableLazyColumn(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: SelectableLazyListScope.() -> Unit,
 ) {
-    BaseSelectableLazyColumn(
+    BasicSelectableLazyColumn(
         modifier = modifier,
         selectionMode = selectionMode,
         state = state,
