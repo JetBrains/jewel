@@ -34,6 +34,7 @@ public fun SelectableLazyColumn(
     keyActions: KeyActions = DefaultSelectableLazyColumnKeyActions,
     pointerEventActions: PointerEventActions = DefaultSelectableLazyColumnEventAction(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    // TODO: We will add support for styling in the near future
     content: SelectableLazyListScope.() -> Unit,
 ) {
     BasicSelectableLazyColumn(
