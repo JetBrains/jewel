@@ -38,6 +38,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalRadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSegmentedControlStyle
+import org.jetbrains.jewel.ui.component.styling.LocalSelectableLazyColumnStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSliderStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextFieldStyle
@@ -48,6 +49,7 @@ import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
+import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
@@ -77,6 +79,7 @@ public class DefaultComponentStyling(
     public val scrollbarStyle: ScrollbarStyle,
     public val segmentedControlButtonStyle: SegmentedControlButtonStyle,
     public val segmentedControlStyle: SegmentedControlStyle,
+    public val selectableLazyColumnStyle: SelectableLazyColumnStyle,
     public val sliderStyle: SliderStyle,
     public val textAreaStyle: TextAreaStyle,
     public val textFieldStyle: TextFieldStyle,
@@ -107,6 +110,7 @@ public class DefaultComponentStyling(
             LocalScrollbarStyle provides scrollbarStyle,
             LocalSegmentedControlButtonStyle provides segmentedControlButtonStyle,
             LocalSegmentedControlStyle provides segmentedControlStyle,
+            LocalSelectableLazyColumnStyle provides selectableLazyColumnStyle,
             LocalSliderStyle provides sliderStyle,
             LocalTextAreaStyle provides textAreaStyle,
             LocalTextFieldStyle provides textFieldStyle,

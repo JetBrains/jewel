@@ -14,7 +14,9 @@ import org.jetbrains.jewel.ui.component.styling.ComboBoxColors
 import org.jetbrains.jewel.ui.component.styling.ComboBoxIcons
 import org.jetbrains.jewel.ui.component.styling.ComboBoxMetrics
 import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
-import org.jetbrains.jewel.ui.component.styling.MenuStyle
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemColors
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemMetrics
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
@@ -27,16 +29,16 @@ public object IntUiDefaultComboBoxStyleFactory {
         colors: ComboBoxColors = ComboBoxColors.Default.light(),
         metrics: ComboBoxMetrics = ComboBoxMetrics.default(),
         icons: ComboBoxIcons = ComboBoxIcons.defaults(),
-        menuStyle: MenuStyle = MenuStyle.light(),
-    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, menuStyle)
+        listItemStyle: SimpleListItemStyle = SimpleListItemStyle.ComboBox.light(),
+    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, listItemStyle)
 
     @Composable
     public fun dark(
         colors: ComboBoxColors = ComboBoxColors.Default.dark(),
         metrics: ComboBoxMetrics = ComboBoxMetrics.default(),
         icons: ComboBoxIcons = ComboBoxIcons.defaults(),
-        menuStyle: MenuStyle = MenuStyle.dark(),
-    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, menuStyle)
+        listItemStyle: SimpleListItemStyle = SimpleListItemStyle.Companion.ComboBox.dark(),
+    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, listItemStyle)
 }
 
 public val ComboBoxStyle.Companion.Undecorated: IntUiUndecoratedComboBoxStyleFactory
@@ -48,16 +50,79 @@ public object IntUiUndecoratedComboBoxStyleFactory {
         colors: ComboBoxColors = ComboBoxColors.Undecorated.light(),
         metrics: ComboBoxMetrics = ComboBoxMetrics.undecorated(),
         icons: ComboBoxIcons = ComboBoxIcons.defaults(),
-        menuStyle: MenuStyle = MenuStyle.light(),
-    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, menuStyle)
+        listItemStyle: SimpleListItemStyle = SimpleListItemStyle.ComboBox.light(),
+    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, listItemStyle)
 
     @Composable
     public fun dark(
         colors: ComboBoxColors = ComboBoxColors.Undecorated.dark(),
         metrics: ComboBoxMetrics = ComboBoxMetrics.undecorated(),
         icons: ComboBoxIcons = ComboBoxIcons.defaults(),
-        menuStyle: MenuStyle = MenuStyle.dark(),
-    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, menuStyle)
+        listItemStyle: SimpleListItemStyle = SimpleListItemStyle.ComboBox.dark(),
+    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, listItemStyle)
+}
+
+private val SimpleListItemStyle.Companion.ComboBox: IntUiDefaultSimpleListItemComboBoxStyleFactory
+    get() = IntUiDefaultSimpleListItemComboBoxStyleFactory
+
+public object IntUiDefaultSimpleListItemComboBoxStyleFactory {
+    @Composable
+    public fun light(
+        background: Color = Color.Unspecified,
+        backgroundFocused: Color = IntUiLightTheme.colors.blue(11),
+        backgroundSelected: Color = IntUiLightTheme.colors.blue(11),
+        backgroundSelectedFocused: Color = IntUiLightTheme.colors.blue(11),
+        content: Color = Color.Unspecified,
+        contentFocused: Color = Color.Unspecified,
+        contentSelected: Color = Color.Unspecified,
+        contentSelectedFocused: Color = Color.Unspecified,
+    ): SimpleListItemStyle =
+        SimpleListItemStyle(
+            SimpleListItemColors(
+                background = background,
+                backgroundFocused = backgroundFocused,
+                backgroundSelected = backgroundSelected,
+                backgroundSelectedFocused = backgroundSelectedFocused,
+                content = content,
+                contentFocused = contentFocused,
+                contentSelected = contentSelected,
+                contentSelectedFocused = contentSelectedFocused,
+            ),
+            SimpleListItemMetrics(
+                innerPadding = PaddingValues(),
+                outerPadding = PaddingValues(),
+                selectionBackgroundCornerSize = CornerSize(0.dp),
+            ),
+        )
+
+    @Composable
+    public fun dark(
+        background: Color = Color.Unspecified,
+        backgroundFocused: Color = IntUiLightTheme.colors.blue(11),
+        backgroundSelected: Color = IntUiLightTheme.colors.blue(11),
+        backgroundSelectedFocused: Color = IntUiLightTheme.colors.blue(11),
+        content: Color = Color.Unspecified,
+        contentFocused: Color = Color.Unspecified,
+        contentSelected: Color = Color.Unspecified,
+        contentSelectedFocused: Color = Color.Unspecified,
+    ): SimpleListItemStyle =
+        SimpleListItemStyle(
+            SimpleListItemColors(
+                background = background,
+                backgroundFocused = backgroundFocused,
+                backgroundSelected = backgroundSelected,
+                backgroundSelectedFocused = backgroundSelectedFocused,
+                content = content,
+                contentFocused = contentFocused,
+                contentSelected = contentSelected,
+                contentSelectedFocused = contentSelectedFocused,
+            ),
+            SimpleListItemMetrics(
+                innerPadding = PaddingValues(),
+                outerPadding = PaddingValues(),
+                selectionBackgroundCornerSize = CornerSize(0.dp),
+            ),
+        )
 }
 
 public val ComboBoxColors.Companion.Default: IntUiDefaultComboBoxColorsFactory
@@ -82,11 +147,6 @@ public object IntUiDefaultComboBoxColorsFactory {
         borderFocused: Color = IntUiLightTheme.colors.blue(4),
         borderPressed: Color = border,
         borderHovered: Color = border,
-        iconTint: Color = Color.Unspecified,
-        iconTintDisabled: Color = iconTint,
-        iconTintFocused: Color = iconTint,
-        iconTintPressed: Color = iconTint,
-        iconTintHovered: Color = iconTint,
     ): ComboBoxColors =
         ComboBoxColors(
             background = background,
@@ -105,11 +165,6 @@ public object IntUiDefaultComboBoxColorsFactory {
             borderFocused = borderFocused,
             borderPressed = borderPressed,
             borderHovered = borderHovered,
-            iconTint = iconTint,
-            iconTintDisabled = iconTintDisabled,
-            iconTintFocused = iconTintFocused,
-            iconTintPressed = iconTintPressed,
-            iconTintHovered = iconTintHovered,
         )
 
     @Composable
@@ -130,11 +185,6 @@ public object IntUiDefaultComboBoxColorsFactory {
         borderFocused: Color = IntUiDarkTheme.colors.blue(6),
         borderPressed: Color = border,
         borderHovered: Color = border,
-        iconTint: Color = IntUiDarkTheme.colors.gray(10),
-        iconTintDisabled: Color = IntUiDarkTheme.colors.gray(6),
-        iconTintFocused: Color = iconTint,
-        iconTintPressed: Color = iconTint,
-        iconTintHovered: Color = iconTint,
     ): ComboBoxColors =
         ComboBoxColors(
             background = background,
@@ -153,11 +203,6 @@ public object IntUiDefaultComboBoxColorsFactory {
             borderFocused = borderFocused,
             borderPressed = borderPressed,
             borderHovered = borderHovered,
-            iconTint = iconTint,
-            iconTintDisabled = iconTintDisabled,
-            iconTintFocused = iconTintFocused,
-            iconTintPressed = iconTintPressed,
-            iconTintHovered = iconTintHovered,
         )
 }
 
@@ -178,11 +223,6 @@ public object IntUiUndecoratedComboBoxColorsFactory {
         contentFocused: Color = content,
         contentPressed: Color = content,
         contentHovered: Color = content,
-        iconTint: Color = IntUiLightTheme.colors.gray(7),
-        iconTintDisabled: Color = IntUiLightTheme.colors.gray(9),
-        iconTintFocused: Color = iconTint,
-        iconTintPressed: Color = iconTint,
-        iconTintHovered: Color = iconTint,
     ): ComboBoxColors =
         ComboBoxColors(
             background = background,
@@ -201,11 +241,6 @@ public object IntUiUndecoratedComboBoxColorsFactory {
             borderFocused = Color.Transparent,
             borderPressed = Color.Transparent,
             borderHovered = Color.Transparent,
-            iconTint = iconTint,
-            iconTintDisabled = iconTintDisabled,
-            iconTintFocused = iconTintFocused,
-            iconTintPressed = iconTintPressed,
-            iconTintHovered = iconTintHovered,
         )
 
     @Composable
@@ -221,11 +256,6 @@ public object IntUiUndecoratedComboBoxColorsFactory {
         contentFocused: Color = content,
         contentPressed: Color = content,
         contentHovered: Color = content,
-        iconTint: Color = IntUiDarkTheme.colors.gray(10),
-        iconTintDisabled: Color = IntUiDarkTheme.colors.gray(6),
-        iconTintFocused: Color = iconTint,
-        iconTintPressed: Color = iconTint,
-        iconTintHovered: Color = iconTint,
     ): ComboBoxColors =
         ComboBoxColors(
             background = background,
@@ -244,11 +274,6 @@ public object IntUiUndecoratedComboBoxColorsFactory {
             borderFocused = Color.Transparent,
             borderPressed = Color.Transparent,
             borderHovered = Color.Transparent,
-            iconTint = iconTint,
-            iconTintDisabled = iconTintDisabled,
-            iconTintFocused = iconTintFocused,
-            iconTintPressed = iconTintPressed,
-            iconTintHovered = iconTintHovered,
         )
 }
 

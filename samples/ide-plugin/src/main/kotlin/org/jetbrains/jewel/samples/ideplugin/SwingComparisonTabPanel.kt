@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -43,7 +44,6 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import icons.IdeSampleIconKeys
 import icons.JewelIcons
-import java.awt.Component
 import javax.swing.BoxLayout
 import javax.swing.DefaultComboBoxModel
 import javax.swing.JLabel
@@ -55,12 +55,14 @@ import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.ComboBox
 import org.jetbrains.jewel.ui.component.DefaultButton
 import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.ListComboBox
 import org.jetbrains.jewel.ui.component.OutlinedButton
+import org.jetbrains.jewel.ui.component.PopupMenu
+import org.jetbrains.jewel.ui.component.SimpleListItem
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
-import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
@@ -206,11 +208,11 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                 JPanel()
                     .apply {
                         layout = BoxLayout(this, BoxLayout.Y_AXIS)
-                        add(JLabel("Not editable").apply { alignmentX = Component.LEFT_ALIGNMENT })
+                        add(JLabel("Not editable").apply { alignmentX = LEFT_ALIGNMENT })
                         add(
                             ComboBox(DefaultComboBoxModel(zoomLevels)).apply {
                                 isEditable = false
-                                alignmentX = Component.LEFT_ALIGNMENT
+                                alignmentX = LEFT_ALIGNMENT
                             }
                         )
                     }
@@ -220,11 +222,11 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                 JPanel()
                     .apply {
                         layout = BoxLayout(this, BoxLayout.Y_AXIS)
-                        add(JLabel("Editable").apply { alignmentX = Component.LEFT_ALIGNMENT })
+                        add(JLabel("Editable").apply { alignmentX = LEFT_ALIGNMENT })
                         add(
                             ComboBox(DefaultComboBoxModel(itemsComboBox)).apply {
                                 isEditable = true
-                                alignmentX = Component.LEFT_ALIGNMENT
+                                alignmentX = LEFT_ALIGNMENT
                             }
                         )
                     }
@@ -236,17 +238,29 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                     val inputTextFieldState2 = rememberTextFieldState(itemsComboBox.first())
                     val inputTextFieldState3 = rememberTextFieldState(itemsComboBox.first())
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        ListComboBox(
+                            comboBoxItems,
+                            modifier = Modifier.width(200.dp),
+                            inputTextFieldState = inputTextFieldState,
+                        ) {
+                            items(count = itemsComboBox.size, key = { index -> itemsComboBox[index] }) { index ->
+                                SimpleListItem(
+                                    text = itemsComboBox[index],
+                                    isSelected = isSelected,
+                                    contentDescription = itemsComboBox[index],
+                                )
+                            }
+                        }
+
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text("Not editable")
                             ComboBox(
                                 modifier = Modifier.width(150.dp),
                                 isEditable = false,
                                 inputTextFieldState = inputTextFieldState,
-                                menuContent = {
-                                    itemsComboBox.forEach {
-                                        if (it == "---") {
-                                            separator()
-                                        } else {
+                                popupContent = {
+                                    PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
+                                        itemsComboBox.forEach {
                                             selectableItem(
                                                 selected = selectedComboBox == it,
                                                 onClick = {
@@ -267,11 +281,9 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 ComboBox(
                                     modifier = Modifier.width(100.dp),
                                     inputTextFieldState = inputTextFieldState,
-                                    menuContent = {
-                                        itemsComboBox.forEach {
-                                            if (it == "---") {
-                                                separator()
-                                            } else {
+                                    popupContent = {
+                                        PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
+                                            itemsComboBox.forEach {
                                                 selectableItem(
                                                     selected = selectedComboBox == it,
                                                     onClick = {
@@ -289,11 +301,12 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                     ComboBox(
                                         inputTextFieldState = inputTextFieldState2,
                                         outline = Outline.Warning,
-                                        menuContent = {
-                                            itemsComboBox.forEach {
-                                                if (it == "---") {
-                                                    separator()
-                                                } else {
+                                        popupContent = {
+                                            PopupMenu(
+                                                horizontalAlignment = Alignment.Start,
+                                                onDismissRequest = { true },
+                                            ) {
+                                                itemsComboBox.forEach {
                                                     selectableItem(
                                                         selected = selectedComboBox == it,
                                                         onClick = {
@@ -311,11 +324,12 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                     ComboBox(
                                         inputTextFieldState = inputTextFieldState3,
                                         outline = Outline.Error,
-                                        menuContent = {
-                                            itemsComboBox.forEach {
-                                                if (it == "---") {
-                                                    separator()
-                                                } else {
+                                        popupContent = {
+                                            PopupMenu(
+                                                horizontalAlignment = Alignment.Start,
+                                                onDismissRequest = { true },
+                                            ) {
+                                                itemsComboBox.forEach {
                                                     selectableItem(
                                                         selected = selectedComboBox == it,
                                                         onClick = {

@@ -133,8 +133,8 @@ private fun LeftColumn(project: Project, modifier: Modifier = Modifier, onSelect
         VerticallyScrollableContainer(listState.lazyListState, modifier) {
             SelectableLazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                state = listState,
                 selectionMode = SelectionMode.Single,
+                state = listState,
                 onSelectedIndexesChanged = {
                     val selectedItem =
                         if (it.isNotEmpty()) {
