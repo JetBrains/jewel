@@ -49,7 +49,7 @@ class ComboBoxUiTest {
                     isEditable = true,
                     modifier = Modifier.width(140.dp).testTag("ComboBox"),
                     inputTextFieldState = rememberTextFieldState("First element"),
-                    menuContent = { /* ... */ },
+                    popupContent = { /* ... */ },
                 )
             }
         }
@@ -255,7 +255,7 @@ class ComboBoxUiTest {
                     isEnabled = isEnabled,
                     modifier = Modifier.width(140.dp).testTag("ComboBox").focusRequester(focusRequester),
                     inputTextFieldState = inputTextFieldState,
-                    menuContent = {
+                    popupContent = {
                         itemsComboBox.forEach {
                             if (it == "---") {
                                 separator()
