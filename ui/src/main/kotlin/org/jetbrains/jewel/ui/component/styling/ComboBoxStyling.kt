@@ -22,6 +22,7 @@ public class ComboBoxStyle(
     public val colors: ComboBoxColors,
     public val metrics: ComboBoxMetrics,
     public val icons: ComboBoxIcons,
+    public val itemStyle: SimpleListItemStyle,
 ) {
     public companion object
 }
