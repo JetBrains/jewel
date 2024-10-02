@@ -7,10 +7,12 @@ import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.onClick
@@ -38,7 +40,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -48,6 +50,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.PopupProperties
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -77,7 +80,9 @@ public fun ComboBox(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ComboBoxStyle = JewelTheme.comboBoxStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
-    menuContent: MenuScope.() -> Unit,
+    onArrowDownPressed: () -> Unit = {},
+    onArrowUpPressed: () -> Unit = {},
+    popupContent: @Composable () -> Unit,
 ) {
     var popupExpanded by remember { mutableStateOf(false) }
     var comboBoxState by remember { mutableStateOf(ComboBoxState.of(enabled = isEnabled)) }
@@ -106,23 +111,13 @@ public fun ComboBox(
 
     var comboBoxWidth by remember { mutableIntStateOf(-1) }
     var initialTextFieldWidth by remember { mutableStateOf<Int?>(null) }
-    Box(
+    BoxWithConstraints(
         modifier =
             modifier
                 .thenIf(!isEditable) {
-                    focusable(isEnabled, interactionSource)
-                        .onFocusChanged { focusState -> isFocused = focusState.isFocused }
-                        .onKeyEvent { keyEvent ->
-                            if (
-                                keyEvent.type == KeyEventType.KeyDown &&
-                                    (keyEvent.key == Key.Spacebar || keyEvent.key == Key.Enter)
-                            ) {
-                                popupExpanded = !popupExpanded
-                                true
-                            } else {
-                                false
-                            }
-                        }
+                    focusable(isEnabled, interactionSource).onFocusChanged { focusState ->
+                        isFocused = focusState.isFocused
+                    }
                 }
                 .background(style.colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(outline == Outline.None) {
@@ -150,9 +145,10 @@ public fun ComboBox(
                         enabled = isEnabled,
                         onClick = {
                             if (isEnabled) {
-                                popupExpanded = !popupExpanded
-                                if (popupExpanded && isEditable) {
+                                if (isEditable) {
                                     textFieldFocusRequester.requestFocus()
+                                } else {
+                                    popupExpanded = !popupExpanded
                                 }
                             }
                         },
@@ -160,6 +156,7 @@ public fun ComboBox(
                 },
         contentAlignment = Alignment.CenterStart,
     ) {
+        val boxWith = maxWidth
         CompositionLocalProvider(LocalContentColor provides style.colors.contentFor(comboBoxState).value) {
             Box(
                 modifier =
@@ -180,6 +177,30 @@ public fun ComboBox(
                                     }
                                 }
                                 .then(initialTextFieldWidth?.let { Modifier.width(it.dp) } ?: Modifier)
+                                .onPreviewKeyEvent { keyEvent ->
+                                    when {
+                                        keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.DirectionDown -> {
+                                            if (!popupExpanded) {
+                                                popupExpanded = true
+                                                true
+                                            } else {
+                                                onArrowDownPressed()
+                                                true
+                                            }
+                                        }
+                                        keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.DirectionUp -> {
+                                            if (popupExpanded) {
+                                                onArrowUpPressed()
+                                                true
+                                            } else {
+                                                false
+                                            }
+                                        }
+                                        else -> {
+                                            false
+                                        }
+                                    }
+                                }
                                 .onFocusChanged { isFocused = it.isFocused }
                                 .focusRequester(textFieldFocusRequester),
                         lineLimits = TextFieldLineLimits.SingleLine,
@@ -210,9 +231,12 @@ public fun ComboBox(
                         .focusProperties { canFocus = false }
                         .thenIf(isEnabled) {
                             onClick {
-                                popupExpanded = !popupExpanded
-                                if (popupExpanded && isEditable) {
-                                    textFieldFocusRequester.requestFocus()
+                                if (isEnabled) {
+                                    if (isEditable) {
+                                        textFieldFocusRequester.requestFocus()
+                                    } else {
+                                        popupExpanded = !popupExpanded
+                                    }
                                 }
                             }
                         },
@@ -229,13 +253,13 @@ public fun ComboBox(
                                 .align(Alignment.CenterStart),
                     )
                 }
-                Icon(key = style.icons.chevronDown, contentDescription = null, tint = style.colors.iconTint)
+                Icon(key = style.icons.chevronDown, contentDescription = null)
             }
         }
 
         if (popupExpanded) {
             val density = LocalDensity.current
-            PopupMenu(
+            PopupContainer(
                 onDismissRequest = {
                     popupExpanded = false
                     true
@@ -243,10 +267,12 @@ public fun ComboBox(
                 modifier =
                     menuModifier
                         .testTag("Jewel.ComboBox.PopupMenu")
-                        .defaultMinSize(minWidth = with(density) { comboBoxWidth.toDp() }),
-                style = style.menuStyle,
+                        .defaultMinSize(minWidth = with(density) { comboBoxWidth.toDp() })
+                        .heightIn(max = 200.dp) // TODO: this should wrap the height of the content somehow
+                        .width(boxWith),
                 horizontalAlignment = Alignment.Start,
-                content = menuContent,
+                popupProperties = PopupProperties(focusable = false),
+                content = popupContent,
             )
         }
     }
