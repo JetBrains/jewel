@@ -27,6 +27,7 @@ import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.ComboBox
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.OutlinedButton
+import org.jetbrains.jewel.ui.component.PopupMenu
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
 
@@ -69,25 +70,27 @@ private fun ControlsRow(modifier: Modifier = Modifier, onLoadMarkdown: (String) 
                 modifier = Modifier.width(140.dp),
                 isEditable = false,
                 inputTextFieldState = rememberTextFieldState(selected),
-                menuContent = {
-                    selectableItem(
-                        selected = selected == "Jewel readme",
-                        onClick = {
-                            selected = "Jewel readme"
-                            onLoadMarkdown(JewelReadme)
-                        },
-                    ) {
-                        Text("Jewel readme")
-                    }
+                popupContent = {
+                    PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
+                        selectableItem(
+                            selected = selected == "Jewel readme",
+                            onClick = {
+                                selected = "Jewel readme"
+                                onLoadMarkdown(JewelReadme)
+                            },
+                        ) {
+                            Text("Jewel readme")
+                        }
 
-                    selectableItem(
-                        selected = selected == "Markdown catalog",
-                        onClick = {
-                            selected = "Markdown catalog"
-                            onLoadMarkdown(MarkdownCatalog)
-                        },
-                    ) {
-                        Text("Markdown catalog")
+                        selectableItem(
+                            selected = selected == "Markdown catalog",
+                            onClick = {
+                                selected = "Markdown catalog"
+                                onLoadMarkdown(MarkdownCatalog)
+                            },
+                        ) {
+                            Text("Markdown catalog")
+                        }
                     }
                 },
             )
