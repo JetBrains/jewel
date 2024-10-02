@@ -108,6 +108,8 @@ import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlColors
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlMetrics
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
+import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderColors
 import org.jetbrains.jewel.ui.component.styling.SliderMetrics
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
@@ -232,6 +234,7 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         scrollbarStyle = readScrollbarStyle(theme.isDark),
         segmentedControlButtonStyle = readSegmentedControlButtonStyle(),
         segmentedControlStyle = readSegmentedControlStyle(),
+        selectableLazyColumnStyle = readSelectableLazyColumnStyle(),
         sliderStyle = readSliderStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
@@ -493,6 +496,22 @@ private fun readChipStyle(): ChipStyle {
 private fun readDividerStyle() =
     DividerStyle(color = JBColor.border().toComposeColorOrUnspecified(), metrics = DividerMetrics.defaults())
 
+// TODO: THESE ARE PLACEHOLDERS. WE MUST ITERATE
+private fun readSelectableLazyColumnStyle(): SelectableLazyColumnStyle =
+    SelectableLazyColumnStyle(
+        itemHeight = JBUI.CurrentTheme.ComboBox.minimumSize().toDpSize().height,
+        simpleListItemStyle =
+            SimpleListItemStyle(
+                contentColor = retrieveColorOrUnspecified("ComboBox.foreground"),
+                contentSelected = retrieveColorOrUnspecified("ComboBox.foreground"),
+                backgroundSelected = retrieveColorOrUnspecified("ComboBox.selectionBackground"),
+                contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
+                innerPadding = PaddingValues(0.dp),
+                outerPadding = PaddingValues(0.dp),
+                selectionBackgroundCornerSize = CornerSize(0.dp),
+            ),
+    )
+
 private fun readDefaultComboBoxStyle(menuStyle: MenuStyle): ComboBoxStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
     val nonEditableBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
@@ -518,11 +537,6 @@ private fun readDefaultComboBoxStyle(menuStyle: MenuStyle): ComboBoxStyle {
             borderFocused = focusedBorder,
             borderPressed = focusedBorder,
             borderHovered = normalBorder,
-            iconTint = Color.Unspecified,
-            iconTintDisabled = Color.Unspecified,
-            iconTintFocused = Color.Unspecified,
-            iconTintPressed = Color.Unspecified,
-            iconTintHovered = Color.Unspecified,
         )
 
     val minimumSize = JBUI.CurrentTheme.ComboBox.minimumSize().toDpSize()
@@ -1048,9 +1062,9 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
             contentFocused = normalContent,
             contentSelected = selectedContent,
             contentSelectedFocused = selectedContent,
-            elementBackgroundFocused = Color.Transparent,
-            elementBackgroundSelected = inactiveSelectedElementBackground,
-            elementBackgroundSelectedFocused = selectedElementBackground,
+            itemBackgroundFocused = Color.Transparent,
+            itemBackgroundSelected = inactiveSelectedElementBackground,
+            itemBackgroundSelectedFocused = selectedElementBackground,
         )
 
     val leftIndent = retrieveIntAsDpOrUnspecified("Tree.leftChildIndent").takeOrElse { 7.dp }
@@ -1061,9 +1075,9 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
         metrics =
             LazyTreeMetrics(
                 indentSize = leftIndent + rightIndent,
-                elementBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
-                elementPadding = PaddingValues(horizontal = 12.dp),
-                elementContentPadding = PaddingValues(4.dp),
+                selectionBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
+                itemPadding = PaddingValues(horizontal = 12.dp),
+                itemContentPadding = PaddingValues(4.dp),
                 elementMinHeight = retrieveIntAsDpOrUnspecified("Tree.rowHeight").takeOrElse { 24.dp },
                 chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
             ),
