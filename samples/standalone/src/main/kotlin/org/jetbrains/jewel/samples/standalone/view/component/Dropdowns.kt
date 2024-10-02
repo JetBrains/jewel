@@ -14,13 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlin.random.Random
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.ComboBox
 import org.jetbrains.jewel.ui.component.Dropdown
+import org.jetbrains.jewel.ui.component.ListComboBox
+import org.jetbrains.jewel.ui.component.PopupMenu
+import org.jetbrains.jewel.ui.component.SimpleListItem
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import org.jetbrains.jewel.ui.theme.comboBoxStyle
 
 @Composable
 fun Dropdowns() {
@@ -160,7 +165,7 @@ fun Dropdowns() {
         }
     }
 
-    val itemsComboBox = remember {
+    val comboBoxItems = remember {
         listOf(
             "Cat",
             "Elephant",
@@ -174,35 +179,52 @@ fun Dropdowns() {
             "Joy",
         )
     }
-    var selectedComboBox: String? by remember { mutableStateOf(itemsComboBox.first()) }
-    val inputTextFieldState = rememberTextFieldState(itemsComboBox.random())
-    val inputTextFieldState2 = rememberTextFieldState(itemsComboBox.random())
-    val inputTextFieldState3 = rememberTextFieldState(itemsComboBox.random())
-    val inputTextFieldState4 = rememberTextFieldState(itemsComboBox.random())
+    var selectedComboBox: String? by remember { mutableStateOf(comboBoxItems.first()) }
+    val inputTextFieldState = rememberTextFieldState(comboBoxItems.random())
+    val inputTextFieldState2 = rememberTextFieldState(comboBoxItems.random())
+    val inputTextFieldState3 = rememberTextFieldState(comboBoxItems.random())
+    val inputTextFieldState4 = rememberTextFieldState(comboBoxItems.random())
+
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(text = "ComboBoxes", style = Typography.h1TextStyle())
         Text(text = "Selected item: $selectedComboBox")
         Text(text = "Input text: ${inputTextFieldState.text}")
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            ListComboBox(
+                modifier = Modifier.width(200.dp),
+                items = comboBoxItems,
+                onSelectedItemIndexChange = {},
+                listItemContent = { item, isSelected, isFocused ->
+                    SimpleListItem(
+                        text = item,
+                        isSelected = isSelected,
+                        style = JewelTheme.comboBoxStyle.itemStyle,
+                        contentDescription = item,
+                    )
+                },
+            )
+
             ComboBox(
                 modifier = Modifier.width(140.dp),
                 isEditable = false,
                 isEnabled = false,
                 inputTextFieldState = inputTextFieldState,
-                menuContent = {
-                    itemsComboBox.forEach {
-                        if (it == "---") {
-                            separator()
-                        } else {
-                            selectableItem(
-                                selected = selectedComboBox == it,
-                                onClick = {
-                                    selectedComboBox = it
-                                    inputTextFieldState.edit { replace(0, length, it) }
-                                },
-                            ) {
-                                Text(it)
+                popupContent = {
+                    PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
+                        comboBoxItems.forEach {
+                            if (it == "---") {
+                                separator()
+                            } else {
+                                selectableItem(
+                                    selected = selectedComboBox == it,
+                                    onClick = {
+                                        selectedComboBox = it
+                                        inputTextFieldState.edit { replace(0, length, it) }
+                                    },
+                                ) {
+                                    Text(it)
+                                }
                             }
                         }
                     }
@@ -212,19 +234,21 @@ fun Dropdowns() {
                 modifier = Modifier.width(140.dp),
                 isEditable = false,
                 inputTextFieldState = inputTextFieldState,
-                menuContent = {
-                    itemsComboBox.forEach {
-                        if (it == "---") {
-                            separator()
-                        } else {
-                            selectableItem(
-                                selected = selectedComboBox == it,
-                                onClick = {
-                                    selectedComboBox = it
-                                    inputTextFieldState.edit { replace(0, length, it) }
-                                },
-                            ) {
-                                Text(it)
+                popupContent = {
+                    PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
+                        comboBoxItems.forEach {
+                            if (it == "---") {
+                                separator()
+                            } else {
+                                selectableItem(
+                                    selected = selectedComboBox == it,
+                                    onClick = {
+                                        selectedComboBox = it
+                                        inputTextFieldState.edit { replace(0, length, it) }
+                                    },
+                                ) {
+                                    Text(it)
+                                }
                             }
                         }
                     }
@@ -234,19 +258,21 @@ fun Dropdowns() {
             ComboBox(
                 modifier = Modifier.width(140.dp),
                 inputTextFieldState = inputTextFieldState2,
-                menuContent = {
-                    itemsComboBox.forEach {
-                        if (it == "---") {
-                            separator()
-                        } else {
-                            selectableItem(
-                                selected = selectedComboBox == it,
-                                onClick = {
-                                    selectedComboBox = it
-                                    inputTextFieldState.edit { replace(0, length, it) }
-                                },
-                            ) {
-                                Text(it)
+                popupContent = {
+                    PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
+                        comboBoxItems.forEach {
+                            if (it == "---") {
+                                separator()
+                            } else {
+                                selectableItem(
+                                    selected = selectedComboBox == it,
+                                    onClick = {
+                                        selectedComboBox = it
+                                        inputTextFieldState.edit { replace(0, length, it) }
+                                    },
+                                ) {
+                                    Text(it)
+                                }
                             }
                         }
                     }
@@ -256,19 +282,21 @@ fun Dropdowns() {
                 modifier = Modifier.width(140.dp),
                 inputTextFieldState = inputTextFieldState3,
                 outline = Outline.Warning,
-                menuContent = {
-                    itemsComboBox.forEach {
-                        if (it == "---") {
-                            separator()
-                        } else {
-                            selectableItem(
-                                selected = selectedComboBox == it,
-                                onClick = {
-                                    selectedComboBox = it
-                                    inputTextFieldState.edit { replace(0, length, it) }
-                                },
-                            ) {
-                                Text(it)
+                popupContent = {
+                    PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
+                        comboBoxItems.forEach {
+                            if (it == "---") {
+                                separator()
+                            } else {
+                                selectableItem(
+                                    selected = selectedComboBox == it,
+                                    onClick = {
+                                        selectedComboBox = it
+                                        inputTextFieldState.edit { replace(0, length, it) }
+                                    },
+                                ) {
+                                    Text(it)
+                                }
                             }
                         }
                     }
@@ -278,19 +306,21 @@ fun Dropdowns() {
             ComboBox(
                 inputTextFieldState = inputTextFieldState4,
                 outline = Outline.Error,
-                menuContent = {
-                    itemsComboBox.forEach {
-                        if (it == "---") {
-                            separator()
-                        } else {
-                            selectableItem(
-                                selected = selectedComboBox == it,
-                                onClick = {
-                                    selectedComboBox = it
-                                    inputTextFieldState.edit { replace(0, length, it) }
-                                },
-                            ) {
-                                Text(it)
+                popupContent = {
+                    PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
+                        comboBoxItems.forEach {
+                            if (it == "---") {
+                                separator()
+                            } else {
+                                selectableItem(
+                                    selected = selectedComboBox == it,
+                                    onClick = {
+                                        selectedComboBox = it
+                                        inputTextFieldState.edit { replace(0, length, it) }
+                                    },
+                                ) {
+                                    Text(it)
+                                }
                             }
                         }
                     }

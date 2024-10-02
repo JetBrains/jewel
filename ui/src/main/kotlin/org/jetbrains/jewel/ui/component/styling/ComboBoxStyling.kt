@@ -22,7 +22,7 @@ public class ComboBoxStyle(
     public val colors: ComboBoxColors,
     public val metrics: ComboBoxMetrics,
     public val icons: ComboBoxIcons,
-    public val menuStyle: MenuStyle,
+    public val itemStyle: SimpleListItemStyle,
 ) {
     public companion object
 }
@@ -46,11 +46,6 @@ public class ComboBoxColors(
     public val borderFocused: Color,
     public val borderPressed: Color,
     public val borderHovered: Color,
-    public val iconTint: Color,
-    public val iconTintDisabled: Color,
-    public val iconTintFocused: Color,
-    public val iconTintPressed: Color,
-    public val iconTintHovered: Color,
 ) {
     @Composable
     public fun backgroundFor(state: ComboBoxState, isEditable: Boolean): State<Color> =
@@ -89,19 +84,6 @@ public class ComboBoxColors(
                 pressed = borderPressed,
                 hovered = borderHovered,
                 active = border,
-            )
-        )
-
-    @Composable
-    public fun iconTintFor(state: ComboBoxState): State<Color> =
-        rememberUpdatedState(
-            state.chooseValue(
-                normal = iconTint,
-                disabled = iconTintDisabled,
-                focused = iconTintFocused,
-                pressed = iconTintPressed,
-                hovered = iconTintHovered,
-                active = iconTint,
             )
         )
 
