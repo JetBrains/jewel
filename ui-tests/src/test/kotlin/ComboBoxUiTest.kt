@@ -14,12 +14,14 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.isDisplayed
+import androidx.compose.ui.test.isNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -28,16 +30,44 @@ import androidx.compose.ui.test.performKeyInput
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
 import org.jetbrains.jewel.ui.component.ComboBox
-import org.jetbrains.jewel.ui.component.Text
-import org.jetbrains.jewel.ui.component.separator
+import org.jetbrains.jewel.ui.component.ListComboBox
+import org.jetbrains.jewel.ui.component.SimpleListItem
+import org.jetbrains.jewel.ui.theme.comboBoxStyle
 import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalTestApi::class)
 class ComboBoxUiTest {
     @get:Rule val composeRule = createComposeRule()
+
+    private val popupMenu: SemanticsNodeInteraction
+        get() = composeRule.onNode(hasTestTag("Jewel.ComboBox.PopupMenu"), useUnmergedTree = true)
+
+    private val chevronContainer: SemanticsNodeInteraction
+        get() = composeRule.onNode(hasTestTag("Jewel.ComboBox.ChevronContainer"), useUnmergedTree = true)
+
+    private val textField: SemanticsNodeInteraction
+        get() = composeRule.onNodeWithTag("Jewel.ComboBox.TextField", useUnmergedTree = true)
+
+    @Test
+    fun `when enabled clicking the chevron container opens the popup`() {
+        injectComboBox(FocusRequester(), isEditable = true, isEnabled = true)
+        chevronContainer.assertHasClickAction().performClick()
+        popupMenu.assertExists()
+    }
+
+    @Test
+    fun `when editable clicking chevron twice opens and closed the popup`() {
+        editableComboBox()
+        chevronContainer.performClick()
+        popupMenu.assertIsDisplayed()
+
+        chevronContainer.performClick()
+        popupMenu.assertDoesNotExist()
+    }
 
     @Test
     fun `TAB navigation focuses only the text field`() {
@@ -73,52 +103,60 @@ class ComboBoxUiTest {
 
     @Test
     fun `when not-editable both Box and TextField are focused`() {
-        val comboBox = focusedNotEditableComboBox()
+        val comboBox = notEditableFocusedComboBox()
         composeRule.onNodeWithText("First element").assertIsDisplayed().assertIsFocused()
     }
 
     @Test
     fun `when not-editable click opens popup`() {
-        val comboBox = focusedNotEditableComboBox()
+        val comboBox = notEditableFocusedComboBox()
         comboBox.performClick()
         composeRule.onNodeWithText("Elephant").isDisplayed()
     }
 
     @Test
-    fun `when not-editable double click opens and closes popup`() {
-        val comboBox = focusedNotEditableComboBox()
+    fun `when not-editable click on comboBox opens popup`() {
+        val comboBox = notEditableFocusedComboBox()
 
         comboBox.performClick()
-        composeRule.onNodeWithText("Elephant").isDisplayed()
+        popupMenu.isDisplayed()
+    }
+
+    @Test
+    fun `when not-editable double click on comboBox opens and closes popup`() {
+        val comboBox = notEditableFocusedComboBox()
 
         comboBox.performClick()
-        composeRule.onNodeWithText("Elephant").assertDoesNotExist()
+        popupMenu.isDisplayed()
+
+        comboBox.performClick()
+        popupMenu.isNotDisplayed()
     }
 
     @Test
     fun `when not-editable pressing spacebar opens popup`() {
-        val comboBox = focusedNotEditableComboBox()
+        val comboBox = notEditableFocusedComboBox()
 
-        composeRule.onNodeWithText("Elephant").assertDoesNotExist()
+        popupMenu.assertDoesNotExist()
 
         comboBox.performKeyInput {
             keyDown(Key.Spacebar)
             keyUp(Key.Spacebar)
         }
-        composeRule.onNodeWithText("Elephant").assertIsDisplayed()
+        composeRule.onNodeWithText("First element").assertIsDisplayed()
     }
 
     @Test
     fun `when not-editable pressing enter opens popup`() {
-        val comboBox = focusedNotEditableComboBox()
+        val comboBox = notEditableFocusedComboBox()
 
-        composeRule.onNodeWithText("Elephant").assertDoesNotExist()
+        popupMenu.assertDoesNotExist()
 
         comboBox.performKeyInput {
             keyDown(Key.Enter)
             keyUp(Key.Enter)
         }
-        composeRule.onNodeWithText("Elephant").assertIsDisplayed()
+        composeRule.onNodeWithText("First element").assertIsDisplayed()
     }
 
     @Test
@@ -202,8 +240,6 @@ class ComboBoxUiTest {
     fun `when not-editable ChevronContainer is clickable and opens popup`() {
         injectComboBox(FocusRequester(), isEditable = false, isEnabled = true)
 
-        val chevronContainer = composeRule.onNode(hasTestTag("Jewel.ComboBox.ChevronContainer"), useUnmergedTree = true)
-
         chevronContainer.assertExists()
 
         // We can't use assertIsDisplayed() or assertHasClickAction() on unmerged nodes,
@@ -214,17 +250,50 @@ class ComboBoxUiTest {
         }
 
         chevronContainer.performClick()
-
-        // The popup menu should be in the merged tree, so we can assert it's displayed
-        composeRule.onNodeWithTag("Jewel.ComboBox.PopupMenu").assertIsDisplayed()
+        popupMenu.assertIsDisplayed()
     }
 
-    private fun focusedNotEditableComboBox(
+    @Test
+    fun `when focused and editable pressing arrow down opens the popup`() {
+        editableComboBox()
+        popupMenu.assertDoesNotExist()
+        textField.performKeyInput {
+            keyDown(Key.DirectionDown)
+            keyUp(Key.DirectionDown)
+        }
+        popupMenu.assertIsDisplayed()
+    }
+
+    @Test
+    fun `when focused and editable pressing twice arrow down opens the popup and selects the first item`() {
+        editableComboBox()
+        popupMenu.assertDoesNotExist()
+        textField.performKeyInput {
+            keyDown(Key.DirectionDown)
+            keyUp(Key.DirectionDown)
+            keyDown(Key.DirectionDown)
+            keyUp(Key.DirectionDown)
+        }
+        popupMenu.assertIsDisplayed()
+        composeRule.onNodeWithText("Cat").assertIsDisplayed().assertIsFocused()
+    }
+
+    private fun editableComboBox(): SemanticsNodeInteraction {
+        val focusRequester = FocusRequester()
+        injectComboBox(focusRequester, true, true)
+        focusRequester.requestFocus()
+        val comboBox = composeRule.onNodeWithTag("ComboBox")
+        comboBox.assertIsDisplayed()
+
+        textField.assertIsDisplayed().assertIsFocused()
+        return comboBox
+    }
+
+    private fun notEditableFocusedComboBox(
         focusRequester: FocusRequester = FocusRequester(),
-        isEditable: Boolean = false,
         isEnabled: Boolean = true,
     ): SemanticsNodeInteraction {
-        injectComboBox(focusRequester, isEditable, isEnabled)
+        injectComboBox(focusRequester, false, isEnabled)
         focusRequester.requestFocus()
         val comboBox = composeRule.onNodeWithTag("ComboBox")
         comboBox.assertIsDisplayed().assertIsFocused()
@@ -234,46 +303,37 @@ class ComboBoxUiTest {
     private fun injectComboBox(focusRequester: FocusRequester, isEditable: Boolean, isEnabled: Boolean) {
         composeRule.setContent {
             IntUiTheme {
-                val itemsComboBox = remember {
-                    listOf(
-                        "First element",
-                        "Elephant",
-                        "Sun",
-                        "Book",
-                        "Laughter",
-                        "Whisper",
-                        "Ocean",
-                        "Serendipity lorem ipsum",
-                        "Umbrella",
-                        "Joy",
-                    )
-                }
                 var selectedComboBox: String? by remember { mutableStateOf(itemsComboBox.first()) }
-                val inputTextFieldState = rememberTextFieldState(itemsComboBox.first())
-                ComboBox(
+                ListComboBox(
+                    items = itemsComboBox,
                     isEditable = isEditable,
                     isEnabled = isEnabled,
-                    modifier = Modifier.width(140.dp).testTag("ComboBox").focusRequester(focusRequester),
-                    inputTextFieldState = inputTextFieldState,
-                    popupContent = {
-                        itemsComboBox.forEach {
-                            if (it == "---") {
-                                separator()
-                            } else {
-                                selectableItem(
-                                    selected = selectedComboBox == it,
-                                    onClick = {
-                                        selectedComboBox = it
-                                        inputTextFieldState.edit { replace(0, length, it) }
-                                    },
-                                ) {
-                                    Text(it)
-                                }
-                            }
-                        }
+                    modifier = Modifier.testTag("ComboBox").width(200.dp).focusRequester(focusRequester),
+                    onSelectedItemChange = { selectedComboBox = it },
+                    listItemContent = { item, isSelected, isFocused ->
+                        SimpleListItem(
+                            text = item,
+                            isSelected = isSelected,
+                            style = JewelTheme.comboBoxStyle.itemStyle,
+                            contentDescription = item,
+                        )
                     },
                 )
             }
         }
     }
 }
+
+private val itemsComboBox =
+    listOf(
+        "First element",
+        "Elephant",
+        "Sun",
+        "Book",
+        "Laughter",
+        "Whisper",
+        "Ocean",
+        "Serendipity lorem ipsum",
+        "Umbrella",
+        "Joy",
+    )
