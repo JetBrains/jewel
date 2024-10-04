@@ -1,21 +1,19 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.onClick
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -36,6 +34,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -115,9 +114,16 @@ public fun ComboBox(
         modifier =
             modifier
                 .thenIf(!isEditable) {
-                    focusable(isEnabled, interactionSource).onFocusChanged { focusState ->
-                        isFocused = focusState.isFocused
-                    }
+                    focusable(isEnabled, interactionSource)
+                        .onFocusChanged { focusState -> isFocused = focusState.isFocused }
+                        .onPreviewKeyEvent { keyEvent ->
+                            if (keyEvent.type == KeyEventType.KeyUp && keyEvent.key == Key.DirectionDown) {
+                                popupExpanded = true
+                                true
+                            } else {
+                                false
+                            }
+                        }
                 }
                 .background(style.colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(outline == Outline.None) {
@@ -135,41 +141,24 @@ public fun ComboBox(
                     outlineShape = shape,
                     alignment = Stroke.Alignment.Center,
                 )
-                .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
-                .onSizeChanged { comboBoxWidth = it.width }
-                .thenIf(isEditable) { focusProperties { canFocus = false } }
-                .thenIf(isEnabled) {
-                    clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                        enabled = isEnabled,
-                        onClick = {
-                            if (isEnabled) {
-                                if (isEditable) {
-                                    textFieldFocusRequester.requestFocus()
-                                } else {
-                                    popupExpanded = !popupExpanded
-                                }
-                            }
-                        },
-                    )
-                },
+                .widthIn(min = style.metrics.minSize.width)
+                .height(style.metrics.minSize.height)
+                .onSizeChanged { comboBoxWidth = it.width },
         contentAlignment = Alignment.CenterStart,
     ) {
         val boxWith = maxWidth
         CompositionLocalProvider(LocalContentColor provides style.colors.contentFor(comboBoxState).value) {
-            Box(
-                modifier =
-                    Modifier.padding(end = style.metrics.arrowMinSize.width).onFocusChanged {
-                        comboBoxState = comboBoxState.copy(focused = it.isFocused)
-                    },
-                contentAlignment = Alignment.CenterStart,
+            Row(
+                modifier = Modifier.onFocusChanged { comboBoxState = comboBoxState.copy(focused = it.isFocused) },
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (isEnabled && isEditable) {
                     BasicTextField(
                         state = inputTextFieldState,
                         modifier =
                             Modifier.testTag("Jewel.ComboBox.TextField")
+                                .fillMaxWidth()
+                                .weight(1f)
                                 .padding(style.metrics.contentPadding)
                                 .onSizeChanged { size ->
                                     if (initialTextFieldWidth == null) {
@@ -208,7 +197,9 @@ public fun ComboBox(
                         cursorBrush = SolidColor(style.colors.content),
                         interactionSource = textFieldInteractionSource,
                     )
-                } else {
+                }
+
+                if (!isEditable) {
                     Text(
                         text = inputTextFieldState.text.toString(),
                         style = textStyle,
@@ -217,43 +208,35 @@ public fun ComboBox(
                         modifier =
                             Modifier.testTag("Jewel.ComboBox.NonEditableText")
                                 .fillMaxWidth()
+                                .weight(1f)
                                 .padding(style.metrics.contentPadding),
                     )
                 }
-            }
 
-            Box(
-                modifier =
-                    Modifier.testTag("Jewel.ComboBox.ChevronContainer")
-                        .height(IntrinsicSize.Min)
-                        .defaultMinSize(style.metrics.arrowMinSize.width, style.metrics.arrowMinSize.height)
-                        .align(Alignment.CenterEnd)
-                        .focusProperties { canFocus = false }
-                        .thenIf(isEnabled) {
-                            onClick {
-                                if (isEnabled) {
-                                    if (isEditable) {
-                                        textFieldFocusRequester.requestFocus()
-                                    } else {
-                                        popupExpanded = !popupExpanded
-                                    }
-                                }
-                            }
-                        },
-                contentAlignment = Alignment.Center,
-            ) {
-                if (isEditable) {
-                    Divider(
-                        orientation = Orientation.Vertical,
-                        thickness = style.metrics.borderWidth,
-                        color = style.colors.border,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.testTag("Jewel.ComboBox.ChevronContainer").focusProperties { canFocus = false },
+                ) {
+                    val iconColor = if (isEnabled) Color.Unspecified else style.colors.borderDisabled
+                    if (isEditable) {
+                        Divider(
+                            orientation = Orientation.Vertical,
+                            thickness = style.metrics.borderWidth,
+                            color = style.colors.border,
+                            modifier =
+                                Modifier.testTag("Jewel.ComboBox.Divider").semantics {
+                                    contentDescription = "Jewel.ComboBox.Divider"
+                                },
+                        )
+                    }
+                    Icon(
                         modifier =
-                            Modifier.testTag("Jewel.ComboBox.Divider")
-                                .semantics { contentDescription = "Jewel.ComboBox.Divider" }
-                                .align(Alignment.CenterStart),
+                            Modifier.width(style.metrics.arrowMinSize.width).height(style.metrics.arrowMinSize.height),
+                        key = style.icons.chevronDown,
+                        tint = iconColor,
+                        contentDescription = null,
                     )
                 }
-                Icon(key = style.icons.chevronDown, contentDescription = null)
             }
         }
 
@@ -267,6 +250,7 @@ public fun ComboBox(
                 modifier =
                     menuModifier
                         .testTag("Jewel.ComboBox.PopupMenu")
+                        .semantics { contentDescription = "Jewel.ComboBox.PopupMenu" }
                         .defaultMinSize(minWidth = with(density) { comboBoxWidth.toDp() })
                         .heightIn(max = 200.dp) // TODO: this should wrap the height of the content somehow
                         .width(boxWith),
