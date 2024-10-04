@@ -16,6 +16,8 @@ import org.jetbrains.jewel.ui.theme.comboBoxStyle
 public fun ListComboBox(
     items: List<String>,
     modifier: Modifier = Modifier,
+    isEditable: Boolean = true,
+    isEnabled: Boolean = true,
     onSelectedItemChange: (String) -> Unit = {},
     listItemContent: @Composable (String, Boolean, Boolean) -> Unit,
 ) {
@@ -24,8 +26,8 @@ public fun ListComboBox(
 
     ComboBox(
         modifier = modifier,
-        isEditable = true,
-        isEnabled = true,
+        isEditable = isEditable,
+        isEnabled = isEnabled,
         inputTextFieldState = inputTextFieldState,
         outline = Outline.None,
         interactionSource = remember { MutableInteractionSource() },

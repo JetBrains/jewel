@@ -278,16 +278,16 @@ public object IntUiUndecoratedComboBoxColorsFactory {
 }
 
 public fun ComboBoxMetrics.Companion.default(
-    arrowMinSize: DpSize = DpSize(21.dp, 22.dp),
-    minSize: DpSize = DpSize((49 + 23 + 6).dp, 24.dp),
+    arrowMinSize: DpSize = DpSize(28.dp, 22.dp),
+    minSize: DpSize = DpSize((49 + 23 + 6).dp, 28.dp),
     cornerSize: CornerSize = CornerSize(4.dp),
     contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
     borderWidth: Dp = 1.dp,
 ): ComboBoxMetrics = ComboBoxMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
 
 public fun ComboBoxMetrics.Companion.undecorated(
-    arrowMinSize: DpSize = DpSize(21.dp, 22.dp),
-    minSize: DpSize = DpSize((49 + 23 + 6).dp, 24.dp),
+    arrowMinSize: DpSize = DpSize(28.dp, 22.dp),
+    minSize: DpSize = DpSize((49 + 23 + 6).dp, 28.dp),
     cornerSize: CornerSize = CornerSize(4.dp),
     contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
     borderWidth: Dp = 0.dp,
