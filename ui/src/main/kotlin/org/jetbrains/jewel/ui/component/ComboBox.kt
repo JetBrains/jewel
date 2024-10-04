@@ -1,8 +1,10 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -36,22 +38,23 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
-import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.pointer.PointerInputScope
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
+import kotlinx.coroutines.coroutineScope
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
+import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Enabled
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Focused
@@ -60,6 +63,7 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
@@ -67,6 +71,8 @@ import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
 import org.jetbrains.jewel.ui.util.thenIf
+
+private val jewelLogger = JewelLogger.getInstance("ComboBox")
 
 @Composable
 public fun ComboBox(
@@ -79,11 +85,15 @@ public fun ComboBox(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ComboBoxStyle = JewelTheme.comboBoxStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
-    onArrowDownPressed: () -> Unit = {},
-    onArrowUpPressed: () -> Unit = {},
     popupContent: @Composable () -> Unit,
 ) {
     var popupExpanded by remember { mutableStateOf(false) }
+    var chevronClicked by remember { mutableStateOf(false) }
+
+    fun togglePopup() {
+        popupExpanded = !popupExpanded
+    }
+
     var comboBoxState by remember { mutableStateOf(ComboBoxState.of(enabled = isEnabled)) }
     var isFocused by remember { mutableStateOf(false) }
 
@@ -109,21 +119,23 @@ public fun ComboBox(
     val borderColor by style.colors.borderFor(comboBoxState)
 
     var comboBoxWidth by remember { mutableIntStateOf(-1) }
-    var initialTextFieldWidth by remember { mutableStateOf<Int?>(null) }
     BoxWithConstraints(
         modifier =
             modifier
-                .thenIf(!isEditable) {
-                    focusable(isEnabled, interactionSource)
-                        .onFocusChanged { focusState -> isFocused = focusState.isFocused }
-                        .onPreviewKeyEvent { keyEvent ->
-                            if (keyEvent.type == KeyEventType.KeyUp && keyEvent.key == Key.DirectionDown) {
-                                popupExpanded = true
-                                true
-                            } else {
-                                false
-                            }
+                .thenIf(isEnabled && !isEditable) {
+                    pointerInput(interactionSource) {
+                            detectPressAndCancel(
+                                onPress = {
+                                    togglePopup()
+                                    jewelLogger.debug("Toggle popup requested from root")
+                                    textFieldFocusRequester.requestFocus()
+                                },
+                                onCancel = { popupExpanded = false },
+                            )
                         }
+                        .semantics(mergeDescendants = true) { role = Role.DropdownList }
+                        .focusable(isEnabled, interactionSource)
+                        .onFocusChanged { focusState -> isFocused = focusState.isFocused }
                 }
                 .background(style.colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(outline == Outline.None) {
@@ -161,36 +173,6 @@ public fun ComboBox(
                                 .fillMaxWidth()
                                 .weight(1f)
                                 .padding(style.metrics.contentPadding)
-                                .onSizeChanged { size ->
-                                    if (initialTextFieldWidth == null) {
-                                        initialTextFieldWidth = size.width
-                                    }
-                                }
-                                .then(initialTextFieldWidth?.let { Modifier.width(it.dp) } ?: Modifier)
-                                .onPreviewKeyEvent { keyEvent ->
-                                    when {
-                                        keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.DirectionDown -> {
-                                            if (!popupExpanded) {
-                                                popupExpanded = true
-                                                true
-                                            } else {
-                                                onArrowDownPressed()
-                                                true
-                                            }
-                                        }
-                                        keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.DirectionUp -> {
-                                            if (popupExpanded) {
-                                                onArrowUpPressed()
-                                                true
-                                            } else {
-                                                false
-                                            }
-                                        }
-                                        else -> {
-                                            false
-                                        }
-                                    }
-                                }
                                 .onFocusChanged { isFocused = it.isFocused }
                                 .focusRequester(textFieldFocusRequester),
                         lineLimits = TextFieldLineLimits.SingleLine,
@@ -210,6 +192,7 @@ public fun ComboBox(
                         modifier =
                             Modifier.testTag("Jewel.ComboBox.NonEditableText")
                                 .fillMaxWidth()
+                                .focusRequester(textFieldFocusRequester)
                                 .weight(1f)
                                 .padding(style.metrics.contentPadding),
                     )
@@ -219,13 +202,19 @@ public fun ComboBox(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier =
-                        Modifier.testTag("Jewel.ComboBox.ChevronContainer")
-                            .semantics { contentDescription = "Jewel.ComboBox.ChevronContainer" }
-                            .thenIf(isEnabled) {
-                                clickable(interactionSource = interactionSource, indication = null) {
-                                    popupExpanded = !popupExpanded
+                        Modifier.testTag("Jewel.ComboBox.ChevronContainer").thenIf(isEnabled && isEditable) {
+                            onHover { chevronClicked = it }
+                                .pointerInput(interactionSource) {
+                                    detectPressAndCancel(
+                                        onPress = {
+                                            togglePopup()
+                                            jewelLogger.debug("Toggle popup requested from chevron")
+                                            textFieldFocusRequester.requestFocus()
+                                        },
+                                        onCancel = { popupExpanded = false },
+                                    )
                                 }
-                            },
+                        },
                 ) {
                     val iconColor = if (isEnabled) Color.Unspecified else style.colors.borderDisabled
                     if (isEditable) {
@@ -233,10 +222,7 @@ public fun ComboBox(
                             orientation = Orientation.Vertical,
                             thickness = style.metrics.borderWidth,
                             color = style.colors.border,
-                            modifier =
-                                Modifier.testTag("Jewel.ComboBox.Divider").semantics {
-                                    contentDescription = "Jewel.ComboBox.Divider"
-                                },
+                            modifier = Modifier.testTag("Jewel.ComboBox.Divider"),
                         )
                     }
                     Icon(
@@ -254,15 +240,19 @@ public fun ComboBox(
             val density = LocalDensity.current
             PopupContainer(
                 onDismissRequest = {
-                    popupExpanded = false
-                    true
+                    jewelLogger.debug("Auto-dismiss popup requested with chevronClick = $chevronClicked")
+                    if (!chevronClicked) {
+                        jewelLogger.debug("Auto-dismiss popup request ignored")
+                        popupExpanded = false
+                    }
                 },
                 modifier =
                     menuModifier
                         .testTag("Jewel.ComboBox.PopupMenu")
                         .semantics { contentDescription = "Jewel.ComboBox.PopupMenu" }
                         .defaultMinSize(minWidth = with(density) { comboBoxWidth.toDp() })
-                        .heightIn(max = 200.dp) // TODO: this should wrap the height of the content somehow
+                        .heightIn(max = 200.dp) // TODO: add maxPopupHeight as parameter
+                        // (in the style as default, as param = Unspecified
                         .width(boxWith),
                 horizontalAlignment = Alignment.Start,
                 popupProperties = PopupProperties(focusable = false),
@@ -317,5 +307,21 @@ public value class ComboBoxState(public val state: ULong) : FocusableComponentSt
                     (if (pressed) Pressed else 0UL) or
                     (if (active) Active else 0UL)
             )
+    }
+}
+
+private suspend fun PointerInputScope.detectPressAndCancel(onPress: () -> Unit, onCancel: () -> Unit) {
+    coroutineScope {
+        awaitEachGesture {
+            awaitFirstDown().also { it.consume() }
+            onPress()
+
+            val up = waitForUpOrCancellation()
+            if (up == null) {
+                onCancel()
+            } else {
+                up.consume()
+            }
+        }
     }
 }

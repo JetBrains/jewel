@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.Composable
@@ -8,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items
+import org.jetbrains.jewel.foundation.lazy.rememberSelectableLazyListState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
@@ -23,7 +25,7 @@ public fun ListComboBox(
 ) {
     val initialTextFieldContent = items.firstOrNull() ?: ""
     val inputTextFieldState = rememberTextFieldState(initialTextFieldContent)
-
+    val scrollState = rememberSelectableLazyListState()
     ComboBox(
         modifier = modifier,
         isEditable = isEditable,
@@ -33,18 +35,22 @@ public fun ListComboBox(
         interactionSource = remember { MutableInteractionSource() },
         style = JewelTheme.comboBoxStyle,
         textStyle = JewelTheme.defaultTextStyle,
-        onArrowUpPressed = {},
-        onArrowDownPressed = {},
     ) {
-        SelectableLazyColumn(
-            selectionMode = SelectionMode.Single,
-            onSelectedIndexesChanged = { selectedItems ->
-                if (selectedItems.isEmpty()) return@SelectableLazyColumn
+        VerticallyScrollableContainer(scrollState = scrollState.lazyListState) {
+            SelectableLazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                selectionMode = SelectionMode.Single,
+                state = scrollState,
+                onSelectedIndexesChanged = { selectedItems ->
+                    if (selectedItems.isEmpty()) return@SelectableLazyColumn
 
-                inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItems.first()])
-                onSelectedItemChange(items[selectedItems.first()])
-            },
-            content = { items(items = items, itemContent = { item -> listItemContent(item, isSelected, isActive) }) },
-        )
+                    inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItems.first()])
+                    onSelectedItemChange(items[selectedItems.first()])
+                },
+                content = {
+                    items(items = items, itemContent = { item -> listItemContent(item, isSelected, isActive) })
+                },
+            )
+        }
     }
 }
