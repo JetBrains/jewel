@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -178,12 +177,10 @@ fun Dropdowns() {
         )
     }
     var selectedComboBox: String? by remember { mutableStateOf(comboBoxItems.first()) }
-    val inputTextFieldState = rememberTextFieldState(comboBoxItems.random())
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(text = "ComboBoxes", style = Typography.h1TextStyle())
         Text(text = "Selected item: $selectedComboBox")
-        Text(text = "Input text: ${inputTextFieldState.text}")
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Column {
