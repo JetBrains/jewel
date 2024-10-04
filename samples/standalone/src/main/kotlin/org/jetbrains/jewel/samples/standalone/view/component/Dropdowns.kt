@@ -186,19 +186,58 @@ fun Dropdowns() {
         Text(text = "Input text: ${inputTextFieldState.text}")
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            ListComboBox(
-                items = comboBoxItems,
-                modifier = Modifier.width(200.dp),
-                onSelectedItemChange = { selectedComboBox = it },
-                listItemContent = { item, isSelected, isFocused ->
-                    SimpleListItem(
-                        text = item,
-                        isSelected = isSelected,
-                        style = JewelTheme.comboBoxStyle.itemStyle,
-                        contentDescription = item,
-                    )
-                },
-            )
+            Column {
+                Text("Enabled and Editable")
+                ListComboBox(
+                    items = comboBoxItems,
+                    modifier = Modifier.width(200.dp),
+                    onSelectedItemChange = { selectedComboBox = it },
+                    listItemContent = { item, isSelected, isFocused ->
+                        SimpleListItem(
+                            text = item,
+                            isSelected = isSelected,
+                            style = JewelTheme.comboBoxStyle.itemStyle,
+                            contentDescription = item,
+                        )
+                    },
+                )
+            }
+
+            Column {
+                Text("Enabled")
+                ListComboBox(
+                    items = comboBoxItems,
+                    modifier = Modifier.width(200.dp),
+                    isEditable = false,
+                    onSelectedItemChange = { selectedComboBox = it },
+                    listItemContent = { item, isSelected, isFocused ->
+                        SimpleListItem(
+                            text = item,
+                            isSelected = isSelected,
+                            style = JewelTheme.comboBoxStyle.itemStyle,
+                            contentDescription = item,
+                        )
+                    },
+                )
+            }
+            Column {
+                Text("Disabled")
+                ListComboBox(
+                    items = comboBoxItems,
+                    modifier = Modifier.width(200.dp),
+                    isEditable = false,
+                    isEnabled = false,
+                    onSelectedItemChange = { selectedComboBox = it },
+                    listItemContent = { item, isSelected, isFocused ->
+                        SimpleListItem(
+                            text = item,
+                            isSelected = isSelected,
+                            style = JewelTheme.comboBoxStyle.itemStyle,
+                            contentDescription = item,
+                        )
+                    },
+                )
+            }
         }
     }
 }
