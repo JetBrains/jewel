@@ -44,13 +44,13 @@ class ComboBoxUiTest {
     @get:Rule val composeRule = createComposeRule()
 
     private val popupMenu: SemanticsNodeInteraction
-        get() = composeRule.onNode(hasTestTag("Jewel.ComboBox.PopupMenu"), useUnmergedTree = true)
+        get() = composeRule.onNode(hasTestTag("Jewel.ComboBox.PopupMenu"))
 
     private val chevronContainer: SemanticsNodeInteraction
-        get() = composeRule.onNodeWithTag("Jewel.ComboBox.ChevronContainer", useUnmergedTree = true)
+        get() = composeRule.onNodeWithTag("Jewel.ComboBox.ChevronContainer")
 
     private val textField: SemanticsNodeInteraction
-        get() = composeRule.onNodeWithTag("Jewel.ComboBox.TextField", useUnmergedTree = true)
+        get() = composeRule.onNodeWithTag("Jewel.ComboBox.TextField")
 
     @Test
     fun `when enabled clicking the chevron container opens the popup`() {
@@ -68,11 +68,13 @@ class ComboBoxUiTest {
 
     @Test
     fun `when editable clicking chevron twice opens and closed the popup`() {
-        editableComboBox()
-        chevronContainer.performClick()
-        popupMenu.assertIsDisplayed()
+        injectComboBox(FocusRequester(), isEditable = true, isEnabled = true)
+
+        chevronContainer.assertHasClickAction().performClick()
+        popupMenu.assertExists().isDisplayed()
 
         chevronContainer.performClick()
+        popupMenu.isNotDisplayed()
         popupMenu.assertDoesNotExist()
     }
 

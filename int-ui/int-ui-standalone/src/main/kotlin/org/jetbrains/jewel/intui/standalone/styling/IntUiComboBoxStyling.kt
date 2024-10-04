@@ -89,7 +89,7 @@ public object IntUiDefaultSimpleListItemComboBoxStyleFactory {
                 contentSelectedFocused = contentSelectedFocused,
             ),
             SimpleListItemMetrics(
-                innerPadding = PaddingValues(),
+                innerPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
                 outerPadding = PaddingValues(),
                 selectionBackgroundCornerSize = CornerSize(0.dp),
             ),
@@ -118,7 +118,7 @@ public object IntUiDefaultSimpleListItemComboBoxStyleFactory {
                 contentSelectedFocused = contentSelectedFocused,
             ),
             SimpleListItemMetrics(
-                innerPadding = PaddingValues(),
+                innerPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
                 outerPadding = PaddingValues(),
                 selectionBackgroundCornerSize = CornerSize(0.dp),
             ),
