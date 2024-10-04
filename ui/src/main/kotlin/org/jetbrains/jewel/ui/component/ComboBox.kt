@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -31,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
@@ -152,6 +152,7 @@ public fun ComboBox(
                 modifier = Modifier.onFocusChanged { comboBoxState = comboBoxState.copy(focused = it.isFocused) },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+                // Text field
                 if (isEnabled && isEditable) {
                     BasicTextField(
                         state = inputTextFieldState,
@@ -199,6 +200,7 @@ public fun ComboBox(
                     )
                 }
 
+                // Text label
                 if (!isEditable) {
                     Text(
                         text = inputTextFieldState.text.toString(),
@@ -213,9 +215,17 @@ public fun ComboBox(
                     )
                 }
 
+                // Chevron
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.testTag("Jewel.ComboBox.ChevronContainer").focusProperties { canFocus = false },
+                    modifier =
+                        Modifier.testTag("Jewel.ComboBox.ChevronContainer")
+                            .semantics { contentDescription = "Jewel.ComboBox.ChevronContainer" }
+                            .thenIf(isEnabled) {
+                                clickable(interactionSource = interactionSource, indication = null) {
+                                    popupExpanded = !popupExpanded
+                                }
+                            },
                 ) {
                     val iconColor = if (isEnabled) Color.Unspecified else style.colors.borderDisabled
                     if (isEditable) {
