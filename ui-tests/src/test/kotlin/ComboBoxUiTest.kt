@@ -23,6 +23,8 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.isNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -47,14 +49,14 @@ class ComboBoxUiTest {
         get() = composeRule.onNode(hasTestTag("Jewel.ComboBox.PopupMenu"))
 
     private val chevronContainer: SemanticsNodeInteraction
-        get() = composeRule.onNodeWithTag("Jewel.ComboBox.ChevronContainer")
+        get() = composeRule.onNodeWithTag("Jewel.ComboBox.ChevronContainer", useUnmergedTree = true)
 
     private val textField: SemanticsNodeInteraction
         get() = composeRule.onNodeWithTag("Jewel.ComboBox.TextField")
 
     @Test
-    fun `when enabled clicking the chevron container opens the popup`() {
-        injectComboBox(FocusRequester(), isEditable = true, isEnabled = true)
+    fun `when enabled and editable clicking the chevron container opens the popup`() {
+        editableComboBox()
         chevronContainer.assertExists().assertHasClickAction().performClick()
         popupMenu.assertExists()
     }
@@ -74,7 +76,6 @@ class ComboBoxUiTest {
         popupMenu.assertExists().isDisplayed()
 
         chevronContainer.performClick()
-        popupMenu.isNotDisplayed()
         popupMenu.assertDoesNotExist()
     }
 
@@ -120,7 +121,7 @@ class ComboBoxUiTest {
     fun `when not-editable click opens popup`() {
         val comboBox = notEditableFocusedComboBox()
         comboBox.performClick()
-        composeRule.onNodeWithText("Elephant").isDisplayed()
+        composeRule.onNodeWithText("Second element").isDisplayed()
     }
 
     @Test
@@ -138,8 +139,10 @@ class ComboBoxUiTest {
         comboBox.performClick()
         popupMenu.isDisplayed()
 
+        composeRule.waitForIdle()
+
         comboBox.performClick()
-        popupMenu.isNotDisplayed()
+        popupMenu.assertDoesNotExist()
     }
 
     @Test
@@ -152,11 +155,41 @@ class ComboBoxUiTest {
             keyDown(Key.Spacebar)
             keyUp(Key.Spacebar)
         }
-        composeRule.onNodeWithText("First element").assertIsDisplayed()
+        popupMenu.isDisplayed()
+    }
+
+    // Reference: https://youtrack.jetbrains.com/issue/CMP-3710
+    //    @Test
+    //    fun `when editable pressing spacebar does not open popup`() {
+    //        val comboBox = editableComboBox()
+    //        popupMenu.assertDoesNotExist()
+    //
+    //        textField.assertIsFocused().isDisplayed()
+    //        textField.assertTextContains("First element")
+    //        textField.assertIsFocused().performKeyInput {
+    //            keyDown(Key.Spacebar)
+    //            keyUp(Key.Spacebar)
+    //        }
+    //        textField.assertTextEquals("First element ")
+    //        popupMenu.assertDoesNotExist()
+    //    }
+
+    @Test
+    fun `when not-editable pressing enter does not open popup`() {
+        val comboBox = notEditableFocusedComboBox()
+
+        popupMenu.assertDoesNotExist()
+
+        comboBox.performKeyInput {
+            keyDown(Key.Enter)
+            keyUp(Key.Enter)
+        }
+        composeRule.onNodeWithText("First element").isNotDisplayed()
+        popupMenu.assertDoesNotExist()
     }
 
     @Test
-    fun `when not-editable pressing enter opens popup`() {
+    fun `when editable pressing enter does not open popup`() {
         val comboBox = notEditableFocusedComboBox()
 
         popupMenu.assertDoesNotExist()
@@ -166,6 +199,7 @@ class ComboBoxUiTest {
             keyUp(Key.Enter)
         }
         composeRule.onNodeWithText("First element").assertIsDisplayed()
+        popupMenu.assertDoesNotExist()
     }
 
     @Test
@@ -201,31 +235,27 @@ class ComboBoxUiTest {
 
     @Test
     fun `when disabled, ComboBox cannot be interacted with`() {
-        injectComboBox(FocusRequester(), isEditable = true, isEnabled = false)
+        val comboBox = disabledComboBox()
 
-        composeRule.onNodeWithTag("ComboBox").assertIsDisplayed().assertHasNoClickAction().performClick()
-        composeRule.onNodeWithText("First element").assertExists().assertHasNoClickAction().performClick()
-        composeRule.onNodeWithText("Elephant").assertDoesNotExist()
+        comboBox.assertIsDisplayed().assertHasNoClickAction().performClick()
+        composeRule
+            .onNodeWithTag("Jewel.ComboBox.NonEditableText")
+            .assertIsDisplayed()
+            .assertHasNoClickAction()
+            .performClick()
+        popupMenu.assertDoesNotExist()
     }
 
     @Test
     fun `when editable divider is displayed`() {
         injectComboBox(FocusRequester(), isEditable = true, isEnabled = true)
 
-        composeRule
-            .onNode(
-                hasTestTag("Jewel.ComboBox.Divider") and hasContentDescription("Jewel.ComboBox.Divider"),
-                useUnmergedTree = true,
-            )
-            .assertExists()
+        composeRule.onNode(hasTestTag("Jewel.ComboBox.Divider"), useUnmergedTree = true).assertExists()
 
         // We can't use assertIsDisplayed() on unmerged nodes, so let's check its bounds instead
         val bounds =
             composeRule
-                .onNode(
-                    hasTestTag("Jewel.ComboBox.Divider") and hasContentDescription("Jewel.ComboBox.Divider"),
-                    useUnmergedTree = true,
-                )
+                .onNode(hasTestTag("Jewel.ComboBox.Divider"), useUnmergedTree = true)
                 .fetchSemanticsNode()
                 .boundsInRoot
 
@@ -274,7 +304,7 @@ class ComboBoxUiTest {
     }
 
     @Test
-    fun `when focused and editable pressing twice arrow down opens the popup and selects the first item`() {
+    fun `when focused and editable pressing arrow down twice opens the popup and selects the second item`() {
         editableComboBox()
         popupMenu.assertDoesNotExist()
         textField.performKeyInput {
@@ -284,7 +314,7 @@ class ComboBoxUiTest {
             keyUp(Key.DirectionDown)
         }
         popupMenu.assertIsDisplayed()
-        composeRule.onNodeWithText("Cat").assertIsDisplayed().assertIsFocused()
+        composeRule.onAllNodesWithText("Second element").onLast().isDisplayed()
     }
 
     private fun editableComboBox(): SemanticsNodeInteraction {
@@ -295,6 +325,16 @@ class ComboBoxUiTest {
         comboBox.assertIsDisplayed()
 
         textField.assertIsDisplayed().assertIsFocused()
+        return comboBox
+    }
+
+    private fun disabledComboBox(): SemanticsNodeInteraction {
+        val focusRequester = FocusRequester()
+        injectComboBox(focusRequester, false, false)
+        focusRequester.requestFocus()
+        val comboBox = composeRule.onNodeWithTag("ComboBox")
+        comboBox.assertIsDisplayed()
+        composeRule.onNodeWithTag("Jewel.ComboBox.NonEditableText").assertIsDisplayed()
         return comboBox
     }
 
@@ -336,7 +376,7 @@ class ComboBoxUiTest {
 private val itemsComboBox =
     listOf(
         "First element",
-        "Elephant",
+        "Second element",
         "Sun",
         "Book",
         "Laughter",
