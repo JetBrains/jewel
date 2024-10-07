@@ -89,8 +89,9 @@ public fun ComboBox(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ComboBoxStyle = JewelTheme.comboBoxStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
-    onArrowUpPress: () -> Unit = {},
     onArrowDownPress: () -> Unit = {},
+    onArrowUpPress: () -> Unit = {},
+    onPopupStateChange: (Boolean) -> Unit = {},
     popupContent: @Composable () -> Unit,
 ) {
     var popupExpanded by remember { mutableStateOf(false) }
@@ -99,8 +100,13 @@ public fun ComboBox(
     val textFieldInteractionSource = remember { MutableInteractionSource() }
     val textFieldFocusRequester = remember { FocusRequester() }
 
+    fun setPopupExpanded(expanded: Boolean) {
+        popupExpanded = expanded
+        onPopupStateChange(expanded)
+    }
+
     fun togglePopup() {
-        popupExpanded = !popupExpanded
+        setPopupExpanded(!popupExpanded)
     }
 
     val onPressWhenEnabled = {
@@ -110,6 +116,7 @@ public fun ComboBox(
 
     var comboBoxState by remember { mutableStateOf(ComboBoxState.of(enabled = isEnabled)) }
     var isFocused by remember { mutableStateOf(false) }
+    val comboBoxFocusRequester = remember { FocusRequester() }
 
     remember(isEnabled) { comboBoxState = comboBoxState.copy(enabled = isEnabled) }
 
@@ -143,17 +150,40 @@ public fun ComboBox(
                 .thenIf(isEnabled && !isEditable) {
                     onHover { chevronClicked = it }
                         .pointerInput(interactionSource) {
-                            detectPressAndCancel(onPress = onPressWhenEnabled, onCancel = { popupExpanded = false })
+                            detectPressAndCancel(
+                                onPress = {
+                                    togglePopup()
+                                    comboBoxFocusRequester.requestFocus()
+                                },
+                                onCancel = { setPopupExpanded(false) },
+                            )
                         }
                         .semantics(mergeDescendants = true) { role = Role.DropdownList }
                         .focusable(isEnabled, interactionSource)
-                        .onFocusChanged { focusState -> isFocused = focusState.isFocused }
-                        .onPreviewKeyEvent {
-                            if (it.type == KeyEventType.KeyDown && keysThatOpenPopupWhenNotEditable.contains(it.key)) {
-                                togglePopup()
-                                textFieldFocusRequester.requestFocus()
+                        .onFocusChanged { focusState ->
+                            isFocused = focusState.isFocused
+                            if (isFocused) {
+                                comboBoxFocusRequester.requestFocus()
                             }
-                            false
+                        }
+                        .focusRequester(comboBoxFocusRequester)
+                        .onPreviewKeyEvent {
+                            if (it.type == KeyEventType.KeyDown && it.key == Key.Spacebar) {
+                                togglePopup()
+                                comboBoxFocusRequester.requestFocus()
+                            }
+                            if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionDown) {
+                                if (!popupExpanded) {
+                                    setPopupExpanded(true)
+                                } else {
+                                    onArrowDownPress()
+                                }
+                                comboBoxFocusRequester.requestFocus()
+                            }
+                            if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionUp && popupExpanded) {
+                                onArrowUpPress()
+                            }
+                            true
                         }
                 }
                 .background(style.colors.backgroundFor(comboBoxState, isEditable).value, shape)
@@ -231,7 +261,7 @@ public fun ComboBox(
                         modifier =
                             Modifier.testTag("Jewel.ComboBox.NonEditableText")
                                 .fillMaxWidth()
-                                .focusRequester(textFieldFocusRequester)
+                                .focusable(false)
                                 .weight(1f)
                                 .padding(style.metrics.contentPadding),
                     )
@@ -246,7 +276,7 @@ public fun ComboBox(
                                 .pointerInput(interactionSource) {
                                     detectPressAndCancel(
                                         onPress = onPressWhenEnabled,
-                                        onCancel = { popupExpanded = false },
+                                        onCancel = { setPopupExpanded(false) },
                                     )
                                 }
                                 .semantics {
@@ -285,7 +315,7 @@ public fun ComboBox(
             PopupContainer(
                 onDismissRequest = {
                     if (!chevronClicked) {
-                        popupExpanded = false
+                        setPopupExpanded(false)
                     }
                 },
                 modifier =
@@ -302,8 +332,6 @@ public fun ComboBox(
         }
     }
 }
-
-private val keysThatOpenPopupWhenNotEditable = listOf(Key.Spacebar, Key.DirectionDown)
 
 @Immutable
 @JvmInline
