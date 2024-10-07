@@ -86,8 +86,8 @@ class ComboBoxUiTest {
             IntUiTheme {
                 Box(modifier = Modifier.size(20.dp).focusRequester(focusRequester).testTag("Pre-Box").focusable(true))
                 ComboBox(
-                    isEditable = true,
                     modifier = Modifier.width(140.dp).testTag("ComboBox"),
+                    isEditable = true,
                     inputTextFieldState = rememberTextFieldState("First element"),
                     popupContent = { /* ... */ },
                 )
@@ -315,6 +315,42 @@ class ComboBoxUiTest {
         }
         popupMenu.assertIsDisplayed()
         composeRule.onAllNodesWithText("Second element").onLast().isDisplayed()
+    }
+
+    @Test
+    fun `when enabled but not editable clicking on the comboBox focuses it and open the popup`() {
+        val focusRequester = FocusRequester()
+        injectComboBox(focusRequester, false, true)
+        val comboBox = composeRule.onNodeWithTag("ComboBox")
+
+        comboBox.performClick()
+        popupMenu.assertIsDisplayed()
+        comboBox.assertIsFocused()
+    }
+
+    @Test
+    fun `when enabled but not editable spacebar opens the popup`() {
+        val comboBox = notEditableFocusedComboBox()
+        comboBox.performKeyInput {
+            keyDown(Key.Spacebar)
+            keyUp(Key.Spacebar)
+        }
+        popupMenu.assertIsDisplayed()
+    }
+
+    @Test
+    fun `when enabled but not editable pressing spacebar twice opens and closes the popup`() {
+        val comboBox = notEditableFocusedComboBox()
+        comboBox.performKeyInput {
+            keyDown(Key.Spacebar)
+            keyUp(Key.Spacebar)
+        }
+        popupMenu.assertIsDisplayed()
+        comboBox.performKeyInput {
+            keyDown(Key.Spacebar)
+            keyUp(Key.Spacebar)
+        }
+        popupMenu.assertDoesNotExist()
     }
 
     private fun editableComboBox(): SemanticsNodeInteraction {

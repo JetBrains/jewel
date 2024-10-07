@@ -50,12 +50,12 @@ public fun ListComboBox(
         isEnabled = isEnabled,
         inputTextFieldState = inputTextFieldState,
         outline = Outline.None,
+        maxPopupHeight = mph,
         interactionSource = remember { MutableInteractionSource() },
         style = JewelTheme.comboBoxStyle,
         textStyle = JewelTheme.defaultTextStyle,
-        maxPopupHeight = mph,
-        onArrowUpPress = { selectedItem = selectedItem.minus(1).coerceAtLeast(0) },
         onArrowDownPress = { selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex) },
+        onArrowUpPress = { selectedItem = selectedItem.minus(1).coerceAtLeast(0) },
     ) {
         VerticallyScrollableContainer(
             scrollState = scrollState.lazyListState,

@@ -176,20 +176,23 @@ fun Dropdowns() {
             "Joy",
         )
     }
-    var selectedComboBox: String? by remember { mutableStateOf(comboBoxItems.first()) }
+    var selectedComboBox1: String? by remember { mutableStateOf(comboBoxItems.first()) }
+    var selectedComboBox2: String? by remember { mutableStateOf(comboBoxItems.first()) }
+    var selectedComboBox3: String? by remember { mutableStateOf(comboBoxItems.first()) }
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(text = "ComboBoxes", style = Typography.h1TextStyle())
-        Text(text = "Selected item: $selectedComboBox")
+        Text(text = "Selected item: $selectedComboBox1")
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Column {
                 Text("Enabled and Editable")
+                Text(text = "Selected item: $selectedComboBox1")
                 ListComboBox(
                     items = comboBoxItems,
                     modifier = Modifier.width(200.dp),
                     maxPopupHeight = 300.dp,
-                    onSelectedItemChange = { selectedComboBox = it },
+                    onSelectedItemChange = { selectedComboBox1 = it },
                     listItemContent = { item, isSelected, isFocused ->
                         SimpleListItem(
                             text = item,
@@ -203,11 +206,13 @@ fun Dropdowns() {
 
             Column {
                 Text("Enabled")
+                Text(text = "Selected item: $selectedComboBox2")
+
                 ListComboBox(
                     items = comboBoxItems,
                     modifier = Modifier.width(200.dp),
                     isEditable = false,
-                    onSelectedItemChange = { selectedComboBox = it },
+                    onSelectedItemChange = { selectedComboBox2 = it },
                     listItemContent = { item, isSelected, isFocused ->
                         SimpleListItem(
                             text = item,
@@ -220,12 +225,13 @@ fun Dropdowns() {
             }
             Column {
                 Text("Disabled")
+                Text(text = "Selected item: $selectedComboBox3")
                 ListComboBox(
                     items = comboBoxItems,
                     modifier = Modifier.width(200.dp),
                     isEditable = false,
                     isEnabled = false,
-                    onSelectedItemChange = { selectedComboBox = it },
+                    onSelectedItemChange = { selectedComboBox3 = it },
                     listItemContent = { item, isSelected, isFocused ->
                         SimpleListItem(
                             text = item,
