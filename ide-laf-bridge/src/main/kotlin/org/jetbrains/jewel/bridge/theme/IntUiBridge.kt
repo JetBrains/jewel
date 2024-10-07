@@ -536,6 +536,7 @@ private fun readDefaultComboBoxStyle(menuStyle: MenuStyle): ComboBoxStyle {
                 cornerSize = componentArc,
                 contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
                 borderWidth = DarculaUIUtil.LW.dp,
+                maxPopupHeight = Dp.Unspecified,
             ),
         icons = ComboBoxIcons(chevronDown = AllIconsKeys.General.ChevronDown),
         menuStyle = menuStyle,
