@@ -283,7 +283,8 @@ public fun ComboBoxMetrics.Companion.default(
     cornerSize: CornerSize = CornerSize(4.dp),
     contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
     borderWidth: Dp = 1.dp,
-): ComboBoxMetrics = ComboBoxMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
+    maxPopupHeight: Dp = 200.dp,
+): ComboBoxMetrics = ComboBoxMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth, maxPopupHeight)
 
 public fun ComboBoxMetrics.Companion.undecorated(
     arrowMinSize: DpSize = DpSize(28.dp, 22.dp),
@@ -291,7 +292,8 @@ public fun ComboBoxMetrics.Companion.undecorated(
     cornerSize: CornerSize = CornerSize(4.dp),
     contentPadding: PaddingValues = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
     borderWidth: Dp = 0.dp,
-): ComboBoxMetrics = ComboBoxMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth)
+    maxPopupHeight: Dp = 200.dp,
+): ComboBoxMetrics = ComboBoxMetrics(arrowMinSize, minSize, cornerSize, contentPadding, borderWidth, maxPopupHeight)
 
 public fun ComboBoxIcons.Companion.defaults(chevronDown: IconKey = AllIconsKeys.General.ChevronDown): ComboBoxIcons =
     ComboBoxIcons(chevronDown)

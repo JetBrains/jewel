@@ -98,6 +98,7 @@ public class ComboBoxMetrics(
     public val cornerSize: CornerSize,
     public val contentPadding: PaddingValues,
     public val borderWidth: Dp,
+    public val maxPopupHeight: Dp,
 ) {
     public companion object
 }

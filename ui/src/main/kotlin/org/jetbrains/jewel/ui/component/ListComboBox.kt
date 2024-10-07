@@ -2,6 +2,7 @@ package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items
 import org.jetbrains.jewel.foundation.lazy.rememberSelectableLazyListState
@@ -24,6 +26,7 @@ public fun ListComboBox(
     modifier: Modifier = Modifier,
     isEditable: Boolean = true,
     isEnabled: Boolean = true,
+    maxPopupHeight: Dp = Dp.Unspecified,
     onSelectedItemChange: (String) -> Unit = {},
     listItemContent: @Composable (String, Boolean, Boolean) -> Unit,
 ) {
@@ -32,20 +35,14 @@ public fun ListComboBox(
     val scrollState = rememberSelectableLazyListState()
     var selectedItem by remember { mutableIntStateOf(0) }
 
-    LaunchedEffect(selectedItem) {
-        scrollState.selectedKeys = setOf(items[selectedItem])
-        //
-        //        JewelLogger.getInstance("ComboBox").info("Selected item $selectedItem")
-        //        JewelLogger.getInstance("ComboBox").info("First visible item:
-        // ${scrollState.lazyListState.firstVisibleItemIndex}")
-        //        scrollState.lazyListState.layoutInfo.visibleItemsInfo.forEach {
-        //            JewelLogger.getInstance("ComboBox").info("Visible item ${it.key}")
-        //        }
-        //
-        ////        if (selectedItem > scrollState.lazyListState.firstVisibleItemIndex) {
-        ////            scrollState.lazyListState.scrollToItem(selectedItem)
-        ////        }
-    }
+    LaunchedEffect(selectedItem) { scrollState.selectedKeys = setOf(items[selectedItem]) }
+
+    val mph =
+        if (maxPopupHeight == Dp.Unspecified) {
+            JewelTheme.comboBoxStyle.metrics.maxPopupHeight
+        } else {
+            maxPopupHeight
+        }
 
     ComboBox(
         modifier = modifier,
@@ -56,12 +53,16 @@ public fun ListComboBox(
         interactionSource = remember { MutableInteractionSource() },
         style = JewelTheme.comboBoxStyle,
         textStyle = JewelTheme.defaultTextStyle,
+        maxPopupHeight = mph,
         onArrowUpPress = { selectedItem = selectedItem.minus(1).coerceAtLeast(0) },
         onArrowDownPress = { selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex) },
     ) {
-        VerticallyScrollableContainer(scrollState = scrollState.lazyListState) {
+        VerticallyScrollableContainer(
+            scrollState = scrollState.lazyListState,
+            modifier = Modifier.heightIn(max = mph),
+        ) {
             SelectableLazyColumn(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().heightIn(max = mph),
                 selectionMode = SelectionMode.Single,
                 state = scrollState,
                 onSelectedIndexesChange = { selectedItems ->

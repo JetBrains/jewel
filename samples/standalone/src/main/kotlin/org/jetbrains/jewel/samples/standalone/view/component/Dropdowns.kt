@@ -188,6 +188,7 @@ fun Dropdowns() {
                 ListComboBox(
                     items = comboBoxItems,
                     modifier = Modifier.width(200.dp),
+                    maxPopupHeight = 300.dp,
                     onSelectedItemChange = { selectedComboBox = it },
                     listItemContent = { item, isSelected, isFocused ->
                         SimpleListItem(

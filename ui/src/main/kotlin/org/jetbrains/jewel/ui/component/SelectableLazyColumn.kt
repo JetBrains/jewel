@@ -43,7 +43,7 @@ public fun SelectableLazyColumn(
         state = state,
         contentPadding = contentPadding,
         reverseLayout = reverseLayout,
-        onSelectedIndexesChanged = onSelectedIndexesChange,
+        onSelectedIndexesChange = onSelectedIndexesChange,
         verticalArrangement = verticalArrangement,
         horizontalAlignment = horizontalAlignment,
         flingBehavior = flingBehavior,
