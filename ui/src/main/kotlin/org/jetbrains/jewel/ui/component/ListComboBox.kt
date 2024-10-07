@@ -5,7 +5,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items
@@ -26,6 +30,23 @@ public fun ListComboBox(
     val initialTextFieldContent = items.firstOrNull() ?: ""
     val inputTextFieldState = rememberTextFieldState(initialTextFieldContent)
     val scrollState = rememberSelectableLazyListState()
+    var selectedItem by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(selectedItem) {
+        scrollState.selectedKeys = setOf(items[selectedItem])
+        //
+        //        JewelLogger.getInstance("ComboBox").info("Selected item $selectedItem")
+        //        JewelLogger.getInstance("ComboBox").info("First visible item:
+        // ${scrollState.lazyListState.firstVisibleItemIndex}")
+        //        scrollState.lazyListState.layoutInfo.visibleItemsInfo.forEach {
+        //            JewelLogger.getInstance("ComboBox").info("Visible item ${it.key}")
+        //        }
+        //
+        ////        if (selectedItem > scrollState.lazyListState.firstVisibleItemIndex) {
+        ////            scrollState.lazyListState.scrollToItem(selectedItem)
+        ////        }
+    }
+
     ComboBox(
         modifier = modifier,
         isEditable = isEditable,
@@ -35,17 +56,21 @@ public fun ListComboBox(
         interactionSource = remember { MutableInteractionSource() },
         style = JewelTheme.comboBoxStyle,
         textStyle = JewelTheme.defaultTextStyle,
+        onArrowUpPress = { selectedItem = selectedItem.minus(1).coerceAtLeast(0) },
+        onArrowDownPress = { selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex) },
     ) {
         VerticallyScrollableContainer(scrollState = scrollState.lazyListState) {
             SelectableLazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 selectionMode = SelectionMode.Single,
                 state = scrollState,
-                onSelectedIndexesChanged = { selectedItems ->
+                onSelectedIndexesChange = { selectedItems ->
                     if (selectedItems.isEmpty()) return@SelectableLazyColumn
 
-                    inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItems.first()])
-                    onSelectedItemChange(items[selectedItems.first()])
+                    val selectedItemIndex = selectedItems.first()
+                    selectedItem = selectedItemIndex
+                    inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
+                    onSelectedItemChange(items[selectedItemIndex])
                 },
                 content = {
                     items(items = items, itemContent = { item -> listItemContent(item, isSelected, isActive) })
