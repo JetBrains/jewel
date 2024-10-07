@@ -123,11 +123,11 @@ public fun ComboBox(
         modifier =
             modifier
                 .thenIf(isEnabled && !isEditable) {
-                    pointerInput(interactionSource) {
+                    onHover { chevronClicked = it }
+                        .pointerInput(interactionSource) {
                             detectPressAndCancel(
                                 onPress = {
                                     togglePopup()
-                                    jewelLogger.debug("Toggle popup requested from root")
                                     textFieldFocusRequester.requestFocus()
                                 },
                                 onCancel = { popupExpanded = false },
@@ -208,7 +208,6 @@ public fun ComboBox(
                                     detectPressAndCancel(
                                         onPress = {
                                             togglePopup()
-                                            jewelLogger.debug("Toggle popup requested from chevron")
                                             textFieldFocusRequester.requestFocus()
                                         },
                                         onCancel = { popupExpanded = false },
@@ -240,9 +239,7 @@ public fun ComboBox(
             val density = LocalDensity.current
             PopupContainer(
                 onDismissRequest = {
-                    jewelLogger.debug("Auto-dismiss popup requested with chevronClick = $chevronClicked")
                     if (!chevronClicked) {
-                        jewelLogger.debug("Auto-dismiss popup request ignored")
                         popupExpanded = false
                     }
                 },
