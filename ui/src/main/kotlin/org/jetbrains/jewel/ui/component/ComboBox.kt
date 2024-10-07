@@ -38,6 +38,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
@@ -45,6 +50,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
@@ -63,7 +69,6 @@ import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Pressed
 import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
-import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
@@ -71,8 +76,6 @@ import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
 import org.jetbrains.jewel.ui.util.thenIf
-
-private val jewelLogger = JewelLogger.getInstance("ComboBox")
 
 @Composable
 public fun ComboBox(
@@ -85,20 +88,28 @@ public fun ComboBox(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ComboBoxStyle = JewelTheme.comboBoxStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    onArrowUpPress: () -> Unit = {},
+    onArrowDownPress: () -> Unit = {},
     popupContent: @Composable () -> Unit,
 ) {
     var popupExpanded by remember { mutableStateOf(false) }
     var chevronClicked by remember { mutableStateOf(false) }
 
+    val textFieldInteractionSource = remember { MutableInteractionSource() }
+    val textFieldFocusRequester = remember { FocusRequester() }
+
     fun togglePopup() {
         popupExpanded = !popupExpanded
+    }
+
+    val onPressWhenEnabled = {
+        togglePopup()
+        textFieldFocusRequester.requestFocus()
     }
 
     var comboBoxState by remember { mutableStateOf(ComboBoxState.of(enabled = isEnabled)) }
     var isFocused by remember { mutableStateOf(false) }
 
-    val textFieldInteractionSource = remember { MutableInteractionSource() }
-    val textFieldFocusRequester = remember { FocusRequester() }
     remember(isEnabled) { comboBoxState = comboBoxState.copy(enabled = isEnabled) }
 
     LaunchedEffect(isFocused) { comboBoxState = comboBoxState.copy(focused = isFocused) }
@@ -125,17 +136,18 @@ public fun ComboBox(
                 .thenIf(isEnabled && !isEditable) {
                     onHover { chevronClicked = it }
                         .pointerInput(interactionSource) {
-                            detectPressAndCancel(
-                                onPress = {
-                                    togglePopup()
-                                    textFieldFocusRequester.requestFocus()
-                                },
-                                onCancel = { popupExpanded = false },
-                            )
+                            detectPressAndCancel(onPress = onPressWhenEnabled, onCancel = { popupExpanded = false })
                         }
                         .semantics(mergeDescendants = true) { role = Role.DropdownList }
                         .focusable(isEnabled, interactionSource)
                         .onFocusChanged { focusState -> isFocused = focusState.isFocused }
+                        .onPreviewKeyEvent {
+                            if (it.type == KeyEventType.KeyDown && keysThatOpenPopupWhenNotEditable.contains(it.key)) {
+                                togglePopup()
+                                textFieldFocusRequester.requestFocus()
+                            }
+                            false
+                        }
                 }
                 .background(style.colors.backgroundFor(comboBoxState, isEditable).value, shape)
                 .thenIf(outline == Outline.None) {
@@ -174,7 +186,27 @@ public fun ComboBox(
                                 .weight(1f)
                                 .padding(style.metrics.contentPadding)
                                 .onFocusChanged { isFocused = it.isFocused }
-                                .focusRequester(textFieldFocusRequester),
+                                .focusRequester(textFieldFocusRequester)
+                                .onPreviewKeyEvent {
+                                    if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionDown) {
+                                        if (popupExpanded) {
+                                            onArrowDownPress()
+                                        } else {
+                                            togglePopup()
+                                            textFieldFocusRequester.requestFocus()
+                                        }
+                                    }
+                                    if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionUp) {
+                                        if (popupExpanded) {
+                                            onArrowUpPress()
+                                        } else {
+                                            togglePopup()
+                                            textFieldFocusRequester.requestFocus()
+                                        }
+                                    }
+
+                                    false
+                                },
                         lineLimits = TextFieldLineLimits.SingleLine,
                         textStyle = textStyle.copy(color = style.colors.content),
                         cursorBrush = SolidColor(style.colors.content),
@@ -206,11 +238,17 @@ public fun ComboBox(
                             onHover { chevronClicked = it }
                                 .pointerInput(interactionSource) {
                                     detectPressAndCancel(
-                                        onPress = {
-                                            togglePopup()
-                                            textFieldFocusRequester.requestFocus()
-                                        },
+                                        onPress = onPressWhenEnabled,
                                         onCancel = { popupExpanded = false },
+                                    )
+                                }
+                                .semantics {
+                                    onClick(
+                                        action = {
+                                            onPressWhenEnabled()
+                                            true
+                                        },
+                                        label = "Chevron",
                                     )
                                 }
                         },
@@ -258,6 +296,8 @@ public fun ComboBox(
         }
     }
 }
+
+private val keysThatOpenPopupWhenNotEditable = listOf(Key.Spacebar, Key.DirectionDown)
 
 @Immutable
 @JvmInline
