@@ -134,7 +134,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         modifier =
                             Modifier.width(
                                 with(LocalDensity.current) {
-                                    // Guesstimate how wide this should be — we can't tell it to be
+                                    // Guesstimate how wide this should be ? we can't tell it to be
                                     // "fill", as it crashes natively
                                     JewelTheme.defaultTextStyle.fontSize.toDp() * 60
                                 }
@@ -156,7 +156,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         modifier =
                             Modifier.width(
                                 with(LocalDensity.current) {
-                                    // Guesstimate how wide this should be — we can't tell it to be
+                                    // Guesstimate how wide this should be ? we can't tell it to be
                                     // "fill", as it crashes natively
                                     style.fontSize.toDp() * 10
                                 }
