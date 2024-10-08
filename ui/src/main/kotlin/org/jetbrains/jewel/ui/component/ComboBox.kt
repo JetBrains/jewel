@@ -87,11 +87,13 @@ public fun ComboBox(
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     onArrowDownPress: () -> Unit = {},
     onArrowUpPress: () -> Unit = {},
+    onEnterPress: () -> Unit = {},
     onPopupStateChange: (Boolean) -> Unit = {},
     popupContent: @Composable () -> Unit,
 ) {
     var popupExpanded by remember { mutableStateOf(false) }
     var chevronClicked by remember { mutableStateOf(false) }
+    var textFieldHover by remember { mutableStateOf(false) }
 
     val textFieldInteractionSource = remember { MutableInteractionSource() }
     val textFieldFocusRequester = remember { FocusRequester() }
@@ -204,8 +206,13 @@ public fun ComboBox(
                                         }
                                     }
 
+                                    if (it.type == KeyEventType.KeyDown && it.key == Key.Enter && popupExpanded) {
+                                        setPopupExpanded(false)
+                                        onEnterPress()
+                                    }
                                     false
-                                },
+                                }
+                                .onHover { textFieldHover = it },
                         lineLimits = TextFieldLineLimits.SingleLine,
                         textStyle = textStyle.copy(color = style.colors.content),
                         cursorBrush = SolidColor(style.colors.content),
@@ -273,7 +280,7 @@ public fun ComboBox(
             val density = LocalDensity.current
             PopupContainer(
                 onDismissRequest = {
-                    if (!chevronClicked) {
+                    if (!chevronClicked && !textFieldHover) {
                         setPopupExpanded(false)
                     }
                 },
