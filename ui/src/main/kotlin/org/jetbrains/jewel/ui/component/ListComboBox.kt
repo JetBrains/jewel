@@ -44,39 +44,75 @@ public fun ListComboBox(
             maxPopupHeight
         }
 
-    ComboBox(
-        modifier = modifier,
-        isEditable = isEditable,
-        isEnabled = isEnabled,
-        inputTextFieldState = inputTextFieldState,
-        outline = Outline.None,
-        maxPopupHeight = mph,
-        interactionSource = remember { MutableInteractionSource() },
-        style = JewelTheme.comboBoxStyle,
-        textStyle = JewelTheme.defaultTextStyle,
-        onArrowDownPress = { selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex) },
-        onArrowUpPress = { selectedItem = selectedItem.minus(1).coerceAtLeast(0) },
-    ) {
-        VerticallyScrollableContainer(
-            scrollState = scrollState.lazyListState,
-            modifier = Modifier.heightIn(max = mph),
+    if (isEditable) {
+        ComboBox(
+            modifier = modifier,
+            isEnabled = isEnabled,
+            inputTextFieldState = inputTextFieldState,
+            outline = Outline.None,
+            maxPopupHeight = mph,
+            interactionSource = remember { MutableInteractionSource() },
+            style = JewelTheme.comboBoxStyle,
+            textStyle = JewelTheme.defaultTextStyle,
+            onArrowDownPress = { selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex) },
+            onArrowUpPress = { selectedItem = selectedItem.minus(1).coerceAtLeast(0) },
         ) {
-            SelectableLazyColumn(
-                modifier = Modifier.fillMaxWidth().heightIn(max = mph),
-                selectionMode = SelectionMode.Single,
-                state = scrollState,
-                onSelectedIndexesChange = { selectedItems ->
-                    if (selectedItems.isEmpty()) return@SelectableLazyColumn
+            VerticallyScrollableContainer(
+                scrollState = scrollState.lazyListState,
+                modifier = Modifier.heightIn(max = mph),
+            ) {
+                SelectableLazyColumn(
+                    modifier = Modifier.fillMaxWidth().heightIn(max = mph),
+                    selectionMode = SelectionMode.Single,
+                    state = scrollState,
+                    onSelectedIndexesChange = { selectedItems ->
+                        if (selectedItems.isEmpty()) return@SelectableLazyColumn
 
-                    val selectedItemIndex = selectedItems.first()
-                    selectedItem = selectedItemIndex
-                    inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
-                    onSelectedItemChange(items[selectedItemIndex])
-                },
-                content = {
-                    items(items = items, itemContent = { item -> listItemContent(item, isSelected, isActive) })
-                },
-            )
+                        val selectedItemIndex = selectedItems.first()
+                        selectedItem = selectedItemIndex
+                        inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
+                        onSelectedItemChange(items[selectedItemIndex])
+                    },
+                    content = {
+                        items(items = items, itemContent = { item -> listItemContent(item, isSelected, isActive) })
+                    },
+                )
+            }
+        }
+    } else {
+        NotEditableComboBox(
+            modifier = modifier,
+            isEnabled = isEnabled,
+            labelText = items[selectedItem],
+            outline = Outline.None,
+            maxPopupHeight = mph,
+            interactionSource = remember { MutableInteractionSource() },
+            style = JewelTheme.comboBoxStyle,
+            textStyle = JewelTheme.defaultTextStyle,
+            onArrowDownPress = { selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex) },
+            onArrowUpPress = { selectedItem = selectedItem.minus(1).coerceAtLeast(0) },
+        ) {
+            VerticallyScrollableContainer(
+                scrollState = scrollState.lazyListState,
+                modifier = Modifier.heightIn(max = mph),
+            ) {
+                SelectableLazyColumn(
+                    modifier = Modifier.fillMaxWidth().heightIn(max = mph),
+                    selectionMode = SelectionMode.Single,
+                    state = scrollState,
+                    onSelectedIndexesChange = { selectedItems ->
+                        if (selectedItems.isEmpty()) return@SelectableLazyColumn
+
+                        val selectedItemIndex = selectedItems.first()
+                        selectedItem = selectedItemIndex
+                        inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
+                        onSelectedItemChange(items[selectedItemIndex])
+                    },
+                    content = {
+                        items(items = items, itemContent = { item -> listItemContent(item, isSelected, isActive) })
+                    },
+                )
+            }
         }
     }
 }

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,8 +23,8 @@ import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.darkrockstudios.libraries.mpfilepicker.JvmFile
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Orientation
-import org.jetbrains.jewel.ui.component.ComboBox
 import org.jetbrains.jewel.ui.component.Divider
+import org.jetbrains.jewel.ui.component.NotEditableComboBox
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.PopupMenu
 import org.jetbrains.jewel.ui.component.Text
@@ -66,10 +65,9 @@ private fun ControlsRow(modifier: Modifier = Modifier, onLoadMarkdown: (String) 
 
         Box {
             var selected by remember { mutableStateOf("Jewel readme") }
-            ComboBox(
+            NotEditableComboBox(
                 modifier = Modifier.width(140.dp),
-                isEditable = false,
-                inputTextFieldState = rememberTextFieldState(selected),
+                labelText = selected,
                 popupContent = {
                     PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
                         selectableItem(

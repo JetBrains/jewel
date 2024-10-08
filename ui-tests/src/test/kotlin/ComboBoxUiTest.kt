@@ -54,6 +54,9 @@ class ComboBoxUiTest {
     private val textField: SemanticsNodeInteraction
         get() = composeRule.onNodeWithTag("Jewel.ComboBox.TextField")
 
+    private val comboBox: SemanticsNodeInteraction
+        get() = composeRule.onNodeWithTag("ComboBox")
+
     @Test
     fun `when enabled and editable clicking the chevron container opens the popup`() {
         editableComboBox()
@@ -87,7 +90,6 @@ class ComboBoxUiTest {
                 Box(modifier = Modifier.size(20.dp).focusRequester(focusRequester).testTag("Pre-Box").focusable(true))
                 ComboBox(
                     modifier = Modifier.width(140.dp).testTag("ComboBox"),
-                    isEditable = true,
                     inputTextFieldState = rememberTextFieldState("First element"),
                     popupContent = { /* ... */ },
                 )
@@ -321,11 +323,11 @@ class ComboBoxUiTest {
     fun `when enabled but not editable clicking on the comboBox focuses it and open the popup`() {
         val focusRequester = FocusRequester()
         injectComboBox(focusRequester, false, true)
-        val comboBox = composeRule.onNodeWithTag("ComboBox")
+        val comboBox = comboBox
 
         comboBox.performClick()
-        popupMenu.assertIsDisplayed()
         comboBox.assertIsFocused()
+        popupMenu.assertIsDisplayed()
     }
 
     @Test
@@ -353,11 +355,28 @@ class ComboBoxUiTest {
         popupMenu.assertDoesNotExist()
     }
 
+    @Test
+    fun `when enabled and editable with open popup losing focus closes the popup`() {
+        val focusRequester = FocusRequester()
+        injectComboBox(focusRequester, isEditable = true, isEnabled = true)
+        focusRequester.requestFocus()
+
+        val comboBox = comboBox
+        comboBox.assertIsDisplayed()
+        chevronContainer.performClick()
+        popupMenu.assertIsDisplayed()
+
+        composeRule.waitForIdle()
+
+        focusRequester.freeFocus()
+        popupMenu.isDisplayed()
+    }
+
     private fun editableComboBox(): SemanticsNodeInteraction {
         val focusRequester = FocusRequester()
         injectComboBox(focusRequester, true, true)
         focusRequester.requestFocus()
-        val comboBox = composeRule.onNodeWithTag("ComboBox")
+        val comboBox = comboBox
         comboBox.assertIsDisplayed()
 
         textField.assertIsDisplayed().assertIsFocused()
@@ -366,9 +385,9 @@ class ComboBoxUiTest {
 
     private fun disabledComboBox(): SemanticsNodeInteraction {
         val focusRequester = FocusRequester()
-        injectComboBox(focusRequester, false, false)
+        injectComboBox(focusRequester, true, false)
         focusRequester.requestFocus()
-        val comboBox = composeRule.onNodeWithTag("ComboBox")
+        val comboBox = comboBox
         comboBox.assertIsDisplayed()
         composeRule.onNodeWithTag("Jewel.ComboBox.NonEditableText").assertIsDisplayed()
         return comboBox
@@ -380,7 +399,7 @@ class ComboBoxUiTest {
     ): SemanticsNodeInteraction {
         injectComboBox(focusRequester, false, isEnabled)
         focusRequester.requestFocus()
-        val comboBox = composeRule.onNodeWithTag("ComboBox")
+        val comboBox = comboBox
         comboBox.assertIsDisplayed().assertIsFocused()
         return comboBox
     }
