@@ -56,6 +56,18 @@ public fun ListComboBox(
             textStyle = JewelTheme.defaultTextStyle,
             onArrowDownPress = { selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex) },
             onArrowUpPress = { selectedItem = selectedItem.minus(1).coerceAtLeast(0) },
+            onEnterPress = {
+                val indexOfSelected = items.indexOf(inputTextFieldState.text)
+                if (indexOfSelected != -1) {
+                    selectedItem = indexOfSelected
+                }
+            },
+            onPopupStateChange = {
+                val indexOfSelected = items.indexOf(inputTextFieldState.text)
+                if (indexOfSelected != -1) {
+                    selectedItem = indexOfSelected
+                }
+            },
         ) {
             VerticallyScrollableContainer(
                 scrollState = scrollState.lazyListState,
@@ -70,7 +82,9 @@ public fun ListComboBox(
 
                         val selectedItemIndex = selectedItems.first()
                         selectedItem = selectedItemIndex
-                        inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
+                        if (items.contains(inputTextFieldState.text)) {
+                            inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
+                        }
                         onSelectedItemChange(items[selectedItemIndex])
                     },
                     content = {
