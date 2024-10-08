@@ -83,7 +83,6 @@ import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
-import org.jetbrains.jewel.ui.component.styling.LazyTreeColors
 import org.jetbrains.jewel.ui.component.styling.LazyTreeIcons
 import org.jetbrains.jewel.ui.component.styling.LazyTreeMetrics
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
@@ -109,6 +108,8 @@ import org.jetbrains.jewel.ui.component.styling.SegmentedControlColors
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlMetrics
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemColors
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemMetrics
 import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderColors
 import org.jetbrains.jewel.ui.component.styling.SliderMetrics
@@ -500,12 +501,24 @@ private fun readDividerStyle() =
 private fun readSelectableLazyColumnStyle(): SelectableLazyColumnStyle =
     SelectableLazyColumnStyle(
         itemHeight = JBUI.CurrentTheme.ComboBox.minimumSize().toDpSize().height,
-        simpleListItemStyle =
-            SimpleListItemStyle(
-                contentColor = retrieveColorOrUnspecified("ComboBox.foreground"),
-                contentSelected = retrieveColorOrUnspecified("ComboBox.foreground"),
+        simpleListItemStyle = readSimpleListItemStyle(),
+    )
+
+private fun readSimpleListItemStyle() =
+    SimpleListItemStyle(
+        colors =
+            SimpleListItemColors(
+                background = retrieveColorOrUnspecified("ComboBox.background"),
+                backgroundFocused = retrieveColorOrUnspecified("ComboBox.selectionBackground"),
                 backgroundSelected = retrieveColorOrUnspecified("ComboBox.selectionBackground"),
-                contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
+                backgroundSelectedFocused = retrieveColorOrUnspecified("ComboBox.selectionBackground"),
+                content = retrieveColorOrUnspecified("ComboBox.foreground"),
+                contentFocused = retrieveColorOrUnspecified("ComboBox.foreground"),
+                contentSelected = retrieveColorOrUnspecified("ComboBox.foreground"),
+                contentSelectedFocused = retrieveColorOrUnspecified("ComboBox.foreground"),
+            ),
+        metrics =
+            SimpleListItemMetrics(
                 innerPadding = PaddingValues(0.dp),
                 outerPadding = PaddingValues(0.dp),
                 selectionBackgroundCornerSize = CornerSize(0.dp),
@@ -553,7 +566,7 @@ private fun readDefaultComboBoxStyle(menuStyle: MenuStyle): ComboBoxStyle {
                 maxPopupHeight = Dp.Unspecified,
             ),
         icons = ComboBoxIcons(chevronDown = AllIconsKeys.General.ChevronDown),
-        menuStyle = menuStyle,
+        itemStyle = readSimpleListItemStyle(),
     )
 }
 
@@ -1058,14 +1071,14 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
     val inactiveSelectedElementBackground = retrieveColorOrUnspecified("Tree.selectionInactiveBackground")
 
     val colors =
-        LazyTreeColors(
+        SimpleListItemColors(
             content = normalContent,
             contentFocused = normalContent,
             contentSelected = selectedContent,
             contentSelectedFocused = selectedContent,
-            itemBackgroundFocused = Color.Transparent,
-            itemBackgroundSelected = inactiveSelectedElementBackground,
-            itemBackgroundSelectedFocused = selectedElementBackground,
+            backgroundFocused = Color.Transparent,
+            backgroundSelected = inactiveSelectedElementBackground,
+            backgroundSelectedFocused = selectedElementBackground,
         )
 
     val leftIndent = retrieveIntAsDpOrUnspecified("Tree.leftChildIndent").takeOrElse { 7.dp }
@@ -1076,9 +1089,12 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
         metrics =
             LazyTreeMetrics(
                 indentSize = leftIndent + rightIndent,
-                selectionBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
-                itemPadding = PaddingValues(horizontal = 12.dp),
-                itemContentPadding = PaddingValues(4.dp),
+                simpleListItemMetrics =
+                    SimpleListItemMetrics(
+                        innerPadding = PaddingValues(horizontal = 12.dp),
+                        outerPadding = PaddingValues(4.dp),
+                        selectionBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
+                    ),
                 elementMinHeight = retrieveIntAsDpOrUnspecified("Tree.rowHeight").takeOrElse { 24.dp },
                 chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
             ),
