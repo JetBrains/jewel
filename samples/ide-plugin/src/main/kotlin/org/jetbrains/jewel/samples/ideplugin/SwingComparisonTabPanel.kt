@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.height
@@ -20,7 +19,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -51,18 +49,16 @@ import javax.swing.JPanel
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.ui.Outline
-import org.jetbrains.jewel.ui.component.ComboBox
 import org.jetbrains.jewel.ui.component.DefaultButton
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.ListComboBox
 import org.jetbrains.jewel.ui.component.OutlinedButton
-import org.jetbrains.jewel.ui.component.PopupMenu
 import org.jetbrains.jewel.ui.component.SimpleListItem
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
+import org.jetbrains.jewel.ui.theme.comboBoxStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
@@ -138,7 +134,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         modifier =
                             Modifier.width(
                                 with(LocalDensity.current) {
-                                    // Guesstimate how wide this should be â€” we can't tell it to be
+                                    // Guesstimate how wide this should be — we can't tell it to be
                                     // "fill", as it crashes natively
                                     JewelTheme.defaultTextStyle.fontSize.toDp() * 60
                                 }
@@ -160,7 +156,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         modifier =
                             Modifier.width(
                                 with(LocalDensity.current) {
-                                    // Guesstimate how wide this should be â€” we can't tell it to be
+                                    // Guesstimate how wide this should be — we can't tell it to be
                                     // "fill", as it crashes natively
                                     style.fontSize.toDp() * 10
                                 }
@@ -232,122 +228,83 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                     }
                     .run { cell(this).align(AlignY.TOP) }
 
-                compose(modifier = Modifier.padding(horizontal = 8.dp, vertical = 0.dp)) {
-                    var selectedComboBox: String? by remember { mutableStateOf(itemsComboBox.first()) }
-                    val inputTextFieldState = rememberTextFieldState(itemsComboBox.first())
-                    val inputTextFieldState2 = rememberTextFieldState(itemsComboBox.first())
-                    val inputTextFieldState3 = rememberTextFieldState(itemsComboBox.first())
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        ListComboBox(
-                            comboBoxItems,
-                            modifier = Modifier.width(200.dp),
-                            inputTextFieldState = inputTextFieldState,
-                        ) {
-                            items(count = itemsComboBox.size, key = { index -> itemsComboBox[index] }) { index ->
-                                SimpleListItem(
-                                    text = itemsComboBox[index],
-                                    isSelected = isSelected,
-                                    contentDescription = itemsComboBox[index],
-                                )
-                            }
-                        }
+                compose(modifier = Modifier.height(200.dp).padding(horizontal = 8.dp, vertical = 0.dp)) {
+                    val comboBoxItems = remember {
+                        listOf(
+                            "Cat",
+                            "Elephant",
+                            "Sun",
+                            "Book",
+                            "Laughter",
+                            "Whisper",
+                            "Ocean",
+                            "Serendipity lorem ipsum",
+                            "Umbrella",
+                            "Joy",
+                        )
+                    }
+                    var selectedComboBox1: String? by remember { mutableStateOf(comboBoxItems.first()) }
+                    var selectedComboBox2: String? by remember { mutableStateOf(comboBoxItems.first()) }
+                    var selectedComboBox3: String? by remember { mutableStateOf(comboBoxItems.first()) }
 
-                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text("Not editable")
-                            ComboBox(
-                                modifier = Modifier.width(150.dp),
-                                isEditable = false,
-                                inputTextFieldState = inputTextFieldState,
-                                popupContent = {
-                                    PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
-                                        itemsComboBox.forEach {
-                                            selectableItem(
-                                                selected = selectedComboBox == it,
-                                                onClick = {
-                                                    selectedComboBox = it
-                                                    inputTextFieldState.edit { replace(0, length, it) }
-                                                },
-                                            ) {
-                                                Text(it)
-                                            }
-                                        }
-                                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Column {
+                            Text("Enabled and Editable")
+                            Text(text = "Selected item: $selectedComboBox1")
+                            ListComboBox(
+                                items = comboBoxItems,
+                                modifier = Modifier.width(200.dp),
+                                maxPopupHeight = 150.dp,
+                                onSelectedItemChange = { selectedComboBox1 = it },
+                                listItemContent = { item, isSelected, isFocused ->
+                                    SimpleListItem(
+                                        text = item,
+                                        isSelected = isSelected,
+                                        style = JewelTheme.comboBoxStyle.itemStyle,
+                                        contentDescription = item,
+                                    )
                                 },
                             )
                         }
-                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text("Editable")
-                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                ComboBox(
-                                    modifier = Modifier.width(100.dp),
-                                    inputTextFieldState = inputTextFieldState,
-                                    popupContent = {
-                                        PopupMenu(horizontalAlignment = Alignment.Start, onDismissRequest = { true }) {
-                                            itemsComboBox.forEach {
-                                                selectableItem(
-                                                    selected = selectedComboBox == it,
-                                                    onClick = {
-                                                        selectedComboBox = it
-                                                        inputTextFieldState.edit { replace(0, length, it) }
-                                                    },
-                                                ) {
-                                                    Text(it)
-                                                }
-                                            }
-                                        }
-                                    },
-                                )
-                                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                    ComboBox(
-                                        inputTextFieldState = inputTextFieldState2,
-                                        outline = Outline.Warning,
-                                        popupContent = {
-                                            PopupMenu(
-                                                horizontalAlignment = Alignment.Start,
-                                                onDismissRequest = { true },
-                                            ) {
-                                                itemsComboBox.forEach {
-                                                    selectableItem(
-                                                        selected = selectedComboBox == it,
-                                                        onClick = {
-                                                            selectedComboBox = it
-                                                            inputTextFieldState.edit { replace(0, length, it) }
-                                                        },
-                                                    ) {
-                                                        Text(it)
-                                                    }
-                                                }
-                                            }
-                                        },
-                                    )
 
-                                    ComboBox(
-                                        inputTextFieldState = inputTextFieldState3,
-                                        outline = Outline.Error,
-                                        popupContent = {
-                                            PopupMenu(
-                                                horizontalAlignment = Alignment.Start,
-                                                onDismissRequest = { true },
-                                            ) {
-                                                itemsComboBox.forEach {
-                                                    selectableItem(
-                                                        selected = selectedComboBox == it,
-                                                        onClick = {
-                                                            selectedComboBox = it
-                                                            inputTextFieldState.edit { replace(0, length, it) }
-                                                        },
-                                                    ) {
-                                                        Text(it)
-                                                    }
-                                                }
-                                            }
-                                        },
+                        Column {
+                            Text("Enabled")
+                            Text(text = "Selected item: $selectedComboBox2")
+
+                            ListComboBox(
+                                items = comboBoxItems,
+                                modifier = Modifier.width(200.dp),
+                                isEditable = false,
+                                onSelectedItemChange = { selectedComboBox2 = it },
+                                listItemContent = { item, isSelected, isFocused ->
+                                    SimpleListItem(
+                                        text = item,
+                                        isSelected = isSelected,
+                                        style = JewelTheme.comboBoxStyle.itemStyle,
+                                        contentDescription = item,
                                     )
-                                }
-                            }
+                                },
+                            )
                         }
-
-                        Spacer(Modifier.height(200.dp))
+                        Column {
+                            Text("Disabled")
+                            Text(text = "Selected item: $selectedComboBox3")
+                            ListComboBox(
+                                items = comboBoxItems,
+                                modifier = Modifier.width(200.dp),
+                                isEditable = false,
+                                isEnabled = false,
+                                onSelectedItemChange = { selectedComboBox3 = it },
+                                listItemContent = { item, isSelected, isFocused ->
+                                    SimpleListItem(
+                                        text = item,
+                                        isSelected = isSelected,
+                                        style = JewelTheme.comboBoxStyle.itemStyle,
+                                        contentDescription = item,
+                                    )
+                                },
+                            )
+                        }
                     }
                 }
             }
