@@ -298,7 +298,7 @@ private fun OverflowMenu(currentContentSource: ContentSource<*>, onContentSource
 
     var menuVisible by remember { mutableStateOf(false) }
 
-    // Emulates Swing actions that pop up menus â€” they stay pressed while the menu is open
+    // Emulates Swing actions that pop up menus — they stay pressed while the menu is open
     IconButton(
         modifier =
             Modifier.fillMaxHeight().thenIf(menuVisible) {
