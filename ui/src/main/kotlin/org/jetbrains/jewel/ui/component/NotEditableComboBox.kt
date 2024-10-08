@@ -155,7 +155,7 @@ public fun NotEditableComboBox(
                             if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionUp && popupExpanded) {
                                 onArrowUpPress()
                             }
-                            true
+                            false
                         }
                 }
                 .background(style.colors.backgroundFor(comboBoxState, false).value, shape)
