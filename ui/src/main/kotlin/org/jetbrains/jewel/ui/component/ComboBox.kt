@@ -9,10 +9,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -45,14 +43,12 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.PopupProperties
 import kotlinx.coroutines.coroutineScope
 import org.jetbrains.jewel.foundation.Stroke
@@ -81,7 +77,6 @@ public fun ComboBox(
     isEnabled: Boolean = true,
     inputTextFieldState: TextFieldState = rememberTextFieldState(),
     outline: Outline = Outline.None,
-    maxPopupHeight: Dp = Dp.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ComboBoxStyle = JewelTheme.comboBoxStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
@@ -134,12 +129,6 @@ public fun ComboBox(
     val shape = RoundedCornerShape(style.metrics.cornerSize)
     val borderColor by style.colors.borderFor(comboBoxState)
     var comboBoxWidth by remember { mutableIntStateOf(-1) }
-    val mph =
-        if (maxPopupHeight == Dp.Unspecified) {
-            JewelTheme.comboBoxStyle.metrics.maxPopupHeight
-        } else {
-            maxPopupHeight
-        }
 
     BoxWithConstraints(
         modifier =
@@ -277,7 +266,6 @@ public fun ComboBox(
         }
 
         if (popupExpanded) {
-            val density = LocalDensity.current
             PopupContainer(
                 onDismissRequest = {
                     if (!chevronClicked && !textFieldHover) {
@@ -288,8 +276,6 @@ public fun ComboBox(
                     menuModifier
                         .testTag("Jewel.ComboBox.PopupMenu")
                         .semantics { contentDescription = "Jewel.ComboBox.PopupMenu" }
-                        .defaultMinSize(minWidth = with(density) { comboBoxWidth.toDp() })
-                        .heightIn(max = mph)
                         .width(boxWith),
                 horizontalAlignment = Alignment.Start,
                 popupProperties = PopupProperties(focusable = false),
