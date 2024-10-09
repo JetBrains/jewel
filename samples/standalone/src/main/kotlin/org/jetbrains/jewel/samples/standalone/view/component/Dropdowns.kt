@@ -191,10 +191,10 @@ fun Dropdowns() {
                 ListComboBox(
                     items = comboBoxItems,
                     modifier = Modifier.width(200.dp),
-                    maxPopupHeight = 300.dp,
                     onSelectedItemChange = { selectedComboBox1 = it },
                     listItemContent = { item, isSelected, isFocused ->
                         SimpleListItem(
+                            modifier = Modifier,
                             text = item,
                             isSelected = isSelected,
                             style = JewelTheme.comboBoxStyle.itemStyle,

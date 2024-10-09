@@ -18,6 +18,7 @@ import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsFocused
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.isDisplayed
@@ -399,6 +400,29 @@ class ListComboBoxUiTest {
         popupMenu.isDisplayed()
     }
 
+    @Test
+    fun `when editable clicking chevron open the popup and select the first item`() {
+        editableComboBox()
+        chevronContainer.performClick()
+        composeRule.onNodeWithTag("Item 1").assertIsDisplayed().assertIsSelected()
+    }
+
+    @Test
+    fun `when editable pressing down twice selects the second element`() {
+        editableComboBox()
+        textField.performKeyInput {
+            keyDown(Key.DirectionDown)
+            keyUp(Key.DirectionDown)
+        }
+        popupMenu.assertIsDisplayed()
+
+        textField.performKeyInput {
+            keyDown(Key.DirectionDown)
+            keyUp(Key.DirectionDown)
+        }
+        composeRule.onNodeWithTag("Item 2").assertIsDisplayed().assertIsSelected()
+    }
+
     private fun editableComboBox(): SemanticsNodeInteraction {
         val focusRequester = FocusRequester()
         injectComboBox(focusRequester, isEditable = true, isEnabled = true)
@@ -443,6 +467,7 @@ class ListComboBoxUiTest {
                     onSelectedItemChange = { selectedComboBox = it },
                     listItemContent = { item, isSelected, isFocused ->
                         SimpleListItem(
+                            modifier = Modifier.testTag(item),
                             text = item,
                             isSelected = isSelected,
                             style = JewelTheme.comboBoxStyle.itemStyle,
