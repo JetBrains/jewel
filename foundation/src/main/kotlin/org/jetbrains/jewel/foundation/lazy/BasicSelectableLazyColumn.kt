@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -234,6 +235,17 @@ private fun Modifier.selectable(
                             keybindings = keybindings,
                             selectableLazyListState = selectableState,
                             selectionMode = selectionMode,
+                            allKeys = allKeys,
+                            key = itemKey,
+                        )
+                    }
+                    PointerEventType.Release -> {
+                        requester?.requestFocus()
+                        actionHandler.handlePointerEventRelease(
+                            pointerEvent = event,
+                            keybindings = keybindings,
+                            selectionMode = selectionMode,
+                            selectableLazyListState = selectableState,
                             allKeys = allKeys,
                             key = itemKey,
                         )
