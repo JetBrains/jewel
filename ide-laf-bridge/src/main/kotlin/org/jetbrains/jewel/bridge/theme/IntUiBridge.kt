@@ -25,8 +25,6 @@ import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
-import javax.swing.UIManager
-import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.isNewUiTheme
@@ -97,6 +95,9 @@ import org.jetbrains.jewel.ui.component.styling.MenuItemColors
 import org.jetbrains.jewel.ui.component.styling.MenuItemMetrics
 import org.jetbrains.jewel.ui.component.styling.MenuMetrics
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
+import org.jetbrains.jewel.ui.component.styling.PopupContainerColors
+import org.jetbrains.jewel.ui.component.styling.PopupContainerMetrics
+import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.RadioButtonColors
 import org.jetbrains.jewel.ui.component.styling.RadioButtonIcons
 import org.jetbrains.jewel.ui.component.styling.RadioButtonMetrics
@@ -131,6 +132,8 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import javax.swing.UIManager
+import kotlin.time.Duration.Companion.milliseconds
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
@@ -219,7 +222,7 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         chipStyle = readChipStyle(),
         circularProgressStyle = readCircularProgressStyle(theme.isDark),
         defaultButtonStyle = readDefaultButtonStyle(),
-        comboBoxStyle = readDefaultComboBoxStyle(menuStyle),
+        comboBoxStyle = readDefaultComboBoxStyle(),
         defaultDropdownStyle = readDefaultDropdownStyle(menuStyle),
         defaultTabStyle = readDefaultTabStyle(),
         dividerStyle = readDividerStyle(),
@@ -231,6 +234,7 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         linkStyle = readLinkStyle(),
         menuStyle = menuStyle,
         outlinedButtonStyle = readOutlinedButtonStyle(),
+        popupContainerStyle = readPopupContainerStyle(),
         radioButtonStyle = readRadioButtonStyle(),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
         segmentedControlButtonStyle = readSegmentedControlButtonStyle(),
@@ -519,13 +523,13 @@ private fun readSimpleListItemStyle() =
             ),
         metrics =
             SimpleListItemMetrics(
-                innerPadding = PaddingValues(0.dp),
-                outerPadding = PaddingValues(0.dp),
+                innerPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
+                outerPadding = PaddingValues(),
                 selectionBackgroundCornerSize = CornerSize(0.dp),
             ),
     )
 
-private fun readDefaultComboBoxStyle(menuStyle: MenuStyle): ComboBoxStyle {
+private fun readDefaultComboBoxStyle(): ComboBoxStyle {
     val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
     val nonEditableBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
@@ -742,6 +746,32 @@ private fun readLinkStyle(): LinkStyle {
                 externalLink = AllIconsKeys.Ide.External_link_arrow,
             ),
         underlineBehavior = LinkUnderlineBehavior.ShowOnHover,
+    )
+}
+
+private fun readPopupContainerStyle(): PopupContainerStyle {
+    val colors =
+        PopupContainerColors(
+            background = retrieveColorOrUnspecified("PopupMenu.background"),
+            border =
+                retrieveColorOrUnspecified("Popup.borderColor").takeOrElse {
+                    retrieveColorOrUnspecified("Popup.Border.color")
+                },
+            shadow = Color.Black.copy(alpha = .6f),
+        )
+
+    return PopupContainerStyle(
+        isDark = isDark,
+        colors = colors,
+        metrics =
+            PopupContainerMetrics(
+                cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
+                menuMargin = PaddingValues(),
+                contentPadding = PaddingValues(),
+                offset = DpOffset(0.dp, 2.dp),
+                shadowSize = 12.dp,
+                borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
+            ),
     )
 }
 

@@ -34,6 +34,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalLazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LocalLinkStyle
 import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.ui.component.styling.LocalOutlinedButtonStyle
+import org.jetbrains.jewel.ui.component.styling.LocalPopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.LocalRadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSegmentedControlButtonStyle
@@ -45,6 +46,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalTextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTooltipStyle
 import org.jetbrains.jewel.ui.component.styling.LocalUndecoratedDropdownStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
+import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
@@ -75,6 +77,7 @@ public class DefaultComponentStyling(
     public val linkStyle: LinkStyle,
     public val menuStyle: MenuStyle,
     public val outlinedButtonStyle: ButtonStyle,
+    public val popupContainerStyle: PopupContainerStyle,
     public val radioButtonStyle: RadioButtonStyle,
     public val scrollbarStyle: ScrollbarStyle,
     public val segmentedControlButtonStyle: SegmentedControlButtonStyle,
@@ -106,6 +109,7 @@ public class DefaultComponentStyling(
             LocalLinkStyle provides linkStyle,
             LocalMenuStyle provides menuStyle,
             LocalOutlinedButtonStyle provides outlinedButtonStyle,
+            LocalPopupContainerStyle provides popupContainerStyle,
             LocalRadioButtonStyle provides radioButtonStyle,
             LocalScrollbarStyle provides scrollbarStyle,
             LocalSegmentedControlButtonStyle provides segmentedControlButtonStyle,

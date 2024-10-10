@@ -35,6 +35,7 @@ import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
+import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
@@ -121,6 +122,7 @@ public fun ComponentStyling.dark(
     linkStyle: LinkStyle = LinkStyle.dark(),
     menuStyle: MenuStyle = MenuStyle.dark(),
     outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.dark(),
+    popupContainerStyle: PopupContainerStyle = PopupContainerStyle.dark(),
     radioButtonStyle: RadioButtonStyle = RadioButtonStyle.dark(),
     scrollbarStyle: ScrollbarStyle = ScrollbarStyle.dark(),
     segmentedControlButtonStyle: SegmentedControlButtonStyle = SegmentedControlButtonStyle.dark(),
@@ -150,6 +152,7 @@ public fun ComponentStyling.dark(
             linkStyle = linkStyle,
             menuStyle = menuStyle,
             outlinedButtonStyle = outlinedButtonStyle,
+            popupContainerStyle = popupContainerStyle,
             radioButtonStyle = radioButtonStyle,
             scrollbarStyle = scrollbarStyle,
             segmentedControlButtonStyle = segmentedControlButtonStyle,
@@ -180,6 +183,7 @@ public fun ComponentStyling.light(
     lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.light(),
     linkStyle: LinkStyle = LinkStyle.light(),
     menuStyle: MenuStyle = MenuStyle.light(),
+    popupContainerStyle: PopupContainerStyle = PopupContainerStyle.light(),
     outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.light(),
     radioButtonStyle: RadioButtonStyle = RadioButtonStyle.light(),
     scrollbarStyle: ScrollbarStyle = ScrollbarStyle.light(),
@@ -210,6 +214,7 @@ public fun ComponentStyling.light(
             linkStyle = linkStyle,
             menuStyle = menuStyle,
             outlinedButtonStyle = outlinedButtonStyle,
+            popupContainerStyle = popupContainerStyle,
             radioButtonStyle = radioButtonStyle,
             scrollbarStyle = scrollbarStyle,
             segmentedControlButtonStyle = segmentedControlButtonStyle,

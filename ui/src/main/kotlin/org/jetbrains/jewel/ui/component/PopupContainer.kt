@@ -14,15 +14,15 @@ import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
-import org.jetbrains.jewel.ui.component.styling.MenuStyle
-import org.jetbrains.jewel.ui.theme.menuStyle
+import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
+import org.jetbrains.jewel.ui.theme.popupContainerStyle
 
 @Composable
 public fun PopupContainer(
     onDismissRequest: () -> Unit,
     horizontalAlignment: Alignment.Horizontal,
     modifier: Modifier = Modifier,
-    style: MenuStyle = JewelTheme.menuStyle, // TODO: replace with PopupContainerStyle (contained in MenuStyle)
+    style: PopupContainerStyle = JewelTheme.popupContainerStyle,
     popupProperties: PopupProperties = PopupProperties(focusable = true),
     content: @Composable () -> Unit,
 ) {
