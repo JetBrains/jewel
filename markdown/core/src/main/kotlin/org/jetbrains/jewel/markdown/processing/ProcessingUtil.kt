@@ -32,10 +32,10 @@ internal fun Node.readInlineContent(
 }
 
 @VisibleForTesting
-internal fun Node.toInlineMarkdownOrNull(
+public fun Node.toInlineMarkdownOrNull(
     markdownProcessor: MarkdownProcessor,
     extensions: List<MarkdownProcessorExtension>,
-) =
+): InlineMarkdown? =
     when (this) {
         is CMText -> InlineMarkdown.Text(literal)
         is CMLink ->

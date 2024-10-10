@@ -12,8 +12,10 @@ Additional supported Markdown, via extensions:
 
 * Alerts ([GitHub Flavored Markdown][alerts-specs]) — see [`extension-gfm-alerts`](extension/gfm-alerts)
 * Autolink (standard CommonMark, but provided as extension) — see [`extension-autolink`](extension/autolink)
+* Strikethrough ([GitHub Flavored Markdown][strikethrough-specs]) — see [`extension-strikethrough`](extension/strikethrough)
 
 [alerts-specs]: https://github.com/orgs/community/discussions/16925
+[strikethrough-specs]: https://github.github.com/gfm/#strikethrough-extension-
 
 On the roadmap, but not currently supported — in no particular order:
 
