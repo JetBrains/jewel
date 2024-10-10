@@ -195,4 +195,16 @@ fun TreeSample(modifier: Modifier = Modifier) {
             Box(Modifier.fillMaxWidth()) { Text(element.data, Modifier.padding(2.dp)) }
         }
     }
+
+    Text("Tree with custom click handler")
+    Box(modifier.border(1.dp, borderColor, RoundedCornerShape(2.dp))) {
+        CustomLazyTree(
+            tree = tree,
+            modifier = Modifier.size(200.dp, 200.dp),
+            onElementClick = {},
+            onElementDoubleClick = {},
+        ) { element ->
+            Box(Modifier.fillMaxWidth()) { Text(element.data, Modifier.padding(2.dp)) }
+        }
+    }
 }

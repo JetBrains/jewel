@@ -54,6 +54,15 @@ public interface PointerEventActions {
         state: SelectableLazyListState,
         selectionMode: SelectionMode,
     )
+
+    public fun handlePointerEventRelease(
+        pointerEvent: PointerEvent,
+        keybindings: SelectableColumnKeybindings,
+        selectableLazyListState: SelectableLazyListState,
+        selectionMode: SelectionMode,
+        allKeys: List<SelectableLazyListKey>,
+        key: Any,
+    )
 }
 
 public open class DefaultSelectableLazyColumnEventAction : PointerEventActions {
@@ -86,6 +95,17 @@ public open class DefaultSelectableLazyColumnEventAction : PointerEventActions {
                 }
             }
         }
+    }
+
+    override fun handlePointerEventRelease(
+        pointerEvent: PointerEvent,
+        keybindings: SelectableColumnKeybindings,
+        selectableLazyListState: SelectableLazyListState,
+        selectionMode: SelectionMode,
+        allKeys: List<SelectableLazyListKey>,
+        key: Any,
+    ) {
+        // No Default Action. Can be used by consumers to handle release events.
     }
 
     override fun toggleKeySelection(
