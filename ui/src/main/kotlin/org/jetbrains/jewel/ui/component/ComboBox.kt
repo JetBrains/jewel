@@ -333,7 +333,7 @@ public value class ComboBoxState(public val state: ULong) : FocusableComponentSt
     }
 }
 
-private suspend fun PointerInputScope.detectPressAndCancel(onPress: () -> Unit, onCancel: () -> Unit) {
+internal suspend fun PointerInputScope.detectPressAndCancel(onPress: () -> Unit, onCancel: () -> Unit) {
     coroutineScope {
         awaitEachGesture {
             awaitFirstDown().also { it.consume() }
