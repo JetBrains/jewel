@@ -25,6 +25,8 @@ import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
+import javax.swing.UIManager
+import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.isNewUiTheme
@@ -132,8 +134,6 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
-import javax.swing.UIManager
-import kotlin.time.Duration.Companion.milliseconds
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
@@ -501,7 +501,6 @@ private fun readChipStyle(): ChipStyle {
 private fun readDividerStyle() =
     DividerStyle(color = JBColor.border().toComposeColorOrUnspecified(), metrics = DividerMetrics.defaults())
 
-// TODO: THESE ARE PLACEHOLDERS. WE MUST ITERATE
 private fun readSelectableLazyColumnStyle(): SelectableLazyColumnStyle =
     SelectableLazyColumnStyle(
         itemHeight = JBUI.CurrentTheme.ComboBox.minimumSize().toDpSize().height,
@@ -523,9 +522,9 @@ private fun readSimpleListItemStyle() =
             ),
         metrics =
             SimpleListItemMetrics(
-                innerPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp),
+                innerPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
                 outerPadding = PaddingValues(),
-                selectionBackgroundCornerSize = CornerSize(0.dp),
+                selectionBackgroundCornerSize = componentArc,
             ),
     )
 
