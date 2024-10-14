@@ -100,6 +100,7 @@ public fun ListComboBox(
 
                         val selectedItemIndex = selectedItems.first()
                         selectedItem = selectedItemIndex
+                        inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
                         onSelectedItemChange(items[selectedItemIndex])
                     },
                     content = {
