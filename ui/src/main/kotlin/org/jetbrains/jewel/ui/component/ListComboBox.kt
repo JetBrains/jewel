@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -22,6 +23,7 @@ import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items
 import org.jetbrains.jewel.foundation.lazy.rememberSelectableLazyListState
 import org.jetbrains.jewel.foundation.lazy.visibleItemsRange
+import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
@@ -100,7 +102,21 @@ public fun ListComboBox(
                         onSelectedItemChange(items[selectedItemIndex])
                     },
                     content = {
-                        items(items = items, itemContent = { item -> listItemContent(item, isSelected, isActive) })
+                        items(
+                            items = items,
+                            itemContent = { item ->
+                                Box(
+                                    modifier =
+                                        Modifier.onHover { isHovered ->
+                                            if (isHovered) {
+                                                selectedItem = items.indexOf(item)
+                                            }
+                                        }
+                                ) {
+                                    listItemContent(item, isSelected, isActive)
+                                }
+                            },
+                        )
                     },
                 )
             }
@@ -135,7 +151,21 @@ public fun ListComboBox(
                         onSelectedItemChange(items[selectedItemIndex])
                     },
                     content = {
-                        items(items = items, itemContent = { item -> listItemContent(item, isSelected, isActive) })
+                        items(
+                            items = items,
+                            itemContent = { item ->
+                                Box(
+                                    modifier =
+                                        Modifier.onHover { iSHovered ->
+                                            if (iSHovered) {
+                                                selectedItem = items.indexOf(item)
+                                            }
+                                        }
+                                ) {
+                                    listItemContent(item, isSelected, isActive)
+                                }
+                            },
+                        )
                     },
                 )
             }
