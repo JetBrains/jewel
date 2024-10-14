@@ -81,12 +81,7 @@ public fun ListComboBox(
                     selectedItem = indexOfSelected
                 }
             },
-            onPopupStateChange = {
-                val indexOfSelected = items.indexOf(inputTextFieldState.text)
-                if (indexOfSelected != -1) {
-                    selectedItem = indexOfSelected
-                }
-            },
+            onPopupStateChange = {},
         ) {
             VerticallyScrollableContainer(
                 scrollState = scrollState.lazyListState,
@@ -105,9 +100,6 @@ public fun ListComboBox(
 
                         val selectedItemIndex = selectedItems.first()
                         selectedItem = selectedItemIndex
-                        if (items.contains(inputTextFieldState.text)) {
-                            inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
-                        }
                         onSelectedItemChange(items[selectedItemIndex])
                     },
                     content = {

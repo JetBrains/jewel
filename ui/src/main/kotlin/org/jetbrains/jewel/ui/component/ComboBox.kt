@@ -195,8 +195,8 @@ public fun ComboBox(
                                         }
                                     }
 
-                                    if (it.type == KeyEventType.KeyDown && it.key == Key.Enter && popupExpanded) {
-                                        setPopupExpanded(false)
+                                    if (it.type == KeyEventType.KeyDown && it.key == Key.Enter) {
+                                        if (popupExpanded) setPopupExpanded(false)
                                         onEnterPress()
                                     }
                                     if (it.type == KeyEventType.KeyDown && it.key == Key.Escape && popupExpanded) {
