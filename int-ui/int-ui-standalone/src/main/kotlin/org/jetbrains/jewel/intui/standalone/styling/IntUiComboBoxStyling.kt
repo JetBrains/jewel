@@ -98,9 +98,9 @@ public object IntUiDefaultSimpleListItemComboBoxStyleFactory {
     @Composable
     public fun dark(
         background: Color = Color.Unspecified,
-        backgroundFocused: Color = IntUiLightTheme.colors.blue(11),
-        backgroundSelected: Color = IntUiLightTheme.colors.blue(11),
-        backgroundSelectedFocused: Color = IntUiLightTheme.colors.blue(11),
+        backgroundFocused: Color = IntUiLightTheme.colors.blue(2),
+        backgroundSelected: Color = IntUiLightTheme.colors.blue(2),
+        backgroundSelectedFocused: Color = IntUiLightTheme.colors.blue(2),
         content: Color = Color.Unspecified,
         contentFocused: Color = Color.Unspecified,
         contentSelected: Color = Color.Unspecified,
