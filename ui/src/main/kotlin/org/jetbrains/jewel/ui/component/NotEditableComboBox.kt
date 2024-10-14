@@ -150,6 +150,9 @@ public fun NotEditableComboBox(
                             if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionUp && popupExpanded) {
                                 onArrowUpPress()
                             }
+                            if (it.type == KeyEventType.KeyDown && it.key == Key.Escape && popupExpanded) {
+                                setPopupExpanded(false)
+                            }
                             false
                         }
                 }
