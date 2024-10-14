@@ -60,29 +60,30 @@ fun HomeView() {
             )
             Spacer(Modifier.height(12.dp))
             DefaultButton(onClick = { }) {
-                Row {
-                    Text("Live Capture on Device")
-                    Spacer(Modifier.width(8.dp))
-                    Divider(
-                        orientation = Orientation.Vertical,
-                        thickness = 1.dp
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    Box(
-                        modifier = Modifier
-                            .clickable {
-                                println("split click")
-                            }
-                            .background(Color.Yellow)
-                            .width(40.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            key = AllIconsKeys.General.ArrowDown,
-                            contentDescription = null,
-                        )
-                    }
-                }
+                Text("Live Capture on Device")
+//                Row {
+//                    Text("Live Capture on Device")
+//                    Spacer(Modifier.width(8.dp))
+//                    Divider(
+//                        orientation = Orientation.Vertical,
+//                        thickness = 1.dp
+//                    )
+//                    Spacer(Modifier.width(8.dp))
+//                    Box(
+//                        modifier = Modifier
+//                            .clickable {
+//                                println("split click")
+//                            }
+//                            .background(Color.Yellow)
+//                            .width(40.dp),
+//                        contentAlignment = Alignment.Center
+//                    ) {
+//                        Icon(
+//                            key = AllIconsKeys.General.ArrowDown,
+//                            contentDescription = null,
+//                        )
+//                    }
+//                }
             }
         }
     }

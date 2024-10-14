@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -18,16 +19,20 @@ import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
-import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.jewel.samples.ideplugin.dialog.wizard.ChooseTemplateStep
+import org.jetbrains.jewel.samples.ideplugin.dialog.wizard.ConfigureStepPage
+import org.jetbrains.jewel.samples.ideplugin.dialog.wizard.PhoneTemplates
+import org.jetbrains.jewel.samples.ideplugin.dialog.wizard.Template
 import org.jetbrains.jewel.ui.component.CheckboxRow
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Typography
+import kotlin.time.Duration.Companion.seconds
 
 @Service(Service.Level.PROJECT) private class ProjectScopeProviderService(val scope: CoroutineScope)
 
@@ -37,12 +42,16 @@ internal class JewelDemoAction : DumbAwareAction() {
         val scope = project.service<ProjectScopeProviderService>().scope
 
         scope.launch(Dispatchers.EDT) {
+            var activeTemplate = PhoneTemplates.first()
+
             WizardDialogWrapper(
-                    project = project,
-                    title = "Jewel Demo wizard",
-                    pages = listOf(FirstPage(project), SecondPage()),
-                )
-                .showAndGet()
+                project = project,
+                title = "Jewel Demo wizard",
+                pages = listOf(
+                    ChooseTemplateStep(project, activeTemplate),
+                    ConfigureStepPage(activeTemplate)
+                ),
+            ).showAndGet()
         }
     }
 }
