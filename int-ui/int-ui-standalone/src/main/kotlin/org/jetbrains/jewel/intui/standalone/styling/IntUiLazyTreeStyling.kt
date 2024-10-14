@@ -21,7 +21,6 @@ private val SimpleListItemStyle.Companion.LazyTree: IntUiDefaultSimpleListItemLa
     get() = IntUiDefaultSimpleListItemLazyTreeStyleFactory
 
 public object IntUiDefaultSimpleListItemLazyTreeStyleFactory {
-
     @Composable
     public fun light(
         content: Color = Color.Unspecified,

@@ -116,7 +116,7 @@ class ListComboBoxUiTest {
 
     @Test
     fun `when not-editable both Box and TextField are focused`() {
-        val comboBox = notEditableFocusedComboBox()
+        notEditableFocusedComboBox()
         composeRule.onNodeWithText("Item 1").assertIsDisplayed().assertIsFocused()
     }
 
@@ -217,6 +217,7 @@ class ListComboBoxUiTest {
         composeRule.onNodeWithText("Item 1 edited").assertIsDisplayed()
     }
 
+    @Suppress("SwallowedException")
     @Test
     fun `when not editable, only Text component is displayed and cannot be edited`() {
         injectComboBox(FocusRequester(), isEditable = false, isEnabled = true)
@@ -465,7 +466,7 @@ class ListComboBoxUiTest {
                     isEnabled = isEnabled,
                     modifier = Modifier.testTag("ComboBox").width(200.dp).focusRequester(focusRequester),
                     onSelectedItemChange = { selectedComboBox = it },
-                    listItemContent = { item, isSelected, isFocused ->
+                    listItemContent = { item, isSelected, _ ->
                         SimpleListItem(
                             modifier = Modifier.testTag(item),
                             text = item,
