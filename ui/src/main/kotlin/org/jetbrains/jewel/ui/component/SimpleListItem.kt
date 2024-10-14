@@ -24,13 +24,18 @@ import org.jetbrains.jewel.ui.icon.IconKey
 public fun SimpleListItem(
     text: String,
     isSelected: Boolean,
+    isHovered: Boolean,
     style: SimpleListItemStyle,
     modifier: Modifier = Modifier,
     height: Dp = JewelTheme.globalMetrics.rowHeight,
     icon: IconKey? = null,
     contentDescription: String? = null,
 ) {
-    val color = if (isSelected) style.colors.backgroundSelectedFocused else Color.Transparent
+    val color =
+        when {
+            isHovered || isSelected -> style.colors.backgroundSelectedFocused
+            else -> Color.Transparent
+        }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,

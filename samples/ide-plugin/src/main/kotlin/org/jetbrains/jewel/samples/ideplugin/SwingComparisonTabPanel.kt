@@ -256,10 +256,11 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 modifier = Modifier.width(200.dp),
                                 maxPopupHeight = 150.dp,
                                 onSelectedItemChange = { selectedComboBox1 = it },
-                                listItemContent = { item, isSelected, isFocused ->
+                                listItemContent = { item, isSelected, isFocused, isHovered ->
                                     SimpleListItem(
                                         text = item,
                                         isSelected = isSelected,
+                                        isHovered = isHovered,
                                         style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
@@ -276,10 +277,11 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 modifier = Modifier.width(200.dp),
                                 isEditable = false,
                                 onSelectedItemChange = { selectedComboBox2 = it },
-                                listItemContent = { item, isSelected, isFocused ->
+                                listItemContent = { item, isSelected, isFocused, isHovered ->
                                     SimpleListItem(
                                         text = item,
                                         isSelected = isSelected,
+                                        isHovered = isHovered,
                                         style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
@@ -295,10 +297,11 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 isEditable = false,
                                 isEnabled = false,
                                 onSelectedItemChange = { selectedComboBox3 = it },
-                                listItemContent = { item, isSelected, isFocused ->
+                                listItemContent = { item, isSelected, isFocused, isHovered ->
                                     SimpleListItem(
                                         text = item,
                                         isSelected = isSelected,
+                                        isHovered = isHovered,
                                         style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
