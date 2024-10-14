@@ -180,6 +180,8 @@ fun Dropdowns() {
     var selectedComboBox2: String? by remember { mutableStateOf(comboBoxItems.first()) }
     var selectedComboBox3: String? by remember { mutableStateOf(comboBoxItems.first()) }
 
+    var isListHovered1 by remember { mutableStateOf(false) }
+
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(text = "ComboBoxes", style = Typography.h1TextStyle())
         Text(text = "Selected item: $selectedComboBox1")
@@ -192,12 +194,14 @@ fun Dropdowns() {
                     items = comboBoxItems,
                     modifier = Modifier.width(200.dp),
                     onSelectedItemChange = { selectedComboBox1 = it },
-                    listItemContent = { item, isSelected, isFocused ->
+                    onListHoverChange = { isListHovered1 = it },
+                    listItemContent = { item, isSelected, isFocused, isHovered ->
                         SimpleListItem(
-                            modifier = Modifier,
                             text = item,
-                            isSelected = isSelected,
+                            isSelected = isSelected && !isListHovered1,
+                            isHovered = isHovered,
                             style = JewelTheme.comboBoxStyle.itemStyle,
+                            modifier = Modifier,
                             contentDescription = item,
                         )
                     },
@@ -213,10 +217,11 @@ fun Dropdowns() {
                     modifier = Modifier.width(200.dp),
                     isEditable = false,
                     onSelectedItemChange = { selectedComboBox2 = it },
-                    listItemContent = { item, isSelected, isFocused ->
+                    listItemContent = { item, isSelected, isFocused, isHovered ->
                         SimpleListItem(
                             text = item,
                             isSelected = isSelected,
+                            isHovered = isHovered,
                             style = JewelTheme.comboBoxStyle.itemStyle,
                             contentDescription = item,
                         )
@@ -232,10 +237,11 @@ fun Dropdowns() {
                     isEditable = false,
                     isEnabled = false,
                     onSelectedItemChange = { selectedComboBox3 = it },
-                    listItemContent = { item, isSelected, isFocused ->
+                    listItemContent = { item, isSelected, isFocused, isHovered ->
                         SimpleListItem(
                             text = item,
                             isSelected = isSelected,
+                            isHovered = isHovered,
                             style = JewelTheme.comboBoxStyle.itemStyle,
                             contentDescription = item,
                         )
