@@ -199,6 +199,9 @@ public fun ComboBox(
                                         setPopupExpanded(false)
                                         onEnterPress()
                                     }
+                                    if (it.type == KeyEventType.KeyDown && it.key == Key.Escape && popupExpanded) {
+                                        setPopupExpanded(false)
+                                    }
                                     false
                                 }
                                 .onHover { textFieldHover = it },
