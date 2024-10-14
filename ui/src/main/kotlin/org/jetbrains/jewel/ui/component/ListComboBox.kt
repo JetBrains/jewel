@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -36,12 +37,15 @@ public fun ListComboBox(
     isEnabled: Boolean = true,
     maxPopupHeight: Dp = Dp.Unspecified,
     onSelectedItemChange: (String) -> Unit = {},
-    listItemContent: @Composable (String, Boolean, Boolean) -> Unit,
+    onHoverItemChange: (String) -> Unit = {},
+    onListHoverChange: (Boolean) -> Unit = {},
+    listItemContent: @Composable (String, Boolean, Boolean, Boolean) -> Unit,
 ) {
     val initialTextFieldContent = items.firstOrNull() ?: ""
     val inputTextFieldState = rememberTextFieldState(initialTextFieldContent)
     val scrollState = rememberSelectableLazyListState()
     var selectedItem by remember { mutableIntStateOf(0) }
+    var isListHovered by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(selectedItem) { scrollState.selectedKeys = setOf(items[selectedItem]) }
@@ -86,7 +90,14 @@ public fun ListComboBox(
                 }
             },
         ) {
-            VerticallyScrollableContainer(scrollState = scrollState.lazyListState, modifier = Modifier.height(138.dp)) {
+            VerticallyScrollableContainer(
+                scrollState = scrollState.lazyListState,
+                modifier =
+                    Modifier.height(138.dp).onHover {
+                        isListHovered = it
+                        onListHoverChange(it)
+                    },
+            ) {
                 SelectableLazyColumn(
                     modifier = Modifier.fillMaxWidth().heightIn(max = popupMaxHeight),
                     selectionMode = SelectionMode.Single,
@@ -105,15 +116,17 @@ public fun ListComboBox(
                         items(
                             items = items,
                             itemContent = { item ->
+                                var isHovered by remember { mutableStateOf(false) }
                                 Box(
                                     modifier =
-                                        Modifier.onHover { isHovered ->
+                                        Modifier.onHover {
+                                            isHovered = it
                                             if (isHovered) {
-                                                selectedItem = items.indexOf(item)
+                                                onHoverItemChange(item)
                                             }
                                         }
                                 ) {
-                                    listItemContent(item, isSelected, isActive)
+                                    listItemContent(item, isSelected, isActive, isHovered)
                                 }
                             },
                         )
@@ -136,7 +149,11 @@ public fun ListComboBox(
         ) {
             VerticallyScrollableContainer(
                 scrollState = scrollState.lazyListState,
-                modifier = Modifier.heightIn(max = popupMaxHeight),
+                modifier =
+                    Modifier.heightIn(max = popupMaxHeight).onHover {
+                        isListHovered = it
+                        onListHoverChange(it)
+                    },
             ) {
                 SelectableLazyColumn(
                     modifier = Modifier.fillMaxWidth().heightIn(max = popupMaxHeight),
@@ -154,15 +171,17 @@ public fun ListComboBox(
                         items(
                             items = items,
                             itemContent = { item ->
+                                var isHovered by remember { mutableStateOf(false) }
                                 Box(
                                     modifier =
-                                        Modifier.onHover { iSHovered ->
-                                            if (iSHovered) {
-                                                selectedItem = items.indexOf(item)
+                                        Modifier.onHover {
+                                            isHovered = it
+                                            if (isHovered) {
+                                                onHoverItemChange(item)
                                             }
                                         }
                                 ) {
-                                    listItemContent(item, isSelected, isActive)
+                                    listItemContent(item, isSelected, isActive, isHovered)
                                 }
                             },
                         )
