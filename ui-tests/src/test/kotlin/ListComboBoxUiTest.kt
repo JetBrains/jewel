@@ -468,10 +468,11 @@ class ListComboBoxUiTest {
                     onSelectedItemChange = { selectedComboBox = it },
                     listItemContent = { item, isSelected, _ ->
                         SimpleListItem(
-                            modifier = Modifier.testTag(item),
                             text = item,
                             isSelected = isSelected,
+                            isHovered = isHovered,
                             style = JewelTheme.comboBoxStyle.itemStyle,
+                            modifier = Modifier.testTag(item),
                             contentDescription = item,
                         )
                     },
