@@ -1,5 +1,3 @@
-@file:JvmName("EditableComboBoxKt")
-
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
