@@ -8,7 +8,6 @@ import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -257,21 +256,19 @@ public fun ComboBox(
                                     }
                             },
                 ) {
-                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
-                        val iconColor = if (isEnabled) Color.Unspecified else style.colors.borderDisabled
-                        Divider(
-                            orientation = Orientation.Vertical,
-                            thickness = style.metrics.borderWidth,
-                            color = style.colors.border,
-                            modifier = Modifier.testTag("Jewel.ComboBox.Divider").align(Alignment.CenterStart),
-                        )
-                        Icon(
-                            modifier = Modifier.size(style.metrics.arrowSize).align(Alignment.Center),
-                            key = style.icons.chevronDown,
-                            tint = iconColor,
-                            contentDescription = null,
-                        )
-                    }
+                    val iconColor = if (isEnabled) Color.Unspecified else style.colors.borderDisabled
+                    Divider(
+                        orientation = Orientation.Vertical,
+                        thickness = style.metrics.borderWidth,
+                        color = style.colors.border,
+                        modifier = Modifier.testTag("Jewel.ComboBox.Divider"),
+                    )
+                    Icon(
+                        modifier = Modifier.size(style.metrics.arrowSize).weight(1f),
+                        key = style.icons.chevronDown,
+                        tint = iconColor,
+                        contentDescription = null,
+                    )
                 }
             }
         }
