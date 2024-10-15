@@ -77,7 +77,7 @@ public fun ComboBox(
     popupContent: @Composable () -> Unit,
 ) {
     var popupExpanded by remember { mutableStateOf(false) }
-    var chevronClicked by remember { mutableStateOf(false) }
+    var chevronHovered by remember { mutableStateOf(false) }
 
     fun setPopupExpanded(expanded: Boolean) {
         popupExpanded = expanded
@@ -118,7 +118,7 @@ public fun ComboBox(
                 }
                 .thenIf(isEnabled) {
                     focusable(true, interactionSource)
-                        .onHover { chevronClicked = it }
+                        .onHover { chevronHovered = it }
                         .pointerInput(interactionSource) {
                             detectPressAndCancel(
                                 onPress = {
@@ -201,7 +201,7 @@ public fun ComboBox(
 
             PopupContainer(
                 onDismissRequest = {
-                    if (!chevronClicked) {
+                    if (!chevronHovered) {
                         setPopupExpanded(false)
                     }
                 },
