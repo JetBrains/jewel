@@ -93,8 +93,7 @@ public class ComboBoxColors(
 @Stable
 @GenerateDataFunctions
 public class ComboBoxMetrics(
-    public val arrowAreaMinSize: DpSize,
-    public val arrowSize: DpSize,
+    public val arrowAreaSize: DpSize,
     public val minSize: DpSize,
     public val cornerSize: CornerSize,
     public val contentPadding: PaddingValues,
