@@ -35,7 +35,7 @@ import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
-import org.jetbrains.jewel.ui.component.ComboBox
+import org.jetbrains.jewel.ui.component.EditableComboBox
 import org.jetbrains.jewel.ui.component.ListComboBox
 import org.jetbrains.jewel.ui.component.SimpleListItem
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
@@ -89,7 +89,7 @@ class ListComboBoxUiTest {
         composeRule.setContent {
             IntUiTheme {
                 Box(modifier = Modifier.size(20.dp).focusRequester(focusRequester).testTag("Pre-Box").focusable(true))
-                ComboBox(
+                EditableComboBox(
                     modifier = Modifier.width(140.dp).testTag("ComboBox"),
                     inputTextFieldState = rememberTextFieldState("Item 1"),
                     popupContent = { /* ... */ },

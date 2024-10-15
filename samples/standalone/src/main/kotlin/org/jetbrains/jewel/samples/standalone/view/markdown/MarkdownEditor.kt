@@ -23,8 +23,8 @@ import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.darkrockstudios.libraries.mpfilepicker.JvmFile
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Orientation
+import org.jetbrains.jewel.ui.component.ComboBox
 import org.jetbrains.jewel.ui.component.Divider
-import org.jetbrains.jewel.ui.component.NotEditableComboBox
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.PopupMenu
 import org.jetbrains.jewel.ui.component.Text
@@ -65,7 +65,7 @@ private fun ControlsRow(modifier: Modifier = Modifier, onLoadMarkdown: (String) 
 
         Box {
             var selected by remember { mutableStateOf("Jewel readme") }
-            NotEditableComboBox(
+            ComboBox(
                 modifier = Modifier.width(140.dp),
                 labelText = selected,
                 popupContent = {
