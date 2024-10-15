@@ -50,7 +50,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.PopupProperties
 import kotlinx.coroutines.coroutineScope
@@ -234,57 +233,48 @@ private fun TextInput(
     onFocusedChanged: (Boolean) -> Unit,
     onHoveredChanged: (Boolean) -> Unit,
 ) {
-    if (isEnabled) {
-        BasicTextField(
-            state = inputTextFieldState,
-            modifier =
-                modifier
-                    .testTag("Jewel.ComboBox.TextField")
-                    .padding(style.metrics.contentPadding)
-                    .onFocusChanged { onFocusedChanged(it.isFocused) }
-                    .focusRequester(textFieldFocusRequester)
-                    .onPreviewKeyEvent {
-                        if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionDown) {
-                            if (popupExpanded) {
-                                onArrowDownPress()
-                            } else {
-                                onSetPopupExpanded(false)
-                                textFieldFocusRequester.requestFocus()
-                            }
-                        }
-                        if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionUp) {
-                            if (popupExpanded) {
-                                onArrowUpPress()
-                            } else {
-                                onSetPopupExpanded(true)
-                                textFieldFocusRequester.requestFocus()
-                            }
-                        }
-
-                        if (it.type == KeyEventType.KeyDown && it.key == Key.Enter) {
-                            if (popupExpanded) onSetPopupExpanded(false)
-                            onEnterPress()
-                        }
-                        if (it.type == KeyEventType.KeyDown && it.key == Key.Escape && popupExpanded) {
+    BasicTextField(
+        state = inputTextFieldState,
+        modifier =
+            modifier
+                .testTag("Jewel.ComboBox.TextField")
+                .padding(style.metrics.contentPadding)
+                .onFocusChanged { onFocusedChanged(it.isFocused) }
+                .focusRequester(textFieldFocusRequester)
+                .onPreviewKeyEvent {
+                    if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionDown) {
+                        if (popupExpanded) {
+                            onArrowDownPress()
+                        } else {
                             onSetPopupExpanded(false)
+                            textFieldFocusRequester.requestFocus()
                         }
-                        false
                     }
-                    .onHover { onHoveredChanged(it) },
-            lineLimits = TextFieldLineLimits.SingleLine,
-            textStyle = textStyle.copy(color = style.colors.content),
-            cursorBrush = SolidColor(style.colors.content),
-            interactionSource = textFieldInteractionSource,
-        )
-    } else {
-        Text(
-            text = inputTextFieldState.text.toString(),
-            style = textStyle,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = modifier.testTag("Jewel.ComboBox.NonEditableText").padding(style.metrics.contentPadding),
-        )
-    }
+                    if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionUp) {
+                        if (popupExpanded) {
+                            onArrowUpPress()
+                        } else {
+                            onSetPopupExpanded(true)
+                            textFieldFocusRequester.requestFocus()
+                        }
+                    }
+
+                    if (it.type == KeyEventType.KeyDown && it.key == Key.Enter) {
+                        if (popupExpanded) onSetPopupExpanded(false)
+                        onEnterPress()
+                    }
+                    if (it.type == KeyEventType.KeyDown && it.key == Key.Escape && popupExpanded) {
+                        onSetPopupExpanded(false)
+                    }
+                    false
+                }
+                .onHover { onHoveredChanged(it) },
+        lineLimits = TextFieldLineLimits.SingleLine,
+        textStyle = textStyle.copy(color = style.colors.content),
+        cursorBrush = SolidColor(style.colors.content),
+        interactionSource = textFieldInteractionSource,
+        enabled = isEnabled,
+    )
 }
 
 @Composable
