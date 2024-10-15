@@ -8,4 +8,8 @@
       </list>
     </externalJarPaths>
   </component>
+  <component name="com.nbadal.ktlint.KtlintProjectSettings">
+    <ktlintMode>MANUAL</ktlintMode>
+    <attachToIntellijFormat>false</attachToIntellijFormat>
+  </component>
 </project>
