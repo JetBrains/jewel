@@ -557,11 +557,13 @@ private fun readDefaultComboBoxStyle(): ComboBoxStyle {
 
     val minimumSize = JBUI.CurrentTheme.ComboBox.minimumSize().toDpSize()
     val arrowWidth = JBUI.CurrentTheme.Component.ARROW_AREA_WIDTH.dp
+
     return ComboBoxStyle(
         colors = colors,
         metrics =
             ComboBoxMetrics(
-                arrowMinSize = DpSize(arrowWidth, minimumSize.height),
+                arrowAreaMinSize = DpSize(arrowWidth, minimumSize.height),
+                arrowSize = DpSize(16.dp, 16.dp),
                 minSize = DpSize(minimumSize.width + arrowWidth, minimumSize.height),
                 cornerSize = componentArc,
                 contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
