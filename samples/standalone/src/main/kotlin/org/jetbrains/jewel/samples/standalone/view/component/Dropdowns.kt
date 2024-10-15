@@ -196,11 +196,12 @@ fun Dropdowns() {
                     maxPopupHeight = 150.dp,
                     onSelectedItemChange = { selectedComboBox1 = it },
                     onListHoverChange = { isListHovered1 = it },
-                    listItemContent = { item, isSelected, isFocused, isHovered ->
+                    listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                         SimpleListItem(
                             text = item,
                             isSelected = isSelected && !isListHovered1,
-                            isHovered = isHovered,
+                            isHovered = isItemHovered,
+                            isListHovered = isListHovered,
                             style = JewelTheme.comboBoxStyle.itemStyle,
                             modifier = Modifier,
                             contentDescription = item,
@@ -219,11 +220,12 @@ fun Dropdowns() {
                     maxPopupHeight = 150.dp,
                     isEditable = false,
                     onSelectedItemChange = { selectedComboBox2 = it },
-                    listItemContent = { item, isSelected, isFocused, isHovered ->
+                    listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                         SimpleListItem(
                             text = item,
                             isSelected = isSelected,
-                            isHovered = isHovered,
+                            isHovered = isItemHovered,
+                            isListHovered = isListHovered,
                             style = JewelTheme.comboBoxStyle.itemStyle,
                             contentDescription = item,
                         )
@@ -239,11 +241,12 @@ fun Dropdowns() {
                     isEditable = false,
                     isEnabled = false,
                     onSelectedItemChange = { selectedComboBox3 = it },
-                    listItemContent = { item, isSelected, isFocused, isHovered ->
+                    listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                         SimpleListItem(
                             text = item,
                             isSelected = isSelected,
-                            isHovered = isHovered,
+                            isHovered = isItemHovered,
+                            isListHovered = isListHovered,
                             style = JewelTheme.comboBoxStyle.itemStyle,
                             contentDescription = item,
                         )
