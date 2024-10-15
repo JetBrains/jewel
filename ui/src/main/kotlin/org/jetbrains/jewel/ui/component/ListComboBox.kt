@@ -65,7 +65,7 @@ public fun ListComboBox(
     }
 
     if (isEditable) {
-        ComboBox(
+        EditableComboBox(
             modifier = modifier,
             isEnabled = isEnabled,
             inputTextFieldState = inputTextFieldState,
@@ -126,7 +126,7 @@ public fun ListComboBox(
             }
         }
     } else {
-        NotEditableComboBox(
+        ComboBox(
             modifier = modifier,
             isEnabled = isEnabled,
             labelText = items[selectedItem],
