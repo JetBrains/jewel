@@ -85,12 +85,9 @@ public fun ComboBox(
     }
 
     var comboBoxState by remember { mutableStateOf(ComboBoxState.of(enabled = isEnabled)) }
-    var isFocused by remember { mutableStateOf(false) }
     val comboBoxFocusRequester = remember { FocusRequester() }
 
     remember(isEnabled) { comboBoxState = comboBoxState.copy(enabled = isEnabled) }
-
-    LaunchedEffect(isFocused) { comboBoxState = comboBoxState.copy(focused = isFocused) }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
@@ -114,8 +111,8 @@ public fun ComboBox(
             modifier
                 .focusRequester(comboBoxFocusRequester)
                 .onFocusChanged { focusState ->
-                    isFocused = focusState.isFocused
-                    if (!isFocused) {
+                    comboBoxState = comboBoxState.copy(focused = focusState.isFocused)
+                    if (!focusState.isFocused) {
                         setPopupExpanded(false)
                     }
                 }
