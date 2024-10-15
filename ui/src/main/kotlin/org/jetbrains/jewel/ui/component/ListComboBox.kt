@@ -37,7 +37,7 @@ public fun ListComboBox(
     onSelectedItemChange: (String) -> Unit = {},
     onHoverItemChange: (String) -> Unit = {},
     onListHoverChange: (Boolean) -> Unit = {},
-    listItemContent: @Composable (String, Boolean, Boolean, Boolean) -> Unit,
+    listItemContent: @Composable (String, Boolean, Boolean, Boolean, Boolean) -> Unit,
 ) {
     val initialTextFieldContent = items.firstOrNull() ?: ""
     val inputTextFieldState = rememberTextFieldState(initialTextFieldContent)
@@ -107,17 +107,17 @@ public fun ListComboBox(
                         items(
                             items = items,
                             itemContent = { item ->
-                                var isHovered by remember { mutableStateOf(false) }
+                                var isItemHovered by remember { mutableStateOf(false) }
                                 Box(
                                     modifier =
                                         Modifier.onHover {
-                                            isHovered = it
-                                            if (isHovered) {
+                                            isItemHovered = it
+                                            if (isItemHovered) {
                                                 onHoverItemChange(item)
                                             }
                                         }
                                 ) {
-                                    listItemContent(item, isSelected, isActive, isHovered)
+                                    listItemContent(item, isSelected, isActive, isItemHovered, isListHovered)
                                 }
                             },
                         )
@@ -172,7 +172,7 @@ public fun ListComboBox(
                                             }
                                         }
                                 ) {
-                                    listItemContent(item, isSelected, isActive, isHovered)
+                                    listItemContent(item, isSelected, isActive, isHovered, isListHovered)
                                 }
                             },
                         )

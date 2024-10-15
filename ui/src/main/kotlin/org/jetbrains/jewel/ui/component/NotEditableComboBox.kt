@@ -5,6 +5,7 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -196,14 +198,16 @@ public fun NotEditableComboBox(
                 )
 
                 // Chevron
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.testTag("Jewel.ComboBox.ChevronContainer"),
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier =
+                        Modifier.testTag("Jewel.ComboBox.ChevronContainer")
+                            .width(style.metrics.arrowAreaMinSize.width)
+                            .height(style.metrics.arrowAreaMinSize.height),
                 ) {
                     val iconColor = if (isEnabled) Color.Unspecified else style.colors.borderDisabled
                     Icon(
-                        modifier =
-                            Modifier.width(style.metrics.arrowMinSize.width).height(style.metrics.arrowMinSize.height),
+                        modifier = Modifier.size(style.metrics.arrowSize),
                         key = style.icons.chevronDown,
                         tint = iconColor,
                         contentDescription = null,
