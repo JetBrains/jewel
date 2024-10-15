@@ -7,11 +7,14 @@ import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.onClick
@@ -230,41 +233,45 @@ public fun ComboBox(
 
                 // Chevron
                 Row(
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier =
-                        Modifier.testTag("Jewel.ComboBox.ChevronContainer").thenIf(isEnabled) {
-                            onHover { chevronClicked = it }
-                                .pointerInput(interactionSource) {
-                                    detectPressAndCancel(
-                                        onPress = onPressWhenEnabled,
-                                        onCancel = { setPopupExpanded(false) },
-                                    )
-                                }
-                                .semantics {
-                                    onClick(
-                                        action = {
-                                            onPressWhenEnabled()
-                                            true
-                                        },
-                                        label = "Chevron",
-                                    )
-                                }
-                        },
+                        Modifier.testTag("Jewel.ComboBox.ChevronContainer")
+                            .width(style.metrics.arrowAreaMinSize.width)
+                            .thenIf(isEnabled) {
+                                onHover { chevronClicked = it }
+                                    .pointerInput(interactionSource) {
+                                        detectPressAndCancel(
+                                            onPress = onPressWhenEnabled,
+                                            onCancel = { setPopupExpanded(false) },
+                                        )
+                                    }
+                                    .semantics {
+                                        onClick(
+                                            action = {
+                                                onPressWhenEnabled()
+                                                true
+                                            },
+                                            label = "Chevron",
+                                        )
+                                    }
+                            },
                 ) {
-                    val iconColor = if (isEnabled) Color.Unspecified else style.colors.borderDisabled
-                    Divider(
-                        orientation = Orientation.Vertical,
-                        thickness = style.metrics.borderWidth,
-                        color = style.colors.border,
-                        modifier = Modifier.testTag("Jewel.ComboBox.Divider"),
-                    )
-                    Icon(
-                        modifier =
-                            Modifier.width(style.metrics.arrowMinSize.width).height(style.metrics.arrowMinSize.height),
-                        key = style.icons.chevronDown,
-                        tint = iconColor,
-                        contentDescription = null,
-                    )
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                        val iconColor = if (isEnabled) Color.Unspecified else style.colors.borderDisabled
+                        Divider(
+                            orientation = Orientation.Vertical,
+                            thickness = style.metrics.borderWidth,
+                            color = style.colors.border,
+                            modifier = Modifier.testTag("Jewel.ComboBox.Divider").align(Alignment.CenterStart),
+                        )
+                        Icon(
+                            modifier = Modifier.size(style.metrics.arrowSize).align(Alignment.Center),
+                            key = style.icons.chevronDown,
+                            tint = iconColor,
+                            contentDescription = null,
+                        )
+                    }
                 }
             }
         }
@@ -281,9 +288,7 @@ public fun ComboBox(
                         .testTag("Jewel.ComboBox.PopupMenu")
                         .semantics { contentDescription = "Jewel.ComboBox.PopupMenu" }
                         .width(boxWith)
-                        .onClick {
-                            setPopupExpanded(false)
-                        },
+                        .onClick { setPopupExpanded(false) },
                 horizontalAlignment = Alignment.Start,
                 popupProperties = PopupProperties(focusable = false),
                 content = popupContent,
