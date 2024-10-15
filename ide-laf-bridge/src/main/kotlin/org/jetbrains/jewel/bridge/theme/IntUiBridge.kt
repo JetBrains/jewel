@@ -562,8 +562,7 @@ private fun readDefaultComboBoxStyle(): ComboBoxStyle {
         colors = colors,
         metrics =
             ComboBoxMetrics(
-                arrowAreaMinSize = DpSize(arrowWidth, minimumSize.height),
-                arrowSize = DpSize(16.dp, 16.dp),
+                arrowAreaSize = DpSize(arrowWidth, minimumSize.height),
                 minSize = DpSize(minimumSize.width + arrowWidth, minimumSize.height),
                 cornerSize = componentArc,
                 contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
