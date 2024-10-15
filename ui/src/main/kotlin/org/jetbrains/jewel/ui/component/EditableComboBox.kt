@@ -111,11 +111,8 @@ public fun EditableComboBox(
     }
 
     var comboBoxState by remember { mutableStateOf(ComboBoxState.of(enabled = isEnabled)) }
-    var isFocused by remember { mutableStateOf(false) }
 
     remember(isEnabled) { comboBoxState = comboBoxState.copy(enabled = isEnabled) }
-
-    LaunchedEffect(isFocused) { comboBoxState = comboBoxState.copy(focused = isFocused) }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
@@ -174,7 +171,7 @@ public fun EditableComboBox(
                     isEnabled = isEnabled,
                     inputTextFieldState = inputTextFieldState,
                     style = style,
-                    isFocused = isFocused,
+                    isFocused = comboBoxState.isFocused,
                     textFieldFocusRequester = textFieldFocusRequester,
                     popupExpanded = popupExpanded,
                     textStyle = textStyle,
@@ -183,7 +180,7 @@ public fun EditableComboBox(
                     onArrowUpPress = onArrowUpPress,
                     onEnterPress = onEnterPress,
                     onSetPopupExpanded = { popupExpanded = it },
-                    onFocusedChanged = { isFocused = it },
+                    onFocusedChanged = { comboBoxState = comboBoxState.copy(focused = it) },
                     onHoveredChanged = { textFieldHovered = it },
                 )
 
