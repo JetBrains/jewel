@@ -314,7 +314,7 @@ private fun Chevron(
             modifier = Modifier.testTag("Jewel.ComboBox.Divider"),
         )
 
-        Box(Modifier.weight(1f)) {
+        Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
             Icon(
                 key = style.icons.chevronDown,
                 tint = if (isEnabled) Color.Unspecified else style.colors.borderDisabled,
