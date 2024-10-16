@@ -44,6 +44,8 @@ public fun ListComboBox(
     val scrollState = rememberSelectableLazyListState()
     var selectedItem by remember { mutableIntStateOf(0) }
     var isListHovered by remember { mutableStateOf(false) }
+    var hoverItemIndex by remember { mutableStateOf(-1) }
+    var softSelection by remember { mutableStateOf(isListHovered) }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(selectedItem) { scrollState.selectedKeys = setOf(items[selectedItem]) }
@@ -56,10 +58,18 @@ public fun ListComboBox(
         }
 
     val onArrowDownPress: () -> Unit = {
+        if (hoverItemIndex != -1) {
+            selectedItem = hoverItemIndex
+            hoverItemIndex = -1
+        }
         selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex)
         scope.launch { scrollState.lazyListState.scrollToIndex(selectedItem) }
     }
     val onArrowUpPress: () -> Unit = {
+        if (hoverItemIndex != -1) {
+            selectedItem = hoverItemIndex
+            hoverItemIndex = -1
+        }
         selectedItem = selectedItem.minus(1).coerceAtLeast(0)
         scope.launch { scrollState.lazyListState.scrollToIndex(selectedItem) }
     }
@@ -88,6 +98,7 @@ public fun ListComboBox(
                 modifier =
                     Modifier.heightIn(max = popupMaxHeight).onHover {
                         isListHovered = it
+                        if (!isListHovered) hoverItemIndex = -1
                         onListHoverChange(it)
                     },
             ) {
@@ -113,11 +124,18 @@ public fun ListComboBox(
                                         Modifier.onHover {
                                             isItemHovered = it
                                             if (isItemHovered) {
+                                                hoverItemIndex = items.indexOf(item)
                                                 onHoverItemChange(item)
                                             }
                                         }
                                 ) {
-                                    listItemContent(item, isSelected, isActive, isItemHovered, isListHovered)
+                                    listItemContent(
+                                        item,
+                                        isSelected,
+                                        isActive,
+                                        isItemHovered && hoverItemIndex != -1,
+                                        isListHovered,
+                                    )
                                 }
                             },
                         )
@@ -143,6 +161,7 @@ public fun ListComboBox(
                 modifier =
                     Modifier.heightIn(max = popupMaxHeight).onHover {
                         isListHovered = it
+                        if (!isListHovered) hoverItemIndex = -1
                         onListHoverChange(it)
                     },
             ) {
@@ -168,6 +187,7 @@ public fun ListComboBox(
                                         Modifier.onHover {
                                             isHovered = it
                                             if (isHovered) {
+                                                hoverItemIndex = items.indexOf(item)
                                                 onHoverItemChange(item)
                                             }
                                         }
