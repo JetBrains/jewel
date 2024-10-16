@@ -28,6 +28,8 @@ import org.jetbrains.jewel.foundation.lazy.visibleItemsRange
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Outline
+import org.jetbrains.jewel.ui.component.SelectionBackgroundMode.Hover
+import org.jetbrains.jewel.ui.component.SelectionBackgroundMode.Keyboard
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
 
 @Composable
@@ -40,7 +42,7 @@ public fun ListComboBox(
     onSelectedItemChange: (String) -> Unit = {},
     onHoverItemChange: (String) -> Unit = {},
     onListHoverChange: (Boolean) -> Unit = {},
-    listItemContent: @Composable (String, Boolean, Boolean, Boolean, Boolean) -> Unit,
+    listItemContent: @Composable (String, Boolean, Boolean, Boolean, Boolean, SelectionBackgroundMode) -> Unit,
 ) {
     val initialTextFieldContent = items.firstOrNull().orEmpty()
     val inputTextFieldState = rememberTextFieldState(initialTextFieldContent)
@@ -48,6 +50,8 @@ public fun ListComboBox(
     var selectedItem by remember { mutableIntStateOf(0) }
     var isListHovered by remember { mutableStateOf(false) }
     var hoverItemIndex by remember { mutableStateOf(-1) }
+    var selectionBackgroundMode by remember { mutableStateOf(Hover) }
+
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(selectedItem) { scrollState.selectedKeys = setOf(items[selectedItem]) }
@@ -63,6 +67,7 @@ public fun ListComboBox(
         if (hoverItemIndex != -1) {
             selectedItem = hoverItemIndex
             hoverItemIndex = -1
+            selectionBackgroundMode = Keyboard
         }
         selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex)
         scope.launch { scrollState.lazyListState.scrollToIndex(selectedItem) }
@@ -71,6 +76,7 @@ public fun ListComboBox(
         if (hoverItemIndex != -1) {
             selectedItem = hoverItemIndex
             hoverItemIndex = -1
+            selectionBackgroundMode = Keyboard
         }
         selectedItem = selectedItem.minus(1).coerceAtLeast(0)
         scope.launch { scrollState.lazyListState.scrollToIndex(selectedItem) }
@@ -100,7 +106,11 @@ public fun ListComboBox(
                 modifier =
                     Modifier.heightIn(max = popupMaxHeight).onHover {
                         isListHovered = it
-                        if (!isListHovered) hoverItemIndex = -1
+                        if (isListHovered) {
+                            selectionBackgroundMode = Hover
+                        } else {
+                            hoverItemIndex = -1
+                        }
                         onListHoverChange(it)
                     },
             ) {
@@ -138,8 +148,9 @@ public fun ListComboBox(
                                         item,
                                         isSelected,
                                         isActive,
-                                        isItemHovered && hoverItemIndex != -1,
+                                        isItemHovered,
                                         isListHovered,
+                                        selectionBackgroundMode,
                                     )
                                 }
                             },
@@ -166,7 +177,11 @@ public fun ListComboBox(
                 modifier =
                     Modifier.heightIn(max = popupMaxHeight).onHover {
                         isListHovered = it
-                        if (!isListHovered) hoverItemIndex = -1
+                        if (isListHovered) {
+                            selectionBackgroundMode = Hover
+                        } else {
+                            hoverItemIndex = -1
+                        }
                         onListHoverChange(it)
                     },
             ) {
@@ -200,7 +215,14 @@ public fun ListComboBox(
                                             }
                                         }
                                 ) {
-                                    listItemContent(item, isSelected, isActive, isHovered, isListHovered)
+                                    listItemContent(
+                                        item,
+                                        isSelected,
+                                        isActive,
+                                        isHovered,
+                                        isListHovered,
+                                        selectionBackgroundMode,
+                                    )
                                 }
                             },
                         )
@@ -240,4 +262,9 @@ private suspend fun LazyListState.scrollToIndex(itemIndex: Int) {
             }
         }
     }
+}
+
+public enum class SelectionBackgroundMode {
+    Keyboard,
+    Hover,
 }
