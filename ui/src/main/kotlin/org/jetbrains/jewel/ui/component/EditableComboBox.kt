@@ -166,30 +166,30 @@ public fun EditableComboBox(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 TextInput(
-                    modifier = Modifier.fillMaxWidth().weight(1f),
                     isEnabled = isEnabled,
                     inputTextFieldState = inputTextFieldState,
-                    style = style,
                     isFocused = comboBoxState.isFocused,
                     textFieldFocusRequester = textFieldFocusRequester,
+                    style = style,
                     popupExpanded = popupExpanded,
                     textStyle = textStyle,
                     textFieldInteractionSource = textFieldInteractionSource,
                     onArrowDownPress = onArrowDownPress,
                     onArrowUpPress = onArrowUpPress,
                     onEnterPress = onEnterPress,
-                    onSetPopupExpanded = { popupExpanded = it },
-                    onFocusedChanged = { comboBoxState = comboBoxState.copy(focused = it) },
-                    onHoveredChanged = { textFieldHovered = it },
+                    onSetPopupExpandedEvent = { popupExpanded = it },
+                    onFocusedChange = { comboBoxState = comboBoxState.copy(focused = it) },
+                    onHoveredChange = { textFieldHovered = it },
+                    modifier = Modifier.fillMaxWidth().weight(1f),
                 )
 
                 Chevron(
                     isEnabled = isEnabled,
                     style = style,
                     interactionSource = interactionSource,
-                    onHoveredChanged = { chevronHovered = it },
+                    onHoveredChange = { chevronHovered = it },
                     setPopupExpanded = { popupExpanded = it },
-                    onPressWhenEnabled = onPressWhenEnabled,
+                    onPressWhenEnable = onPressWhenEnabled,
                 )
             }
         }
@@ -217,21 +217,21 @@ public fun EditableComboBox(
 
 @Composable
 private fun TextInput(
-    modifier: Modifier,
     isEnabled: Boolean,
     inputTextFieldState: TextFieldState,
-    style: ComboBoxStyle,
     isFocused: Boolean,
     textFieldFocusRequester: FocusRequester,
+    style: ComboBoxStyle,
     popupExpanded: Boolean,
     textStyle: TextStyle,
     textFieldInteractionSource: MutableInteractionSource,
     onArrowDownPress: () -> Unit,
     onArrowUpPress: () -> Unit,
     onEnterPress: () -> Unit,
-    onSetPopupExpanded: (Boolean) -> Unit,
-    onFocusedChanged: (Boolean) -> Unit,
-    onHoveredChanged: (Boolean) -> Unit,
+    onSetPopupExpandedEvent: (Boolean) -> Unit,
+    onFocusedChange: (Boolean) -> Unit,
+    onHoveredChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     BasicTextField(
         state = inputTextFieldState,
@@ -239,7 +239,7 @@ private fun TextInput(
             modifier
                 .testTag("Jewel.ComboBox.TextField")
                 .padding(style.metrics.contentPadding)
-                .onFocusChanged { onFocusedChanged(it.isFocused) }
+                .onFocusChanged { onFocusedChange(it.isFocused) }
                 .focusRequester(textFieldFocusRequester)
                 .onPreviewKeyEvent {
                     if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionDown) {
@@ -260,15 +260,17 @@ private fun TextInput(
                     }
 
                     if (it.type == KeyEventType.KeyDown && it.key == Key.Enter) {
-                        if (popupExpanded) onSetPopupExpanded(false)
+                        if (popupExpanded) {
+                            onSetPopupExpandedEvent(false)
+                        }
                         onEnterPress()
                     }
                     if (it.type == KeyEventType.KeyDown && it.key == Key.Escape && popupExpanded) {
-                        onSetPopupExpanded(false)
+                        onSetPopupExpandedEvent(false)
                     }
                     false
                 }
-                .onHover { onHoveredChanged(it) },
+                .onHover { onHoveredChange(it) },
         lineLimits = TextFieldLineLimits.SingleLine,
         textStyle = textStyle.copy(color = style.colors.content),
         cursorBrush = SolidColor(style.colors.content),
@@ -282,9 +284,9 @@ private fun Chevron(
     isEnabled: Boolean,
     style: ComboBoxStyle,
     interactionSource: MutableInteractionSource,
-    onHoveredChanged: (Boolean) -> Unit,
+    onHoveredChange: (Boolean) -> Unit,
     setPopupExpanded: (Boolean) -> Unit,
-    onPressWhenEnabled: () -> Unit,
+    onPressWhenEnable: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -292,14 +294,14 @@ private fun Chevron(
             Modifier.testTag("Jewel.ComboBox.ChevronContainer")
                 .size(style.metrics.arrowAreaSize) // Fixed size
                 .thenIf(isEnabled) {
-                    onHover { onHoveredChanged(it) }
+                    onHover { onHoveredChange(it) }
                         .pointerInput(interactionSource) {
-                            detectPressAndCancel(onPress = onPressWhenEnabled, onCancel = { setPopupExpanded(false) })
+                            detectPressAndCancel(onPress = onPressWhenEnable, onCancel = { setPopupExpanded(false) })
                         }
                         .semantics {
                             onClick(
                                 action = {
-                                    onPressWhenEnabled()
+                                    onPressWhenEnable()
                                     true
                                 },
                                 label = "Chevron",
