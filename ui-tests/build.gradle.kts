@@ -4,6 +4,7 @@ import org.jetbrains.compose.ComposeBuildConfig
 plugins {
     jewel
     alias(libs.plugins.composeDesktop)
+    alias(libs.plugins.compose.compiler)
 }
 
 private val composeVersion
