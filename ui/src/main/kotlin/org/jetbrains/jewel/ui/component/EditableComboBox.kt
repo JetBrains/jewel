@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:compose:parameter-naming")
+
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
@@ -177,10 +179,12 @@ public fun EditableComboBox(
                     onArrowDownPress = onArrowDownPress,
                     onArrowUpPress = onArrowUpPress,
                     onEnterPress = onEnterPress,
-                    onSetPopupExpandedEvent = { popupExpanded = it },
+                    onSetPopupExpanded = { popupExpanded = it },
                     onFocusedChange = { comboBoxState = comboBoxState.copy(focused = it) },
                     onHoveredChange = { textFieldHovered = it },
-                    modifier = Modifier.fillMaxWidth().weight(1f),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
                 )
 
                 Chevron(
@@ -189,7 +193,7 @@ public fun EditableComboBox(
                     interactionSource = interactionSource,
                     onHoveredChange = { chevronHovered = it },
                     setPopupExpanded = { popupExpanded = it },
-                    onPressWhenEnable = onPressWhenEnabled,
+                    onPressWhenEnabled = onPressWhenEnabled,
                 )
             }
         }
@@ -215,8 +219,10 @@ public fun EditableComboBox(
     }
 }
 
+@Suppress("ktlint:compose:modifier-without-default-check")
 @Composable
 private fun TextInput(
+    modifier: Modifier,
     isEnabled: Boolean,
     inputTextFieldState: TextFieldState,
     isFocused: Boolean,
@@ -228,10 +234,9 @@ private fun TextInput(
     onArrowDownPress: () -> Unit,
     onArrowUpPress: () -> Unit,
     onEnterPress: () -> Unit,
-    onSetPopupExpandedEvent: (Boolean) -> Unit,
+    onSetPopupExpanded: (Boolean) -> Unit,
     onFocusedChange: (Boolean) -> Unit,
     onHoveredChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     BasicTextField(
         state = inputTextFieldState,
@@ -246,7 +251,7 @@ private fun TextInput(
                         if (popupExpanded) {
                             onArrowDownPress()
                         } else {
-                            onSetPopupExpandedEvent(true)
+                            onSetPopupExpanded(true)
                             textFieldFocusRequester.requestFocus()
                         }
                     }
@@ -260,12 +265,12 @@ private fun TextInput(
 
                     if (it.type == KeyEventType.KeyDown && it.key == Key.Enter) {
                         if (popupExpanded) {
-                            onSetPopupExpandedEvent(false)
+                            onSetPopupExpanded(false)
                         }
                         onEnterPress()
                     }
                     if (it.type == KeyEventType.KeyDown && it.key == Key.Escape && popupExpanded) {
-                        onSetPopupExpandedEvent(false)
+                        onSetPopupExpanded(false)
                     }
                     false
                 }
@@ -285,22 +290,23 @@ private fun Chevron(
     interactionSource: MutableInteractionSource,
     onHoveredChange: (Boolean) -> Unit,
     setPopupExpanded: (Boolean) -> Unit,
-    onPressWhenEnable: () -> Unit,
+    onPressWhenEnabled: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
-            Modifier.testTag("Jewel.ComboBox.ChevronContainer")
+            Modifier
+                .testTag("Jewel.ComboBox.ChevronContainer")
                 .size(style.metrics.arrowAreaSize) // Fixed size
                 .thenIf(isEnabled) {
                     onHover { onHoveredChange(it) }
                         .pointerInput(interactionSource) {
-                            detectPressAndCancel(onPress = onPressWhenEnable, onCancel = { setPopupExpanded(false) })
+                            detectPressAndCancel(onPress = onPressWhenEnabled, onCancel = { setPopupExpanded(false) })
                         }
                         .semantics {
                             onClick(
                                 action = {
-                                    onPressWhenEnable()
+                                    onPressWhenEnabled()
                                     true
                                 },
                                 label = "Chevron",
