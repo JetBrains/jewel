@@ -16,39 +16,29 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.icon.IconKey
+import org.jetbrains.jewel.ui.theme.comboBoxStyle
 
 @Composable
 public fun SimpleListItem(
     text: String,
-    isSelected: Boolean,
-    isHovered: Boolean,
-    isListHovered: Boolean,
-    style: SimpleListItemStyle,
     modifier: Modifier = Modifier,
+    state: ListItemState,
+    style: SimpleListItemStyle = JewelTheme.comboBoxStyle.itemStyle,
     height: Dp = JewelTheme.globalMetrics.rowHeight,
     icon: IconKey? = null,
     contentDescription: String? = null,
 ) {
-
-    JewelLogger.getInstance("Jewel.SimpleListItem")
-        .debug("$text isSelected: $isSelected, isHovered: $isHovered, islistHovered: $isListHovered")
-
-    val color =
-        when {
-            isSelected -> style.colors.backgroundSelectedFocused
-            isHovered -> style.colors.backgroundSelectedFocused
-            else -> Color.Transparent
-        }
+    val color = if (state.isHovered) style.colors.backgroundSelectedFocused else Color.Transparent
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
             modifier
-                .semantics { selected = isSelected }
+                .semantics { selected = state.isSelected }
                 .fillMaxWidth()
                 .height(height)
                 .padding(style.metrics.outerPadding)
@@ -61,3 +51,10 @@ public fun SimpleListItem(
         Text(text = text, maxLines = 1, overflow = TextOverflow.Ellipsis, style = JewelTheme.defaultTextStyle)
     }
 }
+
+@GenerateDataFunctions
+public class ListItemState(
+    public val isSelected: Boolean,
+    public val isSoftSelected: Boolean,
+    public val isHovered: Boolean,
+)
