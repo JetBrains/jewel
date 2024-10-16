@@ -261,7 +261,6 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                         text = item,
                                         isSelected = isSelected,
                                         isHovered = isItemHovered,
-                                        isListHovered = isListHovered,
                                         style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
@@ -283,7 +282,6 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                         text = item,
                                         isSelected = isSelected,
                                         isHovered = isItemHovered,
-                                        isListHovered = isListHovered,
                                         style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
@@ -304,7 +302,6 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                         text = item,
                                         isSelected = isSelected,
                                         isHovered = isItemHovered,
-                                        isListHovered = isListHovered,
                                         style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
