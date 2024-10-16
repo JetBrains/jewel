@@ -246,7 +246,7 @@ private fun TextInput(
                         if (popupExpanded) {
                             onArrowDownPress()
                         } else {
-                            onSetPopupExpanded(false)
+                            onSetPopupExpandedEvent(true)
                             textFieldFocusRequester.requestFocus()
                         }
                     }
@@ -254,7 +254,6 @@ private fun TextInput(
                         if (popupExpanded) {
                             onArrowUpPress()
                         } else {
-                            onSetPopupExpanded(true)
                             textFieldFocusRequester.requestFocus()
                         }
                     }
