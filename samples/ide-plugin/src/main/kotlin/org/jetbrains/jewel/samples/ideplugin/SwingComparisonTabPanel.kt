@@ -52,6 +52,7 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.DefaultButton
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.ListComboBox
+import org.jetbrains.jewel.ui.component.ListItemState
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.SimpleListItem
 import org.jetbrains.jewel.ui.component.Text
@@ -259,8 +260,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                                     SimpleListItem(
                                         text = item,
-                                        isSelected = isSelected,
-                                        isHovered = isItemHovered,
+                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
                                         style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
@@ -280,8 +280,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                                     SimpleListItem(
                                         text = item,
-                                        isSelected = isSelected,
-                                        isHovered = isItemHovered,
+                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
                                         style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
@@ -300,8 +299,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                                     SimpleListItem(
                                         text = item,
-                                        isSelected = isSelected,
-                                        isHovered = isItemHovered,
+                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
                                         style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
