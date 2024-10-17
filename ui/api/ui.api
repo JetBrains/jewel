@@ -504,17 +504,17 @@ public final class org/jetbrains/jewel/ui/component/LinkState$Companion {
 }
 
 public final class org/jetbrains/jewel/ui/component/ListComboBoxKt {
-	public static final fun ListComboBox-gNPyAyM (Ljava/util/List;Landroidx/compose/ui/Modifier;ZZFLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function7;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ListComboBox-gNPyAyM (Ljava/util/List;Landroidx/compose/ui/Modifier;ZZFLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function8;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class org/jetbrains/jewel/ui/component/ListItemState {
 	public static final field $stable I
-	public fun <init> (ZZZ)V
+	public fun <init> (ZZLorg/jetbrains/jewel/ui/component/SelectionBackgroundMode;)V
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSelectionBackgroundMode ()Lorg/jetbrains/jewel/ui/component/SelectionBackgroundMode;
 	public fun hashCode ()I
 	public final fun isHovered ()Z
 	public final fun isSelected ()Z
-	public final fun isSoftSelected ()Z
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -784,8 +784,16 @@ public final class org/jetbrains/jewel/ui/component/SelectableLazyColumnKt {
 	public static final fun SelectableLazyColumn (Landroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/foundation/lazy/SelectionMode;Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListState;Landroidx/compose/foundation/layout/PaddingValues;ZLkotlin/jvm/functions/Function1;Landroidx/compose/foundation/layout/Arrangement$Vertical;Landroidx/compose/ui/Alignment$Horizontal;Landroidx/compose/foundation/gestures/FlingBehavior;Lorg/jetbrains/jewel/foundation/lazy/tree/KeyActions;Lorg/jetbrains/jewel/foundation/lazy/tree/PointerEventActions;Landroidx/compose/foundation/interaction/MutableInteractionSource;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;III)V
 }
 
+public final class org/jetbrains/jewel/ui/component/SelectionBackgroundMode : java/lang/Enum {
+	public static final field Hover Lorg/jetbrains/jewel/ui/component/SelectionBackgroundMode;
+	public static final field Keyboard Lorg/jetbrains/jewel/ui/component/SelectionBackgroundMode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lorg/jetbrains/jewel/ui/component/SelectionBackgroundMode;
+	public static fun values ()[Lorg/jetbrains/jewel/ui/component/SelectionBackgroundMode;
+}
+
 public final class org/jetbrains/jewel/ui/component/SimpleListItemKt {
-	public static final fun SimpleListItem-iHT-50w (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/ui/component/ListItemState;Lorg/jetbrains/jewel/ui/component/styling/SimpleListItemStyle;FLorg/jetbrains/jewel/ui/icon/IconKey;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+	public static final fun SimpleListItem-iHT-50w (Ljava/lang/String;Lorg/jetbrains/jewel/ui/component/ListItemState;Landroidx/compose/ui/Modifier;Lorg/jetbrains/jewel/ui/component/styling/SimpleListItemStyle;FLorg/jetbrains/jewel/ui/icon/IconKey;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class org/jetbrains/jewel/ui/component/SliderKt {
