@@ -182,9 +182,7 @@ public fun EditableComboBox(
                     onSetPopupExpanded = { popupExpanded = it },
                     onFocusedChange = { comboBoxState = comboBoxState.copy(focused = it) },
                     onHoveredChange = { textFieldHovered = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
+                    modifier = Modifier.fillMaxWidth().weight(1f),
                 )
 
                 Chevron(
@@ -295,8 +293,7 @@ private fun Chevron(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
-            Modifier
-                .testTag("Jewel.ComboBox.ChevronContainer")
+            Modifier.testTag("Jewel.ComboBox.ChevronContainer")
                 .size(style.metrics.arrowAreaSize) // Fixed size
                 .thenIf(isEnabled) {
                     onHover { onHoveredChange(it) }
