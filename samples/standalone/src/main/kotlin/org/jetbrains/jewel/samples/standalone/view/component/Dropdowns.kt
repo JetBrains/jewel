@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlin.random.Random
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.Dropdown
@@ -23,7 +24,6 @@ import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
-import kotlin.random.Random
 
 @Composable
 fun Dropdowns() {
