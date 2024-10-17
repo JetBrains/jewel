@@ -18,6 +18,7 @@ import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsFocused
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
@@ -37,6 +38,7 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
 import org.jetbrains.jewel.ui.component.EditableComboBox
 import org.jetbrains.jewel.ui.component.ListComboBox
+import org.jetbrains.jewel.ui.component.ListItemState
 import org.jetbrains.jewel.ui.component.SimpleListItem
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
 import org.junit.Rule
@@ -239,14 +241,13 @@ class ListComboBoxUiTest {
 
     @Test
     fun `when disabled, ComboBox cannot be interacted with`() {
-        val comboBox = disabledComboBox()
-
+        val comboBox = disabledEditableComboBox()
         comboBox.assertIsDisplayed().assertHasNoClickAction().performClick()
-        composeRule
-            .onNodeWithTag("Jewel.ComboBox.NonEditableText")
-            .assertIsDisplayed()
-            .assertHasNoClickAction()
-            .performClick()
+        popupMenu.assertDoesNotExist()
+
+        // BasicTextField clickable adds an onClick action even when BTF is disabled
+        // textField.assertIsDisplayed().assertIsNotEnabled().assertHasNoClickAction().performClick() ❌
+        textField.assertIsDisplayed().assertIsNotEnabled().performClick()
         popupMenu.assertDoesNotExist()
     }
 
@@ -435,13 +436,13 @@ class ListComboBoxUiTest {
         return comboBox
     }
 
-    private fun disabledComboBox(): SemanticsNodeInteraction {
+    private fun disabledEditableComboBox(): SemanticsNodeInteraction {
         val focusRequester = FocusRequester()
         injectComboBox(focusRequester, true, false)
         focusRequester.requestFocus()
         val comboBox = comboBox
         comboBox.assertIsDisplayed()
-        composeRule.onNodeWithTag("Jewel.ComboBox.NonEditableText").assertIsDisplayed()
+        textField.assertIsDisplayed()
         return comboBox
     }
 
@@ -470,8 +471,7 @@ class ListComboBoxUiTest {
                         SimpleListItem(
                             text = item,
                             modifier = Modifier.testTag(item),
-                            isSelected = isSelected,
-                            isHovered = isItemHovered,
+                            state = ListItemState(isSelected, isListHovered, isItemHovered),
                             style = JewelTheme.comboBoxStyle.itemStyle,
                             contentDescription = item,
                         )
