@@ -45,7 +45,6 @@ public fun ListComboBox(
     var selectedItem by remember { mutableIntStateOf(0) }
     var isListHovered by remember { mutableStateOf(false) }
     var hoverItemIndex by remember { mutableStateOf(-1) }
-    var softSelection by remember { mutableStateOf(isListHovered) }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(selectedItem) { scrollState.selectedKeys = setOf(items[selectedItem]) }
