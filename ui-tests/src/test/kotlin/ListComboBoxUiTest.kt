@@ -18,6 +18,7 @@ import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsFocused
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
@@ -242,10 +243,11 @@ class ListComboBoxUiTest {
     fun `when disabled, ComboBox cannot be interacted with`() {
         val comboBox = disabledEditableComboBox()
         comboBox.assertIsDisplayed().assertHasNoClickAction().performClick()
+        popupMenu.assertDoesNotExist()
 
-        // Ivan: It would be nice to check the absence of the OnClick,
-        // but I believe the BasicTextField adds it even on a disable state 🤷
-        textField.assertIsDisplayed().performClick()
+        // BasicTextField clickable adds an onClick action even when BTF is disabled
+        // textField.assertIsDisplayed().assertIsNotEnabled().assertHasNoClickAction().performClick() ❌
+        textField.assertIsDisplayed().assertIsNotEnabled().performClick()
         popupMenu.assertDoesNotExist()
     }
 
