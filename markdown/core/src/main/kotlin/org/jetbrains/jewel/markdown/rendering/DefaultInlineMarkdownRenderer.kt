@@ -90,11 +90,12 @@ public open class DefaultInlineMarkdownRenderer(private val rendererExtensions: 
                     )
                 }
 
-                is InlineMarkdown.CustomNode ->
+                is InlineMarkdown.CustomNode -> {
                     rendererExtensions
                         .find { it.inlineRenderer?.canRender(child) == true }
                         ?.inlineRenderer
-                        ?.render(child, inlineRenderer = this@DefaultInlineMarkdownRenderer, enabled)
+                        ?.render(builder = this, child, inlineRenderer = this@DefaultInlineMarkdownRenderer, enabled)
+                }
             }
         }
     }

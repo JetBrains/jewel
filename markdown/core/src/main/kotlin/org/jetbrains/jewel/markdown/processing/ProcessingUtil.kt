@@ -32,10 +32,10 @@ internal fun Node.readInlineContent(
 }
 
 @VisibleForTesting
-internal fun Node.toInlineMarkdownOrNull(
+public fun Node.toInlineMarkdownOrNull(
     markdownProcessor: MarkdownProcessor,
     extensions: List<MarkdownProcessorExtension>,
-) =
+): InlineMarkdown? =
     when (this) {
         is CMText -> InlineMarkdown.Text(literal)
         is CMLink ->
@@ -72,7 +72,7 @@ internal fun Node.toInlineMarkdownOrNull(
             extensions
                 .find { it.inlineProcessorExtension?.canProcess(this) == true }
                 ?.inlineProcessorExtension
-                ?.processInlineMarkdown(this, markdownProcessor)
+                ?.processInlineMarkdown(this, markdownProcessor, extensions)
 
         else -> error("Unexpected block $this")
     }
