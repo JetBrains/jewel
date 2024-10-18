@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,13 +24,11 @@ import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.darkrockstudios.libraries.mpfilepicker.JvmFile
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Orientation
+import org.jetbrains.jewel.ui.component.ComboBox
 import org.jetbrains.jewel.ui.component.Divider
-import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.OutlinedButton
-import org.jetbrains.jewel.ui.component.PopupMenu
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
-import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 @Composable
 internal fun MarkdownEditor(state: TextFieldState, modifier: Modifier = Modifier) {
@@ -66,22 +64,12 @@ private fun ControlsRow(modifier: Modifier = Modifier, onLoadMarkdown: (String) 
         OutlinedButton(onClick = { onLoadMarkdown("") }) { Text("Clear") }
 
         Box {
-            var showPresets by remember { mutableStateOf(false) }
-            OutlinedButton(onClick = { showPresets = true }) {
-                Text("Load preset")
-                Spacer(Modifier.width(8.dp))
-                Icon(AllIconsKeys.General.ChevronDown, contentDescription = null)
-            }
-
-            if (showPresets) {
-                var selected by remember { mutableStateOf("Jewel readme") }
-                PopupMenu(
-                    onDismissRequest = {
-                        showPresets = false
-                        false
-                    },
-                    horizontalAlignment = Alignment.Start,
-                ) {
+            var selected by remember { mutableStateOf("Jewel readme") }
+            ComboBox(
+                modifier = Modifier.width(140.dp),
+                isEditable = false,
+                inputTextFieldState = rememberTextFieldState(selected),
+                menuContent = {
                     selectableItem(
                         selected = selected == "Jewel readme",
                         onClick = {
@@ -101,8 +89,8 @@ private fun ControlsRow(modifier: Modifier = Modifier, onLoadMarkdown: (String) 
                     ) {
                         Text("Markdown catalog")
                     }
-                }
-            }
+                },
+            )
         }
     }
 }
