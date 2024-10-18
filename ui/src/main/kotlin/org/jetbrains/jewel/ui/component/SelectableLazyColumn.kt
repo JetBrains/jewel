@@ -20,6 +20,7 @@ import org.jetbrains.jewel.foundation.lazy.tree.DefaultSelectableLazyColumnKeyAc
 import org.jetbrains.jewel.foundation.lazy.tree.KeyActions
 import org.jetbrains.jewel.foundation.lazy.tree.PointerEventActions
 
+// TODO REVERT in the end
 @Composable
 public fun SelectableLazyColumn(
     modifier: Modifier = Modifier,
@@ -27,14 +28,13 @@ public fun SelectableLazyColumn(
     state: SelectableLazyListState = rememberSelectableLazyListState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     reverseLayout: Boolean = false,
-    onSelectedIndexesChanged: (List<Int>) -> Unit = {},
+    onSelectedIndexesChange: (List<Int>) -> Unit = {},
     verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
     keyActions: KeyActions = DefaultSelectableLazyColumnKeyActions,
     pointerEventActions: PointerEventActions = DefaultSelectableLazyColumnEventAction(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    // TODO: We will add support for styling in the near future
     content: SelectableLazyListScope.() -> Unit,
 ) {
     BasicSelectableLazyColumn(
@@ -43,7 +43,7 @@ public fun SelectableLazyColumn(
         state = state,
         contentPadding = contentPadding,
         reverseLayout = reverseLayout,
-        onSelectedIndexesChanged = onSelectedIndexesChanged,
+        onSelectedIndexesChange = onSelectedIndexesChange,
         verticalArrangement = verticalArrangement,
         horizontalAlignment = horizontalAlignment,
         flingBehavior = flingBehavior,
