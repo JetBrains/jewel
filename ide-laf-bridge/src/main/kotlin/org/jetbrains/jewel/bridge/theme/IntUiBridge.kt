@@ -1059,7 +1059,7 @@ private fun readDefaultTabStyle(): TabStyle {
                 tabContentSpacing = 4.dp,
                 tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
             ),
-        icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
+        icons = TabIcons(close = AllIconsKeys.Windows.CloseSmall),
         contentAlpha =
             TabContentAlpha(
                 iconNormal = 1f,
@@ -1112,7 +1112,7 @@ private fun readEditorTabStyle(): TabStyle {
                 tabContentSpacing = 4.dp,
                 tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
             ),
-        icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
+        icons = TabIcons(close = AllIconsKeys.Windows.CloseSmall),
         contentAlpha =
             TabContentAlpha(
                 iconNormal = .7f,

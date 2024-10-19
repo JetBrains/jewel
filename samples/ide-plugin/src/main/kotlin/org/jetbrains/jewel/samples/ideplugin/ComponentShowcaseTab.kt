@@ -58,6 +58,8 @@ import org.jetbrains.jewel.ui.component.LazyTree
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.RadioButtonRow
 import org.jetbrains.jewel.ui.component.Slider
+import org.jetbrains.jewel.ui.component.TabData
+import org.jetbrains.jewel.ui.component.TabStrip
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Tooltip
@@ -70,6 +72,7 @@ import org.jetbrains.jewel.ui.painter.hints.Badge
 import org.jetbrains.jewel.ui.painter.hints.Size
 import org.jetbrains.jewel.ui.painter.hints.Stroke
 import org.jetbrains.jewel.ui.theme.colorPalette
+import org.jetbrains.jewel.ui.theme.defaultTabStyle
 
 @Composable
 internal fun ComponentShowcaseTab(project: Project) {
@@ -278,6 +281,11 @@ private fun RowScope.ColumnTwo(project: Project) {
         MarkdownExample(project)
 
         Divider(Orientation.Horizontal)
+
+        val tabs = remember {
+            listOf(TabData.Default(true, { Text("Tab 1") }), TabData.Default(false, { Text("Tab 2") }))
+        }
+        TabStrip(tabs, JewelTheme.defaultTabStyle, modifier = Modifier.fillMaxWidth())
 
         var activated by remember { mutableStateOf(false) }
         Text("activated: $activated", Modifier.onActivated { activated = it })
