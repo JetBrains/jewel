@@ -467,11 +467,11 @@ class ListComboBoxUiTest {
                     isEnabled = isEnabled,
                     modifier = Modifier.testTag("ComboBox").width(200.dp).focusRequester(focusRequester),
                     onSelectedItemChange = { selectedComboBox = it },
-                    listItemContent = { item, isSelected, _, isItemHovered, _, selectionBackgroundMode ->
+                    listItemContent = { item, isSelected, _, isItemHovered, previewSelection ->
                         SimpleListItem(
                             text = item,
                             modifier = Modifier.testTag(item),
-                            state = ListItemState(isSelected, isItemHovered, selectionBackgroundMode),
+                            state = ListItemState(isSelected, isItemHovered, previewSelection),
                             style = JewelTheme.comboBoxStyle.itemStyle,
                             contentDescription = item,
                         )
