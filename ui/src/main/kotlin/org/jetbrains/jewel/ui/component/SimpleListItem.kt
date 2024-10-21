@@ -32,7 +32,12 @@ public fun SimpleListItem(
     icon: IconKey? = null,
     contentDescription: String? = null,
 ) {
-    val color = if (state.isHovered) style.colors.backgroundSelectedFocused else Color.Transparent
+    val color =
+        when {
+            state.previewSelection && state.isHovered -> style.colors.backgroundSelectedFocused
+            state.isSelected && !state.previewSelection -> style.colors.backgroundSelectedFocused
+            else -> Color.Transparent
+        }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -55,6 +60,6 @@ public fun SimpleListItem(
 @GenerateDataFunctions
 public class ListItemState(
     public val isSelected: Boolean,
-    public val isSoftSelected: Boolean,
     public val isHovered: Boolean,
+    public val previewSelection: Boolean,
 )
