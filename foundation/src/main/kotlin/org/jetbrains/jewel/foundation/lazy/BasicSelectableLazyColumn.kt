@@ -43,7 +43,7 @@ import org.jetbrains.jewel.foundation.lazy.tree.PointerEventActions
 
 /** A composable that displays a scrollable and selectable list of items in a column arrangement. */
 @Composable
-public fun SelectableLazyColumn(
+public fun BasicSelectableLazyColumn(
     modifier: Modifier = Modifier,
     selectionMode: SelectionMode = SelectionMode.Multiple,
     state: SelectableLazyListState = rememberSelectableLazyListState(),
@@ -99,8 +99,9 @@ public fun SelectableLazyColumn(
                         if (actionHandled) {
                             scope.launch { state.lastActiveItemIndex?.let { state.scrollToItem(it) } }
                         }
+                        return@onPreviewKeyEvent actionHandled
                     }
-                    true
+                    false
                 },
         state = state.lazyListState,
         contentPadding = contentPadding,
