@@ -18,8 +18,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.ui.component.SelectionBackgroundMode.Hover
-import org.jetbrains.jewel.ui.component.SelectionBackgroundMode.Keyboard
 import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
@@ -35,9 +33,10 @@ public fun SimpleListItem(
     contentDescription: String? = null,
 ) {
     val color =
-        when (state.selectionBackgroundMode) {
-            Keyboard -> if (state.isSelected) style.colors.backgroundSelectedFocused else Color.Transparent
-            Hover -> if (state.isHovered) style.colors.backgroundSelectedFocused else Color.Transparent
+        when {
+            state.previewSelection && state.isHovered -> style.colors.backgroundSelectedFocused
+            state.isSelected && !state.previewSelection -> style.colors.backgroundSelectedFocused
+            else -> Color.Transparent
         }
 
     Row(
@@ -62,5 +61,5 @@ public fun SimpleListItem(
 public class ListItemState(
     public val isSelected: Boolean,
     public val isHovered: Boolean,
-    public val selectionBackgroundMode: SelectionBackgroundMode,
+    public val previewSelection: Boolean,
 )
