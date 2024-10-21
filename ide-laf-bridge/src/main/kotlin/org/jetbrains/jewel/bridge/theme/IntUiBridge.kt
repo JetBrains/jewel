@@ -524,7 +524,7 @@ private fun readSimpleListItemStyle() =
             SimpleListItemMetrics(
                 innerPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
                 outerPadding = PaddingValues(),
-                selectionBackgroundCornerSize = componentArc,
+                selectionBackgroundCornerSize = CornerSize(0.dp),
             ),
     )
 
