@@ -25,7 +25,9 @@ import org.jetbrains.jewel.foundation.lazy.visibleItemsRange
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Outline
+import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
+import org.jetbrains.jewel.ui.theme.popupContainerStyle
 
 @Composable
 public fun ListComboBox(
@@ -34,6 +36,7 @@ public fun ListComboBox(
     isEditable: Boolean = true,
     isEnabled: Boolean = true,
     maxPopupHeight: Dp = Dp.Unspecified,
+    popupStyle: PopupContainerStyle = JewelTheme.popupContainerStyle,
     onSelectedItemChange: (String) -> Unit = {},
     onHoverItemChange: (String) -> Unit = {},
     onListHoverChange: (Boolean) -> Unit = {},
@@ -82,6 +85,7 @@ public fun ListComboBox(
             interactionSource = remember { MutableInteractionSource() },
             style = JewelTheme.comboBoxStyle,
             textStyle = JewelTheme.defaultTextStyle,
+            popupStyle = popupStyle,
             onArrowDownPress = onArrowDownPress,
             onArrowUpPress = onArrowUpPress,
             onEnterPress = {
@@ -152,6 +156,7 @@ public fun ListComboBox(
             interactionSource = remember { MutableInteractionSource() },
             style = JewelTheme.comboBoxStyle,
             textStyle = JewelTheme.defaultTextStyle,
+            popupStyle = popupStyle,
             onArrowDownPress = onArrowDownPress,
             onArrowUpPress = onArrowUpPress,
         ) {

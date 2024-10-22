@@ -20,9 +20,21 @@ public fun PopupContainerStyle.Companion.light(
 ): PopupContainerStyle = PopupContainerStyle(isDark = false, colors, metrics)
 
 @Composable
+public fun PopupContainerStyle.Companion.lightFat(
+    colors: PopupContainerColors = PopupContainerColors.light(),
+    metrics: PopupContainerMetrics = PopupContainerMetrics.fat(),
+): PopupContainerStyle = PopupContainerStyle(isDark = false, colors, metrics)
+
+@Composable
 public fun PopupContainerStyle.Companion.dark(
     colors: PopupContainerColors = PopupContainerColors.dark(),
     metrics: PopupContainerMetrics = PopupContainerMetrics.defaults(),
+): PopupContainerStyle = PopupContainerStyle(isDark = true, colors, metrics)
+
+@Composable
+public fun PopupContainerStyle.Companion.darkFat(
+    colors: PopupContainerColors = PopupContainerColors.dark(),
+    metrics: PopupContainerMetrics = PopupContainerMetrics.fat(),
 ): PopupContainerStyle = PopupContainerStyle(isDark = true, colors, metrics)
 
 @Composable
@@ -44,6 +56,16 @@ public fun PopupContainerMetrics.Companion.defaults(
     menuMargin: PaddingValues = PaddingValues(vertical = 6.dp),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     offset: DpOffset = DpOffset(0.dp, 2.dp),
+    shadowSize: Dp = 12.dp,
+    borderWidth: Dp = 1.dp,
+): PopupContainerMetrics =
+    PopupContainerMetrics(cornerSize, menuMargin, contentPadding, offset, shadowSize, borderWidth)
+
+public fun PopupContainerMetrics.Companion.fat(
+    cornerSize: CornerSize = CornerSize(8.dp),
+    menuMargin: PaddingValues = PaddingValues(vertical = 6.dp),
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    offset: DpOffset = DpOffset((-10).dp, 2.dp),
     shadowSize: Dp = 12.dp,
     borderWidth: Dp = 1.dp,
 ): PopupContainerMetrics =

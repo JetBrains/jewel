@@ -38,6 +38,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalLazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LocalLinkStyle
 import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.ui.component.styling.LocalOutlinedButtonStyle
+import org.jetbrains.jewel.ui.component.styling.LocalPopupContainerFatStyle
 import org.jetbrains.jewel.ui.component.styling.LocalPopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.LocalRadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalScrollbarStyle
@@ -103,6 +104,9 @@ public val JewelTheme.Companion.menuStyle: MenuStyle
 
 public val JewelTheme.Companion.popupContainerStyle: PopupContainerStyle
     @Composable @ReadOnlyComposable get() = LocalPopupContainerStyle.current
+
+public val JewelTheme.Companion.popupContainerFatStyle: PopupContainerStyle
+    @Composable @ReadOnlyComposable get() = LocalPopupContainerFatStyle.current
 
 public val JewelTheme.Companion.horizontalProgressBarStyle: HorizontalProgressBarStyle
     @Composable @ReadOnlyComposable get() = LocalHorizontalProgressBarStyle.current

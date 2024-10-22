@@ -12,7 +12,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlin.random.Random
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.Dropdown
@@ -24,6 +23,8 @@ import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
+import org.jetbrains.jewel.ui.theme.popupContainerFatStyle
+import kotlin.random.Random
 
 @Composable
 fun Dropdowns() {
@@ -193,6 +194,26 @@ fun Dropdowns() {
                     items = comboBoxItems,
                     modifier = Modifier.width(200.dp),
                     maxPopupHeight = 150.dp,
+                    onSelectedItemChange = { selectedComboBox1 = it },
+                    listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
+                        SimpleListItem(
+                            text = item,
+                            modifier = Modifier,
+                            state = ListItemState(isSelected, isListHovered, isItemHovered),
+                            style = JewelTheme.comboBoxStyle.itemStyle,
+                            contentDescription = item,
+                        )
+                    },
+                )
+            }
+            Column {
+                Text("Enabled, Editable and fat popup")
+                Text(text = "Selected item: $selectedComboBox1")
+                ListComboBox(
+                    items = comboBoxItems,
+                    modifier = Modifier.width(200.dp),
+                    maxPopupHeight = 150.dp,
+                    popupStyle = JewelTheme.popupContainerFatStyle,
                     onSelectedItemChange = { selectedComboBox1 = it },
                     listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                         SimpleListItem(

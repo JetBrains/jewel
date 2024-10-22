@@ -25,8 +25,6 @@ import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
-import javax.swing.UIManager
-import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.isNewUiTheme
@@ -134,6 +132,8 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import javax.swing.UIManager
+import kotlin.time.Duration.Companion.milliseconds
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
@@ -235,6 +235,7 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         menuStyle = menuStyle,
         outlinedButtonStyle = readOutlinedButtonStyle(),
         popupContainerStyle = readPopupContainerStyle(),
+        popupContainerFatStyle = readPopupContainerFatStyle(),
         radioButtonStyle = readRadioButtonStyle(),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
         segmentedControlButtonStyle = readSegmentedControlButtonStyle(),
@@ -748,6 +749,33 @@ private fun readLinkStyle(): LinkStyle {
         underlineBehavior = LinkUnderlineBehavior.ShowOnHover,
     )
 }
+
+private fun readPopupContainerFatStyle(): PopupContainerStyle {
+    val colors =
+        PopupContainerColors(
+            background = retrieveColorOrUnspecified("PopupMenu.background"),
+            border =
+            retrieveColorOrUnspecified("Popup.borderColor").takeOrElse {
+                retrieveColorOrUnspecified("Popup.Border.color")
+            },
+            shadow = Color.Black.copy(alpha = .6f),
+        )
+
+    return PopupContainerStyle(
+        isDark = isDark,
+        colors = colors,
+        metrics =
+        PopupContainerMetrics(
+            cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
+            menuMargin = PaddingValues(),
+            contentPadding = PaddingValues(),
+            offset = DpOffset((-10).dp, 2.dp), // Needs another set of eyes to find the constant in IJ
+            shadowSize = 12.dp,
+            borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
+        ),
+    )
+}
+
 
 private fun readPopupContainerStyle(): PopupContainerStyle {
     val colors =

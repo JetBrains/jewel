@@ -43,3 +43,7 @@ public class PopupContainerMetrics(
 public val LocalPopupContainerStyle: ProvidableCompositionLocal<PopupContainerStyle> = staticCompositionLocalOf {
     error("No PopupContainerStyle provided. Have you forgotten the theme?")
 }
+
+public val LocalPopupContainerFatStyle: ProvidableCompositionLocal<PopupContainerStyle> = staticCompositionLocalOf {
+    error("No PopupContainerStyle provided. Have you forgotten the theme?")
+}

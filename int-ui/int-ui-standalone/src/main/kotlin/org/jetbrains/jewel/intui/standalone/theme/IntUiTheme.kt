@@ -19,7 +19,9 @@ import org.jetbrains.jewel.intui.standalone.styling.Editor
 import org.jetbrains.jewel.intui.standalone.styling.Outlined
 import org.jetbrains.jewel.intui.standalone.styling.Undecorated
 import org.jetbrains.jewel.intui.standalone.styling.dark
+import org.jetbrains.jewel.intui.standalone.styling.darkFat
 import org.jetbrains.jewel.intui.standalone.styling.light
+import org.jetbrains.jewel.intui.standalone.styling.lightFat
 import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.ui.DefaultComponentStyling
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
@@ -123,6 +125,7 @@ public fun ComponentStyling.dark(
     menuStyle: MenuStyle = MenuStyle.dark(),
     outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.dark(),
     popupContainerStyle: PopupContainerStyle = PopupContainerStyle.dark(),
+    popupContainerFatStyle: PopupContainerStyle = PopupContainerStyle.darkFat(),
     radioButtonStyle: RadioButtonStyle = RadioButtonStyle.dark(),
     scrollbarStyle: ScrollbarStyle = ScrollbarStyle.dark(),
     segmentedControlButtonStyle: SegmentedControlButtonStyle = SegmentedControlButtonStyle.dark(),
@@ -153,6 +156,7 @@ public fun ComponentStyling.dark(
             menuStyle = menuStyle,
             outlinedButtonStyle = outlinedButtonStyle,
             popupContainerStyle = popupContainerStyle,
+            popupContainerFatStyle = popupContainerFatStyle,
             radioButtonStyle = radioButtonStyle,
             scrollbarStyle = scrollbarStyle,
             segmentedControlButtonStyle = segmentedControlButtonStyle,
@@ -184,6 +188,7 @@ public fun ComponentStyling.light(
     linkStyle: LinkStyle = LinkStyle.light(),
     menuStyle: MenuStyle = MenuStyle.light(),
     popupContainerStyle: PopupContainerStyle = PopupContainerStyle.light(),
+    popupContainerFatStyle: PopupContainerStyle = PopupContainerStyle.lightFat(),
     outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.light(),
     radioButtonStyle: RadioButtonStyle = RadioButtonStyle.light(),
     scrollbarStyle: ScrollbarStyle = ScrollbarStyle.light(),
@@ -215,6 +220,7 @@ public fun ComponentStyling.light(
             menuStyle = menuStyle,
             outlinedButtonStyle = outlinedButtonStyle,
             popupContainerStyle = popupContainerStyle,
+            popupContainerFatStyle = popupContainerFatStyle,
             radioButtonStyle = radioButtonStyle,
             scrollbarStyle = scrollbarStyle,
             segmentedControlButtonStyle = segmentedControlButtonStyle,

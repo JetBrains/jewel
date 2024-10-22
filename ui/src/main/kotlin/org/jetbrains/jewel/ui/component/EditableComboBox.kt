@@ -69,9 +69,11 @@ import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
+import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
+import org.jetbrains.jewel.ui.theme.popupContainerStyle
 import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable
@@ -84,6 +86,7 @@ public fun EditableComboBox(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ComboBoxStyle = JewelTheme.comboBoxStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    popupStyle: PopupContainerStyle = JewelTheme.popupContainerStyle,
     onArrowDownPress: () -> Unit = {},
     onArrowUpPress: () -> Unit = {},
     onEnterPress: () -> Unit = {},
@@ -207,10 +210,11 @@ public fun EditableComboBox(
                     menuModifier
                         .testTag("Jewel.ComboBox.PopupMenu")
                         .semantics { contentDescription = "Jewel.ComboBox.PopupMenu" }
-                        .width(comboBoxWidth)
+                        .width(comboBoxWidth + (popupStyle.metrics.offset.x * -2))
                         .onClick { setPopupExpanded(false) },
                 horizontalAlignment = Alignment.Start,
                 popupProperties = PopupProperties(focusable = false),
+                style = popupStyle,
                 content = popupContent,
             )
         }

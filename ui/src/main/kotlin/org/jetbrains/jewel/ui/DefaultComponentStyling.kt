@@ -34,6 +34,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalLazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LocalLinkStyle
 import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.ui.component.styling.LocalOutlinedButtonStyle
+import org.jetbrains.jewel.ui.component.styling.LocalPopupContainerFatStyle
 import org.jetbrains.jewel.ui.component.styling.LocalPopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.LocalRadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalScrollbarStyle
@@ -78,6 +79,7 @@ public class DefaultComponentStyling(
     public val menuStyle: MenuStyle,
     public val outlinedButtonStyle: ButtonStyle,
     public val popupContainerStyle: PopupContainerStyle,
+    public val popupContainerFatStyle: PopupContainerStyle,
     public val radioButtonStyle: RadioButtonStyle,
     public val scrollbarStyle: ScrollbarStyle,
     public val segmentedControlButtonStyle: SegmentedControlButtonStyle,
@@ -110,6 +112,7 @@ public class DefaultComponentStyling(
             LocalMenuStyle provides menuStyle,
             LocalOutlinedButtonStyle provides outlinedButtonStyle,
             LocalPopupContainerStyle provides popupContainerStyle,
+            LocalPopupContainerFatStyle provides popupContainerFatStyle,
             LocalRadioButtonStyle provides radioButtonStyle,
             LocalScrollbarStyle provides scrollbarStyle,
             LocalSegmentedControlButtonStyle provides segmentedControlButtonStyle,

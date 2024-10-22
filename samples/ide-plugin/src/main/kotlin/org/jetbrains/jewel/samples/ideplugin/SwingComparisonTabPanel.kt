@@ -42,10 +42,6 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import icons.IdeSampleIconKeys
 import icons.JewelIcons
-import javax.swing.BoxLayout
-import javax.swing.DefaultComboBoxModel
-import javax.swing.JLabel
-import javax.swing.JPanel
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -60,7 +56,12 @@ import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
+import org.jetbrains.jewel.ui.theme.popupContainerFatStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
+import javax.swing.BoxLayout
+import javax.swing.DefaultComboBoxModel
+import javax.swing.JLabel
+import javax.swing.JPanel
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private val mainContent =
@@ -229,7 +230,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                     }
                     .run { cell(this).align(AlignY.TOP) }
 
-                compose(modifier = Modifier.height(200.dp).padding(horizontal = 8.dp, vertical = 0.dp)) {
+                compose(modifier = Modifier.height(300.dp).padding(horizontal = 8.dp, vertical = 0.dp)) {
                     val comboBoxItems = remember {
                         listOf(
                             "Cat",
@@ -248,63 +249,90 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                     var selectedComboBox2: String? by remember { mutableStateOf(comboBoxItems.first()) }
                     var selectedComboBox3: String? by remember { mutableStateOf(comboBoxItems.first()) }
 
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Column {
-                            Text("Enabled and Editable")
-                            Text(text = "Selected item: $selectedComboBox1")
-                            ListComboBox(
-                                items = comboBoxItems,
-                                modifier = Modifier.width(200.dp),
-                                maxPopupHeight = 150.dp,
-                                onSelectedItemChange = { selectedComboBox1 = it },
-                                listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
-                                    SimpleListItem(
-                                        text = item,
-                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
-                                        style = JewelTheme.comboBoxStyle.itemStyle,
-                                        contentDescription = item,
-                                    )
-                                },
-                            )
-                        }
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(text = "ComboBoxes", style = Typography.h1TextStyle())
+                        Text(text = "Selected item: $selectedComboBox1")
 
-                        Column {
-                            Text("Enabled")
-                            Text(text = "Selected item: $selectedComboBox2")
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Column {
+                                Text("Enabled and Editable")
+                                Text(text = "Selected item: $selectedComboBox1")
+                                ListComboBox(
+                                    items = comboBoxItems,
+                                    modifier = Modifier.width(200.dp),
+                                    maxPopupHeight = 150.dp,
+                                    onSelectedItemChange = { selectedComboBox1 = it },
+                                    listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
+                                        SimpleListItem(
+                                            text = item,
+                                            modifier = Modifier,
+                                            state = ListItemState(isSelected, isListHovered, isItemHovered),
+                                            style = JewelTheme.comboBoxStyle.itemStyle,
+                                            contentDescription = item,
+                                        )
+                                    },
+                                )
+                            }
+                            Column {
+                                Text("Enabled, Editable and fat popup")
+                                Text(text = "Selected item: $selectedComboBox1")
+                                ListComboBox(
+                                    items = comboBoxItems,
+                                    modifier = Modifier.width(200.dp),
+                                    maxPopupHeight = 150.dp,
+                                    popupStyle = JewelTheme.popupContainerFatStyle,
+                                    onSelectedItemChange = { selectedComboBox1 = it },
+                                    listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
+                                        SimpleListItem(
+                                            text = item,
+                                            modifier = Modifier,
+                                            state = ListItemState(isSelected, isListHovered, isItemHovered),
+                                            style = JewelTheme.comboBoxStyle.itemStyle,
+                                            contentDescription = item,
+                                        )
+                                    },
+                                )
+                            }
 
-                            ListComboBox(
-                                items = comboBoxItems,
-                                modifier = Modifier.width(200.dp),
-                                isEditable = false,
-                                onSelectedItemChange = { selectedComboBox2 = it },
-                                listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
-                                    SimpleListItem(
-                                        text = item,
-                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
-                                        style = JewelTheme.comboBoxStyle.itemStyle,
-                                        contentDescription = item,
-                                    )
-                                },
-                            )
-                        }
-                        Column {
-                            Text("Disabled")
-                            Text(text = "Selected item: $selectedComboBox3")
-                            ListComboBox(
-                                items = comboBoxItems,
-                                modifier = Modifier.width(200.dp),
-                                isEditable = false,
-                                isEnabled = false,
-                                onSelectedItemChange = { selectedComboBox3 = it },
-                                listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
-                                    SimpleListItem(
-                                        text = item,
-                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
-                                        style = JewelTheme.comboBoxStyle.itemStyle,
-                                        contentDescription = item,
-                                    )
-                                },
-                            )
+                            Column {
+                                Text("Enabled")
+                                Text(text = "Selected item: $selectedComboBox2")
+
+                                ListComboBox(
+                                    items = comboBoxItems,
+                                    modifier = Modifier.width(200.dp),
+                                    maxPopupHeight = 150.dp,
+                                    isEditable = false,
+                                    onSelectedItemChange = { selectedComboBox2 = it },
+                                    listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
+                                        SimpleListItem(
+                                            text = item,
+                                            state = ListItemState(isSelected, isListHovered, isItemHovered),
+                                            style = JewelTheme.comboBoxStyle.itemStyle,
+                                            contentDescription = item,
+                                        )
+                                    },
+                                )
+                            }
+                            Column {
+                                Text("Disabled")
+                                Text(text = "Selected item: $selectedComboBox3")
+                                ListComboBox(
+                                    items = comboBoxItems,
+                                    modifier = Modifier.width(200.dp),
+                                    isEditable = false,
+                                    isEnabled = false,
+                                    onSelectedItemChange = { selectedComboBox3 = it },
+                                    listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
+                                        SimpleListItem(
+                                            text = item,
+                                            state = ListItemState(isSelected, isListHovered, isItemHovered),
+                                            style = JewelTheme.comboBoxStyle.itemStyle,
+                                            contentDescription = item,
+                                        )
+                                    },
+                                )
+                            }
                         }
                     }
                 }
