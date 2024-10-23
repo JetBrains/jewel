@@ -134,8 +134,6 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
-import javax.swing.UIManager
-import kotlin.time.Duration.Companion.milliseconds
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
