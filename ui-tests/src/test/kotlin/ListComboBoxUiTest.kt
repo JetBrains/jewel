@@ -463,9 +463,9 @@ class ListComboBoxUiTest {
                 var selectedComboBox: String? by remember { mutableStateOf(itemsComboBox.first()) }
                 ListComboBox(
                     items = itemsComboBox,
+                    modifier = Modifier.testTag("ComboBox").width(200.dp).focusRequester(focusRequester),
                     isEditable = isEditable,
                     isEnabled = isEnabled,
-                    modifier = Modifier.testTag("ComboBox").width(200.dp).focusRequester(focusRequester),
                     onSelectedItemChange = { selectedComboBox = it },
                     listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                         SimpleListItem(

@@ -2,11 +2,12 @@ package org.jetbrains.jewel.ui.component.styling
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
-// Create variants for ComboBox and List (see Tree)
 @GenerateDataFunctions
 public class SimpleListItemStyle(public val colors: SimpleListItemColors, public val metrics: SimpleListItemMetrics) {
     public companion object
@@ -35,4 +36,8 @@ public class SimpleListItemMetrics(
     public val selectionBackgroundCornerSize: CornerSize,
 ) {
     public companion object
+}
+
+public val LocalSimpleListItemStyleStyle: ProvidableCompositionLocal<SimpleListItemStyle> = staticCompositionLocalOf {
+    error("No LocalSimpleListItemStyleStyle provided. Have you forgotten the theme?")
 }

@@ -260,8 +260,8 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                                     SimpleListItem(
                                         text = item,
-                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
                                         style = JewelTheme.comboBoxStyle.itemStyle,
+                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
                                         contentDescription = item,
                                     )
                                 },
@@ -280,8 +280,8 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                                     SimpleListItem(
                                         text = item,
-                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
                                         style = JewelTheme.comboBoxStyle.itemStyle,
+                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
                                         contentDescription = item,
                                     )
                                 },
@@ -299,8 +299,8 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                                     SimpleListItem(
                                         text = item,
-                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
                                         style = JewelTheme.comboBoxStyle.itemStyle,
+                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
                                         contentDescription = item,
                                     )
                                 },

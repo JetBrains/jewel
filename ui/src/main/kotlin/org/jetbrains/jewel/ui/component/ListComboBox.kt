@@ -4,6 +4,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
@@ -17,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items
@@ -102,7 +104,10 @@ public fun ListComboBox(
                     },
             ) {
                 SelectableLazyColumn(
-                    modifier = Modifier.fillMaxWidth().heightIn(max = popupMaxHeight),
+                    modifier =
+                        Modifier.fillMaxWidth()
+                            .heightIn(max = popupMaxHeight)
+                            .padding(horizontal = 6.dp, vertical = 6.dp),
                     selectionMode = SelectionMode.Single,
                     state = scrollState,
                     onSelectedIndexesChange = { selectedItems ->
@@ -165,7 +170,10 @@ public fun ListComboBox(
                     },
             ) {
                 SelectableLazyColumn(
-                    modifier = Modifier.fillMaxWidth().heightIn(max = popupMaxHeight),
+                    modifier =
+                        Modifier.fillMaxWidth()
+                            .heightIn(max = popupMaxHeight)
+                            .padding(horizontal = 6.dp, vertical = 6.dp),
                     selectionMode = SelectionMode.Single,
                     state = scrollState,
                     onSelectedIndexesChange = { selectedItems ->
