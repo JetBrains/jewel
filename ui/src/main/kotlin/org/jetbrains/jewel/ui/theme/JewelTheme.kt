@@ -44,6 +44,7 @@ import org.jetbrains.jewel.ui.component.styling.LocalScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSelectableLazyColumnStyle
+import org.jetbrains.jewel.ui.component.styling.LocalSimpleListItemStyleStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSliderStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextFieldStyle
@@ -55,6 +56,7 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
@@ -121,6 +123,9 @@ public val JewelTheme.Companion.segmentedControlButtonStyle: SegmentedControlBut
 
 public val JewelTheme.Companion.segmentedControlStyle: SegmentedControlStyle
     @Composable @ReadOnlyComposable get() = LocalSegmentedControlStyle.current
+
+public val JewelTheme.Companion.simpleListItemStyle: SimpleListItemStyle
+    @Composable @ReadOnlyComposable get() = LocalSimpleListItemStyleStyle.current
 
 public val JewelTheme.Companion.textAreaStyle: TextAreaStyle
     @Composable @ReadOnlyComposable get() = LocalTextAreaStyle.current

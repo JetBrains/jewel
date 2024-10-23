@@ -25,8 +25,8 @@ import org.jetbrains.jewel.ui.theme.comboBoxStyle
 @Composable
 public fun SimpleListItem(
     text: String,
-    modifier: Modifier = Modifier,
     state: ListItemState,
+    modifier: Modifier = Modifier,
     style: SimpleListItemStyle = JewelTheme.comboBoxStyle.itemStyle,
     height: Dp = JewelTheme.globalMetrics.rowHeight,
     icon: IconKey? = null,

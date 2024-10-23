@@ -134,6 +134,8 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.PathIconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import javax.swing.UIManager
+import kotlin.time.Duration.Companion.milliseconds
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
@@ -241,6 +243,7 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         segmentedControlStyle = readSegmentedControlStyle(),
         selectableLazyColumnStyle = readSelectableLazyColumnStyle(),
         sliderStyle = readSliderStyle(theme.isDark),
+        simpleListItemStyle = readSimpleListItemStyle(),
         textAreaStyle = readTextAreaStyle(textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
         tooltipStyle = readTooltipStyle(),
@@ -523,8 +526,8 @@ private fun readSimpleListItemStyle() =
         metrics =
             SimpleListItemMetrics(
                 innerPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
-                outerPadding = PaddingValues(),
-                selectionBackgroundCornerSize = CornerSize(0.dp),
+                outerPadding = JBUI.CurrentTheme.PopupMenu.Selection.outerInsets().toPaddingValues(),
+                selectionBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
             ),
     )
 
