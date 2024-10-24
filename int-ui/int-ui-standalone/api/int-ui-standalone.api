@@ -113,8 +113,8 @@ public final class org/jetbrains/jewel/intui/standalone/styling/IntUiDefaultComb
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiDefaultComboBoxStyleFactory {
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/intui/standalone/styling/IntUiDefaultComboBoxStyleFactory;
-	public final fun dark (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;Lorg/jetbrains/jewel/ui/component/styling/SimpleListItemStyle;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle;
-	public final fun light (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;Lorg/jetbrains/jewel/ui/component/styling/SimpleListItemStyle;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle;
+	public final fun dark (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle;
+	public final fun light (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle;
 }
 
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiDefaultDropdownColorsFactory {
@@ -436,8 +436,8 @@ public final class org/jetbrains/jewel/intui/standalone/styling/IntUiUndecorated
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiUndecoratedComboBoxStyleFactory {
 	public static final field $stable I
 	public static final field INSTANCE Lorg/jetbrains/jewel/intui/standalone/styling/IntUiUndecoratedComboBoxStyleFactory;
-	public final fun dark (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;Lorg/jetbrains/jewel/ui/component/styling/SimpleListItemStyle;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle;
-	public final fun light (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;Lorg/jetbrains/jewel/ui/component/styling/SimpleListItemStyle;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle;
+	public final fun dark (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle;
+	public final fun light (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;Landroidx/compose/runtime/Composer;II)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle;
 }
 
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiUndecoratedDropdownColorsFactory {

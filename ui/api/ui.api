@@ -1354,11 +1354,10 @@ public final class org/jetbrains/jewel/ui/component/styling/ComboBoxMetrics$Comp
 public final class org/jetbrains/jewel/ui/component/styling/ComboBoxStyle {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle$Companion;
-	public fun <init> (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;Lorg/jetbrains/jewel/ui/component/styling/SimpleListItemStyle;)V
+	public fun <init> (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getColors ()Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors;
 	public final fun getIcons ()Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;
-	public final fun getItemStyle ()Lorg/jetbrains/jewel/ui/component/styling/SimpleListItemStyle;
 	public final fun getMetrics ()Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
