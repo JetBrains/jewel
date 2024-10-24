@@ -48,8 +48,8 @@ public fun ListComboBox(
     val scrollState = rememberSelectableLazyListState()
     var selectedItem by remember { mutableIntStateOf(0) }
     var isListHovered by remember { mutableStateOf(false) }
-    var hoverItemIndex by remember { mutableStateOf(-1) }
-    var lastHoveredIndex by remember { mutableStateOf(-1) }
+    var hoverItemIndex: Int? by remember { mutableStateOf(null) }
+    var lastHoveredIndex by remember { mutableIntStateOf(-1) }
     var previewSelection by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
@@ -64,18 +64,18 @@ public fun ListComboBox(
 
     val onArrowDownPress: () -> Unit = {
         previewSelection = false
-        if (hoverItemIndex != -1) {
-            selectedItem = hoverItemIndex
-            hoverItemIndex = -1
+        hoverItemIndex?.let {
+            selectedItem = it
+            hoverItemIndex = null
         }
         selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex)
         scope.launch { scrollState.lazyListState.scrollToIndex(selectedItem) }
     }
     val onArrowUpPress: () -> Unit = {
         previewSelection = false
-        if (hoverItemIndex != -1) {
-            selectedItem = hoverItemIndex
-            hoverItemIndex = -1
+        hoverItemIndex?.let {
+            selectedItem = it
+            hoverItemIndex = null
         }
         selectedItem = selectedItem.minus(1).coerceAtLeast(0)
         scope.launch { scrollState.lazyListState.scrollToIndex(selectedItem) }
@@ -93,10 +93,10 @@ public fun ListComboBox(
             onArrowDownPress = onArrowDownPress,
             onArrowUpPress = onArrowUpPress,
             onEnterPress = {
-                val indexOfSelected = items.indexOf(inputTextFieldState.text)
-                if (indexOfSelected != -1) {
-                    selectedItem = indexOfSelected
-                }
+                items
+                    .indexOf(inputTextFieldState.text)
+                    .takeIf { it != -1 }
+                    ?.let { selectedItem = it }
             },
             onPopupStateChange = onPopupStateChange,
         ) {
