@@ -92,12 +92,7 @@ public fun ListComboBox(
             textStyle = JewelTheme.defaultTextStyle,
             onArrowDownPress = onArrowDownPress,
             onArrowUpPress = onArrowUpPress,
-            onEnterPress = {
-                items
-                    .indexOf(inputTextFieldState.text)
-                    .takeIf { it != -1 }
-                    ?.let { selectedItem = it }
-            },
+            onEnterPress = { items.indexOf(inputTextFieldState.text).takeIf { it != -1 }?.let { selectedItem = it } },
             onPopupStateChange = onPopupStateChange,
         ) {
             VerticallyScrollableContainer(
