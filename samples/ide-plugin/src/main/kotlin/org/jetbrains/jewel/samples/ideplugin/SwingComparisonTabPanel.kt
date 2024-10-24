@@ -42,10 +42,6 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import icons.IdeSampleIconKeys
 import icons.JewelIcons
-import javax.swing.BoxLayout
-import javax.swing.DefaultComboBoxModel
-import javax.swing.JLabel
-import javax.swing.JPanel
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -61,6 +57,10 @@ import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.theme.comboBoxStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
+import javax.swing.BoxLayout
+import javax.swing.DefaultComboBoxModel
+import javax.swing.JLabel
+import javax.swing.JPanel
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private val mainContent =
@@ -229,6 +229,20 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                     }
                     .run { cell(this).align(AlignY.TOP) }
 
+            JPanel()
+                .apply {
+                    layout = BoxLayout(this, BoxLayout.Y_AXIS)
+                    add(JLabel("Disabled").apply { alignmentX = LEFT_ALIGNMENT })
+                    add(
+                        ComboBox(DefaultComboBoxModel(itemsComboBox)).apply {
+                            isEditable = true
+                            isEnabled = false
+                            alignmentX = LEFT_ALIGNMENT
+                        }
+                    )
+                }
+                .run { cell(this).align(AlignY.TOP) }
+
                 compose(modifier = Modifier.height(200.dp).padding(horizontal = 8.dp, vertical = 0.dp)) {
                     val comboBoxItems = remember {
                         listOf(
@@ -250,26 +264,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
 
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Column {
-                            Text("Enabled and Editable")
-                            Text(text = "Selected item: $selectedComboBox1")
-                            ListComboBox(
-                                items = comboBoxItems,
-                                modifier = Modifier.width(200.dp),
-                                maxPopupHeight = 150.dp,
-                                onSelectedItemChange = { selectedComboBox1 = it },
-                                listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
-                                    SimpleListItem(
-                                        text = item,
-                                        style = JewelTheme.comboBoxStyle.itemStyle,
-                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
-                                        contentDescription = item,
-                                    )
-                                },
-                            )
-                        }
-
-                        Column {
-                            Text("Enabled")
+                            Text("Not editable")
                             Text(text = "Selected item: $selectedComboBox2")
 
                             ListComboBox(
@@ -287,6 +282,26 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 },
                             )
                         }
+
+                        Column {
+                            Text("Editable")
+                            Text(text = "Selected item: $selectedComboBox1")
+                            ListComboBox(
+                                items = comboBoxItems,
+                                modifier = Modifier.width(200.dp),
+                                maxPopupHeight = 150.dp,
+                                onSelectedItemChange = { selectedComboBox1 = it },
+                                listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
+                                    SimpleListItem(
+                                        text = item,
+                                        style = JewelTheme.comboBoxStyle.itemStyle,
+                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
+                                        contentDescription = item,
+                                    )
+                                },
+                            )
+                        }
+
                         Column {
                             Text("Disabled")
                             Text(text = "Selected item: $selectedComboBox3")
