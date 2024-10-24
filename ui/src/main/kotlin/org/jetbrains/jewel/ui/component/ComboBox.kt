@@ -173,9 +173,10 @@ public fun ComboBox(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.focusable(false).focusProperties { canFocus = false },
             ) {
+                val textColor = if (isEnabled) Color.Unspecified else style.colors.borderDisabled
                 Text(
                     text = labelText,
-                    style = textStyle,
+                    style = textStyle.copy(color = textColor),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier =

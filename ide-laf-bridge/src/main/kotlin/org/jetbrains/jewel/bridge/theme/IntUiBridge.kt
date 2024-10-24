@@ -241,6 +241,7 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         segmentedControlStyle = readSegmentedControlStyle(),
         selectableLazyColumnStyle = readSelectableLazyColumnStyle(),
         sliderStyle = readSliderStyle(theme.isDark),
+        simpleListItemStyle = readSimpleListItemStyle(),
         textAreaStyle = readTextAreaStyle(textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
         tooltipStyle = readTooltipStyle(),
@@ -523,8 +524,8 @@ private fun readSimpleListItemStyle() =
         metrics =
             SimpleListItemMetrics(
                 innerPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
-                outerPadding = PaddingValues(),
-                selectionBackgroundCornerSize = CornerSize(0.dp),
+                outerPadding = JBUI.CurrentTheme.PopupMenu.Selection.outerInsets().toPaddingValues(),
+                selectionBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
             ),
     )
 
@@ -570,7 +571,6 @@ private fun readDefaultComboBoxStyle(): ComboBoxStyle {
                 maxPopupHeight = Dp.Unspecified,
             ),
         icons = ComboBoxIcons(chevronDown = AllIconsKeys.General.ChevronDown),
-        itemStyle = readSimpleListItemStyle(),
     )
 }
 

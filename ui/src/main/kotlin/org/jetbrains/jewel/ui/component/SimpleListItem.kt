@@ -20,14 +20,14 @@ import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.icon.IconKey
-import org.jetbrains.jewel.ui.theme.comboBoxStyle
+import org.jetbrains.jewel.ui.theme.simpleListItemStyle
 
 @Composable
 public fun SimpleListItem(
     text: String,
-    modifier: Modifier = Modifier,
     state: ListItemState,
-    style: SimpleListItemStyle = JewelTheme.comboBoxStyle.itemStyle,
+    modifier: Modifier = Modifier,
+    style: SimpleListItemStyle = JewelTheme.simpleListItemStyle,
     height: Dp = JewelTheme.globalMetrics.rowHeight,
     icon: IconKey? = null,
     contentDescription: String? = null,

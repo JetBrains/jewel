@@ -41,6 +41,7 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
@@ -129,6 +130,7 @@ public fun ComponentStyling.dark(
     segmentedControlStyle: SegmentedControlStyle = SegmentedControlStyle.dark(),
     selectableLazyColumnStyle: SelectableLazyColumnStyle = SelectableLazyColumnStyle.dark(),
     sliderStyle: SliderStyle = SliderStyle.dark(),
+    simpleListItemStyle: SimpleListItemStyle = SimpleListItemStyle.dark(),
     textAreaStyle: TextAreaStyle = TextAreaStyle.dark(),
     textFieldStyle: TextFieldStyle = TextFieldStyle.dark(),
     tooltipStyle: TooltipStyle = TooltipStyle.dark(),
@@ -158,6 +160,7 @@ public fun ComponentStyling.dark(
             segmentedControlButtonStyle = segmentedControlButtonStyle,
             segmentedControlStyle = segmentedControlStyle,
             selectableLazyColumnStyle = selectableLazyColumnStyle,
+            simpleListItemStyle = simpleListItemStyle,
             sliderStyle = sliderStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
@@ -191,6 +194,7 @@ public fun ComponentStyling.light(
     segmentedControlStyle: SegmentedControlStyle = SegmentedControlStyle.light(),
     sliderStyle: SliderStyle = SliderStyle.light(),
     selectableLazyColumnStyle: SelectableLazyColumnStyle = SelectableLazyColumnStyle.light(),
+    simpleListItemStyle: SimpleListItemStyle = SimpleListItemStyle.light(),
     textAreaStyle: TextAreaStyle = TextAreaStyle.light(),
     textFieldStyle: TextFieldStyle = TextFieldStyle.light(),
     tooltipStyle: TooltipStyle = TooltipStyle.light(),
@@ -221,6 +225,7 @@ public fun ComponentStyling.light(
             segmentedControlStyle = segmentedControlStyle,
             selectableLazyColumnStyle = selectableLazyColumnStyle,
             sliderStyle = sliderStyle,
+            simpleListItemStyle = simpleListItemStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
             tooltipStyle = tooltipStyle,

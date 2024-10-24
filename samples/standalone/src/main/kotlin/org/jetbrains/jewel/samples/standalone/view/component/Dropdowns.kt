@@ -23,7 +23,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
-import org.jetbrains.jewel.ui.theme.comboBoxStyle
+import org.jetbrains.jewel.ui.theme.simpleListItemStyle
 
 @Composable
 fun Dropdowns() {
@@ -199,7 +199,7 @@ fun Dropdowns() {
                             text = item,
                             modifier = Modifier,
                             state = ListItemState(isSelected, isListHovered, isItemHovered),
-                            style = JewelTheme.comboBoxStyle.itemStyle,
+                            style = JewelTheme.simpleListItemStyle,
                             contentDescription = item,
                         )
                     },
@@ -213,14 +213,14 @@ fun Dropdowns() {
                 ListComboBox(
                     items = comboBoxItems,
                     modifier = Modifier.width(200.dp),
-                    maxPopupHeight = 150.dp,
                     isEditable = false,
+                    maxPopupHeight = 150.dp,
                     onSelectedItemChange = { selectedComboBox2 = it },
                     listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                         SimpleListItem(
                             text = item,
                             state = ListItemState(isSelected, isListHovered, isItemHovered),
-                            style = JewelTheme.comboBoxStyle.itemStyle,
+                            style = JewelTheme.simpleListItemStyle,
                             contentDescription = item,
                         )
                     },
@@ -239,7 +239,7 @@ fun Dropdowns() {
                         SimpleListItem(
                             text = item,
                             state = ListItemState(isSelected, isListHovered, isItemHovered),
-                            style = JewelTheme.comboBoxStyle.itemStyle,
+                            style = JewelTheme.simpleListItemStyle,
                             contentDescription = item,
                         )
                     },

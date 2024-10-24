@@ -59,7 +59,7 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
-import org.jetbrains.jewel.ui.theme.comboBoxStyle
+import org.jetbrains.jewel.ui.theme.simpleListItemStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
@@ -214,6 +214,19 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         )
                     }
                     .run { cell(this).align(AlignY.TOP) }
+                JPanel()
+                    .apply {
+                        layout = BoxLayout(this, BoxLayout.Y_AXIS)
+                        add(JLabel("Not editable + disabled").apply { alignmentX = LEFT_ALIGNMENT })
+                        add(
+                            ComboBox(DefaultComboBoxModel(zoomLevels)).apply {
+                                isEditable = false
+                                isEnabled = false
+                                alignmentX = LEFT_ALIGNMENT
+                            }
+                        )
+                    }
+                    .run { cell(this).align(AlignY.TOP) }
 
                 val itemsComboBox = arrayOf("Cat", "Elephant", "Sun", "Book", "Laughter")
                 JPanel()
@@ -223,6 +236,20 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         add(
                             ComboBox(DefaultComboBoxModel(itemsComboBox)).apply {
                                 isEditable = true
+                                alignmentX = LEFT_ALIGNMENT
+                            }
+                        )
+                    }
+                    .run { cell(this).align(AlignY.TOP) }
+
+                JPanel()
+                    .apply {
+                        layout = BoxLayout(this, BoxLayout.Y_AXIS)
+                        add(JLabel("Editable + Disabled").apply { alignmentX = LEFT_ALIGNMENT })
+                        add(
+                            ComboBox(DefaultComboBoxModel(itemsComboBox)).apply {
+                                isEditable = true
+                                isEnabled = false
                                 alignmentX = LEFT_ALIGNMENT
                             }
                         )
@@ -250,26 +277,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
 
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Column {
-                            Text("Enabled and Editable")
-                            Text(text = "Selected item: $selectedComboBox1")
-                            ListComboBox(
-                                items = comboBoxItems,
-                                modifier = Modifier.width(200.dp),
-                                maxPopupHeight = 150.dp,
-                                onSelectedItemChange = { selectedComboBox1 = it },
-                                listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
-                                    SimpleListItem(
-                                        text = item,
-                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
-                                        style = JewelTheme.comboBoxStyle.itemStyle,
-                                        contentDescription = item,
-                                    )
-                                },
-                            )
-                        }
-
-                        Column {
-                            Text("Enabled")
+                            Text("Not editable")
                             Text(text = "Selected item: $selectedComboBox2")
 
                             ListComboBox(
@@ -280,27 +288,68 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                                     SimpleListItem(
                                         text = item,
+                                        style = JewelTheme.simpleListItemStyle,
                                         state = ListItemState(isSelected, isListHovered, isItemHovered),
-                                        style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
                                 },
                             )
                         }
+
                         Column {
-                            Text("Disabled")
-                            Text(text = "Selected item: $selectedComboBox3")
+                            Text("Not editable + disabled")
+                            Text(text = "Selected item: $selectedComboBox2")
+
                             ListComboBox(
                                 items = comboBoxItems,
                                 modifier = Modifier.width(200.dp),
                                 isEditable = false,
                                 isEnabled = false,
+                                onSelectedItemChange = { selectedComboBox2 = it },
+                                listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
+                                    SimpleListItem(
+                                        text = item,
+                                        style = JewelTheme.simpleListItemStyle,
+                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
+                                        contentDescription = item,
+                                    )
+                                },
+                            )
+                        }
+
+                        Column {
+                            Text("Editable")
+                            Text(text = "Selected item: $selectedComboBox1")
+                            ListComboBox(
+                                items = comboBoxItems,
+                                modifier = Modifier.width(200.dp),
+                                maxPopupHeight = 150.dp,
+                                onSelectedItemChange = { selectedComboBox1 = it },
+                                listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
+                                    SimpleListItem(
+                                        text = item,
+                                        style = JewelTheme.simpleListItemStyle,
+                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
+                                        contentDescription = item,
+                                    )
+                                },
+                            )
+                        }
+
+                        Column {
+                            Text("Editable + disabled")
+                            Text(text = "Selected item: $selectedComboBox3")
+                            ListComboBox(
+                                items = comboBoxItems,
+                                modifier = Modifier.width(200.dp),
+                                isEditable = true,
+                                isEnabled = false,
                                 onSelectedItemChange = { selectedComboBox3 = it },
                                 listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
                                     SimpleListItem(
                                         text = item,
+                                        style = JewelTheme.simpleListItemStyle,
                                         state = ListItemState(isSelected, isListHovered, isItemHovered),
-                                        style = JewelTheme.comboBoxStyle.itemStyle,
                                         contentDescription = item,
                                     )
                                 },
