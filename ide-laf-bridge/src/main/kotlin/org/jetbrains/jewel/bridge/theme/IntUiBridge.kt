@@ -571,7 +571,6 @@ private fun readDefaultComboBoxStyle(): ComboBoxStyle {
                 maxPopupHeight = Dp.Unspecified,
             ),
         icons = ComboBoxIcons(chevronDown = AllIconsKeys.General.ChevronDown),
-        itemStyle = readSimpleListItemStyle(),
     )
 }
 

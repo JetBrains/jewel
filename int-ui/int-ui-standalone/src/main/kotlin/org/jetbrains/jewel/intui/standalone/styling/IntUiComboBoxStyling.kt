@@ -14,7 +14,6 @@ import org.jetbrains.jewel.ui.component.styling.ComboBoxColors
 import org.jetbrains.jewel.ui.component.styling.ComboBoxIcons
 import org.jetbrains.jewel.ui.component.styling.ComboBoxMetrics
 import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
-import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
@@ -27,16 +26,14 @@ public object IntUiDefaultComboBoxStyleFactory {
         colors: ComboBoxColors = ComboBoxColors.Default.light(),
         metrics: ComboBoxMetrics = ComboBoxMetrics.default(),
         icons: ComboBoxIcons = ComboBoxIcons.defaults(),
-        listItemStyle: SimpleListItemStyle = SimpleListItemStyle.light(),
-    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, listItemStyle)
+    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons)
 
     @Composable
     public fun dark(
         colors: ComboBoxColors = ComboBoxColors.Default.dark(),
         metrics: ComboBoxMetrics = ComboBoxMetrics.default(),
         icons: ComboBoxIcons = ComboBoxIcons.defaults(),
-        listItemStyle: SimpleListItemStyle = SimpleListItemStyle.dark(),
-    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, listItemStyle)
+    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons)
 }
 
 public val ComboBoxStyle.Companion.Undecorated: IntUiUndecoratedComboBoxStyleFactory
@@ -48,16 +45,14 @@ public object IntUiUndecoratedComboBoxStyleFactory {
         colors: ComboBoxColors = ComboBoxColors.Undecorated.light(),
         metrics: ComboBoxMetrics = ComboBoxMetrics.undecorated(),
         icons: ComboBoxIcons = ComboBoxIcons.defaults(),
-        listItemStyle: SimpleListItemStyle = SimpleListItemStyle.light(),
-    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, listItemStyle)
+    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons)
 
     @Composable
     public fun dark(
         colors: ComboBoxColors = ComboBoxColors.Undecorated.dark(),
         metrics: ComboBoxMetrics = ComboBoxMetrics.undecorated(),
         icons: ComboBoxIcons = ComboBoxIcons.defaults(),
-        listItemStyle: SimpleListItemStyle = SimpleListItemStyle.dark(),
-    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons, listItemStyle)
+    ): ComboBoxStyle = ComboBoxStyle(colors, metrics, icons)
 }
 
 public val ComboBoxColors.Companion.Default: IntUiDefaultComboBoxColorsFactory

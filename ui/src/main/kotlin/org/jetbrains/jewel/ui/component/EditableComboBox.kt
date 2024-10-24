@@ -310,7 +310,7 @@ private fun Chevron(
                                 label = "Chevron",
                             )
                         }
-                },
+                }
     ) {
         val dividerColor = if (isEnabled) style.colors.border else style.colors.borderDisabled
         val iconTint = if (isEnabled) Color.Unspecified else style.colors.contentDisabled

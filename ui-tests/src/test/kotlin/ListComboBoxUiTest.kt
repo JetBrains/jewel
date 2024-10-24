@@ -40,7 +40,7 @@ import org.jetbrains.jewel.ui.component.EditableComboBox
 import org.jetbrains.jewel.ui.component.ListComboBox
 import org.jetbrains.jewel.ui.component.ListItemState
 import org.jetbrains.jewel.ui.component.SimpleListItem
-import org.jetbrains.jewel.ui.theme.comboBoxStyle
+import org.jetbrains.jewel.ui.theme.simpleListItemStyle
 import org.junit.Rule
 import org.junit.Test
 
@@ -472,7 +472,7 @@ class ListComboBoxUiTest {
                             text = item,
                             modifier = Modifier.testTag(item),
                             state = ListItemState(isSelected, isListHovered, isItemHovered),
-                            style = JewelTheme.comboBoxStyle.itemStyle,
+                            style = JewelTheme.simpleListItemStyle,
                             contentDescription = item,
                         )
                     },
