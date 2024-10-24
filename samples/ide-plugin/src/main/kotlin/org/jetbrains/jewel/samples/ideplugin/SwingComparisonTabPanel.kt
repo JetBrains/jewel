@@ -214,6 +214,19 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         )
                     }
                     .run { cell(this).align(AlignY.TOP) }
+                JPanel()
+                    .apply {
+                        layout = BoxLayout(this, BoxLayout.Y_AXIS)
+                        add(JLabel("Not editable + disabled").apply { alignmentX = LEFT_ALIGNMENT })
+                        add(
+                            ComboBox(DefaultComboBoxModel(zoomLevels)).apply {
+                                isEditable = false
+                                isEnabled = false
+                                alignmentX = LEFT_ALIGNMENT
+                            }
+                        )
+                    }
+                    .run { cell(this).align(AlignY.TOP) }
 
                 val itemsComboBox = arrayOf("Cat", "Elephant", "Sun", "Book", "Laughter")
                 JPanel()
@@ -229,19 +242,19 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                     }
                     .run { cell(this).align(AlignY.TOP) }
 
-            JPanel()
-                .apply {
-                    layout = BoxLayout(this, BoxLayout.Y_AXIS)
-                    add(JLabel("Disabled").apply { alignmentX = LEFT_ALIGNMENT })
-                    add(
-                        ComboBox(DefaultComboBoxModel(itemsComboBox)).apply {
-                            isEditable = true
-                            isEnabled = false
-                            alignmentX = LEFT_ALIGNMENT
-                        }
-                    )
-                }
-                .run { cell(this).align(AlignY.TOP) }
+                JPanel()
+                    .apply {
+                        layout = BoxLayout(this, BoxLayout.Y_AXIS)
+                        add(JLabel("Editable + Disabled").apply { alignmentX = LEFT_ALIGNMENT })
+                        add(
+                            ComboBox(DefaultComboBoxModel(itemsComboBox)).apply {
+                                isEditable = true
+                                isEnabled = false
+                                alignmentX = LEFT_ALIGNMENT
+                            }
+                        )
+                    }
+                    .run { cell(this).align(AlignY.TOP) }
 
                 compose(modifier = Modifier.height(200.dp).padding(horizontal = 8.dp, vertical = 0.dp)) {
                     val comboBoxItems = remember {
@@ -284,6 +297,27 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         }
 
                         Column {
+                            Text("Not editable + disabled")
+                            Text(text = "Selected item: $selectedComboBox2")
+
+                            ListComboBox(
+                                items = comboBoxItems,
+                                modifier = Modifier.width(200.dp),
+                                isEditable = false,
+                                isEnabled = false,
+                                onSelectedItemChange = { selectedComboBox2 = it },
+                                listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
+                                    SimpleListItem(
+                                        text = item,
+                                        style = JewelTheme.comboBoxStyle.itemStyle,
+                                        state = ListItemState(isSelected, isListHovered, isItemHovered),
+                                        contentDescription = item,
+                                    )
+                                },
+                            )
+                        }
+
+                        Column {
                             Text("Editable")
                             Text(text = "Selected item: $selectedComboBox1")
                             ListComboBox(
@@ -303,12 +337,12 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         }
 
                         Column {
-                            Text("Disabled")
+                            Text("Editable + disabled")
                             Text(text = "Selected item: $selectedComboBox3")
                             ListComboBox(
                                 items = comboBoxItems,
                                 modifier = Modifier.width(200.dp),
-                                isEditable = false,
+                                isEditable = true,
                                 isEnabled = false,
                                 onSelectedItemChange = { selectedComboBox3 = it },
                                 listItemContent = { item, isSelected, isFocused, isItemHovered, isListHovered ->
