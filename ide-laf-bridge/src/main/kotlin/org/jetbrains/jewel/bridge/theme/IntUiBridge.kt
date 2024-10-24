@@ -64,6 +64,10 @@ import org.jetbrains.jewel.ui.component.styling.ChipColors
 import org.jetbrains.jewel.ui.component.styling.ChipMetrics
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
 import org.jetbrains.jewel.ui.component.styling.CircularProgressStyle
+import org.jetbrains.jewel.ui.component.styling.ComboBoxColors
+import org.jetbrains.jewel.ui.component.styling.ComboBoxIcons
+import org.jetbrains.jewel.ui.component.styling.ComboBoxMetrics
+import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
 import org.jetbrains.jewel.ui.component.styling.DividerMetrics
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
 import org.jetbrains.jewel.ui.component.styling.DropdownColors
@@ -79,7 +83,6 @@ import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
-import org.jetbrains.jewel.ui.component.styling.LazyTreeColors
 import org.jetbrains.jewel.ui.component.styling.LazyTreeIcons
 import org.jetbrains.jewel.ui.component.styling.LazyTreeMetrics
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
@@ -94,6 +97,9 @@ import org.jetbrains.jewel.ui.component.styling.MenuItemColors
 import org.jetbrains.jewel.ui.component.styling.MenuItemMetrics
 import org.jetbrains.jewel.ui.component.styling.MenuMetrics
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
+import org.jetbrains.jewel.ui.component.styling.PopupContainerColors
+import org.jetbrains.jewel.ui.component.styling.PopupContainerMetrics
+import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.RadioButtonColors
 import org.jetbrains.jewel.ui.component.styling.RadioButtonIcons
 import org.jetbrains.jewel.ui.component.styling.RadioButtonMetrics
@@ -104,6 +110,10 @@ import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlColors
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlMetrics
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
+import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemColors
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemMetrics
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderColors
 import org.jetbrains.jewel.ui.component.styling.SliderMetrics
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
@@ -212,6 +222,7 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         chipStyle = readChipStyle(),
         circularProgressStyle = readCircularProgressStyle(theme.isDark),
         defaultButtonStyle = readDefaultButtonStyle(),
+        comboBoxStyle = readDefaultComboBoxStyle(),
         defaultDropdownStyle = readDefaultDropdownStyle(menuStyle),
         defaultTabStyle = readDefaultTabStyle(),
         dividerStyle = readDividerStyle(),
@@ -223,10 +234,12 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         linkStyle = readLinkStyle(),
         menuStyle = menuStyle,
         outlinedButtonStyle = readOutlinedButtonStyle(),
+        popupContainerStyle = readPopupContainerStyle(),
         radioButtonStyle = readRadioButtonStyle(),
         scrollbarStyle = readScrollbarStyle(theme.isDark),
         segmentedControlButtonStyle = readSegmentedControlButtonStyle(),
         segmentedControlStyle = readSegmentedControlStyle(),
+        selectableLazyColumnStyle = readSelectableLazyColumnStyle(),
         sliderStyle = readSliderStyle(theme.isDark),
         textAreaStyle = readTextAreaStyle(textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
@@ -488,8 +501,81 @@ private fun readChipStyle(): ChipStyle {
 private fun readDividerStyle() =
     DividerStyle(color = JBColor.border().toComposeColorOrUnspecified(), metrics = DividerMetrics.defaults())
 
+private fun readSelectableLazyColumnStyle(): SelectableLazyColumnStyle =
+    SelectableLazyColumnStyle(
+        itemHeight = JBUI.CurrentTheme.ComboBox.minimumSize().toDpSize().height,
+        simpleListItemStyle = readSimpleListItemStyle(),
+    )
+
+private fun readSimpleListItemStyle() =
+    SimpleListItemStyle(
+        colors =
+            SimpleListItemColors(
+                background = retrieveColorOrUnspecified("ComboBox.background"),
+                backgroundFocused = retrieveColorOrUnspecified("ComboBox.selectionBackground"),
+                backgroundSelected = retrieveColorOrUnspecified("ComboBox.selectionBackground"),
+                backgroundSelectedFocused = retrieveColorOrUnspecified("ComboBox.selectionBackground"),
+                content = retrieveColorOrUnspecified("ComboBox.foreground"),
+                contentFocused = retrieveColorOrUnspecified("ComboBox.foreground"),
+                contentSelected = retrieveColorOrUnspecified("ComboBox.foreground"),
+                contentSelectedFocused = retrieveColorOrUnspecified("ComboBox.foreground"),
+            ),
+        metrics =
+            SimpleListItemMetrics(
+                innerPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
+                outerPadding = PaddingValues(),
+                selectionBackgroundCornerSize = CornerSize(0.dp),
+            ),
+    )
+
+private fun readDefaultComboBoxStyle(): ComboBoxStyle {
+    val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
+    val nonEditableBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
+    val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
+    val normalBorder = retrieveColorOrUnspecified("Component.borderColor")
+    val focusedBorder = retrieveColorOrUnspecified("Component.focusedBorderColor")
+
+    val colors =
+        ComboBoxColors(
+            background = normalBackground,
+            nonEditableBackground = nonEditableBackground,
+            backgroundDisabled = retrieveColorOrUnspecified("ComboBox.disabledBackground"),
+            backgroundFocused = normalBackground,
+            backgroundPressed = normalBackground,
+            backgroundHovered = normalBackground,
+            content = normalContent,
+            contentDisabled = retrieveColorOrUnspecified("ComboBox.disabledForeground"),
+            contentFocused = normalContent,
+            contentPressed = normalContent,
+            contentHovered = normalContent,
+            border = normalBorder,
+            borderDisabled = retrieveColorOrUnspecified("Component.disabledBorderColor"),
+            borderFocused = focusedBorder,
+            borderPressed = focusedBorder,
+            borderHovered = normalBorder,
+        )
+
+    val minimumSize = JBUI.CurrentTheme.ComboBox.minimumSize().toDpSize()
+    val arrowWidth = JBUI.CurrentTheme.Component.ARROW_AREA_WIDTH.dp
+
+    return ComboBoxStyle(
+        colors = colors,
+        metrics =
+            ComboBoxMetrics(
+                arrowAreaSize = DpSize(arrowWidth, minimumSize.height),
+                minSize = DpSize(minimumSize.width + arrowWidth, minimumSize.height),
+                cornerSize = componentArc,
+                contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
+                borderWidth = DarculaUIUtil.LW.dp,
+                maxPopupHeight = Dp.Unspecified,
+            ),
+        icons = ComboBoxIcons(chevronDown = AllIconsKeys.General.ChevronDown),
+        itemStyle = readSimpleListItemStyle(),
+    )
+}
+
 private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
-    val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
+    val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
     val normalBorder = retrieveColorOrUnspecified("Component.borderColor")
     val focusedBorder = retrieveColorOrUnspecified("Component.focusedBorderColor")
@@ -536,7 +622,7 @@ private fun readDefaultDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
 }
 
 private fun readUndecoratedDropdownStyle(menuStyle: MenuStyle): DropdownStyle {
-    val normalBackground = retrieveColorOrUnspecified("ComboBox.nonEditableBackground")
+    val normalBackground = retrieveColorOrUnspecified("ComboBox.background")
     val hoverBackground = retrieveColorOrUnspecified("MainToolbar.Dropdown.transparentHoverBackground")
     val normalContent = retrieveColorOrUnspecified("ComboBox.foreground")
 
@@ -663,6 +749,32 @@ private fun readLinkStyle(): LinkStyle {
     )
 }
 
+private fun readPopupContainerStyle(): PopupContainerStyle {
+    val colors =
+        PopupContainerColors(
+            background = retrieveColorOrUnspecified("PopupMenu.background"),
+            border =
+                retrieveColorOrUnspecified("Popup.borderColor").takeOrElse {
+                    retrieveColorOrUnspecified("Popup.Border.color")
+                },
+            shadow = Color.Black.copy(alpha = .6f),
+        )
+
+    return PopupContainerStyle(
+        isDark = isDark,
+        colors = colors,
+        metrics =
+            PopupContainerMetrics(
+                cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
+                menuMargin = PaddingValues(),
+                contentPadding = PaddingValues(),
+                offset = DpOffset(0.dp, 2.dp),
+                shadowSize = 12.dp,
+                borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
+            ),
+    )
+}
+
 private fun readMenuStyle(): MenuStyle {
     val backgroundSelected = retrieveColorOrUnspecified("MenuItem.selectionBackground")
     val foregroundSelected = retrieveColorOrUnspecified("MenuItem.selectionForeground")
@@ -709,15 +821,15 @@ private fun readMenuStyle(): MenuStyle {
         metrics =
             MenuMetrics(
                 cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
-                menuMargin = PaddingValues(0.dp),
-                contentPadding = PaddingValues(horizontal = 0.dp, vertical = 6.dp),
+                menuMargin = PaddingValues(),
+                contentPadding = PaddingValues(),
                 offset = DpOffset(0.dp, 2.dp),
                 shadowSize = 12.dp,
                 borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
                 itemMetrics =
                     MenuItemMetrics(
-                        selectionCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
-                        outerPadding = PaddingValues(horizontal = 7.dp),
+                        selectionCornerSize = CornerSize(0.dp),
+                        outerPadding = PaddingValues(),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp),
                         keybindingsPadding = PaddingValues(start = 36.dp),
                         separatorPadding =
@@ -989,14 +1101,14 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
     val inactiveSelectedElementBackground = retrieveColorOrUnspecified("Tree.selectionInactiveBackground")
 
     val colors =
-        LazyTreeColors(
+        SimpleListItemColors(
             content = normalContent,
             contentFocused = normalContent,
             contentSelected = selectedContent,
             contentSelectedFocused = selectedContent,
-            elementBackgroundFocused = Color.Transparent,
-            elementBackgroundSelected = inactiveSelectedElementBackground,
-            elementBackgroundSelectedFocused = selectedElementBackground,
+            backgroundFocused = Color.Transparent,
+            backgroundSelected = inactiveSelectedElementBackground,
+            backgroundSelectedFocused = selectedElementBackground,
         )
 
     val leftIndent = retrieveIntAsDpOrUnspecified("Tree.leftChildIndent").takeOrElse { 7.dp }
@@ -1007,9 +1119,12 @@ private fun readLazyTreeStyle(): LazyTreeStyle {
         metrics =
             LazyTreeMetrics(
                 indentSize = leftIndent + rightIndent,
-                elementBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
-                elementPadding = PaddingValues(horizontal = 12.dp),
-                elementContentPadding = PaddingValues(4.dp),
+                simpleListItemMetrics =
+                    SimpleListItemMetrics(
+                        innerPadding = PaddingValues(horizontal = 12.dp),
+                        outerPadding = PaddingValues(4.dp),
+                        selectionBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
+                    ),
                 elementMinHeight = retrieveIntAsDpOrUnspecified("Tree.rowHeight").takeOrElse { 24.dp },
                 chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
             ),
