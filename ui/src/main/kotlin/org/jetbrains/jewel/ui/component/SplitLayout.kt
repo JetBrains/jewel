@@ -351,36 +351,41 @@ private fun MeasureScope.doLayout(
     val initialSecondSize = availableSpace - initialFirstSize
 
     // Ensure sizes respect minimum widths
-    val (adjustedFirstSize, adjustedSecondSize) = calculateAdjustedSizes(
-        availableSpace,
-        initialFirstSize.coerceAtLeast(minFirstPaneSizePx),
-        initialSecondSize.coerceAtLeast(minSecondPaneSizePx),
-        minFirstPaneSizePx,
-        minSecondPaneSizePx
-    )
+    val (adjustedFirstSize, adjustedSecondSize) =
+        calculateAdjustedSizes(
+            availableSpace,
+            initialFirstSize.coerceAtLeast(minFirstPaneSizePx),
+            initialSecondSize.coerceAtLeast(minSecondPaneSizePx),
+            minFirstPaneSizePx,
+            minSecondPaneSizePx,
+        )
 
     val firstConstraints =
         when (gapOrientation) {
-            Orientation.Vertical -> constraints.copy(
-                minWidth = minFirstPaneSizePx,
-                maxWidth = adjustedFirstSize.coerceAtLeast(minFirstPaneSizePx)
-            )
-            Orientation.Horizontal -> constraints.copy(
-                minHeight = minFirstPaneSizePx,
-                maxHeight = adjustedFirstSize.coerceAtLeast(minFirstPaneSizePx)
-            )
+            Orientation.Vertical ->
+                constraints.copy(
+                    minWidth = minFirstPaneSizePx,
+                    maxWidth = adjustedFirstSize.coerceAtLeast(minFirstPaneSizePx),
+                )
+            Orientation.Horizontal ->
+                constraints.copy(
+                    minHeight = minFirstPaneSizePx,
+                    maxHeight = adjustedFirstSize.coerceAtLeast(minFirstPaneSizePx),
+                )
         }
 
     val secondConstraints =
         when (gapOrientation) {
-            Orientation.Vertical -> constraints.copy(
-                minWidth = minSecondPaneSizePx,
-                maxWidth = adjustedSecondSize.coerceAtLeast(minSecondPaneSizePx)
-            )
-            Orientation.Horizontal -> constraints.copy(
-                minHeight = minSecondPaneSizePx,
-                maxHeight = adjustedSecondSize.coerceAtLeast(minSecondPaneSizePx)
-            )
+            Orientation.Vertical ->
+                constraints.copy(
+                    minWidth = minSecondPaneSizePx,
+                    maxWidth = adjustedSecondSize.coerceAtLeast(minSecondPaneSizePx),
+                )
+            Orientation.Horizontal ->
+                constraints.copy(
+                    minHeight = minSecondPaneSizePx,
+                    maxHeight = adjustedSecondSize.coerceAtLeast(minSecondPaneSizePx),
+                )
         }
 
     val firstPlaceable = firstMeasurable.measure(firstConstraints)
@@ -475,7 +480,7 @@ private fun calculateAdjustedSizes(
     initialFirstSize: Int,
     initialSecondSize: Int,
     minFirstSize: Int,
-    minSecondSize: Int
+    minSecondSize: Int,
 ): Pair<Int, Int> {
     val totalMinSize = minFirstSize + minSecondSize
 
