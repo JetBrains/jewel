@@ -22,7 +22,6 @@ public class ComboBoxStyle(
     public val colors: ComboBoxColors,
     public val metrics: ComboBoxMetrics,
     public val icons: ComboBoxIcons,
-    public val itemStyle: SimpleListItemStyle,
 ) {
     public companion object
 }
@@ -51,12 +50,14 @@ public class ComboBoxColors(
     public fun backgroundFor(state: ComboBoxState, isEditable: Boolean): State<Color> =
         rememberUpdatedState(
             when {
-                !isEditable -> nonEditableBackground
-                !state.isEnabled -> backgroundDisabled
-                state.isPressed -> backgroundPressed
-                state.isHovered -> backgroundHovered
+                !isEditable && state.isEnabled -> nonEditableBackground
+                !isEditable && !state.isEnabled -> backgroundDisabled
                 state.isFocused && isEditable -> backgroundFocused
                 state.isActive && isEditable -> background
+                state.isPressed -> backgroundPressed
+                state.isHovered -> backgroundHovered
+                isEditable && !state.isEnabled -> backgroundDisabled
+                isEditable -> background
                 else -> background
             }
         )
