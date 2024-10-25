@@ -503,7 +503,7 @@ public final class org/jetbrains/jewel/ui/component/LinkState$Companion {
 }
 
 public final class org/jetbrains/jewel/ui/component/ListComboBoxKt {
-	public static final fun ListComboBox-gNPyAyM (Ljava/util/List;Landroidx/compose/ui/Modifier;ZZFLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function7;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ListComboBox-Fsagccs (Ljava/util/List;Landroidx/compose/ui/Modifier;ZZFLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function7;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class org/jetbrains/jewel/ui/component/ListItemState {
