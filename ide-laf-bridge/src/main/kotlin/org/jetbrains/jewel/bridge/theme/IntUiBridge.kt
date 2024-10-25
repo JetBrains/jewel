@@ -242,7 +242,6 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         selectableLazyColumnStyle = readSelectableLazyColumnStyle(),
         simpleListItemStyle = readSimpleListItemStyle(),
         sliderStyle = readSliderStyle(theme.isDark),
-        simpleListItemStyle = readSimpleListItemStyle(),
         textAreaStyle = readTextAreaStyle(textFieldStyle.metrics),
         textFieldStyle = textFieldStyle,
         tooltipStyle = readTooltipStyle(),
