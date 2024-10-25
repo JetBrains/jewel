@@ -236,6 +236,8 @@ private fun TextInput(
     onFocusedChange: (Boolean) -> Unit,
     onHoveredChange: (Boolean) -> Unit,
 ) {
+    val textColor = if (isEnabled) style.colors.content else style.colors.borderDisabled
+
     BasicTextField(
         state = inputTextFieldState,
         modifier =
@@ -274,7 +276,7 @@ private fun TextInput(
                 }
                 .onHover { onHoveredChange(it) },
         lineLimits = TextFieldLineLimits.SingleLine,
-        textStyle = textStyle.copy(color = style.colors.content),
+        textStyle = textStyle.copy(color = textColor),
         cursorBrush = SolidColor(style.colors.content),
         interactionSource = textFieldInteractionSource,
         enabled = isEnabled,
@@ -290,8 +292,7 @@ private fun Chevron(
     setPopupExpanded: (Boolean) -> Unit,
     onPressWhenEnabled: () -> Unit,
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    Box(
         modifier =
             Modifier.testTag("Jewel.ComboBox.ChevronContainer")
                 .size(style.metrics.arrowAreaSize) // Fixed size
@@ -309,21 +310,19 @@ private fun Chevron(
                                 label = "Chevron",
                             )
                         }
-                },
+                }
     ) {
+        val dividerColor = if (isEnabled) style.colors.border else style.colors.borderDisabled
+        val iconTint = if (isEnabled) Color.Unspecified else style.colors.contentDisabled
         Divider(
             orientation = Orientation.Vertical,
             thickness = style.metrics.borderWidth,
-            color = style.colors.border,
-            modifier = Modifier.testTag("Jewel.ComboBox.Divider"),
+            color = dividerColor,
+            modifier = Modifier.testTag("Jewel.ComboBox.Divider").align(Alignment.CenterStart),
         )
 
-        Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
-            Icon(
-                key = style.icons.chevronDown,
-                tint = if (isEnabled) Color.Unspecified else style.colors.borderDisabled,
-                contentDescription = null,
-            )
+        Box(Modifier.fillMaxWidth().align(Alignment.CenterEnd), contentAlignment = Alignment.Center) {
+            Icon(key = style.icons.chevronDown, tint = iconTint, contentDescription = null)
         }
     }
 }

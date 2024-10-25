@@ -2,7 +2,9 @@ package org.jetbrains.jewel.ui.component.styling
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
@@ -34,4 +36,8 @@ public class SimpleListItemMetrics(
     public val selectionBackgroundCornerSize: CornerSize,
 ) {
     public companion object
+}
+
+public val LocalSimpleListItemStyleStyle: ProvidableCompositionLocal<SimpleListItemStyle> = staticCompositionLocalOf {
+    error("No LocalSimpleListItemStyleStyle provided. Have you forgotten the theme?")
 }
