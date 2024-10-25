@@ -49,7 +49,6 @@ public fun ListComboBox(
     var selectedItem by remember { mutableIntStateOf(0) }
     var isListHovered by remember { mutableStateOf(false) }
     var hoverItemIndex: Int? by remember { mutableStateOf(null) }
-    var previewSelection by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(selectedItem) { scrollState.selectedKeys = setOf(items[selectedItem]) }
@@ -62,7 +61,6 @@ public fun ListComboBox(
         }
 
     val onArrowDownPress: () -> Unit = {
-        previewSelection = false
         hoverItemIndex?.let { hoveredIndex ->
             selectedItem = hoveredIndex
             hoverItemIndex = null
@@ -71,7 +69,6 @@ public fun ListComboBox(
         scope.launch { scrollState.lazyListState.scrollToIndex(selectedItem) }
     }
     val onArrowUpPress: () -> Unit = {
-        previewSelection = false
         hoverItemIndex?.let { hoveredIndex ->
             selectedItem = hoveredIndex
             hoverItemIndex = null
@@ -133,7 +130,6 @@ public fun ListComboBox(
                                             isItemHovered = it
                                             if (isItemHovered) {
                                                 hoverItemIndex = items.indexOf(item)
-                                                previewSelection = true
                                                 onHoverItemChange(item)
                                             }
                                         }
@@ -143,7 +139,7 @@ public fun ListComboBox(
                                         isSelected,
                                         isActive,
                                         isItemHovered || items.indexOf(item) == hoverItemIndex,
-                                        previewSelection,
+                                        hoverItemIndex != null,
                                     )
                                 }
                             },
@@ -200,7 +196,6 @@ public fun ListComboBox(
                                             isItemHovered = it
                                             if (isItemHovered) {
                                                 hoverItemIndex = items.indexOf(item)
-                                                previewSelection = true
                                                 onHoverItemChange(item)
                                             }
                                         }
@@ -210,7 +205,7 @@ public fun ListComboBox(
                                         isSelected,
                                         isActive,
                                         isItemHovered || items.indexOf(item) == hoverItemIndex,
-                                        previewSelection,
+                                        hoverItemIndex != null,
                                     )
                                 }
                             },
