@@ -42,7 +42,7 @@ public fun ListComboBox(
     onListHoverChange: (Boolean) -> Unit = {},
     listItemContent: @Composable (String, Boolean, Boolean, Boolean, Boolean) -> Unit,
 ) {
-    val initialTextFieldContent = items.firstOrNull() ?: ""
+    val initialTextFieldContent = items.firstOrNull().orEmpty()
     val inputTextFieldState = rememberTextFieldState(initialTextFieldContent)
     val scrollState = rememberSelectableLazyListState()
     var selectedItem by remember { mutableIntStateOf(0) }
