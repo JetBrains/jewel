@@ -49,7 +49,6 @@ public fun ListComboBox(
     var selectedItem by remember { mutableIntStateOf(0) }
     var isListHovered by remember { mutableStateOf(false) }
     var hoverItemIndex: Int? by remember { mutableStateOf(null) }
-    var lastHoveredIndex by remember { mutableStateOf(-1) }
     var previewSelection by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
@@ -134,7 +133,6 @@ public fun ListComboBox(
                                             isItemHovered = it
                                             if (isItemHovered) {
                                                 hoverItemIndex = items.indexOf(item)
-                                                lastHoveredIndex = items.indexOf(item)
                                                 previewSelection = true
                                                 onHoverItemChange(item)
                                             }
@@ -144,7 +142,7 @@ public fun ListComboBox(
                                         item,
                                         isSelected,
                                         isActive,
-                                        isItemHovered || items.indexOf(item) == lastHoveredIndex,
+                                        isItemHovered || items.indexOf(item) == hoverItemIndex,
                                         previewSelection,
                                     )
                                 }
@@ -202,7 +200,6 @@ public fun ListComboBox(
                                             isItemHovered = it
                                             if (isItemHovered) {
                                                 hoverItemIndex = items.indexOf(item)
-                                                lastHoveredIndex = items.indexOf(item)
                                                 previewSelection = true
                                                 onHoverItemChange(item)
                                             }
@@ -212,7 +209,7 @@ public fun ListComboBox(
                                         item,
                                         isSelected,
                                         isActive,
-                                        isItemHovered || items.indexOf(item) == lastHoveredIndex,
+                                        isItemHovered || items.indexOf(item) == hoverItemIndex,
                                         previewSelection,
                                     )
                                 }
