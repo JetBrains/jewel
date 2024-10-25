@@ -510,10 +510,10 @@ public final class org/jetbrains/jewel/ui/component/ListItemState {
 	public static final field $stable I
 	public fun <init> (ZZZ)V
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPreviewSelection ()Z
 	public fun hashCode ()I
 	public final fun isHovered ()Z
 	public final fun isSelected ()Z
-	public final fun isSoftSelected ()Z
 	public fun toString ()Ljava/lang/String;
 }
 
