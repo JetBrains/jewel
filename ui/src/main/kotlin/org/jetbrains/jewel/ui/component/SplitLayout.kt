@@ -34,13 +34,13 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import kotlin.math.roundToInt
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Orientation.Horizontal
 import org.jetbrains.jewel.ui.Orientation.Vertical
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
 import org.jetbrains.jewel.ui.theme.dividerStyle
 import org.jetbrains.skiko.Cursor
+import kotlin.math.roundToInt
 
 /**
  * A customizable horizontal split layout Composable function that allows you to divide the available space between two
@@ -350,7 +350,6 @@ private fun MeasureScope.doLayout(
     val initialFirstSize = (availableSpace * state.dividerPosition).roundToInt()
     val initialSecondSize = availableSpace - initialFirstSize
 
-    // Ensure sizes respect minimum widths
     val (adjustedFirstSize, adjustedSecondSize) =
         calculateAdjustedSizes(
             availableSpace,
@@ -360,47 +359,32 @@ private fun MeasureScope.doLayout(
             minSecondPaneSizePx,
         )
 
+    // Use the adjusted sizes directly for constraints
     val firstConstraints =
         when (gapOrientation) {
-            Orientation.Vertical ->
-                constraints.copy(
-                    minWidth = minFirstPaneSizePx,
-                    maxWidth = adjustedFirstSize.coerceAtLeast(minFirstPaneSizePx),
-                )
-            Orientation.Horizontal ->
-                constraints.copy(
-                    minHeight = minFirstPaneSizePx,
-                    maxHeight = adjustedFirstSize.coerceAtLeast(minFirstPaneSizePx),
-                )
+            Orientation.Vertical -> constraints.copy(minWidth = adjustedFirstSize, maxWidth = adjustedFirstSize)
+            Orientation.Horizontal -> constraints.copy(minHeight = adjustedFirstSize, maxHeight = adjustedFirstSize)
         }
 
     val secondConstraints =
         when (gapOrientation) {
-            Orientation.Vertical ->
-                constraints.copy(
-                    minWidth = minSecondPaneSizePx,
-                    maxWidth = adjustedSecondSize.coerceAtLeast(minSecondPaneSizePx),
-                )
-            Orientation.Horizontal ->
-                constraints.copy(
-                    minHeight = minSecondPaneSizePx,
-                    maxHeight = adjustedSecondSize.coerceAtLeast(minSecondPaneSizePx),
-                )
+            Orientation.Vertical -> constraints.copy(minWidth = adjustedSecondSize, maxWidth = adjustedSecondSize)
+            Orientation.Horizontal -> constraints.copy(minHeight = adjustedSecondSize, maxHeight = adjustedSecondSize)
         }
 
     val firstPlaceable = firstMeasurable.measure(firstConstraints)
     val secondPlaceable = secondMeasurable.measure(secondConstraints)
 
     return layout(constraints.maxWidth, constraints.maxHeight) {
-        firstPlaceable.placeRelative(0, 0)
         when (gapOrientation) {
             Orientation.Vertical -> {
+                firstPlaceable.placeRelative(0, 0)
                 dividerPlaceable.placeRelative(adjustedFirstSize, 0)
                 dividerHandlePlaceable.placeRelative(adjustedFirstSize - handleWidth / 2, 0)
                 secondPlaceable.placeRelative(adjustedFirstSize + dividerWidth, 0)
             }
-
             Orientation.Horizontal -> {
+                firstPlaceable.placeRelative(0, 0)
                 dividerPlaceable.placeRelative(0, adjustedFirstSize)
                 dividerHandlePlaceable.placeRelative(0, adjustedFirstSize - handleWidth / 2)
                 secondPlaceable.placeRelative(0, adjustedFirstSize + dividerWidth)
@@ -488,7 +472,9 @@ private fun calculateAdjustedSizes(
         // If available space is less than total minimum size,
         // distribute space proportionally
         val firstRatio = minFirstSize.toFloat() / totalMinSize
-        return (availableSpace * firstRatio).roundToInt() to (availableSpace * (1 - firstRatio)).roundToInt()
+        val adjustedFirstSize = (availableSpace * firstRatio).roundToInt()
+        val adjustedSecondSize = (availableSpace * (1 - firstRatio)).roundToInt()
+        return adjustedFirstSize to adjustedSecondSize
     }
 
     if (initialFirstSize >= minFirstSize && initialSecondSize >= minSecondSize) {
