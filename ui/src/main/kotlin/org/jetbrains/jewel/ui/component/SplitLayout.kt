@@ -343,8 +343,8 @@ private fun MeasureScope.doLayout(
             (constraints.maxHeight - dividerWidth).coerceAtLeast(1)
         }
 
-    val minFirstPaneSizePx = with(density) { firstPaneMinWidth.toPx() }.roundToInt()
-    val minSecondPaneSizePx = with(density) { secondPaneMinWidth.toPx() }.roundToInt()
+    val minFirstPaneSizePx = with(density) { firstPaneMinWidth.roundToPx() }
+    val minSecondPaneSizePx = with(density) { secondPaneMinWidth.roundToPx() }
 
     // Calculate initial sizes based on divider position
     val initialFirstSize = (availableSpace * state.dividerPosition).roundToInt()
