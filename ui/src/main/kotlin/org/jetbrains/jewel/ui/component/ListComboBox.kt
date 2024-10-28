@@ -40,6 +40,7 @@ public fun ListComboBox(
     onSelectedItemChange: (String) -> Unit = {},
     onHoverItemChange: (String) -> Unit = {},
     onListHoverChange: (Boolean) -> Unit = {},
+    onPopupStateChange: (Boolean) -> Unit = {},
     listItemContent: @Composable (String, Boolean, Boolean, Boolean, Boolean) -> Unit,
 ) {
     val initialTextFieldContent = items.firstOrNull().orEmpty()
@@ -47,7 +48,7 @@ public fun ListComboBox(
     val scrollState = rememberSelectableLazyListState()
     var selectedItem by remember { mutableIntStateOf(0) }
     var isListHovered by remember { mutableStateOf(false) }
-    var hoverItemIndex by remember { mutableStateOf(-1) }
+    var hoverItemIndex: Int? by remember { mutableStateOf(null) }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(selectedItem) { scrollState.selectedKeys = setOf(items[selectedItem]) }
@@ -60,17 +61,17 @@ public fun ListComboBox(
         }
 
     val onArrowDownPress: () -> Unit = {
-        if (hoverItemIndex != -1) {
-            selectedItem = hoverItemIndex
-            hoverItemIndex = -1
+        hoverItemIndex?.let { hoveredIndex ->
+            selectedItem = hoveredIndex
+            hoverItemIndex = null
         }
         selectedItem = selectedItem.plus(1).coerceAtMost(items.lastIndex)
         scope.launch { scrollState.lazyListState.scrollToIndex(selectedItem) }
     }
     val onArrowUpPress: () -> Unit = {
-        if (hoverItemIndex != -1) {
-            selectedItem = hoverItemIndex
-            hoverItemIndex = -1
+        hoverItemIndex?.let { hoveredIndex ->
+            selectedItem = hoveredIndex
+            hoverItemIndex = null
         }
         selectedItem = selectedItem.minus(1).coerceAtLeast(0)
         scope.launch { scrollState.lazyListState.scrollToIndex(selectedItem) }
@@ -93,14 +94,13 @@ public fun ListComboBox(
                     selectedItem = indexOfSelected
                 }
             },
-            onPopupStateChange = {},
+            onPopupStateChange = onPopupStateChange,
         ) {
             VerticallyScrollableContainer(
                 scrollState = scrollState.lazyListState,
                 modifier =
                     Modifier.heightIn(max = popupMaxHeight).onHover {
                         isListHovered = it
-                        if (!isListHovered) hoverItemIndex = -1
                         onListHoverChange(it)
                     },
             ) {
@@ -138,8 +138,8 @@ public fun ListComboBox(
                                         item,
                                         isSelected,
                                         isActive,
-                                        isItemHovered && hoverItemIndex != -1,
-                                        isListHovered,
+                                        isItemHovered || items.indexOf(item) == hoverItemIndex,
+                                        hoverItemIndex != null,
                                     )
                                 }
                             },
@@ -160,13 +160,13 @@ public fun ListComboBox(
             textStyle = JewelTheme.defaultTextStyle,
             onArrowDownPress = onArrowDownPress,
             onArrowUpPress = onArrowUpPress,
+            onPopupStateChange = onPopupStateChange,
         ) {
             VerticallyScrollableContainer(
                 scrollState = scrollState.lazyListState,
                 modifier =
                     Modifier.heightIn(max = popupMaxHeight).onHover {
                         isListHovered = it
-                        if (!isListHovered) hoverItemIndex = -1
                         onListHoverChange(it)
                     },
             ) {
@@ -189,18 +189,24 @@ public fun ListComboBox(
                         items(
                             items = items,
                             itemContent = { item ->
-                                var isHovered by remember { mutableStateOf(false) }
+                                var isItemHovered by remember { mutableStateOf(false) }
                                 Box(
                                     modifier =
                                         Modifier.onHover {
-                                            isHovered = it
-                                            if (isHovered) {
+                                            isItemHovered = it
+                                            if (isItemHovered) {
                                                 hoverItemIndex = items.indexOf(item)
                                                 onHoverItemChange(item)
                                             }
                                         }
                                 ) {
-                                    listItemContent(item, isSelected, isActive, isHovered, isListHovered)
+                                    listItemContent(
+                                        item,
+                                        isSelected,
+                                        isActive,
+                                        isItemHovered || items.indexOf(item) == hoverItemIndex,
+                                        hoverItemIndex != null,
+                                    )
                                 }
                             },
                         )
