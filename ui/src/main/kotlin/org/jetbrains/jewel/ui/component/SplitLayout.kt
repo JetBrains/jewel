@@ -353,8 +353,8 @@ private fun MeasureScope.doLayout(
     val (adjustedFirstSize, adjustedSecondSize) =
         calculateAdjustedSizes(
             availableSpace,
-            initialFirstSize.coerceAtLeast(minFirstPaneSizePx),
-            initialSecondSize.coerceAtLeast(minSecondPaneSizePx),
+            initialFirstSize,
+            initialSecondSize,
             minFirstPaneSizePx,
             minSecondPaneSizePx,
         )
@@ -463,27 +463,27 @@ private fun calculateAdjustedSizes(
     availableSpace: Int,
     initialFirstSize: Int,
     initialSecondSize: Int,
-    minFirstSize: Int,
-    minSecondSize: Int,
+    minFirstPaneSizePx: Int,
+    minSecondPaneSizePx: Int,
 ): Pair<Int, Int> {
-    val totalMinSize = minFirstSize + minSecondSize
+    val totalMinSize = minFirstPaneSizePx + minSecondPaneSizePx
 
     if (availableSpace < totalMinSize) {
         // If available space is less than total minimum size,
         // distribute space proportionally
-        val firstRatio = minFirstSize.toFloat() / totalMinSize
+        val firstRatio = minFirstPaneSizePx.toFloat() / totalMinSize
         val adjustedFirstSize = (availableSpace * firstRatio).roundToInt()
         val adjustedSecondSize = (availableSpace * (1 - firstRatio)).roundToInt()
         return adjustedFirstSize to adjustedSecondSize
     }
 
-    if (initialFirstSize >= minFirstSize && initialSecondSize >= minSecondSize) {
+    if (initialFirstSize >= minFirstPaneSizePx && initialSecondSize >= minSecondPaneSizePx) {
         return initialFirstSize to initialSecondSize
     }
 
     // Adjust sizes to meet minimum requirements
-    val adjustedFirstSize = initialFirstSize.coerceAtLeast(minFirstSize)
-    val adjustedSecondSize = (availableSpace - adjustedFirstSize).coerceAtLeast(minSecondSize)
+    val adjustedFirstSize = initialFirstSize.coerceAtLeast(minFirstPaneSizePx)
+    val adjustedSecondSize = (availableSpace - adjustedFirstSize).coerceAtLeast(minSecondPaneSizePx)
 
     return adjustedFirstSize to adjustedSecondSize
 }
