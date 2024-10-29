@@ -20,22 +20,30 @@ import org.jetbrains.jewel.bridge.actionSystem.ComponentDataProviderBridge
 import org.jetbrains.jewel.bridge.theme.SwingBridgeTheme
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.InternalJewelApi
+import org.jetbrains.skiko.SkiaLayerAnalytics
 
 @Suppress("ktlint:standard:function-naming", "FunctionName") // Swing to Compose bridge API
-public fun JewelComposePanel(content: @Composable () -> Unit): JComponent = createJewelComposePanel { jewelPanel ->
-    setContent {
-        SwingBridgeTheme {
-            CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel) {
-                ComponentDataProviderBridge(jewelPanel, content = content)
+public fun JewelComposePanel(
+    skiaLayerAnalytics: SkiaLayerAnalytics? = null,
+    content: @Composable () -> Unit,
+): JComponent =
+    createJewelComposePanel(skiaLayerAnalytics) { jewelPanel ->
+        setContent {
+            SwingBridgeTheme {
+                CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel) {
+                    ComponentDataProviderBridge(jewelPanel, content = content)
+                }
             }
         }
     }
-}
 
 @InternalJewelApi
 @Suppress("ktlint:standard:function-naming", "FunctionName") // Swing to Compose bridge API
-public fun JewelToolWindowComposePanel(content: @Composable () -> Unit): JComponent =
-    createJewelComposePanel { jewelPanel ->
+public fun JewelToolWindowComposePanel(
+    skiaLayerAnalytics: SkiaLayerAnalytics? = null,
+    content: @Composable () -> Unit,
+): JComponent =
+    createJewelComposePanel(skiaLayerAnalytics) { jewelPanel ->
         setContent {
             Compose17IJSizeBugWorkaround {
                 SwingBridgeTheme {
@@ -49,8 +57,11 @@ public fun JewelToolWindowComposePanel(content: @Composable () -> Unit): JCompon
 
 @ExperimentalJewelApi
 @Suppress("ktlint:standard:function-naming", "FunctionName") // Swing to Compose bridge API
-public fun JewelComposeNoThemePanel(content: @Composable () -> Unit): JComponent =
-    createJewelComposePanel { jewelPanel ->
+public fun JewelComposeNoThemePanel(
+    skiaLayerAnalytics: SkiaLayerAnalytics? = null,
+    content: @Composable () -> Unit,
+): JComponent =
+    createJewelComposePanel(skiaLayerAnalytics) { jewelPanel ->
         setContent {
             CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel) {
                 ComponentDataProviderBridge(jewelPanel, content = content)
@@ -60,8 +71,11 @@ public fun JewelComposeNoThemePanel(content: @Composable () -> Unit): JComponent
 
 @ExperimentalJewelApi
 @Suppress("ktlint:standard:function-naming", "FunctionName") // Swing to Compose bridge API
-public fun JewelToolWindowNoThemeComposePanel(content: @Composable () -> Unit): JComponent =
-    createJewelComposePanel { jewelPanel ->
+public fun JewelToolWindowNoThemeComposePanel(
+    skiaLayerAnalytics: SkiaLayerAnalytics? = null,
+    content: @Composable () -> Unit,
+): JComponent =
+    createJewelComposePanel(skiaLayerAnalytics) { jewelPanel ->
         setContent {
             Compose17IJSizeBugWorkaround {
                 CompositionLocalProvider(LocalComponent provides this@createJewelComposePanel) {
@@ -71,10 +85,13 @@ public fun JewelToolWindowNoThemeComposePanel(content: @Composable () -> Unit): 
         }
     }
 
-private fun createJewelComposePanel(config: ComposePanel.(JewelComposePanel) -> Unit): JewelComposePanel {
+private fun createJewelComposePanel(
+    skiaLayerAnalytics: SkiaLayerAnalytics? = null,
+    config: ComposePanel.(JewelComposePanel) -> Unit,
+): JewelComposePanel {
     val jewelPanel = JewelComposePanel()
     jewelPanel.layout = BorderLayout()
-    val composePanel = ComposePanel()
+    val composePanel = ComposePanel(skiaLayerAnalytics ?: SkiaLayerAnalytics.Empty)
     jewelPanel.add(composePanel, BorderLayout.CENTER)
     composePanel.config(jewelPanel)
     return jewelPanel
