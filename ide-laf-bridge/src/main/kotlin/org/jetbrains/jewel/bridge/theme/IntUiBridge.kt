@@ -248,27 +248,6 @@ private fun readSelectableLazyColumnStyle(): SelectableLazyColumnStyle =
         simpleListItemStyle = readSimpleListItemStyle(),
     )
 
-private fun readSimpleListItemStyle() =
-    SimpleListItemStyle(
-        colors =
-            SimpleListItemColors(
-                background = retrieveColorOrUnspecified("ComboBox.background"),
-                backgroundFocused = retrieveColorOrUnspecified("ComboBox.selectionBackground"),
-                backgroundSelected = retrieveColorOrUnspecified("ComboBox.selectionBackground"),
-                backgroundSelectedFocused = retrieveColorOrUnspecified("ComboBox.selectionBackground"),
-                content = retrieveColorOrUnspecified("ComboBox.foreground"),
-                contentFocused = retrieveColorOrUnspecified("ComboBox.foreground"),
-                contentSelected = retrieveColorOrUnspecified("ComboBox.foreground"),
-                contentSelectedFocused = retrieveColorOrUnspecified("ComboBox.foreground"),
-            ),
-        metrics =
-            SimpleListItemMetrics(
-                innerPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
-                outerPadding = JBUI.CurrentTheme.PopupMenu.Selection.outerInsets().toPaddingValues(),
-                selectionBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.PopupMenu.Selection.ARC.dp / 2),
-            ),
-    )
-
 private fun readGroupHeaderStyle() =
     GroupHeaderStyle(
         colors = GroupHeaderColors(divider = retrieveColorOrUnspecified("Separator.separatorColor")),
