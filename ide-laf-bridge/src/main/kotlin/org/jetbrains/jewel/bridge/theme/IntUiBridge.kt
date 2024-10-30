@@ -9,7 +9,6 @@ import androidx.compose.ui.text.platform.asComposeFontFamily
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.takeOrElse
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.openapi.editor.colors.ColorKey
 import com.intellij.openapi.editor.colors.EditorFontType
@@ -22,8 +21,6 @@ import org.jetbrains.jewel.bridge.lafName
 import org.jetbrains.jewel.bridge.readFromLaF
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.bridge.retrieveEditorColorScheme
-import org.jetbrains.jewel.bridge.retrieveInsetsAsPaddingValues
-import org.jetbrains.jewel.bridge.retrieveIntAsDpOrUnspecified
 import org.jetbrains.jewel.bridge.retrieveTextStyle
 import org.jetbrains.jewel.bridge.toComposeColor
 import org.jetbrains.jewel.bridge.toComposeColorOrUnspecified
@@ -45,21 +42,10 @@ import org.jetbrains.jewel.ui.component.styling.GroupHeaderStyle
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
-import org.jetbrains.jewel.ui.component.styling.LazyTreeIcons
-import org.jetbrains.jewel.ui.component.styling.LazyTreeMetrics
-import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
-import org.jetbrains.jewel.ui.component.styling.SimpleListItemColors
-import org.jetbrains.jewel.ui.component.styling.SimpleListItemMetrics
-import org.jetbrains.jewel.ui.component.styling.TabColors
-import org.jetbrains.jewel.ui.component.styling.TabContentAlpha
-import org.jetbrains.jewel.ui.component.styling.TabIcons
-import org.jetbrains.jewel.ui.component.styling.TabMetrics
-import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipColors
 import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
-import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import javax.swing.UIManager
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -149,8 +135,8 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         checkboxStyle = readCheckboxStyle(),
         chipStyle = readChipStyle(),
         circularProgressStyle = readCircularProgressStyle(theme.isDark),
-        defaultButtonStyle = readDefaultButtonStyle(),
         comboBoxStyle = readDefaultComboBoxStyle(),
+        defaultButtonStyle = readDefaultButtonStyle(),
         defaultDropdownStyle = readDefaultDropdownStyle(menuStyle),
         defaultTabStyle = readDefaultTabStyle(),
         dividerStyle = readDividerStyle(),
@@ -195,113 +181,6 @@ private fun readGroupHeaderStyle() =
                 indent = 1.dp, // see DarculaSeparatorUI
             ),
     )
-
-// See com.intellij.ui.tabs.impl.themes.DefaultTabTheme
-private fun readDefaultTabStyle(): TabStyle {
-    val normalBackground = JBUI.CurrentTheme.DefaultTabs.background().toComposeColor()
-    val selectedBackground = JBUI.CurrentTheme.DefaultTabs.underlinedTabBackground().toComposeColorOrUnspecified()
-    val normalContent = retrieveColorOrUnspecified("TabbedPane.foreground")
-    val selectedUnderline = retrieveColorOrUnspecified("TabbedPane.underlineColor")
-
-    val colors =
-        TabColors(
-            background = normalBackground,
-            backgroundDisabled = normalBackground,
-            backgroundPressed = selectedBackground,
-            backgroundHovered = JBUI.CurrentTheme.DefaultTabs.hoverBackground().toComposeColor(),
-            backgroundSelected = selectedBackground,
-            content = normalContent,
-            contentDisabled = retrieveColorOrUnspecified("TabbedPane.disabledForeground"),
-            contentPressed = normalContent,
-            contentHovered = normalContent,
-            contentSelected = normalContent,
-            underline = Color.Unspecified,
-            underlineDisabled = retrieveColorOrUnspecified("TabbedPane.disabledUnderlineColor"),
-            underlinePressed = selectedUnderline,
-            underlineHovered = Color.Unspecified,
-            underlineSelected = selectedUnderline,
-        )
-
-    return TabStyle(
-        colors = colors,
-        metrics =
-            TabMetrics(
-                underlineThickness = retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight").takeOrElse { 2.dp },
-                tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
-                closeContentGap = 4.dp,
-                tabContentSpacing = 4.dp,
-                tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
-            ),
-        icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
-        contentAlpha =
-            TabContentAlpha(
-                iconNormal = 1f,
-                iconDisabled = 1f,
-                iconPressed = 1f,
-                iconHovered = 1f,
-                iconSelected = 1f,
-                contentNormal = 1f,
-                contentDisabled = 1f,
-                contentPressed = 1f,
-                contentHovered = 1f,
-                contentSelected = 1f,
-            ),
-        scrollbarStyle = readScrollbarStyle(isDark),
-    )
-}
-
-private fun readEditorTabStyle(): TabStyle {
-    val normalBackground = JBUI.CurrentTheme.EditorTabs.background().toComposeColor()
-    val selectedBackground = JBUI.CurrentTheme.EditorTabs.underlinedTabBackground().toComposeColorOrUnspecified()
-    val normalContent = retrieveColorOrUnspecified("TabbedPane.foreground")
-    val selectedUnderline = retrieveColorOrUnspecified("TabbedPane.underlineColor")
-
-    val colors =
-        TabColors(
-            background = normalBackground,
-            backgroundDisabled = normalBackground,
-            backgroundPressed = selectedBackground,
-            backgroundHovered = JBUI.CurrentTheme.EditorTabs.hoverBackground().toComposeColor(),
-            backgroundSelected = selectedBackground,
-            content = normalContent,
-            contentDisabled = retrieveColorOrUnspecified("TabbedPane.disabledForeground"),
-            contentPressed = normalContent,
-            contentHovered = normalContent,
-            contentSelected = normalContent,
-            underline = Color.Unspecified,
-            underlineDisabled = retrieveColorOrUnspecified("TabbedPane.disabledUnderlineColor"),
-            underlinePressed = selectedUnderline,
-            underlineHovered = Color.Unspecified,
-            underlineSelected = selectedUnderline,
-        )
-
-    return TabStyle(
-        colors = colors,
-        metrics =
-            TabMetrics(
-                underlineThickness = retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight").takeOrElse { 2.dp },
-                tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
-                closeContentGap = 4.dp,
-                tabContentSpacing = 4.dp,
-                tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
-            ),
-        icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
-        contentAlpha =
-            TabContentAlpha(
-                iconNormal = .7f,
-                iconDisabled = .7f,
-                iconPressed = 1f,
-                iconHovered = 1f,
-                iconSelected = 1f,
-                contentNormal = .7f,
-                contentDisabled = .7f,
-                contentPressed = 1f,
-                contentHovered = 1f,
-                contentSelected = 1f,
-            ),
-        scrollbarStyle = readScrollbarStyle(isDark),
-    )
-}
 
 private fun readTooltipStyle(): TooltipStyle {
     return TooltipStyle(
