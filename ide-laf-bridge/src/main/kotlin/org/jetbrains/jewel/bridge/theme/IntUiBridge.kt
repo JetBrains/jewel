@@ -1073,15 +1073,6 @@ private fun readEditorTabStyle(): TabStyle {
     )
 }
 
-private fun readCircularProgressStyle(isDark: Boolean) =
-    CircularProgressStyle(
-        frameTime = 125.milliseconds,
-        color =
-            retrieveColorOrUnspecified("ProgressIcon.color").takeOrElse {
-                if (isDark) Color(0xFF6F737A) else Color(0xFFA8ADBD)
-            },
-    )
-
 private fun readTooltipStyle(): TooltipStyle {
     return TooltipStyle(
         metrics =
