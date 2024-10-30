@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.platform.asComposeFontFamily
@@ -20,7 +19,6 @@ import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
-import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.lafName
 import org.jetbrains.jewel.bridge.readFromLaF
@@ -52,9 +50,6 @@ import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LazyTreeIcons
 import org.jetbrains.jewel.ui.component.styling.LazyTreeMetrics
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
-import org.jetbrains.jewel.ui.component.styling.SegmentedControlColors
-import org.jetbrains.jewel.ui.component.styling.SegmentedControlMetrics
-import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
 import org.jetbrains.jewel.ui.component.styling.SimpleListItemColors
 import org.jetbrains.jewel.ui.component.styling.SimpleListItemMetrics
@@ -211,33 +206,6 @@ private fun readGroupHeaderStyle() =
                 indent = 1.dp, // see DarculaSeparatorUI
             ),
     )
-
-private fun readSegmentedControlStyle(): SegmentedControlStyle {
-    val normalBorder =
-        listOf(
-                JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
-            )
-            .createVerticalBrush()
-
-    val colors =
-        SegmentedControlColors(
-            border = normalBorder,
-            borderDisabled = SolidColor(JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor()),
-            borderPressed = normalBorder,
-            borderHovered = normalBorder,
-            borderFocused = SolidColor(JBUI.CurrentTheme.Button.focusBorderColor(false).toComposeColor()),
-        )
-
-    return SegmentedControlStyle(
-        colors = colors,
-        metrics =
-            SegmentedControlMetrics(
-                cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
-                borderWidth = DarculaUIUtil.LW.dp,
-            ),
-    )
-}
 
 private fun readSliderStyle(dark: Boolean): SliderStyle {
     // There are no values for sliders in IntUi, so we're essentially reusing the
