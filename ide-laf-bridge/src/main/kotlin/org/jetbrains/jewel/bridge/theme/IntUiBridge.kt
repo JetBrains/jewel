@@ -196,50 +196,6 @@ private fun readGroupHeaderStyle() =
             ),
     )
 
-private fun readLazyTreeStyle(): LazyTreeStyle {
-    val normalContent = retrieveColorOrUnspecified("Tree.foreground")
-    val selectedContent = retrieveColorOrUnspecified("Tree.selectionForeground")
-    val selectedElementBackground = retrieveColorOrUnspecified("Tree.selectionBackground")
-    val inactiveSelectedElementBackground = retrieveColorOrUnspecified("Tree.selectionInactiveBackground")
-
-    val colors =
-        SimpleListItemColors(
-            content = normalContent,
-            contentFocused = normalContent,
-            contentSelected = selectedContent,
-            contentSelectedFocused = selectedContent,
-            backgroundFocused = Color.Transparent,
-            backgroundSelected = inactiveSelectedElementBackground,
-            backgroundSelectedFocused = selectedElementBackground,
-        )
-
-    val leftIndent = retrieveIntAsDpOrUnspecified("Tree.leftChildIndent").takeOrElse { 7.dp }
-    val rightIndent = retrieveIntAsDpOrUnspecified("Tree.rightChildIndent").takeOrElse { 11.dp }
-
-    return LazyTreeStyle(
-        colors = colors,
-        metrics =
-            LazyTreeMetrics(
-                indentSize = leftIndent + rightIndent,
-                simpleListItemMetrics =
-                    SimpleListItemMetrics(
-                        innerPadding = PaddingValues(horizontal = 12.dp),
-                        outerPadding = PaddingValues(4.dp),
-                        selectionBackgroundCornerSize = CornerSize(JBUI.CurrentTheme.Tree.ARC.dp / 2),
-                    ),
-                elementMinHeight = retrieveIntAsDpOrUnspecified("Tree.rowHeight").takeOrElse { 24.dp },
-                chevronContentGap = 2.dp, // See com.intellij.ui.tree.ui.ClassicPainter.GAP
-            ),
-        icons =
-            LazyTreeIcons(
-                chevronCollapsed = AllIconsKeys.General.ChevronRight,
-                chevronExpanded = AllIconsKeys.General.ChevronDown,
-                chevronSelectedCollapsed = AllIconsKeys.General.ChevronRight,
-                chevronSelectedExpanded = AllIconsKeys.General.ChevronDown,
-            ),
-    )
-}
-
 // See com.intellij.ui.tabs.impl.themes.DefaultTabTheme
 private fun readDefaultTabStyle(): TabStyle {
     val normalBackground = JBUI.CurrentTheme.DefaultTabs.background().toComposeColor()
