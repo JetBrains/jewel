@@ -20,8 +20,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.intellij.ide.ui.laf.darcula.ui.DarculaButtonUI
+import com.intellij.openapi.ui.messages.MessageDialog
 import com.intellij.ui.JBColor
 import com.intellij.ui.components.JBLabel
+import com.intellij.ui.components.JBOptionButton
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.dsl.builder.AlignY
 import com.intellij.ui.dsl.builder.COLUMNS_SHORT
@@ -34,6 +36,9 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import icons.IdeSampleIconKeys
 import icons.JewelIcons
+import java.awt.event.ActionEvent
+import javax.swing.AbstractAction
+import javax.swing.Action
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -79,16 +84,33 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     }
 
     private fun Panel.buttonsRow() {
-        row("Buttons:") {
-                button("Swing Button") {}.align(AlignY.CENTER)
-                compose { OutlinedButton({}) { Text("Compose Button") } }
-
-                button("Default Swing Button") {}
+        row("Buttons - Swing:") {
+                button("Button") {}.align(AlignY.CENTER)
+                button("Default Button") {}
                     .align(AlignY.CENTER)
                     .applyToComponent { putClientProperty(DarculaButtonUI.DEFAULT_STYLE_KEY, true) }
-                compose { DefaultButton({}) { Text("Default Compose Button") } }
+
+                val options = arrayOf(action("Action 1"), action("Action 2"), action("Action 3"))
+                cell(JBOptionButton(action("Split").apply { isEnabled = true }, options))
+                cell(JBOptionButton(action("Default Split").apply { isEnabled = true }, options)).applyToComponent {
+                    putClientProperty(DarculaButtonUI.DEFAULT_STYLE_KEY, true)
+                }
             }
             .layout(RowLayout.PARENT_GRID)
+
+        row("Buttons - Compose:") {
+                compose { OutlinedButton({}) { Text("Button") } }
+                compose { DefaultButton({}) { Text("Default Button") } }
+            }
+            .layout(RowLayout.PARENT_GRID)
+    }
+
+    private fun action(text: String): Action {
+        return object : AbstractAction(text) {
+            override fun actionPerformed(e: ActionEvent?) {
+                MessageDialog(null, "Invoked $text", text, emptyArray<String>(), -1, null, false).show()
+            }
+        }
     }
 
     private fun Panel.labelsRows() {
