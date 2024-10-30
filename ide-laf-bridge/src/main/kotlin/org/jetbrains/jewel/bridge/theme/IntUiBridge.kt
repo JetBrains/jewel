@@ -1,31 +1,21 @@
 package org.jetbrains.jewel.bridge.theme
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.platform.asComposeFontFamily
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.openapi.editor.colors.ColorKey
 import com.intellij.openapi.editor.colors.EditorFontType
-import com.intellij.openapi.util.registry.Registry
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
-import com.intellij.util.ui.JBUI
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.lafName
 import org.jetbrains.jewel.bridge.readFromLaF
-import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.bridge.retrieveEditorColorScheme
 import org.jetbrains.jewel.bridge.retrieveTextStyle
 import org.jetbrains.jewel.bridge.toComposeColor
-import org.jetbrains.jewel.bridge.toComposeColorOrUnspecified
-import org.jetbrains.jewel.bridge.toDpSize
-import org.jetbrains.jewel.bridge.toPaddingValues
 import org.jetbrains.jewel.foundation.GlobalColors
 import org.jetbrains.jewel.foundation.GlobalMetrics
 import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
@@ -34,20 +24,7 @@ import org.jetbrains.jewel.foundation.theme.ThemeIconData
 import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.ui.DefaultComponentStyling
-import org.jetbrains.jewel.ui.component.styling.DividerMetrics
-import org.jetbrains.jewel.ui.component.styling.DividerStyle
-import org.jetbrains.jewel.ui.component.styling.GroupHeaderColors
-import org.jetbrains.jewel.ui.component.styling.GroupHeaderMetrics
-import org.jetbrains.jewel.ui.component.styling.GroupHeaderStyle
-import org.jetbrains.jewel.ui.component.styling.IconButtonColors
-import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
-import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
-import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
-import org.jetbrains.jewel.ui.component.styling.TooltipColors
-import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
-import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import javax.swing.UIManager
-import kotlin.time.Duration.Companion.milliseconds
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
@@ -162,9 +139,6 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         undecoratedDropdownStyle = readUndecoratedDropdownStyle(menuStyle),
     )
 }
-
-private fun readDividerStyle() =
-    DividerStyle(color = JBColor.border().toComposeColorOrUnspecified(), metrics = DividerMetrics.defaults())
 
 internal val componentArc: CornerSize
     get() = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2)
