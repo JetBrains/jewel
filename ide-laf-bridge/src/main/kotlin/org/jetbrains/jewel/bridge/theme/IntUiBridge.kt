@@ -182,23 +182,5 @@ private fun readGroupHeaderStyle() =
             ),
     )
 
-private fun readTooltipStyle(): TooltipStyle {
-    return TooltipStyle(
-        metrics =
-            TooltipMetrics.defaults(
-                contentPadding = JBUI.CurrentTheme.HelpTooltip.smallTextBorderInsets().toPaddingValues(),
-                showDelay = Registry.intValue("ide.tooltip.initialDelay").milliseconds,
-                cornerSize = CornerSize(JBUI.CurrentTheme.Tooltip.CORNER_RADIUS.dp),
-            ),
-        colors =
-            TooltipColors(
-                content = retrieveColorOrUnspecified("ToolTip.foreground"),
-                background = retrieveColorOrUnspecified("ToolTip.background"),
-                border = JBUI.CurrentTheme.Tooltip.borderColor().toComposeColor(),
-                shadow = retrieveColorOrUnspecified("Notification.Shadow.bottom1Color"),
-            ),
-    )
-}
-
 internal val componentArc: CornerSize
     get() = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2)
