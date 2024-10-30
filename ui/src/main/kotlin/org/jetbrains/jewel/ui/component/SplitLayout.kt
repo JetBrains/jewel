@@ -467,23 +467,22 @@ private fun calculateAdjustedSizes(
     minSecondPaneSizePx: Int,
 ): Pair<Int, Int> {
     val totalMinSize = minFirstPaneSizePx + minSecondPaneSizePx
-
-    if (availableSpace < totalMinSize) {
-        // If available space is less than total minimum size,
-        // distribute space proportionally
-        val firstRatio = minFirstPaneSizePx.toFloat() / totalMinSize
-        val adjustedFirstSize = (availableSpace * firstRatio).roundToInt()
-        val adjustedSecondSize = (availableSpace * (1 - firstRatio)).roundToInt()
-        return adjustedFirstSize to adjustedSecondSize
+    return when {
+        availableSpace < totalMinSize -> {
+            // If available space is less than total minimum size, distribute space proportionally
+            val firstRatio = minFirstPaneSizePx.toFloat() / totalMinSize
+            val adjustedFirstSize = (availableSpace * firstRatio).roundToInt()
+            val adjustedSecondSize = (availableSpace * (1 - firstRatio)).roundToInt()
+            adjustedFirstSize to adjustedSecondSize
+        }
+        initialFirstSize >= minFirstPaneSizePx && initialSecondSize >= minSecondPaneSizePx -> {
+            initialFirstSize to initialSecondSize
+        }
+        else -> {
+            // Adjust sizes to meet minimum requirements
+            val adjustedFirstSize = initialFirstSize.coerceAtLeast(minFirstPaneSizePx)
+            val adjustedSecondSize = (availableSpace - adjustedFirstSize).coerceAtLeast(minSecondPaneSizePx)
+            adjustedFirstSize to adjustedSecondSize
+        }
     }
-
-    if (initialFirstSize >= minFirstPaneSizePx && initialSecondSize >= minSecondPaneSizePx) {
-        return initialFirstSize to initialSecondSize
-    }
-
-    // Adjust sizes to meet minimum requirements
-    val adjustedFirstSize = initialFirstSize.coerceAtLeast(minFirstPaneSizePx)
-    val adjustedSecondSize = (availableSpace - adjustedFirstSize).coerceAtLeast(minSecondPaneSizePx)
-
-    return adjustedFirstSize to adjustedSecondSize
 }
