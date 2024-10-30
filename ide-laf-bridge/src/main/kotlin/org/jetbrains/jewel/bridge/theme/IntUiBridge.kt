@@ -207,14 +207,6 @@ private fun readGroupHeaderStyle() =
             ),
     )
 
-private fun readSliderStyle(dark: Boolean): SliderStyle {
-    // There are no values for sliders in IntUi, so we're essentially reusing the
-    // standalone colors logic, reading the palette values (and falling back to
-    // hardcoded defaults).
-    val colors = if (dark) SliderColors.dark() else SliderColors.light()
-    return SliderStyle(colors, SliderMetrics.defaults(), CircleShape)
-}
-
 private fun readTextAreaStyle(metrics: TextFieldMetrics): TextAreaStyle {
     val normalBackground = retrieveColorOrUnspecified("TextArea.background")
     val normalContent = retrieveColorOrUnspecified("TextArea.foreground")
