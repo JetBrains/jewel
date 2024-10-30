@@ -258,55 +258,6 @@ private fun readGroupHeaderStyle() =
             ),
     )
 
-private fun readLinkStyle(): LinkStyle {
-    val normalContent =
-        retrieveColorOrUnspecified("Link.activeForeground").takeOrElse {
-            retrieveColorOrUnspecified("Link.activeForeground")
-        }
-
-    val colors =
-        LinkColors(
-            content = normalContent,
-            contentDisabled =
-                retrieveColorOrUnspecified("Link.disabledForeground").takeOrElse {
-                    retrieveColorOrUnspecified("Label.disabledForeground")
-                },
-            contentFocused = normalContent,
-            contentPressed =
-                retrieveColorOrUnspecified("Link.pressedForeground").takeOrElse {
-                    retrieveColorOrUnspecified("link.pressed.foreground")
-                },
-            contentHovered =
-                retrieveColorOrUnspecified("Link.hoverForeground").takeOrElse {
-                    retrieveColorOrUnspecified("link.hover.foreground")
-                },
-            contentVisited =
-                retrieveColorOrUnspecified("Link.visitedForeground").takeOrElse {
-                    retrieveColorOrUnspecified("link.visited.foreground")
-                },
-        )
-
-    return LinkStyle(
-        colors = colors,
-        metrics =
-            LinkMetrics(
-                focusHaloCornerSize =
-                    retrieveArcAsCornerSizeOrDefault(
-                        key = "ide.link.button.focus.round.arc",
-                        default = CornerSize(4.dp),
-                    ),
-                textIconGap = 4.dp,
-                iconSize = DpSize(16.dp, 16.dp),
-            ),
-        icons =
-            LinkIcons(
-                dropdownChevron = AllIconsKeys.General.ChevronDown,
-                externalLink = AllIconsKeys.Ide.External_link_arrow,
-            ),
-        underlineBehavior = LinkUnderlineBehavior.ShowOnHover,
-    )
-}
-
 private fun readPopupContainerStyle(): PopupContainerStyle {
     val colors =
         PopupContainerColors(
