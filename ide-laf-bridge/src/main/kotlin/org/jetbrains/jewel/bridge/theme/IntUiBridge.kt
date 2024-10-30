@@ -5,17 +5,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.platform.asComposeFontFamily
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.takeOrElse
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
-import com.intellij.ide.ui.laf.intellij.IdeaPopupMenuUI
 import com.intellij.openapi.editor.colors.ColorKey
 import com.intellij.openapi.editor.colors.EditorFontType
 import com.intellij.openapi.util.registry.Registry
@@ -55,9 +52,6 @@ import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LazyTreeIcons
 import org.jetbrains.jewel.ui.component.styling.LazyTreeMetrics
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
-import org.jetbrains.jewel.ui.component.styling.PopupContainerColors
-import org.jetbrains.jewel.ui.component.styling.PopupContainerMetrics
-import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlColors
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlMetrics
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
@@ -217,32 +211,6 @@ private fun readGroupHeaderStyle() =
                 indent = 1.dp, // see DarculaSeparatorUI
             ),
     )
-
-private fun readPopupContainerStyle(): PopupContainerStyle {
-    val colors =
-        PopupContainerColors(
-            background = retrieveColorOrUnspecified("PopupMenu.background"),
-            border =
-                retrieveColorOrUnspecified("Popup.borderColor").takeOrElse {
-                    retrieveColorOrUnspecified("Popup.Border.color")
-                },
-            shadow = Color.Black.copy(alpha = .6f),
-        )
-
-    return PopupContainerStyle(
-        isDark = isDark,
-        colors = colors,
-        metrics =
-            PopupContainerMetrics(
-                cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
-                menuMargin = PaddingValues(),
-                contentPadding = PaddingValues(),
-                offset = DpOffset(0.dp, 2.dp),
-                shadowSize = 12.dp,
-                borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
-            ),
-    )
-}
 
 private fun readSegmentedControlStyle(): SegmentedControlStyle {
     val normalBorder =
