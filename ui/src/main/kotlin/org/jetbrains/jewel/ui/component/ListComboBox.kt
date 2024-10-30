@@ -20,7 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import org.jetbrains.jewel.foundation.lazy.*
+import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
+import org.jetbrains.jewel.foundation.lazy.SelectableLazyListScope
+import org.jetbrains.jewel.foundation.lazy.SelectableLazyListState
+import org.jetbrains.jewel.foundation.lazy.SelectionMode
+import org.jetbrains.jewel.foundation.lazy.items
+import org.jetbrains.jewel.foundation.lazy.rememberSelectableLazyListState
+import org.jetbrains.jewel.foundation.lazy.visibleItemsRange
 import org.jetbrains.jewel.foundation.modifier.onHover
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Outline
