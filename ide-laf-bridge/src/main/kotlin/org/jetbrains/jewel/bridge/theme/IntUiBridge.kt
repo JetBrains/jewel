@@ -17,7 +17,6 @@ import com.intellij.openapi.util.registry.Registry
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
 import com.intellij.util.ui.JBUI
-import com.intellij.util.ui.NamedColorUtil
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.lafName
 import org.jetbrains.jewel.bridge.readFromLaF
@@ -57,9 +56,6 @@ import org.jetbrains.jewel.ui.component.styling.TabContentAlpha
 import org.jetbrains.jewel.ui.component.styling.TabIcons
 import org.jetbrains.jewel.ui.component.styling.TabMetrics
 import org.jetbrains.jewel.ui.component.styling.TabStyle
-import org.jetbrains.jewel.ui.component.styling.TextFieldColors
-import org.jetbrains.jewel.ui.component.styling.TextFieldMetrics
-import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipColors
 import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
@@ -199,51 +195,6 @@ private fun readGroupHeaderStyle() =
                 indent = 1.dp, // see DarculaSeparatorUI
             ),
     )
-
-private fun readTextFieldStyle(): TextFieldStyle {
-    val normalBackground = retrieveColorOrUnspecified("TextField.background")
-    val normalContent = retrieveColorOrUnspecified("TextField.foreground")
-    val normalBorder = DarculaUIUtil.getOutlineColor(true, false).toComposeColor()
-    val focusedBorder = DarculaUIUtil.getOutlineColor(true, true).toComposeColor()
-    val normalCaret = retrieveColorOrUnspecified("TextField.caretForeground")
-
-    val colors =
-        TextFieldColors(
-            background = normalBackground,
-            backgroundDisabled = Color.Unspecified,
-            backgroundFocused = normalBackground,
-            backgroundPressed = normalBackground,
-            backgroundHovered = normalBackground,
-            content = normalContent,
-            contentDisabled = retrieveColorOrUnspecified("TextField.inactiveForeground"),
-            contentFocused = normalContent,
-            contentPressed = normalContent,
-            contentHovered = normalContent,
-            border = normalBorder,
-            borderDisabled = DarculaUIUtil.getOutlineColor(false, false).toComposeColor(),
-            borderFocused = focusedBorder,
-            borderPressed = focusedBorder,
-            borderHovered = normalBorder,
-            caret = normalCaret,
-            caretDisabled = normalCaret,
-            caretFocused = normalCaret,
-            caretPressed = normalCaret,
-            caretHovered = normalCaret,
-            placeholder = NamedColorUtil.getInactiveTextColor().toComposeColor(),
-        )
-
-    val minimumSize = JBUI.CurrentTheme.TextField.minimumSize().toDpSize()
-    return TextFieldStyle(
-        colors = colors,
-        metrics =
-            TextFieldMetrics(
-                cornerSize = componentArc,
-                contentPadding = PaddingValues(horizontal = 8.dp + DarculaUIUtil.LW.dp),
-                minSize = DpSize(144.dp, minimumSize.height),
-                borderWidth = DarculaUIUtil.LW.dp,
-            ),
-    )
-}
 
 private fun readLazyTreeStyle(): LazyTreeStyle {
     val normalContent = retrieveColorOrUnspecified("Tree.foreground")
