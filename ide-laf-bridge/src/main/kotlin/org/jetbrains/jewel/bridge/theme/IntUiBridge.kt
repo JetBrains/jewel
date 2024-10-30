@@ -172,15 +172,5 @@ private fun readSelectableLazyColumnStyle(): SelectableLazyColumnStyle =
         simpleListItemStyle = readSimpleListItemStyle(),
     )
 
-private fun readGroupHeaderStyle() =
-    GroupHeaderStyle(
-        colors = GroupHeaderColors(divider = retrieveColorOrUnspecified("Separator.separatorColor")),
-        metrics =
-            GroupHeaderMetrics(
-                dividerThickness = 1.dp, // see DarculaSeparatorUI
-                indent = 1.dp, // see DarculaSeparatorUI
-            ),
-    )
-
 internal val componentArc: CornerSize
     get() = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2)
