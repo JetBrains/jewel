@@ -166,11 +166,5 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
 private fun readDividerStyle() =
     DividerStyle(color = JBColor.border().toComposeColorOrUnspecified(), metrics = DividerMetrics.defaults())
 
-private fun readSelectableLazyColumnStyle(): SelectableLazyColumnStyle =
-    SelectableLazyColumnStyle(
-        itemHeight = JBUI.CurrentTheme.ComboBox.minimumSize().toDpSize().height,
-        simpleListItemStyle = readSimpleListItemStyle(),
-    )
-
 internal val componentArc: CornerSize
     get() = CornerSize(DarculaUIUtil.COMPONENT_ARC.dp / 2)
