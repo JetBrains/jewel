@@ -10,10 +10,10 @@ import org.jetbrains.jewel.bridge.retrieveEditorColorScheme
 import org.jetbrains.jewel.bridge.retrieveTextStyle
 import org.jetbrains.jewel.bridge.toComposeColor
 
-internal fun retrieveDefaultTextStyle(): TextStyle = retrieveTextStyle("Label.font", "Label.foreground")
+public fun retrieveDefaultTextStyle(): TextStyle = retrieveTextStyle("Label.font", "Label.foreground")
 
 @OptIn(ExperimentalTextApi::class)
-internal fun retrieveEditorTextStyle(): TextStyle {
+public fun retrieveEditorTextStyle(): TextStyle {
     val editorColorScheme = retrieveEditorColorScheme()
 
     val fontSize = editorColorScheme.editorFontSize.sp
@@ -28,7 +28,7 @@ internal fun retrieveEditorTextStyle(): TextStyle {
 }
 
 @OptIn(ExperimentalTextApi::class)
-internal fun retrieveConsoleTextStyle(): TextStyle {
+public fun retrieveConsoleTextStyle(): TextStyle {
     val editorColorScheme = retrieveEditorColorScheme()
     if (editorColorScheme.isUseEditorFontPreferencesInConsole) return retrieveEditorTextStyle()
 

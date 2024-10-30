@@ -14,9 +14,9 @@ import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 internal fun readSegmentedControlStyle(): SegmentedControlStyle {
     val normalBorder =
         listOf(
-            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
-        )
+                JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+            )
             .createVerticalBrush()
 
     val colors =

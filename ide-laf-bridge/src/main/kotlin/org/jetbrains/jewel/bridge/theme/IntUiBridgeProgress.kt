@@ -4,12 +4,12 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.dp
+import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.ui.component.styling.CircularProgressStyle
 import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarColors
 import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarMetrics
 import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
-import kotlin.time.Duration.Companion.milliseconds
 
 internal fun readCircularProgressStyle(isDark: Boolean) =
     CircularProgressStyle(

@@ -3,6 +3,7 @@ package org.jetbrains.jewel.bridge.theme
 import androidx.compose.foundation.shape.CornerSize
 import com.intellij.openapi.util.registry.Registry
 import com.intellij.util.ui.JBUI
+import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
 import org.jetbrains.jewel.bridge.toComposeColor
@@ -10,7 +11,6 @@ import org.jetbrains.jewel.bridge.toPaddingValues
 import org.jetbrains.jewel.ui.component.styling.TooltipColors
 import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
-import kotlin.time.Duration.Companion.milliseconds
 
 internal fun readTooltipStyle(): TooltipStyle {
     return TooltipStyle(

@@ -56,7 +56,6 @@ internal fun readRadioButtonStyle(): RadioButtonStyle {
     )
 }
 
-
 private interface BridgeRadioButtonMetrics {
     val outlineSize: DpSize
     val outlineFocusedSize: DpSize
