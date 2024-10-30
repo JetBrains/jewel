@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.platform.asComposeFontFamily
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -26,13 +25,9 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.NamedColorUtil
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
-import org.jetbrains.jewel.bridge.isNewUiTheme
 import org.jetbrains.jewel.bridge.lafName
 import org.jetbrains.jewel.bridge.readFromLaF
-import org.jetbrains.jewel.bridge.retrieveArcAsCornerSizeOrDefault
-import org.jetbrains.jewel.bridge.retrieveArcAsCornerSizeWithFallbacks
 import org.jetbrains.jewel.bridge.retrieveColorOrUnspecified
-import org.jetbrains.jewel.bridge.retrieveColorsOrUnspecified
 import org.jetbrains.jewel.bridge.retrieveEditorColorScheme
 import org.jetbrains.jewel.bridge.retrieveInsetsAsPaddingValues
 import org.jetbrains.jewel.bridge.retrieveIntAsDpOrUnspecified
@@ -43,70 +38,35 @@ import org.jetbrains.jewel.bridge.toDpSize
 import org.jetbrains.jewel.bridge.toPaddingValues
 import org.jetbrains.jewel.foundation.GlobalColors
 import org.jetbrains.jewel.foundation.GlobalMetrics
-import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
 import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.foundation.theme.ThemeIconData
 import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.ui.DefaultComponentStyling
-import org.jetbrains.jewel.ui.component.styling.ButtonColors
-import org.jetbrains.jewel.ui.component.styling.ButtonMetrics
-import org.jetbrains.jewel.ui.component.styling.ButtonStyle
-import org.jetbrains.jewel.ui.component.styling.ChipColors
-import org.jetbrains.jewel.ui.component.styling.ChipMetrics
-import org.jetbrains.jewel.ui.component.styling.ChipStyle
-import org.jetbrains.jewel.ui.component.styling.CircularProgressStyle
-import org.jetbrains.jewel.ui.component.styling.ComboBoxColors
-import org.jetbrains.jewel.ui.component.styling.ComboBoxIcons
-import org.jetbrains.jewel.ui.component.styling.ComboBoxMetrics
-import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
 import org.jetbrains.jewel.ui.component.styling.DividerMetrics
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
-import org.jetbrains.jewel.ui.component.styling.DropdownColors
-import org.jetbrains.jewel.ui.component.styling.DropdownIcons
-import org.jetbrains.jewel.ui.component.styling.DropdownMetrics
-import org.jetbrains.jewel.ui.component.styling.DropdownStyle
 import org.jetbrains.jewel.ui.component.styling.GroupHeaderColors
 import org.jetbrains.jewel.ui.component.styling.GroupHeaderMetrics
 import org.jetbrains.jewel.ui.component.styling.GroupHeaderStyle
-import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarColors
-import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarMetrics
-import org.jetbrains.jewel.ui.component.styling.HorizontalProgressBarStyle
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LazyTreeIcons
 import org.jetbrains.jewel.ui.component.styling.LazyTreeMetrics
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
-import org.jetbrains.jewel.ui.component.styling.LinkColors
-import org.jetbrains.jewel.ui.component.styling.LinkIcons
-import org.jetbrains.jewel.ui.component.styling.LinkMetrics
-import org.jetbrains.jewel.ui.component.styling.LinkStyle
-import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior
-import org.jetbrains.jewel.ui.component.styling.MenuColors
-import org.jetbrains.jewel.ui.component.styling.MenuIcons
-import org.jetbrains.jewel.ui.component.styling.MenuItemColors
-import org.jetbrains.jewel.ui.component.styling.MenuItemMetrics
-import org.jetbrains.jewel.ui.component.styling.MenuMetrics
-import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.component.styling.PopupContainerColors
 import org.jetbrains.jewel.ui.component.styling.PopupContainerMetrics
 import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
-import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonColors
-import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonMetrics
-import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlColors
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlMetrics
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
 import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
 import org.jetbrains.jewel.ui.component.styling.SimpleListItemColors
 import org.jetbrains.jewel.ui.component.styling.SimpleListItemMetrics
-import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderColors
 import org.jetbrains.jewel.ui.component.styling.SliderMetrics
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
-import org.jetbrains.jewel.ui.component.styling.SubmenuMetrics
 import org.jetbrains.jewel.ui.component.styling.TabColors
 import org.jetbrains.jewel.ui.component.styling.TabContentAlpha
 import org.jetbrains.jewel.ui.component.styling.TabIcons
@@ -177,7 +137,7 @@ public fun retrieveConsoleTextStyle(): TextStyle {
         )
 }
 
-private val isDark: Boolean
+internal val isDark: Boolean
     get() = !JBColor.isBright()
 
 internal fun createBridgeThemeDefinition(
@@ -281,82 +241,6 @@ private fun readPopupContainerStyle(): PopupContainerStyle {
                 shadowSize = 12.dp,
                 borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
             ),
-    )
-}
-
-private fun readMenuStyle(): MenuStyle {
-    val backgroundSelected = retrieveColorOrUnspecified("MenuItem.selectionBackground")
-    val foregroundSelected = retrieveColorOrUnspecified("MenuItem.selectionForeground")
-    val keybindingTint = retrieveColorOrUnspecified("MenuItem.acceleratorForeground")
-    val keybindingTintSelected = Color.Unspecified
-
-    val colors =
-        MenuColors(
-            background = retrieveColorOrUnspecified("PopupMenu.background"),
-            border =
-                retrieveColorOrUnspecified("Popup.borderColor").takeOrElse {
-                    retrieveColorOrUnspecified("Popup.Border.color")
-                },
-            shadow = Color.Black.copy(alpha = .6f),
-            itemColors =
-                MenuItemColors(
-                    background = retrieveColorOrUnspecified("MenuItem.background"),
-                    backgroundDisabled = retrieveColorOrUnspecified("MenuItem.disabledBackground"),
-                    backgroundFocused = backgroundSelected,
-                    backgroundPressed = backgroundSelected,
-                    backgroundHovered = backgroundSelected,
-                    content = retrieveColorOrUnspecified("PopupMenu.foreground"),
-                    contentDisabled = retrieveColorOrUnspecified("PopupMenu.disabledForeground"),
-                    contentFocused = foregroundSelected,
-                    contentPressed = foregroundSelected,
-                    contentHovered = foregroundSelected,
-                    iconTint = Color.Unspecified,
-                    iconTintDisabled = Color.Unspecified,
-                    iconTintFocused = Color.Unspecified,
-                    iconTintPressed = Color.Unspecified,
-                    iconTintHovered = Color.Unspecified,
-                    keybindingTint = keybindingTint,
-                    keybindingTintDisabled = keybindingTint,
-                    keybindingTintFocused = keybindingTintSelected,
-                    keybindingTintPressed = keybindingTintSelected,
-                    keybindingTintHovered = keybindingTintSelected,
-                    separator = retrieveColorOrUnspecified("Menu.separatorColor"),
-                ),
-        )
-
-    return MenuStyle(
-        isDark = isDark,
-        colors = colors,
-        metrics =
-            MenuMetrics(
-                cornerSize = CornerSize(IdeaPopupMenuUI.CORNER_RADIUS.dp),
-                menuMargin = PaddingValues(),
-                contentPadding = PaddingValues(),
-                offset = DpOffset(0.dp, 2.dp),
-                shadowSize = 12.dp,
-                borderWidth = retrieveIntAsDpOrUnspecified("Popup.borderWidth").takeOrElse { 1.dp },
-                itemMetrics =
-                    MenuItemMetrics(
-                        selectionCornerSize = CornerSize(0.dp),
-                        outerPadding = PaddingValues(),
-                        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp),
-                        keybindingsPadding = PaddingValues(start = 36.dp),
-                        separatorPadding =
-                            PaddingValues(
-                                horizontal =
-                                    retrieveIntAsDpOrUnspecified("PopupMenuSeparator.withToEdge").takeOrElse { 1.dp },
-                                vertical =
-                                    retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeIndent").takeOrElse { 1.dp },
-                            ),
-                        separatorThickness =
-                            retrieveIntAsDpOrUnspecified("PopupMenuSeparator.stripeWidth").takeOrElse { 1.dp },
-                        separatorHeight = retrieveIntAsDpOrUnspecified("PopupMenuSeparator.height").takeOrElse { 3.dp },
-                        iconSize = 16.dp,
-                        minHeight = if (isNewUiTheme()) JBUI.CurrentTheme.List.rowHeight().dp else Dp.Unspecified,
-                    ),
-                submenuMetrics = SubmenuMetrics(offset = DpOffset(0.dp, (-8).dp)),
-            ),
-        icons = MenuIcons(submenuChevron = AllIconsKeys.General.ChevronRight),
     )
 }
 
