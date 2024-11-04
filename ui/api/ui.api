@@ -1336,7 +1336,7 @@ public final class org/jetbrains/jewel/ui/component/styling/ComboBoxIcons$Compan
 public final class org/jetbrains/jewel/ui/component/styling/ComboBoxMetrics {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics$Companion;
-	public synthetic fun <init> (JJLandroidx/compose/foundation/shape/CornerSize;Landroidx/compose/foundation/layout/PaddingValues;FFLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJLandroidx/compose/foundation/shape/CornerSize;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;FFLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getArrowAreaSize-MYxV2XQ ()J
 	public final fun getBorderWidth-D9Ej5fM ()F
@@ -1344,6 +1344,7 @@ public final class org/jetbrains/jewel/ui/component/styling/ComboBoxMetrics {
 	public final fun getCornerSize ()Landroidx/compose/foundation/shape/CornerSize;
 	public final fun getMaxPopupHeight-D9Ej5fM ()F
 	public final fun getMinSize-MYxV2XQ ()J
+	public final fun getPopupContentPadding ()Landroidx/compose/foundation/layout/PaddingValues;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

@@ -144,8 +144,7 @@ public fun ListComboBox(
                 },
         ) {
             SelectableLazyColumn(
-                modifier =
-                    Modifier.fillMaxWidth().heightIn(max = popupMaxHeight).padding(contentPadding),
+                modifier = Modifier.fillMaxWidth().heightIn(max = popupMaxHeight).padding(contentPadding),
                 selectionMode = SelectionMode.Single,
                 state = scrollState,
                 onSelectedIndexesChange = onSelectedIndexesChange(),
@@ -167,7 +166,15 @@ public fun ListComboBox(
             onEnterPress = onEnterPress,
             onPopupStateChange = onPopupStateChange,
         ) {
-            list(items, scrollState, popupMaxHeight, contentPadding, onListHoverChange, onHoverItemChange, listItemContent)
+            list(
+                items,
+                scrollState,
+                popupMaxHeight,
+                contentPadding,
+                onListHoverChange,
+                onHoverItemChange,
+                listItemContent,
+            )
         }
     } else {
         ComboBox(
@@ -183,7 +190,15 @@ public fun ListComboBox(
             onArrowUpPress = onArrowUpPress,
             onPopupStateChange = onPopupStateChange,
         ) {
-            list(items, scrollState, popupMaxHeight, contentPadding, onListHoverChange, onHoverItemChange, listItemContent)
+            list(
+                items,
+                scrollState,
+                popupMaxHeight,
+                contentPadding,
+                onListHoverChange,
+                onHoverItemChange,
+                listItemContent,
+            )
         }
     }
 }

@@ -77,16 +77,16 @@ public final class org/jetbrains/jewel/intui/standalone/styling/IntUiCircularPro
 }
 
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiComboBoxStylingKt {
-	public static final fun default-Z9s6VvY (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics$Companion;JJLandroidx/compose/foundation/shape/CornerSize;Landroidx/compose/foundation/layout/PaddingValues;FF)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;
-	public static synthetic fun default-Z9s6VvY$default (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics$Companion;JJLandroidx/compose/foundation/shape/CornerSize;Landroidx/compose/foundation/layout/PaddingValues;FFILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;
+	public static final fun default-EfrW7C0 (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics$Companion;JJLandroidx/compose/foundation/shape/CornerSize;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;FF)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;
+	public static synthetic fun default-EfrW7C0$default (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics$Companion;JJLandroidx/compose/foundation/shape/CornerSize;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;FFILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;
 	public static final fun defaults (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons$Companion;Lorg/jetbrains/jewel/ui/icon/IconKey;)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;
 	public static synthetic fun defaults$default (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons$Companion;Lorg/jetbrains/jewel/ui/icon/IconKey;ILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxIcons;
 	public static final fun getDefault (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors$Companion;)Lorg/jetbrains/jewel/intui/standalone/styling/IntUiDefaultComboBoxColorsFactory;
 	public static final fun getDefault (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle$Companion;)Lorg/jetbrains/jewel/intui/standalone/styling/IntUiDefaultComboBoxStyleFactory;
 	public static final fun getUndecorated (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxColors$Companion;)Lorg/jetbrains/jewel/intui/standalone/styling/IntUiUndecoratedComboBoxColorsFactory;
 	public static final fun getUndecorated (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxStyle$Companion;)Lorg/jetbrains/jewel/intui/standalone/styling/IntUiUndecoratedComboBoxStyleFactory;
-	public static final fun undecorated-Z9s6VvY (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics$Companion;JJLandroidx/compose/foundation/shape/CornerSize;Landroidx/compose/foundation/layout/PaddingValues;FF)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;
-	public static synthetic fun undecorated-Z9s6VvY$default (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics$Companion;JJLandroidx/compose/foundation/shape/CornerSize;Landroidx/compose/foundation/layout/PaddingValues;FFILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;
+	public static final fun undecorated-EfrW7C0 (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics$Companion;JJLandroidx/compose/foundation/shape/CornerSize;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;FF)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;
+	public static synthetic fun undecorated-EfrW7C0$default (Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics$Companion;JJLandroidx/compose/foundation/shape/CornerSize;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/layout/PaddingValues;FFILjava/lang/Object;)Lorg/jetbrains/jewel/ui/component/styling/ComboBoxMetrics;
 }
 
 public final class org/jetbrains/jewel/intui/standalone/styling/IntUiDefaultButtonColorFactory {
