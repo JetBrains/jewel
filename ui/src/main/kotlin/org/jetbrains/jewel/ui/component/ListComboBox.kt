@@ -2,6 +2,7 @@ package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -18,7 +19,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyListScope
@@ -54,7 +54,7 @@ public fun ListComboBox(
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(selectedItem) { scrollState.selectedKeys = setOf(items[selectedItem]) }
-
+    val contentPadding = JewelTheme.comboBoxStyle.metrics.popupContentPadding
     val popupMaxHeight =
         if (maxPopupHeight == Dp.Unspecified) {
             JewelTheme.comboBoxStyle.metrics.maxPopupHeight
@@ -130,6 +130,7 @@ public fun ListComboBox(
         items: List<String>,
         scrollState: SelectableLazyListState,
         popupMaxHeight: Dp,
+        contentPadding: PaddingValues,
         onListHoverChange: (Boolean) -> Unit,
         onHoverItemChange: (String) -> Unit,
         listItemContent: @Composable (String, Boolean, Boolean, Boolean, Boolean) -> Unit,
@@ -144,7 +145,7 @@ public fun ListComboBox(
         ) {
             SelectableLazyColumn(
                 modifier =
-                    Modifier.fillMaxWidth().heightIn(max = popupMaxHeight).padding(horizontal = 6.dp, vertical = 6.dp),
+                    Modifier.fillMaxWidth().heightIn(max = popupMaxHeight).padding(contentPadding),
                 selectionMode = SelectionMode.Single,
                 state = scrollState,
                 onSelectedIndexesChange = onSelectedIndexesChange(),
@@ -152,7 +153,6 @@ public fun ListComboBox(
             )
         }
     }
-
     if (isEditable) {
         EditableComboBox(
             modifier = modifier,
@@ -167,7 +167,7 @@ public fun ListComboBox(
             onEnterPress = onEnterPress,
             onPopupStateChange = onPopupStateChange,
         ) {
-            list(items, scrollState, popupMaxHeight, onListHoverChange, onHoverItemChange, listItemContent)
+            list(items, scrollState, popupMaxHeight, contentPadding, onListHoverChange, onHoverItemChange, listItemContent)
         }
     } else {
         ComboBox(
@@ -183,7 +183,7 @@ public fun ListComboBox(
             onArrowUpPress = onArrowUpPress,
             onPopupStateChange = onPopupStateChange,
         ) {
-            list(items, scrollState, popupMaxHeight, onListHoverChange, onHoverItemChange, listItemContent)
+            list(items, scrollState, popupMaxHeight, contentPadding, onListHoverChange, onHoverItemChange, listItemContent)
         }
     }
 }
