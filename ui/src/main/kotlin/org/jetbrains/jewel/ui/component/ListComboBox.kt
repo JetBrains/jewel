@@ -98,33 +98,31 @@ public fun ListComboBox(
         items: List<String>,
         onHoverItemChange: (String) -> Unit,
         listItemContent: @Composable (String, Boolean, Boolean, Boolean, Boolean) -> Unit,
-    ): SelectableLazyListScope.() -> Unit {
-        return {
-            items(
-                items = items,
-                itemContent = { item ->
-                    var isItemHovered by remember { mutableStateOf(false) }
-                    Box(
-                        modifier =
-                            Modifier.onHover {
-                                isItemHovered = it
-                                if (isItemHovered) {
-                                    hoverItemIndex = items.indexOf(item)
-                                    onHoverItemChange(item)
-                                }
+    ): SelectableLazyListScope.() -> Unit = {
+        items(
+            items = items,
+            itemContent = { item ->
+                var isItemHovered by remember { mutableStateOf(false) }
+                Box(
+                    modifier =
+                        Modifier.onHover {
+                            isItemHovered = it
+                            if (isItemHovered) {
+                                hoverItemIndex = items.indexOf(item)
+                                onHoverItemChange(item)
                             }
-                    ) {
-                        listItemContent(
-                            item,
-                            isSelected,
-                            isActive,
-                            isItemHovered || items.indexOf(item) == hoverItemIndex,
-                            hoverItemIndex != null,
-                        )
-                    }
-                },
-            )
-        }
+                        }
+                ) {
+                    listItemContent(
+                        item,
+                        isSelected,
+                        isActive,
+                        isItemHovered || items.indexOf(item) == hoverItemIndex,
+                        hoverItemIndex != null,
+                    )
+                }
+            },
+        )
     }
 
     @Composable
