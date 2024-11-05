@@ -363,6 +363,9 @@ private fun MeasureScope.doLayout(
             minSecondPaneSizePx,
         )
 
+    // Update state.dividerPosition to match adjusted sizes
+    state.dividerPosition = adjustedFirstSize.toFloat() / availableSpace.toFloat()
+
     // Use the adjusted sizes directly for constraints
     val firstConstraints =
         when (gapOrientation) {
@@ -471,22 +474,33 @@ private fun calculateAdjustedSizes(
     minSecondPaneSizePx: Int,
 ): Pair<Int, Int> {
     val totalMinSize = minFirstPaneSizePx + minSecondPaneSizePx
-    return when {
-        availableSpace < totalMinSize -> {
-            // If available space is less than total minimum size, distribute space proportionally
-            val firstRatio = minFirstPaneSizePx.toFloat() / totalMinSize
-            val adjustedFirstSize = (availableSpace * firstRatio).roundToInt()
-            val adjustedSecondSize = (availableSpace * (1 - firstRatio)).roundToInt()
-            adjustedFirstSize to adjustedSecondSize
-        }
-        initialFirstSize >= minFirstPaneSizePx && initialSecondSize >= minSecondPaneSizePx -> {
-            initialFirstSize to initialSecondSize
-        }
-        else -> {
-            // Adjust sizes to meet minimum requirements
-            val adjustedFirstSize = initialFirstSize.coerceAtLeast(minFirstPaneSizePx)
-            val adjustedSecondSize = (availableSpace - adjustedFirstSize).coerceAtLeast(minSecondPaneSizePx)
-            adjustedFirstSize to adjustedSecondSize
-        }
+
+    if (availableSpace <= totalMinSize) {
+        // Distribute space proportionally based on minimum sizes
+        val firstRatio = minFirstPaneSizePx.toFloat() / totalMinSize
+        val adjustedFirstSize = (availableSpace * firstRatio).roundToInt()
+        val adjustedSecondSize = availableSpace - adjustedFirstSize
+        return adjustedFirstSize to adjustedSecondSize
     }
+
+    var adjustedFirstSize = initialFirstSize
+    var adjustedSecondSize = initialSecondSize
+
+    // Adjust first pane size if it's below minimum
+    if (adjustedFirstSize < minFirstPaneSizePx) {
+        adjustedFirstSize = minFirstPaneSizePx
+        adjustedSecondSize = availableSpace - adjustedFirstSize
+    }
+
+    // Adjust second pane size if it's below minimum
+    if (adjustedSecondSize < minSecondPaneSizePx) {
+        adjustedSecondSize = minSecondPaneSizePx
+        adjustedFirstSize = availableSpace - adjustedSecondSize
+    }
+
+    // Ensure sizes are within constraints
+    adjustedFirstSize = adjustedFirstSize.coerceIn(minFirstPaneSizePx, availableSpace - minSecondPaneSizePx)
+    adjustedSecondSize = adjustedSecondSize.coerceIn(minSecondPaneSizePx, availableSpace - adjustedFirstSize)
+
+    return adjustedFirstSize to adjustedSecondSize
 }
