@@ -1,7 +1,9 @@
 package org.jetbrains.jewel.bridge.theme
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.util.ui.JBUI
 import org.jetbrains.jewel.bridge.dp
@@ -51,6 +53,7 @@ internal fun readDefaultComboBoxStyle(): ComboBoxStyle {
                 minSize = DpSize(minimumSize.width + arrowWidth, minimumSize.height),
                 cornerSize = componentArc,
                 contentPadding = retrieveInsetsAsPaddingValues("ComboBox.padding"),
+                popupContentPadding = PaddingValues(6.dp),
                 borderWidth = DarculaUIUtil.LW.dp,
                 maxPopupHeight = Dp.Unspecified,
             ),
