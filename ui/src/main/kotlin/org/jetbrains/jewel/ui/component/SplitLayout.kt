@@ -184,7 +184,12 @@ private fun SplitLayoutImpl(
             val minFirstPositionPx = with(density) { firstPaneMinWidth.toPx() }
             val minSecondPositionPx = with(density) { secondPaneMinWidth.toPx() }
 
-            // Add safety check for minimum sizes
+            /**
+             * Ensures that the divider in the split layout can be dragged, but it respects the minimum sizes of both
+             * panes and adjusts the layout accordingly. The position is calculated, constrained, and then applied to
+             * the dividerPosition in the state, ensuring a smooth and safe user experience during dragging
+             * interactions.
+             */
             if (minFirstPositionPx + minSecondPositionPx <= size) {
                 dragOffset += delta
                 val position = size * state.dividerPosition + dragOffset
