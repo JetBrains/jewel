@@ -2,6 +2,7 @@ package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -18,9 +19,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
+import org.jetbrains.jewel.foundation.lazy.SelectableLazyListScope
+import org.jetbrains.jewel.foundation.lazy.SelectableLazyListState
 import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.items
 import org.jetbrains.jewel.foundation.lazy.rememberSelectableLazyListState
@@ -52,7 +54,7 @@ public fun ListComboBox(
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(selectedItem) { scrollState.selectedKeys = setOf(items[selectedItem]) }
-
+    val contentPadding = JewelTheme.comboBoxStyle.metrics.popupContentPadding
     val popupMaxHeight =
         if (maxPopupHeight == Dp.Unspecified) {
             JewelTheme.comboBoxStyle.metrics.maxPopupHeight
@@ -76,7 +78,80 @@ public fun ListComboBox(
         selectedItem = selectedItem.minus(1).coerceAtLeast(0)
         scope.launch { scrollState.lazyListState.scrollToIndex(selectedItem) }
     }
+    val onEnterPress = {
+        val indexOfSelected = items.indexOf(inputTextFieldState.text)
+        if (indexOfSelected != -1) {
+            selectedItem = indexOfSelected
+        }
+    }
 
+    fun onSelectedIndexesChange() = { selectedItems: List<Int> ->
+        if (selectedItems.isNotEmpty()) {
+            val selectedItemIndex = selectedItems.first()
+            selectedItem = selectedItemIndex
+            inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
+            onSelectedItemChange(items[selectedItemIndex])
+        }
+    }
+
+    fun contentItems(
+        items: List<String>,
+        onHoverItemChange: (String) -> Unit,
+        listItemContent: @Composable (String, Boolean, Boolean, Boolean, Boolean) -> Unit,
+    ): SelectableLazyListScope.() -> Unit = {
+        items(
+            items = items,
+            itemContent = { item ->
+                var isItemHovered by remember { mutableStateOf(false) }
+                Box(
+                    modifier =
+                        Modifier.onHover {
+                            isItemHovered = it
+                            if (isItemHovered) {
+                                hoverItemIndex = items.indexOf(item)
+                                onHoverItemChange(item)
+                            }
+                        }
+                ) {
+                    listItemContent(
+                        item,
+                        isSelected,
+                        isActive,
+                        isItemHovered || items.indexOf(item) == hoverItemIndex,
+                        hoverItemIndex != null,
+                    )
+                }
+            },
+        )
+    }
+
+    @Composable
+    fun list(
+        items: List<String>,
+        scrollState: SelectableLazyListState,
+        popupMaxHeight: Dp,
+        contentPadding: PaddingValues,
+        onListHoverChange: (Boolean) -> Unit,
+        onHoverItemChange: (String) -> Unit,
+        listItemContent: @Composable (String, Boolean, Boolean, Boolean, Boolean) -> Unit,
+    ) {
+        VerticallyScrollableContainer(
+            scrollState = scrollState.lazyListState,
+            modifier =
+                Modifier.heightIn(max = popupMaxHeight).onHover {
+                    isListHovered = it
+                    onListHoverChange(it)
+                },
+        ) {
+            SelectableLazyColumn(
+                modifier = Modifier.fillMaxWidth().heightIn(max = popupMaxHeight).padding(contentPadding),
+                selectionMode = SelectionMode.Single,
+                state = scrollState,
+                onSelectedIndexesChange = onSelectedIndexesChange(),
+                content = contentItems(items, onHoverItemChange, listItemContent),
+            )
+        }
+    }
     if (isEditable) {
         EditableComboBox(
             modifier = modifier,
@@ -88,65 +163,18 @@ public fun ListComboBox(
             textStyle = JewelTheme.defaultTextStyle,
             onArrowDownPress = onArrowDownPress,
             onArrowUpPress = onArrowUpPress,
-            onEnterPress = {
-                val indexOfSelected = items.indexOf(inputTextFieldState.text)
-                if (indexOfSelected != -1) {
-                    selectedItem = indexOfSelected
-                }
-            },
+            onEnterPress = onEnterPress,
             onPopupStateChange = onPopupStateChange,
         ) {
-            VerticallyScrollableContainer(
-                scrollState = scrollState.lazyListState,
-                modifier =
-                    Modifier.heightIn(max = popupMaxHeight).onHover {
-                        isListHovered = it
-                        onListHoverChange(it)
-                    },
-            ) {
-                SelectableLazyColumn(
-                    modifier =
-                        Modifier.fillMaxWidth()
-                            .heightIn(max = popupMaxHeight)
-                            .padding(horizontal = 6.dp, vertical = 6.dp),
-                    selectionMode = SelectionMode.Single,
-                    state = scrollState,
-                    onSelectedIndexesChange = { selectedItems ->
-                        if (selectedItems.isEmpty()) return@SelectableLazyColumn
-
-                        val selectedItemIndex = selectedItems.first()
-                        selectedItem = selectedItemIndex
-                        inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
-                        onSelectedItemChange(items[selectedItemIndex])
-                    },
-                    content = {
-                        items(
-                            items = items,
-                            itemContent = { item ->
-                                var isItemHovered by remember { mutableStateOf(false) }
-                                Box(
-                                    modifier =
-                                        Modifier.onHover {
-                                            isItemHovered = it
-                                            if (isItemHovered) {
-                                                hoverItemIndex = items.indexOf(item)
-                                                onHoverItemChange(item)
-                                            }
-                                        }
-                                ) {
-                                    listItemContent(
-                                        item,
-                                        isSelected,
-                                        isActive,
-                                        isItemHovered || items.indexOf(item) == hoverItemIndex,
-                                        hoverItemIndex != null,
-                                    )
-                                }
-                            },
-                        )
-                    },
-                )
-            }
+            list(
+                items,
+                scrollState,
+                popupMaxHeight,
+                contentPadding,
+                onListHoverChange,
+                onHoverItemChange,
+                listItemContent,
+            )
         }
     } else {
         ComboBox(
@@ -162,57 +190,15 @@ public fun ListComboBox(
             onArrowUpPress = onArrowUpPress,
             onPopupStateChange = onPopupStateChange,
         ) {
-            VerticallyScrollableContainer(
-                scrollState = scrollState.lazyListState,
-                modifier =
-                    Modifier.heightIn(max = popupMaxHeight).onHover {
-                        isListHovered = it
-                        onListHoverChange(it)
-                    },
-            ) {
-                SelectableLazyColumn(
-                    modifier =
-                        Modifier.fillMaxWidth()
-                            .heightIn(max = popupMaxHeight)
-                            .padding(horizontal = 6.dp, vertical = 6.dp),
-                    selectionMode = SelectionMode.Single,
-                    state = scrollState,
-                    onSelectedIndexesChange = { selectedItems ->
-                        if (selectedItems.isEmpty()) return@SelectableLazyColumn
-
-                        val selectedItemIndex = selectedItems.first()
-                        selectedItem = selectedItemIndex
-                        inputTextFieldState.setTextAndPlaceCursorAtEnd(items[selectedItemIndex])
-                        onSelectedItemChange(items[selectedItemIndex])
-                    },
-                    content = {
-                        items(
-                            items = items,
-                            itemContent = { item ->
-                                var isItemHovered by remember { mutableStateOf(false) }
-                                Box(
-                                    modifier =
-                                        Modifier.onHover {
-                                            isItemHovered = it
-                                            if (isItemHovered) {
-                                                hoverItemIndex = items.indexOf(item)
-                                                onHoverItemChange(item)
-                                            }
-                                        }
-                                ) {
-                                    listItemContent(
-                                        item,
-                                        isSelected,
-                                        isActive,
-                                        isItemHovered || items.indexOf(item) == hoverItemIndex,
-                                        hoverItemIndex != null,
-                                    )
-                                }
-                            },
-                        )
-                    },
-                )
-            }
+            list(
+                items,
+                scrollState,
+                popupMaxHeight,
+                contentPadding,
+                onListHoverChange,
+                onHoverItemChange,
+                listItemContent,
+            )
         }
     }
 }
@@ -235,6 +221,7 @@ private suspend fun LazyListState.scrollToIndex(itemIndex: Int) {
         itemIndex == visibleItemsRange.last && !isLastItemFullyVisible -> {
             scrollToItem(itemIndex, layoutInfo.viewportEndOffset - lastItemInfoSize)
         }
+
         itemIndex > visibleItemsRange.last -> {
             // First scroll assuming the new item has the same height as the current last item
             scrollToItem(itemIndex, layoutInfo.viewportEndOffset - lastItemInfoSize)
