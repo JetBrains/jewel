@@ -121,7 +121,7 @@ private fun RowScope.ColumnOne() {
                 separator()
 
                 selectableItem(selectedItem == 1, onClick = { selectedItem = 1 }) { Text("World") }
-            }
+            },
         ) {
             Text("Selected item $selectedItem")
         }

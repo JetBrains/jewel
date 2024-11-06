@@ -121,7 +121,7 @@ public fun Dropdown(
     ) {
         CompositionLocalProvider(
             LocalContentColor provides colors.contentFor(dropdownState).value,
-            LocalTextStyle provides LocalTextStyle.current.copy(color = colors.contentFor(dropdownState).value)
+            LocalTextStyle provides LocalTextStyle.current.copy(color = colors.contentFor(dropdownState).value),
         ) {
             Box(
                 modifier =
