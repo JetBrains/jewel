@@ -56,7 +56,7 @@ public class MarkdownProcessor(
     private val editorMode: Boolean = false,
     private val commonMarkParser: Parser = MarkdownParserFactory.create(editorMode, extensions),
 ) {
-    private var currentState = State(emptyList(), emptyList(), emptyList())
+    private var currentState = State("", emptyList(), emptyList())
 
     @TestOnly internal fun getCurrentIndexesInTest() = currentState.indexes
 
@@ -81,81 +81,44 @@ public class MarkdownProcessor(
 
     @VisibleForTesting
     internal fun processWithQuickEdits(@Language("Markdown") rawMarkdown: String): List<Block> {
-        val (previousLines, previousBlocks, previousIndexes) = currentState
-        val newLines = rawMarkdown.lines()
-        val nLinesDelta = newLines.size - previousLines.size
-
-        // Find a block prior to the first one changed in case some elements merge during the update
-        var firstBlock = 0
-        var firstLine = 0
-        var currFirstBlock = 0
-        var currFirstLine = 0
-        outerLoop@ for ((i, spans) in previousIndexes.withIndex()) {
-            val (_, end) = spans
-            for (j in currFirstLine..end) {
-                if (j < 0 || j >= newLines.size || newLines[j] != previousLines[j]) {
-                    break@outerLoop
-                }
-            }
-            firstBlock = currFirstBlock
-            firstLine = currFirstLine
-            currFirstBlock = i + 1
-            currFirstLine = end + 1
+        val (previousText, previousBlocks, previousIndexes) = currentState
+        if (previousText == rawMarkdown) return previousBlocks
+        // make sure we have at least one element
+        if (previousIndexes.isEmpty()) {
+            val newBlocks = parseRawMarkdown(rawMarkdown)
+            currentState = State(rawMarkdown, newBlocks, newBlocks.map { it.sourceSpans.first().inputIndex })
+            return newBlocks
         }
-
-        // Find a block following the last one changed in case some elements merge during the update
-        var lastBlock = previousBlocks.size
-        var lastLine = previousLines.size
-        var currLastBlock = lastBlock
-        var currLastLine = lastLine
-        outerLoop@ for ((i, spans) in previousIndexes.withIndex().reversed()) {
-            val (begin, _) = spans
-            for (j in begin until currLastLine) {
-                val newIndex = j + nLinesDelta
-                if (newIndex < 0 || newIndex >= newLines.size || previousLines[j] != newLines[newIndex]) {
-                    break@outerLoop
-                }
-            }
-            lastBlock = currLastBlock
-            lastLine = currLastLine
-            currLastBlock = i
-            currLastLine = begin
-        }
-
-        if (firstLine > lastLine + nLinesDelta) {
-            // no change
-            return previousBlocks
-        }
-
-        val updatedText = newLines.subList(firstLine, lastLine + nLinesDelta).joinToString("\n", postfix = "\n")
-        val updatedBlocks: List<Block> = parseRawMarkdown(updatedText)
-        val updatedIndexes =
-            updatedBlocks.map { node ->
-                // special case for a bug where LinkReferenceDefinition is a Node,
-                // but it takes over sourceSpans from the following Block
-                if (node.sourceSpans.isEmpty()) {
-                    node.sourceSpans = node.previous.sourceSpans
-                }
-
-                val firstLineIndex = node.sourceSpans.first().lineIndex + firstLine
-                val lastLineIndex = node.sourceSpans.last().lineIndex + firstLine
-
-                firstLineIndex to lastLineIndex
-            }
+        val nCharsDelta = rawMarkdown.length - previousText.length
+        val commonPrefix = previousText.commonPrefixWith(rawMarkdown)
+        val prefixPos = commonPrefix.length
+        // remove prefixes to avoid overlap
+        val commonSuffix =
+            previousText.removePrefix(commonPrefix).commonSuffixWith(rawMarkdown.removePrefix(commonPrefix))
+        val suffixPos = previousText.length - commonSuffix.length
+        // if modification starts at the edge, include previous by using less instead of less equal
+        val firstBlock = previousIndexes.indexOfLast { it < prefixPos }.takeIf { it != -1 } ?: 0
+        val blockAfterLast = previousIndexes.indexOfFirst { it > suffixPos }
+        val updatedText =
+            rawMarkdown.substring(
+                previousIndexes[firstBlock],
+                if (blockAfterLast == -1) rawMarkdown.length else previousIndexes[blockAfterLast] - 1 + nCharsDelta,
+            )
+        val updatedBlocks = parseRawMarkdown(updatedText)
+        val updatedIndexes = updatedBlocks.map { it.sourceSpans.first().inputIndex + previousIndexes[firstBlock] }
 
         val suffixIndexes =
-            previousIndexes.subList(lastBlock, previousBlocks.size).map {
-                (it.first + nLinesDelta) to (it.second + nLinesDelta)
+            if (blockAfterLast == -1) {
+                emptyList()
+            } else {
+                previousIndexes.subList(blockAfterLast, previousIndexes.size).map { it + nCharsDelta }
             }
+        val suffixBlocks =
+            if (blockAfterLast == -1) emptyList() else previousBlocks.subList(blockAfterLast, previousBlocks.size)
 
-        val newBlocks =
-            previousBlocks.subList(0, firstBlock) +
-                updatedBlocks +
-                previousBlocks.subList(lastBlock, previousBlocks.size)
-
+        val newBlocks = previousBlocks.subList(0, firstBlock) + updatedBlocks + suffixBlocks
         val newIndexes = previousIndexes.subList(0, firstBlock) + updatedIndexes + suffixIndexes
-        currentState = State(newLines, newBlocks, newIndexes)
-
+        currentState = State(rawMarkdown, newBlocks, newIndexes)
         return newBlocks
     }
 
@@ -264,5 +227,6 @@ public class MarkdownProcessor(
 
     private fun Block.readInlineContent() = readInlineContent(this@MarkdownProcessor, extensions)
 
-    private data class State(val lines: List<String>, val blocks: List<Block>, val indexes: List<Pair<Int, Int>>)
+    /** Store parsed blocks and first char indexes for each block */
+    private data class State(val text: String, val blocks: List<Block>, val indexes: List<Int>)
 }
