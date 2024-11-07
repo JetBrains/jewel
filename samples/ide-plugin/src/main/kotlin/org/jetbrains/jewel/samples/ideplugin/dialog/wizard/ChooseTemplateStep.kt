@@ -68,7 +68,7 @@ class ChooseTemplateStep(
                         text = "Templates",
                         color = JewelTheme.globalColors.text.info,
                         style = Typography.medium(),
-                        modifier = Modifier.padding(start = 12.dp)
+                        modifier = Modifier.padding(start = 24.dp)
                     )
                     Spacer(Modifier.height(12.dp))
 
@@ -91,14 +91,14 @@ class ChooseTemplateStep(
 //                            Text(formFactor.name, modifier = Modifier.padding(vertical = 8.dp))
 //                        }
 
-                    Spacer(Modifier.height(32.dp))
-                    Text(
-                        text = "Samples",
-                        color = JewelTheme.globalColors.text.info,
-                        style = Typography.medium(),
-                        modifier = Modifier.padding(start = 12.dp)
-                    )
-                    Spacer(Modifier.height(12.dp))
+//                    Spacer(Modifier.height(32.dp))
+//                    Text(
+//                        text = "Samples",
+//                        color = JewelTheme.globalColors.text.info,
+//                        style = Typography.medium(),
+//                        modifier = Modifier.padding(start = 12.dp)
+//                    )
+//                    Spacer(Modifier.height(12.dp))
 //                    Column {
 //                        SampleCategories.entries.forEach { formFactor ->
 //                            Text(formFactor.name, modifier = Modifier.padding(vertical = 8.dp))

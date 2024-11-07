@@ -1,12 +1,18 @@
 package org.jetbrains.jewel.samples.ideplugin.dialog.wizard
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,16 +29,95 @@ class ConfigureStepPage(
 
     @Composable
     override fun PageContent() {
-        val state = rememberTextFieldState("")
+        val projectName = rememberTextFieldState("")
+        val packageName = rememberTextFieldState("")
+        val saveLocation = rememberTextFieldState("")
+        var minimumSdk by remember { mutableIntStateOf(34) }
+        var buildConfigurationKts by remember { mutableStateOf(true) }
 
-        Column {
-            Text("Template ${templateData.name}", style = Typography.h1TextStyle())
-            Spacer(Modifier.height(20.dp))
-            TextField(
-                state = state,
-                modifier = Modifier.width(200.dp),
-                placeholder = { Text("Write something...") },
-            )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(templateData.name, style = Typography.h1TextStyle())
+            templateData.description?.let {
+                Text(templateData.description)
+            }
+            FormLayout(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Name")
+                TextField(
+                    state = projectName,
+                )
+
+                Text("Package name")
+                TextField(
+                    state = packageName,
+                )
+
+                Text("Save location")
+                TextField(
+                    state = saveLocation,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun FormLayout(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Layout(
+        modifier = modifier,
+        content = content
+    ) { measurables, constraints ->
+        // First measure all labels to find the widest
+        val labelMeasurables = measurables.filterIndexed { idx, _ -> idx % 2 == 0}
+        val labelPlaceables = labelMeasurables.map {
+            it.measure(Constraints())
+        }
+        val maxLabelWidth = labelPlaceables.maxOf { it.width }
+
+        // Calculate remaining width for inputs
+        val remainingWidth = constraints.maxWidth - maxLabelWidth
+        val inputConstraints = constraints.copy(
+            maxWidth = remainingWidth,
+            minWidth = 0
+        )
+
+        // Now measure inputs with updated constraints
+        val inputMeasurables = measurables.filterIndexed { idx, _ -> idx % 2 == 1 }
+        val inputPlaceables = inputMeasurables.map {
+            it.measure(inputConstraints)
+        }
+
+        // Pair up the placeables
+        val pairs = labelPlaceables.zip(inputPlaceables)
+
+        val verticalSpacing = 20.dp.roundToPx()
+
+        // Calculate total height
+        val height = pairs.sumOf { (label, input) ->
+            maxOf(label.height, input.height) + verticalSpacing
+        }
+
+        layout(constraints.maxWidth, height) {
+            var y = 0
+
+            pairs.forEach { (label, input) ->
+                label.placeRelative(
+                    x = maxLabelWidth - label.width, // Right align
+                    y = y
+                )
+                input.placeRelative(
+                    x = maxLabelWidth,
+                    y = y
+                )
+
+                y += maxOf(label.height, input.height) + verticalSpacing
+            }
         }
     }
 }

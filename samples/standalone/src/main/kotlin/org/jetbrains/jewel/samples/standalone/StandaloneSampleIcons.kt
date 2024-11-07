@@ -26,6 +26,7 @@ object StandaloneSampleIcons {
         val segmentedControls = PathIconKey("icons/components/segmentedControl.svg", StandaloneSampleIcons::class.java)
         val slider = PathIconKey("icons/components/slider.svg", StandaloneSampleIcons::class.java)
         val splitlayout = PathIconKey("icons/components/splitLayout.svg", StandaloneSampleIcons::class.java)
+        val success = PathIconKey("icons/components/success.svg", StandaloneSampleIcons::class.java)
         val tabs = PathIconKey("icons/components/tabs.svg", StandaloneSampleIcons::class.java)
         val textArea = PathIconKey("icons/components/textArea.svg", StandaloneSampleIcons::class.java)
         val textField = PathIconKey("icons/components/textField.svg", StandaloneSampleIcons::class.java)

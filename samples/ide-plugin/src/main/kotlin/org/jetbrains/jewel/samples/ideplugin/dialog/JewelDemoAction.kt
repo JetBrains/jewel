@@ -46,7 +46,7 @@ internal class JewelDemoAction : DumbAwareAction() {
 
             WizardDialogWrapper(
                 project = project,
-                title = "Jewel Demo wizard",
+                title = "New Project",
                 pages = listOf(
                     ChooseTemplateStep(project, activeTemplate),
                     ConfigureStepPage(activeTemplate)

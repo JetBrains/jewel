@@ -8,6 +8,7 @@ import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.util.ui.JBDimension
+import com.intellij.util.ui.JBEmptyBorder
 import java.awt.event.ActionEvent
 import javax.swing.Action
 import javax.swing.JComponent
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.Nls
 import org.jetbrains.jewel.bridge.JewelComposePanel
+import org.jetbrains.jewel.bridge.JewelToolWindowComposePanel
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.enableNewSwingCompositing
 
@@ -88,8 +90,12 @@ internal class WizardDialogWrapper(
                 val index by currentPageIndex
                 pages[index].PageContent()
             }
-            .apply { minimumSize = JBDimension(400, 400) }
+            .apply {
+                minimumSize = JBDimension(400, 400)
+            }
     }
+
+    override fun createContentPaneBorder() = JBEmptyBorder(12, 0, 12, 8)
 
     override fun createActions(): Array<Action> = arrayOf(cancelAction, backAction, nextAction, finishAction)
 
