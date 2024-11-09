@@ -5,12 +5,12 @@ import com.intellij.openapi.fileEditor.FileEditorState
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.UserDataHolderBase
 import com.intellij.openapi.vfs.VirtualFile
-import org.jetbrains.jewel.bridge.JewelComposePanel
-import org.jetbrains.jewel.foundation.enableNewSwingCompositing
 import java.awt.BorderLayout
 import java.beans.PropertyChangeListener
 import javax.swing.JComponent
 import javax.swing.JPanel
+import org.jetbrains.jewel.bridge.JewelComposePanel
+import org.jetbrains.jewel.foundation.enableNewSwingCompositing
 
 class JourneyFileEditor(project: Project, file: VirtualFile) : UserDataHolderBase(), FileEditor {
     private var myProject: Project = project
@@ -20,12 +20,10 @@ class JourneyFileEditor(project: Project, file: VirtualFile) : UserDataHolderBas
     init {
         enableNewSwingCompositing()
 
-        panel.add(JewelComposePanel {
-            HomeView()
-        }, BorderLayout.CENTER)
+        panel.add(JewelComposePanel { HomeView() }, BorderLayout.CENTER)
     }
 
-    override fun dispose() { }
+    override fun dispose() {}
 
     override fun getComponent(): JComponent = panel
 
@@ -33,7 +31,7 @@ class JourneyFileEditor(project: Project, file: VirtualFile) : UserDataHolderBas
 
     override fun getName(): String = "Journey Editor"
 
-    override fun setState(p0: FileEditorState) { }
+    override fun setState(p0: FileEditorState) {}
 
     override fun getFile(): VirtualFile {
         return myBaseFile
@@ -47,7 +45,7 @@ class JourneyFileEditor(project: Project, file: VirtualFile) : UserDataHolderBas
         return true
     }
 
-    override fun addPropertyChangeListener(p0: PropertyChangeListener) { }
+    override fun addPropertyChangeListener(p0: PropertyChangeListener) {}
 
-    override fun removePropertyChangeListener(p0: PropertyChangeListener) { }
+    override fun removePropertyChangeListener(p0: PropertyChangeListener) {}
 }

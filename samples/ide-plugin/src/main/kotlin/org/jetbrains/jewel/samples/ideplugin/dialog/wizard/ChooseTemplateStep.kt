@@ -45,10 +45,8 @@ import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.theme.colorPalette
 import org.jetbrains.jewel.ui.util.thenIf
 
-class ChooseTemplateStep(
-    private val project: Project,
-    override val templateData: Template,
-) : WizardPage, TemplateWizardPage {
+class ChooseTemplateStep(private val project: Project, override val templateData: Template) :
+    WizardPage, TemplateWizardPage {
     override val canGoBackwards: StateFlow<Boolean> = MutableStateFlow(true)
     override val canGoForward: StateFlow<Boolean> = MutableStateFlow(true)
 
@@ -59,51 +57,42 @@ class ChooseTemplateStep(
 
         Column {
             Row(Modifier.weight(1f)) {
-                Column(
-                    Modifier
-                    .width(200.dp)
-                    .padding(top = 20.dp, end = 12.dp)
-                ) {
+                Column(Modifier.width(200.dp).padding(top = 20.dp, end = 12.dp)) {
                     Text(
                         text = "Templates",
                         color = JewelTheme.globalColors.text.info,
                         style = Typography.medium(),
-                        modifier = Modifier.padding(start = 24.dp)
+                        modifier = Modifier.padding(start = 24.dp),
                     )
                     Spacer(Modifier.height(12.dp))
 
                     val treeData by remember {
                         mutableStateOf(
-                            buildTree {
-                                FormFactors.entries.forEach { formFactor ->
-                                    addLeaf(formFactor.name)
-                                }
-                            },
+                            buildTree { FormFactors.entries.forEach { formFactor -> addLeaf(formFactor.name) } }
                         )
                     }
-                    LazyTree(
-                        tree = treeData,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
+                    LazyTree(tree = treeData, modifier = Modifier.fillMaxWidth()) {
                         Text(it.data, modifier = Modifier.weight(1f).padding(vertical = 2.dp))
                     }
-//                        FormFactors.entries.forEach { formFactor ->
-//                            Text(formFactor.name, modifier = Modifier.padding(vertical = 8.dp))
-//                        }
+                    //                        FormFactors.entries.forEach { formFactor ->
+                    //                            Text(formFactor.name, modifier =
+                    // Modifier.padding(vertical = 8.dp))
+                    //                        }
 
-//                    Spacer(Modifier.height(32.dp))
-//                    Text(
-//                        text = "Samples",
-//                        color = JewelTheme.globalColors.text.info,
-//                        style = Typography.medium(),
-//                        modifier = Modifier.padding(start = 12.dp)
-//                    )
-//                    Spacer(Modifier.height(12.dp))
-//                    Column {
-//                        SampleCategories.entries.forEach { formFactor ->
-//                            Text(formFactor.name, modifier = Modifier.padding(vertical = 8.dp))
-//                        }
-//                    }
+                    //                    Spacer(Modifier.height(32.dp))
+                    //                    Text(
+                    //                        text = "Samples",
+                    //                        color = JewelTheme.globalColors.text.info,
+                    //                        style = Typography.medium(),
+                    //                        modifier = Modifier.padding(start = 12.dp)
+                    //                    )
+                    //                    Spacer(Modifier.height(12.dp))
+                    //                    Column {
+                    //                        SampleCategories.entries.forEach { formFactor ->
+                    //                            Text(formFactor.name, modifier =
+                    // Modifier.padding(vertical = 8.dp))
+                    //                        }
+                    //                    }
                 }
                 Divider(orientation = Orientation.Vertical)
                 Column(Modifier.weight(1f)) {
@@ -115,37 +104,36 @@ class ChooseTemplateStep(
                         contentPadding = PaddingValues(20.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier
-                            .onHover { if (!it) hoverTemplate = -1 }
-                            .fillMaxSize(),
+                        modifier = Modifier.onHover { if (!it) hoverTemplate = -1 }.fillMaxSize(),
                     ) {
                         itemsIndexed(PhoneTemplates) { idx, template ->
                             Column(
-                                Modifier
-                                    .onHover { hoverTemplate = idx }
+                                Modifier.onHover { hoverTemplate = idx }
                                     .thenIf(hoverTemplate == idx) {
                                         Modifier.background(
                                             color = colors.blue(if (isDark) 1 else 12),
-                                            shape = RoundedCornerShape(4.dp)
+                                            shape = RoundedCornerShape(4.dp),
                                         )
                                     }
                                     .border(
                                         width = 2.dp,
                                         color = if (activeTemplate == idx) colors.blue(4) else Color.Unspecified,
-                                        shape = RoundedCornerShape(4.dp)
+                                        shape = RoundedCornerShape(4.dp),
                                     )
                                     .onClick {
                                         activeTemplate = idx
-                                        //onTemplateUpdate(PhoneTemplates[idx])
+                                        // onTemplateUpdate(PhoneTemplates[idx])
                                     }
                             ) {
-                                Icon(template.imageKey, contentDescription = null, modifier = Modifier.aspectRatio(1f).fillMaxSize())
+                                Icon(
+                                    template.imageKey,
+                                    contentDescription = null,
+                                    modifier = Modifier.aspectRatio(1f).fillMaxSize(),
+                                )
                                 Text(
                                     text = template.name,
                                     textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = 12.dp)
+                                    modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
                                 )
                             }
                         }

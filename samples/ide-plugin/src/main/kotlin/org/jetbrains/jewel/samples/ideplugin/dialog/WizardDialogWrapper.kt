@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.Nls
 import org.jetbrains.jewel.bridge.JewelComposePanel
-import org.jetbrains.jewel.bridge.JewelToolWindowComposePanel
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.enableNewSwingCompositing
 
@@ -90,9 +89,7 @@ internal class WizardDialogWrapper(
                 val index by currentPageIndex
                 pages[index].PageContent()
             }
-            .apply {
-                minimumSize = JBDimension(400, 400)
-            }
+            .apply { minimumSize = JBDimension(400, 400) }
     }
 
     override fun createContentPaneBorder() = JBEmptyBorder(12, 0, 12, 8)

@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import kotlin.math.roundToInt
 import org.jetbrains.jewel.foundation.modifier.trackActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.samples.standalone.IntUiThemes
@@ -41,7 +42,6 @@ import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.styling.LocalCheckboxStyle
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.jewel.ui.painter.hints.Selected
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -61,27 +61,16 @@ fun WelcomeView() {
         val packageName = rememberTextFieldState("")
         val saveLocation = rememberTextFieldState("")
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            FormLayout(
-                modifier = Modifier
-            ) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            FormLayout(modifier = Modifier) {
                 Text("Name")
-                TextField(
-                    state = projectName,
-                )
+                TextField(state = projectName)
 
                 Text("Package name")
-                TextField(
-                    state = packageName,
-                    modifier = Modifier.fillMaxWidth(),
-                )
+                TextField(state = packageName, modifier = Modifier.fillMaxWidth())
 
                 Text("Save location")
-                TextField(
-                    state = saveLocation,
-                )
+                TextField(state = saveLocation)
 
                 Text("Random image")
                 Icon(key = StandaloneSampleIcons.jewelLogo, contentDescription = null, modifier = Modifier.size(200.dp))
@@ -123,32 +112,25 @@ fun WelcomeView() {
 }
 
 @Composable
-private fun AnimatedToggleButton(
-    modifier: Modifier = Modifier
-) {
+private fun AnimatedToggleButton(modifier: Modifier = Modifier) {
     var enabled by remember { mutableStateOf(false) }
     val density = LocalDensity.current
-    OutlinedButton(
-        onClick = { enabled = !enabled },
-        modifier = modifier
-    ) {
+    OutlinedButton(onClick = { enabled = !enabled }, modifier = modifier) {
         AnimatedVisibility(
             visible = enabled,
-            enter = fadeIn() + expandHorizontally(
-                clip = false,
-                initialWidth = { with(density) { 16.dp.toPx().roundToInt() } }) + slideInHorizontally(
-                animationSpec = spring(
-                    dampingRatio = 0.4f,
-                    stiffness = 800f
-                ),
-                initialOffsetX = { -it / 4 }
-            ),
+            enter =
+                fadeIn() +
+                    expandHorizontally(clip = false, initialWidth = { with(density) { 16.dp.toPx().roundToInt() } }) +
+                    slideInHorizontally(
+                        animationSpec = spring(dampingRatio = 0.4f, stiffness = 800f),
+                        initialOffsetX = { -it / 4 },
+                    ),
             exit = fadeOut() + shrinkHorizontally(clip = false),
         ) {
             Icon(
                 key = StandaloneSampleIcons.Components.success,
                 contentDescription = null,
-                modifier = Modifier.padding(end = 4.dp)
+                modifier = Modifier.padding(end = 4.dp),
             )
         }
         Text(if (enabled) "Enabled" else "Enable")
