@@ -167,7 +167,7 @@ public class MarkdownProcessor(
     }
 
     private fun Node.tryProcessMarkdownBlock(): MarkdownBlock? =
-        // Non-Block children are ignored
+        // Nodes that are not blocks or unsupported types are ignored
         when (this) {
             is Paragraph -> toMarkdownParagraph()
             is Heading -> toMarkdownHeadingOrNull()

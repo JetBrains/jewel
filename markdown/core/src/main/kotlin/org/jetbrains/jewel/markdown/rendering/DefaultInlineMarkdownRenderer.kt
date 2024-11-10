@@ -77,17 +77,7 @@ public open class DefaultInlineMarkdownRenderer(private val rendererExtensions: 
                 }
 
                 is InlineMarkdown.Image -> {
-                    appendInlineContent(
-                        INLINE_IMAGE,
-                        buildString {
-                            appendLine(child.source)
-                            append(child.alt)
-                            if (!child.title.isNullOrBlank()) {
-                                appendLine()
-                                append(child.title)
-                            }
-                        },
-                    )
+                    appendInlineContent(child.source, "![${child.title}](...)")
                 }
 
                 is InlineMarkdown.CustomNode ->
