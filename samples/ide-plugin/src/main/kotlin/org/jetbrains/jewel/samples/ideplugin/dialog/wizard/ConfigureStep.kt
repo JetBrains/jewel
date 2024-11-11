@@ -25,9 +25,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.jewel.samples.ideplugin.dialog.WizardPage
 import org.jetbrains.jewel.ui.component.CheckboxRow
+import org.jetbrains.jewel.ui.component.Icon
+import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 class ConfigureStepPage(override val templateData: Template) : WizardPage, TemplateWizardPage {
     override val canGoBackwards: StateFlow<Boolean> = MutableStateFlow(true)
@@ -64,6 +67,12 @@ class ConfigureStepPage(override val templateData: Template) : WizardPage, Templ
                             onCheckedChange = { optionChecked = it },
                             modifier = Modifier.offset(x = -3.dp),
                         )
+                    }
+
+                    Text("Icon")
+                    Column {
+                        OutlinedButton(onClick = {}) { Text("Is label aligned?") }
+                        Icon(key = AllIconsKeys.Idea_logo_welcome, contentDescription = null)
                     }
 
                     Text("Save location")
@@ -107,16 +116,13 @@ fun FormLayout(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
             var y = 0
 
             pairs.forEachIndexed { idx, (label, input) ->
-                // Check the label has a first baseline
-                check(label[FirstBaseline] != AlignmentLine.Unspecified)
-                val labelBaseline = label[FirstBaseline]
-
-                // Check the input has a first baseline
-                check(input[FirstBaseline] != AlignmentLine.Unspecified)
-                val inputBaseline = input[FirstBaseline]
-
-                // Calculate the offset needed to align baselines
-                val baselineDelta = inputBaseline - labelBaseline
+                var baselineDelta = 0
+                if (
+                    label[FirstBaseline] != AlignmentLine.Unspecified &&
+                        input[FirstBaseline] != AlignmentLine.Unspecified
+                ) {
+                    baselineDelta = input[FirstBaseline] - label[FirstBaseline]
+                }
 
                 label.placeRelative(
                     x = 0, // Left align
