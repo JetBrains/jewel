@@ -24,47 +24,32 @@ enum class SampleCategories {
 
 data class Template(val name: String, val description: String? = null, val imageKey: PathIconKey)
 
-val noActivityTemplate = Template(
-    name = "Empty",
-    description = "An empty project",
-    imageKey = TemplateIllustrations.NoActivity
-)
+val noActivityTemplate =
+    Template(name = "Empty", description = "An empty project", imageKey = TemplateIllustrations.NoActivity)
 
 val PhoneTemplates =
     listOf(
-        Template(
-            name = "App",
-            description = "Basic app structure",
-            imageKey = TemplateIllustrations.EmptyActivity
-        ),
+        Template(name = "App", description = "Basic app structure", imageKey = TemplateIllustrations.EmptyActivity),
         Template(
             name = "Adaptive",
             description = "Adaptive layout for responsive design",
-            imageKey = TemplateIllustrations.ResponsiveLayout
+            imageKey = TemplateIllustrations.ResponsiveLayout,
         ),
         Template(
             name = "Gemini Starter App",
             description = "A starter app for the Gemini framework",
-            imageKey = TemplateIllustrations.GeminiStarter
+            imageKey = TemplateIllustrations.GeminiStarter,
         ),
         Template(
             name = "Fullscreen App",
             description = "App with a fullscreen UI",
-            imageKey = TemplateIllustrations.FullscreenActivity
+            imageKey = TemplateIllustrations.FullscreenActivity,
         ),
         Template(
             name = "Google Maps",
             description = "Project with Google Maps integration",
-            imageKey = TemplateIllustrations.GoogleMapsActivity
+            imageKey = TemplateIllustrations.GoogleMapsActivity,
         ),
-        Template(
-            name = "Game",
-            description = "Basic game project",
-            imageKey = TemplateIllustrations.GameActivity
-        ),
-        Template(
-            name = "C++",
-            description = "Project using C++",
-            imageKey = TemplateIllustrations.Cpp
-        ),
+        Template(name = "Game", description = "Basic game project", imageKey = TemplateIllustrations.GameActivity),
+        Template(name = "C++", description = "Project using C++", imageKey = TemplateIllustrations.Cpp),
     )

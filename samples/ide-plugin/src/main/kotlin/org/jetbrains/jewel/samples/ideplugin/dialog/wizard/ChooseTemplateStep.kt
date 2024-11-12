@@ -72,7 +72,7 @@ class ChooseTemplateStep(private val project: Project, override val templateData
                         )
                     }
                     LazyTree(tree = treeData, modifier = Modifier.fillMaxWidth()) {
-                        Text(it.data, modifier = Modifier.weight(1f).padding(vertical = 2.dp))
+                        Text(it.data, modifier = Modifier.weight(1f).padding(vertical = 2.dp, horizontal = 8.dp))
                     }
                     //                        FormFactors.entries.forEach { formFactor ->
                     //                            Text(formFactor.name, modifier =

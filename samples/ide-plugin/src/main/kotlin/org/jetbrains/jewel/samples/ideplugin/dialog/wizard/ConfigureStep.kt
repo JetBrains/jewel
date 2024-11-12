@@ -2,11 +2,12 @@ package org.jetbrains.jewel.samples.ideplugin.dialog.wizard
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,9 +25,9 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.jewel.samples.ideplugin.dialog.WizardPage
-import org.jetbrains.jewel.ui.component.CheckboxRow
+import org.jetbrains.jewel.ui.component.Dropdown
 import org.jetbrains.jewel.ui.component.Icon
-import org.jetbrains.jewel.ui.component.OutlinedButton
+import org.jetbrains.jewel.ui.component.Link
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
@@ -38,48 +39,90 @@ class ConfigureStepPage(override val templateData: Template) : WizardPage, Templ
 
     @Composable
     override fun PageContent() {
-        val projectName = rememberTextFieldState("")
-        val packageName = rememberTextFieldState("")
-        val saveLocation = rememberTextFieldState("")
-        var minimumSdk by remember { mutableIntStateOf(34) }
+        val projectName = rememberTextFieldState("My Application")
+        val packageName = rememberTextFieldState("com.example.myapplication")
+        val saveLocation = rememberTextFieldState("/Users/csinco/AndroidStudioProjects/MyApplication")
+        var minimumSdk by remember { mutableIntStateOf(28) }
         var buildConfigurationKts by remember { mutableStateOf(true) }
-        var optionChecked by remember { mutableStateOf(false) }
 
         Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(vertical = 20.dp, horizontal = 64.dp)) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(templateData.name, style = Typography.h2TextStyle())
                 templateData.description?.let {
-                    Spacer(Modifier.height(4.dp))
+                    Spacer(Modifier.height(8.dp))
                     Text(templateData.description)
                 }
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(20.dp))
                 FormLayout(modifier = Modifier.fillMaxWidth()) {
                     Text("Name")
-                    TextField(state = projectName)
+                    TextField(state = projectName, modifier = Modifier.fillMaxWidth())
 
                     Text("Package name")
-                    Column {
-                        TextField(state = packageName, modifier = Modifier.fillMaxWidth())
-                        Spacer(Modifier.height(8.dp))
-                        CheckboxRow(
-                            text = "This is an option to click",
-                            checked = optionChecked,
-                            onCheckedChange = { optionChecked = it },
-                            modifier = Modifier.offset(x = -3.dp),
-                        )
-                    }
-
-                    Text("Icon")
-                    Column {
-                        OutlinedButton(onClick = {}) { Text("Is label aligned?") }
-                        Icon(key = AllIconsKeys.Idea_logo_welcome, contentDescription = null)
-                    }
+                    TextField(state = packageName, modifier = Modifier.fillMaxWidth())
 
                     Text("Save location")
-                    TextField(state = saveLocation)
+                    TextField(
+                        state = saveLocation,
+                        trailingIcon = { Icon(key = AllIconsKeys.General.OpenDisk, contentDescription = null) },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+
+                    Text("Minimum SDK")
+                    Column {
+                        Dropdown(
+                            menuContent = {
+                                androidVersions.forEach { (api, name) ->
+                                    selectableItem(selected = api == minimumSdk, onClick = { minimumSdk = api }) {
+                                        Text(name)
+                                    }
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(0.7f),
+                        ) {
+                            Text(androidVersions.first { it.first == minimumSdk }.second)
+                        }
+                        Spacer(Modifier.height(12.dp))
+                        Row {
+                            Icon(key = AllIconsKeys.General.Information, contentDescription = null)
+                            Spacer(Modifier.width(4.dp))
+                            Column {
+                                Text("Your app will run on approximately 89.5% of devices.")
+                                Spacer(Modifier.height(4.dp))
+                                Link(text = "Help me choose", onClick = {})
+                            }
+                        }
+                    }
+
+                    Row {
+                        Text("Build configuration language")
+                        Spacer(Modifier.width(4.dp))
+                        Icon(key = AllIconsKeys.General.ContextHelp, contentDescription = null)
+                    }
+                    Column {
+                        Dropdown(
+                            menuContent = {
+                                selectableItem(
+                                    selected = buildConfigurationKts,
+                                    onClick = { buildConfigurationKts = true },
+                                ) {
+                                    Text("Kotlin DSL [build.gradle.kts] (Recommended)")
+                                }
+                                selectableItem(
+                                    selected = !buildConfigurationKts,
+                                    onClick = { buildConfigurationKts = false },
+                                ) {
+                                    Text("Groovy DSL [build.gradle] (Legacy)")
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(0.7f),
+                        ) {
+                            Text(
+                                if (buildConfigurationKts) "Kotlin DSL [build.gradle.kts] (Recommended)"
+                                else "Groovy DSL [build.gradle] (Legacy)"
+                            )
+                        }
+                    }
                 }
-                Spacer(Modifier.height(20.dp))
-                Text("Help text")
             }
         }
     }
@@ -88,8 +131,8 @@ class ConfigureStepPage(override val templateData: Template) : WizardPage, Templ
 @Composable
 fun FormLayout(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     Layout(modifier = modifier, content = content) { measurables, constraints ->
-        val verticalSpacing = 20.dp.roundToPx()
-        val labelSpacing = 8.dp.roundToPx()
+        val verticalSpacing = 16.dp.roundToPx()
+        val labelSpacing = 16.dp.roundToPx()
         val minimumLabelWidth = 100.dp.roundToPx()
 
         // First measure all labels to find the widest
@@ -138,3 +181,21 @@ fun FormLayout(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
         }
     }
 }
+
+val androidVersions =
+    listOf(
+        21 to "API 21 (Lollipop - Android 5.0)",
+        22 to "API 22 (Lollipop - Android 5.1)",
+        23 to "API 23 (Marshmallow - Android 6)",
+        24 to "API 24 (Nougat - Android 7.0)",
+        25 to "API 25 (Nougat - Android 7.1.1)",
+        26 to "API 26 (Oreo - Android 8.0)",
+        27 to "API 27 (Oreo - Android 8.1)",
+        28 to "API 28 (Pie - Android 9)",
+        29 to "API 29 (Q - Android 10)",
+        30 to "API 30 (R - Android 11)",
+        31 to "API 31 (S - Android 12)",
+        32 to "API 32 (T - Android 13)",
+        33 to "API 33 (U - Android 14)",
+        34 to "API 34 (V - Android 15)",
+    )
