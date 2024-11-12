@@ -89,7 +89,7 @@ internal class WizardDialogWrapper(
                 val index by currentPageIndex
                 pages[index].PageContent()
             }
-            .apply { minimumSize = JBDimension(400, 400) }
+            .apply { preferredSize = JBDimension(800, 600) }
     }
 
     override fun createContentPaneBorder() = JBEmptyBorder(12, 0, 12, 8)
