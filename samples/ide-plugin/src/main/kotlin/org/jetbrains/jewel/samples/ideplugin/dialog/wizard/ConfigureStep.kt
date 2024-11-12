@@ -43,6 +43,7 @@ class ConfigureStepPage(override val templateData: Template) : WizardPage, Templ
         val packageName = rememberTextFieldState("com.example.myapplication")
         val saveLocation = rememberTextFieldState("/Users/csinco/AndroidStudioProjects/MyApplication")
         var minimumSdk by remember { mutableIntStateOf(28) }
+        var useCompose by remember { mutableStateOf(true) }
         var buildConfigurationKts by remember { mutableStateOf(true) }
 
         Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(vertical = 20.dp, horizontal = 64.dp)) {
@@ -66,6 +67,19 @@ class ConfigureStepPage(override val templateData: Template) : WizardPage, Templ
                         trailingIcon = { Icon(key = AllIconsKeys.General.OpenDisk, contentDescription = null) },
                         modifier = Modifier.fillMaxWidth(),
                     )
+
+                    Text("UI framework")
+                    Dropdown(
+                        menuContent = {
+                            selectableItem(selected = useCompose, onClick = { useCompose = true }) {
+                                Text("Compose (Recommended)")
+                            }
+                            selectableItem(selected = !useCompose, onClick = { useCompose = false }) { Text("Views") }
+                        },
+                        modifier = Modifier.fillMaxWidth(0.7f),
+                    ) {
+                        Text(if (useCompose) "Compose (Recommended)" else "Views")
+                    }
 
                     Text("Minimum SDK")
                     Column {
@@ -98,29 +112,27 @@ class ConfigureStepPage(override val templateData: Template) : WizardPage, Templ
                         Spacer(Modifier.width(4.dp))
                         Icon(key = AllIconsKeys.General.ContextHelp, contentDescription = null)
                     }
-                    Column {
-                        Dropdown(
-                            menuContent = {
-                                selectableItem(
-                                    selected = buildConfigurationKts,
-                                    onClick = { buildConfigurationKts = true },
-                                ) {
-                                    Text("Kotlin DSL [build.gradle.kts] (Recommended)")
-                                }
-                                selectableItem(
-                                    selected = !buildConfigurationKts,
-                                    onClick = { buildConfigurationKts = false },
-                                ) {
-                                    Text("Groovy DSL [build.gradle] (Legacy)")
-                                }
-                            },
-                            modifier = Modifier.fillMaxWidth(0.7f),
-                        ) {
-                            Text(
-                                if (buildConfigurationKts) "Kotlin DSL [build.gradle.kts] (Recommended)"
-                                else "Groovy DSL [build.gradle] (Legacy)"
-                            )
-                        }
+                    Dropdown(
+                        menuContent = {
+                            selectableItem(
+                                selected = buildConfigurationKts,
+                                onClick = { buildConfigurationKts = true },
+                            ) {
+                                Text("Kotlin DSL [build.gradle.kts] (Recommended)")
+                            }
+                            selectableItem(
+                                selected = !buildConfigurationKts,
+                                onClick = { buildConfigurationKts = false },
+                            ) {
+                                Text("Groovy DSL [build.gradle] (Legacy)")
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(0.7f),
+                    ) {
+                        Text(
+                            if (buildConfigurationKts) "Kotlin DSL [build.gradle.kts] (Recommended)"
+                            else "Groovy DSL [build.gradle] (Legacy)"
+                        )
                     }
                 }
             }
