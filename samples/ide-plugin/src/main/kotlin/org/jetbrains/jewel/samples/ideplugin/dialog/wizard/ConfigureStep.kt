@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,7 +49,7 @@ class ConfigureStepPage(override val templateData: Template) : WizardPage, Templ
 
         Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(vertical = 20.dp, horizontal = 64.dp)) {
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text(templateData.name, style = Typography.h2TextStyle())
+                Text(templateData.name, style = Typography.h2TextStyle().copy(fontWeight = FontWeight.Bold))
                 templateData.description?.let {
                     Spacer(Modifier.height(8.dp))
                     Text(templateData.description)

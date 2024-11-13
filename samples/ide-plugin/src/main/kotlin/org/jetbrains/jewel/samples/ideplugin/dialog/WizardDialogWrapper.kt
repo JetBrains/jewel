@@ -1,5 +1,9 @@
 package org.jetbrains.jewel.samples.ideplugin.dialog
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -25,6 +29,7 @@ import org.jetbrains.annotations.Nls
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.enableNewSwingCompositing
+import org.jetbrains.jewel.samples.ideplugin.dialog.wizard.MotionTokens
 
 internal class WizardDialogWrapper(
     project: Project,
@@ -87,7 +92,35 @@ internal class WizardDialogWrapper(
 
         return JewelComposePanel {
                 val index by currentPageIndex
-                pages[index].PageContent()
+                AnimatedContent(
+                    targetState = index,
+                    transitionSpec = {
+                        val slideDirection = if (targetState > initialState) {
+                            AnimatedContentTransitionScope.SlideDirection.Left
+                        } else {
+                            AnimatedContentTransitionScope.SlideDirection.Right
+                        }
+
+                        slideIntoContainer(
+                            towards = slideDirection,
+                            animationSpec =
+                                spring(
+                                    dampingRatio = MotionTokens.Expressive.SpringFastSpatialDamping,
+                                    stiffness = MotionTokens.Expressive.SpringFastSpatialStiffness,
+                                ),
+                        ) togetherWith
+                            slideOutOfContainer(
+                                towards = slideDirection,
+                                animationSpec =
+                                    spring(
+                                        dampingRatio = MotionTokens.Expressive.SpringFastSpatialDamping,
+                                        stiffness = MotionTokens.Expressive.SpringFastSpatialStiffness,
+                                    ),
+                            )
+                    },
+                ) {
+                    pages[it].PageContent()
+                }
             }
             .apply { preferredSize = JBDimension(800, 600) }
     }
