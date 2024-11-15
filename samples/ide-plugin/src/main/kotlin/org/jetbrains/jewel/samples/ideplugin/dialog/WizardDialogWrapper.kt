@@ -95,11 +95,12 @@ internal class WizardDialogWrapper(
                 AnimatedContent(
                     targetState = index,
                     transitionSpec = {
-                        val slideDirection = if (targetState > initialState) {
-                            AnimatedContentTransitionScope.SlideDirection.Left
-                        } else {
-                            AnimatedContentTransitionScope.SlideDirection.Right
-                        }
+                        val slideDirection =
+                            if (targetState > initialState) {
+                                AnimatedContentTransitionScope.SlideDirection.Left
+                            } else {
+                                AnimatedContentTransitionScope.SlideDirection.Right
+                            }
 
                         slideIntoContainer(
                             towards = slideDirection,
