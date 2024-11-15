@@ -22,6 +22,7 @@ import org.jetbrains.jewel.intui.standalone.styling.dark
 import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.ui.DefaultComponentStyling
+import org.jetbrains.jewel.ui.component.styling.BannerStyle
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
 import org.jetbrains.jewel.ui.component.styling.CheckboxStyle
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
@@ -110,6 +111,7 @@ public fun ComponentStyling.dark(
     checkboxStyle: CheckboxStyle = CheckboxStyle.dark(),
     chipStyle: ChipStyle = ChipStyle.dark(),
     circularProgressStyle: CircularProgressStyle = CircularProgressStyle.dark(),
+    defaultBannerStyle: BannerStyle = BannerStyle.Default.dark(),
     comboBoxStyle: ComboBoxStyle = ComboBoxStyle.Default.dark(),
     defaultButtonStyle: ButtonStyle = ButtonStyle.Default.dark(),
     defaultTabStyle: TabStyle = TabStyle.Default.dark(),
@@ -141,6 +143,7 @@ public fun ComponentStyling.dark(
             checkboxStyle = checkboxStyle,
             chipStyle = chipStyle,
             circularProgressStyle = circularProgressStyle,
+            defaultBannerStyle = defaultBannerStyle,
             comboBoxStyle = comboBoxStyle,
             defaultButtonStyle = defaultButtonStyle,
             defaultDropdownStyle = dropdownStyle,
@@ -174,6 +177,7 @@ public fun ComponentStyling.light(
     checkboxStyle: CheckboxStyle = CheckboxStyle.light(),
     chipStyle: ChipStyle = ChipStyle.light(),
     circularProgressStyle: CircularProgressStyle = CircularProgressStyle.light(),
+    defaultBannerStyle: BannerStyle = BannerStyle.Default.light(),
     comboBoxStyle: ComboBoxStyle = ComboBoxStyle.Default.light(),
     defaultButtonStyle: ButtonStyle = ButtonStyle.Default.light(),
     defaultTabStyle: TabStyle = TabStyle.Default.light(),
@@ -205,6 +209,7 @@ public fun ComponentStyling.light(
             checkboxStyle = checkboxStyle,
             chipStyle = chipStyle,
             circularProgressStyle = circularProgressStyle,
+            defaultBannerStyle = defaultBannerStyle,
             comboBoxStyle = comboBoxStyle,
             defaultButtonStyle = defaultButtonStyle,
             defaultDropdownStyle = dropdownStyle,

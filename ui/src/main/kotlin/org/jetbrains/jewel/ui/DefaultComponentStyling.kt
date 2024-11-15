@@ -6,6 +6,7 @@ import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.Stable
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.ContextMenuRepresentation
+import org.jetbrains.jewel.ui.component.styling.BannerStyle
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
 import org.jetbrains.jewel.ui.component.styling.CheckboxStyle
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
@@ -21,6 +22,7 @@ import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.LocalCheckboxStyle
 import org.jetbrains.jewel.ui.component.styling.LocalChipStyle
 import org.jetbrains.jewel.ui.component.styling.LocalCircularProgressStyle
+import org.jetbrains.jewel.ui.component.styling.LocalDefaultBannerStyle
 import org.jetbrains.jewel.ui.component.styling.LocalDefaultButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalDefaultComboBoxStyle
 import org.jetbrains.jewel.ui.component.styling.LocalDefaultDropdownStyle
@@ -67,6 +69,7 @@ public class DefaultComponentStyling(
     public val chipStyle: ChipStyle,
     public val circularProgressStyle: CircularProgressStyle,
     public val comboBoxStyle: ComboBoxStyle,
+    public val defaultBannerStyle: BannerStyle,
     public val defaultButtonStyle: ButtonStyle,
     public val defaultDropdownStyle: DropdownStyle,
     public val defaultTabStyle: TabStyle,
@@ -99,6 +102,7 @@ public class DefaultComponentStyling(
             LocalChipStyle provides chipStyle,
             LocalCircularProgressStyle provides circularProgressStyle,
             LocalContextMenuRepresentation provides ContextMenuRepresentation,
+            LocalDefaultBannerStyle provides defaultBannerStyle,
             LocalDefaultComboBoxStyle provides comboBoxStyle,
             LocalDefaultButtonStyle provides defaultButtonStyle,
             LocalDefaultDropdownStyle provides defaultDropdownStyle,
