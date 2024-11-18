@@ -247,32 +247,40 @@ private fun TextInput(
                 .onFocusChanged { onFocusedChange(it.isFocused) }
                 .focusRequester(textFieldFocusRequester)
                 .onPreviewKeyEvent {
-                    if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionDown) {
-                        if (popupExpanded) {
-                            onArrowDownPress()
-                        } else {
-                            onSetPopupExpanded(true)
-                            textFieldFocusRequester.requestFocus()
+                    // We are consuming the event to prevent the caret
+                    // from moving to the start and to the end of the text field
+                    // when the user presses the arrow up/down keys
+                    when {
+                        it.type == KeyEventType.KeyDown && it.key == Key.DirectionDown -> {
+                            if (popupExpanded) {
+                                onArrowDownPress()
+                            } else {
+                                onSetPopupExpanded(true)
+                                textFieldFocusRequester.requestFocus()
+                            }
+                            true
                         }
-                    }
-                    if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionUp) {
-                        if (popupExpanded) {
-                            onArrowUpPress()
-                        } else {
-                            textFieldFocusRequester.requestFocus()
+                        it.type == KeyEventType.KeyDown && it.key == Key.DirectionUp -> {
+                            if (popupExpanded) {
+                                onArrowUpPress()
+                            } else {
+                                textFieldFocusRequester.requestFocus()
+                            }
+                            true
                         }
-                    }
-
-                    if (it.type == KeyEventType.KeyDown && it.key == Key.Enter) {
-                        if (popupExpanded) {
+                        it.type == KeyEventType.KeyDown && it.key == Key.Enter -> {
+                            if (popupExpanded) {
+                                onSetPopupExpanded(false)
+                            }
+                            onEnterPress()
+                            false
+                        }
+                        it.type == KeyEventType.KeyDown && it.key == Key.Escape && popupExpanded -> {
                             onSetPopupExpanded(false)
+                            false
                         }
-                        onEnterPress()
+                        else -> false
                     }
-                    if (it.type == KeyEventType.KeyDown && it.key == Key.Escape && popupExpanded) {
-                        onSetPopupExpanded(false)
-                    }
-                    false
                 }
                 .onHover { onHoveredChange(it) },
         lineLimits = TextFieldLineLimits.SingleLine,
