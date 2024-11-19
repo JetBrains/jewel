@@ -63,6 +63,10 @@ public fun AutoScrollableBlock(
  * Use this composable if you want to have auto-scrolling within atomic text blocks (such as code blocks) in an
  * editor+preview combined mode with scrolling synchronization.
  *
+ * Note: if you use it inside a [AutoScrollableBlock], make sure padding modifiers are hoisted outside of it! Otherwise,
+ * line offsets will be calculated starting from the outer border of the padding, and not the border of the padded text,
+ * so they will just be incorrect.
+ *
  * @see [DefaultMarkdownBlockRenderer.CodeText]
  */
 @ExperimentalJewelApi

@@ -343,7 +343,7 @@ public open class DefaultMarkdownBlockRenderer(
                 .border(styling.borderWidth, styling.borderColor, styling.shape)
                 .then(if (styling.fillWidth) Modifier.fillMaxWidth() else Modifier),
         ) {
-            AutoScrollableBlock(block) { modifier ->
+            AutoScrollableBlock(block, Modifier.padding(styling.padding)) { modifier ->
                 AutoScrollableText(
                     block = block,
                     text = AnnotatedString(block.content),
@@ -352,7 +352,6 @@ public open class DefaultMarkdownBlockRenderer(
                     modifier =
                         modifier
                             .focusProperties { canFocus = false }
-                            .padding(styling.padding)
                             .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
                 )
             }
