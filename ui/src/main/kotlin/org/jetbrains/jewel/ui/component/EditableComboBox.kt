@@ -247,11 +247,9 @@ private fun TextInput(
                 .onFocusChanged { onFocusedChange(it.isFocused) }
                 .focusRequester(textFieldFocusRequester)
                 .onPreviewKeyEvent {
-                    // We are consuming the event to prevent the caret
-                    // from moving to the start and to the end of the text field
-                    // when the user presses the arrow up/down keys
+                    if (it.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
                     when {
-                        it.type == KeyEventType.KeyDown && it.key == Key.DirectionDown -> {
+                        it.key == Key.DirectionDown -> {
                             if (popupExpanded) {
                                 onArrowDownPress()
                             } else {
@@ -260,7 +258,7 @@ private fun TextInput(
                             }
                             true
                         }
-                        it.type == KeyEventType.KeyDown && it.key == Key.DirectionUp -> {
+                        it.key == Key.DirectionUp -> {
                             if (popupExpanded) {
                                 onArrowUpPress()
                             } else {
@@ -268,14 +266,14 @@ private fun TextInput(
                             }
                             true
                         }
-                        it.type == KeyEventType.KeyDown && it.key == Key.Enter -> {
+                        it.key == Key.Enter -> {
                             if (popupExpanded) {
                                 onSetPopupExpanded(false)
                             }
                             onEnterPress()
                             false
                         }
-                        it.type == KeyEventType.KeyDown && it.key == Key.Escape && popupExpanded -> {
+                        it.key == Key.Escape && popupExpanded -> {
                             onSetPopupExpanded(false)
                             false
                         }
