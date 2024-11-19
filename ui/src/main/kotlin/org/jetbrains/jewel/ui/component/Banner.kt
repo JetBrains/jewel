@@ -1,11 +1,14 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,62 +17,43 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Orientation
-import org.jetbrains.jewel.ui.component.styling.BannerStyle
-import org.jetbrains.jewel.ui.icon.IconKey
+import org.jetbrains.jewel.ui.component.styling.DefaultBannerStyle
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.theme.defaultBannerStyle
 
 @Composable
 public fun InformationBanner(
     text: String,
-    contentDescription: String,
     modifier: Modifier = Modifier,
-    style: BannerStyle = JewelTheme.defaultBannerStyle,
+    icon: (@Composable () -> Unit)? = { Icon(AllIconsKeys.General.Information, null) },
+    actions: (@Composable RowScope.() -> Unit)? = null,
+    style: DefaultBannerStyle = JewelTheme.defaultBannerStyle.information,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
 ) {
-    Banner(
-        text = text,
-        contentDescription = contentDescription,
-        style = style,
-        textStyle = textStyle,
-        type = BannerType.Information,
-        iconKey = AllIconsKeys.General.Information,
-        modifier = modifier,
-    )
+    BannerImpl(text = text, style = style, textStyle = textStyle, icon = icon, actions = actions, modifier = modifier)
 }
 
 @Composable
-private fun Banner(
+private fun BannerImpl(
     text: String,
-    contentDescription: String,
-    style: BannerStyle,
+    style: DefaultBannerStyle,
     textStyle: TextStyle,
-    type: BannerType,
-    iconKey: IconKey? = null,
+    icon: (@Composable () -> Unit)?,
+    actions: (@Composable RowScope.() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
-    val dividerColor = when (type) {
-        BannerType.Information -> style.colors.dividerInformation
-        BannerType.Warning -> TODO()
-        BannerType.Error -> TODO()
-        BannerType.Success -> TODO()
-    }
-
     Column(modifier.fillMaxWidth()) {
-        Divider(orientation = Orientation.Horizontal, color = dividerColor)
+        Divider(orientation = Orientation.Horizontal, color = style.colors.border)
         Row(
             modifier = Modifier.background(style.colors.background).padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            iconKey?.let { Icon(it, contentDescription = contentDescription) }
+            Box(Modifier.size(16.dp)) { icon?.invoke() }
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = text, style = textStyle)
             Spacer(modifier = Modifier.weight(1f))
+            actions?.invoke(this) // TODO: add proper implementation once we have more https://github.com/JetBrains/jewel/issues/686
         }
-        Divider(orientation = Orientation.Horizontal, color = style.colors.dividerInformation)
+        Divider(orientation = Orientation.Horizontal, color = style.colors.border)
     }
-}
-
-private enum class BannerType {
-    Information, Warning, Error, Success;
 }

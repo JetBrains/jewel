@@ -6,11 +6,11 @@ import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.Stable
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.ContextMenuRepresentation
-import org.jetbrains.jewel.ui.component.styling.BannerStyle
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
 import org.jetbrains.jewel.ui.component.styling.CheckboxStyle
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
 import org.jetbrains.jewel.ui.component.styling.CircularProgressStyle
+import org.jetbrains.jewel.ui.component.styling.DefaultBannerStyles
 import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
 import org.jetbrains.jewel.ui.component.styling.DropdownStyle
@@ -68,6 +68,7 @@ public class DefaultComponentStyling(
     public val checkboxStyle: CheckboxStyle,
     public val chipStyle: ChipStyle,
     public val circularProgressStyle: CircularProgressStyle,
+    public val defaultBannerStyle: DefaultBannerStyles,
     public val comboBoxStyle: ComboBoxStyle,
     public val defaultBannerStyle: BannerStyle,
     public val defaultButtonStyle: ButtonStyle,

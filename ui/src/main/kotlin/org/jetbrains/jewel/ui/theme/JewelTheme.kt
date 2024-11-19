@@ -10,11 +10,11 @@ import org.jetbrains.jewel.foundation.theme.ThemeColorPalette
 import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.foundation.theme.ThemeIconData
 import org.jetbrains.jewel.ui.ComponentStyling
-import org.jetbrains.jewel.ui.component.styling.BannerStyle
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
 import org.jetbrains.jewel.ui.component.styling.CheckboxStyle
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
 import org.jetbrains.jewel.ui.component.styling.CircularProgressStyle
+import org.jetbrains.jewel.ui.component.styling.DefaultBannerStyles
 import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
 import org.jetbrains.jewel.ui.component.styling.DropdownStyle
@@ -75,7 +75,7 @@ public val JewelTheme.Companion.iconData: ThemeIconData
 // Component styling
 // -----------------
 
-public val JewelTheme.Companion.defaultBannerStyle: BannerStyle
+public val JewelTheme.Companion.defaultBannerStyle: DefaultBannerStyles
     @Composable @ReadOnlyComposable get() = LocalDefaultBannerStyle.current
 
 public val JewelTheme.Companion.defaultButtonStyle: ButtonStyle

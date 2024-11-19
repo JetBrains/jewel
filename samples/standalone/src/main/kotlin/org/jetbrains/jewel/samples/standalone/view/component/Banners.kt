@@ -16,8 +16,7 @@ import org.jetbrains.jewel.ui.theme.defaultBannerStyle
 internal fun Banners() {
     Box(Modifier.fillMaxSize().background(Color.White).padding(16.dp)) {
         InformationBanner(
-            style = JewelTheme.defaultBannerStyle,
-            contentDescription = "Lorem ipsum",
+            style = JewelTheme.defaultBannerStyle.information,
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
         )
     }

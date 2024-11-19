@@ -10,7 +10,18 @@ import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
 @Stable
 @GenerateDataFunctions
-public class BannerStyle(
+public class DefaultBannerStyles(
+    public val information: DefaultBannerStyle,
+//    public val warning: DefaultBannerStyle,
+//    public val error: DefaultBannerStyle,
+//    public val success: DefaultBannerStyle,
+) {
+    public companion object
+}
+
+@Stable
+@GenerateDataFunctions
+public class DefaultBannerStyle(
     public val colors: BannerColors,
     public val metrics: BannerMetrics,
 ) {
@@ -22,7 +33,7 @@ public class BannerStyle(
 public class BannerColors(
     public val background: Color,
     public val content: Color,
-    public val dividerInformation: Color,
+    public val border: Color,
     public val foreground: Color,
 ) {
     public companion object
@@ -36,6 +47,6 @@ public class BannerMetrics(
     public companion object
 }
 
-public val LocalDefaultBannerStyle: ProvidableCompositionLocal<BannerStyle> = staticCompositionLocalOf {
+public val LocalDefaultBannerStyle: ProvidableCompositionLocal<DefaultBannerStyles> = staticCompositionLocalOf {
     error("No default BannerStyle provided. Have you forgotten the theme?")
 }
