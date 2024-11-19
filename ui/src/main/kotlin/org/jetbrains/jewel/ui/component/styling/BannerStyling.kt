@@ -39,7 +39,3 @@ public class BannerMetrics(
 public val LocalDefaultBannerStyle: ProvidableCompositionLocal<BannerStyle> = staticCompositionLocalOf {
     error("No default BannerStyle provided. Have you forgotten the theme?")
 }
-
-public val LocalOutlinedBannerStyle: ProvidableCompositionLocal<BannerStyle> = staticCompositionLocalOf {
-    error("No outlined BannerStyle provided. Have you forgotten the theme?")
-}
