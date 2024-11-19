@@ -271,11 +271,11 @@ private fun TextInput(
                                 onSetPopupExpanded(false)
                             }
                             onEnterPress()
-                            false
+                            true
                         }
                         it.key == Key.Escape && popupExpanded -> {
                             onSetPopupExpanded(false)
-                            false
+                            true
                         }
                         else -> false
                     }
