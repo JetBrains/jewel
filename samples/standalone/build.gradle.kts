@@ -2,8 +2,6 @@
 
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import io.github.fourlastor.construo.Target
-import io.github.fourlastor.construo.ToolchainOptions
-import io.github.fourlastor.construo.ToolchainVersion
 
 plugins {
     jewel
@@ -86,23 +84,22 @@ construo {
         // required as it's used via string by compose, so it's not picked up by jlink automatically
         modules.addAll("jdk.zipfs")
     }
-    toolchain.set(ToolchainOptions(
-        ToolchainVersion.Companion.of(17),
-        JvmVendorSpec.JETBRAINS
-    ))
     targets {
         // Linux X64
         create<Target.Linux>("linuxX64") {
+            jdkUrl.set("https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.12-linux-x64-b1207.37.tar.gz")
             architecture.set(Target.Architecture.X86_64)
         }
         // macOS M1
-        create<Target.MacOs>("macOsM1") {
+        create<Target.MacOs>("macosAarch64") {
+            jdkUrl.set("https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.12-osx-aarch64-b1207.37.tar.gz")
             architecture.set(Target.Architecture.AARCH64)
             identifier.set("org.jetbrains.jewel.sample.standalone")
             macIcon.set(file("icons/jewel.icns"))
         }
         // Windows x64
         create<Target.Windows>("winX64") {
+            jdkUrl.set("https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.12-windows-x64-b1207.37.tar.gz")
             useGpuHint.set(false)
             architecture.set(Target.Architecture.X86_64)
         }
