@@ -1,65 +1,110 @@
 package org.jetbrains.jewel.samples.standalone.view.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.Outline
+import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
+import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 
 @Suppress("SpellCheckingInspection")
-private const val LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
-    "Sed auctor, neque in accumsan vehicula, enim purus vestibulum odio, non tristique dolor quam vel ipsum. \n" +
-    "Proin egestas, orci id hendrerit bibendum, nisl neque imperdiet nisl, a euismod nibh diam nec lectus. \n" +
-    "Duis euismod, quam nec aliquam iaculis, dolor lorem bibendum turpis, vel malesuada augue sapien vel mi. \n" +
-    "Quisque ut facilisis nibh. Maecenas euismod hendrerit sem, ac scelerisque odio auctor nec. \n" +
-    "Sed sit amet consequat eros. Donec nisl tellus, accumsan nec ligula in, eleifend sodales sem. \n" +
-    "Sed malesuada, nulla ac eleifend fermentum, nibh mi consequat quam, quis convallis lacus nunc eu dui. \n" +
-    "Pellentesque eget enim quis orci porttitor consequat sed sed quam. \n" +
-    "Sed aliquam, nisl et lacinia lacinia, diam nunc laoreet nisi, sit amet consectetur dolor lorem et sem. \n" +
-    "Duis ultricies, mauris in aliquam interdum, orci nulla finibus massa, a tristique urna sapien vel quam. \n" +
-    "Sed nec sapien nec dui rhoncus bibendum. Sed blandit bibendum libero."
+private const val LOREM_IPSUM =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
+        "Sed auctor, neque in accumsan vehicula, enim purus vestibulum odio, non tristique dolor quam vel ipsum. \n" +
+        "Proin egestas, orci id hendrerit bibendum, nisl neque imperdiet nisl, a euismod nibh diam nec lectus. \n" +
+        "Duis euismod, quam nec aliquam iaculis, dolor lorem bibendum turpis, vel malesuada augue sapien vel mi. \n" +
+        "Quisque ut facilisis nibh. Maecenas euismod hendrerit sem, ac scelerisque odio auctor nec. \n" +
+        "Sed sit amet consequat eros. Donec nisl tellus, accumsan nec ligula in, eleifend sodales sem. \n" +
+        "Sed malesuada, nulla ac eleifend fermentum, nibh mi consequat quam, quis convallis lacus nunc eu dui. \n" +
+        "Pellentesque eget enim quis orci porttitor consequat sed sed quam. \n" +
+        "Sed aliquam, nisl et lacinia lacinia, diam nunc laoreet nisi, sit amet consectetur dolor lorem et sem. \n" +
+        "Duis ultricies, mauris in aliquam interdum, orci nulla finibus massa, a tristique urna sapien vel quam. \n" +
+        "Sed nec sapien nec dui rhoncus bibendum. Sed blandit bibendum libero."
 
 @Composable
-@View(title = "TextAreas", position = 8)
 fun TextAreas() {
-    Row(
-        Modifier.padding(horizontal = 16.dp).height(150.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalAlignment = Alignment.Top,
-    ) {
-        var text1 by remember { mutableStateOf(LOREM_IPSUM) }
-        TextArea(text1, { text1 = it }, modifier = Modifier.weight(1f))
+    VerticallyScrollableContainer(Modifier.fillMaxSize()) {
+        Column(Modifier.padding(vertical = 4.dp)) {
+            Row(
+                Modifier.padding(horizontal = 16.dp).height(200.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.Top,
+            ) {
+                TextArea(state = rememberTextFieldState(LOREM_IPSUM), modifier = Modifier.weight(1f).fillMaxHeight())
 
-        var text2 by remember { mutableStateOf(LOREM_IPSUM) }
-        TextArea(text2, { text2 = it }, modifier = Modifier.weight(1f), enabled = false)
+                TextArea(
+                    state = rememberTextFieldState(LOREM_IPSUM),
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    enabled = false,
+                )
 
-        var text3 by remember { mutableStateOf("") }
-        TextArea(
-            text3,
-            { text3 = it },
-            modifier = Modifier.weight(1f),
-            outline = Outline.Error,
-            placeholder = { Text("Text area with error") },
-        )
+                TextArea(
+                    state = rememberTextFieldState(""),
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    outline = Outline.Error,
+                    placeholder = { Text("Text area with error") },
+                )
 
-        var text4 by remember { mutableStateOf("") }
-        TextArea(
-            text4,
-            { text4 = it },
-            modifier = Modifier.weight(1f),
-            outline = Outline.Warning,
-            placeholder = { Text("Text area with warning") },
-        )
+                TextArea(
+                    state = rememberTextFieldState(""),
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    outline = Outline.Warning,
+                    placeholder = { Text("Text area with warning") },
+                )
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            GroupHeader("Read-only")
+
+            Spacer(Modifier.height(16.dp))
+
+            Row(
+                Modifier.padding(horizontal = 16.dp).height(200.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.Top,
+            ) {
+                TextArea(
+                    state = rememberTextFieldState(LOREM_IPSUM),
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    readOnly = true,
+                )
+
+                TextArea(
+                    state = rememberTextFieldState(LOREM_IPSUM),
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    enabled = false,
+                    readOnly = true,
+                )
+
+                TextArea(
+                    state = rememberTextFieldState("Error state"),
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    outline = Outline.Error,
+                    placeholder = { Text("Text area with error") },
+                    readOnly = true,
+                )
+
+                TextArea(
+                    state = rememberTextFieldState("Warning state"),
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    outline = Outline.Warning,
+                    placeholder = { Text("Text area with warning") },
+                    readOnly = true,
+                )
+            }
+        }
     }
 }

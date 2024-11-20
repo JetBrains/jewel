@@ -1,22 +1,25 @@
 [versions]
-commonmark = "0.21.0"
-composeDesktop = "1.6.10-dev1490"
+commonmark = "0.24.0"
+composeDesktop = "1.7.1"
 construo = "1.1.0"
-detekt = "1.23.4"
-dokka = "1.8.20"
-idea = "241.14494.17-EAP-SNAPSHOT"
-ideaGradlePlugin = "1.17.1"
+detekt = "1.23.6"
+dokka = "1.9.20"
+idea = "243.21155.17"
+intelliJPlatformBuild = "243.21155.17-EAP-SNAPSHOT"
+ideaPlugin = "2.1.0"
 jna = "5.14.0"
-kotlin = "1.8.21"
+kotlin = "2.0.21-RC"
 kotlinSarif = "0.5.0"
-kotlinpoet = "1.15.2"
-kotlinterGradlePlugin = "3.16.0"
-kotlinxSerialization = "1.5.1"
-kotlinxBinaryCompat = "0.14.0"
-poko = "0.13.1"
+kotlinpoet = "1.18.1"
+kotlinterGradlePlugin = "4.4.1"
+kotlinxSerialization = "1.7.3"
+kotlinxBinaryCompat = "0.16.3"
+ktfmtGradlePlugin = "0.20.1"
+poko = "0.17.1"
 shadow = "8.1.1"
 [libraries]
 commonmark-core = { module = "org.commonmark:commonmark", version.ref = "commonmark" }
+commonmark-ext-autolink = { module = "org.commonmark:commonmark-ext-autolink", version.ref = "commonmark" }
 
 filePicker = { module = "com.darkrockstudios:mpfilepicker", version = "3.1.0" }
 
@@ -24,11 +27,10 @@ kotlinSarif = { module = "io.github.detekt.sarif4k:sarif4k", version.ref = "kotl
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 
-ij-platform-ide-core = { module = "com.jetbrains.intellij.platform:ide-core", version.ref = "idea" }
-ij-platform-ide-impl = { module = "com.jetbrains.intellij.platform:ide-impl", version.ref = "idea" }
-ij-platform-core-ui = { module = "com.jetbrains.intellij.platform:core-ui", version.ref = "idea" }
-
 jna-core = { module = "net.java.dev.jna:jna", version.ref = "jna" }
+
+intellijPlatform-util-ui = { module = "com.jetbrains.intellij.platform:util-ui", version.ref = "intelliJPlatformBuild" }
+intellijPlatform-icons = { module = "com.jetbrains.intellij.platform:icons", version.ref = "intelliJPlatformBuild" }
 
 # Plugin libraries for build-logic's convention plugins to use to resolve the types/tasks coming from these plugins
 detekt-gradlePlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
@@ -37,20 +39,22 @@ kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ve
 kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 kotlinter-gradlePlugin = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "kotlinterGradlePlugin" }
 kotlinx-binaryCompatValidator-gradlePlugin = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "kotlinxBinaryCompat" }
+ktfmt-gradlePlugin = { module = "com.ncorti.ktfmt.gradle:plugin", version.ref = "ktfmtGradlePlugin" }
 poko-gradlePlugin = { module = "dev.drewhamilton.poko:poko-gradle-plugin", version.ref = "poko" }
-
-[bundles]
-idea = ["ij-platform-ide-core", "ij-platform-ide-impl", "ij-platform-core-ui"]
 
 [plugins]
 composeDesktop = { id = "org.jetbrains.compose", version.ref = "composeDesktop" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 construo = { id = "io.github.fourlastor.construo", version.ref = "construo"}
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-ideaGradlePlugin = { id = "org.jetbrains.intellij", version.ref = "ideaGradlePlugin" }
+ideaPlugin = { id = "org.jetbrains.intellij.platform", version.ref = "ideaPlugin" }
+ideaPluginBase = { id = "org.jetbrains.intellij.platform.base", version.ref = "ideaPlugin" }
+ideaPluginModule = { id = "org.jetbrains.intellij.platform.module", version.ref = "ideaPlugin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinx-binaryCompatValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlinxBinaryCompat" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinterGradlePlugin" }
+ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmtGradlePlugin" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
 shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow"}

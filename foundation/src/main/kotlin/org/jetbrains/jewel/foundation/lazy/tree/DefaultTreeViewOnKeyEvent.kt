@@ -7,7 +7,6 @@ public open class DefaultTreeViewOnKeyEvent(
     override val keybindings: TreeViewKeybindings,
     private val treeState: TreeState,
 ) : TreeViewOnKeyEvent {
-
     override fun onSelectParent(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
         val currentKey = keys[state.lastActiveItemIndex ?: 0].key
         val keyNodeList = treeState.allNodes.map { it.first }
@@ -19,11 +18,7 @@ public open class DefaultTreeViewOnKeyEvent(
         }
     }
 
-    private fun handleNodeCase(
-        currentKey: Any,
-        keys: List<SelectableLazyListKey>,
-        state: SelectableLazyListState,
-    ) {
+    private fun handleNodeCase(currentKey: Any, keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
         if (treeState.openNodes.contains(currentKey)) {
             treeState.toggleNode(currentKey)
             return
@@ -36,7 +31,8 @@ public open class DefaultTreeViewOnKeyEvent(
                     .reversed()
                     .firstOrNull { it.second < currentNode.second }
                     ?.let { (parentNodeKey, _) ->
-                        keys.first { it.key == parentNodeKey }
+                        keys
+                            .first { it.key == parentNodeKey }
                             .takeIf { it is SelectableLazyListKey.Selectable }
                             ?.let {
                                 state.lastActiveItemIndex =
@@ -68,10 +64,7 @@ public open class DefaultTreeViewOnKeyEvent(
 
     override fun onSelectChild(keys: List<SelectableLazyListKey>, state: SelectableLazyListState) {
         val currentKey = keys[state.lastActiveItemIndex ?: 0].key
-        if (
-            currentKey in treeState.allNodes.map { it.first } &&
-            currentKey !in treeState.openNodes
-        ) {
+        if (currentKey in treeState.allNodes.map { it.first } && currentKey !in treeState.openNodes) {
             treeState.toggleNode(currentKey)
         } else {
             super.onSelectNextItem(keys, state)

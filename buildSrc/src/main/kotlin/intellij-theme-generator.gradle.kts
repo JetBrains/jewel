@@ -3,6 +3,7 @@
 import com.squareup.kotlinpoet.ClassName
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.util.internal.GUtil
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.jewel.buildlogic.theme.IntelliJThemeGeneratorTask
 import org.jetbrains.jewel.buildlogic.theme.ThemeGeneration
 import org.jetbrains.jewel.buildlogic.theme.ThemeGeneratorContainer
@@ -16,10 +17,11 @@ extensions.add("intelliJThemeGenerator", extension)
 extension.all {
     val task =
         tasks.register<IntelliJThemeGeneratorTask>("generate${GUtil.toCamelCase(name)}Theme") {
-            val paths = this@all.themeClassName.map {
-                val className = ClassName.bestGuess(it)
-                className.packageName.replace(".", "/") + "/${className.simpleName}.kt"
-            }
+            val paths =
+                this@all.themeClassName.map {
+                    val className = ClassName.bestGuess(it)
+                    className.packageName.replace(".", "/") + "/${className.simpleName}.kt"
+                }
 
             outputFile = targetDir.file(paths)
             themeClassName = this@all.themeClassName
@@ -30,6 +32,8 @@ extension.all {
     tasks {
         withType<BaseKotlinCompile> { dependsOn(task) }
         withType<Detekt> { dependsOn(task) }
+        withType<DokkaTask> { dependsOn(task) }
+        withType<Jar> { dependsOn(task) }
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {

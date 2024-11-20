@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.CheckboxState
-import org.jetbrains.jewel.ui.painter.PainterProvider
+import org.jetbrains.jewel.ui.icon.IconKey
 
 @Immutable
 @GenerateDataFunctions
@@ -22,7 +22,6 @@ public class CheckboxStyle(
     public val metrics: CheckboxMetrics,
     public val icons: CheckboxIcons,
 ) {
-
     public companion object
 }
 
@@ -33,7 +32,6 @@ public class CheckboxColors(
     public val contentDisabled: Color,
     public val contentSelected: Color,
 ) {
-
     @Composable
     public fun contentFor(state: CheckboxState): State<Color> =
         rememberUpdatedState(
@@ -41,7 +39,7 @@ public class CheckboxColors(
                 !state.isEnabled -> contentDisabled
                 state.toggleableState == ToggleableState.On -> contentSelected
                 else -> content
-            },
+            }
         )
 
     public companion object
@@ -61,38 +59,37 @@ public class CheckboxMetrics(
     public val outlineSelectedFocusedSize: DpSize,
     public val iconContentGap: Dp,
 ) {
+    @Composable
+    public fun outlineCornerSizeFor(state: CheckboxState): State<CornerSize> =
+        rememberUpdatedState(
+            when {
+                state.isFocused && state.isSelected -> outlineSelectedFocusedCornerSize
+                !state.isFocused && state.isSelected -> outlineSelectedCornerSize
+                state.isFocused && !state.isSelected -> outlineFocusedCornerSize
+                else -> outlineCornerSize
+            }
+        )
 
     @Composable
-    public fun outlineCornerSizeFor(state: CheckboxState): State<CornerSize> = rememberUpdatedState(
-        when {
-            state.isFocused && state.isSelected -> outlineSelectedFocusedCornerSize
-            !state.isFocused && state.isSelected -> outlineSelectedCornerSize
-            state.isFocused && !state.isSelected -> outlineFocusedCornerSize
-            else -> outlineCornerSize
-        },
-    )
-
-    @Composable
-    public fun outlineSizeFor(state: CheckboxState): State<DpSize> = rememberUpdatedState(
-        when {
-            state.isFocused && state.isSelected -> outlineSelectedFocusedSize
-            !state.isFocused && state.isSelected -> outlineSelectedSize
-            state.isFocused && !state.isSelected -> outlineFocusedSize
-            else -> outlineSize
-        },
-    )
+    public fun outlineSizeFor(state: CheckboxState): State<DpSize> =
+        rememberUpdatedState(
+            when {
+                state.isFocused && state.isSelected -> outlineSelectedFocusedSize
+                !state.isFocused && state.isSelected -> outlineSelectedSize
+                state.isFocused && !state.isSelected -> outlineFocusedSize
+                else -> outlineSize
+            }
+        )
 
     public companion object
 }
 
 @Immutable
 @GenerateDataFunctions
-public class CheckboxIcons(public val checkbox: PainterProvider) {
-
+public class CheckboxIcons(public val checkbox: IconKey) {
     public companion object
 }
 
-public val LocalCheckboxStyle: ProvidableCompositionLocal<CheckboxStyle> =
-    staticCompositionLocalOf {
-        error("No CheckboxStyle provided. Have you forgotten the theme?")
-    }
+public val LocalCheckboxStyle: ProvidableCompositionLocal<CheckboxStyle> = staticCompositionLocalOf {
+    error("No CheckboxStyle provided. Have you forgotten the theme?")
+}

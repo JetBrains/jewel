@@ -13,11 +13,9 @@ import org.jetbrains.jewel.ui.util.thenIf
 public enum class Outline {
     None,
     Warning,
-    Error,
-    ;
+    Error;
 
     public companion object {
-
         public fun of(warning: Boolean, error: Boolean): Outline =
             when {
                 error -> Error
@@ -33,12 +31,22 @@ public fun Modifier.focusOutline(
     outlineShape: Shape,
     alignment: Stroke.Alignment = Stroke.Alignment.Outside,
     outlineWidth: Dp = JewelTheme.globalMetrics.outlineWidth,
+    expand: Dp = Dp.Unspecified,
+): Modifier = focusOutline(state.isFocused, outlineShape, alignment, outlineWidth, expand)
+
+@Composable
+public fun Modifier.focusOutline(
+    showOutline: Boolean,
+    outlineShape: Shape,
+    alignment: Stroke.Alignment = Stroke.Alignment.Outside,
+    outlineWidth: Dp = JewelTheme.globalMetrics.outlineWidth,
+    expand: Dp = Dp.Unspecified,
 ): Modifier {
     val outlineColors = JewelTheme.globalColors.outlines
 
-    return thenIf(state.isFocused) {
+    return thenIf(showOutline) {
         val outlineColor = outlineColors.focused
-        border(alignment, outlineWidth, outlineColor, outlineShape)
+        border(alignment, outlineWidth, outlineColor, outlineShape, expand)
     }
 }
 

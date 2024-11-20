@@ -4,9 +4,6 @@
 .AppleDouble
 .LSOverride
 
-# Icon must end with two \r
-Icon
-
 # Thumbnails
 ._*
 
@@ -45,7 +42,9 @@ local.properties
 !.idea/icon.png
 !.idea/icon_dark.png
 !.idea/inspectionProfiles/
+!.idea/ktfmt.xml
 !.idea/ktlint.xml
+!.idea/ktlint-plugin.xml
 !.idea/runConfigurations/
 !.idea/scopes/
 !.idea/vcs.xml
@@ -94,5 +93,17 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+### Misc
+
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+
+# Ignore IJP temp folder
+/.intellijPlatform
+
+# Ignore release patch generator output
+/this-release.txt
+
+# Ignore Kotlin compiler sessions
+/.kotlin
+/buildSrc/.kotlin

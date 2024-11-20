@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -33,12 +34,8 @@ public class MarkdownStyling(
     public val thematicBreak: ThematicBreak,
     public val htmlBlock: HtmlBlock,
 ) {
-
     @GenerateDataFunctions
-    public class Paragraph(
-        override val inlinesStyling: InlinesStyling,
-    ) : WithInlinesStyling {
-
+    public class Paragraph(override val inlinesStyling: InlinesStyling) : WithInlinesStyling {
         public companion object
     }
 
@@ -51,6 +48,9 @@ public class MarkdownStyling(
         public val h5: H5,
         public val h6: H6,
     ) {
+        public sealed interface HN : WithInlinesStyling, WithUnderline {
+            public val padding: PaddingValues
+        }
 
         @GenerateDataFunctions
         public class H1(
@@ -58,9 +58,8 @@ public class MarkdownStyling(
             override val underlineWidth: Dp,
             override val underlineColor: Color,
             override val underlineGap: Dp,
-            public val padding: PaddingValues,
-        ) : WithInlinesStyling, WithUnderline {
-
+            override val padding: PaddingValues,
+        ) : HN {
             public companion object
         }
 
@@ -70,9 +69,8 @@ public class MarkdownStyling(
             override val underlineWidth: Dp,
             override val underlineColor: Color,
             override val underlineGap: Dp,
-            public val padding: PaddingValues,
-        ) : WithInlinesStyling, WithUnderline {
-
+            override val padding: PaddingValues,
+        ) : HN {
             public companion object
         }
 
@@ -82,9 +80,8 @@ public class MarkdownStyling(
             override val underlineWidth: Dp,
             override val underlineColor: Color,
             override val underlineGap: Dp,
-            public val padding: PaddingValues,
-        ) : WithInlinesStyling, WithUnderline {
-
+            override val padding: PaddingValues,
+        ) : HN {
             public companion object
         }
 
@@ -94,9 +91,8 @@ public class MarkdownStyling(
             override val underlineWidth: Dp,
             override val underlineColor: Color,
             override val underlineGap: Dp,
-            public val padding: PaddingValues,
-        ) : WithInlinesStyling, WithUnderline {
-
+            override val padding: PaddingValues,
+        ) : HN {
             public companion object
         }
 
@@ -106,9 +102,8 @@ public class MarkdownStyling(
             override val underlineWidth: Dp,
             override val underlineColor: Color,
             override val underlineGap: Dp,
-            public val padding: PaddingValues,
-        ) : WithInlinesStyling, WithUnderline {
-
+            override val padding: PaddingValues,
+        ) : HN {
             public companion object
         }
 
@@ -118,9 +113,8 @@ public class MarkdownStyling(
             override val underlineWidth: Dp,
             override val underlineColor: Color,
             override val underlineGap: Dp,
-            public val padding: PaddingValues,
-        ) : WithInlinesStyling, WithUnderline {
-
+            override val padding: PaddingValues,
+        ) : HN {
             public companion object
         }
 
@@ -136,16 +130,11 @@ public class MarkdownStyling(
         public val strokeCap: StrokeCap,
         public val textColor: Color,
     ) {
-
         public companion object
     }
 
     @GenerateDataFunctions
-    public class List(
-        public val ordered: Ordered,
-        public val unordered: Unordered,
-    ) {
-
+    public class List(public val ordered: Ordered, public val unordered: Unordered) {
         @GenerateDataFunctions
         public class Ordered(
             public val numberStyle: TextStyle,
@@ -156,7 +145,6 @@ public class MarkdownStyling(
             public val itemVerticalSpacingTight: Dp,
             public val padding: PaddingValues,
         ) {
-
             public companion object
         }
 
@@ -169,7 +157,6 @@ public class MarkdownStyling(
             public val itemVerticalSpacingTight: Dp,
             public val padding: PaddingValues,
         ) {
-
             public companion object
         }
 
@@ -177,14 +164,10 @@ public class MarkdownStyling(
     }
 
     @GenerateDataFunctions
-    public class Code(
-        public val indented: Indented,
-        public val fenced: Fenced,
-    ) {
-
+    public class Code(public val indented: Indented, public val fenced: Fenced) {
         @GenerateDataFunctions
         public class Indented(
-            public val textStyle: TextStyle,
+            public val editorTextStyle: TextStyle,
             public val padding: PaddingValues,
             public val shape: Shape,
             public val background: Color,
@@ -193,13 +176,12 @@ public class MarkdownStyling(
             public val fillWidth: Boolean,
             public val scrollsHorizontally: Boolean,
         ) {
-
             public companion object
         }
 
         @GenerateDataFunctions
         public class Fenced(
-            public val textStyle: TextStyle,
+            public val editorTextStyle: TextStyle,
             public val padding: PaddingValues,
             public val shape: Shape,
             public val background: Color,
@@ -211,7 +193,6 @@ public class MarkdownStyling(
             public val infoPadding: PaddingValues,
             public val infoPosition: InfoPosition,
         ) {
-
             public enum class InfoPosition {
                 TopStart,
                 TopCenter,
@@ -238,7 +219,6 @@ public class MarkdownStyling(
         public val borderWidth: Dp,
         public val borderColor: Color,
     ) {
-
         public companion object
     }
 
@@ -248,7 +228,6 @@ public class MarkdownStyling(
         public val lineWidth: Dp,
         public val lineColor: Color,
     ) {
-
         public companion object
     }
 
@@ -262,7 +241,6 @@ public class MarkdownStyling(
         public val borderColor: Color,
         public val fillWidth: Boolean,
     ) {
-
         public companion object
     }
 
@@ -270,12 +248,10 @@ public class MarkdownStyling(
 }
 
 public interface WithInlinesStyling {
-
     public val inlinesStyling: InlinesStyling
 }
 
 public interface WithUnderline {
-
     public val underlineWidth: Dp
     public val underlineColor: Color
     public val underlineGap: Dp
@@ -286,11 +262,18 @@ public class InlinesStyling(
     public val textStyle: TextStyle,
     public val inlineCode: SpanStyle,
     public val link: SpanStyle,
+    public val linkDisabled: SpanStyle,
+    public val linkFocused: SpanStyle,
+    public val linkHovered: SpanStyle,
+    public val linkPressed: SpanStyle,
+    public val linkVisited: SpanStyle,
     public val emphasis: SpanStyle,
     public val strongEmphasis: SpanStyle,
     public val inlineHtml: SpanStyle,
     public val renderInlineHtml: Boolean,
 ) {
+    public val textLinkStyles: TextLinkStyles =
+        TextLinkStyles(style = link, focusedStyle = linkFocused, hoveredStyle = linkHovered, pressedStyle = linkPressed)
 
     public companion object
 }
@@ -300,13 +283,11 @@ internal val InfoPosition.verticalAlignment
         when (this) {
             TopStart,
             TopCenter,
-            TopEnd,
-            -> Alignment.Top
+            TopEnd -> Alignment.Top
 
             BottomStart,
             BottomCenter,
-            BottomEnd,
-            -> Alignment.Bottom
+            BottomEnd -> Alignment.Bottom
 
             Hide -> null
         }
@@ -315,16 +296,13 @@ internal val InfoPosition.horizontalAlignment
     get() =
         when (this) {
             TopStart,
-            BottomStart,
-            -> Alignment.Start
+            BottomStart -> Alignment.Start
 
             TopCenter,
-            BottomCenter,
-            -> Alignment.CenterHorizontally
+            BottomCenter -> Alignment.CenterHorizontally
 
             TopEnd,
-            BottomEnd,
-            -> Alignment.End
+            BottomEnd -> Alignment.End
 
             Hide -> null
         }

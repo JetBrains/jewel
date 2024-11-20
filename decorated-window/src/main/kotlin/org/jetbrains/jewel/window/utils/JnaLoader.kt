@@ -6,7 +6,6 @@ import java.util.logging.Logger
 import kotlin.system.measureTimeMillis
 
 internal object JnaLoader {
-
     private var loaded: Boolean? = null
     private val logger = Logger.getLogger(JnaLoader::class.java.simpleName)
 

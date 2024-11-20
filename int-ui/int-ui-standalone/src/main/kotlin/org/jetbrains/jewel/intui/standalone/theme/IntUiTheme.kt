@@ -4,10 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import org.jetbrains.jewel.foundation.GlobalColors
 import org.jetbrains.jewel.foundation.GlobalMetrics
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -16,8 +12,8 @@ import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.foundation.theme.ThemeIconData
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.intui.standalone.Inter
 import org.jetbrains.jewel.intui.standalone.StandalonePainterHintsProvider
+import org.jetbrains.jewel.intui.standalone.icon.StandaloneNewUiChecker
 import org.jetbrains.jewel.intui.standalone.styling.Default
 import org.jetbrains.jewel.intui.standalone.styling.Editor
 import org.jetbrains.jewel.intui.standalone.styling.Outlined
@@ -30,6 +26,7 @@ import org.jetbrains.jewel.ui.component.styling.ButtonStyle
 import org.jetbrains.jewel.ui.component.styling.CheckboxStyle
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
 import org.jetbrains.jewel.ui.component.styling.CircularProgressStyle
+import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
 import org.jetbrains.jewel.ui.component.styling.DropdownStyle
 import org.jetbrains.jewel.ui.component.styling.GroupHeaderStyle
@@ -38,23 +35,21 @@ import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
+import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
+import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
+import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
+import org.jetbrains.jewel.ui.icon.LocalNewUiChecker
 import org.jetbrains.jewel.ui.painter.LocalPainterHintsProvider
 import org.jetbrains.jewel.ui.theme.BaseJewelTheme
-
-public fun JewelTheme.Companion.createDefaultTextStyle(): TextStyle =
-    TextStyle.Default.copy(
-        fontFamily = FontFamily.Inter,
-        fontSize = 13.sp,
-        fontWeight = FontWeight.Normal,
-        fontStyle = FontStyle.Normal,
-    )
 
 @Composable
 public fun JewelTheme.Companion.lightThemeDefinition(
@@ -63,9 +58,22 @@ public fun JewelTheme.Companion.lightThemeDefinition(
     palette: ThemeColorPalette = IntUiLightTheme.colors,
     iconData: ThemeIconData = IntUiLightTheme.iconData,
     defaultTextStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
-    contentColor: Color = IntUiLightTheme.colors.grey(1),
+    editorTextStyle: TextStyle = JewelTheme.createEditorTextStyle(),
+    consoleTextStyle: TextStyle = editorTextStyle,
+    contentColor: Color = colors.text.normal,
 ): ThemeDefinition =
-    ThemeDefinition(isDark = false, colors, metrics, defaultTextStyle, contentColor, palette, iconData)
+    ThemeDefinition(
+        name = "IntUI Light",
+        isDark = false,
+        colors,
+        metrics,
+        defaultTextStyle,
+        editorTextStyle,
+        consoleTextStyle,
+        contentColor,
+        palette,
+        iconData,
+    )
 
 @Composable
 public fun JewelTheme.Companion.darkThemeDefinition(
@@ -74,9 +82,22 @@ public fun JewelTheme.Companion.darkThemeDefinition(
     palette: ThemeColorPalette = IntUiDarkTheme.colors,
     iconData: ThemeIconData = IntUiDarkTheme.iconData,
     defaultTextStyle: TextStyle = JewelTheme.createDefaultTextStyle(),
-    contentColor: Color = IntUiDarkTheme.colors.grey(12),
+    editorTextStyle: TextStyle = JewelTheme.createEditorTextStyle(),
+    consoleTextStyle: TextStyle = editorTextStyle,
+    contentColor: Color = colors.text.normal,
 ): ThemeDefinition =
-    ThemeDefinition(isDark = true, colors, metrics, defaultTextStyle, contentColor, palette, iconData)
+    ThemeDefinition(
+        name = "IntUI Dark",
+        isDark = true,
+        colors,
+        metrics,
+        defaultTextStyle,
+        editorTextStyle,
+        consoleTextStyle,
+        contentColor,
+        palette,
+        iconData,
+    )
 
 @Composable
 public fun ComponentStyling.default(): ComponentStyling = with {
@@ -89,6 +110,7 @@ public fun ComponentStyling.dark(
     checkboxStyle: CheckboxStyle = CheckboxStyle.dark(),
     chipStyle: ChipStyle = ChipStyle.dark(),
     circularProgressStyle: CircularProgressStyle = CircularProgressStyle.dark(),
+    comboBoxStyle: ComboBoxStyle = ComboBoxStyle.Default.dark(),
     defaultButtonStyle: ButtonStyle = ButtonStyle.Default.dark(),
     defaultTabStyle: TabStyle = TabStyle.Default.dark(),
     dividerStyle: DividerStyle = DividerStyle.dark(),
@@ -101,9 +123,14 @@ public fun ComponentStyling.dark(
     linkStyle: LinkStyle = LinkStyle.dark(),
     menuStyle: MenuStyle = MenuStyle.dark(),
     outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.dark(),
+    popupContainerStyle: PopupContainerStyle = PopupContainerStyle.dark(),
     radioButtonStyle: RadioButtonStyle = RadioButtonStyle.dark(),
     scrollbarStyle: ScrollbarStyle = ScrollbarStyle.dark(),
+    segmentedControlButtonStyle: SegmentedControlButtonStyle = SegmentedControlButtonStyle.dark(),
+    segmentedControlStyle: SegmentedControlStyle = SegmentedControlStyle.dark(),
+    selectableLazyColumnStyle: SelectableLazyColumnStyle = SelectableLazyColumnStyle.dark(),
     sliderStyle: SliderStyle = SliderStyle.dark(),
+    simpleListItemStyle: SimpleListItemStyle = SimpleListItemStyle.dark(),
     textAreaStyle: TextAreaStyle = TextAreaStyle.dark(),
     textFieldStyle: TextFieldStyle = TextFieldStyle.dark(),
     tooltipStyle: TooltipStyle = TooltipStyle.dark(),
@@ -114,6 +141,7 @@ public fun ComponentStyling.dark(
             checkboxStyle = checkboxStyle,
             chipStyle = chipStyle,
             circularProgressStyle = circularProgressStyle,
+            comboBoxStyle = comboBoxStyle,
             defaultButtonStyle = defaultButtonStyle,
             defaultDropdownStyle = dropdownStyle,
             defaultTabStyle = defaultTabStyle,
@@ -126,14 +154,19 @@ public fun ComponentStyling.dark(
             linkStyle = linkStyle,
             menuStyle = menuStyle,
             outlinedButtonStyle = outlinedButtonStyle,
+            popupContainerStyle = popupContainerStyle,
             radioButtonStyle = radioButtonStyle,
             scrollbarStyle = scrollbarStyle,
+            segmentedControlButtonStyle = segmentedControlButtonStyle,
+            segmentedControlStyle = segmentedControlStyle,
+            selectableLazyColumnStyle = selectableLazyColumnStyle,
+            simpleListItemStyle = simpleListItemStyle,
             sliderStyle = sliderStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
             tooltipStyle = tooltipStyle,
             undecoratedDropdownStyle = undecoratedDropdownStyle,
-        ),
+        )
     )
 
 @Composable
@@ -141,6 +174,7 @@ public fun ComponentStyling.light(
     checkboxStyle: CheckboxStyle = CheckboxStyle.light(),
     chipStyle: ChipStyle = ChipStyle.light(),
     circularProgressStyle: CircularProgressStyle = CircularProgressStyle.light(),
+    comboBoxStyle: ComboBoxStyle = ComboBoxStyle.Default.light(),
     defaultButtonStyle: ButtonStyle = ButtonStyle.Default.light(),
     defaultTabStyle: TabStyle = TabStyle.Default.light(),
     dividerStyle: DividerStyle = DividerStyle.light(),
@@ -152,10 +186,15 @@ public fun ComponentStyling.light(
     lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.light(),
     linkStyle: LinkStyle = LinkStyle.light(),
     menuStyle: MenuStyle = MenuStyle.light(),
+    popupContainerStyle: PopupContainerStyle = PopupContainerStyle.light(),
     outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.light(),
     radioButtonStyle: RadioButtonStyle = RadioButtonStyle.light(),
     scrollbarStyle: ScrollbarStyle = ScrollbarStyle.light(),
+    segmentedControlButtonStyle: SegmentedControlButtonStyle = SegmentedControlButtonStyle.light(),
+    segmentedControlStyle: SegmentedControlStyle = SegmentedControlStyle.light(),
     sliderStyle: SliderStyle = SliderStyle.light(),
+    selectableLazyColumnStyle: SelectableLazyColumnStyle = SelectableLazyColumnStyle.light(),
+    simpleListItemStyle: SimpleListItemStyle = SimpleListItemStyle.light(),
     textAreaStyle: TextAreaStyle = TextAreaStyle.light(),
     textFieldStyle: TextFieldStyle = TextFieldStyle.light(),
     tooltipStyle: TooltipStyle = TooltipStyle.light(),
@@ -166,6 +205,7 @@ public fun ComponentStyling.light(
             checkboxStyle = checkboxStyle,
             chipStyle = chipStyle,
             circularProgressStyle = circularProgressStyle,
+            comboBoxStyle = comboBoxStyle,
             defaultButtonStyle = defaultButtonStyle,
             defaultDropdownStyle = dropdownStyle,
             defaultTabStyle = defaultTabStyle,
@@ -178,24 +218,24 @@ public fun ComponentStyling.light(
             linkStyle = linkStyle,
             menuStyle = menuStyle,
             outlinedButtonStyle = outlinedButtonStyle,
+            popupContainerStyle = popupContainerStyle,
             radioButtonStyle = radioButtonStyle,
             scrollbarStyle = scrollbarStyle,
+            segmentedControlButtonStyle = segmentedControlButtonStyle,
+            segmentedControlStyle = segmentedControlStyle,
+            selectableLazyColumnStyle = selectableLazyColumnStyle,
             sliderStyle = sliderStyle,
+            simpleListItemStyle = simpleListItemStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
             tooltipStyle = tooltipStyle,
             undecoratedDropdownStyle = undecoratedDropdownStyle,
-        ),
+        )
     )
 
 @Composable
-public fun IntUiTheme(
-    isDark: Boolean = false,
-    swingCompatMode: Boolean = false,
-    content: @Composable () -> Unit,
-) {
-    val themeDefinition =
-        if (isDark) JewelTheme.darkThemeDefinition() else JewelTheme.lightThemeDefinition()
+public fun IntUiTheme(isDark: Boolean = false, swingCompatMode: Boolean = false, content: @Composable () -> Unit) {
+    val themeDefinition = if (isDark) JewelTheme.darkThemeDefinition() else JewelTheme.lightThemeDefinition()
 
     IntUiTheme(
         theme = themeDefinition,
@@ -212,13 +252,10 @@ public fun IntUiTheme(
     swingCompatMode: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    BaseJewelTheme(
-        theme,
-        ComponentStyling.default().with(styling),
-        swingCompatMode,
-    ) {
+    BaseJewelTheme(theme, ComponentStyling.default().with(styling), swingCompatMode) {
         CompositionLocalProvider(
             LocalPainterHintsProvider provides StandalonePainterHintsProvider(theme),
+            LocalNewUiChecker provides StandaloneNewUiChecker,
         ) {
             content()
         }

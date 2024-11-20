@@ -1,16 +1,20 @@
+import java.util.Properties
+
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.kotlinx.serialization)
 }
 
+val properties = Properties()
+
+project.file("../gradle.properties").inputStream().use { properties.load(it) }
+
+val jdkLevel = properties.getProperty("jdk.level") as String
+
 kotlin {
-    sourceSets {
-        all {
-            languageSettings {
-                optIn("kotlinx.serialization.ExperimentalSerializationApi")
-            }
-        }
-    }
+    jvmToolchain { languageVersion = JavaLanguageVersion.of(jdkLevel) }
+
+    sourceSets { all { languageSettings { optIn("kotlinx.serialization.ExperimentalSerializationApi") } } }
 }
 
 dependencies {
@@ -20,6 +24,7 @@ dependencies {
     implementation(libs.kotlinSarif)
     implementation(libs.kotlinpoet)
     implementation(libs.kotlinter.gradlePlugin)
+    implementation(libs.ktfmt.gradlePlugin)
     implementation(libs.kotlinx.binaryCompatValidator.gradlePlugin)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.poko.gradlePlugin)

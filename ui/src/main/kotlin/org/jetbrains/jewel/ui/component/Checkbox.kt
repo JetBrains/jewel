@@ -52,6 +52,7 @@ import org.jetbrains.jewel.ui.painter.PainterProviderScope
 import org.jetbrains.jewel.ui.painter.PainterSuffixHint
 import org.jetbrains.jewel.ui.painter.hints.Selected
 import org.jetbrains.jewel.ui.painter.hints.Stateful
+import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.ui.theme.checkboxStyle
 
 @Composable
@@ -66,12 +67,14 @@ public fun Checkbox(
     metrics: CheckboxMetrics = JewelTheme.checkboxStyle.metrics,
     icons: CheckboxIcons = JewelTheme.checkboxStyle.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 ) {
     val state by remember(checked) { mutableStateOf(ToggleableState(checked)) }
     CheckboxImpl(
         state = state,
         onClick = { onCheckedChange.invoke(!checked) },
         modifier = modifier,
+        contentModifier = Modifier,
         enabled = enabled,
         outline = outline,
         interactionSource = interactionSource,
@@ -79,6 +82,7 @@ public fun Checkbox(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
         content = null,
     )
 }
@@ -95,11 +99,13 @@ public fun TriStateCheckbox(
     metrics: CheckboxMetrics = LocalCheckboxStyle.current.metrics,
     icons: CheckboxIcons = LocalCheckboxStyle.current.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 ) {
     CheckboxImpl(
         state = state,
         onClick = onClick,
         modifier = modifier,
+        contentModifier = Modifier,
         enabled = enabled,
         outline = outline,
         interactionSource = interactionSource,
@@ -107,6 +113,7 @@ public fun TriStateCheckbox(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
         content = null,
     )
 }
@@ -117,6 +124,7 @@ public fun TriStateCheckboxRow(
     state: ToggleableState,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
     enabled: Boolean = true,
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -124,11 +132,13 @@ public fun TriStateCheckboxRow(
     metrics: CheckboxMetrics = LocalCheckboxStyle.current.metrics,
     icons: CheckboxIcons = LocalCheckboxStyle.current.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 ) {
     CheckboxImpl(
         state = state,
         onClick = onClick,
         modifier = modifier,
+        contentModifier = textModifier,
         enabled = enabled,
         outline = outline,
         interactionSource = interactionSource,
@@ -136,6 +146,7 @@ public fun TriStateCheckboxRow(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
     ) {
         Text(text)
     }
@@ -145,8 +156,9 @@ public fun TriStateCheckboxRow(
 public fun CheckboxRow(
     text: String,
     checked: Boolean,
-    onCheckedChange: ((Boolean) -> Unit)?,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
     enabled: Boolean = true,
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -154,13 +166,15 @@ public fun CheckboxRow(
     metrics: CheckboxMetrics = LocalCheckboxStyle.current.metrics,
     icons: CheckboxIcons = LocalCheckboxStyle.current.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 ) {
     val state by remember(checked) { mutableStateOf(ToggleableState(checked)) }
 
     CheckboxImpl(
         state = state,
-        onClick = { onCheckedChange?.invoke(!checked) },
+        onClick = { onCheckedChange(!checked) },
         modifier = modifier,
+        contentModifier = textModifier,
         enabled = enabled,
         outline = outline,
         interactionSource = interactionSource,
@@ -168,6 +182,7 @@ public fun CheckboxRow(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
     ) {
         Text(text)
     }
@@ -176,7 +191,7 @@ public fun CheckboxRow(
 @Composable
 public fun CheckboxRow(
     checked: Boolean,
-    onCheckedChange: ((Boolean) -> Unit)?,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     outline: Outline = Outline.None,
@@ -185,12 +200,14 @@ public fun CheckboxRow(
     metrics: CheckboxMetrics = LocalCheckboxStyle.current.metrics,
     icons: CheckboxIcons = LocalCheckboxStyle.current.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     content: @Composable RowScope.() -> Unit,
 ) {
     CheckboxImpl(
         state = ToggleableState(checked),
-        onClick = { onCheckedChange?.invoke(!checked) },
+        onClick = { onCheckedChange(!checked) },
         modifier = modifier,
+        contentModifier = Modifier,
         enabled = enabled,
         outline = outline,
         interactionSource = interactionSource,
@@ -198,6 +215,7 @@ public fun CheckboxRow(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
         content = content,
     )
 }
@@ -214,12 +232,14 @@ public fun TriStateCheckboxRow(
     metrics: CheckboxMetrics = LocalCheckboxStyle.current.metrics,
     icons: CheckboxIcons = LocalCheckboxStyle.current.icons,
     textStyle: TextStyle = LocalTextStyle.current,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     content: @Composable RowScope.() -> Unit,
 ) {
     CheckboxImpl(
         state = state,
         onClick = onClick,
         modifier = modifier,
+        contentModifier = Modifier,
         enabled = enabled,
         outline = outline,
         interactionSource = interactionSource,
@@ -227,6 +247,7 @@ public fun TriStateCheckboxRow(
         metrics = metrics,
         icons = icons,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
         content = content,
     )
 }
@@ -239,38 +260,32 @@ private fun CheckboxImpl(
     metrics: CheckboxMetrics,
     icons: CheckboxIcons,
     modifier: Modifier,
+    contentModifier: Modifier,
     enabled: Boolean,
     outline: Outline,
     interactionSource: MutableInteractionSource,
     textStyle: TextStyle,
+    verticalAlignment: Alignment.Vertical,
     content: (@Composable RowScope.() -> Unit)?,
 ) {
-    var checkboxState by remember(interactionSource) {
-        mutableStateOf(CheckboxState.of(state, enabled = enabled))
-    }
+    var checkboxState by remember { mutableStateOf(CheckboxState.of(toggleableState = state, enabled = enabled)) }
 
-    remember(state, enabled) {
-        checkboxState = checkboxState.copy(toggleableState = state, enabled = enabled)
-    }
+    remember(state, enabled) { checkboxState = checkboxState.copy(toggleableState = state, enabled = enabled) }
 
-    LaunchedEffect(interactionSource) {
+    val swingCompatMode = JewelTheme.isSwingCompatMode
+    LaunchedEffect(interactionSource, swingCompatMode) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
-                is PressInteraction.Press -> checkboxState = checkboxState.copy(pressed = true)
+                is PressInteraction.Press -> checkboxState = checkboxState.copy(pressed = !swingCompatMode)
                 is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                -> checkboxState = checkboxState.copy(pressed = false)
+                is PressInteraction.Release -> checkboxState = checkboxState.copy(pressed = false)
 
-                is HoverInteraction.Enter -> checkboxState = checkboxState.copy(hovered = true)
+                is HoverInteraction.Enter -> checkboxState = checkboxState.copy(hovered = !swingCompatMode)
                 is HoverInteraction.Exit -> checkboxState = checkboxState.copy(hovered = false)
                 is FocusInteraction.Focus -> checkboxState = checkboxState.copy(focused = true)
                 is FocusInteraction.Unfocus -> checkboxState = checkboxState.copy(focused = false)
             }
         }
-    }
-
-    if (JewelTheme.isSwingCompatMode) {
-        checkboxState = checkboxState.copy(hovered = false, pressed = false)
     }
 
     val wrapperModifier =
@@ -292,20 +307,22 @@ private fun CheckboxImpl(
                 alignment = Stroke.Alignment.Center,
             )
 
-    val checkboxPainter by icons.checkbox.getPainter(
-        if (checkboxState.toggleableState == ToggleableState.Indeterminate) {
-            CheckBoxIndeterminate
-        } else {
-            PainterHint.None
-        },
-        Selected(checkboxState),
-        Stateful(checkboxState),
-    )
+    val painterProvider = rememberResourcePainterProvider(icons.checkbox)
+    val checkboxPainter by
+        painterProvider.getPainter(
+            if (checkboxState.toggleableState == ToggleableState.Indeterminate) {
+                CheckBoxIndeterminate
+            } else {
+                PainterHint.None
+            },
+            Selected(checkboxState.toggleableState == ToggleableState.On),
+            Stateful(checkboxState),
+        )
 
     val checkboxBoxModifier = Modifier.size(metrics.checkboxSize)
 
     if (content == null) {
-        Box(checkboxBoxModifier, contentAlignment = Alignment.TopStart) {
+        Box(wrapperModifier.then(checkboxBoxModifier), contentAlignment = Alignment.TopStart) {
             CheckBoxImage(checkboxPainter)
             Box(outlineModifier.align(Alignment.Center))
         }
@@ -313,7 +330,7 @@ private fun CheckboxImpl(
         Row(
             wrapperModifier,
             horizontalArrangement = Arrangement.spacedBy(metrics.iconContentGap),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = verticalAlignment,
         ) {
             Box(checkboxBoxModifier, contentAlignment = Alignment.TopStart) {
                 CheckBoxImage(checkboxPainter)
@@ -325,7 +342,7 @@ private fun CheckboxImpl(
                 LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
                 LocalContentColor provides contentColor.takeOrElse { LocalContentColor.current },
             ) {
-                content()
+                Row(contentModifier) { content() }
             }
         }
     }
@@ -336,10 +353,7 @@ private object CheckBoxIndeterminate : PainterSuffixHint() {
 }
 
 @Composable
-private fun CheckBoxImage(
-    checkboxPainter: Painter,
-    modifier: Modifier = Modifier,
-) {
+private fun CheckBoxImage(checkboxPainter: Painter, modifier: Modifier = Modifier) {
     Box(modifier.paint(checkboxPainter, alignment = Alignment.TopStart))
 }
 
@@ -354,9 +368,6 @@ public value class CheckboxState(private val state: ULong) : ToggleableComponent
 
     override val isActive: Boolean
         get() = state and Active != 0UL
-
-    override val isSelected: Boolean
-        get() = toggleableState != ToggleableState.Off
 
     override val isFocused: Boolean
         get() = state and Focused != 0UL
@@ -386,7 +397,7 @@ public value class CheckboxState(private val state: ULong) : ToggleableComponent
 
     override fun toString(): String =
         "${javaClass.simpleName}(toggleableState=$toggleableState, isEnabled=$isEnabled, isFocused=$isFocused, " +
-            "isHovered=$isHovered, isPressed=$isPressed, isSelected=$isSelected, isActive=$isActive)"
+            "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     public companion object {
         public fun of(
@@ -404,7 +415,7 @@ public value class CheckboxState(private val state: ULong) : ToggleableComponent
                     (if (pressed) Pressed else 0UL) or
                     (if (toggleableState != ToggleableState.Off) Selected else 0UL) or
                     (if (toggleableState == ToggleableState.Indeterminate) Indeterminate else 0UL) or
-                    (if (active) Active else 0UL),
+                    (if (active) Active else 0UL)
             )
     }
 }

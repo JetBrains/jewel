@@ -44,12 +44,12 @@ custom repository for it in `settings.gradle.kts`:
 
 ```kotlin
 pluginManagement {
-  repositories {
-    google()
-    gradlePluginPortal()
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    mavenCentral()
-  }
+    repositories {
+        google()
+        gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        mavenCentral()
+    }
 }
 ```
 
@@ -57,9 +57,9 @@ Then, in your app's `build.gradle.kts`:
 
 ```kotlin
 plugins {
-  // Should align with the Kotlin and Compose dependencies in Jewel
-  kotlin("jvm") version "1.9.21"
-  id("org.jetbrains.compose") version "1.6.0-dev1440"
+    // MUST align with the Kotlin and Compose dependencies in Jewel
+    kotlin("jvm") version "..."
+    id("org.jetbrains.compose") version "..."
 }
 
 repositories {
@@ -77,19 +77,19 @@ repositories {
 To use Jewel in your app, you only need to add the relevant dependency. There are two scenarios: standalone Compose for
 Desktop app, and IntelliJ Platform plugin.
 
-If you're writing a **standalone app**, then you should depend on the `int-ui-standalone` artifact:
+If you're writing a **standalone app**, then you should depend on the latest `int-ui-standalone-*` artifact:
 
 ```kotlin
 dependencies {
     // See https://github.com/JetBrains/Jewel/releases for the release notes
-    implementation("org.jetbrains.jewel:jewel-int-ui-standalone:[jewel version]")
+    implementation("org.jetbrains.jewel:jewel-int-ui-standalone-[latest platform version]:[jewel version]")
 
     // Optional, for custom decorated windows:
-    implementation("org.jetbrains.jewel:jewel-int-ui-decorated-window:[jewel version]")
+    implementation("org.jetbrains.jewel:jewel-int-ui-decorated-window-[latest platform version]:[jewel version]")
 
     // Do not bring in Material (we use Jewel)
     implementation(compose.desktop.currentOs) {
-      exclude(group = "org.jetbrains.compose.material")
+        exclude(group = "org.jetbrains.compose.material")
     }
 }
 ```
@@ -104,8 +104,8 @@ dependencies {
 
     // Do not bring in Material (we use Jewel) and Coroutines (the IDE has its own)
     api(compose.desktop.currentOs) {
-      exclude(group = "org.jetbrains.compose.material")
-      exclude(group = "org.jetbrains.kotlinx")
+        exclude(group = "org.jetbrains.compose.material")
+        exclude(group = "org.jetbrains.kotlinx")
     }
 }
 ```
@@ -117,16 +117,25 @@ dependencies {
 
 <br/>
 
+## Using ProGuard/obfuscation/minification
+
+Jewel doesn't officially support using ProGuard to minimize and/or obfuscate your code, and there is currently no plan
+to.
+That said, people are reporting successes in using it. Please note that there is no guarantee that it will keep working,
+and you most definitely need to have some rules in place. We don't provide any official rule set, but these have been
+known
+to work for some: https://github.com/romainguy/kotlin-explorer/blob/main/compose-desktop.pro
+
+> [!IMPORTANT]
+> We won't accept bug reports for issues caused by the use of ProGuard or similar tools.
+
 ## Dependencies matrix
 
-For each version of Jewel, these are the minimum supported Kotlin and Compose Multiplatform versions:
+Jewel is in continuous development and we focus on supporting only the Compose version we use internally.
+You can see the latest supported version
+in [libs.versions.toml](https://github.com/JetBrains/jewel/blob/main/gradle/libs.versions.toml).
 
- Jewel version | Kotlin version | Compose version
- --- | --- | ---
- 0.15.0 –> * | 1.8.21 | 1.6.0-dev1440
- 0.13.1 -> 0.14.1 | 1.8.21 | 1.6.0-dev1369
-
-For older versions please refer to the Jewel tags and release notes.
+Different versions of Compose are not guaranteed to work with different versions of Jewel.
 
 The Compose Compiler version used is the latest compatible with the given Kotlin version. See
 [here](https://developer.android.com/jetpack/androidx/releases/compose-compiler) for the Compose
@@ -159,7 +168,9 @@ The project is split in modules:
 6. `ide-laf-bridge` contains the Swing LaF bridge to use in IntelliJ Platform plugins (see more below)
 7. `markdown` contains a few modules:
     * `core` the core logic for parsing and rendering Markdown documents with Jewel, using GitHub-like styling
-    * `extensions` contains several extensions to the base CommonMark specs that can be used to add more features
+    * `extension` contains several extensions to the base CommonMark specs that can be used to add more features
+    * `ide-laf-bridge-styling` contains the IntelliJ Platform bridge theming for the Markdown renderer
+    * `int-ui-standalone-styling` contains the standalone Int UI theming for the Markdown renderer
 8. `samples` contains the example apps, which showcase the available components:
     * `standalone` is a regular CfD app, using the standalone theme definitions and custom window decoration
     * `ide-plugin` is an IntelliJ plugin that showcases the use of the Swing Bridge
@@ -179,11 +190,17 @@ include the `int-ui` module, which is always released from the main branch.
 Releases of Jewel are always cut from a tag on the main branch; the HEAD of each `releases/xxx` branch is then tagged
 as `[mainTag]-xxx`, and used to publish the artifacts for that major IJP version.
 
-> ![IMPORTANT]
+> [!IMPORTANT]
 > We only support the latest build of IJP for each major IJP version. If the latest 233 version is 2023.3.3, for
 > example, we will only guarantee that Jewel works on that. Versions 2023.3.0–2023.3.2 might or might not work.
 
-### Int UI Standalone theme
+> [!CAUTION]
+> When you target Android Studio, you might encounter issues due to Studio shipping its own (older) version of Jewel
+> and Compose for Desktop. If you want to target Android Studio, you'll need to shadow the CfD and Jewel dependencies
+> until that dependency isn't leaked on the classpath by Studio anymore. You can look at how the
+> [Package Search](https://github.com/JetBrains/package-search-intellij-plugin) plugin implements shadowing.
+
+## Int UI Standalone theme
 
 The standalone theme can be used in any Compose for Desktop app. You use it as a normal theme, and you can customise it
 to your heart's content. By default, it matches the official Int UI specs.
@@ -207,7 +224,7 @@ IntUiTheme(isDark = false) {
 
 If you want more control over the theming, you can use other `IntUiTheme` overloads, like the standalone sample does.
 
-#### Custom window decoration
+### Custom window decoration
 
 The JetBrains Runtime allows windows to have a custom decoration instead of the regular title bar.
 
@@ -222,12 +239,10 @@ To get an IntelliJ-like custom title bar, you need to pass the window decoration
 
 ```kotlin
 IntUiTheme(
-    themeDefinition,
-    componentStyling = {
-        themeDefinition.decoratedWindowComponentStyling(
-            titleBarStyle = TitleBarStyle.light()
-        )
-    },
+    theme = themeDefinition,
+    styling = ComponentStyling.default().decoratedWindow(
+        titleBarStyle = TitleBarStyle.light()
+    ),
 ) {
     DecoratedWindow(
         onCloseRequest = { exitApplication() },
@@ -237,7 +252,7 @@ IntUiTheme(
 }
 ```
 
-### Running on the IntelliJ Platform: the Swing bridge
+## Running on the IntelliJ Platform: the Swing bridge
 
 Jewel includes a crucial element for proper integration with the IDE: a bridge between the Swing components — theme
 and LaF — and the Compose world.
@@ -259,73 +274,108 @@ SwingBridgeTheme {
 }
 ```
 
-#### Supported IntelliJ Platform versions
+### Supported IntelliJ Platform versions
 
 To use Jewel in the IntelliJ Platform, you should depend on the appropriate `jewel-ide-laf-bridge-*` artifact, which
 will bring in the necessary transitive dependencies. These are the currently supported versions of the IntelliJ Platform
 and the branch on which the corresponding bridge code lives:
 
-| IntelliJ Platform version(s) | Branch to use     |
- |------------------------------|-------------------|
-| 2024.1 (EAP 3+)              | `main`            |
-| 2023.3                       | `releases/233`    |
-| 2023.2                       | `releases/232`    |
-| 2023.1 or older              | **Not supported** |
+| IntelliJ Platform version(s) | Branch to use           |
+|------------------------------|-------------------------|
+| 2024.3 (EAP 6+)              | `main`                  |
+| 2024.2 (beta 1+)             | `releases/242`          |
+| 2024.1 (EAP 3+)              | `releases/241`          |
+| 2023.3 (**archived**)        | `archived-releases/233` |
+| 2023.2 (**archived**)        | `archived-releases/232` |
+| 2023.1 or older              | **Not supported**       |
 
 For an example on how to set up an IntelliJ Plugin, you can refer to
 the [`ide-plugin` sample](samples/ide-plugin/build.gradle.kts).
 
-#### Accessing icons
+## Icons
 
-When you want to draw an icon from the resources, you can either use the `Icon` composable and pass it the resource path
-and the corresponding class to look up the classpath from, or go one lever deeper and use the lower level,
-`Painter`-based API.
-
-The `Icon` approach looks like this:
+Loading icons is best done with the `Icon` composable, which offers a key-based API that is portable across bridge and
+standalone modules. Icon keys implement the `IconKey` interface, which is then internally used to obtain a resource path
+to load the icon from.
 
 ```kotlin
-// Load the "close" icon from the IDE's AllIcons class
-Icon(
-    "actions/close.svg",
-    iconClass = AllIcons::class.java,
-    contentDescription = "Close",
-)
+Icon(key = MyIconKeys.myIcon, contentDescription = "My icon")
 ```
 
-To obtain a `Painter`, instead, you'd use:
+### Loading icons from the IntelliJ Platform
+
+If you want to load an IJ platform icon, you can use `AllIconsKeys`, which is generated from the `AllIcons` platform
+file. When using this in an IJ plugin, make sure you are using a version of the Jewel library matching the platform
+version, because icons are known to shift between major versions — and sometimes, minor versions, too.
+
+To use icons from `AllIconsKeys` in an IJ plugin, you don't need to do anything, as the icons are in the classpath by
+default. If you want to use icons in a standalone app, you'll need to make sure the icons you want are on the classpath.
+You can either copy the necessary icons in your resources, matching exactly the path they have in the IDE, or you can
+add a dependency to the `com.jetbrains.intellij.platform:icons` artifact, which contains all the icons that end up in
+`AllIconsKeys`. The latter is the recommended approach, since it's easy and the icons don't take up much disk space.
+
+Add this to your **standalone app** build script:
 
 ```kotlin
-val painterProvider = rememberResourcePainterProvider(
-    path = "actions/close.svg",
-    iconClass = AllIcons::class.java
-)
-val painter by painterProvider.getPainter()
+dependencies {
+    implementation("com.jetbrains.intellij.platform:icons:[ijpVersion]")
+    // ...
+}
+
+repositories {
+    // Choose either of these two, depending on whether you're using a stable IJP or not
+    maven("https://www.jetbrains.com/intellij-repository/releases")
+    maven("https://www.jetbrains.com/intellij-repository/snapshots")
+}
 ```
 
-#### Icon runtime patching
+> [!NOTE]
+> If you are targeting an IntelliJ plugin, you don't need this additional setup since the icons are provided by the
+> platform itself.
 
-Jewel emulates the under-the-hood machinations that happen in the IntelliJ Platform when loading icons. Specifically,
-the resource will be subject to some transformations before being loaded.
+### Loading your own icons
 
-For example, in the IDE, if New UI is active, the icon path may be replaced with a different one. Some key colors in SVG
-icons will also be replaced based on the current theme. See
-[the docs](https://plugins.jetbrains.com/docs/intellij/work-with-icons-and-images.html#new-ui-icons).
+To access your own icons, you'll need to create and maintain the `IconKey`s for them. We found that the easiest way when
+you have up to a few dozen icons is to manually create an icon keys holder, like the ones we have in our samples. If you
+have many more, you should consider generating these holders, instead.
 
-Beyond that, even in standalone, Jewel will pick up icons with the appropriate dark/light variant for the current theme,
-and for bitmap icons it will try to pick the 2x variants based on the `LocalDensity`.
+In your holders, you can choose which implementation of `IconKey` to use:
+* If your icons do not need to change between old UI and new UI, you can use the simpler `PathIconKey`
+* If your icons are different in old and new UI, you should use `IntelliJIconKey`, which accepts two paths, one per
+  variant
+* If you have different needs, you can also implement your own version of `IconKey`
+
+### Painter hints
+
+Jewel has an API to influence the loading and drawing of icons, called `PainterHint`. `Icon` composables have overloads
+that take zero, one or more `PainterHint`s that will be used to compute the end result that shows up on screen.
+
+`PainterHint`s can change the icon path (by adding a prefix/suffix, or changing it completely), tweak the contents of an
+image (SVG patching, XML patching, bitmap patching), add decorations (e.g., badges), or do nothing at all (`None`). We
+have several types of built-in `PainterHint`s which should cover all needs; if you find some use case that is not yet
+handled, please file a feature request and we'll evaluate it.
+
+Both standalone and bridge themes provide a default set of implicit `PainterHint`s, for example to implement runtime
+patching, like the IDE does. You can also use `PainterHint`s to affect how an icon will be drawn, or to select a
+specific icon file, based on some criteria (e.g., `Size`).
 
 If you have a _stateful_ icon, that is if you need to display different icons based on some state, you can use the
-`PainterProvider.getPainter(PainterHint...)` overload. You can then use one of the state-mapping `PainterHint` to let
+`Icon(..., hint)` and `Icon(..., hints)` overloads. You can then use one of the state-mapping `PainterHint` to let
 Jewel load the appropriate icon automatically:
 
 ```kotlin
 // myState implements SelectableComponentState and has a ToggleableState property
-val myPainter by myPainterProvider.getPainter(
+val indeterminateHint = 
     if (myState.toggleableState == ToggleableState.Indeterminate) {
         IndeterminateHint
     } else {
         PainterHint.None
-    },
+    }
+    
+Icon(
+    key = myKey,
+    contentDescription = "My icon",
+    indeterminateHint,
     Selected(myState),
     Stateful(myState),
 )
@@ -343,7 +393,22 @@ Assuming the PainterProvider has a base path of `components/myIcon.svg`, Jewel w
 right path based on the state. If you want to learn more about this system, look at the `PainterHint` interface and its
 implementations.
 
-### Fonts
+Please look at the `PainterHint` implementations and our samples for further information.
+
+### Default icon runtime patching
+
+Jewel emulates the under-the-hood machinations that happen in the IntelliJ Platform when loading icons. Specifically,
+the resource will be subject to some transformations before being loaded. This is built on the `PainterHint` API we
+described above.
+
+For example, in the IDE, if New UI is active, the icon path may be replaced with a different one. Some key colors in SVG
+icons will also be replaced based on the current theme. See
+[the docs](https://plugins.jetbrains.com/docs/intellij/work-with-icons-and-images.html#new-ui-icons).
+
+Beyond that, even in standalone, Jewel will pick up icons with the appropriate dark/light variant for the current theme,
+and for bitmap icons it will try to pick the 2x variants based on the `LocalDensity`.
+
+## Fonts
 
 To load a system font, you can obtain it by its family name:
 
@@ -377,7 +442,7 @@ val myLogicalFamily = Font("Dialog").asComposeFontFamily()
 val myLabelFamily = JBFont.label().asComposeFontFamily()
 ```
 
-### Swing interoperability
+## Swing interoperability
 
 As this is Compose for Desktop, you get a good degree of interoperability with Swing. To avoid glitches and z-order
 issues, you should enable the
@@ -399,7 +464,21 @@ Here is a small selection of projects that use Compose for Desktop and Jewel:
 
 * [Package Search](https://github.com/JetBrains/package-search-intellij-plugin) (IntelliJ Platform plugin)
 * [Kotlin Explorer](https://github.com/romainguy/kotlin-explorer) (standalone app)
+* New task-based Profiler UI in Android Studio Koala
 * ...and more to come!
+
+## Throubleshooting
+
+### Git push hook is not working?
+
+On git push you see:
+
+```bash
+error: cannot spawn .git/hooks/pre-push: No such file or directory
+error: waitpid for (NULL) failed: No child processes
+```
+
+Try running `git lfs update --force`.
 
 ## Need help?
 

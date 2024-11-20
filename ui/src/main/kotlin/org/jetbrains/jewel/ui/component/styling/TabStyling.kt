@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.TabState
-import org.jetbrains.jewel.ui.painter.PainterProvider
+import org.jetbrains.jewel.ui.icon.IconKey
 
 @Stable
 @GenerateDataFunctions
@@ -21,8 +21,8 @@ public class TabStyle(
     public val metrics: TabMetrics,
     public val icons: TabIcons,
     public val contentAlpha: TabContentAlpha,
+    public val scrollbarStyle: ScrollbarStyle,
 ) {
-
     public companion object
 }
 
@@ -35,14 +35,12 @@ public class TabMetrics(
     public val tabContentSpacing: Dp,
     public val closeContentGap: Dp,
 ) {
-
     public companion object
 }
 
 @Immutable
 @GenerateDataFunctions
-public class TabIcons(public val close: PainterProvider) {
-
+public class TabIcons(public val close: IconKey) {
     public companion object
 }
 
@@ -65,7 +63,6 @@ public class TabColors(
     public val underlineHovered: Color,
     public val underlineSelected: Color,
 ) {
-
     @Composable
     public fun contentFor(state: TabState): State<Color> =
         rememberUpdatedState(
@@ -79,7 +76,7 @@ public class TabColors(
                         hovered = contentHovered,
                         active = content,
                     )
-            },
+            }
         )
 
     @Composable
@@ -92,7 +89,7 @@ public class TabColors(
                 state.isActive -> background
                 state.isSelected -> backgroundSelected
                 else -> background
-            },
+            }
         )
 
     @Composable
@@ -108,7 +105,7 @@ public class TabColors(
                         hovered = underlineHovered,
                         active = underline,
                     )
-            },
+            }
         )
 
     public companion object
@@ -128,7 +125,6 @@ public class TabContentAlpha(
     public val contentHovered: Float,
     public val contentSelected: Float,
 ) {
-
     @Composable
     public fun iconFor(state: TabState): State<Float> =
         rememberUpdatedState(
@@ -142,7 +138,7 @@ public class TabContentAlpha(
                         hovered = iconHovered,
                         active = iconNormal,
                     )
-            },
+            }
         )
 
     @Composable
@@ -158,7 +154,7 @@ public class TabContentAlpha(
                         hovered = contentHovered,
                         active = contentNormal,
                     )
-            },
+            }
         )
 
     public companion object
@@ -166,13 +162,7 @@ public class TabContentAlpha(
 
 // Tabs are the only components that handle hover states
 @Composable
-private fun <T> TabState.chooseValueIgnoreCompat(
-    normal: T,
-    disabled: T,
-    pressed: T,
-    hovered: T,
-    active: T,
-): T =
+private fun <T> TabState.chooseValueIgnoreCompat(normal: T, disabled: T, pressed: T, hovered: T, active: T): T =
     when {
         !isEnabled -> disabled
         isPressed -> pressed
@@ -181,12 +171,10 @@ private fun <T> TabState.chooseValueIgnoreCompat(
         else -> normal
     }
 
-public val LocalDefaultTabStyle: ProvidableCompositionLocal<TabStyle> =
-    staticCompositionLocalOf {
-        error("No LocalTabStyle provided. Have you forgotten the theme?")
-    }
+public val LocalDefaultTabStyle: ProvidableCompositionLocal<TabStyle> = staticCompositionLocalOf {
+    error("No LocalDefaultTabStyle provided. Have you forgotten the theme?")
+}
 
-public val LocalEditorTabStyle: ProvidableCompositionLocal<TabStyle> =
-    staticCompositionLocalOf {
-        error("No LocalTabStyle provided. Have you forgotten the theme?")
-    }
+public val LocalEditorTabStyle: ProvidableCompositionLocal<TabStyle> = staticCompositionLocalOf {
+    error("No LocalEditorTabStyle provided. Have you forgotten the theme?")
+}

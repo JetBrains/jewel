@@ -19,48 +19,47 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.takeOrElse
+import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.UISettingsUtils
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.editor.colors.EditorColorsManager
+import com.intellij.openapi.editor.colors.EditorColorsScheme
+import com.intellij.openapi.editor.colors.ex.DefaultColorSchemesManager
+import com.intellij.openapi.editor.colors.impl.EditorColorsManagerImpl
 import com.intellij.ui.JBColor
-import com.intellij.ui.JBColor.marker
+import com.intellij.ui.NewUI
 import com.intellij.ui.scale.JBUIScale.scale
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBFont
 import com.intellij.util.ui.JBInsets
 import com.intellij.util.ui.JBValue
-import org.jetbrains.skiko.DependsOnJBR
 import java.awt.Dimension
 import java.awt.Insets
 import javax.swing.UIManager
+import org.jetbrains.jewel.ui.component.Typography
 
 private val logger = Logger.getInstance("JewelBridge")
 
-public fun java.awt.Color.toComposeColor(): Color =
-    Color(red = red, green = green, blue = blue, alpha = alpha)
+public fun java.awt.Color.toComposeColor(): Color = Color(red = red, green = green, blue = blue, alpha = alpha)
 
-public fun java.awt.Color?.toComposeColorOrUnspecified(): Color =
-    this?.toComposeColor() ?: Color.Unspecified
+public fun java.awt.Color?.toComposeColorOrUnspecified(): Color = this?.toComposeColor() ?: Color.Unspecified
 
-public fun retrieveColorOrNull(key: String): Color? =
-    try {
-        JBColor.namedColor(key, marker("JEWEL_JBCOLOR_MARKER")).toComposeColor()
-    } catch (_: AssertionError) {
-        // JBColor.marker will throw AssertionError on getRGB/any other color
-        // for now there is no way to handle non-existing key.
-        // The way should be introduced in platform
-        null
-    }
+public fun retrieveColor(key: String, default: Color): Color = retrieveColorOrNull(key) ?: default
+
+public fun retrieveColor(key: String, isDark: Boolean, default: Color, defaultDark: Color): Color =
+    retrieveColorOrNull(key) ?: if (isDark) defaultDark else default
+
+public fun retrieveColorOrNull(key: String): Color? = JBColor.namedColorOrNull(key)?.toComposeColor()
 
 public fun retrieveColorOrUnspecified(key: String): Color {
     val color = retrieveColorOrNull(key)
     if (color == null) {
-        logger.warn("Color with key \"$key\" not found, fallback to 'Color.Unspecified'")
+        logger.debug("Color with key \"$key\" not found, fallback to 'Color.Unspecified'")
     }
     return color ?: Color.Unspecified
 }
 
-public fun retrieveColorsOrUnspecified(vararg keys: String): List<Color> =
-    keys.map { retrieveColorOrUnspecified(it) }
+public fun retrieveColorsOrUnspecified(vararg keys: String): List<Color> = keys.map { retrieveColorOrUnspecified(it) }
 
 public fun List<Color>.createVerticalBrush(
     startY: Float = 0.0f,
@@ -76,9 +75,10 @@ public fun List<Color>.createVerticalBrush(
     return Brush.verticalGradient(this, startY, endY, tileMode)
 }
 
-public fun retrieveIntAsDp(key: String): Dp {
+public fun retrieveIntAsDp(key: String, default: Dp? = null): Dp {
     val rawValue = UIManager.get(key)
-    if (rawValue is Int) rawValue.dp
+    if (rawValue is Int) return rawValue.dp
+    if (default != null) return default
 
     keyNotFound(key, "Int")
 }
@@ -86,17 +86,16 @@ public fun retrieveIntAsDp(key: String): Dp {
 public fun retrieveIntAsDpOrUnspecified(key: String): Dp =
     try {
         retrieveIntAsDp(key)
-    } catch (ignored: JewelBridgeException) {
+    } catch (_: JewelBridgeException) {
         Dp.Unspecified
     }
 
-public fun retrieveInsetsAsPaddingValues(key: String): PaddingValues =
-    UIManager.getInsets(key)?.toPaddingValues() ?: keyNotFound(key, "Insets")
+public fun retrieveInsetsAsPaddingValues(key: String, default: PaddingValues? = null): PaddingValues =
+    UIManager.getInsets(key)?.toPaddingValues() ?: default ?: keyNotFound(key, "Insets")
 
 /**
- * Converts a [Insets] to [PaddingValues]. If the receiver is a [JBInsets]
- * instance, this function delegates to the specific [toPaddingValues] for
- * it, which is scaling-aware.
+ * Converts a [Insets] to [PaddingValues]. If the receiver is a [JBInsets] instance, this function delegates to the
+ * specific [toPaddingValues] for it, which is scaling-aware.
  */
 public fun Insets.toPaddingValues(): PaddingValues =
     if (this is JBInsets) {
@@ -106,25 +105,22 @@ public fun Insets.toPaddingValues(): PaddingValues =
     }
 
 /**
- * Converts a [JBInsets] to [PaddingValues], in a scaling-aware way. This
- * means that the resulting [PaddingValues] will be constructed from the
- * [JBInsets.getUnscaled] values, treated as [Dp]. This avoids double
- * scaling.
+ * Converts a [JBInsets] to [PaddingValues], in a scaling-aware way. This means that the resulting [PaddingValues] will
+ * be constructed from the [JBInsets.getUnscaled] values, treated as [Dp]. This avoids double scaling.
  */
+@Suppress("ktlint:standard:function-signature") // False positive
 public fun JBInsets.toPaddingValues(): PaddingValues =
     PaddingValues(unscaled.left.dp, unscaled.top.dp, unscaled.right.dp, unscaled.bottom.dp)
 
 /**
- * Converts a [Dimension] to [DpSize]. If the receiver is a [JBDimension]
- * instance, this function delegates to the specific [toDpSize] for it,
- * which is scaling-aware.
+ * Converts a [Dimension] to [DpSize]. If the receiver is a [JBDimension] instance, this function delegates to the
+ * specific [toDpSize] for it, which is scaling-aware.
  */
-public fun Dimension.toDpSize(): DpSize = DpSize(width.dp, height.dp)
+public fun Dimension.toDpSize(): DpSize = if (this is JBDimension) toDpSize() else DpSize(width.dp, height.dp)
 
 /**
- * Converts a [JBDimension] to [DpSize], in a scaling-aware way. This means
- * that the resulting [DpSize] will be constructed by first obtaining the
- * unscaled values. This avoids double scaling.
+ * Converts a [JBDimension] to [DpSize], in a scaling-aware way. This means that the resulting [DpSize] will be
+ * constructed by first obtaining the unscaled values. This avoids double scaling.
  */
 public fun JBDimension.toDpSize(): DpSize {
     val scaleFactor = scale(1f)
@@ -153,14 +149,22 @@ public fun retrieveArcAsCornerSizeWithFallbacks(vararg keys: String): CornerSize
     keysNotFound(keys.toList(), "Int")
 }
 
-@DependsOnJBR
-public fun retrieveTextStyle(fontKey: String, colorKey: String? = null): TextStyle {
+public fun retrieveTextStyle(
+    fontKey: String,
+    colorKey: String? = null,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    bold: Boolean = false,
+    fontStyle: FontStyle = FontStyle.Normal,
+    size: TextUnit = TextUnit.Unspecified,
+): TextStyle {
     val baseColor = colorKey?.let { retrieveColorOrUnspecified(colorKey) } ?: Color.Unspecified
-    return retrieveTextStyle(fontKey, color = baseColor)
+    val resolvedStyle = retrieveTextStyle(fontKey, color = baseColor, lineHeight, bold, fontStyle, size)
+    return resolvedStyle.copy(
+        lineHeight = lineHeight.takeOrElse { resolvedStyle.fontSize * Typography.DefaultLineHeightMultiplier }
+    )
 }
 
 @OptIn(ExperimentalTextApi::class)
-@DependsOnJBR
 public fun retrieveTextStyle(
     key: String,
     color: Color = Color.Unspecified,
@@ -172,8 +176,10 @@ public fun retrieveTextStyle(
     val lafFont = UIManager.getFont(key) ?: keyNotFound(key, "Font")
     val jbFont = JBFont.create(lafFont, false)
 
-    val derivedFont = jbFont.let { if (bold) it.asBold() else it.asPlain() }
-        .let { if (fontStyle == FontStyle.Italic) it.asItalic() else it }
+    val derivedFont =
+        jbFont
+            .let { if (bold) it.asBold() else it.asPlain() }
+            .let { if (fontStyle == FontStyle.Italic) it.asItalic() else it }
 
     return TextStyle(
         color = color,
@@ -198,9 +204,23 @@ internal operator fun TextUnit.plus(delta: Float): TextUnit =
         else -> this
     }
 
-internal fun retrieveIdeaDensity(sourceDensity: Density): Density {
+internal fun scaleDensityWithIdeScale(sourceDensity: Density): Density {
     val ideaScale = UISettingsUtils.getInstance().currentIdeScale
-    val scale = ideaScale * sourceDensity.density
+    val density = sourceDensity.density * ideaScale
 
-    return Density(scale, sourceDensity.fontScale)
+    return Density(density, sourceDensity.fontScale)
+}
+
+internal fun isNewUiTheme(): Boolean = NewUI.isEnabled()
+
+@Suppress("UnstableApiUsage")
+internal fun lafName(): String {
+    val lafInfo = LafManager.getInstance().currentUIThemeLookAndFeel
+    return lafInfo.name
+}
+
+@Suppress("UnstableApiUsage") // We need to use @Internal APIs
+public fun retrieveEditorColorScheme(): EditorColorsScheme {
+    val manager = EditorColorsManager.getInstance() as EditorColorsManagerImpl
+    return manager.schemeManager.activeScheme ?: DefaultColorSchemesManager.getInstance().firstScheme
 }

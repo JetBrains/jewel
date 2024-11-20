@@ -4,18 +4,15 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.joinToCode
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
 internal object IntUiThemeDescriptorReader {
 
-    private val colorGroups =
-        setOf("Grey", "Blue", "Green", "Red", "Yellow", "Orange", "Purple", "Teal")
+    private val colorGroups = setOf("Gray", "Blue", "Green", "Red", "Yellow", "Orange", "Purple", "Teal")
     private val colorClassName = ClassName("androidx.compose.ui.graphics", "Color")
 
     fun readThemeFrom(
@@ -60,35 +57,35 @@ internal object IntUiThemeDescriptorReader {
             }
             .build()
 
-    private val colorPaletteClassName =
-        ClassName.bestGuess("org.jetbrains.jewel.foundation.theme.ThemeColorPalette")
-    private val iconDataClassName =
-        ClassName.bestGuess("org.jetbrains.jewel.foundation.theme.ThemeIconData")
+    private val colorPaletteClassName = ClassName.bestGuess("org.jetbrains.jewel.foundation.theme.ThemeColorPalette")
+    private val iconDataClassName = ClassName.bestGuess("org.jetbrains.jewel.foundation.theme.ThemeIconData")
 
     private fun TypeSpec.Builder.readColors(colors: Map<String, String>) {
-        val colorGroups = colors.entries
-            .groupBy { it.key.replace("""\d+""".toRegex(), "") }
-            .filterKeys { colorGroups.contains(it) }
-            .map { (groupName, colors) ->
-                // We assume color lists are in the same order as in colorGroups
-                colors
-                    .map { (_, value) ->
-                        val colorHexString = value.replace("#", "0xFF")
-                        CodeBlock.of("Color(%L)", colorHexString)
-                    }
-                    .joinToCode(
-                        prefix = "\n${groupName.lowercase()} = listOf(\n",
-                        separator = ",\n",
-                        suffix = "\n)"
-                    )
-            }
+        val colorGroups =
+            colors.entries
+                .groupBy { it.key.replace("""\d+""".toRegex(), "") }
+                .filterKeys { colorGroups.contains(it) }
+                .map { (groupName, colors) ->
+                    // We assume color lists are in the same order as in colorGroups
+                    colors
+                        .map { (_, value) ->
+                            val colorHexString = value.replace("#", "0xFF")
+                            CodeBlock.of("Color(%L)", colorHexString)
+                        }
+                        .joinToCode(
+                            prefix = "\n${groupName.lowercase()} = listOf(\n",
+                            separator = ",\n",
+                            suffix = "\n)",
+                        )
+                }
 
-        val rawMap = colors
-            .map { (key, value) ->
-                val colorHexString = value.replace("#", "0xFF")
-                CodeBlock.of("%S to Color(%L)", key, colorHexString)
-            }
-            .joinToCode(prefix = "\nrawMap = mapOf(\n", separator = ",\n", suffix = "\n)")
+        val rawMap =
+            colors
+                .map { (key, value) ->
+                    val colorHexString = value.replace("#", "0xFF")
+                    CodeBlock.of("%S to Color(%L)", key, colorHexString)
+                }
+                .joinToCode(prefix = "\nrawMap = mapOf(\n", separator = ",\n", suffix = "\n)")
 
         addProperty(
             PropertySpec.builder("colors", colorPaletteClassName, KModifier.OVERRIDE)
@@ -134,22 +131,7 @@ internal object IntUiThemeDescriptorReader {
     }
 
     private inline fun <reified K, reified V> Map<K, V>.toMapCodeBlock() =
-        entries.map { (key, value) -> CodeBlock.of("\"%L\" to \"%L\"", key, value) }
+        entries
+            .map { (key, value) -> CodeBlock.of("\"%L\" to \"%L\"", key, value) }
             .joinToCode(prefix = "mapOf(", separator = ",\n", suffix = ")")
-
-    private inline fun <reified K, reified V> createOverrideStringMapProperty(
-        name: String,
-        values: Map<K, V>,
-    ) =
-        PropertySpec.builder(
-            name = name,
-            type = Map::class.asTypeName().parameterizedBy(K::class.asTypeName(), V::class.asTypeName()),
-            KModifier.OVERRIDE
-        )
-            .initializer(
-                values.entries
-                    .map { (key, value) -> CodeBlock.of("\"%L\" to \"%L\"", key, value) }
-                    .joinToCode(prefix = "mapOf(", separator = ",\n", suffix = ")")
-            )
-            .build()
 }

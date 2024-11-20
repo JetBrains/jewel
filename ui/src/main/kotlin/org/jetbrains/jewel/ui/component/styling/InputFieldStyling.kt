@@ -8,22 +8,18 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import org.jetbrains.jewel.ui.component.InputFieldState
 
 @Stable
 public interface InputFieldStyle {
-
     public val colors: InputFieldColors
     public val metrics: InputFieldMetrics
-    public val textStyle: TextStyle
 }
 
 @Immutable
 public interface InputFieldColors {
-
     public val background: Color
     public val backgroundDisabled: Color
     public val backgroundFocused: Color
@@ -40,7 +36,7 @@ public interface InputFieldColors {
                 pressed = backgroundPressed,
                 hovered = backgroundHovered,
                 active = background,
-            ),
+            )
         )
 
     public val content: Color
@@ -59,7 +55,7 @@ public interface InputFieldColors {
                 pressed = contentPressed,
                 hovered = contentHovered,
                 active = content,
-            ),
+            )
         )
 
     public val border: Color
@@ -78,7 +74,7 @@ public interface InputFieldColors {
                 pressed = borderPressed,
                 hovered = borderHovered,
                 active = border,
-            ),
+            )
         )
 
     public val caret: Color
@@ -97,13 +93,12 @@ public interface InputFieldColors {
                 pressed = caretPressed,
                 hovered = caretHovered,
                 active = caret,
-            ),
+            )
         )
 }
 
 @Stable
 public interface InputFieldMetrics {
-
     public val cornerSize: CornerSize
     public val contentPadding: PaddingValues
     public val minSize: DpSize

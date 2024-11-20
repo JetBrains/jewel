@@ -22,7 +22,6 @@ public class SliderStyle(
     public val metrics: SliderMetrics,
     public val thumbShape: Shape,
 ) {
-
     public companion object
 }
 
@@ -45,7 +44,6 @@ public class SliderColors(
     public val thumbBorderPressed: Color,
     public val thumbBorderHovered: Color,
 ) {
-
     @Composable
     public fun thumbFillFor(state: SliderState): State<Color> =
         rememberUpdatedState(
@@ -55,7 +53,7 @@ public class SliderColors(
                 focused = thumbFillFocused,
                 pressed = thumbFillPressed,
                 hovered = thumbFillHovered,
-            ),
+            )
         )
 
     @Composable
@@ -67,7 +65,7 @@ public class SliderColors(
                 focused = thumbBorderFocused,
                 pressed = thumbBorderPressed,
                 hovered = thumbBorderHovered,
-            ),
+            )
         )
 
     @Composable
@@ -99,11 +97,9 @@ public class SliderMetrics(
     public val stepLineWidth: Dp,
     public val trackToStepSpacing: Dp,
 ) {
-
     public companion object
 }
 
-public val LocalSliderStyle: ProvidableCompositionLocal<SliderStyle> =
-    staticCompositionLocalOf {
-        error("No default SliderStyle provided. Have you forgotten the theme?")
-    }
+public val LocalSliderStyle: ProvidableCompositionLocal<SliderStyle> = staticCompositionLocalOf {
+    error("No default SliderStyle provided. Have you forgotten the theme?")
+}

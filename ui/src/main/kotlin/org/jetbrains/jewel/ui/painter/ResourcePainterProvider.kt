@@ -1,7 +1,6 @@
 package org.jetbrains.jewel.ui.painter
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -11,13 +10,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.loadImageBitmap
-import androidx.compose.ui.res.loadSvgPainter
-import androidx.compose.ui.res.loadXmlImageVector
 import androidx.compose.ui.unit.Density
-import org.jetbrains.jewel.foundation.util.inDebugMode
-import org.w3c.dom.Document
-import org.xml.sax.InputSource
 import java.io.IOException
 import java.io.InputStream
 import java.io.StringWriter
@@ -31,25 +24,27 @@ import javax.xml.transform.TransformerException
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.jetbrains.compose.resources.decodeToImageVector
+import org.jetbrains.compose.resources.decodeToSvgPainter
+import org.jetbrains.jewel.foundation.util.myLogger
+import org.jetbrains.jewel.ui.icon.IconKey
+import org.jetbrains.jewel.ui.icon.LocalNewUiChecker
+import org.w3c.dom.Document
 
 private val errorPainter = ColorPainter(Color.Magenta)
 
 /**
- * Provide [Painter] by resources in the module and jars, it use the
- * ResourceResolver to load resources.
+ * Provide [Painter] by resources in the module and jars, it use the ResourceResolver to load resources.
  *
- * It will cache the painter by [PainterHint]s, so it is safe to call
- * [getPainter] multiple times.
+ * It will cache the painter by [PainterHint]s, so it is safe to call [getPainter] multiple times.
  *
- * If a resource fails to load, it will be silently replaced by a
- * magenta color painter, and the exception logged. If Jewel is in
- * [debug mode][inDebugMode], however, exceptions will not be suppressed.
+ * If a resource fails to load, it will be silently replaced by a magenta color painter, and the exception logged as
+ * error.
  */
-@Immutable
-public class ResourcePainterProvider(
-    private val basePath: String,
-    vararg classLoaders: ClassLoader,
-) : PainterProvider {
+public class ResourcePainterProvider(private val basePath: String, vararg classLoaders: ClassLoader) : PainterProvider {
+    private val logger = myLogger()
 
     private val classLoaders = classLoaders.toSet()
 
@@ -58,9 +53,7 @@ public class ResourcePainterProvider(
     private val contextClassLoaders = classLoaders.toList()
 
     private val documentBuilderFactory =
-        DocumentBuilderFactory.newDefaultInstance().apply {
-            setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
-        }
+        DocumentBuilderFactory.newDefaultInstance().apply { setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true) }
 
     private fun Scope.resolveHint(hint: PainterHint) {
         with(hint) {
@@ -76,25 +69,23 @@ public class ResourcePainterProvider(
         val scope = Scope(density, basePath, classLoaders)
 
         val currentHintsProvider = LocalPainterHintsProvider.current
-        currentHintsProvider.priorityHints(basePath)
-            .forEach { scope.resolveHint(it) }
+        currentHintsProvider.priorityHints(basePath).forEach { scope.resolveHint(it) }
 
         hints.forEach { scope.resolveHint(it) }
 
-        currentHintsProvider.hints(basePath)
-            .forEach { scope.resolveHint(it) }
+        currentHintsProvider.hints(basePath).forEach { scope.resolveHint(it) }
 
         val cacheKey = scope.acceptedHints.hashCode() * 31 + LocalDensity.current.hashCode()
 
-        if (inDebugMode && cache[cacheKey] != null) {
-            println("Cache hit for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
+        if (cache[cacheKey] != null) {
+            // logger.debug("Cache hit for $basePath (accepted hints:
+            // ${scope.acceptedHints.joinToString()})")
         }
 
         val painter =
             cache.getOrPut(cacheKey) {
-                if (inDebugMode) {
-                    println("Cache miss for $basePath (accepted hints: ${scope.acceptedHints.joinToString()})")
-                }
+                // logger.debug("Cache miss for $basePath (accepted hints:
+                // ${scope.acceptedHints.joinToString()})")
                 loadPainter(scope)
             }
 
@@ -113,11 +104,8 @@ public class ResourcePainterProvider(
         val (chosenScope, url) =
             scopes.firstNotNullOfOrNull { resolveResource(it) }
                 ?: run {
-                    if (inDebugMode) {
-                        error("Resource '$basePath(${scope.acceptedHints.joinToString()})' not found")
-                    } else {
-                        return errorPainter
-                    }
+                    logger.error("Resource '$basePath(${scope.acceptedHints.joinToString()})' not found")
+                    return errorPainter
                 }
 
         val extension = basePath.substringAfterLast(".").lowercase()
@@ -143,7 +131,7 @@ public class ResourcePainterProvider(
         for (classLoader in contextClassLoaders) {
             val url = classLoader.getResource(normalized)
             if (url != null) {
-                if (inDebugMode) println("Found resource: '$normalized'")
+                // logger.debug("Found resource: '$normalized'")
                 return scope to url
             }
         }
@@ -151,29 +139,22 @@ public class ResourcePainterProvider(
         return null
     }
 
+    @OptIn(ExperimentalResourceApi::class)
     @Composable
-    private fun createSvgPainter(
-        scope: Scope,
-        url: URL,
-    ): Painter =
+    private fun createSvgPainter(scope: Scope, url: URL): Painter =
         tryLoadingResource(
             url = url,
             loadingAction = { resourceUrl ->
                 patchSvg(scope, url.openStream(), scope.acceptedHints).use { inputStream ->
-                    if (inDebugMode) {
-                        println("Loading icon $basePath(${scope.acceptedHints.joinToString()}) from $resourceUrl")
-                    }
-                    loadSvgPainter(inputStream, scope)
+                    // logger.debug("Loading icon $basePath(${scope.acceptedHints.joinToString()})
+                    // from $resourceUrl")
+                    inputStream.readAllBytes().decodeToSvgPainter(scope)
                 }
             },
             paintAction = { it },
         )
 
-    private fun patchSvg(
-        scope: Scope,
-        inputStream: InputStream,
-        hints: List<PainterHint>,
-    ): InputStream {
+    private fun patchSvg(scope: Scope, inputStream: InputStream, hints: List<PainterHint>): InputStream {
         if (hints.all { it !is PainterSvgPatchHint }) {
             return inputStream
         }
@@ -187,38 +168,35 @@ public class ResourcePainterProvider(
                 with(hint) { scope.patch(document.documentElement) }
             }
 
-            return document.writeToString()
-                .also { patchedSvg ->
-                    if (inDebugMode) println("Patched SVG:\n\n$patchedSvg")
-                }
+            return document
+                .writeToString()
+                // .also { patchedSvg -> logger.debug("Patched SVG:\n\n$patchedSvg") }
                 .byteInputStream()
         }
     }
 
+    @OptIn(ExperimentalResourceApi::class)
     @Composable
-    private fun createVectorDrawablePainter(
-        scope: Scope,
-        url: URL,
-    ): Painter =
+    private fun createVectorDrawablePainter(scope: Scope, url: URL): Painter =
         tryLoadingResource(
             url = url,
             loadingAction = { resourceUrl ->
-                resourceUrl.openStream().use { loadXmlImageVector(InputSource(it), scope) }
+                resourceUrl.openStream().use { inputStream -> inputStream.readAllBytes().decodeToImageVector(scope) }
             },
             paintAction = { rememberVectorPainter(it) },
         )
 
+    @OptIn(ExperimentalResourceApi::class)
     @Composable
-    private fun createBitmapPainter(
-        url: URL,
-    ) = tryLoadingResource(
-        url = url,
-        loadingAction = { resourceUrl ->
-            val bitmap = resourceUrl.openStream().use { loadImageBitmap(it) }
-            BitmapPainter(bitmap)
-        },
-        paintAction = { it },
-    )
+    private fun createBitmapPainter(url: URL) =
+        tryLoadingResource(
+            url = url,
+            loadingAction = { resourceUrl ->
+                val bitmap = resourceUrl.openStream().use { it.readAllBytes().decodeToImageBitmap() }
+                BitmapPainter(bitmap)
+            },
+            paintAction = { it },
+        )
 
     @Composable
     private fun <T> tryLoadingResource(
@@ -232,11 +210,7 @@ public class ResourcePainterProvider(
                 loadingAction(url)
             } catch (e: RuntimeException) {
                 val message = "Unable to load SVG resource from $url\n${e.stackTraceToString()}"
-                if (inDebugMode) {
-                    error(message)
-                }
-
-                System.err.println(message)
+                logger.error(message)
                 return errorPainter
             }
 
@@ -250,7 +224,6 @@ public class ResourcePainterProvider(
         override val path: String = rawPath,
         override val acceptedHints: MutableList<PainterHint> = mutableListOf(),
     ) : ResourcePainterProviderScope, Density by localDensity {
-
         fun apply(pathHint: PainterPathHint): Scope? {
             with(pathHint) {
                 val patched = patch()
@@ -289,6 +262,15 @@ internal fun Document.writeToString(): String {
 
 @Composable
 public fun rememberResourcePainterProvider(
-    path: String,
-    iconClass: Class<*>,
-): PainterProvider = remember(path, iconClass.classLoader) { ResourcePainterProvider(path, iconClass.classLoader) }
+    iconKey: IconKey,
+    iconClass: Class<*> = iconKey::class.java,
+): PainterProvider {
+    val isNewUi = LocalNewUiChecker.current.isNewUi()
+    return remember(iconKey, iconClass.classLoader, isNewUi) {
+        ResourcePainterProvider(iconKey.path(isNewUi), iconClass.classLoader)
+    }
+}
+
+@Composable
+public fun rememberResourcePainterProvider(path: String, iconClass: Class<*>): PainterProvider =
+    remember(path, iconClass.classLoader) { ResourcePainterProvider(path, iconClass.classLoader) }

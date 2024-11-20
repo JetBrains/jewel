@@ -7,13 +7,18 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,81 +30,111 @@ import org.jetbrains.jewel.intui.standalone.styling.dark
 import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.samples.standalone.StandaloneSampleIcons
-import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.Outline
+import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
+import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.hints.Stateful
-import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 
 @Composable
-@View(title = "TextFields", position = 9)
 fun TextFields() {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        var text1 by remember { mutableStateOf("TextField") }
-        TextField(text1, { text1 = it })
+    VerticallyScrollableContainer(Modifier.fillMaxSize()) {
+        Column {
+            TextFieldsRows(readOnly = false)
 
-        var text2 by remember { mutableStateOf("") }
-        TextField(text2, { text2 = it }, placeholder = { Text("Placeholder") })
+            Spacer(Modifier.height(16.dp))
 
-        var text3 by remember { mutableStateOf("") }
-        TextField(text3, { text3 = it }, outline = Outline.Error, placeholder = { Text("Error outline") })
+            GroupHeader("Read-only")
 
-        var text4 by remember { mutableStateOf("") }
-        TextField(text4, { text4 = it }, outline = Outline.Warning, placeholder = { Text("Warning outline") })
+            Spacer(Modifier.height(16.dp))
 
-        var text5 by remember { mutableStateOf("Disabled") }
-        TextField(text5, { text5 = it }, enabled = false)
-    }
-
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalAlignment = Alignment.Top,
-    ) {
-        var text1 by remember { mutableStateOf("") }
-        TextField(
-            value = text1,
-            onValueChange = { text1 = it },
-            placeholder = {
-                Text("With leading icon")
-            },
-            leadingIcon = {
-                Icon(
-                    resource = "icons/search.svg",
-                    contentDescription = "SearchIcon",
-                    iconClass = StandaloneSampleIcons::class.java,
-                    modifier = Modifier.size(16.dp),
-                )
-            },
-        )
-
-        var text2 by remember { mutableStateOf("") }
-        TextField(
-            value = text2,
-            onValueChange = { text2 = it },
-            placeholder = {
-                Text("With trailing button")
-            },
-            trailingIcon = {
-                CloseIconButton(text2.isNotEmpty()) { text2 = "" }
-            },
-        )
+            TextFieldsRows(readOnly = true)
+        }
     }
 }
 
 @Composable
-private fun CloseIconButton(
-    isVisible: Boolean,
-    onClick: () -> Unit,
-) {
+private fun TextFieldsRows(readOnly: Boolean) {
+    Column(modifier = Modifier.padding(vertical = 4.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+            val state1 = rememberTextFieldState("TextField")
+            TextField(state = state1, modifier = Modifier.width(200.dp), readOnly = readOnly)
+
+            val state2 = rememberTextFieldState("")
+            TextField(
+                state = state2,
+                placeholder = { Text("Placeholder") },
+                modifier = Modifier.width(200.dp),
+                readOnly = readOnly,
+            )
+
+            val state3 = rememberTextFieldState("")
+            TextField(
+                state = state3,
+                outline = Outline.Error,
+                placeholder = { Text("Error outline") },
+                modifier = Modifier.width(200.dp),
+                readOnly = readOnly,
+            )
+        }
+
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            val state1 = rememberTextFieldState("")
+            TextField(
+                state = state1,
+                outline = Outline.Warning,
+                placeholder = { Text("Warning outline") },
+                modifier = Modifier.width(200.dp),
+                readOnly = readOnly,
+            )
+
+            val state2 = rememberTextFieldState("Disabled")
+            TextField(state = state2, enabled = false, modifier = Modifier.width(200.dp), readOnly = readOnly)
+        }
+
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Top) {
+            val state1 = rememberTextFieldState("")
+            TextField(
+                state = state1,
+                placeholder = { Text("With leading icon") },
+                modifier = Modifier.width(200.dp),
+                leadingIcon = {
+                    Icon(
+                        key = AllIconsKeys.Actions.Find,
+                        contentDescription = "SearchIcon",
+                        iconClass = StandaloneSampleIcons::class.java,
+                        modifier = Modifier.size(16.dp),
+                    )
+                },
+                readOnly = readOnly,
+            )
+
+            val state2 = rememberTextFieldState("")
+            TextField(
+                state = state2,
+                placeholder = { Text("With trailing button") },
+                modifier = Modifier.width(200.dp),
+                trailingIcon = {
+                    CloseIconButton(
+                        isVisible = state2.text.isNotEmpty(),
+                        onClick = { state2.setTextAndPlaceCursorAtEnd("") },
+                    )
+                },
+                readOnly = readOnly,
+            )
+        }
+    }
+}
+
+@Composable
+private fun CloseIconButton(isVisible: Boolean, onClick: () -> Unit) {
     Box(Modifier.size(16.dp)) {
         AnimatedVisibility(
             visible = isVisible,
@@ -110,44 +145,35 @@ private fun CloseIconButton(
             val isDark = JewelTheme.isDark
 
             val colors = noBackgroundIconButtonColors(isDark)
-            val style = remember(isDark, colors) {
-                IconButtonStyle(colors, IconButtonMetrics.defaults())
-            }
+            val style = remember(isDark, colors) { IconButtonStyle(colors, IconButtonMetrics.defaults()) }
 
-            IconButton(
-                onClick,
-                style = style,
-                modifier = Modifier.pointerHoverIcon(PointerIcon.Default),
-            ) { state ->
-                val painterProvider =
-                    rememberResourcePainterProvider("icons/close.svg", StandaloneSampleIcons::class.java)
-                val painter by painterProvider.getPainter(Stateful(state))
-
-                Icon(painter, contentDescription = "Clear")
+            IconButton(onClick, style = style, modifier = Modifier.pointerHoverIcon(PointerIcon.Default)) { state ->
+                Icon(AllIconsKeys.General.Close, contentDescription = "Clear", hint = Stateful(state))
             }
         }
     }
 }
 
 @Composable
-private fun noBackgroundIconButtonColors(isDark: Boolean) = if (isDark) {
-    IconButtonColors.dark(
-        background = Color.Unspecified,
-        backgroundDisabled = Color.Unspecified,
-        backgroundSelected = Color.Unspecified,
-        backgroundSelectedActivated = Color.Unspecified,
-        backgroundFocused = Color.Unspecified,
-        backgroundPressed = Color.Unspecified,
-        backgroundHovered = Color.Unspecified,
-    )
-} else {
-    IconButtonColors.light(
-        background = Color.Unspecified,
-        backgroundDisabled = Color.Unspecified,
-        backgroundSelected = Color.Unspecified,
-        backgroundSelectedActivated = Color.Unspecified,
-        backgroundFocused = Color.Unspecified,
-        backgroundPressed = Color.Unspecified,
-        backgroundHovered = Color.Unspecified,
-    )
-}
+private fun noBackgroundIconButtonColors(isDark: Boolean) =
+    if (isDark) {
+        IconButtonColors.dark(
+            background = Color.Unspecified,
+            backgroundDisabled = Color.Unspecified,
+            backgroundSelected = Color.Unspecified,
+            backgroundSelectedActivated = Color.Unspecified,
+            backgroundFocused = Color.Unspecified,
+            backgroundPressed = Color.Unspecified,
+            backgroundHovered = Color.Unspecified,
+        )
+    } else {
+        IconButtonColors.light(
+            background = Color.Unspecified,
+            backgroundDisabled = Color.Unspecified,
+            backgroundSelected = Color.Unspecified,
+            backgroundSelectedActivated = Color.Unspecified,
+            backgroundFocused = Color.Unspecified,
+            backgroundPressed = Color.Unspecified,
+            backgroundHovered = Color.Unspecified,
+        )
+    }

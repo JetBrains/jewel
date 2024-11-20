@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.MenuItemState
-import org.jetbrains.jewel.ui.painter.PainterProvider
+import org.jetbrains.jewel.ui.icon.IconKey
 
 @Stable
 @GenerateDataFunctions
@@ -24,7 +24,6 @@ public class MenuStyle(
     public val metrics: MenuMetrics,
     public val icons: MenuIcons,
 ) {
-
     public companion object
 }
 
@@ -36,7 +35,6 @@ public class MenuColors(
     public val shadow: Color,
     public val itemColors: MenuItemColors,
 ) {
-
     public companion object
 }
 
@@ -65,7 +63,6 @@ public class MenuItemColors(
     public val keybindingTintHovered: Color,
     public val separator: Color,
 ) {
-
     @Composable
     public fun backgroundFor(state: MenuItemState): State<Color> =
         rememberUpdatedState(
@@ -76,7 +73,7 @@ public class MenuItemColors(
                 focused = backgroundFocused,
                 pressed = backgroundPressed,
                 hovered = backgroundHovered,
-            ),
+            )
         )
 
     @Composable
@@ -89,7 +86,7 @@ public class MenuItemColors(
                 pressed = contentPressed,
                 hovered = contentHovered,
                 active = content,
-            ),
+            )
         )
 
     @Composable
@@ -102,7 +99,7 @@ public class MenuItemColors(
                 pressed = iconTintPressed,
                 hovered = iconTintHovered,
                 active = iconTint,
-            ),
+            )
         )
 
     @Composable
@@ -115,7 +112,7 @@ public class MenuItemColors(
                 pressed = keybindingTintPressed,
                 hovered = keybindingTintHovered,
                 active = keybindingTint,
-            ),
+            )
         )
 
     public companion object
@@ -133,7 +130,6 @@ public class MenuMetrics(
     public val itemMetrics: MenuItemMetrics,
     public val submenuMetrics: SubmenuMetrics,
 ) {
-
     public companion object
 }
 
@@ -146,27 +142,25 @@ public class MenuItemMetrics(
     public val separatorPadding: PaddingValues,
     public val keybindingsPadding: PaddingValues,
     public val separatorThickness: Dp,
+    public val separatorHeight: Dp,
     public val iconSize: Dp,
+    public val minHeight: Dp,
 ) {
-
     public companion object
 }
 
 @Stable
 @GenerateDataFunctions
 public class SubmenuMetrics(public val offset: DpOffset) {
-
     public companion object
 }
 
 @Immutable
 @GenerateDataFunctions
-public class MenuIcons(public val submenuChevron: PainterProvider) {
-
+public class MenuIcons(public val submenuChevron: IconKey) {
     public companion object
 }
 
-public val LocalMenuStyle: ProvidableCompositionLocal<MenuStyle> =
-    staticCompositionLocalOf {
-        error("No MenuStyle provided. Have you forgotten the theme?")
-    }
+public val LocalMenuStyle: ProvidableCompositionLocal<MenuStyle> = staticCompositionLocalOf {
+    error("No MenuStyle provided. Have you forgotten the theme?")
+}

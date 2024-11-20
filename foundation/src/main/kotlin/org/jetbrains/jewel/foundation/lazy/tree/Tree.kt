@@ -2,13 +2,10 @@ package org.jetbrains.jewel.foundation.lazy.tree
 
 import org.jetbrains.jewel.foundation.lazy.tree.Tree.Element.Node
 
-@Suppress("UNCHECKED_CAST")
-public fun <T> emptyTree(): Tree<T> = Tree.EMPTY as Tree<T>
+@Suppress("UNCHECKED_CAST") public fun <T> emptyTree(): Tree<T> = Tree.EMPTY as Tree<T>
 
 public class Tree<T> internal constructor(public val roots: List<Element<T>>) {
-
     public companion object {
-
         internal val EMPTY = Tree(roots = emptyList<Element<Any?>>())
     }
 
@@ -35,7 +32,6 @@ public class Tree<T> internal constructor(public val roots: List<Element<T>>) {
     public fun walkDepthFirst(): Sequence<Element<T>> = walk(false)
 
     public sealed interface Element<T> {
-
         public val data: T
         public val depth: Int
         public val parent: Element<T>?
@@ -46,21 +42,19 @@ public class Tree<T> internal constructor(public val roots: List<Element<T>>) {
 
         public fun path(): List<Element<T>> =
             buildList {
-                var next: Element<T>? = this@Element
-                while (next != null) {
-                    add(next)
-                    next = next.parent
+                    var next: Element<T>? = this@Element
+                    while (next != null) {
+                        add(next)
+                        next = next.parent
+                    }
                 }
-            }
                 .reversed()
 
         public fun previousElementsIterable(): Iterable<Element<T>> = Iterable {
             elementIterator(previous) { it.previous }
         }
 
-        public fun nextElementsIterable(): Iterable<Element<T>> = Iterable {
-            elementIterator(next) { it.next }
-        }
+        public fun nextElementsIterable(): Iterable<Element<T>> = Iterable { elementIterator(next) { it.next } }
 
         public class Leaf<T>(
             override val data: T,
@@ -82,7 +76,6 @@ public class Tree<T> internal constructor(public val roots: List<Element<T>>) {
             override var previous: Element<T>?,
             override val id: Any,
         ) : Element<T> {
-
             public var children: List<Element<T>>? = null
                 private set
 
@@ -117,9 +110,7 @@ public class Tree<T> internal constructor(public val roots: List<Element<T>>) {
 
             public fun close() {
                 detachChildren()
-                children?.asSequence()
-                    ?.filterIsInstance<Node<*>>()
-                    ?.forEach { it.closeRecursively() }
+                children?.asSequence()?.filterIsInstance<Node<*>>()?.forEach { it.closeRecursively() }
             }
 
             private fun closeRecursively() {
@@ -129,10 +120,7 @@ public class Tree<T> internal constructor(public val roots: List<Element<T>>) {
     }
 }
 
-private fun <T> elementIterator(
-    initial: Tree.Element<T>?,
-    next: (Tree.Element<T>) -> Tree.Element<T>?,
-) = iterator {
+private fun <T> elementIterator(initial: Tree.Element<T>?, next: (Tree.Element<T>) -> Tree.Element<T>?) = iterator {
     var current = initial ?: return@iterator
     yield(current)
     while (true) {

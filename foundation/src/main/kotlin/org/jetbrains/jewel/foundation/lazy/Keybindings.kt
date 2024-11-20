@@ -12,7 +12,6 @@ import androidx.compose.ui.input.pointer.isMetaPressed
 import androidx.compose.ui.input.pointer.isShiftPressed
 
 public interface SelectableColumnKeybindings {
-
     public val KeyEvent.isContiguousSelectionKeyPressed: Boolean
 
     public val PointerKeyboardModifiers.isContiguousSelectionKeyPressed: Boolean
@@ -21,83 +20,50 @@ public interface SelectableColumnKeybindings {
 
     public val PointerKeyboardModifiers.isMultiSelectionKeyPressed: Boolean
 
-    /**
-     * Select First Node.
-     */
+    /** Select First Node. */
     public val KeyEvent.isSelectFirstItem: Boolean
 
-    /**
-     * Extend Selection to First Node inherited from Move Caret to Text Start
-     * with Selection.
-     */
+    /** Extend Selection to First Node inherited from Move Caret to Text Start with Selection. */
     public val KeyEvent.isExtendSelectionToFirstItem: Boolean
 
-    /**
-     * Select Last Node inherited from Move Caret to Text End.
-     */
+    /** Select Last Node inherited from Move Caret to Text End. */
     public val KeyEvent.isSelectLastItem: Boolean
 
-    /**
-     * Extend Selection to Last Node inherited from Move Caret to Text End with
-     * Selection.
-     */
+    /** Extend Selection to Last Node inherited from Move Caret to Text End with Selection. */
     public val KeyEvent.isExtendSelectionToLastItem: Boolean
 
-    /**
-     * Select Previous Node inherited from Up.
-     */
+    /** Select Previous Node inherited from Up. */
     public val KeyEvent.isSelectPreviousItem: Boolean
 
-    /**
-     * Extend Selection with Previous Node inherited from Up with Selection.
-     */
+    /** Extend Selection with Previous Node inherited from Up with Selection. */
     public val KeyEvent.isExtendSelectionWithPreviousItem: Boolean
 
-    /**
-     * Select Next Node inherited from Down.
-     */
+    /** Select Next Node inherited from Down. */
     public val KeyEvent.isSelectNextItem: Boolean
 
-    /**
-     * Extend Selection with Next Node inherited from Down with Selection.
-     */
+    /** Extend Selection with Next Node inherited from Down with Selection. */
     public val KeyEvent.isExtendSelectionWithNextItem: Boolean
 
-    /**
-     * Scroll Page Up and Select Node inherited from Page Up.
-     */
+    /** Scroll Page Up and Select Node inherited from Page Up. */
     public val KeyEvent.isScrollPageUpAndSelectItem: Boolean
 
-    /**
-     * Scroll Page Up and Extend Selection inherited from Page Up with
-     * Selection.
-     */
+    /** Scroll Page Up and Extend Selection inherited from Page Up with Selection. */
     public val KeyEvent.isScrollPageUpAndExtendSelection: Boolean
 
-    /**
-     * Scroll Page Down and Select Node inherited from Page Down.
-     */
+    /** Scroll Page Down and Select Node inherited from Page Down. */
     public val KeyEvent.isScrollPageDownAndSelectItem: Boolean
 
-    /**
-     * Scroll Page Down and Extend Selection inherited from Page Down with
-     * Selection.
-     */
+    /** Scroll Page Down and Extend Selection inherited from Page Down with Selection. */
     public val KeyEvent.isScrollPageDownAndExtendSelection: Boolean
 
-    /**
-     * Edit item.
-     */
+    /** Edit item. */
     public val KeyEvent.isEdit: Boolean
 
-    /**
-     * Select all items.
-     */
+    /** Select all items. */
     public val KeyEvent.isSelectAll: Boolean
 }
 
 public open class DefaultMacOsSelectableColumnKeybindings : DefaultSelectableColumnKeybindings() {
-
     public companion object : DefaultMacOsSelectableColumnKeybindings()
 
     override val KeyEvent.isMultiSelectionKeyPressed: Boolean
@@ -108,7 +74,6 @@ public open class DefaultMacOsSelectableColumnKeybindings : DefaultSelectableCol
 }
 
 public open class DefaultSelectableColumnKeybindings : SelectableColumnKeybindings {
-
     public companion object : DefaultSelectableColumnKeybindings()
 
     override val KeyEvent.isContiguousSelectionKeyPressed: Boolean

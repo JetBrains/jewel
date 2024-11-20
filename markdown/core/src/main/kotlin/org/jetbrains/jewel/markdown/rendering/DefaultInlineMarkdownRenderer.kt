@@ -1,107 +1,114 @@
 package org.jetbrains.jewel.markdown.rendering
 
 import androidx.compose.foundation.text.appendInlineContent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.AnnotatedString.Builder
-import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.UrlAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
-import org.commonmark.node.Block
-import org.commonmark.node.Code
-import org.commonmark.node.Emphasis
-import org.commonmark.node.HardLineBreak
-import org.commonmark.node.HtmlInline
-import org.commonmark.node.Image
-import org.commonmark.node.Link
-import org.commonmark.node.Node
-import org.commonmark.node.Paragraph
-import org.commonmark.node.SoftLineBreak
-import org.commonmark.node.StrongEmphasis
-import org.commonmark.node.Text
-import org.commonmark.parser.Parser
-import org.commonmark.renderer.text.TextContentRenderer
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.markdown.InlineMarkdown
-import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
+import org.jetbrains.jewel.markdown.extensions.MarkdownRendererExtension
 
 @ExperimentalJewelApi
-public open class DefaultInlineMarkdownRenderer(rendererExtensions: List<MarkdownProcessorExtension>) : InlineMarkdownRenderer {
-
-    public constructor(vararg extensions: MarkdownProcessorExtension) : this(extensions.toList())
-
-    private val commonMarkParser =
-        Parser.builder().extensions(rendererExtensions.map { it.parserExtension }).build()
-
-    private val plainTextRenderer =
-        TextContentRenderer.builder()
-            .extensions(rendererExtensions.map { it.textRendererExtension })
-            .build()
-
+public open class DefaultInlineMarkdownRenderer(private val rendererExtensions: List<MarkdownRendererExtension>) :
+    InlineMarkdownRenderer {
     public override fun renderAsAnnotatedString(
-        inlineMarkdown: InlineMarkdown,
+        inlineMarkdown: Iterable<InlineMarkdown>,
         styling: InlinesStyling,
-    ): AnnotatedString =
-        buildAnnotatedString {
-            val node = commonMarkParser.parse(inlineMarkdown.content)
-            appendInlineMarkdownFrom(node, styling)
-        }
+        enabled: Boolean,
+        onUrlClicked: ((String) -> Unit)?,
+    ): AnnotatedString = buildAnnotatedString {
+        appendInlineMarkdownFrom(inlineMarkdown, styling, enabled, onUrlClicked)
+    }
 
-    @OptIn(ExperimentalTextApi::class)
-    private fun Builder.appendInlineMarkdownFrom(node: Node, styling: InlinesStyling) {
-        var child = node.firstChild
-
-        while (child != null) {
+    private fun Builder.appendInlineMarkdownFrom(
+        inlineMarkdown: Iterable<InlineMarkdown>,
+        styling: InlinesStyling,
+        enabled: Boolean,
+        onUrlClicked: ((String) -> Unit)? = null,
+    ) {
+        for (child in inlineMarkdown) {
             when (child) {
-                is Paragraph -> appendInlineMarkdownFrom(child, styling)
-                is Image -> {
+                is InlineMarkdown.Text -> append(child.content)
+
+                is InlineMarkdown.Emphasis -> {
+                    withStyles(styling.emphasis.withEnabled(enabled), child) {
+                        appendInlineMarkdownFrom(it.inlineContent, styling, enabled)
+                    }
+                }
+
+                is InlineMarkdown.StrongEmphasis -> {
+                    withStyles(styling.strongEmphasis.withEnabled(enabled), child) {
+                        appendInlineMarkdownFrom(it.inlineContent, styling, enabled)
+                    }
+                }
+
+                is InlineMarkdown.Link -> {
+                    val index =
+                        if (enabled) {
+                            val destination = child.destination
+                            val link =
+                                LinkAnnotation.Clickable(
+                                    tag = destination,
+                                    linkInteractionListener = { _ -> onUrlClicked?.invoke(destination) },
+                                    styles = styling.textLinkStyles,
+                                )
+                            pushLink(link)
+                        } else {
+                            pushStyle(styling.linkDisabled)
+                        }
+                    appendInlineMarkdownFrom(child.inlineContent, styling, enabled)
+                    pop(index)
+                }
+
+                is InlineMarkdown.Code -> {
+                    withStyles(styling.inlineCode.withEnabled(enabled), child) { append(it.content) }
+                }
+
+                is InlineMarkdown.HardLineBreak -> appendLine()
+                is InlineMarkdown.SoftLineBreak -> append(" ")
+
+                is InlineMarkdown.HtmlInline -> {
+                    if (styling.renderInlineHtml) {
+                        withStyles(styling.inlineHtml.withEnabled(enabled), child) { append(it.content.trim()) }
+                    }
+                }
+
+                is InlineMarkdown.Image -> {
                     appendInlineContent(
                         INLINE_IMAGE,
-                        child.destination + "\n" + plainTextRenderer.render(child),
+                        buildString {
+                            appendLine(child.source)
+                            append(child.alt)
+                            if (!child.title.isNullOrBlank()) {
+                                appendLine()
+                                append(child.title)
+                            }
+                        },
                     )
                 }
 
-                is Text -> append(child.literal)
-                is Emphasis -> {
-                    withStyles(styling.emphasis, child) { appendInlineMarkdownFrom(it, styling) }
-                }
-
-                is StrongEmphasis -> {
-                    withStyles(styling.strongEmphasis, child) { appendInlineMarkdownFrom(it, styling) }
-                }
-
-                is Code -> {
-                    withStyles(styling.inlineCode, child) { append(it.literal) }
-                }
-
-                is Link -> {
-                    withStyles(styling.link, child) {
-                        pushUrlAnnotation(UrlAnnotation(it.destination))
-                        appendInlineMarkdownFrom(it, styling)
-                    }
-                }
-
-                is HardLineBreak,
-                is SoftLineBreak,
-                -> appendLine()
-
-                is HtmlInline -> {
-                    if (styling.renderInlineHtml) {
-                        withStyles(styling.inlineHtml, child) { append(it.literal.trim()) }
-                    }
-                }
-
-                is Block -> {
-                    error("Only inline Markdown can be rendered to an AnnotatedString. Found: $child")
-                }
+                is InlineMarkdown.CustomNode ->
+                    rendererExtensions
+                        .find { it.inlineRenderer?.canRender(child) == true }
+                        ?.inlineRenderer
+                        ?.render(child, inlineRenderer = this@DefaultInlineMarkdownRenderer, enabled)
             }
-            child = child.next
         }
     }
 
+    private fun SpanStyle.withEnabled(enabled: Boolean): SpanStyle =
+        if (enabled) {
+            this
+        } else {
+            copy(color = Color.Unspecified)
+        }
+
     // The T type parameter is needed to avoid issues with capturing lambdas
     // making smart cast of the child local variable impossible.
-    private inline fun <T : Node> Builder.withStyles(
+    private inline fun <T : InlineMarkdown> Builder.withStyles(
         spanStyle: SpanStyle,
         node: T,
         action: Builder.(T) -> Unit,
@@ -114,7 +121,6 @@ public open class DefaultInlineMarkdownRenderer(rendererExtensions: List<Markdow
     }
 
     public companion object {
-
         internal const val INLINE_IMAGE = "inline_image"
     }
 }

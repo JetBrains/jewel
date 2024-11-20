@@ -43,6 +43,7 @@ import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
 import org.jetbrains.jewel.ui.outline
 import org.jetbrains.jewel.ui.painter.hints.Selected
 import org.jetbrains.jewel.ui.painter.hints.Stateful
+import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
 import org.jetbrains.jewel.ui.theme.radioButtonStyle
 
 @Composable
@@ -55,6 +56,7 @@ public fun RadioButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: RadioButtonStyle = JewelTheme.radioButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 ) {
     RadioButtonImpl(
         selected = selected,
@@ -65,6 +67,7 @@ public fun RadioButton(
         interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
         content = null,
     )
 }
@@ -80,6 +83,7 @@ public fun RadioButtonRow(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: RadioButtonStyle = JewelTheme.radioButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 ) {
     RadioButtonImpl(
         selected = selected,
@@ -90,6 +94,7 @@ public fun RadioButtonRow(
         interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
     ) {
         Text(text)
     }
@@ -105,6 +110,7 @@ public fun RadioButtonRow(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: RadioButtonStyle = JewelTheme.radioButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     content: @Composable RowScope.() -> Unit,
 ) {
     RadioButtonImpl(
@@ -116,6 +122,7 @@ public fun RadioButtonRow(
         interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
+        verticalAlignment = verticalAlignment,
         content = content,
     )
 }
@@ -130,34 +137,29 @@ private fun RadioButtonImpl(
     interactionSource: MutableInteractionSource,
     style: RadioButtonStyle,
     textStyle: TextStyle,
+    verticalAlignment: Alignment.Vertical,
     content: (@Composable RowScope.() -> Unit)?,
 ) {
-    var radioButtonState by remember(interactionSource) {
-        mutableStateOf(RadioButtonState.of(selected = selected, enabled = enabled))
-    }
+    var radioButtonState by remember { mutableStateOf(RadioButtonState.of(selected = selected, enabled = enabled)) }
 
-    remember(selected, enabled) {
-        radioButtonState = radioButtonState.copy(selected = selected, enabled = enabled)
-    }
+    remember(selected, enabled) { radioButtonState = radioButtonState.copy(selected = selected, enabled = enabled) }
 
-    LaunchedEffect(interactionSource) {
+    val swingCompatMode = JewelTheme.isSwingCompatMode
+    LaunchedEffect(interactionSource, swingCompatMode) {
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
-                is PressInteraction.Press -> radioButtonState = radioButtonState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release -> {
-                    radioButtonState = radioButtonState.copy(pressed = false)
-                }
+                is PressInteraction.Press -> radioButtonState = radioButtonState.copy(pressed = !swingCompatMode)
 
-                is HoverInteraction.Enter -> radioButtonState = radioButtonState.copy(hovered = true)
+                is PressInteraction.Cancel,
+                is PressInteraction.Release -> radioButtonState = radioButtonState.copy(pressed = false)
+
+                is HoverInteraction.Enter -> radioButtonState = radioButtonState.copy(hovered = !swingCompatMode)
+
                 is HoverInteraction.Exit -> radioButtonState = radioButtonState.copy(hovered = false)
                 is FocusInteraction.Focus -> radioButtonState = radioButtonState.copy(focused = true)
                 is FocusInteraction.Unfocus -> radioButtonState = radioButtonState.copy(focused = false)
             }
         }
-    }
-
-    if (JewelTheme.isSwingCompatMode) {
-        radioButtonState = radioButtonState.copy(hovered = false, pressed = false)
     }
 
     val wrapperModifier =
@@ -181,10 +183,9 @@ private fun RadioButtonImpl(
                 alignment = Stroke.Alignment.Center,
             )
 
-    val radioButtonPainter by style.icons.radioButton.getPainter(
-        Selected(radioButtonState),
-        Stateful(radioButtonState),
-    )
+    val radioButtonPainterProvider = rememberResourcePainterProvider(style.icons.radioButton)
+    val radioButtonPainter by
+        radioButtonPainterProvider.getPainter(Selected(radioButtonState), Stateful(radioButtonState))
 
     val radioButtonBoxModifier = Modifier.size(metrics.radioButtonSize)
 
@@ -197,7 +198,7 @@ private fun RadioButtonImpl(
         Row(
             wrapperModifier,
             horizontalArrangement = Arrangement.spacedBy(metrics.iconContentGap),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = verticalAlignment,
         ) {
             Box(radioButtonBoxModifier, contentAlignment = Alignment.Center) {
                 RadioButtonImage(radioButtonPainter)
@@ -205,8 +206,8 @@ private fun RadioButtonImpl(
             }
 
             val contentColor by colors.contentFor(radioButtonState)
-            val resolvedContentColor = contentColor.takeOrElse { textStyle.color }
-                .takeOrElse { LocalContentColor.current }
+            val resolvedContentColor =
+                contentColor.takeOrElse { textStyle.color }.takeOrElse { LocalContentColor.current }
 
             CompositionLocalProvider(
                 LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
@@ -226,7 +227,6 @@ private fun RadioButtonImage(radioButtonPainter: Painter, modifier: Modifier = M
 @Immutable
 @JvmInline
 public value class RadioButtonState(public val state: ULong) : SelectableComponentState, FocusableComponentState {
-
     override val isActive: Boolean
         get() = state and Active != 0UL
 
@@ -267,7 +267,6 @@ public value class RadioButtonState(public val state: ULong) : SelectableCompone
             "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     public companion object {
-
         public fun of(
             selected: Boolean,
             enabled: Boolean = true,
@@ -282,7 +281,7 @@ public value class RadioButtonState(public val state: ULong) : SelectableCompone
                     (if (focused) Focused else 0UL) or
                     (if (pressed) Pressed else 0UL) or
                     (if (hovered) Hovered else 0UL) or
-                    (if (active) Active else 0UL),
+                    (if (active) Active else 0UL)
             )
     }
 }

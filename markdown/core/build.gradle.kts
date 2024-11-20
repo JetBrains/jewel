@@ -3,10 +3,11 @@ plugins {
     `jewel-publish`
     `jewel-check-public-api`
     alias(libs.plugins.composeDesktop)
+    alias(libs.plugins.compose.compiler)
 }
 
 dependencies {
-    compileOnly(projects.ui)
+    api(projects.ui)
     api(libs.commonmark.core)
 
     testImplementation(compose.desktop.uiTestJUnit4)
@@ -14,10 +15,11 @@ dependencies {
 }
 
 publicApiValidation {
-    // We don't foresee changes to the data models for now
+    // TODO Oleg remove this once migrated to value classes
     excludedClassRegexes = setOf("org.jetbrains.jewel.markdown.MarkdownBlock.*")
 }
 
 publishing.publications.named<MavenPublication>("main") {
-    artifactId = "jewel-markdown-${project.name}"
+    val ijpTarget = project.property("ijp.target") as String
+    artifactId = "jewel-markdown-${project.name}-$ijpTarget"
 }

@@ -5,7 +5,6 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.maven
-import java.io.File
 
 internal fun PublishingExtension.configureJewelRepositories(project: Project) {
     repositories {
@@ -17,9 +16,7 @@ internal fun PublishingExtension.configureJewelRepositories(project: Project) {
             }
         }
 
-        maven(project.rootProject.layout.buildDirectory.dir("maven-test")) {
-            name = "LocalTest"
-        }
+        maven(project.rootProject.layout.buildDirectory.dir("maven-test")) { name = "LocalTest" }
     }
 }
 

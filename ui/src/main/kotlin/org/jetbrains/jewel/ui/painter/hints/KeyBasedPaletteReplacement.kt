@@ -12,7 +12,6 @@ import org.w3c.dom.Element
 @Immutable
 @GenerateDataFunctions
 private class KeyBasedReplacementPainterSvgPatchHint(val map: Map<String, Color>) : PainterSvgPatchHint {
-
     override fun PainterProviderScope.patch(element: Element) {
         element.patchPalette(map)
     }
@@ -59,9 +58,8 @@ private fun Element.patchColorAttribute(attrName: String, newColor: Color?) {
 }
 
 /**
- * Creates a PainterHint that replaces colors with their corresponding new
- * value, based on the IDs of each element. It is used in IJ 24.1 and later
- * to support patching the SVG colors for checkboxes and radio buttons.
+ * Creates a PainterHint that replaces colors with their corresponding new value, based on the IDs of each element. It
+ * is used in IJ 24.1 and later to support patching the SVG colors for checkboxes and radio buttons.
  */
 @Suppress("FunctionName")
 public fun KeyBasedPaletteReplacement(paletteMap: Map<String, Color>): PainterHint =

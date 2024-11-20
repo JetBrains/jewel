@@ -10,12 +10,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.DropdownState
-import org.jetbrains.jewel.ui.painter.PainterProvider
+import org.jetbrains.jewel.ui.icon.IconKey
 
 @Stable
 @GenerateDataFunctions
@@ -23,10 +22,8 @@ public class DropdownStyle(
     public val colors: DropdownColors,
     public val metrics: DropdownMetrics,
     public val icons: DropdownIcons,
-    public val textStyle: TextStyle,
     public val menuStyle: MenuStyle,
 ) {
-
     public companion object
 }
 
@@ -54,7 +51,6 @@ public class DropdownColors(
     public val iconTintPressed: Color,
     public val iconTintHovered: Color,
 ) {
-
     @Composable
     public fun backgroundFor(state: DropdownState): State<Color> =
         rememberUpdatedState(
@@ -65,7 +61,7 @@ public class DropdownColors(
                 state.isFocused -> backgroundFocused
                 state.isActive -> background
                 else -> background
-            },
+            }
         )
 
     @Composable
@@ -78,7 +74,7 @@ public class DropdownColors(
                 pressed = contentPressed,
                 hovered = contentHovered,
                 active = content,
-            ),
+            )
         )
 
     @Composable
@@ -91,7 +87,7 @@ public class DropdownColors(
                 pressed = borderPressed,
                 hovered = borderHovered,
                 active = border,
-            ),
+            )
         )
 
     @Composable
@@ -104,7 +100,7 @@ public class DropdownColors(
                 pressed = iconTintPressed,
                 hovered = iconTintHovered,
                 active = iconTint,
-            ),
+            )
         )
 
     public companion object
@@ -119,23 +115,19 @@ public class DropdownMetrics(
     public val contentPadding: PaddingValues,
     public val borderWidth: Dp,
 ) {
-
     public companion object
 }
 
 @Immutable
 @GenerateDataFunctions
-public class DropdownIcons(public val chevronDown: PainterProvider) {
-
+public class DropdownIcons(public val chevronDown: IconKey) {
     public companion object
 }
 
-public val LocalDefaultDropdownStyle: ProvidableCompositionLocal<DropdownStyle> =
-    staticCompositionLocalOf {
-        error("No DefaultDropdownStyle provided. Have you forgotten the theme?")
-    }
+public val LocalDefaultDropdownStyle: ProvidableCompositionLocal<DropdownStyle> = staticCompositionLocalOf {
+    error("No DefaultDropdownStyle provided. Have you forgotten the theme?")
+}
 
-public val LocalUndecoratedDropdownStyle: ProvidableCompositionLocal<DropdownStyle> =
-    staticCompositionLocalOf {
-        error("No UndecoratedDropdownStyle provided. Have you forgotten the theme?")
-    }
+public val LocalUndecoratedDropdownStyle: ProvidableCompositionLocal<DropdownStyle> = staticCompositionLocalOf {
+    error("No UndecoratedDropdownStyle provided. Have you forgotten the theme?")
+}

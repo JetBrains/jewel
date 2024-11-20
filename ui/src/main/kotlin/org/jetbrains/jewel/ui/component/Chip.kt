@@ -36,9 +36,11 @@ import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.state.SelectableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
+import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.theme.chipStyle
+import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable
 public fun Chip(
@@ -55,13 +57,14 @@ public fun Chip(
         enabled = enabled,
         selected = selected,
         style = style,
-        modifier = modifier.clickable(
-            onClick = onClick,
-            enabled = enabled,
-            role = Role.Button,
-            interactionSource = interactionSource,
-            indication = null,
-        ),
+        modifier =
+            modifier.clickable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            ),
         content = content,
     )
 }
@@ -81,14 +84,15 @@ public fun ToggleableChip(
         enabled = enabled,
         selected = checked,
         style = style,
-        modifier = modifier.toggleable(
-            onValueChange = onClick,
-            enabled = enabled,
-            role = Role.Checkbox,
-            interactionSource = interactionSource,
-            indication = null,
-            value = checked,
-        ),
+        modifier =
+            modifier.toggleable(
+                onValueChange = onClick,
+                enabled = enabled,
+                role = Role.Checkbox,
+                interactionSource = interactionSource,
+                indication = null,
+                value = checked,
+            ),
         content = content,
     )
 }
@@ -108,14 +112,15 @@ public fun RadioButtonChip(
         enabled,
         selected,
         style,
-        modifier = modifier.selectable(
-            onClick = onClick,
-            enabled = enabled,
-            role = Role.RadioButton,
-            interactionSource = interactionSource,
-            indication = null,
-            selected = selected,
-        ),
+        modifier =
+            modifier.selectable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.RadioButton,
+                interactionSource = interactionSource,
+                indication = null,
+                selected = selected,
+            ),
         content,
     )
 }
@@ -129,9 +134,8 @@ private fun ChipImpl(
     modifier: Modifier,
     content: @Composable () -> Unit,
 ) {
-    var chipState by remember(interactionSource) {
-        mutableStateOf(ChipState.of(enabled = enabled, selected = selected))
-    }
+    var chipState by
+        remember(interactionSource) { mutableStateOf(ChipState.of(enabled = enabled, selected = selected)) }
 
     remember(enabled, selected) { chipState = chipState.copy(enabled = enabled, selected = selected) }
 
@@ -139,7 +143,8 @@ private fun ChipImpl(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> chipState = chipState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release -> chipState = chipState.copy(pressed = false)
+                is PressInteraction.Cancel,
+                is PressInteraction.Release -> chipState = chipState.copy(pressed = false)
                 is HoverInteraction.Enter -> chipState = chipState.copy(hovered = true)
                 is HoverInteraction.Exit -> chipState = chipState.copy(hovered = false)
                 is FocusInteraction.Focus -> chipState = chipState.copy(focused = true)
@@ -160,18 +165,21 @@ private fun ChipImpl(
         }
 
     Row(
-        modifier = modifier
-            .background(colors.backgroundFor(chipState).value, shape)
-            .border(Stroke.Alignment.Center, borderWidth, borderColor, shape)
-            .focusOutline(chipState, shape)
-            .padding(style.metrics.padding),
+        modifier =
+            modifier
+                .background(colors.backgroundFor(chipState).value, shape)
+                .thenIf(!chipState.isFocused) { border(Stroke.Alignment.Center, borderWidth, borderColor, shape) }
+                .focusOutline(chipState, shape)
+                .padding(style.metrics.padding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        val resolvedContentColor = colors.contentFor(state = chipState).value
-            .takeOrElse { LocalContentColor.current }
+        val resolvedContentColor = colors.contentFor(state = chipState).value.takeOrElse { LocalContentColor.current }
 
-        CompositionLocalProvider(LocalContentColor provides resolvedContentColor) {
+        CompositionLocalProvider(
+            LocalContentColor provides resolvedContentColor,
+            LocalTextStyle provides LocalTextStyle.current.copy(color = colors.contentFor(chipState).value),
+        ) {
             content()
         }
     }
@@ -179,9 +187,7 @@ private fun ChipImpl(
 
 @Immutable
 @JvmInline
-public value class ChipState(public val state: ULong) :
-    FocusableComponentState, SelectableComponentState {
-
+public value class ChipState(public val state: ULong) : FocusableComponentState, SelectableComponentState {
     override val isActive: Boolean
         get() = state and Active != 0UL
 
@@ -222,7 +228,6 @@ public value class ChipState(public val state: ULong) :
             "isHovered=$isHovered, isPressed=$isPressed, isActive=$isActive)"
 
     public companion object {
-
         public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,
@@ -237,7 +242,7 @@ public value class ChipState(public val state: ULong) :
                     (if (selected) Selected else 0UL) or
                     (if (hovered) Hovered else 0UL) or
                     (if (pressed) Pressed else 0UL) or
-                    (if (active) Active else 0UL),
+                    (if (active) Active else 0UL)
             )
     }
 }

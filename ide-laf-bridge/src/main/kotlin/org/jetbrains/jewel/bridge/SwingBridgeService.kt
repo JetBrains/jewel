@@ -1,27 +1,32 @@
 package org.jetbrains.jewel.bridge
 
 import androidx.compose.ui.text.TextStyle
-import com.intellij.openapi.components.Service
-import com.intellij.openapi.components.Service.Level
-import kotlinx.coroutines.CoroutineScope
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.sp
+import com.intellij.ide.ui.LafFlowService
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.combine
 import org.jetbrains.jewel.bridge.theme.createBridgeComponentStyling
 import org.jetbrains.jewel.bridge.theme.createBridgeThemeDefinition
 import org.jetbrains.jewel.foundation.theme.ThemeDefinition
 import org.jetbrains.jewel.ui.ComponentStyling
-import kotlin.time.Duration.Companion.milliseconds
+import org.jetbrains.jewel.ui.component.copyWithSize
 
-@Service(Level.APP)
-internal class SwingBridgeService(scope: CoroutineScope) {
+@Suppress("UnstableApiUsage")
+internal class SwingBridgeService {
+    private val scrollbarHelper = ScrollbarHelper.getInstance()
 
     internal val currentBridgeThemeData: StateFlow<BridgeThemeData> =
-        IntelliJApplication.lookAndFeelChangedFlow(scope)
-            .mapLatest { tryGettingThemeData() }
-            .stateIn(scope, SharingStarted.Eagerly, BridgeThemeData.DEFAULT)
+        LafFlowService.getInstance().customLafFlowState(BridgeThemeData.DEFAULT) { flow ->
+            combine(flow, scrollbarHelper.scrollbarVisibilityStyleFlow, scrollbarHelper.trackClickBehaviorFlow) {
+                _,
+                _,
+                _ ->
+                tryGettingThemeData()
+            }
+        }
 
     private suspend fun tryGettingThemeData(): BridgeThemeData {
         var counter = 0
@@ -44,26 +49,21 @@ internal class SwingBridgeService(scope: CoroutineScope) {
         )
     }
 
-    internal data class BridgeThemeData(
-        val themeDefinition: ThemeDefinition,
-        val componentStyling: ComponentStyling,
-    ) {
-
-        public companion object {
-
+    internal data class BridgeThemeData(val themeDefinition: ThemeDefinition, val componentStyling: ComponentStyling) {
+        companion object {
             val DEFAULT = run {
-                val themeDefinition = createBridgeThemeDefinition(TextStyle.Default)
+                val textStyle = TextStyle.Default.copyWithSize(fontSize = 13.sp)
+                val monospaceTextStyle = textStyle.copy(fontFamily = FontFamily.Monospace)
+                val themeDefinition =
+                    createBridgeThemeDefinition(
+                        textStyle = textStyle,
+                        editorTextStyle = monospaceTextStyle,
+                        consoleTextStyle = monospaceTextStyle,
+                    )
 
                 BridgeThemeData(
                     themeDefinition = themeDefinition,
-                    componentStyling =
-                    createBridgeComponentStyling(
-                        theme = themeDefinition,
-                        textFieldTextStyle = TextStyle.Default,
-                        textAreaTextStyle = TextStyle.Default,
-                        dropdownTextStyle = TextStyle.Default,
-                        linkTextStyle = TextStyle.Default,
-                    ),
+                    componentStyling = createBridgeComponentStyling(themeDefinition),
                 )
             }
         }

@@ -58,8 +58,8 @@ public fun DefaultButton(
         enabled = enabled,
         interactionSource = interactionSource,
         style = style,
-        content = content,
         textStyle = textStyle,
+        content = content,
     )
 }
 
@@ -79,8 +79,8 @@ public fun OutlinedButton(
         enabled = enabled,
         interactionSource = interactionSource,
         style = style,
-        content = content,
         textStyle = textStyle,
+        content = content,
     )
 }
 
@@ -92,11 +92,9 @@ private fun ButtonImpl(
     interactionSource: MutableInteractionSource,
     style: ButtonStyle,
     textStyle: TextStyle,
-    content: @Composable RowScope.() -> Unit,
+    content: @Composable (RowScope.() -> Unit),
 ) {
-    var buttonState by remember(interactionSource) {
-        mutableStateOf(ButtonState.of(enabled = enabled))
-    }
+    var buttonState by remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled)) }
 
     remember(enabled) { buttonState = buttonState.copy(enabled = enabled) }
 
@@ -104,8 +102,8 @@ private fun ButtonImpl(
         interactionSource.interactions.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> buttonState = buttonState.copy(pressed = true)
-                is PressInteraction.Cancel, is PressInteraction.Release ->
-                    buttonState = buttonState.copy(pressed = false)
+                is PressInteraction.Cancel,
+                is PressInteraction.Release -> buttonState = buttonState.copy(pressed = false)
 
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
@@ -120,17 +118,23 @@ private fun ButtonImpl(
     val borderColor by colors.borderFor(buttonState)
 
     Box(
-        modifier = modifier
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = null,
-            )
-            .background(colors.backgroundFor(buttonState).value, shape)
-            .border(Stroke.Alignment.Center, style.metrics.borderWidth, borderColor, shape)
-            .focusOutline(buttonState, shape),
+        modifier =
+            modifier
+                .clickable(
+                    onClick = onClick,
+                    enabled = enabled,
+                    role = Role.Button,
+                    interactionSource = interactionSource,
+                    indication = null,
+                )
+                .background(colors.backgroundFor(buttonState).value, shape)
+                .focusOutline(
+                    state = buttonState,
+                    outlineShape = shape,
+                    alignment = style.focusOutlineAlignment,
+                    expand = style.metrics.focusOutlineExpand,
+                )
+                .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
         propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)
@@ -153,7 +157,6 @@ private fun ButtonImpl(
 @Immutable
 @JvmInline
 public value class ButtonState(public val state: ULong) : FocusableComponentState {
-
     override val isActive: Boolean
         get() = state and Active != 0UL
 
@@ -175,21 +178,13 @@ public value class ButtonState(public val state: ULong) : FocusableComponentStat
         pressed: Boolean = isPressed,
         hovered: Boolean = isHovered,
         active: Boolean = isActive,
-    ): ButtonState =
-        of(
-            enabled = enabled,
-            focused = focused,
-            pressed = pressed,
-            hovered = hovered,
-            active = active,
-        )
+    ): ButtonState = of(enabled = enabled, focused = focused, pressed = pressed, hovered = hovered, active = active)
 
     override fun toString(): String =
         "${javaClass.simpleName}(isEnabled=$isEnabled, isFocused=$isFocused, isHovered=$isHovered, " +
             "isPressed=$isPressed, isActive=$isActive)"
 
     public companion object {
-
         public fun of(
             enabled: Boolean = true,
             focused: Boolean = false,
@@ -202,7 +197,7 @@ public value class ButtonState(public val state: ULong) : FocusableComponentStat
                     (if (focused) Focused else 0UL) or
                     (if (hovered) Hovered else 0UL) or
                     (if (pressed) Pressed else 0UL) or
-                    (if (active) Active else 0UL),
+                    (if (active) Active else 0UL)
             )
     }
 }

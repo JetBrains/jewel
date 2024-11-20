@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlin.random.Random
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.jewel.foundation.lazy.SelectableLazyColumn
@@ -33,19 +34,19 @@ import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.jewel.foundation.lazy.rememberSelectableLazyListState
 import org.jetbrains.jewel.foundation.lazy.tree.buildTree
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.samples.standalone.viewmodel.View
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.component.Chip
 import org.jetbrains.jewel.ui.component.CircularProgressIndicator
 import org.jetbrains.jewel.ui.component.GroupHeader
 import org.jetbrains.jewel.ui.component.LazyTree
+import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.RadioButtonChip
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.ToggleableChip
 import org.jetbrains.jewel.ui.theme.colorPalette
 
 @Composable
-@View(title = "ChipsAndTree", position = 11, icon = "icons/showAsTree.svg")
-fun ChipsAndTree() {
+fun ChipsAndTrees() {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             GroupHeader(text = "Chips", modifier = Modifier.fillMaxWidth())
@@ -66,50 +67,41 @@ fun ChipsAndTree() {
 
 @Composable
 fun SelectableLazyColumnSample() {
-    var listOfItems by remember {
-        mutableStateOf(emptyList<String>())
-    }
+    var listOfItems by remember { mutableStateOf(emptyList<String>()) }
 
     LaunchedEffect(Unit) {
         @Suppress("InjectDispatcher") // Ok for demo code
-        launch(Dispatchers.Default) {
-            listOfItems = List(5_000_000) { "Item $it" }
-        }
+        launch(Dispatchers.Default) { listOfItems = List(5_000_000) { "Item $it" } }
     }
 
     val interactionSource = remember { MutableInteractionSource() }
     val state = rememberSelectableLazyListState()
-    Box(
-        modifier = Modifier.size(200.dp, 200.dp),
-    ) {
+    Box(modifier = Modifier.size(200.dp, 200.dp)) {
         if (listOfItems.isEmpty()) {
             CircularProgressIndicator(Modifier.align(Alignment.Center))
         } else {
             SelectableLazyColumn(
-                selectionMode = SelectionMode.Multiple,
                 modifier = Modifier.focusable(interactionSource = interactionSource),
+                selectionMode = SelectionMode.Multiple,
                 state = state,
+                interactionSource = remember { MutableInteractionSource() },
                 content = {
-                    items(
-                        count = listOfItems.size,
-                        key = { index -> listOfItems[index] },
-                    ) { index ->
+                    items(count = listOfItems.size, key = { index -> listOfItems[index] }) { index ->
                         Text(
                             text = listOfItems[index],
-                            modifier = Modifier.fillMaxWidth()
-                                .then(
-                                    when {
-                                        isSelected && isActive -> Modifier.background(Color.Blue)
-                                        isSelected && !isActive -> Modifier.background(Color.Gray)
-                                        else -> Modifier
-                                    },
-                                ).clickable {
-                                    println("click on $index")
-                                },
+                            modifier =
+                                Modifier.fillMaxWidth()
+                                    .then(
+                                        when {
+                                            isSelected && isActive -> Modifier.background(Color.Blue)
+                                            isSelected && !isActive -> Modifier.background(Color.Gray)
+                                            else -> Modifier
+                                        }
+                                    )
+                                    .clickable { JewelLogger.getInstance("ChipsAndTree").info("Click on $index") },
                         )
                     }
                 },
-                interactionSource = remember { MutableInteractionSource() },
             )
             VerticalScrollbar(
                 rememberScrollbarAdapter(state.lazyListState),
@@ -124,90 +116,73 @@ fun ChipsSample(modifier: Modifier = Modifier) {
     Column(modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             var selectedIndex by remember { mutableStateOf(-1) }
-            RadioButtonChip(
-                selected = selectedIndex == 0,
-                onClick = { selectedIndex = 0 },
-                enabled = true,
-            ) {
+            RadioButtonChip(selected = selectedIndex == 0, onClick = { selectedIndex = 0 }, enabled = true) {
                 Text("First")
             }
 
-            RadioButtonChip(
-                selected = selectedIndex == 1,
-                onClick = { selectedIndex = 1 },
-                enabled = true,
-            ) {
+            RadioButtonChip(selected = selectedIndex == 1, onClick = { selectedIndex = 1 }, enabled = true) {
                 Text("Second")
             }
 
-            RadioButtonChip(
-                selected = selectedIndex == 2,
-                onClick = { selectedIndex = 2 },
-                enabled = true,
-            ) {
+            RadioButtonChip(selected = selectedIndex == 2, onClick = { selectedIndex = 2 }, enabled = true) {
                 Text("Third")
             }
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             var isChecked by remember { mutableStateOf(false) }
-            ToggleableChip(
-                checked = isChecked,
-                onClick = {
-                    isChecked = it
-                },
-                enabled = true,
-            ) {
-                Text("Toggleable")
-            }
+            ToggleableChip(checked = isChecked, onClick = { isChecked = it }, enabled = true) { Text("Toggleable") }
 
             var count by remember { mutableStateOf(1) }
-            Chip(
-                enabled = true,
-                onClick = { count++ },
-            ) {
-                Text("Clicks: $count")
-            }
+            Chip(enabled = true, onClick = { count++ }) { Text("Clicks: $count") }
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Chip(
-                enabled = false,
-                onClick = {},
-            ) {
-                Text("Disabled")
-            }
+            Chip(enabled = false, onClick = {}) { Text("Disabled") }
         }
     }
 }
 
 @Composable
 fun TreeSample(modifier: Modifier = Modifier) {
-    val tree = remember {
-        buildTree {
-            addNode("root 1") {
+    var tree by remember {
+        mutableStateOf(
+            buildTree {
+                addNode("root 1") {
+                    addLeaf("leaf 1")
+                    addLeaf("leaf 2")
+                }
+                addNode("root 2") {
+                    addLeaf("leaf 2.1")
+                    addNode("node 1") {
+                        addLeaf("subleaf 1")
+                        addLeaf("subleaf 2")
+                    }
+                }
+                addNode("root 3") {
+                    addLeaf("leaf 3.1")
+                    addLeaf("leaf 3.2")
+                }
+            }
+        )
+    }
+
+    OutlinedButton({
+        tree = buildTree {
+            addNode("root ${Random.nextInt()}") {
                 addLeaf("leaf 1")
                 addLeaf("leaf 2")
             }
-            addNode("root 2") {
-                addLeaf("leaf 2.1")
-                addNode("node 1") {
-                    addLeaf("subleaf 1")
-                    addLeaf("subleaf 2")
-                }
-            }
-            addNode("root 3") {
-                addLeaf("leaf 3.1")
-                addLeaf("leaf 3.2")
-            }
         }
+    }) {
+        Text("Update tree")
     }
 
     val borderColor =
         if (JewelTheme.isDark) {
-            JewelTheme.colorPalette.grey(3)
+            JewelTheme.colorPalette.gray(3)
         } else {
-            JewelTheme.colorPalette.grey(12)
+            JewelTheme.colorPalette.gray(12)
         }
 
     Box(modifier.border(1.dp, borderColor, RoundedCornerShape(2.dp))) {
@@ -217,9 +192,7 @@ fun TreeSample(modifier: Modifier = Modifier) {
             onElementClick = {},
             onElementDoubleClick = {},
         ) { element ->
-            Box(Modifier.fillMaxWidth()) {
-                Text(element.data, Modifier.padding(2.dp))
-            }
+            Box(Modifier.fillMaxWidth()) { Text(element.data, Modifier.padding(2.dp)) }
         }
     }
 }

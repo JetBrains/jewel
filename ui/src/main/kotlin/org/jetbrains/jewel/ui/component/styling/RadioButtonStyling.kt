@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.component.RadioButtonState
-import org.jetbrains.jewel.ui.painter.PainterProvider
+import org.jetbrains.jewel.ui.icon.IconKey
 
 @Immutable
 @GenerateDataFunctions
@@ -20,7 +20,6 @@ public class RadioButtonStyle(
     public val metrics: RadioButtonMetrics,
     public val icons: RadioButtonIcons,
 ) {
-
     public companion object
 }
 
@@ -34,7 +33,6 @@ public class RadioButtonColors(
     public val contentSelectedHovered: Color,
     public val contentSelectedDisabled: Color,
 ) {
-
     @Composable
     public fun contentFor(state: RadioButtonState): State<Color> =
         rememberUpdatedState(
@@ -45,7 +43,7 @@ public class RadioButtonColors(
                 state.isSelected -> contentSelected
                 state.isHovered -> contentHovered
                 else -> content
-            },
+            }
         )
 
     public companion object
@@ -61,28 +59,26 @@ public class RadioButtonMetrics(
     public val outlineSelectedFocusedSize: DpSize,
     public val iconContentGap: Dp,
 ) {
-
     @Composable
-    public fun outlineSizeFor(state: RadioButtonState): State<DpSize> = rememberUpdatedState(
-        when {
-            state.isFocused && state.isSelected -> outlineSelectedFocusedSize
-            !state.isFocused && state.isSelected -> outlineSelectedSize
-            state.isFocused && !state.isSelected -> outlineFocusedSize
-            else -> outlineSize
-        },
-    )
+    public fun outlineSizeFor(state: RadioButtonState): State<DpSize> =
+        rememberUpdatedState(
+            when {
+                state.isFocused && state.isSelected -> outlineSelectedFocusedSize
+                !state.isFocused && state.isSelected -> outlineSelectedSize
+                state.isFocused && !state.isSelected -> outlineFocusedSize
+                else -> outlineSize
+            }
+        )
 
     public companion object
 }
 
 @Immutable
 @GenerateDataFunctions
-public class RadioButtonIcons(public val radioButton: PainterProvider) {
-
+public class RadioButtonIcons(public val radioButton: IconKey) {
     public companion object
 }
 
-public val LocalRadioButtonStyle: ProvidableCompositionLocal<RadioButtonStyle> =
-    staticCompositionLocalOf {
-        error("No RadioButtonStyle provided. Have you forgotten the theme?")
-    }
+public val LocalRadioButtonStyle: ProvidableCompositionLocal<RadioButtonStyle> = staticCompositionLocalOf {
+    error("No RadioButtonStyle provided. Have you forgotten the theme?")
+}

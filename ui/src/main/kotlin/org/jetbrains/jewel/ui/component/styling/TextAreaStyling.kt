@@ -7,19 +7,14 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
 @Stable
 @GenerateDataFunctions
-public class TextAreaStyle(
-    override val colors: TextAreaColors,
-    override val metrics: TextAreaMetrics,
-    override val textStyle: TextStyle,
-) : InputFieldStyle {
-
+public class TextAreaStyle(override val colors: TextAreaColors, override val metrics: TextAreaMetrics) :
+    InputFieldStyle {
     public companion object
 }
 
@@ -48,7 +43,6 @@ public class TextAreaColors(
     override val caretHovered: Color,
     public val placeholder: Color,
 ) : InputFieldColors {
-
     public companion object
 }
 
@@ -60,11 +54,9 @@ public class TextAreaMetrics(
     override val cornerSize: CornerSize,
     override val minSize: DpSize,
 ) : InputFieldMetrics {
-
     public companion object
 }
 
-public val LocalTextAreaStyle: ProvidableCompositionLocal<TextAreaStyle> =
-    staticCompositionLocalOf {
-        error("No TextAreaStyle provided. Have you forgotten the theme?")
-    }
+public val LocalTextAreaStyle: ProvidableCompositionLocal<TextAreaStyle> = staticCompositionLocalOf {
+    error("No TextAreaStyle provided. Have you forgotten the theme?")
+}

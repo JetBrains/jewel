@@ -26,12 +26,12 @@ public abstract interface annotation class org/jetbrains/jewel/foundation/Genera
 public final class org/jetbrains/jewel/foundation/GlobalColors {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/foundation/GlobalColors$Companion;
-	public synthetic fun <init> (Lorg/jetbrains/jewel/foundation/BorderColors;Lorg/jetbrains/jewel/foundation/OutlineColors;JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lorg/jetbrains/jewel/foundation/BorderColors;Lorg/jetbrains/jewel/foundation/OutlineColors;Lorg/jetbrains/jewel/foundation/TextColors;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBorders ()Lorg/jetbrains/jewel/foundation/BorderColors;
-	public final fun getInfoContent-0d7_KjU ()J
 	public final fun getOutlines ()Lorg/jetbrains/jewel/foundation/OutlineColors;
-	public final fun getPaneBackground-0d7_KjU ()J
+	public final fun getPanelBackground-0d7_KjU ()J
+	public final fun getText ()Lorg/jetbrains/jewel/foundation/TextColors;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -89,6 +89,7 @@ public final class org/jetbrains/jewel/foundation/Stroke$Alignment : java/lang/E
 	public static final field Center Lorg/jetbrains/jewel/foundation/Stroke$Alignment;
 	public static final field Inside Lorg/jetbrains/jewel/foundation/Stroke$Alignment;
 	public static final field Outside Lorg/jetbrains/jewel/foundation/Stroke$Alignment;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lorg/jetbrains/jewel/foundation/Stroke$Alignment;
 	public static fun values ()[Lorg/jetbrains/jewel/foundation/Stroke$Alignment;
 }
@@ -126,6 +127,131 @@ public final class org/jetbrains/jewel/foundation/StrokeKt {
 	public static synthetic fun Stroke-Ke5fDM4$default (FLandroidx/compose/ui/graphics/Brush;Lorg/jetbrains/jewel/foundation/Stroke$Alignment;FILjava/lang/Object;)Lorg/jetbrains/jewel/foundation/Stroke;
 	public static final fun Stroke-nMwvq1g (FJLorg/jetbrains/jewel/foundation/Stroke$Alignment;F)Lorg/jetbrains/jewel/foundation/Stroke;
 	public static synthetic fun Stroke-nMwvq1g$default (FJLorg/jetbrains/jewel/foundation/Stroke$Alignment;FILjava/lang/Object;)Lorg/jetbrains/jewel/foundation/Stroke;
+}
+
+public final class org/jetbrains/jewel/foundation/TextColors {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/foundation/TextColors$Companion;
+	public synthetic fun <init> (JJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDisabled-0d7_KjU ()J
+	public final fun getError-0d7_KjU ()J
+	public final fun getInfo-0d7_KjU ()J
+	public final fun getNormal-0d7_KjU ()J
+	public final fun getSelected-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/foundation/TextColors$Companion {
+}
+
+public abstract interface class org/jetbrains/jewel/foundation/actionSystem/DataProviderContext {
+	public abstract fun lazy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
+	public abstract fun set (Ljava/lang/String;Ljava/lang/Object;)V
+}
+
+public final class org/jetbrains/jewel/foundation/actionSystem/DataProviderNode : androidx/compose/ui/Modifier$Node, androidx/compose/ui/focus/FocusEventModifierNode, androidx/compose/ui/node/TraversableNode {
+	public static final field $stable I
+	public static final field TraverseKey Lorg/jetbrains/jewel/foundation/actionSystem/DataProviderNode$TraverseKey;
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public final fun getDataProvider ()Lkotlin/jvm/functions/Function1;
+	public final fun getHasFocus ()Z
+	public synthetic fun getTraverseKey ()Ljava/lang/Object;
+	public fun getTraverseKey ()Lorg/jetbrains/jewel/foundation/actionSystem/DataProviderNode$TraverseKey;
+	public fun onFocusEvent (Landroidx/compose/ui/focus/FocusState;)V
+	public final fun setDataProvider (Lkotlin/jvm/functions/Function1;)V
+	public final fun setHasFocus (Z)V
+}
+
+public final class org/jetbrains/jewel/foundation/actionSystem/DataProviderNode$TraverseKey {
+}
+
+public final class org/jetbrains/jewel/foundation/actionSystem/ProvideDataKt {
+	public static final fun provideData (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
+}
+
+public final class org/jetbrains/jewel/foundation/code/MimeType {
+	public static final field ATTR_FOLDER_TYPE Ljava/lang/String;
+	public static final field ATTR_ROLE Ljava/lang/String;
+	public static final field ATTR_ROOT_TAG Ljava/lang/String;
+	public static final field VALUE_MANIFEST Ljava/lang/String;
+	public static final field VALUE_RESOURCE Ljava/lang/String;
+	public static final fun base-9EQw4cI (Ljava/lang/String;)Ljava/lang/String;
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lorg/jetbrains/jewel/foundation/code/MimeType;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun displayName-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/foundation/code/MimeType$Known {
+	public static final field $stable I
+	public static final field INSTANCE Lorg/jetbrains/jewel/foundation/code/MimeType$Known;
+	public final fun fromMarkdownLanguageName-YABSuFg (Ljava/lang/String;)Ljava/lang/String;
+	public final fun getAGSL-9EQw4cI ()Ljava/lang/String;
+	public final fun getAIDL-9EQw4cI ()Ljava/lang/String;
+	public final fun getC-9EQw4cI ()Ljava/lang/String;
+	public final fun getCPP-9EQw4cI ()Ljava/lang/String;
+	public final fun getDART-9EQw4cI ()Ljava/lang/String;
+	public final fun getGO-9EQw4cI ()Ljava/lang/String;
+	public final fun getGRADLE-9EQw4cI ()Ljava/lang/String;
+	public final fun getGRADLE_KTS-9EQw4cI ()Ljava/lang/String;
+	public final fun getGROOVY-9EQw4cI ()Ljava/lang/String;
+	public final fun getJAVA-9EQw4cI ()Ljava/lang/String;
+	public final fun getJAVASCRIPT-9EQw4cI ()Ljava/lang/String;
+	public final fun getJSON-9EQw4cI ()Ljava/lang/String;
+	public final fun getKOTLIN-9EQw4cI ()Ljava/lang/String;
+	public final fun getMANIFEST-9EQw4cI ()Ljava/lang/String;
+	public final fun getPROGUARD-9EQw4cI ()Ljava/lang/String;
+	public final fun getPROPERTIES-9EQw4cI ()Ljava/lang/String;
+	public final fun getPROTO-9EQw4cI ()Ljava/lang/String;
+	public final fun getPYTHON-9EQw4cI ()Ljava/lang/String;
+	public final fun getREGEX-9EQw4cI ()Ljava/lang/String;
+	public final fun getRESOURCE-9EQw4cI ()Ljava/lang/String;
+	public final fun getRUST-9EQw4cI ()Ljava/lang/String;
+	public final fun getSHELL-9EQw4cI ()Ljava/lang/String;
+	public final fun getSQL-9EQw4cI ()Ljava/lang/String;
+	public final fun getSVG-9EQw4cI ()Ljava/lang/String;
+	public final fun getTEXT-9EQw4cI ()Ljava/lang/String;
+	public final fun getTOML-9EQw4cI ()Ljava/lang/String;
+	public final fun getTYPESCRIPT-9EQw4cI ()Ljava/lang/String;
+	public final fun getUNKNOWN-9EQw4cI ()Ljava/lang/String;
+	public final fun getVERSION_CATALOG-9EQw4cI ()Ljava/lang/String;
+	public final fun getXML-9EQw4cI ()Ljava/lang/String;
+	public final fun getYAML-9EQw4cI ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/foundation/code/MimeTypeKt {
+	public static final fun isGradle-KcqRzx0 (Ljava/lang/String;)Z
+	public static final fun isJava-KcqRzx0 (Ljava/lang/String;)Z
+	public static final fun isKotlin-KcqRzx0 (Ljava/lang/String;)Z
+	public static final fun isManifest-KcqRzx0 (Ljava/lang/String;)Z
+	public static final fun isProto-KcqRzx0 (Ljava/lang/String;)Z
+	public static final fun isRegex-KcqRzx0 (Ljava/lang/String;)Z
+	public static final fun isSql-KcqRzx0 (Ljava/lang/String;)Z
+	public static final fun isVersionCatalog-KcqRzx0 (Ljava/lang/String;)Z
+	public static final fun isXml-KcqRzx0 (Ljava/lang/String;)Z
+}
+
+public abstract interface class org/jetbrains/jewel/foundation/code/highlighting/CodeHighlighter {
+	public abstract fun highlight-C7ITchA (Ljava/lang/String;Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
+}
+
+public final class org/jetbrains/jewel/foundation/code/highlighting/CodeHighlighterKt {
+	public static final fun getLocalCodeHighlighter ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public final class org/jetbrains/jewel/foundation/code/highlighting/NoOpCodeHighlighter : org/jetbrains/jewel/foundation/code/highlighting/CodeHighlighter {
+	public static final field $stable I
+	public static final field INSTANCE Lorg/jetbrains/jewel/foundation/code/highlighting/NoOpCodeHighlighter;
+	public fun highlight-C7ITchA (Ljava/lang/String;Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
 }
 
 public class org/jetbrains/jewel/foundation/lazy/DefaultMacOsSelectableColumnKeybindings : org/jetbrains/jewel/foundation/lazy/DefaultSelectableColumnKeybindings {
@@ -304,6 +430,8 @@ public final class org/jetbrains/jewel/foundation/lazy/SelectableLazyListState :
 	public final fun getFirstVisibleItemScrollOffset ()I
 	public final fun getInteractionSource ()Landroidx/compose/foundation/interaction/InteractionSource;
 	public final fun getLastActiveItemIndex ()Ljava/lang/Integer;
+	public fun getLastScrolledBackward ()Z
+	public fun getLastScrolledForward ()Z
 	public final fun getLayoutInfo ()Landroidx/compose/foundation/lazy/LazyListLayoutInfo;
 	public final fun getLazyListState ()Landroidx/compose/foundation/lazy/LazyListState;
 	public fun getSelectedKeys ()Ljava/util/Set;
@@ -330,6 +458,7 @@ public final class org/jetbrains/jewel/foundation/lazy/SelectionMode : java/lang
 	public static final field Multiple Lorg/jetbrains/jewel/foundation/lazy/SelectionMode;
 	public static final field None Lorg/jetbrains/jewel/foundation/lazy/SelectionMode;
 	public static final field Single Lorg/jetbrains/jewel/foundation/lazy/SelectionMode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lorg/jetbrains/jewel/foundation/lazy/SelectionMode;
 	public static fun values ()[Lorg/jetbrains/jewel/foundation/lazy/SelectionMode;
 }
@@ -451,10 +580,11 @@ public class org/jetbrains/jewel/foundation/lazy/tree/DefaultTreeViewOnKeyEvent 
 	public fun onSelectPreviousItem (Ljava/util/List;Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListState;)V
 }
 
-public final class org/jetbrains/jewel/foundation/lazy/tree/DefaultTreeViewPointerEventAction : org/jetbrains/jewel/foundation/lazy/tree/DefaultSelectableLazyColumnEventAction {
+public class org/jetbrains/jewel/foundation/lazy/tree/DefaultTreeViewPointerEventAction : org/jetbrains/jewel/foundation/lazy/tree/DefaultSelectableLazyColumnEventAction {
 	public static final field $stable I
 	public fun <init> (Lorg/jetbrains/jewel/foundation/lazy/tree/TreeState;)V
 	public fun handlePointerEventPress (Landroidx/compose/ui/input/pointer/PointerEvent;Lorg/jetbrains/jewel/foundation/lazy/SelectableColumnKeybindings;Lorg/jetbrains/jewel/foundation/lazy/SelectableLazyListState;Lorg/jetbrains/jewel/foundation/lazy/SelectionMode;Ljava/util/List;Ljava/lang/Object;)V
+	public final fun notifyItemClicked (Lorg/jetbrains/jewel/foundation/lazy/tree/Tree$Element;Lkotlinx/coroutines/CoroutineScope;JLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
 }
 
 public abstract interface class org/jetbrains/jewel/foundation/lazy/tree/KeyActions {
@@ -637,6 +767,8 @@ public final class org/jetbrains/jewel/foundation/lazy/tree/TreeState : androidx
 	public fun dispatchRawDelta (F)F
 	public fun getCanScrollBackward ()Z
 	public fun getCanScrollForward ()Z
+	public fun getLastScrolledBackward ()Z
+	public fun getLastScrolledForward ()Z
 	public final fun getOpenNodes ()Ljava/util/Set;
 	public fun getSelectedKeys ()Ljava/util/Set;
 	public fun isScrollInProgress ()Z
@@ -736,13 +868,18 @@ public abstract interface class org/jetbrains/jewel/foundation/state/SelectableC
 	public abstract fun isSelected ()Z
 }
 
-public abstract interface class org/jetbrains/jewel/foundation/state/ToggleableComponentState : org/jetbrains/jewel/foundation/state/SelectableComponentState {
+public abstract interface class org/jetbrains/jewel/foundation/state/ToggleableComponentState {
 	public static final field Companion Lorg/jetbrains/jewel/foundation/state/ToggleableComponentState$Companion;
 	public abstract fun getToggleableState ()Landroidx/compose/ui/state/ToggleableState;
+	public abstract fun isSelected ()Z
 }
 
 public final class org/jetbrains/jewel/foundation/state/ToggleableComponentState$Companion {
 	public final fun readToggleableState-VKZWuLQ (J)Landroidx/compose/ui/state/ToggleableState;
+}
+
+public final class org/jetbrains/jewel/foundation/state/ToggleableComponentState$DefaultImpls {
+	public static fun isSelected (Lorg/jetbrains/jewel/foundation/state/ToggleableComponentState;)Z
 }
 
 public abstract interface class org/jetbrains/jewel/foundation/theme/JewelTheme {
@@ -750,10 +887,13 @@ public abstract interface class org/jetbrains/jewel/foundation/theme/JewelTheme 
 }
 
 public final class org/jetbrains/jewel/foundation/theme/JewelTheme$Companion {
+	public final fun getConsoleTextStyle (Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/text/TextStyle;
 	public final fun getContentColor (Landroidx/compose/runtime/Composer;I)J
 	public final fun getDefaultTextStyle (Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/text/TextStyle;
+	public final fun getEditorTextStyle (Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/text/TextStyle;
 	public final fun getGlobalColors (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/GlobalColors;
 	public final fun getGlobalMetrics (Landroidx/compose/runtime/Composer;I)Lorg/jetbrains/jewel/foundation/GlobalMetrics;
+	public final fun getName (Landroidx/compose/runtime/Composer;I)Ljava/lang/String;
 	public final fun getTextStyle (Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/text/TextStyle;
 	public final fun isDark (Landroidx/compose/runtime/Composer;I)Z
 	public final fun isSwingCompatMode (Landroidx/compose/runtime/Composer;I)Z
@@ -764,9 +904,12 @@ public final class org/jetbrains/jewel/foundation/theme/JewelThemeKt {
 	public static final fun JewelTheme (Lorg/jetbrains/jewel/foundation/theme/ThemeDefinition;ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
 	public static final fun OverrideDarkMode (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
 	public static final fun getLocalColorPalette ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+	public static final fun getLocalConsoleTextStyle ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 	public static final fun getLocalContentColor ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+	public static final fun getLocalEditorTextStyle ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 	public static final fun getLocalIconData ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 	public static final fun getLocalTextStyle ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+	public static final fun getLocalThemeName ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
 public final class org/jetbrains/jewel/foundation/theme/ThemeColorPalette {
@@ -777,14 +920,16 @@ public final class org/jetbrains/jewel/foundation/theme/ThemeColorPalette {
 	public final fun blueOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBlue ()Ljava/util/List;
+	public final fun getGray ()Ljava/util/List;
 	public final fun getGreen ()Ljava/util/List;
-	public final fun getGrey ()Ljava/util/List;
 	public final fun getOrange ()Ljava/util/List;
 	public final fun getPurple ()Ljava/util/List;
 	public final fun getRawMap ()Ljava/util/Map;
 	public final fun getRed ()Ljava/util/List;
 	public final fun getTeal ()Ljava/util/List;
 	public final fun getYellow ()Ljava/util/List;
+	public final fun gray-vNxB06k (I)J
+	public final fun grayOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
 	public final fun green-vNxB06k (I)J
 	public final fun greenOrNull-ijrfgN4 (I)Landroidx/compose/ui/graphics/Color;
 	public final fun grey-vNxB06k (I)J
@@ -810,14 +955,17 @@ public final class org/jetbrains/jewel/foundation/theme/ThemeColorPalette$Compan
 
 public final class org/jetbrains/jewel/foundation/theme/ThemeDefinition {
 	public static final field $stable I
-	public synthetic fun <init> (ZLorg/jetbrains/jewel/foundation/GlobalColors;Lorg/jetbrains/jewel/foundation/GlobalMetrics;Landroidx/compose/ui/text/TextStyle;JLorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;ZLorg/jetbrains/jewel/foundation/GlobalColors;Lorg/jetbrains/jewel/foundation/GlobalMetrics;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;JLorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getColorPalette ()Lorg/jetbrains/jewel/foundation/theme/ThemeColorPalette;
+	public final fun getConsoleTextStyle ()Landroidx/compose/ui/text/TextStyle;
 	public final fun getContentColor-0d7_KjU ()J
 	public final fun getDefaultTextStyle ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getEditorTextStyle ()Landroidx/compose/ui/text/TextStyle;
 	public final fun getGlobalColors ()Lorg/jetbrains/jewel/foundation/GlobalColors;
 	public final fun getGlobalMetrics ()Lorg/jetbrains/jewel/foundation/GlobalMetrics;
 	public final fun getIconData ()Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
+	public final fun getName ()Ljava/lang/String;
 	public fun hashCode ()I
 	public final fun isDark ()Z
 	public fun toString ()Ljava/lang/String;
@@ -844,7 +992,29 @@ public final class org/jetbrains/jewel/foundation/theme/ThemeIconData$Companion 
 	public final fun getEmpty ()Lorg/jetbrains/jewel/foundation/theme/ThemeIconData;
 }
 
-public final class org/jetbrains/jewel/foundation/util/DebugKt {
-	public static final fun getInDebugMode ()Z
+public abstract class org/jetbrains/jewel/foundation/util/JewelLogger {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/foundation/util/JewelLogger$Companion;
+	public fun <init> ()V
+	public final fun debug (Ljava/lang/String;)V
+	public abstract fun debug (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public final fun debug (Ljava/lang/Throwable;)V
+	public final fun error (Ljava/lang/String;)V
+	public abstract fun error (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public final fun error (Ljava/lang/Throwable;)V
+	public final fun info (Ljava/lang/String;)V
+	public abstract fun info (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public final fun info (Ljava/lang/Throwable;)V
+	public final fun trace (Ljava/lang/String;)V
+	public abstract fun trace (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public final fun trace (Ljava/lang/Throwable;)V
+	public final fun warn (Ljava/lang/String;)V
+	public abstract fun warn (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public final fun warn (Ljava/lang/Throwable;)V
+}
+
+public final class org/jetbrains/jewel/foundation/util/JewelLogger$Companion {
+	public final fun getInstance (Ljava/lang/Class;)Lorg/jetbrains/jewel/foundation/util/JewelLogger;
+	public final fun getInstance (Ljava/lang/String;)Lorg/jetbrains/jewel/foundation/util/JewelLogger;
 }
 

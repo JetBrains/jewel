@@ -33,20 +33,21 @@ public fun Modifier.trackWindowActivation(window: Window): Modifier =
         debugInspectorInfo {
             name = "activateRoot"
             properties["window"] = window
-        },
+        }
     ) {
         var parentActivated by remember { mutableStateOf(false) }
 
         DisposableEffect(window) {
-            val listener = object : WindowAdapter() {
-                override fun windowActivated(e: WindowEvent?) {
-                    parentActivated = true
-                }
+            val listener =
+                object : WindowAdapter() {
+                    override fun windowActivated(e: WindowEvent?) {
+                        parentActivated = true
+                    }
 
-                override fun windowDeactivated(e: WindowEvent?) {
-                    parentActivated = false
+                    override fun windowDeactivated(e: WindowEvent?) {
+                        parentActivated = false
+                    }
                 }
-            }
             window.addWindowListener(listener)
             onDispose { window.removeWindowListener(listener) }
         }
@@ -58,20 +59,21 @@ public fun Modifier.trackComponentActivation(awtParent: Component): Modifier =
         debugInspectorInfo {
             name = "activateRoot"
             properties["parent"] = awtParent
-        },
+        }
     ) {
         var parentActivated by remember { mutableStateOf(false) }
 
         DisposableEffect(awtParent) {
-            val listener = object : FocusListener {
-                override fun focusGained(e: FocusEvent?) {
-                    parentActivated = true
-                }
+            val listener =
+                object : FocusListener {
+                    override fun focusGained(e: FocusEvent?) {
+                        parentActivated = true
+                    }
 
-                override fun focusLost(e: FocusEvent?) {
-                    parentActivated = false
+                    override fun focusLost(e: FocusEvent?) {
+                        parentActivated = false
+                    }
                 }
-            }
             awtParent.addFocusListener(listener)
             onDispose { awtParent.removeFocusListener(listener) }
         }
@@ -81,9 +83,7 @@ public fun Modifier.trackComponentActivation(awtParent: Component): Modifier =
 
 @Stable
 public fun Modifier.trackActivation(): Modifier =
-    composed(
-        debugInspectorInfo { name = "trackActivation" },
-    ) {
+    composed(debugInspectorInfo { name = "trackActivation" }) {
         val activatedModifierLocal = remember { ActivatedModifierLocal() }
         Modifier.focusGroup()
             .onFocusChanged {
@@ -97,7 +97,6 @@ public fun Modifier.trackActivation(): Modifier =
     }
 
 private class ActivatedModifierLocal : ModifierLocalProvider<Boolean>, ModifierLocalConsumer {
-
     private var parentActivated: Boolean by mutableStateOf(false)
 
     private var hasFocus: Boolean by mutableStateOf(false)
@@ -107,9 +106,7 @@ private class ActivatedModifierLocal : ModifierLocalProvider<Boolean>, ModifierL
     }
 
     override val key: ProvidableModifierLocal<Boolean> = ModifierLocalActivated
-    override val value: Boolean by derivedStateOf(structuralEqualityPolicy()) {
-        parentActivated && hasFocus
-    }
+    override val value: Boolean by derivedStateOf(structuralEqualityPolicy()) { parentActivated && hasFocus }
 
     fun childLostFocus() {
         hasFocus = false
@@ -122,27 +119,24 @@ private class ActivatedModifierLocal : ModifierLocalProvider<Boolean>, ModifierL
 
 public val ModifierLocalActivated: ProvidableModifierLocal<Boolean> = modifierLocalOf { false }
 
-public fun Modifier.onActivated(
-    enabled: Boolean = true,
-    onChanged: (Boolean) -> Unit,
-): Modifier =
-    this then if (enabled) {
-        ActivateChangedModifierElement(
-            onChanged,
-            debugInspectorInfo {
-                name = "onActivated"
-                properties["onChanged"] = onChanged
-            },
-        )
-    } else {
-        Modifier
-    }
+public fun Modifier.onActivated(enabled: Boolean = true, onChanged: (Boolean) -> Unit): Modifier =
+    this then
+        if (enabled) {
+            ActivateChangedModifierElement(
+                onChanged,
+                debugInspectorInfo {
+                    name = "onActivated"
+                    properties["onChanged"] = onChanged
+                },
+            )
+        } else {
+            Modifier
+        }
 
 private class ActivateChangedModifierElement(
     private val onChanged: (Boolean) -> Unit,
     inspectorInfo: InspectorInfo.() -> Unit,
 ) : ModifierLocalConsumer, InspectorValueInfo(inspectorInfo) {
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ActivateChangedModifierElement) return false

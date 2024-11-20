@@ -17,26 +17,24 @@ import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 public fun IconButtonStyle.Companion.light(
     colors: IconButtonColors = IconButtonColors.light(),
     metrics: IconButtonMetrics = IconButtonMetrics.defaults(),
-): IconButtonStyle =
-    IconButtonStyle(colors, metrics)
+): IconButtonStyle = IconButtonStyle(colors, metrics)
 
 @Composable
 public fun IconButtonStyle.Companion.dark(
     colors: IconButtonColors = IconButtonColors.dark(),
     metrics: IconButtonMetrics = IconButtonMetrics.defaults(),
-): IconButtonStyle =
-    IconButtonStyle(colors, metrics)
+): IconButtonStyle = IconButtonStyle(colors, metrics)
 
 @Composable
 public fun IconButtonColors.Companion.light(
-    foregroundSelectedActivated: Color = IntUiLightTheme.colors.grey(14),
+    foregroundSelectedActivated: Color = IntUiLightTheme.colors.gray(14),
     background: Color = Color.Unspecified,
     backgroundDisabled: Color = background,
-    backgroundSelected: Color = IntUiLightTheme.colors.grey(11),
+    backgroundSelected: Color = IntUiLightTheme.colors.gray(11),
     backgroundSelectedActivated: Color = IntUiLightTheme.colors.blue(4),
-    backgroundFocused: Color = background,
-    backgroundPressed: Color = IntUiLightTheme.colors.grey(11),
-    backgroundHovered: Color = IntUiLightTheme.colors.grey(12),
+    backgroundPressed: Color = IntUiLightTheme.colors.gray(11),
+    backgroundHovered: Color = IntUiLightTheme.colors.gray(12),
+    backgroundFocused: Color = backgroundHovered,
     border: Color = background,
     borderDisabled: Color = backgroundDisabled,
     borderSelected: Color = backgroundSelected,
@@ -65,14 +63,14 @@ public fun IconButtonColors.Companion.light(
 
 @Composable
 public fun IconButtonColors.Companion.dark(
-    foregroundSelectedActivated: Color = IntUiDarkTheme.colors.grey(14),
+    foregroundSelectedActivated: Color = IntUiDarkTheme.colors.gray(14),
     background: Color = Color.Unspecified,
     backgroundDisabled: Color = background,
-    backgroundSelected: Color = IntUiDarkTheme.colors.grey(5),
+    backgroundSelected: Color = IntUiDarkTheme.colors.gray(5),
     backgroundSelectedActivated: Color = IntUiDarkTheme.colors.blue(6),
-    backgroundFocused: Color = background,
-    backgroundPressed: Color = IntUiDarkTheme.colors.grey(5),
-    backgroundHovered: Color = IntUiDarkTheme.colors.grey(3),
+    backgroundPressed: Color = IntUiDarkTheme.colors.gray(5),
+    backgroundHovered: Color = IntUiDarkTheme.colors.gray(3),
+    backgroundFocused: Color = backgroundHovered,
     border: Color = background,
     borderDisabled: Color = backgroundDisabled,
     borderSelected: Color = backgroundSelected,
@@ -103,6 +101,5 @@ public fun IconButtonMetrics.Companion.defaults(
     cornerSize: CornerSize = CornerSize(4.dp),
     borderWidth: Dp = 1.dp,
     padding: PaddingValues = PaddingValues(0.dp),
-    minSize: DpSize = DpSize(16.dp, 16.dp),
-): IconButtonMetrics =
-    IconButtonMetrics(cornerSize, borderWidth, padding, minSize)
+    minSize: DpSize = DpSize(24.dp, 24.dp),
+): IconButtonMetrics = IconButtonMetrics(cornerSize, borderWidth, padding, minSize)

@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import org.jetbrains.jewel.samples.standalone.viewmodel.View
 import org.jetbrains.jewel.ui.component.CircularProgressIndicator
 import org.jetbrains.jewel.ui.component.CircularProgressIndicatorBig
 import org.jetbrains.jewel.ui.component.HorizontalProgressBar
@@ -26,20 +25,22 @@ import org.jetbrains.jewel.ui.component.IndeterminateHorizontalProgressBar
 import org.jetbrains.jewel.ui.component.Text
 
 @Composable
-@View(title = "ProgressBar", position = 5)
 fun ProgressBar() {
     val transition = rememberInfiniteTransition()
-    val currentOffset by transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = keyframes {
-                durationMillis = 4000
-                0f at 1000
-                1f at 3000
-            },
-        ),
-    )
+    val currentOffset by
+        transition.animateFloat(
+            initialValue = 0f,
+            targetValue = 1f,
+            animationSpec =
+                infiniteRepeatable(
+                    animation =
+                        keyframes {
+                            durationMillis = 4000
+                            0f at 1000
+                            1f at 3000
+                        }
+                ),
+        )
     var intermittentProgress by remember { mutableStateOf(0f) }
     LaunchedEffect(Unit) {
         while (true) {

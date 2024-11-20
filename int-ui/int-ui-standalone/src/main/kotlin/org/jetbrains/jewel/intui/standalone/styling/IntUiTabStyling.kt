@@ -7,27 +7,26 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
-import org.jetbrains.jewel.intui.standalone.standalonePainterProvider
+import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.TabColors
 import org.jetbrains.jewel.ui.component.styling.TabContentAlpha
 import org.jetbrains.jewel.ui.component.styling.TabIcons
 import org.jetbrains.jewel.ui.component.styling.TabMetrics
 import org.jetbrains.jewel.ui.component.styling.TabStyle
-import org.jetbrains.jewel.ui.painter.PainterProvider
+import org.jetbrains.jewel.ui.icon.IconKey
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
 
 public val TabStyle.Companion.Default: IntUiDefaultTabStyleFactory
     get() = IntUiDefaultTabStyleFactory
 
 public object IntUiDefaultTabStyleFactory {
-
-    @Composable
     public fun light(
         colors: TabColors = TabColors.Default.light(),
         metrics: TabMetrics = TabMetrics.defaults(),
         icons: TabIcons = TabIcons.defaults(),
         contentAlpha: TabContentAlpha = TabContentAlpha.default(),
-    ): TabStyle =
-        TabStyle(colors, metrics, icons, contentAlpha)
+        scrollbarStyle: ScrollbarStyle = ScrollbarStyle.tabStripLight(),
+    ): TabStyle = TabStyle(colors, metrics, icons, contentAlpha, scrollbarStyle)
 
     @Composable
     public fun dark(
@@ -35,23 +34,22 @@ public object IntUiDefaultTabStyleFactory {
         metrics: TabMetrics = TabMetrics.defaults(),
         icons: TabIcons = TabIcons.defaults(),
         contentAlpha: TabContentAlpha = TabContentAlpha.default(),
-    ): TabStyle =
-        TabStyle(colors, metrics, icons, contentAlpha)
+        scrollbarStyle: ScrollbarStyle = ScrollbarStyle.tabStripDark(),
+    ): TabStyle = TabStyle(colors, metrics, icons, contentAlpha, scrollbarStyle)
 }
 
 public val TabStyle.Companion.Editor: IntUiEditorTabStyleFactory
     get() = IntUiEditorTabStyleFactory
 
 public object IntUiEditorTabStyleFactory {
-
     @Composable
     public fun light(
         colors: TabColors = TabColors.Editor.light(),
         metrics: TabMetrics = TabMetrics.defaults(),
         icons: TabIcons = TabIcons.defaults(),
         contentAlpha: TabContentAlpha = TabContentAlpha.editor(),
-    ): TabStyle =
-        TabStyle(colors, metrics, icons, contentAlpha)
+        scrollbarStyle: ScrollbarStyle = ScrollbarStyle.tabStripLight(),
+    ): TabStyle = TabStyle(colors, metrics, icons, contentAlpha, scrollbarStyle)
 
     @Composable
     public fun dark(
@@ -59,22 +57,21 @@ public object IntUiEditorTabStyleFactory {
         metrics: TabMetrics = TabMetrics.defaults(),
         icons: TabIcons = TabIcons.defaults(),
         contentAlpha: TabContentAlpha = TabContentAlpha.editor(),
-    ): TabStyle =
-        TabStyle(colors, metrics, icons, contentAlpha)
+        scrollbarStyle: ScrollbarStyle = ScrollbarStyle.tabStripDark(),
+    ): TabStyle = TabStyle(colors, metrics, icons, contentAlpha, scrollbarStyle)
 }
 
 public val TabColors.Companion.Default: IntUiDefaultTabColorsFactory
     get() = IntUiDefaultTabColorsFactory
 
 public object IntUiDefaultTabColorsFactory {
-
     public fun light(
-        background: Color = IntUiLightTheme.colors.grey(14),
-        backgroundHovered: Color = IntUiLightTheme.colors.grey(12),
+        background: Color = IntUiLightTheme.colors.gray(14),
+        backgroundHovered: Color = IntUiLightTheme.colors.gray(12),
         backgroundPressed: Color = backgroundHovered,
         backgroundSelected: Color = background,
         backgroundDisabled: Color = background,
-        content: Color = IntUiLightTheme.colors.grey(1),
+        content: Color = IntUiLightTheme.colors.gray(1),
         contentHovered: Color = content,
         contentDisabled: Color = content,
         contentPressed: Color = content,
@@ -105,7 +102,7 @@ public object IntUiDefaultTabColorsFactory {
 
     public fun dark(
         background: Color = Color.Unspecified,
-        backgroundHovered: Color = IntUiDarkTheme.colors.grey(4),
+        backgroundHovered: Color = IntUiDarkTheme.colors.gray(4),
         backgroundPressed: Color = backgroundHovered,
         backgroundSelected: Color = background,
         backgroundDisabled: Color = background,
@@ -143,7 +140,6 @@ public val TabColors.Companion.Editor: IntUiEditorTabColorsFactory
     get() = IntUiEditorTabColorsFactory
 
 public object IntUiEditorTabColorsFactory {
-
     public fun light(
         background: Color = Color.Transparent,
         backgroundHovered: Color = background,
@@ -221,8 +217,7 @@ public fun TabMetrics.Companion.defaults(
     closeContentGap: Dp = 8.dp,
     tabContentSpacing: Dp = 4.dp,
     tabHeight: Dp = 40.dp,
-): TabMetrics =
-    TabMetrics(underlineThickness, tabPadding, tabHeight, tabContentSpacing, closeContentGap)
+): TabMetrics = TabMetrics(underlineThickness, tabPadding, tabHeight, tabContentSpacing, closeContentGap)
 
 public fun TabContentAlpha.Companion.default(
     iconNormal: Float = 1f,
@@ -274,7 +269,4 @@ public fun TabContentAlpha.Companion.editor(
         contentSelected = contentSelected,
     )
 
-public fun TabIcons.Companion.defaults(
-    close: PainterProvider = standalonePainterProvider("expui/general/closeSmall.svg"),
-): TabIcons =
-    TabIcons(close)
+public fun TabIcons.Companion.defaults(close: IconKey = AllIconsKeys.General.CloseSmall): TabIcons = TabIcons(close)

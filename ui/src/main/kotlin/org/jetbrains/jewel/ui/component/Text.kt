@@ -79,7 +79,7 @@ public fun Text(
     onTextLayout: (TextLayoutResult) -> Unit = {},
     style: TextStyle = JewelTheme.defaultTextStyle,
 ) {
-    val textColor = color.takeOrElse { LocalContentColor.current.takeOrElse { style.color } }
+    val textColor = color.takeOrElse { style.color.takeOrElse { LocalContentColor.current } }
 
     val mergedStyle =
         style.merge(
@@ -93,18 +93,8 @@ public fun Text(
                 textDecoration = textDecoration,
                 fontStyle = fontStyle,
                 letterSpacing = letterSpacing,
-            ),
+            )
         )
 
-    BasicText(
-        text,
-        modifier,
-        mergedStyle,
-        onTextLayout,
-        overflow,
-        softWrap,
-        maxLines,
-        minLines = 1,
-        inlineContent,
-    )
+    BasicText(text, modifier, mergedStyle, onTextLayout, overflow, softWrap, maxLines, minLines = 1, inlineContent)
 }

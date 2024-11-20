@@ -8,6 +8,7 @@ import io.github.fourlastor.construo.ToolchainVersion
 plugins {
     jewel
     alias(libs.plugins.composeDesktop)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.construo)
     alias(libs.plugins.shadow)
 }
@@ -17,19 +18,28 @@ dependencies {
     implementation(libs.filePicker)
     implementation(projects.intUi.intUiStandalone)
     implementation(projects.intUi.intUiDecoratedWindow)
-    implementation(projects.markdown.core)
-    implementation(projects.markdown.extensionGfmAlerts)
+    implementation(projects.markdown.intUiStandaloneStyling)
+    implementation(projects.markdown.extension.gfmAlerts)
+    implementation(projects.markdown.extension.autolink)
+    implementation(compose.desktop.currentOs) { exclude(group = "org.jetbrains.compose.material") }
+    implementation(compose.components.resources)
+    implementation(libs.intellijPlatform.icons)
+    testImplementation(compose.desktop.uiTestJUnit4)
+    testImplementation(compose.desktop.currentOs) { exclude(group = "org.jetbrains.compose.material") }
+}
 
-    implementation(compose.desktop.currentOs) {
-        exclude(group = "org.jetbrains.compose.material")
+val jdkLevel = project.property("jdk.level") as String
+
+kotlin {
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(jdkLevel)
+        vendor = JvmVendorSpec.JETBRAINS
     }
 }
 
 compose.desktop {
     application {
         mainClass = "org.jetbrains.jewel.samples.standalone.MainKt"
-
-        jvmArgs("-Dorg.jetbrains.jewel.debug=true")
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg)
@@ -53,10 +63,7 @@ tasks {
         // afterEvaluate is needed because the Compose Gradle Plugin
         // register the task in the afterEvaluate block
         afterEvaluate {
-            javaLauncher = project.javaToolchains.launcherFor {
-                languageVersion = JavaLanguageVersion.of(17)
-                vendor = JvmVendorSpec.JETBRAINS
-            }
+            javaLauncher = project.javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(jdkLevel) }
             setExecutable(javaLauncher.map { it.executablePath.asFile.absolutePath }.get())
         }
     }

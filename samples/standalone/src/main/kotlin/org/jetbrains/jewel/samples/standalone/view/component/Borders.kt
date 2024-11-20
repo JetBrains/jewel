@@ -1,8 +1,11 @@
 package org.jetbrains.jewel.samples.standalone.view.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,13 +29,14 @@ import org.jetbrains.jewel.ui.theme.colorPalette
 
 @Composable
 internal fun Borders() {
-    GroupHeader("Borders")
-    var borderAlignment by remember { mutableStateOf(Stroke.Alignment.Center) }
+    GroupHeader("Group header")
+    Text("This is a group header example")
 
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
+    Spacer(Modifier.height(16.dp))
+
+    GroupHeader("Border alignment/expand")
+    var borderAlignment by remember { mutableStateOf(Stroke.Alignment.Center) }
+    Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
         RadioButtonRow(
             text = "Inside",
             selected = borderAlignment == Stroke.Alignment.Inside,
@@ -51,74 +55,37 @@ internal fun Borders() {
     }
     var width by remember { mutableStateOf(1.dp) }
     var expand by remember { mutableStateOf(0.dp) }
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        OutlinedButton({
-            width += 1.dp
-        }) {
-            Text("+width")
-        }
-        OutlinedButton({
-            width -= 1.dp
-        }, enabled = width > 1.dp) {
-            Text("-width")
-        }
-        OutlinedButton({
-            expand += 1.dp
-        }) {
-            Text("+expand")
-        }
-        OutlinedButton({
-            expand -= 1.dp
-        }) {
-            Text("-expand")
-        }
+    Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+        OutlinedButton({ width += 1.dp }) { Text("+width") }
+        OutlinedButton({ width -= 1.dp }, enabled = width > 1.dp) { Text("-width") }
+        OutlinedButton({ expand += 1.dp }) { Text("+expand") }
+        OutlinedButton({ expand -= 1.dp }) { Text("-expand") }
     }
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
+    Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+        val isDark = JewelTheme.isDark
+        val colorPalette = JewelTheme.colorPalette
+        val borderColor = remember(isDark) { if (isDark) colorPalette.blue(6) else colorPalette.blue(4) }
+        val backgroundColor = remember(isDark) { if (isDark) colorPalette.gray(4) else colorPalette.gray(11) }
+
         Box(
             Modifier.size(28.dp, 28.dp)
-                .border(
-                    borderAlignment,
-                    width,
-                    JewelTheme.colorPalette.blue(4),
-                    CircleShape,
-                    expand,
-                ),
+                .background(backgroundColor, shape = CircleShape)
+                .border(borderAlignment, width, borderColor, CircleShape, expand)
         )
         Box(
             Modifier.size(72.dp, 28.dp)
-                .border(
-                    borderAlignment,
-                    width,
-                    JewelTheme.colorPalette.blue(4),
-                    RectangleShape,
-                    expand,
-                ),
+                .background(backgroundColor, shape = RectangleShape)
+                .border(borderAlignment, width, borderColor, RectangleShape, expand)
         )
         Box(
             Modifier.size(72.dp, 28.dp)
-                .border(
-                    borderAlignment,
-                    width,
-                    JewelTheme.colorPalette.blue(4),
-                    RoundedCornerShape(4.dp),
-                    expand,
-                ),
+                .background(backgroundColor, shape = RoundedCornerShape(4.dp))
+                .border(borderAlignment, width, borderColor, RoundedCornerShape(4.dp), expand)
         )
         Box(
             Modifier.size(72.dp, 28.dp)
-                .border(
-                    borderAlignment,
-                    width,
-                    JewelTheme.colorPalette.blue(4),
-                    RoundedCornerShape(4.dp, 0.dp, 4.dp, 0.dp),
-                    expand,
-                ),
+                .background(backgroundColor, shape = RoundedCornerShape(4.dp, 0.dp, 4.dp, 0.dp))
+                .border(borderAlignment, width, borderColor, RoundedCornerShape(4.dp, 0.dp, 4.dp, 0.dp), expand)
         )
     }
 }

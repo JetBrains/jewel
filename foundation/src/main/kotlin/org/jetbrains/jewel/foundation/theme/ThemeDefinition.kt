@@ -10,10 +10,13 @@ import org.jetbrains.jewel.foundation.GlobalMetrics
 @Immutable
 @GenerateDataFunctions
 public class ThemeDefinition(
+    public val name: String,
     public val isDark: Boolean,
     public val globalColors: GlobalColors,
     public val globalMetrics: GlobalMetrics,
     public val defaultTextStyle: TextStyle,
+    public val editorTextStyle: TextStyle,
+    public val consoleTextStyle: TextStyle,
     public val contentColor: Color,
     public val colorPalette: ThemeColorPalette,
     public val iconData: ThemeIconData,

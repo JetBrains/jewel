@@ -5,10 +5,8 @@ import androidx.compose.ui.graphics.Color
 import com.intellij.ide.ui.UITheme
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.ui.NewUI
-import org.jetbrains.jewel.bridge.theme.isNewUiTheme
 import org.jetbrains.jewel.foundation.InternalJewelApi
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.foundation.util.inDebugMode
 import org.jetbrains.jewel.ui.painter.PainterHint
 import org.jetbrains.jewel.ui.painter.PalettePainterHintsProvider
 import org.jetbrains.jewel.ui.painter.hints.ColorBasedPaletteReplacement
@@ -23,13 +21,13 @@ import org.jetbrains.jewel.ui.util.toRgbaHexString
  * This is an internal Jewel API and should not be used directly.
  */
 @InternalJewelApi
-public class BridgePainterHintsProvider private constructor(
+public class BridgePainterHintsProvider
+private constructor(
     isDark: Boolean,
     intellijIconPalette: Map<String, String?> = emptyMap(),
     themeIconPalette: Map<String, String?> = emptyMap(),
     themeColorPalette: Map<String, Color?> = emptyMap(),
 ) : PalettePainterHintsProvider(isDark, intellijIconPalette, themeIconPalette, themeColorPalette) {
-
     override val checkBoxByColorPaletteHint: PainterHint
     override val checkBoxByKeyPaletteHint: PainterHint
     override val treePaletteHint: PainterHint
@@ -62,11 +60,7 @@ public class BridgePainterHintsProvider private constructor(
         uiPaletteHint = ColorBasedPaletteReplacement(ui)
     }
 
-    private fun registerColorBasedReplacement(
-        map: MutableMap<Color, Color>,
-        key: String,
-        value: String,
-    ) {
+    private fun registerColorBasedReplacement(map: MutableMap<Color, Color>, key: String, value: String) {
         // If either the key or the resolved value aren't valid colors, ignore the entry
         val keyAsColor = resolveKeyColor(key, intellijIconPalette, isDark) ?: return
         val resolvedColor = resolveColor(value) ?: return
@@ -75,29 +69,23 @@ public class BridgePainterHintsProvider private constructor(
         map[keyAsColor] = resolvedColor
     }
 
-    private fun registerIdBasedReplacement(
-        map: MutableMap<String, Color>,
-        key: String,
-        value: String,
-    ) {
+    private fun registerIdBasedReplacement(map: MutableMap<String, Color>, key: String, value: String) {
         val adjustedKey = if (isDark) key.removeSuffix(".Dark") else key
 
         if (adjustedKey !in supportedCheckboxKeys) {
-            if (inDebugMode) {
-                logger.warn("${if (isDark) "Dark" else "Light"} theme: color key $key is not supported, will be ignored")
-            }
+            logger.debug("${if (isDark) "Dark" else "Light"} theme: color key $key is not supported, will be ignored")
             return
         }
 
-        if (adjustedKey != key && inDebugMode) {
-            logger.warn("${if (isDark) "Dark" else "Light"} theme: color key $key is deprecated, use $adjustedKey instead")
+        if (adjustedKey != key) {
+            logger.warn(
+                "${if (isDark) "Dark" else "Light"} theme: color key $key is deprecated, use $adjustedKey instead"
+            )
         }
 
         val parsedValue = resolveColor(value)
         if (parsedValue == null) {
-            if (inDebugMode) {
-                logger.warn("${if (isDark) "Dark" else "Light"} theme: color key $key has invalid value: '$value'")
-            }
+            logger.info("${if (isDark) "Dark" else "Light"} theme: color key $key has invalid value: '$value'")
             return
         }
 
@@ -105,16 +93,14 @@ public class BridgePainterHintsProvider private constructor(
     }
 
     @Composable
-    override fun hints(path: String): List<PainterHint> =
-        buildList {
-            add(BridgeOverride)
-            add(getPaletteHint(path, isNewUi = isNewUiTheme()))
-            add(HiDpi())
-            add(Dark(JewelTheme.isDark))
-        }
+    override fun hints(path: String): List<PainterHint> = buildList {
+        add(BridgeOverride)
+        add(getPaletteHint(path, isNewUi = isNewUiTheme()))
+        add(HiDpi())
+        add(Dark(JewelTheme.isDark))
+    }
 
     public companion object {
-
         private val logger = thisLogger()
 
         @Suppress("UnstableApiUsage") // We need to call @Internal APIs

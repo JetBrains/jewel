@@ -23,45 +23,34 @@ import org.junit.Rule
 import org.junit.Test
 
 internal class SelectableLazyColumnTest {
-
-    @get:Rule
-    val composeRule = createComposeRule()
+    @get:Rule val composeRule = createComposeRule()
 
     @Test
-    fun `column with multiple items`() = runBlocking<Unit> {
-        val items1 = (0..10).toList()
-        val items2 = (11..50).toList()
-        val scrollState = SelectableLazyListState(LazyListState())
-        composeRule.setContent {
-            Box(modifier = Modifier.requiredHeight(100.dp)) {
-                SelectableLazyColumn(state = scrollState) {
-                    items(
-                        items1.size,
-                        key = {
-                            items1[it]
-                        },
-                    ) {
-                        val itemText = "Item ${items1[it]}"
-                        BasicText(itemText, modifier = Modifier.testTag(itemText))
-                    }
+    fun `column with multiple items`() =
+        runBlocking<Unit> {
+            val items1 = (0..10).toList()
+            val items2 = (11..50).toList()
+            val scrollState = SelectableLazyListState(LazyListState())
+            composeRule.setContent {
+                Box(modifier = Modifier.requiredHeight(100.dp)) {
+                    SelectableLazyColumn(state = scrollState) {
+                        items(items1.size, key = { items1[it] }) {
+                            val itemText = "Item ${items1[it]}"
+                            BasicText(itemText, modifier = Modifier.testTag(itemText))
+                        }
 
-                    items(
-                        items2.size,
-                        key = {
-                            items2[it]
-                        },
-                    ) {
-                        val itemText = "Item ${items2[it]}"
-                        BasicText(itemText, modifier = Modifier.testTag(itemText))
+                        items(items2.size, key = { items2[it] }) {
+                            val itemText = "Item ${items2[it]}"
+                            BasicText(itemText, modifier = Modifier.testTag(itemText))
+                        }
                     }
                 }
             }
+            composeRule.awaitIdle()
+            composeRule.onNodeWithTag("Item 20").assertDoesNotExist()
+            scrollState.scrollToItem(20)
+            composeRule.onNodeWithTag("Item 20").assertExists()
         }
-        composeRule.awaitIdle()
-        composeRule.onNodeWithTag("Item 20").assertDoesNotExist()
-        scrollState.scrollToItem(20)
-        composeRule.onNodeWithTag("Item 20").assertExists()
-    }
 
     @OptIn(ExperimentalTestApi::class)
     @Test
@@ -71,12 +60,7 @@ internal class SelectableLazyColumnTest {
         composeRule.setContent {
             Box(modifier = Modifier.requiredHeight(300.dp)) {
                 SelectableLazyColumn(state = state, modifier = Modifier.testTag("list")) {
-                    items(
-                        items.size,
-                        key = {
-                            items[it]
-                        },
-                    ) {
+                    items(items.size, key = { items[it] }) {
                         val itemText = "Item ${items[it]}"
                         BasicText(itemText, modifier = Modifier.testTag(itemText))
                     }
@@ -94,9 +78,7 @@ internal class SelectableLazyColumnTest {
 
         // press arrow up and check that selected key is changed
         repeat(20) { step ->
-            composeRule.onNodeWithTag("list").performKeyInput {
-                pressKey(Key.DirectionUp)
-            }
+            composeRule.onNodeWithTag("list").performKeyInput { pressKey(Key.DirectionUp) }
 
             // check that previous element is selected
             // when started from 5th element
@@ -105,15 +87,14 @@ internal class SelectableLazyColumnTest {
             assertEquals(items[expectedSelectedIndex], state.selectedKeys.single())
         }
 
-        // since amount of arrow up is bigger than amount of items -> first element should be selected
+        // since amount of arrow up is bigger than amount of items -> first element should be
+        // selected
         assertTrue(state.selectedKeys.size == 1)
         assertEquals(items[0], state.selectedKeys.single())
 
         // press arrow down and check that selected key is changed
         repeat(40) { step ->
-            composeRule.onNodeWithTag("list").performKeyInput {
-                pressKey(Key.DirectionDown)
-            }
+            composeRule.onNodeWithTag("list").performKeyInput { pressKey(Key.DirectionDown) }
 
             // check that next element is selected
             assertTrue(state.selectedKeys.size == 1)
@@ -121,7 +102,8 @@ internal class SelectableLazyColumnTest {
             assertEquals(items[expectedSelectedIndex], state.selectedKeys.single())
         }
 
-        // since amount of arrow down is bigger than amount of items -> last element should be selected
+        // since amount of arrow down is bigger than amount of items -> last element should be
+        // selected
         assertTrue(state.selectedKeys.size == 1)
         assertEquals(items.last(), state.selectedKeys.single())
     }
@@ -134,12 +116,7 @@ internal class SelectableLazyColumnTest {
         composeRule.setContent {
             Box(modifier = Modifier.requiredHeight(300.dp)) {
                 SelectableLazyColumn(state = state, modifier = Modifier.testTag("list")) {
-                    items(
-                        items.size,
-                        key = {
-                            items[it]
-                        },
-                    ) {
+                    items(items.size, key = { items[it] }) {
                         val itemText = "Item ${items[it]}"
                         BasicText(itemText, modifier = Modifier.testTag(itemText))
                     }
@@ -158,9 +135,7 @@ internal class SelectableLazyColumnTest {
         // press arrow up with pressed Shift and check that selected keys are changed
         repeat(20) { step ->
             composeRule.onNodeWithTag("list").performKeyInput {
-                withKeyDown(Key.ShiftLeft) {
-                    pressKey(Key.DirectionUp)
-                }
+                withKeyDown(Key.ShiftLeft) { pressKey(Key.DirectionUp) }
             }
 
             // check that previous element is added to selection
@@ -182,9 +157,7 @@ internal class SelectableLazyColumnTest {
         // press arrow down with pressed Shift and check that selected keys are changed
         repeat(20) { step ->
             composeRule.onNodeWithTag("list").performKeyInput {
-                withKeyDown(Key.ShiftLeft) {
-                    pressKey(Key.DirectionDown)
-                }
+                withKeyDown(Key.ShiftLeft) { pressKey(Key.DirectionDown) }
             }
 
             // check that next element is added to selection
@@ -207,12 +180,7 @@ internal class SelectableLazyColumnTest {
         composeRule.setContent {
             Box(modifier = Modifier.requiredHeight(300.dp)) {
                 SelectableLazyColumn(state = state, modifier = Modifier.testTag("list")) {
-                    items(
-                        items.size,
-                        key = {
-                            items[it]
-                        },
-                    ) {
+                    items(items.size, key = { items[it] }) {
                         val itemText = "Item ${items[it]}"
                         BasicText(itemText, modifier = Modifier.testTag(itemText))
                     }
@@ -229,11 +197,7 @@ internal class SelectableLazyColumnTest {
         assertEquals(items[5], state.selectedKeys.single())
 
         // perform home with shift, so all items until 5th should be selected
-        composeRule.onNodeWithTag("list").performKeyInput {
-            withKeyDown(Key.ShiftLeft) {
-                pressKey(Key.MoveHome)
-            }
-        }
+        composeRule.onNodeWithTag("list").performKeyInput { withKeyDown(Key.ShiftLeft) { pressKey(Key.MoveHome) } }
         val expectedElementsAfterPageUp = items.subList(0, 6)
         assertEquals(expectedElementsAfterPageUp.size, state.selectedKeys.size)
         assertEquals(expectedElementsAfterPageUp.toSet(), state.selectedKeys.toSet())
@@ -247,11 +211,7 @@ internal class SelectableLazyColumnTest {
         assertEquals(items[5], state.selectedKeys.single())
 
         // perform end with shift, so all items after 5th should be selected
-        composeRule.onNodeWithTag("list").performKeyInput {
-            withKeyDown(Key.ShiftLeft) {
-                pressKey(Key.MoveEnd)
-            }
-        }
+        composeRule.onNodeWithTag("list").performKeyInput { withKeyDown(Key.ShiftLeft) { pressKey(Key.MoveEnd) } }
         val expectedElementsAfterPageDown = items.subList(5, items.lastIndex + 1)
         assertEquals(expectedElementsAfterPageDown.size, state.selectedKeys.size)
         assertEquals(expectedElementsAfterPageDown.toSet(), state.selectedKeys.toSet())
@@ -267,12 +227,7 @@ internal class SelectableLazyColumnTest {
             Box(modifier = Modifier.requiredHeight(300.dp)) {
                 val items = currentItems.value
                 SelectableLazyColumn(state = state, modifier = Modifier.testTag("list")) {
-                    items(
-                        items.size,
-                        key = {
-                            items[it]
-                        },
-                    ) {
+                    items(items.size, key = { items[it] }) {
                         val itemText = "Item ${items[it]}"
                         BasicText(itemText, modifier = Modifier.testTag(itemText))
                     }

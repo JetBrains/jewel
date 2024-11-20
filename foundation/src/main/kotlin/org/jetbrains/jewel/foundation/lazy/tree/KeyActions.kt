@@ -8,6 +8,7 @@ import androidx.compose.ui.input.pointer.isCtrlPressed
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.jewel.foundation.InternalJewelApi
 import org.jetbrains.jewel.foundation.lazy.DefaultMacOsSelectableColumnKeybindings
 import org.jetbrains.jewel.foundation.lazy.DefaultSelectableColumnKeybindings
 import org.jetbrains.jewel.foundation.lazy.DefaultSelectableOnKeyEvent
@@ -19,7 +20,6 @@ import org.jetbrains.jewel.foundation.lazy.SelectionMode
 import org.jetbrains.skiko.hostOs
 
 public interface KeyActions {
-
     public val keybindings: SelectableColumnKeybindings
     public val actions: SelectableColumnOnKeyEvent
 
@@ -32,7 +32,6 @@ public interface KeyActions {
 }
 
 public interface PointerEventActions {
-
     public fun handlePointerEventPress(
         pointerEvent: PointerEvent,
         keybindings: SelectableColumnKeybindings,
@@ -58,7 +57,6 @@ public interface PointerEventActions {
 }
 
 public open class DefaultSelectableLazyColumnEventAction : PointerEventActions {
-
     override fun handlePointerEventPress(
         pointerEvent: PointerEvent,
         keybindings: SelectableColumnKeybindings,
@@ -132,8 +130,7 @@ public open class DefaultSelectableLazyColumnEventAction : PointerEventActions {
                 for (i in indexInterval) {
                     val currentKey = allKeys[i]
                     if (
-                        currentKey is SelectableLazyListKey.Selectable &&
-                        !state.selectedKeys.contains(allKeys[i].key)
+                        currentKey is SelectableLazyListKey.Selectable && !state.selectedKeys.contains(allKeys[i].key)
                     ) {
                         add(currentKey.key)
                     }
@@ -145,10 +142,8 @@ public open class DefaultSelectableLazyColumnEventAction : PointerEventActions {
     }
 }
 
-public class DefaultTreeViewPointerEventAction(
-    private val treeState: TreeState,
-) : DefaultSelectableLazyColumnEventAction() {
-
+public open class DefaultTreeViewPointerEventAction(private val treeState: TreeState) :
+    DefaultSelectableLazyColumnEventAction() {
     override fun handlePointerEventPress(
         pointerEvent: PointerEvent,
         keybindings: SelectableColumnKeybindings,
@@ -160,8 +155,7 @@ public class DefaultTreeViewPointerEventAction(
         with(keybindings) {
             when {
                 pointerEvent.keyboardModifiers.isContiguousSelectionKeyPressed &&
-                    pointerEvent.keyboardModifiers.isCtrlPressed -> {
-                }
+                    pointerEvent.keyboardModifiers.isCtrlPressed -> {}
 
                 pointerEvent.keyboardModifiers.isContiguousSelectionKeyPressed -> {
                     super.onExtendSelectionToKey(key, allKeys, selectableLazyListState, selectionMode)
@@ -183,7 +177,8 @@ public class DefaultTreeViewPointerEventAction(
     // for item click that lose focus and fail to match if a operation is a double-click
     private var elementClickedTmpHolder: Any? = null
 
-    internal fun <T> notifyItemClicked(
+    @InternalJewelApi
+    public fun <T> notifyItemClicked(
         item: Tree.Element<T>,
         scope: CoroutineScope,
         doubleClickTimeDelayMillis: Long,
@@ -210,10 +205,11 @@ public class DefaultTreeViewPointerEventAction(
 }
 
 public fun DefaultTreeViewKeyActions(treeState: TreeState): DefaultTreeViewKeyActions {
-    val keybindings = when {
-        hostOs.isMacOS -> DefaultMacOsTreeColumnKeybindings
-        else -> DefaultTreeViewKeybindings
-    }
+    val keybindings =
+        when {
+            hostOs.isMacOS -> DefaultMacOsTreeColumnKeybindings
+            else -> DefaultTreeViewKeybindings
+        }
     return DefaultTreeViewKeyActions(keybindings, DefaultTreeViewOnKeyEvent(keybindings, treeState))
 }
 
@@ -221,7 +217,6 @@ public class DefaultTreeViewKeyActions(
     override val keybindings: TreeViewKeybindings,
     override val actions: DefaultTreeViewOnKeyEvent,
 ) : DefaultSelectableLazyColumnKeyActions(keybindings, actions) {
-
     override fun handleOnKeyEvent(
         event: KeyEvent,
         keys: List<SelectableLazyListKey>,
@@ -236,8 +231,7 @@ public class DefaultTreeViewKeyActions(
                 when {
                     isSelectParent -> onSelectParent(keys, state)
                     isSelectChild -> onSelectChild(keys, state)
-                    super.handleOnKeyEvent(event, keys, state, selectionMode).invoke(keyEvent) ->
-                        return@lambda true
+                    super.handleOnKeyEvent(event, keys, state, selectionMode).invoke(keyEvent) -> return@lambda true
 
                     else -> return@lambda false
                 }
@@ -251,13 +245,13 @@ public open class DefaultSelectableLazyColumnKeyActions(
     override val keybindings: SelectableColumnKeybindings,
     override val actions: SelectableColumnOnKeyEvent = DefaultSelectableOnKeyEvent(keybindings),
 ) : KeyActions {
-
-    public companion object : DefaultSelectableLazyColumnKeyActions(
-        when {
-            hostOs.isMacOS -> DefaultMacOsSelectableColumnKeybindings
-            else -> DefaultSelectableColumnKeybindings
-        },
-    )
+    public companion object :
+        DefaultSelectableLazyColumnKeyActions(
+            when {
+                hostOs.isMacOS -> DefaultMacOsSelectableColumnKeybindings
+                else -> DefaultSelectableColumnKeybindings
+            }
+        )
 
     override fun handleOnKeyEvent(
         event: KeyEvent,

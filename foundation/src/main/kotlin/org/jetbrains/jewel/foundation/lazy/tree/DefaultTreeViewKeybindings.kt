@@ -12,7 +12,6 @@ import org.jetbrains.jewel.foundation.lazy.SelectableColumnKeybindings
 import org.jetbrains.skiko.hostOs
 
 public open class DefaultTreeViewKeybindings : DefaultSelectableColumnKeybindings(), TreeViewKeybindings {
-
     public companion object : DefaultTreeViewKeybindings()
 
     override val KeyEvent.isSelectParent: Boolean
@@ -38,35 +37,22 @@ public open class DefaultTreeViewKeybindings : DefaultSelectableColumnKeybinding
 }
 
 public interface TreeViewKeybindings : SelectableColumnKeybindings {
-
-    /**
-     * Select Parent Node.
-     */
+    /** Select Parent Node. */
     public val KeyEvent.isSelectParent: Boolean
 
-    /**
-     * Extend Selection to Parent Node inherited from Left with Selection.
-     */
+    /** Extend Selection to Parent Node inherited from Left with Selection. */
     public val KeyEvent.isExtendSelectionToParent: Boolean
 
-    /**
-     * Select Child Node inherited from Right.
-     */
+    /** Select Child Node inherited from Right. */
     public val KeyEvent.isSelectChild: Boolean
 
-    /**
-     * Extend Selection to Child Node inherited from Right with Selection.
-     */
+    /** Extend Selection to Child Node inherited from Right with Selection. */
     public val KeyEvent.isExtendSelectionToChild: Boolean
 
-    /**
-     * Select Next Sibling Node.
-     */
+    /** Select Next Sibling Node. */
     public val KeyEvent.isSelectNextSibling: Boolean
 
-    /**
-     * Select Previous Sibling Node.
-     */
+    /** Select Previous Sibling Node. */
     public val KeyEvent.isSelectPreviousSibling: Boolean
 }
 

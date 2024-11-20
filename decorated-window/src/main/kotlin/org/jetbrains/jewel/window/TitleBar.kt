@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import java.awt.Window
+import kotlin.math.max
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
@@ -47,8 +49,6 @@ import org.jetbrains.jewel.ui.util.isDark
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 import org.jetbrains.jewel.window.utils.DesktopPlatform
 import org.jetbrains.jewel.window.utils.macos.MacUtil
-import java.awt.Window
-import kotlin.math.max
 
 internal const val TITLE_BAR_COMPONENT_LAYOUT_ID_PREFIX = "__TITLE_BAR_"
 
@@ -85,21 +85,22 @@ internal fun DecoratedWindowScope.TitleBarImpl(
 
     val density = LocalDensity.current
 
-    val backgroundBrush = remember(background, gradientStartColor) {
-        if (gradientStartColor.isUnspecified) {
-            SolidColor(background)
-        } else {
-            with(density) {
-                Brush.horizontalGradient(
-                    0.0f to background,
-                    0.5f to gradientStartColor,
-                    1.0f to background,
-                    startX = style.metrics.gradientStartX.toPx(),
-                    endX = style.metrics.gradientEndX.toPx(),
-                )
+    val backgroundBrush =
+        remember(background, gradientStartColor) {
+            if (gradientStartColor.isUnspecified) {
+                SolidColor(background)
+            } else {
+                with(density) {
+                    Brush.horizontalGradient(
+                        0.0f to background,
+                        0.5f to gradientStartColor,
+                        1.0f to background,
+                        startX = style.metrics.gradientStartX.toPx(),
+                        endX = style.metrics.gradientEndX.toPx(),
+                    )
+                }
             }
         }
-    }
 
     Layout(
         content = {
@@ -114,25 +115,18 @@ internal fun DecoratedWindowScope.TitleBarImpl(
                 }
             }
         },
-        modifier = modifier.background(backgroundBrush)
-            .focusProperties { canFocus = false }
-            .layoutId(TITLE_BAR_LAYOUT_ID)
-            .height(style.metrics.height)
-            .onSizeChanged { with(density) { applyTitleBar(it.height.toDp(), state) } }
-            .fillMaxWidth(),
-        measurePolicy = rememberTitleBarMeasurePolicy(
-            window,
-            state,
-            applyTitleBar,
-        ),
+        modifier =
+            modifier
+                .background(backgroundBrush)
+                .focusProperties { canFocus = false }
+                .layoutId(TITLE_BAR_LAYOUT_ID)
+                .height(style.metrics.height)
+                .onSizeChanged { with(density) { applyTitleBar(it.height.toDp(), state) } }
+                .fillMaxWidth(),
+        measurePolicy = rememberTitleBarMeasurePolicy(window, state, applyTitleBar),
     )
 
-    Spacer(
-        Modifier.layoutId(TITLE_BAR_BORDER_LAYOUT_ID)
-            .height(1.dp)
-            .fillMaxWidth()
-            .background(style.colors.border),
-    )
+    Spacer(Modifier.layoutId(TITLE_BAR_BORDER_LAYOUT_ID).height(1.dp).fillMaxWidth().background(style.colors.border))
 }
 
 internal class TitleBarMeasurePolicy(
@@ -140,7 +134,6 @@ internal class TitleBarMeasurePolicy(
     private val state: DecoratedWindowState,
     private val applyTitleBar: (Dp, DecoratedWindowState) -> PaddingValues,
 ) : MeasurePolicy {
-
     override fun MeasureScope.measure(measurables: List<Measurable>, constraints: Constraints): MeasureResult {
         if (measurables.isEmpty()) {
             return layout(width = constraints.minWidth, height = constraints.minHeight) {}
@@ -231,41 +224,32 @@ internal fun rememberTitleBarMeasurePolicy(
     window: Window,
     state: DecoratedWindowState,
     applyTitleBar: (Dp, DecoratedWindowState) -> PaddingValues,
-): MeasurePolicy =
-    remember(window, state, applyTitleBar) {
-        TitleBarMeasurePolicy(window, state, applyTitleBar)
-    }
+): MeasurePolicy = remember(window, state, applyTitleBar) { TitleBarMeasurePolicy(window, state, applyTitleBar) }
 
 public interface TitleBarScope {
-
     public val title: String
 
     public val icon: Painter?
 
-    @Stable
-    public fun Modifier.align(alignment: Alignment.Horizontal): Modifier
+    @Stable public fun Modifier.align(alignment: Alignment.Horizontal): Modifier
 }
 
-private class TitleBarScopeImpl(
-    override val title: String,
-    override val icon: Painter?,
-) : TitleBarScope {
-
+private class TitleBarScopeImpl(override val title: String, override val icon: Painter?) : TitleBarScope {
     override fun Modifier.align(alignment: Alignment.Horizontal): Modifier =
-        this then TitleBarChildDataElement(
-            alignment,
-            debugInspectorInfo {
-                name = "align"
-                value = alignment
-            },
-        )
+        this then
+            TitleBarChildDataElement(
+                alignment,
+                debugInspectorInfo {
+                    name = "align"
+                    value = alignment
+                },
+            )
 }
 
 private class TitleBarChildDataElement(
     val horizontalAlignment: Alignment.Horizontal,
     val inspectorInfo: InspectorInfo.() -> Unit = NoInspectorInfo,
 ) : ModifierNodeElement<TitleBarChildDataNode>(), InspectableValue {
-
     override fun create(): TitleBarChildDataNode = TitleBarChildDataNode(horizontalAlignment)
 
     override fun equals(other: Any?): Boolean {
@@ -285,10 +269,7 @@ private class TitleBarChildDataElement(
     }
 }
 
-private class TitleBarChildDataNode(
-    var horizontalAlignment: Alignment.Horizontal,
-) : ParentDataModifierNode, Modifier.Node() {
-
-    override fun Density.modifyParentData(parentData: Any?) =
-        this@TitleBarChildDataNode
+private class TitleBarChildDataNode(var horizontalAlignment: Alignment.Horizontal) :
+    ParentDataModifierNode, Modifier.Node() {
+    override fun Density.modifyParentData(parentData: Any?) = this@TitleBarChildDataNode
 }
