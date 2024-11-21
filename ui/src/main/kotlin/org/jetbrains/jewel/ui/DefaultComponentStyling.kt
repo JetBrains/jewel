@@ -71,7 +71,6 @@ public class DefaultComponentStyling(
     public val circularProgressStyle: CircularProgressStyle,
     public val defaultBannerStyle: DefaultBannerStyles,
     public val comboBoxStyle: ComboBoxStyle,
-    public val defaultBannerStyle: BannerStyle,
     public val defaultButtonStyle: ButtonStyle,
     public val defaultDropdownStyle: DropdownStyle,
     public val defaultTabStyle: TabStyle,
