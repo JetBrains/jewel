@@ -1,0 +1,24 @@
+package org.jetbrains.jewel.bridge.theme
+
+import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
+import com.intellij.util.ui.JBUI
+import org.jetbrains.jewel.bridge.dp
+import org.jetbrains.jewel.bridge.toComposeColor
+import org.jetbrains.jewel.ui.component.styling.BannerColors
+import org.jetbrains.jewel.ui.component.styling.BannerMetrics
+import org.jetbrains.jewel.ui.component.styling.DefaultBannerStyle
+import org.jetbrains.jewel.ui.component.styling.DefaultBannerStyles
+
+internal fun readDefaultBannerStyle(): DefaultBannerStyles = DefaultBannerStyles(
+    information =
+        DefaultBannerStyle(
+            colors =
+                BannerColors(
+                    background = JBUI.CurrentTheme.Banner.INFO_BACKGROUND.toComposeColor(),
+                    border = JBUI.CurrentTheme.Banner.INFO_BORDER_COLOR.toComposeColor(),
+                    content = JBUI.CurrentTheme.Banner.FOREGROUND.toComposeColor(),
+                    foreground = JBUI.CurrentTheme.Banner.FOREGROUND.toComposeColor(),
+                ),
+            metrics = BannerMetrics(borderWidth = DarculaUIUtil.LW.dp),
+        )
+)

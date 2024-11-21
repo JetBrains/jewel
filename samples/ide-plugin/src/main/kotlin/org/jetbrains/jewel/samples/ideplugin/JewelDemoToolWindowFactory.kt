@@ -7,7 +7,6 @@ import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.util.NlsContexts.TabTitle
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
-import javax.swing.JComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,12 +14,14 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import org.jetbrains.jewel.bridge.addComposeTab
 import org.jetbrains.jewel.samples.ideplugin.releasessample.ReleasesSampleCompose
+import javax.swing.JComponent
 
 @Suppress("unused")
 @ExperimentalCoroutinesApi
 internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         toolWindow.addComposeTab("Components") { ComponentShowcaseTab(project) }
+        toolWindow.addSwingTab(ComponenteShowcaseTab2(), "More Components")
 
         toolWindow.addComposeTab("Releases Demo") { ReleasesSampleCompose(project) }
 

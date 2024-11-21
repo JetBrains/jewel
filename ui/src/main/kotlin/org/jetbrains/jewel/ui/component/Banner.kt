@@ -25,7 +25,7 @@ import org.jetbrains.jewel.ui.theme.defaultBannerStyle
 public fun InformationBanner(
     text: String,
     modifier: Modifier = Modifier,
-    icon: (@Composable () -> Unit)? = { Icon(AllIconsKeys.General.Information, null) },
+    icon: (@Composable () -> Unit)? = { Icon(AllIconsKeys.General.BalloonInformation, null) },
     actions: (@Composable RowScope.() -> Unit)? = null,
     style: DefaultBannerStyle = JewelTheme.defaultBannerStyle.information,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
