@@ -52,7 +52,8 @@ private fun BannerImpl(
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = text, style = textStyle)
             Spacer(modifier = Modifier.weight(1f))
-            actions?.invoke(this) // TODO: add proper implementation once we have more https://github.com/JetBrains/jewel/issues/686
+            actions?.invoke(this) // TODO: add proper implementation once we have more
+            // https://github.com/JetBrains/jewel/issues/686
         }
         Divider(orientation = Orientation.Horizontal, color = style.colors.border)
     }
