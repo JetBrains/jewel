@@ -11,8 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.ErrorBanner
 import org.jetbrains.jewel.ui.component.InformationBanner
 import org.jetbrains.jewel.ui.component.SuccessBanner
+import org.jetbrains.jewel.ui.component.WarningBanner
 import org.jetbrains.jewel.ui.theme.defaultBannerStyle
 
 @Composable
@@ -25,6 +27,16 @@ internal fun Banners() {
         Spacer(modifier = Modifier.height(8.dp))
         SuccessBanner(
             style = JewelTheme.defaultBannerStyle.success,
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        WarningBanner(
+            style = JewelTheme.defaultBannerStyle.warning,
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        ErrorBanner(
+            style = JewelTheme.defaultBannerStyle.error,
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
         )
     }
