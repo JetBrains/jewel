@@ -11,10 +11,10 @@ import org.jetbrains.jewel.foundation.GenerateDataFunctions
 @Stable
 @GenerateDataFunctions
 public class DefaultBannerStyles(
-    public val information: DefaultBannerStyle
+    public val information: DefaultBannerStyle,
+    public val success: DefaultBannerStyle,
     //    public val warning: DefaultBannerStyle,
     //    public val error: DefaultBannerStyle,
-    //    public val success: DefaultBannerStyle,
 ) {
     public companion object
 }
@@ -29,9 +29,7 @@ public class DefaultBannerStyle(public val colors: BannerColors, public val metr
 @GenerateDataFunctions
 public class BannerColors(
     public val background: Color,
-    public val content: Color,
     public val border: Color,
-    public val foreground: Color,
 ) {
     public companion object
 }

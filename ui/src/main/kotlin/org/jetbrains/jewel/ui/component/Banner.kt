@@ -34,6 +34,18 @@ public fun InformationBanner(
 }
 
 @Composable
+public fun SuccessBanner(
+    text: String,
+    modifier: Modifier = Modifier,
+    icon: (@Composable () -> Unit)? = { Icon(AllIconsKeys.Debugger.ThreadStates.Idle, null) },
+    actions: (@Composable RowScope.() -> Unit)? = null,
+    style: DefaultBannerStyle = JewelTheme.defaultBannerStyle.success,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
+) {
+    BannerImpl(text = text, style = style, textStyle = textStyle, icon = icon, actions = actions, modifier = modifier)
+}
+
+@Composable
 private fun BannerImpl(
     text: String,
     style: DefaultBannerStyle,

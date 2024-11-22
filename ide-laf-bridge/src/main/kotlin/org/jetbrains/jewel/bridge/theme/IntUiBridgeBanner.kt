@@ -17,9 +17,16 @@ internal fun readDefaultBannerStyle(): DefaultBannerStyles =
                     BannerColors(
                         background = JBUI.CurrentTheme.Banner.INFO_BACKGROUND.toComposeColor(),
                         border = JBUI.CurrentTheme.Banner.INFO_BORDER_COLOR.toComposeColor(),
-                        content = JBUI.CurrentTheme.Banner.FOREGROUND.toComposeColor(),
-                        foreground = JBUI.CurrentTheme.Banner.FOREGROUND.toComposeColor(),
                     ),
                 metrics = BannerMetrics(borderWidth = DarculaUIUtil.LW.dp),
-            )
+            ),
+        success =
+            DefaultBannerStyle(
+                colors =
+                    BannerColors(
+                        background = JBUI.CurrentTheme.Banner.SUCCESS_BACKGROUND.toComposeColor(),
+                        border = JBUI.CurrentTheme.Banner.SUCCESS_BORDER_COLOR.toComposeColor(),
+                    ),
+                metrics = BannerMetrics(borderWidth = DarculaUIUtil.LW.dp),
+            ),
     )
