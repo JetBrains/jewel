@@ -28,67 +28,77 @@ public object IntUiDefaultBannerStylesFactory {
     ): DefaultBannerStyles = DefaultBannerStyles(information = information, success = success)
 }
 
+public fun BannerMetrics.Companion.default(borderWidth: Dp = 1.dp): BannerMetrics = BannerMetrics(borderWidth)
+
+// region Information Banner
 public val DefaultBannerStyle.Companion.Information: IntUiDefaultInformationBannerStyleFactory
     get() = IntUiDefaultInformationBannerStyleFactory
 
 public object IntUiDefaultInformationBannerStyleFactory {
     @Composable
     public fun light(
-        colors: BannerColors = BannerColors.Default.informationLight(),
+        colors: BannerColors = BannerColors.Information.light(),
         metrics: BannerMetrics = BannerMetrics.default(),
     ): DefaultBannerStyle = DefaultBannerStyle(colors = colors, metrics = metrics)
 
     @Composable
     public fun dark(
-        colors: BannerColors = BannerColors.Default.informationDark(),
+        colors: BannerColors = BannerColors.Information.dark(),
         metrics: BannerMetrics = BannerMetrics.default(),
     ): DefaultBannerStyle = DefaultBannerStyle(colors = colors, metrics = metrics)
 }
 
+public val BannerColors.Companion.Information: IntUiDefaultInformationBannerColorFactory
+    get() = IntUiDefaultInformationBannerColorFactory
+
+public object IntUiDefaultInformationBannerColorFactory {
+    @Composable
+    public fun light(
+        background: Color = IntUiLightTheme.colors.blue(13),
+        border: Color = IntUiLightTheme.colors.blue(10),
+    ): BannerColors = BannerColors(background = background, border = border)
+
+    @Composable
+    public fun dark(
+        background: Color = IntUiDarkTheme.colors.blue(1),
+        border: Color = IntUiDarkTheme.colors.blue(3),
+    ): BannerColors = BannerColors(background = background, border = border)
+}
+
+// endregion
+
+// region Success Banner
 public val DefaultBannerStyle.Companion.Success: IntUiDefaultSuccessBannerStyleFactory
     get() = IntUiDefaultSuccessBannerStyleFactory
 
 public object IntUiDefaultSuccessBannerStyleFactory {
     @Composable
     public fun light(
-        colors: BannerColors = BannerColors.Default.successLight(),
+        colors: BannerColors = BannerColors.Success.light(),
         metrics: BannerMetrics = BannerMetrics.default(),
     ): DefaultBannerStyle = DefaultBannerStyle(colors = colors, metrics = metrics)
 
     @Composable
     public fun dark(
-        colors: BannerColors = BannerColors.Default.successDark(),
+        colors: BannerColors = BannerColors.Success.dark(),
         metrics: BannerMetrics = BannerMetrics.default(),
     ): DefaultBannerStyle = DefaultBannerStyle(colors = colors, metrics = metrics)
 }
 
-public fun BannerMetrics.Companion.default(borderWidth: Dp = 1.dp): BannerMetrics = BannerMetrics(borderWidth)
+public val BannerColors.Companion.Success: IntUiDefaultSuccessBannerColorFactory
+    get() = IntUiDefaultSuccessBannerColorFactory
 
-public val BannerColors.Companion.Default: IntUiDefaultBannerColorFactory
-    get() = IntUiDefaultBannerColorFactory
-
-public object IntUiDefaultBannerColorFactory {
+public object IntUiDefaultSuccessBannerColorFactory {
     @Composable
-    public fun informationLight(
-        background: Color = IntUiLightTheme.colors.blue(13),
-        border: Color = IntUiLightTheme.colors.blue(10),
-    ): BannerColors = BannerColors(background = background, border = border)
-
-    @Composable
-    public fun informationDark(
-        background: Color = IntUiDarkTheme.colors.blue(1),
-        border: Color = IntUiDarkTheme.colors.blue(3),
-    ): BannerColors = BannerColors(background = background, border = border)
-
-    @Composable
-    public fun successLight(
+    public fun light(
         background: Color = IntUiLightTheme.colors.green(11),
         border: Color = IntUiLightTheme.colors.green(9),
     ): BannerColors = BannerColors(background = background, border = border)
 
     @Composable
-    public fun successDark(
+    public fun dark(
         background: Color = IntUiDarkTheme.colors.green(1),
         border: Color = IntUiDarkTheme.colors.green(3),
     ): BannerColors = BannerColors(background = background, border = border)
 }
+// endregion
