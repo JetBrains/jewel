@@ -330,11 +330,6 @@ public final class org/jetbrains/jewel/markdown/processing/MarkdownProcessor {
 	public final fun processMarkdownDocument (Ljava/lang/String;)Ljava/util/List;
 }
 
-public final class org/jetbrains/jewel/markdown/rendering/AutoScrollingUtilKt {
-	public static final fun AutoScrollableBlock (Lorg/jetbrains/jewel/markdown/MarkdownBlock;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
-	public static final fun AutoScrollableText-JAgEBs0 (Lorg/jetbrains/jewel/markdown/MarkdownBlock;Landroidx/compose/ui/text/AnnotatedString;Landroidx/compose/ui/Modifier;JJLandroidx/compose/ui/text/font/FontStyle;Landroidx/compose/ui/text/font/FontWeight;Landroidx/compose/ui/text/font/FontFamily;JLandroidx/compose/ui/text/style/TextDecoration;IJIZILjava/util/Map;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/runtime/Composer;III)V
-}
-
 public class org/jetbrains/jewel/markdown/rendering/DefaultInlineMarkdownRenderer : org/jetbrains/jewel/markdown/rendering/InlineMarkdownRenderer {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/markdown/rendering/DefaultInlineMarkdownRenderer$Companion;
@@ -349,6 +344,7 @@ public class org/jetbrains/jewel/markdown/rendering/DefaultMarkdownBlockRenderer
 	public static final field $stable I
 	public fun <init> (Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling;Ljava/util/List;Lorg/jetbrains/jewel/markdown/rendering/InlineMarkdownRenderer;)V
 	public synthetic fun <init> (Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling;Ljava/util/List;Lorg/jetbrains/jewel/markdown/rendering/InlineMarkdownRenderer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	protected final fun MaybeScrollingContainer (ZLandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 	public fun render (Ljava/util/List;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$BlockQuote;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$BlockQuote;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$FencedCodeBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Fenced;Landroidx/compose/runtime/Composer;I)V
@@ -363,6 +359,7 @@ public class org/jetbrains/jewel/markdown/rendering/DefaultMarkdownBlockRenderer
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$ListItem;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$Paragraph;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Paragraph;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+	public fun render-EWr_ITI (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$FencedCodeBlock;Ljava/lang/String;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Fenced;Landroidx/compose/runtime/Composer;I)V
 	public fun renderThematicBreak (Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$ThematicBreak;Landroidx/compose/runtime/Composer;I)V
 }
 
@@ -779,6 +776,19 @@ public abstract interface class org/jetbrains/jewel/markdown/rendering/WithUnder
 	public abstract fun getUnderlineColor-0d7_KjU ()J
 	public abstract fun getUnderlineGap-D9Ej5fM ()F
 	public abstract fun getUnderlineWidth-D9Ej5fM ()F
+}
+
+public final class org/jetbrains/jewel/markdown/scrolling/AutoScrollingUtilKt {
+	public static final fun AutoScrollableBlock (Lorg/jetbrains/jewel/markdown/MarkdownBlock;Lorg/jetbrains/jewel/markdown/scrolling/ScrollingSynchronizer;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+
+public class org/jetbrains/jewel/markdown/scrolling/ScrollSyncMarkdownBlockRenderer : org/jetbrains/jewel/markdown/rendering/DefaultMarkdownBlockRenderer {
+	public static final field $stable I
+	public fun <init> (Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling;Ljava/util/List;Lorg/jetbrains/jewel/markdown/rendering/InlineMarkdownRenderer;)V
+	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$IndentedCodeBlock;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Indented;Landroidx/compose/runtime/Composer;I)V
+	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$Heading;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Heading$HN;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+	public fun render (Lorg/jetbrains/jewel/markdown/MarkdownBlock$Paragraph;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Paragraph;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+	public fun render-EWr_ITI (Lorg/jetbrains/jewel/markdown/MarkdownBlock$CodeBlock$FencedCodeBlock;Ljava/lang/String;Lorg/jetbrains/jewel/markdown/rendering/MarkdownStyling$Code$Fenced;Landroidx/compose/runtime/Composer;I)V
 }
 
 public abstract class org/jetbrains/jewel/markdown/scrolling/ScrollingSynchronizer {

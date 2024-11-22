@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.takeOrElse
@@ -22,7 +23,6 @@ import org.jetbrains.jewel.markdown.extensions.github.alerts.Alert.Important
 import org.jetbrains.jewel.markdown.extensions.github.alerts.Alert.Note
 import org.jetbrains.jewel.markdown.extensions.github.alerts.Alert.Tip
 import org.jetbrains.jewel.markdown.extensions.github.alerts.Alert.Warning
-import org.jetbrains.jewel.markdown.rendering.AutoScrollableBlock
 import org.jetbrains.jewel.markdown.rendering.InlineMarkdownRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
@@ -66,55 +66,49 @@ public class GitHubAlertBlockRenderer(private val styling: AlertStyling, private
         onUrlClick: (String) -> Unit,
         onTextClick: () -> Unit,
     ) {
-        AutoScrollableBlock(block) { modifier ->
-            Column(
-                modifier
-                    .drawBehind {
-                        val isLtr = layoutDirection == Ltr
-                        val lineWidthPx = styling.lineWidth.toPx()
-                        val x = if (isLtr) lineWidthPx / 2 else size.width - lineWidthPx / 2
+        Column(
+            Modifier.drawBehind {
+                    val isLtr = layoutDirection == Ltr
+                    val lineWidthPx = styling.lineWidth.toPx()
+                    val x = if (isLtr) lineWidthPx / 2 else size.width - lineWidthPx / 2
 
-                        drawLine(
-                            color = styling.lineColor,
-                            start = Offset(x, 0f),
-                            end = Offset(x, size.height),
-                            strokeWidth = lineWidthPx,
-                            cap = styling.strokeCap,
-                            pathEffect = styling.pathEffect,
-                        )
-                    }
-                    .padding(styling.padding),
-                verticalArrangement = Arrangement.spacedBy(rootStyling.blockVerticalSpacing),
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    val titleIconKey = styling.titleIconKey
-                    if (titleIconKey != null) {
-                        Icon(
-                            key = titleIconKey,
-                            contentDescription = null,
-                            iconClass = AlertStyling::class.java,
-                            tint = styling.titleIconTint,
-                        )
-                    }
-
-                    CompositionLocalProvider(
-                        LocalContentColor provides styling.titleTextStyle.color.takeOrElse { LocalContentColor.current }
-                    ) {
-                        Text(
-                            text = block.javaClass.simpleName,
-                            style = styling.titleTextStyle,
-                            modifier = modifier.pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
-                        )
-                    }
+                    drawLine(
+                        color = styling.lineColor,
+                        start = Offset(x, 0f),
+                        end = Offset(x, size.height),
+                        strokeWidth = lineWidthPx,
+                        cap = styling.strokeCap,
+                        pathEffect = styling.pathEffect,
+                    )
                 }
+                .padding(styling.padding),
+            verticalArrangement = Arrangement.spacedBy(rootStyling.blockVerticalSpacing),
+        ) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                val titleIconKey = styling.titleIconKey
+                if (titleIconKey != null) {
+                    Icon(
+                        key = titleIconKey,
+                        contentDescription = null,
+                        iconClass = AlertStyling::class.java,
+                        tint = styling.titleIconTint,
+                    )
+                }
+
                 CompositionLocalProvider(
-                    LocalContentColor provides styling.textColor.takeOrElse { LocalContentColor.current }
+                    LocalContentColor provides styling.titleTextStyle.color.takeOrElse { LocalContentColor.current }
                 ) {
-                    blockRenderer.render(block.content, enabled, onUrlClick, onTextClick)
+                    Text(
+                        text = block.javaClass.simpleName,
+                        style = styling.titleTextStyle,
+                        modifier = Modifier.pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+                    )
                 }
+            }
+            CompositionLocalProvider(
+                LocalContentColor provides styling.textColor.takeOrElse { LocalContentColor.current }
+            ) {
+                blockRenderer.render(block.content, enabled, onUrlClick, onTextClick)
             }
         }
     }

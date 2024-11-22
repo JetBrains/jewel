@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -120,16 +119,13 @@ public open class DefaultMarkdownBlockRenderer(
         val mergedStyle = styling.inlinesStyling.textStyle.merge(TextStyle(color = textColor))
         val interactionSource = remember { MutableInteractionSource() }
 
-        AutoScrollableBlock(block) { modifier ->
-            Text(
-                modifier =
-                    modifier
-                        .focusProperties { canFocus = false }
-                        .clickable(interactionSource = interactionSource, indication = null, onClick = onTextClick),
-                text = renderedContent,
-                style = mergedStyle,
-            )
-        }
+        Text(
+            modifier =
+                Modifier.focusProperties { canFocus = false }
+                    .clickable(interactionSource = interactionSource, indication = null, onClick = onTextClick),
+            text = renderedContent,
+            style = mergedStyle,
+        )
     }
 
     @Composable
@@ -160,22 +156,18 @@ public open class DefaultMarkdownBlockRenderer(
         onTextClick: () -> Unit,
     ) {
         val renderedContent = rememberRenderedContent(block, styling.inlinesStyling, enabled, onUrlClick)
-        AutoScrollableBlock(block) { modifier ->
-            Heading(
-                modifier,
-                renderedContent,
-                styling.inlinesStyling.textStyle,
-                styling.padding,
-                styling.underlineWidth,
-                styling.underlineColor,
-                styling.underlineGap,
-            )
-        }
+        Heading(
+            renderedContent,
+            styling.inlinesStyling.textStyle,
+            styling.padding,
+            styling.underlineWidth,
+            styling.underlineColor,
+            styling.underlineGap,
+        )
     }
 
     @Composable
     private fun Heading(
-        modifier: Modifier,
         renderedContent: AnnotatedString,
         textStyle: TextStyle,
         paddingValues: PaddingValues,
@@ -183,7 +175,7 @@ public open class DefaultMarkdownBlockRenderer(
         underlineColor: Color,
         underlineGap: Dp,
     ) {
-        Column(modifier = modifier.padding(paddingValues)) {
+        Column(modifier = Modifier.padding(paddingValues)) {
             val textColor = textStyle.color.takeOrElse { LocalContentColor.current.takeOrElse { textStyle.color } }
             val mergedStyle = textStyle.merge(TextStyle(color = textColor))
             Text(text = renderedContent, style = mergedStyle, modifier = Modifier.focusProperties { canFocus = false })
@@ -260,19 +252,16 @@ public open class DefaultMarkdownBlockRenderer(
             for ((index, item) in block.children.withIndex()) {
                 Row {
                     val number = block.startFrom + index
-                    AutoScrollableBlock(block) { modifier ->
-                        Text(
-                            text = "$number${block.delimiter}",
-                            style = styling.numberStyle,
-                            color = styling.numberStyle.color.takeOrElse { LocalContentColor.current },
-                            modifier =
-                                modifier
-                                    .focusProperties { canFocus = false }
-                                    .widthIn(min = styling.numberMinWidth)
-                                    .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
-                            textAlign = styling.numberTextAlign,
-                        )
-                    }
+                    Text(
+                        text = "$number${block.delimiter}",
+                        style = styling.numberStyle,
+                        color = styling.numberStyle.color.takeOrElse { LocalContentColor.current },
+                        modifier =
+                            Modifier.focusProperties { canFocus = false }
+                                .widthIn(min = styling.numberMinWidth)
+                                .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+                        textAlign = styling.numberTextAlign,
+                    )
 
                     Spacer(Modifier.width(styling.numberContentGap))
 
@@ -300,17 +289,14 @@ public open class DefaultMarkdownBlockRenderer(
         Column(modifier = Modifier.padding(styling.padding), verticalArrangement = Arrangement.spacedBy(itemSpacing)) {
             for (item in block.children) {
                 Row {
-                    AutoScrollableBlock(block) { modifier ->
-                        Text(
-                            text = styling.bullet.toString(),
-                            style = styling.bulletStyle,
-                            color = styling.bulletStyle.color.takeOrElse { LocalContentColor.current },
-                            modifier =
-                                modifier
-                                    .focusProperties { canFocus = false }
-                                    .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
-                        )
-                    }
+                    Text(
+                        text = styling.bullet.toString(),
+                        style = styling.bulletStyle,
+                        color = styling.bulletStyle.color.takeOrElse { LocalContentColor.current },
+                        modifier =
+                            Modifier.focusProperties { canFocus = false }
+                                .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+                    )
 
                     Spacer(Modifier.width(styling.bulletContentGap))
 
@@ -343,18 +329,15 @@ public open class DefaultMarkdownBlockRenderer(
                 .border(styling.borderWidth, styling.borderColor, styling.shape)
                 .then(if (styling.fillWidth) Modifier.fillMaxWidth() else Modifier),
         ) {
-            AutoScrollableBlock(block, Modifier.padding(styling.padding)) { modifier ->
-                AutoScrollableText(
-                    block = block,
-                    text = AnnotatedString(block.content),
-                    style = styling.editorTextStyle,
-                    color = styling.editorTextStyle.color.takeOrElse { LocalContentColor.current },
-                    modifier =
-                        modifier
-                            .focusProperties { canFocus = false }
-                            .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
-                )
-            }
+            Text(
+                text = block.content,
+                style = styling.editorTextStyle,
+                color = styling.editorTextStyle.color.takeOrElse { LocalContentColor.current },
+                modifier =
+                    Modifier.focusProperties { canFocus = false }
+                        .padding(styling.padding)
+                        .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+            )
         }
     }
 
@@ -378,7 +361,7 @@ public open class DefaultMarkdownBlockRenderer(
                     )
                 }
 
-                Code(block, mimeType, styling)
+                render(block, mimeType, styling)
 
                 if (styling.infoPosition.verticalAlignment == Alignment.Bottom) {
                     FencedBlockInfo(
@@ -394,29 +377,17 @@ public open class DefaultMarkdownBlockRenderer(
     }
 
     @Composable
-    private fun Code(block: FencedCodeBlock, mimeType: MimeType, styling: MarkdownStyling.Code.Fenced) {
-        key(block) {
-            val annotatedCode by
-                LocalCodeHighlighter.current
-                    .highlight(block.content, mimeType)
-                    .collectAsState(AnnotatedString(block.content))
-            CodeText(block, annotatedCode, styling)
-        }
-    }
-
-    @Composable
-    private fun CodeText(block: MarkdownBlock, annotatedCode: AnnotatedString, styling: MarkdownStyling.Code.Fenced) {
-        AutoScrollableBlock(block) { modifier ->
-            AutoScrollableText(
-                block = block,
-                text = annotatedCode,
-                style = styling.editorTextStyle,
-                modifier =
-                    modifier
-                        .focusProperties { canFocus = false }
-                        .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
-            )
-        }
+    public open fun render(block: FencedCodeBlock, mimeType: MimeType, styling: MarkdownStyling.Code.Fenced) {
+        val content = block.content
+        val highlightedCode by
+            LocalCodeHighlighter.current.highlight(content, mimeType).collectAsState(AnnotatedString(content))
+        Text(
+            text = highlightedCode,
+            style = styling.editorTextStyle,
+            modifier =
+                Modifier.focusProperties { canFocus = false }
+                    .pointerHoverIcon(PointerIcon.Default, overrideDescendants = true),
+        )
     }
 
     @Composable
@@ -460,7 +431,7 @@ public open class DefaultMarkdownBlockRenderer(
         }
 
     @Composable
-    private fun MaybeScrollingContainer(
+    protected fun MaybeScrollingContainer(
         isScrollable: Boolean,
         modifier: Modifier = Modifier,
         content: @Composable () -> Unit,

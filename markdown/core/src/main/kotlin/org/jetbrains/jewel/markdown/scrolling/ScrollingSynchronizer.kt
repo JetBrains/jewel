@@ -12,8 +12,6 @@ import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.util.myLogger
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
-import org.jetbrains.jewel.markdown.rendering.AutoScrollableBlock
-import org.jetbrains.jewel.markdown.rendering.AutoScrollableText
 
 /**
  * To support synchronized scrolling between source and preview, we need to establish a mapping between source lines and
@@ -64,7 +62,6 @@ import org.jetbrains.jewel.markdown.rendering.AutoScrollableText
  *
  * @see [MarkdownProcessor]
  * @see [AutoScrollableBlock]
- * @see [AutoScrollableText]
  * @see [PerLine]
  */
 @ExperimentalJewelApi
