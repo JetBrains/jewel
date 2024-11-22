@@ -143,7 +143,7 @@ public object IntUiDefaultWarningBannerColorFactory {
 }
 // endregion
 
-// Error Banner
+// region Error Banner
 public val DefaultBannerStyle.Companion.Error: IntUiDefaultErrorBannerStyleFactory
     get() = IntUiDefaultErrorBannerStyleFactory
 
