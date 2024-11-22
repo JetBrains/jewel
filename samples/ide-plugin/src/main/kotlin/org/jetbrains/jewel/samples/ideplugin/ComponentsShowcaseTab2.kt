@@ -11,14 +11,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.ui.components.BorderLayoutPanel
+import org.jetbrains.jewel.bridge.JewelComposePanel
+import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.ui.component.InformationBanner
+import org.jetbrains.jewel.ui.component.SuccessBanner
+import org.jetbrains.jewel.ui.component.Text
+import org.jetbrains.jewel.ui.component.WarningBanner
 import java.awt.Component
 import java.awt.Dimension
 import javax.swing.BoxLayout
 import javax.swing.JPanel
-import org.jetbrains.jewel.bridge.JewelComposePanel
-import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.ui.component.InformationBanner
-import org.jetbrains.jewel.ui.component.Text
 
 internal class ComponentsShowcaseTab2 : BorderLayoutPanel() {
     private val mainContent =
@@ -32,6 +34,10 @@ internal class ComponentsShowcaseTab2 : BorderLayoutPanel() {
                             Text("Banners", style = JewelTheme.defaultTextStyle.copy(fontSize = 20.sp))
                             Spacer(modifier = Modifier.height(8.dp))
                             InformationBanner("This is an information banner in Compose")
+                            Spacer(modifier = Modifier.height(8.dp))
+                            SuccessBanner("This is a success banner in Compose")
+                            Spacer(modifier = Modifier.height(8.dp))
+                            WarningBanner("This is a warning banner in Compose")
                         }
                     }
                     .apply {

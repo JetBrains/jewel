@@ -13,7 +13,7 @@ import org.jetbrains.jewel.foundation.GenerateDataFunctions
 public class DefaultBannerStyles(
     public val information: DefaultBannerStyle,
     public val success: DefaultBannerStyle,
-    //    public val warning: DefaultBannerStyle,
+    public val warning: DefaultBannerStyle,
     //    public val error: DefaultBannerStyle,
 ) {
     public companion object
