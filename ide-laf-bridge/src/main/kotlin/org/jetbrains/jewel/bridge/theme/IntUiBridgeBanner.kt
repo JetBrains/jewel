@@ -29,4 +29,22 @@ internal fun readDefaultBannerStyle(): DefaultBannerStyles =
                     ),
                 metrics = BannerMetrics(borderWidth = DarculaUIUtil.LW.dp),
             ),
+        warning =
+            DefaultBannerStyle(
+                colors =
+                    BannerColors(
+                        background = JBUI.CurrentTheme.Banner.WARNING_BACKGROUND.toComposeColor(),
+                        border = JBUI.CurrentTheme.Banner.WARNING_BORDER_COLOR.toComposeColor(),
+                    ),
+                metrics = BannerMetrics(borderWidth = DarculaUIUtil.LW.dp),
+            ),
+        error =
+            DefaultBannerStyle(
+                colors =
+                    BannerColors(
+                        background = JBUI.CurrentTheme.Banner.ERROR_BACKGROUND.toComposeColor(),
+                        border = JBUI.CurrentTheme.Banner.ERROR_BORDER_COLOR.toComposeColor(),
+                    ),
+                metrics = BannerMetrics(borderWidth = DarculaUIUtil.LW.dp),
+            ),
     )
