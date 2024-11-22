@@ -60,8 +60,10 @@ private fun BannerImpl(
             modifier = Modifier.background(style.colors.background).padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(Modifier.size(16.dp)) { icon?.invoke() }
-            Spacer(modifier = Modifier.width(8.dp))
+            if (icon != null) {
+                Box(Modifier.size(16.dp), contentAlignment = Alignment.Center) { icon() }
+                Spacer(modifier = Modifier.width(8.dp))
+            }
             Text(text = text, style = textStyle)
             Spacer(modifier = Modifier.weight(1f))
             actions?.invoke(this) // TODO: add proper implementation once we have more
