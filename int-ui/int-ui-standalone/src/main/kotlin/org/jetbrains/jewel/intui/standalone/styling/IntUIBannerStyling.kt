@@ -21,7 +21,8 @@ public object IntUiDefaultBannerStylesFactory {
         success: DefaultBannerStyle = DefaultBannerStyle.Success.light(),
         warning: DefaultBannerStyle = DefaultBannerStyle.Warning.light(),
         error: DefaultBannerStyle = DefaultBannerStyle.Error.light(),
-    ): DefaultBannerStyles = DefaultBannerStyles(information = information, success = success, warning = warning, error = error)
+    ): DefaultBannerStyles =
+        DefaultBannerStyles(information = information, success = success, warning = warning, error = error)
 
     @Composable
     public fun dark(
@@ -29,7 +30,8 @@ public object IntUiDefaultBannerStylesFactory {
         success: DefaultBannerStyle = DefaultBannerStyle.Success.dark(),
         warning: DefaultBannerStyle = DefaultBannerStyle.Warning.dark(),
         error: DefaultBannerStyle = DefaultBannerStyle.Error.dark(),
-    ): DefaultBannerStyles = DefaultBannerStyles(information = information, success = success, warning = warning, error = error)
+    ): DefaultBannerStyles =
+        DefaultBannerStyles(information = information, success = success, warning = warning, error = error)
 }
 
 public fun BannerMetrics.Companion.default(borderWidth: Dp = 1.dp): BannerMetrics = BannerMetrics(borderWidth)
@@ -105,6 +107,7 @@ public object IntUiDefaultSuccessBannerColorFactory {
         border: Color = IntUiDarkTheme.colors.green(3),
     ): BannerColors = BannerColors(background = background, border = border)
 }
+
 // endregion
 
 // region Warning Banner
@@ -141,6 +144,7 @@ public object IntUiDefaultWarningBannerColorFactory {
         border: Color = IntUiDarkTheme.colors.yellow(2),
     ): BannerColors = BannerColors(background = background, border = border)
 }
+
 // endregion
 
 // region Error Banner
