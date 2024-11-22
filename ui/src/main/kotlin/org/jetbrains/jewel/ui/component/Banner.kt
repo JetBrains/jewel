@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -55,6 +56,7 @@ public fun WarningBanner(
 ) {
     BannerImpl(text = text, style = style, textStyle = textStyle, icon = icon, actions = actions, modifier = modifier)
 }
+
 @Composable
 public fun ErrorBanner(
     text: String,
@@ -88,8 +90,14 @@ private fun BannerImpl(
             }
             Text(text = text, style = textStyle)
             Spacer(modifier = Modifier.weight(1f))
-            actions?.invoke(this) // TODO: add proper implementation once we have more
-            // https://github.com/JetBrains/jewel/issues/686
+            if (actions != null) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    actions()
+                }
+            }
         }
         Divider(orientation = Orientation.Horizontal, color = style.colors.border)
     }
