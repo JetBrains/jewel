@@ -55,6 +55,17 @@ public fun WarningBanner(
 ) {
     BannerImpl(text = text, style = style, textStyle = textStyle, icon = icon, actions = actions, modifier = modifier)
 }
+@Composable
+public fun ErrorBanner(
+    text: String,
+    modifier: Modifier = Modifier,
+    icon: (@Composable () -> Unit)? = { Icon(AllIconsKeys.General.BalloonError, null) },
+    actions: (@Composable RowScope.() -> Unit)? = null,
+    style: DefaultBannerStyle = JewelTheme.defaultBannerStyle.error,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
+) {
+    BannerImpl(text = text, style = style, textStyle = textStyle, icon = icon, actions = actions, modifier = modifier)
+}
 
 @Composable
 private fun BannerImpl(
