@@ -27,10 +27,7 @@ public class DefaultBannerStyle(public val colors: BannerColors, public val metr
 
 @Immutable
 @GenerateDataFunctions
-public class BannerColors(
-    public val background: Color,
-    public val border: Color,
-) {
+public class BannerColors(public val background: Color, public val border: Color) {
     public companion object
 }
 
