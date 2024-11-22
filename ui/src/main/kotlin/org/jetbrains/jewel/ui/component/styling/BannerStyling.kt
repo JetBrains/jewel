@@ -38,5 +38,5 @@ public class BannerMetrics(public val borderWidth: Dp) {
 }
 
 public val LocalDefaultBannerStyle: ProvidableCompositionLocal<DefaultBannerStyles> = staticCompositionLocalOf {
-    error("No default BannerStyle provided. Have you forgotten the theme?")
+    error("No DefaultBannerStyle provided. Have you forgotten the theme?")
 }
