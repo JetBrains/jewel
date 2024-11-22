@@ -96,11 +96,7 @@ object ComponentsViewModel {
                     }
                 },
             ),
-            ViewInfo(
-                title = "Banners",
-                iconKey = StandaloneSampleIcons.jewelLogo,
-                content = { Banners() }
-            )
+            ViewInfo(title = "Banners", iconKey = StandaloneSampleIcons.jewelLogo, content = { Banners() }),
         )
     var currentView by mutableStateOf(views.first())
 }
