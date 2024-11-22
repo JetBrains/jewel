@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -54,7 +53,7 @@ private fun BannerImpl(
     actions: (@Composable RowScope.() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier.fillMaxWidth()) {
+    Column(modifier = modifier) {
         Divider(orientation = Orientation.Horizontal, color = style.colors.border)
         Row(
             modifier = Modifier.background(style.colors.background).padding(10.dp),
