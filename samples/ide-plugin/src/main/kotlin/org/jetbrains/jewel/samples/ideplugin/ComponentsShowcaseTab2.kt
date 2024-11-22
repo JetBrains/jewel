@@ -11,16 +11,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.ui.components.BorderLayoutPanel
-import java.awt.Component
-import java.awt.Dimension
-import javax.swing.BoxLayout
-import javax.swing.JPanel
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.component.InformationBanner
 import org.jetbrains.jewel.ui.component.Text
+import java.awt.Component
+import java.awt.Dimension
+import javax.swing.BoxLayout
+import javax.swing.JPanel
 
-internal class ComponenteShowcaseTab2 : BorderLayoutPanel() {
+internal class ComponentsShowcaseTab2 : BorderLayoutPanel() {
     private val mainContent =
         JPanel().apply {
             layout = BoxLayout(this, BoxLayout.Y_AXIS)

@@ -21,7 +21,7 @@ import org.jetbrains.jewel.samples.ideplugin.releasessample.ReleasesSampleCompos
 internal class JewelDemoToolWindowFactory : ToolWindowFactory, DumbAware {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         toolWindow.addComposeTab("Components") { ComponentShowcaseTab(project) }
-        toolWindow.addSwingTab(ComponenteShowcaseTab2(), "More Components")
+        toolWindow.addSwingTab(ComponentsShowcaseTab2(), "More Components")
 
         toolWindow.addComposeTab("Releases Demo") { ReleasesSampleCompose(project) }
 
