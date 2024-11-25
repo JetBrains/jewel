@@ -3,7 +3,7 @@
 You can package the standalone sample with the following gradle tasks:
 
 - Linux `samples:standalone:packageLinuxX64`
-- Macos `samples:standalone:packageMacOsAarch64`
+- macOS `samples:standalone:packageMacOsAarch64`
 - Windows `samples:standalone:packageWinX64`
 
 The packaged application zip will be in the `build/construo/dist` folder.
