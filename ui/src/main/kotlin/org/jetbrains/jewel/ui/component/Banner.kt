@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -79,7 +80,11 @@ private fun BannerImpl(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        Divider(orientation = Orientation.Horizontal, color = style.colors.border)
+        Divider(
+            orientation = Orientation.Horizontal,
+            color = style.colors.border,
+            modifier = Modifier.fillMaxWidth(),
+        )
         Row(
             modifier = Modifier.background(style.colors.background).padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -99,6 +104,10 @@ private fun BannerImpl(
                 }
             }
         }
-        Divider(orientation = Orientation.Horizontal, color = style.colors.border)
+        Divider(
+            orientation = Orientation.Horizontal,
+            color = style.colors.border,
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
