@@ -101,6 +101,7 @@ private fun BannerImpl(
                 modifier = Modifier.weight(1f),
             )
             if (actions != null) {
+                Spacer(modifier = Modifier.width(8.dp))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
