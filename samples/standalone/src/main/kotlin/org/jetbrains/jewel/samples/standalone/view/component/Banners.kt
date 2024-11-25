@@ -22,7 +22,10 @@ internal fun Banners() {
     Column(Modifier.fillMaxSize().background(Color.White).padding(16.dp)) {
         InformationBanner(
             style = JewelTheme.defaultBannerStyle.information,
-            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt more text" +
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt more text" +
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt more text" +
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt more text",
         )
         Spacer(modifier = Modifier.height(8.dp))
         SuccessBanner(
