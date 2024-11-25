@@ -419,7 +419,12 @@ public open class DefaultMarkdownBlockRenderer(
 
     @Composable
     override fun renderThematicBreak(styling: MarkdownStyling.ThematicBreak) {
-        Box(Modifier.padding(styling.padding).height(styling.lineWidth).background(styling.lineColor))
+        Divider(
+            orientation = Orientation.Horizontal,
+            modifier = Modifier.padding(styling.padding).fillMaxWidth(),
+            color = styling.lineColor,
+            thickness = styling.lineWidth,
+        )
     }
 
     @Composable
