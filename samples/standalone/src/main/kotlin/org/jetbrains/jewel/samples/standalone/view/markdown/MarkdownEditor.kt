@@ -37,7 +37,7 @@ internal fun MarkdownEditor(state: TextFieldState, modifier: Modifier = Modifier
             modifier = Modifier.fillMaxWidth().background(JewelTheme.globalColors.panelBackground).padding(8.dp),
             onLoadMarkdown = { state.edit { replace(0, length, it) } },
         )
-        Divider(orientation = Orientation.Horizontal)
+        Divider(orientation = Orientation.Horizontal, Modifier.fillMaxWidth())
         Editor(state = state, modifier = Modifier.fillMaxWidth().weight(1f))
     }
 }
