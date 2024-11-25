@@ -91,7 +91,7 @@ construo {
             architecture.set(Target.Architecture.X86_64)
         }
         // macOS M1
-        create<Target.MacOs>("macosAarch64") {
+        create<Target.MacOs>("macOsAarch64") {
             jdkUrl.set("https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.12-osx-aarch64-b1207.37.tar.gz")
             architecture.set(Target.Architecture.AARCH64)
             identifier.set("org.jetbrains.jewel.sample.standalone")
