@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -79,18 +80,20 @@ private fun BannerImpl(
     actions: (@Composable RowScope.() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.height(40.dp).background(style.colors.background), verticalArrangement = Arrangement.Center) {
         Divider(orientation = Orientation.Horizontal, color = style.colors.border)
-        Row(
-            modifier = Modifier.background(style.colors.background).padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.height(38.dp).padding(horizontal = 12.dp)) {
             if (icon != null) {
                 Box(Modifier.size(16.dp), contentAlignment = Alignment.Center) { icon() }
                 Spacer(modifier = Modifier.width(8.dp))
             }
-            Text(text = text, style = textStyle, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = text,
+                style = textStyle,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
             if (actions != null) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
