@@ -80,7 +80,7 @@ private fun BannerImpl(
     actions: (@Composable RowScope.() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.height(40.dp).background(style.colors.background),) {
+    Column(modifier = modifier.height(40.dp).background(style.colors.background)) {
         Divider(orientation = Orientation.Horizontal, color = style.colors.border)
         Row(
             verticalAlignment = Alignment.CenterVertically,
