@@ -80,11 +80,7 @@ private fun BannerImpl(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        Divider(
-            orientation = Orientation.Horizontal,
-            color = style.colors.border,
-            modifier = Modifier.fillMaxWidth(),
-        )
+        Divider(orientation = Orientation.Horizontal, color = style.colors.border, modifier = Modifier.fillMaxWidth())
         Row(
             modifier = Modifier.background(style.colors.background).padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -104,10 +100,6 @@ private fun BannerImpl(
                 }
             }
         }
-        Divider(
-            orientation = Orientation.Horizontal,
-            color = style.colors.border,
-            modifier = Modifier.fillMaxWidth(),
-        )
+        Divider(orientation = Orientation.Horizontal, color = style.colors.border, modifier = Modifier.fillMaxWidth())
     }
 }
