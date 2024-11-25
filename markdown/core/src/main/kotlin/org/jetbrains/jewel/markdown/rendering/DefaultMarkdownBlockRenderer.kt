@@ -182,8 +182,8 @@ public open class DefaultMarkdownBlockRenderer(
             if (underlineWidth > 0.dp && underlineColor.isSpecified) {
                 Spacer(Modifier.height(underlineGap))
                 Divider(
-                    Orientation.Horizontal,
-                    Modifier.fillMaxWidth(),
+                    orientation = Orientation.Horizontal,
+                    modifier = Modifier.fillMaxWidth(),
                     color = underlineColor,
                     thickness = underlineWidth,
                 )
