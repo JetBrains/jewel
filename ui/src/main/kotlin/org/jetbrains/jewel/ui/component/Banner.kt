@@ -80,9 +80,15 @@ private fun BannerImpl(
     actions: (@Composable RowScope.() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.height(40.dp).background(style.colors.background), verticalArrangement = Arrangement.Center) {
+    Column(
+        modifier = modifier.height(40.dp).background(style.colors.background),
+        verticalArrangement = Arrangement.Center,
+    ) {
         Divider(orientation = Orientation.Horizontal, color = style.colors.border)
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.height(38.dp).padding(horizontal = 12.dp)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.height(38.dp).padding(horizontal = 12.dp),
+        ) {
             if (icon != null) {
                 Box(Modifier.size(16.dp), contentAlignment = Alignment.Center) { icon() }
                 Spacer(modifier = Modifier.width(8.dp))
@@ -92,7 +98,7 @@ private fun BannerImpl(
                 style = textStyle,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             if (actions != null) {
                 Row(
