@@ -26,6 +26,8 @@ import org.jetbrains.jewel.ui.component.styling.ButtonStyle
 import org.jetbrains.jewel.ui.component.styling.CheckboxStyle
 import org.jetbrains.jewel.ui.component.styling.ChipStyle
 import org.jetbrains.jewel.ui.component.styling.CircularProgressStyle
+import org.jetbrains.jewel.ui.component.styling.ComboBoxStyle
+import org.jetbrains.jewel.ui.component.styling.DefaultBannerStyles
 import org.jetbrains.jewel.ui.component.styling.DividerStyle
 import org.jetbrains.jewel.ui.component.styling.DropdownStyle
 import org.jetbrains.jewel.ui.component.styling.GroupHeaderStyle
@@ -34,10 +36,13 @@ import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
+import org.jetbrains.jewel.ui.component.styling.PopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.RadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlStyle
+import org.jetbrains.jewel.ui.component.styling.SelectableLazyColumnStyle
+import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
@@ -106,6 +111,8 @@ public fun ComponentStyling.dark(
     checkboxStyle: CheckboxStyle = CheckboxStyle.dark(),
     chipStyle: ChipStyle = ChipStyle.dark(),
     circularProgressStyle: CircularProgressStyle = CircularProgressStyle.dark(),
+    defaultBannerStyle: DefaultBannerStyles = DefaultBannerStyles.Default.dark(),
+    comboBoxStyle: ComboBoxStyle = ComboBoxStyle.Default.dark(),
     defaultButtonStyle: ButtonStyle = ButtonStyle.Default.dark(),
     defaultTabStyle: TabStyle = TabStyle.Default.dark(),
     dividerStyle: DividerStyle = DividerStyle.dark(),
@@ -118,11 +125,14 @@ public fun ComponentStyling.dark(
     linkStyle: LinkStyle = LinkStyle.dark(),
     menuStyle: MenuStyle = MenuStyle.dark(),
     outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.dark(),
+    popupContainerStyle: PopupContainerStyle = PopupContainerStyle.dark(),
     radioButtonStyle: RadioButtonStyle = RadioButtonStyle.dark(),
     scrollbarStyle: ScrollbarStyle = ScrollbarStyle.dark(),
     segmentedControlButtonStyle: SegmentedControlButtonStyle = SegmentedControlButtonStyle.dark(),
     segmentedControlStyle: SegmentedControlStyle = SegmentedControlStyle.dark(),
+    selectableLazyColumnStyle: SelectableLazyColumnStyle = SelectableLazyColumnStyle.dark(),
     sliderStyle: SliderStyle = SliderStyle.dark(),
+    simpleListItemStyle: SimpleListItemStyle = SimpleListItemStyle.dark(),
     textAreaStyle: TextAreaStyle = TextAreaStyle.dark(),
     textFieldStyle: TextFieldStyle = TextFieldStyle.dark(),
     tooltipStyle: TooltipStyle = TooltipStyle.dark(),
@@ -133,6 +143,8 @@ public fun ComponentStyling.dark(
             checkboxStyle = checkboxStyle,
             chipStyle = chipStyle,
             circularProgressStyle = circularProgressStyle,
+            defaultBannerStyle = defaultBannerStyle,
+            comboBoxStyle = comboBoxStyle,
             defaultButtonStyle = defaultButtonStyle,
             defaultDropdownStyle = dropdownStyle,
             defaultTabStyle = defaultTabStyle,
@@ -145,10 +157,13 @@ public fun ComponentStyling.dark(
             linkStyle = linkStyle,
             menuStyle = menuStyle,
             outlinedButtonStyle = outlinedButtonStyle,
+            popupContainerStyle = popupContainerStyle,
             radioButtonStyle = radioButtonStyle,
             scrollbarStyle = scrollbarStyle,
             segmentedControlButtonStyle = segmentedControlButtonStyle,
             segmentedControlStyle = segmentedControlStyle,
+            selectableLazyColumnStyle = selectableLazyColumnStyle,
+            simpleListItemStyle = simpleListItemStyle,
             sliderStyle = sliderStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
@@ -162,6 +177,8 @@ public fun ComponentStyling.light(
     checkboxStyle: CheckboxStyle = CheckboxStyle.light(),
     chipStyle: ChipStyle = ChipStyle.light(),
     circularProgressStyle: CircularProgressStyle = CircularProgressStyle.light(),
+    defaultBannerStyle: DefaultBannerStyles = DefaultBannerStyles.Default.light(),
+    comboBoxStyle: ComboBoxStyle = ComboBoxStyle.Default.light(),
     defaultButtonStyle: ButtonStyle = ButtonStyle.Default.light(),
     defaultTabStyle: TabStyle = TabStyle.Default.light(),
     dividerStyle: DividerStyle = DividerStyle.light(),
@@ -173,12 +190,15 @@ public fun ComponentStyling.light(
     lazyTreeStyle: LazyTreeStyle = LazyTreeStyle.light(),
     linkStyle: LinkStyle = LinkStyle.light(),
     menuStyle: MenuStyle = MenuStyle.light(),
+    popupContainerStyle: PopupContainerStyle = PopupContainerStyle.light(),
     outlinedButtonStyle: ButtonStyle = ButtonStyle.Outlined.light(),
     radioButtonStyle: RadioButtonStyle = RadioButtonStyle.light(),
     scrollbarStyle: ScrollbarStyle = ScrollbarStyle.light(),
     segmentedControlButtonStyle: SegmentedControlButtonStyle = SegmentedControlButtonStyle.light(),
     segmentedControlStyle: SegmentedControlStyle = SegmentedControlStyle.light(),
     sliderStyle: SliderStyle = SliderStyle.light(),
+    selectableLazyColumnStyle: SelectableLazyColumnStyle = SelectableLazyColumnStyle.light(),
+    simpleListItemStyle: SimpleListItemStyle = SimpleListItemStyle.light(),
     textAreaStyle: TextAreaStyle = TextAreaStyle.light(),
     textFieldStyle: TextFieldStyle = TextFieldStyle.light(),
     tooltipStyle: TooltipStyle = TooltipStyle.light(),
@@ -189,6 +209,8 @@ public fun ComponentStyling.light(
             checkboxStyle = checkboxStyle,
             chipStyle = chipStyle,
             circularProgressStyle = circularProgressStyle,
+            comboBoxStyle = comboBoxStyle,
+            defaultBannerStyle = defaultBannerStyle,
             defaultButtonStyle = defaultButtonStyle,
             defaultDropdownStyle = dropdownStyle,
             defaultTabStyle = defaultTabStyle,
@@ -201,11 +223,14 @@ public fun ComponentStyling.light(
             linkStyle = linkStyle,
             menuStyle = menuStyle,
             outlinedButtonStyle = outlinedButtonStyle,
+            popupContainerStyle = popupContainerStyle,
             radioButtonStyle = radioButtonStyle,
             scrollbarStyle = scrollbarStyle,
             segmentedControlButtonStyle = segmentedControlButtonStyle,
             segmentedControlStyle = segmentedControlStyle,
+            selectableLazyColumnStyle = selectableLazyColumnStyle,
             sliderStyle = sliderStyle,
+            simpleListItemStyle = simpleListItemStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
             tooltipStyle = tooltipStyle,

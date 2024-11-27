@@ -84,6 +84,7 @@ import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import org.jetbrains.jewel.ui.component.items
+import org.jetbrains.jewel.ui.component.rememberSplitLayoutState
 import org.jetbrains.jewel.ui.component.scrollbarContentSafePadding
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.rememberResourcePainterProvider
@@ -105,6 +106,7 @@ fun ReleasesSampleCompose(project: Project) {
         modifier = Modifier.fillMaxSize(),
         firstPaneMinWidth = 300.dp,
         secondPaneMinWidth = 300.dp,
+        state = rememberSplitLayoutState(.3f),
     )
 }
 
@@ -133,9 +135,9 @@ private fun LeftColumn(project: Project, modifier: Modifier = Modifier, onSelect
         VerticallyScrollableContainer(listState.lazyListState, modifier) {
             SelectableLazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                state = listState,
                 selectionMode = SelectionMode.Single,
-                onSelectedIndexesChanged = {
+                state = listState,
+                onSelectedIndexesChange = {
                     val selectedItem =
                         if (it.isNotEmpty()) {
                             currentContentSource.items[it.first()]
@@ -298,7 +300,7 @@ private fun OverflowMenu(currentContentSource: ContentSource<*>, onContentSource
 
     var menuVisible by remember { mutableStateOf(false) }
 
-    // Emulates Swing actions that pop up menus — they stay pressed while the menu is open
+    // Emulates Swing actions that pop up menus � they stay pressed while the menu is open
     IconButton(
         modifier =
             Modifier.fillMaxHeight().thenIf(menuVisible) {
