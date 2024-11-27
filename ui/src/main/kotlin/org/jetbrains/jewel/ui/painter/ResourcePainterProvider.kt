@@ -11,14 +11,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.decodeToImageBitmap
-import org.jetbrains.compose.resources.decodeToImageVector
-import org.jetbrains.compose.resources.decodeToSvgPainter
-import org.jetbrains.jewel.foundation.util.myLogger
-import org.jetbrains.jewel.ui.icon.IconKey
-import org.jetbrains.jewel.ui.icon.LocalNewUiChecker
-import org.w3c.dom.Document
 import java.io.IOException
 import java.io.InputStream
 import java.io.StringWriter
@@ -32,6 +24,14 @@ import javax.xml.transform.TransformerException
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.jetbrains.compose.resources.decodeToImageVector
+import org.jetbrains.compose.resources.decodeToSvgPainter
+import org.jetbrains.jewel.foundation.util.myLogger
+import org.jetbrains.jewel.ui.icon.IconKey
+import org.jetbrains.jewel.ui.icon.LocalNewUiChecker
+import org.w3c.dom.Document
 
 private val errorPainter = ColorPainter(Color.Magenta)
 
