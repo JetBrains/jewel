@@ -1,6 +1,7 @@
 [versions]
 commonmark = "0.24.0"
 composeDesktop = "1.7.1"
+construo = "1.5.1"
 detekt = "1.23.6"
 dokka = "1.9.20"
 idea = "243.21155.17"
@@ -15,7 +16,7 @@ kotlinxSerialization = "1.7.3"
 kotlinxBinaryCompat = "0.16.3"
 ktfmtGradlePlugin = "0.20.1"
 poko = "0.17.1"
-
+shadow = "8.3.5"
 [libraries]
 commonmark-core = { module = "org.commonmark:commonmark", version.ref = "commonmark" }
 commonmark-ext-autolink = { module = "org.commonmark:commonmark-ext-autolink", version.ref = "commonmark" }
@@ -44,6 +45,7 @@ poko-gradlePlugin = { module = "dev.drewhamilton.poko:poko-gradle-plugin", versi
 [plugins]
 composeDesktop = { id = "org.jetbrains.compose", version.ref = "composeDesktop" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+construo = { id = "io.github.fourlastor.construo", version.ref = "construo"}
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 ideaPlugin = { id = "org.jetbrains.intellij.platform", version.ref = "ideaPlugin" }
@@ -55,3 +57,4 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinterGradlePlugin" }
 ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmtGradlePlugin" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow"}
