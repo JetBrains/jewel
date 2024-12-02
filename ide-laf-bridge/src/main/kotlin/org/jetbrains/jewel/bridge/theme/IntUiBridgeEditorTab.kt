@@ -44,27 +44,27 @@ internal fun readEditorTabStyle(): TabStyle {
     return TabStyle(
         colors = colors,
         metrics =
-        TabMetrics(
-            underlineThickness = retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight").takeOrElse { 2.dp },
-            tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
-            closeContentGap = 4.dp,
-            tabContentSpacing = 4.dp,
-            tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
-        ),
+            TabMetrics(
+                underlineThickness = retrieveIntAsDpOrUnspecified("TabbedPane.tabSelectionHeight").takeOrElse { 2.dp },
+                tabPadding = retrieveInsetsAsPaddingValues("TabbedPane.tabInsets"),
+                closeContentGap = 4.dp,
+                tabContentSpacing = 4.dp,
+                tabHeight = retrieveIntAsDpOrUnspecified("TabbedPane.tabHeight").takeOrElse { 24.dp },
+            ),
         icons = TabIcons(close = AllIconsKeys.General.CloseSmall),
         contentAlpha =
-        TabContentAlpha(
-            iconNormal = .7f,
-            iconDisabled = .7f,
-            iconPressed = 1f,
-            iconHovered = 1f,
-            iconSelected = 1f,
-            contentNormal = .7f,
-            contentDisabled = .7f,
-            contentPressed = 1f,
-            contentHovered = 1f,
-            contentSelected = 1f,
-        ),
+            TabContentAlpha(
+                iconNormal = .7f,
+                iconDisabled = .7f,
+                iconPressed = 1f,
+                iconHovered = 1f,
+                iconSelected = 1f,
+                contentNormal = .7f,
+                contentDisabled = .7f,
+                contentPressed = 1f,
+                contentHovered = 1f,
+                contentSelected = 1f,
+            ),
         scrollbarStyle = readScrollbarStyle(isDark),
     )
 }

@@ -59,13 +59,13 @@ internal fun readOutlinedButtonStyle(): ButtonStyle {
     return ButtonStyle(
         colors = colors,
         metrics =
-        ButtonMetrics(
-            cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
-            padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
-            minSize = DpSize(minimumSize.width, minimumSize.height),
-            borderWidth = DarculaUIUtil.LW.dp,
-            focusOutlineExpand = Dp.Unspecified,
-        ),
+            ButtonMetrics(
+                cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
+                padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
+                minSize = DpSize(minimumSize.width, minimumSize.height),
+                borderWidth = DarculaUIUtil.LW.dp,
+                focusOutlineExpand = Dp.Unspecified,
+            ),
         focusOutlineAlignment = Stroke.Alignment.Center,
     )
 }

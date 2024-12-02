@@ -66,4 +66,3 @@ internal fun readDefaultButtonStyle(): ButtonStyle {
         focusOutlineAlignment = Stroke.Alignment.Center,
     )
 }
-

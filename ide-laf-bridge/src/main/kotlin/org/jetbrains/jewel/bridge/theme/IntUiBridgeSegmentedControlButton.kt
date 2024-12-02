@@ -22,16 +22,16 @@ internal fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
 
     val normalBorder =
         listOf(
-            JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
-            JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
-        )
+                JBUI.CurrentTheme.SegmentedButton.SELECTED_START_BORDER_COLOR.toComposeColor(),
+                JBUI.CurrentTheme.SegmentedButton.SELECTED_END_BORDER_COLOR.toComposeColor(),
+            )
             .createVerticalBrush()
 
     val selectedDisabledBorder =
         listOf(
-            JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-            JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
-        )
+                JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+                JBUI.CurrentTheme.Button.buttonOutlineColorEnd(false).toComposeColor(),
+            )
             .createVerticalBrush()
 
     val colors =
@@ -41,7 +41,7 @@ internal fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
             backgroundHovered = SolidColor(JBUI.CurrentTheme.ActionButton.hoverBackground().toComposeColor()),
             backgroundSelected = selectedBackground,
             backgroundSelectedFocused =
-            SolidColor(JBUI.CurrentTheme.SegmentedButton.FOCUSED_SELECTED_BUTTON_COLOR.toComposeColor()),
+                SolidColor(JBUI.CurrentTheme.SegmentedButton.FOCUSED_SELECTED_BUTTON_COLOR.toComposeColor()),
             content = retrieveColorOrUnspecified("Button.foreground"),
             contentDisabled = retrieveColorOrUnspecified("Label.disabledForeground"),
             border = normalBorder,
@@ -54,11 +54,11 @@ internal fun readSegmentedControlButtonStyle(): SegmentedControlButtonStyle {
     return SegmentedControlButtonStyle(
         colors = colors,
         metrics =
-        SegmentedControlButtonMetrics(
-            cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
-            segmentedButtonPadding = PaddingValues(horizontal = 14.dp),
-            minSize = DpSize(minimumSize.width, minimumSize.height),
-            borderWidth = DarculaUIUtil.LW.dp,
-        ),
+            SegmentedControlButtonMetrics(
+                cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
+                segmentedButtonPadding = PaddingValues(horizontal = 14.dp),
+                minSize = DpSize(minimumSize.width, minimumSize.height),
+                borderWidth = DarculaUIUtil.LW.dp,
+            ),
     )
 }

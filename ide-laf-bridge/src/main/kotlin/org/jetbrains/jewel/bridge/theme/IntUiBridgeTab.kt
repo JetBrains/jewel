@@ -69,4 +69,3 @@ internal fun readDefaultTabStyle(): TabStyle {
         scrollbarStyle = readScrollbarStyle(isDark),
     )
 }
-
