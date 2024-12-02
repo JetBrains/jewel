@@ -71,14 +71,23 @@ internal fun Banners() {
         InformationInlineBanner(
             style = JewelTheme.inlineBannerStyle.information,
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-            actions = {
-                Link("Action A", onClick = { clickLabel = "Information Inline Action A clicked" })
-                Link("Action B", onClick = { clickLabel = "Information Inline Action B clicked" })
+        )
+        ErrorInlineBanner(
+            style = JewelTheme.inlineBannerStyle.error,
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
+            actionIcons = {
+                IconButton(onClick = { clickLabel = "Error Inline Action Icon clicked" }) {
+                    Icon(AllIconsKeys.General.Close, null)
+                }
             },
         )
         InformationInlineBanner(
             style = JewelTheme.inlineBannerStyle.information,
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
+            actions = {
+                Link("Action A", onClick = { clickLabel = "Information Inline Action A clicked" })
+                Link("Action B", onClick = { clickLabel = "Information Inline Action B clicked" })
+            },
         )
         SuccessInlineBanner(
             style = JewelTheme.inlineBannerStyle.success,
@@ -112,15 +121,6 @@ internal fun Banners() {
                 }
                 IconButton(onClick = { clickLabel = "Error Gear Icon clicked" }) {
                     Icon(AllIconsKeys.General.Gear, null)
-                }
-            },
-        )
-        ErrorInlineBanner(
-            style = JewelTheme.inlineBannerStyle.error,
-            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-            actionIcons = {
-                IconButton(onClick = { clickLabel = "Error Inline Action Icon clicked" }) {
-                    Icon(AllIconsKeys.General.Close, null)
                 }
             },
         )

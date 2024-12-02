@@ -137,7 +137,7 @@ private fun InlineBannerImpl(
         if (actionIcons == null) {
             PaddingValues(12.dp)
         } else {
-            PaddingValues(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 12.dp)
+            PaddingValues(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 10.dp)
         }
     RoundedCornerBox(
         modifier = modifier.testTag("InlineBanner"),
