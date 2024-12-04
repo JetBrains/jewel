@@ -1,10 +1,10 @@
 package org.jetbrains.jewel.foundation.util
 
-import org.jetbrains.annotations.ApiStatus
 import java.lang.reflect.Method
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
+import org.jetbrains.annotations.ApiStatus
 
 public inline fun <reified T : Any> T.myLogger(): JewelLogger = JewelLogger.getInstance(T::class.java)
 
