@@ -163,9 +163,7 @@ private fun InlineBannerImpl(
             }
             if (actionIcons != null) {
                 Spacer(Modifier.width(12.dp))
-                Row(modifier = Modifier.align(Alignment.Top), verticalAlignment = Alignment.Top) {
-                    actionIcons()
-                }
+                Row(modifier = Modifier.align(Alignment.Top), verticalAlignment = Alignment.Top) { actionIcons() }
             }
         }
     }
