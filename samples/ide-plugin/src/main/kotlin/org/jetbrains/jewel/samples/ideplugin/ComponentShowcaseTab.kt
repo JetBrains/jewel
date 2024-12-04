@@ -93,8 +93,7 @@ internal fun ComponentShowcaseTab(project: Project) {
     VerticallyScrollableContainer {
         Row(
             modifier =
-                Modifier
-                    .trackComponentActivation(LocalComponent.current)
+                Modifier.trackComponentActivation(LocalComponent.current)
                     .fillMaxSize()
                     .background(bgColor)
                     .padding(16.dp),
@@ -108,12 +107,7 @@ internal fun ComponentShowcaseTab(project: Project) {
 
 @Composable
 private fun RowScope.ColumnOne() {
-    Column(
-        Modifier
-        .trackActivation()
-        .weight(1f),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    Column(Modifier.trackActivation().weight(1f), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         var activated by remember { mutableStateOf(false) }
         Text(
             "Here is a selection of our finest components(activated: $activated):",
@@ -161,12 +155,10 @@ private fun RowScope.ColumnOne() {
             TextField(
                 state = state,
                 modifier =
-                    Modifier
-                        .width(200.dp)
-                        .provideData {
-                            set(ActionSystemTestAction.COMPONENT_DATA_KEY.name, "TextField")
-                            lazy(ActionSystemTestAction.COMPONENT_DATA_KEY.name) { Math.random().toString() }
-                        },
+                    Modifier.width(200.dp).provideData {
+                        set(ActionSystemTestAction.COMPONENT_DATA_KEY.name, "TextField")
+                        lazy(ActionSystemTestAction.COMPONENT_DATA_KEY.name) { Math.random().toString() }
+                    },
                 placeholder = { Text("Write something...") },
             )
 
@@ -220,9 +212,7 @@ private fun RowScope.ColumnOne() {
                 }
             ) {
                 Text(
-                    modifier = Modifier
-                        .border(1.dp, JewelTheme.globalColors.borders.normal)
-                        .padding(12.dp, 8.dp),
+                    modifier = Modifier.border(1.dp, JewelTheme.globalColors.borders.normal).padding(12.dp, 8.dp),
                     text = "Hover Me!",
                 )
             }
@@ -243,7 +233,8 @@ private fun RowScope.ColumnOne() {
                     ErrorBanner("This is an error banner in Compose")
                     ErrorInlineBanner(
                         style = JewelTheme.inlineBannerStyle.error,
-                        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
+                        text =
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
                         actionIcons = {
                             IconButton(onClick = { clickLabel = "Error Inline Action Icon clicked" }) {
                                 Icon(AllIconsKeys.General.Close, null)
@@ -298,9 +289,7 @@ private fun IconsShowcase() {
         JewelTheme.colorPalette.blueOrNull(4) ?: JBUI.CurrentTheme.Banner.INFO_BACKGROUND.toComposeColor()
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
@@ -316,18 +305,14 @@ private fun IconsShowcase() {
         }
 
         Box(
-            Modifier
-                .size(24.dp)
-                .background(iconBackgroundColor, shape = RoundedCornerShape(4.dp)),
+            Modifier.size(24.dp).background(iconBackgroundColor, shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
             Icon(key = AllIconsKeys.Nodes.ConfigFolder, contentDescription = "taskGroup", hint = Stroke(Color.White))
         }
 
         Box(
-            Modifier
-                .size(24.dp)
-                .background(iconBackgroundColor, shape = RoundedCornerShape(4.dp)),
+            Modifier.size(24.dp).background(iconBackgroundColor, shape = RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
             Icon(
@@ -380,12 +365,7 @@ private fun IconsShowcase() {
 
 @Composable
 private fun RowScope.ColumnTwo(project: Project) {
-    Column(
-        Modifier
-        .trackActivation()
-        .weight(1f),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    Column(Modifier.trackActivation().weight(1f), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         MarkdownExample(project)
 
         Divider(Orientation.Horizontal, Modifier.fillMaxWidth())
@@ -414,9 +394,7 @@ private fun RowScope.ColumnTwo(project: Project) {
         }
         LazyTree(
             tree = tree,
-            modifier = Modifier
-                .height(200.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.height(200.dp).fillMaxWidth(),
             onElementClick = {},
             onElementDoubleClick = {},
         ) { element ->
@@ -448,8 +426,7 @@ private fun MarkdownExample(project: Project) {
                 |```
                 """
                     .trimMargin(),
-                Modifier
-                    .fillMaxWidth()
+                Modifier.fillMaxWidth()
                     .background(JBUI.CurrentTheme.Banner.INFO_BACKGROUND.toComposeColor(), RoundedCornerShape(8.dp))
                     .border(1.dp, JBUI.CurrentTheme.Banner.INFO_BORDER_COLOR.toComposeColor(), RoundedCornerShape(8.dp))
                     .padding(8.dp),
