@@ -66,7 +66,7 @@ public fun ListComboBox(
     }
 
     fun setSelectedItem(index: Int) {
-        if (index > 0 && index < items.lastIndex) {
+        if (index >= 0 && index <= items.lastIndex) {
             listState.selectedKeys = setOf(index)
             labelText = items[index]
             onSelectedItemChange(index, items[index])
@@ -184,7 +184,7 @@ public fun EditableListComboBox(
     }
 
     fun setSelectedItem(index: Int) {
-        if (index > 0 && index < items.lastIndex) {
+        if (index >= 0 && index <= items.lastIndex) {
             // Note: it's important to do the edit _before_ updating the list state,
             // since updating the list state will cause another, asynchronous and
             // potentially nested call to edit, which is not supported.

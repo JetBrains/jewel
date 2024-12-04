@@ -91,7 +91,6 @@ public fun EditableComboBox(
     popupManager: PopupManager = PopupManager(),
     popupContent: @Composable () -> Unit,
 ) {
-    var popupVisible by remember { mutableStateOf(false) }
     var chevronHovered by remember { mutableStateOf(false) }
     var textFieldHovered by remember { mutableStateOf(false) }
 
@@ -160,13 +159,12 @@ public fun EditableComboBox(
                     isFocused = comboBoxState.isFocused,
                     textFieldFocusRequester = textFieldFocusRequester,
                     style = style,
-                    popupExpanded = popupVisible,
+                    popupManager = popupManager,
                     textStyle = textStyle,
                     textFieldInteractionSource = textFieldInteractionSource,
                     onArrowDownPress = onArrowDownPress,
                     onArrowUpPress = onArrowUpPress,
                     onEnterPress = onEnterPress,
-                    onSetPopupExpanded = { popupVisible = it },
                     onFocusedChange = { comboBoxState = comboBoxState.copy(focused = it) },
                     onHoveredChange = { textFieldHovered = it },
                     modifier = Modifier.fillMaxWidth().weight(1f),
@@ -177,7 +175,7 @@ public fun EditableComboBox(
                     style = style,
                     interactionSource = interactionSource,
                     onHoveredChange = { chevronHovered = it },
-                    setPopupExpanded = { popupVisible = it },
+                    setPopupVisible = { popupManager.setPopupVisible(it) },
                     onPressWhenEnabled = {
                         popupManager.togglePopupVisibility()
                         textFieldFocusRequester.requestFocus()
@@ -186,6 +184,7 @@ public fun EditableComboBox(
             }
         }
 
+        val popupVisible by popupManager.isPopupVisible
         if (popupVisible) {
             PopupContainer(
                 onDismissRequest = {
@@ -215,17 +214,17 @@ private fun TextField(
     isFocused: Boolean,
     textFieldFocusRequester: FocusRequester,
     style: ComboBoxStyle,
-    popupExpanded: Boolean,
+    popupManager: PopupManager,
     textStyle: TextStyle,
     textFieldInteractionSource: MutableInteractionSource,
     onArrowDownPress: () -> Unit,
     onArrowUpPress: () -> Unit,
     onEnterPress: () -> Unit,
-    onSetPopupExpanded: (Boolean) -> Unit,
     onFocusedChange: (Boolean) -> Unit,
     onHoveredChange: (Boolean) -> Unit,
 ) {
     val textColor = if (isEnabled) style.colors.content else style.colors.borderDisabled
+    val popupVisible by popupManager.isPopupVisible
 
     BasicTextField(
         state = inputTextFieldState,
@@ -239,31 +238,26 @@ private fun TextField(
                     if (it.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
                     when {
                         it.key == Key.DirectionDown -> {
-                            if (popupExpanded) {
+                            if (popupVisible) {
                                 onArrowDownPress()
                             } else {
-                                onSetPopupExpanded(true)
-                                textFieldFocusRequester.requestFocus()
+                                popupManager.setPopupVisible(true)
                             }
                             true
                         }
                         it.key == Key.DirectionUp -> {
-                            if (popupExpanded) {
+                            if (popupVisible) {
                                 onArrowUpPress()
-                            } else {
-                                textFieldFocusRequester.requestFocus()
                             }
                             true
                         }
                         it.key == Key.Enter -> {
-                            if (popupExpanded) {
-                                onSetPopupExpanded(false)
-                            }
+                            popupManager.setPopupVisible(false)
                             onEnterPress()
                             true
                         }
-                        it.key == Key.Escape && popupExpanded -> {
-                            onSetPopupExpanded(false)
+                        it.key == Key.Escape && popupVisible -> {
+                            popupManager.setPopupVisible(false)
                             true
                         }
                         else -> false
@@ -284,7 +278,7 @@ private fun Chevron(
     style: ComboBoxStyle,
     interactionSource: MutableInteractionSource,
     onHoveredChange: (Boolean) -> Unit,
-    setPopupExpanded: (Boolean) -> Unit,
+    setPopupVisible: (Boolean) -> Unit,
     onPressWhenEnabled: () -> Unit,
 ) {
     Box(
@@ -294,7 +288,7 @@ private fun Chevron(
                 .thenIf(isEnabled) {
                     onHover { onHoveredChange(it) }
                         .pointerInput(interactionSource) {
-                            detectPressAndCancel(onPress = onPressWhenEnabled, onCancel = { setPopupExpanded(false) })
+                            detectPressAndCancel(onPress = onPressWhenEnabled, onCancel = { /*setPopupVisible(false)*/ })
                         }
                         .semantics {
                             onClick(
