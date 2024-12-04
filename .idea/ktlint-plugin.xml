@@ -10,6 +10,12 @@
   </component>
   <component name="com.nbadal.ktlint.KtlintProjectSettings">
     <ktlintMode>MANUAL</ktlintMode>
+    <formatOnSave>false</formatOnSave>
     <attachToIntellijFormat>false</attachToIntellijFormat>
+    <externalJarPaths>
+      <list>
+        <option value="$PROJECT_DIR$/ktlint-compose-0.4.19-all.jar" />
+      </list>
+    </externalJarPaths>
   </component>
 </project>

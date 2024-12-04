@@ -14,6 +14,7 @@ kotlinterGradlePlugin = "4.4.1"
 kotlinxSerialization = "1.7.3"
 kotlinxBinaryCompat = "0.16.3"
 ktfmtGradlePlugin = "0.20.1"
+ktlintComposeRules = "0.4.19"
 poko = "0.17.1"
 
 [libraries]
@@ -25,6 +26,8 @@ filePicker = { module = "com.darkrockstudios:mpfilepicker", version = "3.1.0" }
 kotlinSarif = { module = "io.github.detekt.sarif4k:sarif4k", version.ref = "kotlinSarif" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+
+ktlint-composeRules = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintComposeRules" }
 
 jna-core = { module = "net.java.dev.jna:jna", version.ref = "jna" }
 
