@@ -58,11 +58,12 @@ public abstract class JewelLogger {
 
                 // Create a new handler with a higher logging level
                 val handler = ConsoleHandler()
-                handler.level = Level.FINE
+                val isVerbose = System.getProperty("jewel.verbose") == "true"
+                handler.level = if (isVerbose) Level.FINEST else Level.FINE
                 l.addHandler(handler)
 
                 // Tune the logger for level and duplicated messages
-                l.level = Level.FINE
+                l.level = if (isVerbose) Level.FINEST else Level.FINE
                 l.useParentHandlers = false
                 l
             }
