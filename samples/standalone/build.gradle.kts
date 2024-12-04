@@ -60,6 +60,10 @@ tasks {
         afterEvaluate {
             javaLauncher = project.javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(jdkLevel) }
             setExecutable(javaLauncher.map { it.executablePath.asFile.absolutePath }.get())
+
+            if (project.hasProperty("jewel.verbose")) {
+                systemProperty("jewel.verbose", "true")
+            }
         }
     }
 }
