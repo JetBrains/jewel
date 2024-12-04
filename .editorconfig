@@ -37,6 +37,8 @@ ktlint_standard_trailing-comma-on-call-site = disabled
 ktlint_standard_trailing-comma-on-declaration-site = disabled
 ktlint_standard_try-catch-finally-spacing = disabled
 ktlint_standard_wrapping = disabled
+ktlint_compose_lambda-param-event-trailing = disabled
+ktlint_compose_modifier-without-default-check = disabled
 
 [gradlew.bat]
 end_of_line = crlf

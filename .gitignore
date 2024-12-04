@@ -107,3 +107,6 @@ $RECYCLE.BIN/
 # Ignore Kotlin compiler sessions
 /.kotlin
 /buildSrc/.kotlin
+
+# Un-ignore ktlint-compose rules
+!/ktlint-compose-*-all.jar

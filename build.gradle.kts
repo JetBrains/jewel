@@ -6,6 +6,8 @@ plugins {
     `jewel-linting`
 }
 
+buildscript { dependencies { classpath(libs.ktlint.composeRules) } }
+
 dependencies {
     sarif(projects.decoratedWindow)
     sarif(projects.foundation)
