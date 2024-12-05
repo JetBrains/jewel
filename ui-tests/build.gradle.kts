@@ -16,4 +16,3 @@ dependencies {
     testImplementation(compose.desktop.uiTestJUnit4)
     testImplementation(compose.desktop.currentOs) { exclude(group = "org.jetbrains.compose.material") }
 }
-
