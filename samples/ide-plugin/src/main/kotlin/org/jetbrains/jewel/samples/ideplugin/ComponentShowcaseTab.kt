@@ -56,26 +56,26 @@ import org.jetbrains.jewel.ui.component.CircularProgressIndicatorBig
 import org.jetbrains.jewel.ui.component.DefaultButton
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.Dropdown
-import org.jetbrains.jewel.ui.component.ErrorBanner
+import org.jetbrains.jewel.ui.component.ErrorDefaultBanner
 import org.jetbrains.jewel.ui.component.ErrorInlineBanner
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconActionButton
 import org.jetbrains.jewel.ui.component.IconButton
-import org.jetbrains.jewel.ui.component.InformationBanner
+import org.jetbrains.jewel.ui.component.InformationDefaultBanner
 import org.jetbrains.jewel.ui.component.InformationInlineBanner
 import org.jetbrains.jewel.ui.component.LazyTree
 import org.jetbrains.jewel.ui.component.Link
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.RadioButtonRow
 import org.jetbrains.jewel.ui.component.Slider
-import org.jetbrains.jewel.ui.component.SuccessBanner
+import org.jetbrains.jewel.ui.component.SuccessDefaultBanner
 import org.jetbrains.jewel.ui.component.SuccessInlineBanner
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Tooltip
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
-import org.jetbrains.jewel.ui.component.WarningBanner
+import org.jetbrains.jewel.ui.component.WarningDefaultBanner
 import org.jetbrains.jewel.ui.component.WarningInlineBanner
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
@@ -230,7 +230,7 @@ private fun RowScope.ColumnOne() {
             Text(text = "Clicked action: $clickLabel")
             when (bannerStyle) {
                 1 -> {
-                    ErrorBanner("This is an error banner in Compose")
+                    ErrorDefaultBanner("This is an error banner in Compose")
                     ErrorInlineBanner(
                         style = JewelTheme.inlineBannerStyle.error,
                         text =
@@ -244,7 +244,7 @@ private fun RowScope.ColumnOne() {
                 }
 
                 0 -> {
-                    SuccessBanner("This is a success banner in Compose")
+                    SuccessDefaultBanner("This is a success banner in Compose")
                     SuccessInlineBanner(
                         style = JewelTheme.inlineBannerStyle.success,
                         text =
@@ -270,12 +270,12 @@ private fun RowScope.ColumnOne() {
                 }
 
                 2 -> {
-                    WarningBanner("This is a warning banner in Compose")
+                    WarningDefaultBanner("This is a warning banner in Compose")
                     WarningInlineBanner("This is a warning banner in Compose")
                 }
 
                 else -> {
-                    InformationBanner("This is an information banner in Compose")
+                    InformationDefaultBanner("This is an information banner in Compose")
                     InformationInlineBanner("This is an information banner in Compose")
                 }
             }

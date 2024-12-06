@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -36,6 +35,7 @@ import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.ui.component.styling.InlineBannerStyle
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.theme.inlineBannerStyle
+import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable
 public fun InformationInlineBanner(
@@ -133,12 +133,6 @@ private fun InlineBannerImpl(
     modifier: Modifier,
 ) {
     val borderColor = style.colors.border
-    val containerPadding =
-        if (actionIcons == null) {
-            PaddingValues(12.dp)
-        } else {
-            PaddingValues(start = 12.dp, top = 8.dp, end = 8.dp, bottom = 10.dp)
-        }
     RoundedCornerBox(
         modifier = modifier.testTag("InlineBanner"),
         borderColor = borderColor,
@@ -146,24 +140,36 @@ private fun InlineBannerImpl(
         contentColor = JewelTheme.contentColor,
         borderWidth = 1.dp,
         cornerSize = CornerSize(8.dp),
-        padding = containerPadding,
+        padding = PaddingValues(),
     ) {
-        val verticalAlignment = if (actions == null) Alignment.CenterVertically else Alignment.Top
-        Row(verticalAlignment = verticalAlignment) {
+        Row(modifier = Modifier.padding(start = 12.dp)) {
             if (icon != null) {
-                Box(modifier = Modifier.size(16.dp)) { icon() }
+                Box(modifier = Modifier.padding(top = 12.dp, bottom = 12.dp).size(16.dp)) { icon() }
+                Spacer(Modifier.width(8.dp))
             }
-            Spacer(Modifier.width(12.dp))
-            Column(modifier = Modifier.weight(1f).align(verticalAlignment)) {
-                Text(text = text, style = textStyle, modifier = Modifier.fillMaxWidth())
+
+            Column(
+                modifier =
+                    Modifier.weight(1f)
+                        .padding(top = 12.dp, bottom = 12.dp) // kftmt plz behave
+                        .thenIf(actionIcons == null) { padding(end = 12.dp) }
+            ) {
+                Text(text = text, style = textStyle)
+
                 if (actions != null) {
                     Spacer(Modifier.height(8.dp))
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) { actions() }
                 }
             }
+
             if (actionIcons != null) {
-                Spacer(Modifier.width(12.dp))
-                Row(modifier = Modifier.align(Alignment.Top), verticalAlignment = Alignment.Top) { actionIcons() }
+                Spacer(Modifier.width(8.dp))
+                Row(
+                    modifier = Modifier.align(Alignment.Top).padding(top = 8.dp, end = 8.dp, bottom = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(2.dp),
+                ) {
+                    actionIcons()
+                }
             }
         }
     }
