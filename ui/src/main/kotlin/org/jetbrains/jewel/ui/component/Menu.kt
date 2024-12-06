@@ -75,6 +75,7 @@ import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.state.SelectableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
+import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
@@ -152,26 +153,30 @@ internal fun MenuContent(
 
     Box(
         modifier =
-            modifier
-                .shadow(
-                    elevation = style.metrics.shadowSize,
-                    shape = menuShape,
-                    ambientColor = colors.shadow,
-                    spotColor = colors.shadow,
-                )
-                .border(Stroke.Alignment.Inside, style.metrics.borderWidth, colors.border, menuShape)
-                .background(colors.background, menuShape)
-                .width(IntrinsicSize.Max)
-                .onHover { localMenuManager.onHoveredChange(it) }
+        modifier
+            .shadow(
+                elevation = style.metrics.shadowSize,
+                shape = menuShape,
+                ambientColor = colors.shadow,
+                spotColor = colors.shadow,
+            )
+            .border(Stroke.Alignment.Inside, style.metrics.borderWidth, colors.border, menuShape)
+            .background(colors.background, menuShape)
+            .width(IntrinsicSize.Max)
+            .onHover { localMenuManager.onHoveredChange(it) }
     ) {
-        Column(Modifier.verticalScroll(scrollState).padding(style.metrics.contentPadding)) {
+        Column(Modifier
+            .verticalScroll(scrollState)
+            .padding(style.metrics.contentPadding)) {
             items.forEach { ShowMenuItem(it, anyItemHasIcon, anyItemHasKeybinding) }
         }
 
         Box(modifier = Modifier.matchParentSize()) {
             VerticalScrollbar(
                 rememberScrollbarAdapter(scrollState),
-                modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .align(Alignment.CenterEnd),
             )
         }
     }
@@ -319,7 +324,9 @@ public fun MenuSeparator(
     Box(modifier.height(metrics.separatorHeight)) {
         Divider(
             orientation = Orientation.Horizontal,
-            modifier = Modifier.fillMaxWidth().padding(metrics.separatorPadding),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(metrics.separatorPadding),
             color = colors.separator,
             thickness = metrics.separatorThickness,
         )
@@ -341,7 +348,7 @@ internal fun MenuItem(
     content: @Composable () -> Unit,
 ) {
     var itemState by
-        remember(interactionSource) { mutableStateOf(MenuItemState.of(selected = selected, enabled = enabled)) }
+    remember(interactionSource) { mutableStateOf(MenuItemState.of(selected = selected, enabled = enabled)) }
 
     remember(enabled, selected) { itemState = itemState.copy(selected = selected, enabled = enabled) }
 
@@ -352,7 +359,8 @@ internal fun MenuItem(
             when (interaction) {
                 is PressInteraction.Press -> itemState = itemState.copy(pressed = true)
                 is PressInteraction.Cancel,
-                is PressInteraction.Release -> itemState = itemState.copy(pressed = false)
+                is PressInteraction.Release,
+                    -> itemState = itemState.copy(pressed = false)
 
                 is HoverInteraction.Enter -> {
                     itemState = itemState.copy(hovered = true)
@@ -371,20 +379,20 @@ internal fun MenuItem(
 
     Box(
         modifier =
-            modifier
-                .focusRequester(focusRequester)
-                .selectable(
-                    selected = selected,
-                    onClick = {
-                        onClick()
-                        menuManager.closeAll(localInputModeManager.inputMode, true)
-                    },
-                    enabled = enabled,
-                    role = Role.Button,
-                    interactionSource = interactionSource,
-                    indication = null,
-                )
-                .fillMaxWidth()
+        modifier
+            .focusRequester(focusRequester)
+            .selectable(
+                selected = selected,
+                onClick = {
+                    onClick()
+                    menuManager.closeAll(localInputModeManager.inputMode, true)
+                },
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            )
+            .fillMaxWidth()
     ) {
         DisposableEffect(Unit) {
             if (selected) {
@@ -397,15 +405,19 @@ internal fun MenuItem(
         val itemColors = style.colors.itemColors
         val itemMetrics = style.metrics.itemMetrics
 
-        CompositionLocalProvider(LocalContentColor provides itemColors.contentFor(itemState).value) {
+        CompositionLocalProvider(
+            LocalContentColor provides itemColors.contentFor(itemState).value,
+            LocalTextStyle provides LocalTextStyle.current.copy(color = itemColors.contentFor(itemState).value),
+        ) {
             val backgroundColor by itemColors.backgroundFor(itemState)
 
             Row(
                 modifier =
-                    Modifier.fillMaxWidth()
-                        .defaultMinSize(minHeight = itemMetrics.minHeight)
-                        .drawItemBackground(itemMetrics, backgroundColor)
-                        .padding(itemMetrics.contentPadding),
+                Modifier
+                    .fillMaxWidth()
+                    .defaultMinSize(minHeight = itemMetrics.minHeight)
+                    .drawItemBackground(itemMetrics, backgroundColor)
+                    .padding(itemMetrics.contentPadding),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -476,7 +488,7 @@ public fun MenuSubmenuItem(
     content: @Composable () -> Unit,
 ) {
     var itemState by
-        remember(interactionSource) { mutableStateOf(MenuItemState.of(selected = false, enabled = enabled)) }
+    remember(interactionSource) { mutableStateOf(MenuItemState.of(selected = false, enabled = enabled)) }
 
     remember(enabled) { itemState = itemState.copy(selected = false, enabled = enabled) }
 
@@ -487,7 +499,8 @@ public fun MenuSubmenuItem(
             when (interaction) {
                 is PressInteraction.Press -> itemState = itemState.copy(pressed = true)
                 is PressInteraction.Cancel,
-                is PressInteraction.Release -> itemState = itemState.copy(pressed = false)
+                is PressInteraction.Release,
+                    -> itemState = itemState.copy(pressed = false)
 
                 is HoverInteraction.Enter -> {
                     itemState = itemState.copy(hovered = true, selected = true)
@@ -507,29 +520,31 @@ public fun MenuSubmenuItem(
     val backgroundColor by itemColors.backgroundFor(itemState)
     Box(
         modifier =
-            modifier
-                .fillMaxWidth()
-                .drawItemBackground(menuMetrics.itemMetrics, backgroundColor)
-                .focusRequester(focusRequester)
-                .clickable(
-                    onClick = { itemState = itemState.copy(selected = !itemState.isSelected) },
-                    enabled = enabled,
-                    role = Role.Button,
-                    interactionSource = interactionSource,
-                    indication = null,
-                )
-                .onKeyEvent {
-                    if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionRight) {
-                        itemState = itemState.copy(selected = true)
-                        true
-                    } else {
-                        false
-                    }
+        modifier
+            .fillMaxWidth()
+            .drawItemBackground(menuMetrics.itemMetrics, backgroundColor)
+            .focusRequester(focusRequester)
+            .clickable(
+                onClick = { itemState = itemState.copy(selected = !itemState.isSelected) },
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            )
+            .onKeyEvent {
+                if (it.type == KeyEventType.KeyDown && it.key == Key.DirectionRight) {
+                    itemState = itemState.copy(selected = true)
+                    true
+                } else {
+                    false
                 }
+            }
     ) {
         CompositionLocalProvider(LocalContentColor provides itemColors.contentFor(itemState).value) {
             Row(
-                Modifier.fillMaxWidth().padding(menuMetrics.itemMetrics.contentPadding),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(menuMetrics.itemMetrics.contentPadding),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
