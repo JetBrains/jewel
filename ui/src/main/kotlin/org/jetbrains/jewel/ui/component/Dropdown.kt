@@ -55,7 +55,7 @@ import org.jetbrains.jewel.ui.util.thenIf
 
 @Deprecated(
     message = "Use ListComboBox instead. This component will be removed in a future release.",
-    level = DeprecationLevel.WARNING
+    level = DeprecationLevel.WARNING,
 )
 @Composable
 public fun Dropdown(
