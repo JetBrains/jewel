@@ -1,9 +1,10 @@
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
+
 plugins {
     jewel
     `jewel-publish`
     `jewel-check-public-api`
-    alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.compose.compiler)
+    `jewel-compose`
     `intellij-theme-generator`
 }
 
@@ -22,3 +23,5 @@ intelliJThemeGenerator {
         ideaVersion = targetIdeaVersion
     }
 }
+
+composeCompiler { featureFlags.add(ComposeFeatureFlag.OptimizeNonSkippingGroups) }

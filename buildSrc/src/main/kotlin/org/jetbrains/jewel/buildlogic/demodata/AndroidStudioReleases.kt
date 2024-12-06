@@ -1,10 +1,8 @@
 package org.jetbrains.jewel.buildlogic.demodata
 
 import com.squareup.kotlinpoet.ClassName
-import gradle.kotlin.dsl.accessors._327d2b3378ed6d2c1bec5d20438f90c7.kotlin
-import gradle.kotlin.dsl.accessors._327d2b3378ed6d2c1bec5d20438f90c7.sourceSets
-import java.io.File
-import java.net.URI
+import gradle.kotlin.dsl.accessors._37a0ee314f5f7cc7e31ba3ebe55d89e3.kotlin
+import gradle.kotlin.dsl.accessors._37a0ee314f5f7cc7e31ba3ebe55d89e3.sourceSets
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.gradle.api.DefaultTask
@@ -21,9 +19,10 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.property
 import org.gradle.kotlin.dsl.setProperty
+import java.io.File
+import java.net.URI
 
 open class StudioVersionsGenerationExtension(project: Project) {
-
     val targetDir: DirectoryProperty =
         project.objects
             .directoryProperty()
@@ -53,7 +52,6 @@ internal const val STUDIO_RELEASES_OUTPUT_CLASS_NAME =
     "org.jetbrains.jewel.samples.ideplugin.releasessample.AndroidStudioReleases"
 
 open class AndroidStudioReleasesGeneratorTask : DefaultTask() {
-
     @get:OutputFile val outputFile: RegularFileProperty = project.objects.fileProperty()
 
     @get:Input val dataUrl = project.objects.property<String>()

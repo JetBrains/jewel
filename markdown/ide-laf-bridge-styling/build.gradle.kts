@@ -4,9 +4,8 @@ plugins {
     jewel
     `jewel-publish`
     `jewel-check-public-api`
-    alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ideaPluginBase)
+    `jewel-compose`
+    id("org.jetbrains.intellij.platform.base")
 }
 
 // Because we need to define IJP dependencies, the dependencyResolutionManagement

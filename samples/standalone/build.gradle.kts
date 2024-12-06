@@ -1,11 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 
 plugins {
     jewel
-    alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.compose.compiler)
+    `jewel-compose`
 }
 
 dependencies {
@@ -31,6 +31,8 @@ kotlin {
         vendor = JvmVendorSpec.JETBRAINS
     }
 }
+
+composeCompiler { featureFlags.add(ComposeFeatureFlag.OptimizeNonSkippingGroups) }
 
 compose.desktop {
     application {

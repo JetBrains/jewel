@@ -1,13 +1,14 @@
 [versions]
 commonmark = "0.24.0"
-composeDesktop = "1.7.1"
+compose = "1.7.1"
+composeHotReload = "1.0.0-dev.31.1"
 detekt = "1.23.6"
 dokka = "1.9.20"
 idea = "243.21155.17"
 intelliJPlatformBuild = "243.21155.17-EAP-SNAPSHOT"
 ideaPlugin = "2.1.0"
 jna = "5.14.0"
-kotlin = "2.0.21-RC"
+kotlin = "2.1.0-firework.31"
 kotlinSarif = "0.5.0"
 kotlinpoet = "1.18.1"
 kotlinterGradlePlugin = "4.4.1"
@@ -32,17 +33,23 @@ intellijPlatform-util-ui = { module = "com.jetbrains.intellij.platform:util-ui",
 intellijPlatform-icons = { module = "com.jetbrains.intellij.platform:icons", version.ref = "intelliJPlatformBuild" }
 
 # Plugin libraries for build-logic's convention plugins to use to resolve the types/tasks coming from these plugins
+compose-multiplatform-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+compose-compiler-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+compose-hotReload-gradlePlugin = { module = "org.jetbrains.compose:hot-reload-gradle-plugin", version.ref = "composeHotReload" }
 detekt-gradlePlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 dokka-gradlePlugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+idea-gradlePlugin = { module = "org.jetbrains.intellij.platform:intellij-platform-gradle-plugin", version.ref = "ideaPlugin" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 kotlinter-gradlePlugin = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "kotlinterGradlePlugin" }
 kotlinx-binaryCompatValidator-gradlePlugin = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "kotlinxBinaryCompat" }
+kotlinx-serialization-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 ktfmt-gradlePlugin = { module = "com.ncorti.ktfmt.gradle:plugin", version.ref = "ktfmtGradlePlugin" }
 poko-gradlePlugin = { module = "dev.drewhamilton.poko:poko-gradle-plugin", version.ref = "poko" }
 
 [plugins]
-composeDesktop = { id = "org.jetbrains.compose", version.ref = "composeDesktop" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose-hotReload = { id = "org.jetbrains.compose-hot-reload", version.ref = "composeHotReload" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }

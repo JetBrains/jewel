@@ -2,9 +2,8 @@ import java.net.URI
 
 plugins {
     jewel
-    alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ideaPlugin)
+    `jewel-compose`
+    id("org.jetbrains.intellij.platform")
     `android-studio-releases-generator`
 }
 

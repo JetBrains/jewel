@@ -5,9 +5,8 @@ plugins {
     `jewel-publish`
     `jewel-check-public-api`
     `ide-version-checker`
-    alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ideaPluginModule)
+    `jewel-compose`
+    id("org.jetbrains.intellij.platform.module")
 }
 
 // Because we need to define IJP dependencies, the dependencyResolutionManagement

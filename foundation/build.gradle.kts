@@ -1,11 +1,11 @@
 import org.jetbrains.compose.ComposeBuildConfig
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 
 plugins {
     jewel
     `jewel-publish`
     `jewel-check-public-api`
-    alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.compose.compiler)
+    `jewel-compose`
 }
 
 private val composeVersion
@@ -17,3 +17,5 @@ dependencies {
     testImplementation(compose.desktop.uiTestJUnit4)
     testImplementation(compose.desktop.currentOs) { exclude(group = "org.jetbrains.compose.material") }
 }
+
+composeCompiler { featureFlags.add(ComposeFeatureFlag.OptimizeNonSkippingGroups) }

@@ -5,11 +5,10 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
 }
 
-val properties = Properties()
+val myProperties = Properties()
+project.file("../gradle.properties").inputStream().use { myProperties.load(it) }
 
-project.file("../gradle.properties").inputStream().use { properties.load(it) }
-
-val jdkLevel = properties.getProperty("jdk.level") as String
+val jdkLevel = myProperties.getProperty("jdk.level") as String
 
 kotlin {
     jvmToolchain { languageVersion = JavaLanguageVersion.of(jdkLevel) }
@@ -18,14 +17,19 @@ kotlin {
 }
 
 dependencies {
+    implementation(libs.compose.multiplatform.gradlePlugin)
+    implementation(libs.compose.compiler.gradlePlugin)
+    implementation(libs.compose.hotReload.gradlePlugin)
     implementation(libs.detekt.gradlePlugin)
     implementation(libs.dokka.gradlePlugin)
+    implementation(libs.idea.gradlePlugin)
     implementation(libs.kotlin.gradlePlugin)
     implementation(libs.kotlinSarif)
     implementation(libs.kotlinpoet)
     implementation(libs.kotlinter.gradlePlugin)
     implementation(libs.ktfmt.gradlePlugin)
     implementation(libs.kotlinx.binaryCompatValidator.gradlePlugin)
+    implementation(libs.kotlinx.serialization.gradlePlugin)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.poko.gradlePlugin)
 
