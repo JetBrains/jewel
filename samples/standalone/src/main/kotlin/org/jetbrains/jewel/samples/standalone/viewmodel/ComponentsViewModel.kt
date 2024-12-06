@@ -1,6 +1,7 @@
 package org.jetbrains.jewel.samples.standalone.viewmodel
 
 import SplitLayouts
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +32,7 @@ object ComponentsViewModel {
     private var verticalSplitState by mutableStateOf(SplitLayoutState(0.5f))
     private var innerSplitState by mutableStateOf(SplitLayoutState(0.5f))
 
+    @OptIn(ExperimentalLayoutApi::class)
     val views: SnapshotStateList<ViewInfo> =
         mutableStateListOf(
             ViewInfo(title = "Buttons", iconKey = StandaloneSampleIcons.Components.button, content = { Buttons() }),
