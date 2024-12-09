@@ -46,19 +46,20 @@ internal fun Borders() {
     var open by remember { mutableStateOf(false) }
     GroupHeader(
         text = "Group header with startComponent",
-        modifier =
-            Modifier.clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {
-                    open = !open
-                }
-                .hoverable(remember { MutableInteractionSource() })
-                .pointerHoverIcon(PointerIcon(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))),
-        starComponent = {
+        modifier = Modifier
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+            ) { open = !open }
+            .hoverable(remember { MutableInteractionSource() })
+            .pointerHoverIcon(PointerIcon(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))),
+        startComponent = {
             if (open) {
                 Icon(AllIconsKeys.General.ChevronDown, "Chevron")
             } else {
                 Icon(AllIconsKeys.General.ChevronRight, "Chevron")
             }
-        },
+        }
     )
     if (open) {
         Text("Surprise!", Modifier.padding(start = 24.dp))
@@ -68,7 +69,7 @@ internal fun Borders() {
 
     GroupHeader(
         "Group header with both components",
-        starComponent = { Icon(AllIconsKeys.General.ChevronRight, "Chevron") },
+        startComponent = { Icon(AllIconsKeys.General.ChevronRight, "Chevron") },
         endComponent = { Text("End component") },
     )
     Spacer(Modifier.height(8.dp))
@@ -107,22 +108,26 @@ internal fun Borders() {
         val backgroundColor = remember(isDark) { if (isDark) colorPalette.gray(4) else colorPalette.gray(11) }
 
         Box(
-            Modifier.size(28.dp, 28.dp)
+            Modifier
+                .size(28.dp, 28.dp)
                 .background(backgroundColor, shape = CircleShape)
                 .border(borderAlignment, width, borderColor, CircleShape, expand)
         )
         Box(
-            Modifier.size(72.dp, 28.dp)
+            Modifier
+                .size(72.dp, 28.dp)
                 .background(backgroundColor, shape = RectangleShape)
                 .border(borderAlignment, width, borderColor, RectangleShape, expand)
         )
         Box(
-            Modifier.size(72.dp, 28.dp)
+            Modifier
+                .size(72.dp, 28.dp)
                 .background(backgroundColor, shape = RoundedCornerShape(4.dp))
                 .border(borderAlignment, width, borderColor, RoundedCornerShape(4.dp), expand)
         )
         Box(
-            Modifier.size(72.dp, 28.dp)
+            Modifier
+                .size(72.dp, 28.dp)
                 .background(backgroundColor, shape = RoundedCornerShape(4.dp, 0.dp, 4.dp, 0.dp))
                 .border(borderAlignment, width, borderColor, RoundedCornerShape(4.dp, 0.dp, 4.dp, 0.dp), expand)
         )
