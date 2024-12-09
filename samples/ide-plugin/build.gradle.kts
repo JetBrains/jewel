@@ -13,6 +13,7 @@ repositories {
     google()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     mavenCentral()
+    maven("https://packages.jetbrains.team/maven/p/firework/dev")
 
     intellijPlatform {
         ivy {

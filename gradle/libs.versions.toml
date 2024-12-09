@@ -1,7 +1,7 @@
 [versions]
 commonmark = "0.24.0"
 compose = "1.7.1"
-composeHotReload = "1.0.0-dev.31.1"
+composeHotReload = "1.0.0-dev.31.2"
 detekt = "1.23.6"
 dokka = "1.9.20"
 idea = "243.21155.17"
@@ -15,7 +15,7 @@ kotlinterGradlePlugin = "4.4.1"
 kotlinxSerialization = "1.7.3"
 kotlinxBinaryCompat = "0.16.3"
 ktfmtGradlePlugin = "0.20.1"
-poko = "0.17.1"
+poko = "0.18.0"
 
 [libraries]
 commonmark-core = { module = "org.commonmark:commonmark", version.ref = "commonmark" }
