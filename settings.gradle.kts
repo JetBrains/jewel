@@ -11,6 +11,7 @@ pluginManagement {
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
         gradlePluginPortal()
         mavenCentral()
+        maven(file("/Users/sebp/src/compose-hot-reload/build/repo"))
         maven("https://packages.jetbrains.team/maven/p/firework/dev")
     }
 }
@@ -23,6 +24,7 @@ dependencyResolutionManagement {
         maven("https://www.jetbrains.com/intellij-repository/snapshots")
         maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
         mavenCentral()
+        maven(file("/Users/sebp/src/compose-hot-reload/build/repo"))
         maven("https://packages.jetbrains.team/maven/p/firework/dev")
     }
 }

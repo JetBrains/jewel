@@ -1,3 +1,7 @@
+@file:Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
+
+import org.jetbrains.compose.reload.ComposeHotRun
+import org.jetbrains.compose.reload.createComposeHotReloadRunClasspath
 import java.net.URI
 
 plugins {
@@ -13,6 +17,7 @@ repositories {
     google()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     mavenCentral()
+    maven(file("/Users/sebp/src/compose-hot-reload/build/repo"))
     maven("https://packages.jetbrains.team/maven/p/firework/dev")
 
     intellijPlatform {
@@ -52,4 +57,21 @@ intellijPlatform {
     autoReload = false
 }
 
-tasks { runIde { jvmArgs = listOf("-Xmx3g") } }
+tasks {
+    runIde { jvmArgs = listOf("-Xmx16g") }
+
+    register<ComposeHotRun>("runHot") { mainClass.set("org.jetbrains.jewel.samples.standalone.MainKt") }
+
+    afterEvaluate {
+        val runIdeTask = runIde.get()
+        val hotReloadTask = named("runHot").get() as ComposeHotRun
+        runIdeTask.jvmArgs(hotReloadTask.jvmArgs)
+        runIdeTask.systemProperties(hotReloadTask.systemProperties)
+        runIdeTask.setClasspath(
+            project.files(
+                { kotlin.target.compilations.getByName("main").createComposeHotReloadRunClasspath() },
+                runIdeTask.classpath,
+            )
+        )
+    }
+}

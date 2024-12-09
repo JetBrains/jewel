@@ -8,6 +8,7 @@ pluginManagement {
     repositories {
         maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven(file("/Users/sebp/src/compose-hot-reload/build/repo"))
         maven("https://packages.jetbrains.team/maven/p/firework/dev")
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
         gradlePluginPortal()
@@ -18,6 +19,7 @@ pluginManagement {
 dependencyResolutionManagement {
     repositories {
         google()
+        maven(file("/Users/sebp/src/compose-hot-reload/build/repo"))
         maven("https://packages.jetbrains.team/maven/p/firework/dev")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://www.jetbrains.com/intellij-repository/releases")

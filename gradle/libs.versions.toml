@@ -1,7 +1,7 @@
 [versions]
 commonmark = "0.24.0"
 compose = "1.7.1"
-composeHotReload = "1.0.0-dev.31.2"
+composeHotReload = "1.0.0-dev.31.3-seb"
 detekt = "1.23.6"
 dokka = "1.9.20"
 idea = "243.21155.17"
