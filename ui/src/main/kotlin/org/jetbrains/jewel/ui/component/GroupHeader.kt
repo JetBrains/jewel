@@ -16,11 +16,9 @@ import org.jetbrains.jewel.ui.component.styling.GroupHeaderStyle
 import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
 
 /**
- * A component that displays a header for a group of items, with a title
- * and optional slots on both sides.
+ * A component that displays a header for a group of items, with a title and optional slots on both sides.
  *
- * **Guidelines:**
- * [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/group-header.html)
+ * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/group-header.html)
  *
  * **Usage example:**
  * [`Borders.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Borders.kt)
@@ -30,10 +28,8 @@ import org.jetbrains.jewel.ui.component.styling.LocalGroupHeaderStyle
  *
  * @param text The text to display in the header.
  * @param modifier The modifier to apply to the header.
- * @param startComponent The component to display on the left side of the
- *    header.
- * @param endComponent The component to display on the right side of the
- *    header.
+ * @param startComponent The component to display on the left side of the header.
+ * @param endComponent The component to display on the right side of the header.
  * @param style The style to apply to the header.
  * @see com.intellij.ui.TitledSeparator
  */
