@@ -48,8 +48,8 @@ internal fun Borders() {
         text = "Group header with startComponent",
         modifier =
             Modifier.clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {
-                open = !open
-            }
+                    open = !open
+                }
                 .hoverable(remember { MutableInteractionSource() })
                 .pointerHoverIcon(PointerIcon(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))),
         startComponent = {
