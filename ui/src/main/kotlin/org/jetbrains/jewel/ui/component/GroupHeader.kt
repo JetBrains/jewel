@@ -45,11 +45,9 @@ public fun GroupHeader(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        startComponent?.let {
-            Box(Modifier.size(16.dp)) { it() }
-        }
+        startComponent?.let { Box(Modifier.size(16.dp)) { it() } }
         Text(text, style = textStyle)
 
         Divider(
@@ -59,8 +57,6 @@ public fun GroupHeader(
             thickness = style.metrics.dividerThickness,
             startIndent = style.metrics.indent,
         )
-        endComponent?.let {
-            Row(Modifier.height(16.dp)) { it() }
-        }
+        endComponent?.let { Row(Modifier.height(16.dp)) { it() } }
     }
 }
