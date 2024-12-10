@@ -21,6 +21,7 @@ import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.OutlinedButton
 import org.jetbrains.jewel.ui.component.SelectableIconActionButton
 import org.jetbrains.jewel.ui.component.SelectableIconButton
+import org.jetbrains.jewel.ui.component.SplitButton
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.ToggleableIconActionButton
 import org.jetbrains.jewel.ui.component.ToggleableIconButton
@@ -40,6 +41,8 @@ fun Buttons() {
         IconActionButtons(selectedIndex == 2) { selectedIndex = 2 }
 
         ActionButtons()
+
+        SplitButtons()
     }
 }
 
@@ -157,4 +160,12 @@ private fun ActionButtons() {
 
         ActionButton(onClick = {}) { Text("Do something") }
     }
+}
+
+
+@Composable
+private fun SplitButtons() {
+    SplitButton(
+        mainComponent = { Text("Split button") }
+    )
 }
