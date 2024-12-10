@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -24,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
@@ -42,10 +42,12 @@ import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
+import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.theme.defaultButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
+import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
 
 @Composable
 public fun DefaultButton(
@@ -102,24 +104,24 @@ public fun OutlinedButton(
  * **Swing equivalent:**
  * [`JBOptionButton`](https://github.com/JetBrains/intellij-community/tree/idea/243.22562.145/platform/platform-api/src/com/intellij/ui/components/JBOptionButton.kt)
  *
+ * @param onClick the action to perform when the button is clicked
  * @param modifier the [Modifier] to be applied to the button
  * @param enabled whether the button is enabled
  * @param interactionSource the [MutableInteractionSource] representing the
  *    current interaction state
  * @param style the [ButtonStyle] to be applied to the button
  * @param textStyle the [TextStyle] to be applied to the button's text
- * @param onClick the action to perform when the button is clicked
  * @param content the content of the button
  * @see com.intellij.ui.components.JBOptionButton
  */
 @Composable
-public fun SplitButton(
+public fun OutlinedSplitButton(
     onClick: () -> Unit,
     secondaryOnClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: ButtonStyle = JewelTheme.outlinedButtonStyle,
+    style: SplitButtonStyle = JewelTheme.outlinedSplitButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     mainComponent: @Composable () -> Unit,
 ) {
@@ -128,21 +130,33 @@ public fun SplitButton(
         modifier = modifier,
         enabled = enabled,
         interactionSource = interactionSource,
-        style = style,
+        style = style.button,
         textStyle = textStyle,
         content = {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 mainComponent()
                 Divider(
                     orientation = Orientation.Vertical,
-                    thickness = 1.dp,
-                    color = ,
+                    thickness = style.divider.metrics.thickness,
+                    style = style.divider,
                     modifier = Modifier.height(20.dp)
                 )
-                Icon(AllIconsKeys.General.ChevronDown, "Chevron")
+                Box(
+                    modifier = Modifier.size(28.dp),
+                )
+                Icon(
+                    key = AllIconsKeys.General.ChevronDown,
+                    contentDescription = "Chevron",
+                    modifier = Modifier
+                        .size(16.dp)
+                        .clickable(
+                            onClick = secondaryOnClick,
+                            interactionSource = MutableInteractionSource(),
+                            indication = null
+                        ),
+                )
             }
-        }
-    )
+        })
 }
 
 @Composable
