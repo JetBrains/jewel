@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.onClick
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -174,7 +173,6 @@ public fun EditableComboBox(
                     style = style,
                     interactionSource = interactionSource,
                     onHoveredChange = { chevronHovered = it },
-                    setPopupVisible = { popupManager.setPopupVisible(it) },
                     onPressWhenEnabled = {
                         popupManager.togglePopupVisibility()
                         textFieldFocusRequester.requestFocus()
@@ -276,7 +274,6 @@ private fun Chevron(
     style: ComboBoxStyle,
     interactionSource: MutableInteractionSource,
     onHoveredChange: (Boolean) -> Unit,
-    setPopupVisible: (Boolean) -> Unit,
     onPressWhenEnabled: () -> Unit,
 ) {
     Box(
@@ -286,7 +283,10 @@ private fun Chevron(
                 .thenIf(isEnabled) {
                     onHover { onHoveredChange(it) }
                         .pointerInput(interactionSource) {
-                            detectPressAndCancel(onPress = onPressWhenEnabled, onCancel = { /*setPopupVisible(false)*/ })
+                            detectPressAndCancel(
+                                onPress = onPressWhenEnabled,
+                                onCancel = { /*setPopupVisible(false)*/ },
+                            )
                         }
                         .semantics {
                             onClick(
