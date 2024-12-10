@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.intui.core.theme.IntUiDarkTheme
 import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
@@ -96,9 +98,16 @@ public fun LazyTreeMetrics.Companion.defaults(
             ),
     )
 
+@Composable
 public fun LazyTreeIcons.Companion.defaults(
-    chevronCollapsed: IconKey = AllIconsKeys.General.ChevronRight,
     chevronExpanded: IconKey = AllIconsKeys.General.ChevronDown,
-    chevronSelectedCollapsed: IconKey = chevronCollapsed,
     chevronSelectedExpanded: IconKey = chevronExpanded,
-): LazyTreeIcons = LazyTreeIcons(chevronCollapsed, chevronExpanded, chevronSelectedCollapsed, chevronSelectedExpanded)
+): LazyTreeIcons {
+    val layoutDirection = LocalLayoutDirection.current
+    val chevronCollapsed = if (layoutDirection == LayoutDirection.Ltr) {
+        AllIconsKeys.General.ChevronRight
+    } else {
+        AllIconsKeys.General.ChevronLeft
+    }
+    return LazyTreeIcons(chevronCollapsed, chevronExpanded, chevronCollapsed, chevronSelectedExpanded)
+}
