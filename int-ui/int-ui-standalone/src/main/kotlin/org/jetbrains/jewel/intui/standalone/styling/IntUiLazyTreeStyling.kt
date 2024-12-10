@@ -104,10 +104,11 @@ public fun LazyTreeIcons.Companion.defaults(
     chevronSelectedExpanded: IconKey = chevronExpanded,
 ): LazyTreeIcons {
     val layoutDirection = LocalLayoutDirection.current
-    val chevronCollapsed = if (layoutDirection == LayoutDirection.Ltr) {
-        AllIconsKeys.General.ChevronRight
-    } else {
-        AllIconsKeys.General.ChevronLeft
-    }
+    val chevronCollapsed =
+        if (layoutDirection == LayoutDirection.Ltr) {
+            AllIconsKeys.General.ChevronRight
+        } else {
+            AllIconsKeys.General.ChevronLeft
+        }
     return LazyTreeIcons(chevronCollapsed, chevronExpanded, chevronCollapsed, chevronSelectedExpanded)
 }
