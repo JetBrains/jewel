@@ -23,7 +23,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -77,10 +76,10 @@ import org.jetbrains.jewel.ui.util.thenIf
 
 @Composable
 public fun EditableComboBox(
+    textFieldState: TextFieldState,
     modifier: Modifier = Modifier,
     menuModifier: Modifier = Modifier,
     isEnabled: Boolean = true,
-    inputTextFieldState: TextFieldState = rememberTextFieldState(),
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ComboBoxStyle = JewelTheme.comboBoxStyle,
@@ -155,7 +154,7 @@ public fun EditableComboBox(
             ) {
                 TextField(
                     isEnabled = isEnabled,
-                    inputTextFieldState = inputTextFieldState,
+                    inputTextFieldState = textFieldState,
                     isFocused = comboBoxState.isFocused,
                     textFieldFocusRequester = textFieldFocusRequester,
                     style = style,

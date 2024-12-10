@@ -213,9 +213,13 @@ public fun EditableListComboBox(
         }
 
     EditableComboBox(
+        textFieldState = textFieldState,
         modifier = modifier,
         isEnabled = isEnabled,
-        inputTextFieldState = textFieldState,
+        outline = outline,
+        interactionSource = interactionSource,
+        style = style,
+        textStyle = textStyle,
         onArrowDownPress = {
             var currentSelectedIndex = listState.selectedItemIndex()
 
@@ -246,10 +250,6 @@ public fun EditableListComboBox(
                 setSelectedItem(indexOfSelected)
             }
         },
-        style = style,
-        textStyle = textStyle,
-        interactionSource = interactionSource,
-        outline = outline,
         popupManager =
             PopupManager(
                 onPopupVisibleChange = {
@@ -258,18 +258,19 @@ public fun EditableListComboBox(
                 },
                 name = "EditableListComboBoxPopup",
             ),
-    ) {
-        PopupContent(
-            items = items,
-            previewSelectedItemIndex = previewSelectedIndex,
-            scrollState = listState,
-            popupMaxHeight = popupMaxHeight,
-            contentPadding = contentPadding,
-            onHoveredItemChange = { previewSelectedIndex = it },
-            onSelectedItemChange = ::setSelectedItem,
-            itemContent = itemContent,
-        )
-    }
+        popupContent = {
+            PopupContent(
+                items = items,
+                previewSelectedItemIndex = previewSelectedIndex,
+                scrollState = listState,
+                popupMaxHeight = popupMaxHeight,
+                contentPadding = contentPadding,
+                onHoveredItemChange = { previewSelectedIndex = it },
+                onSelectedItemChange = ::setSelectedItem,
+                itemContent = itemContent,
+            )
+        },
+    )
 }
 
 private suspend fun LazyListState.scrollToIndex(itemIndex: Int) {

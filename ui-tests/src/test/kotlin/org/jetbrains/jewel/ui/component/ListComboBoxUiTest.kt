@@ -90,8 +90,8 @@ class ListComboBoxUiTest {
                         Modifier.Companion.size(20.dp).focusRequester(focusRequester).testTag("Pre-Box").focusable(true)
                 )
                 EditableComboBox(
+                    textFieldState = rememberTextFieldState("Item 1"),
                     modifier = Modifier.Companion.width(140.dp).testTag("ComboBox"),
-                    inputTextFieldState = rememberTextFieldState("Item 1"),
                     popupContent = { /* ... */ },
                 )
             }
