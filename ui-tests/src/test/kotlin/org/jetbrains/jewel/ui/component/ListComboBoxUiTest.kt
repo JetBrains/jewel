@@ -44,7 +44,7 @@ class ListComboBoxUiTest {
     @get:Rule val composeRule = createComposeRule()
 
     private val popupMenu: SemanticsNodeInteraction
-        get() = composeRule.onNodeWithTag("Jewel.ComboBox.PopupMenu")
+        get() = composeRule.onNodeWithTag("Jewel.ComboBox.Popup")
 
     private val chevronContainer: SemanticsNodeInteraction
         get() = composeRule.onNodeWithTag("Jewel.ComboBox.ChevronContainer", useUnmergedTree = true)

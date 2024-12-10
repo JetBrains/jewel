@@ -214,7 +214,7 @@ public fun ComboBox(
                 },
                 modifier =
                     popupModifier
-                        .testTag("Jewel.ComboBox.PopupMenu")
+                        .testTag("Jewel.ComboBox.Popup")
                         .heightIn(max = maxHeight)
                         .width(comboBoxWidth)
                         .onClick { popupManager.setPopupVisible(false) },

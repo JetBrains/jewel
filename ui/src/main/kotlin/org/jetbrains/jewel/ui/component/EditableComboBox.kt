@@ -78,7 +78,7 @@ import org.jetbrains.jewel.ui.util.thenIf
 public fun EditableComboBox(
     textFieldState: TextFieldState,
     modifier: Modifier = Modifier,
-    menuModifier: Modifier = Modifier,
+    popupModifier: Modifier = Modifier,
     isEnabled: Boolean = true,
     outline: Outline = Outline.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -192,11 +192,10 @@ public fun EditableComboBox(
                     }
                 },
                 modifier =
-                    menuModifier
-                        .testTag("Jewel.ComboBox.PopupMenu")
-                        .semantics { contentDescription = "Jewel.ComboBox.PopupMenu" }
-                        .width(comboBoxWidth)
-                        .onClick { popupManager.setPopupVisible(false) },
+                    popupModifier
+                        .testTag("Jewel.ComboBox.Popup")
+                        .semantics { contentDescription = "Jewel.ComboBox.Popup" }
+                        .width(comboBoxWidth),
                 horizontalAlignment = Alignment.Start,
                 popupProperties = PopupProperties(focusable = false),
                 content = popupContent,
