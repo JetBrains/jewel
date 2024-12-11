@@ -9,12 +9,13 @@ plugins {
 
 dependencies {
     implementation(projects.markdown.core)
+    implementation(libs.commonmark.ext.gfm.tables)
 
     testImplementation(compose.desktop.uiTestJUnit4)
 }
 
 publicApiValidation {
-    excludedClassRegexes = setOf("org.jetbrains.jewel.markdown.extensions.github.alerts.*")
+    excludedClassRegexes = setOf("org.jetbrains.jewel.markdown.extensions.github.tables.*")
 }
 
 publishing.publications.named<MavenPublication>("main") {
