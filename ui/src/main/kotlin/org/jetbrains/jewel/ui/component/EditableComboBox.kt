@@ -177,6 +177,7 @@ public fun EditableComboBox(
                         popupManager.togglePopupVisibility()
                         textFieldFocusRequester.requestFocus()
                     },
+                    onCancelPress = { popupManager.setPopupVisible(false) },
                 )
             }
         }
@@ -275,6 +276,7 @@ private fun Chevron(
     interactionSource: MutableInteractionSource,
     onHoveredChange: (Boolean) -> Unit,
     onPressWhenEnabled: () -> Unit,
+    onCancelPress: () -> Unit,
 ) {
     Box(
         modifier =
@@ -283,10 +285,7 @@ private fun Chevron(
                 .thenIf(isEnabled) {
                     onHover { onHoveredChange(it) }
                         .pointerInput(interactionSource) {
-                            detectPressAndCancel(
-                                onPress = onPressWhenEnabled,
-                                onCancel = { /*setPopupVisible(false)*/ },
-                            )
+                            detectPressAndCancel(onPress = onPressWhenEnabled, onCancel = onCancelPress)
                         }
                         .semantics {
                             onClick(
