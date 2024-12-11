@@ -11,14 +11,12 @@ import org.commonmark.node.Node
 import org.commonmark.node.SoftLineBreak as CMSoftLineBreak
 import org.commonmark.node.StrongEmphasis as CMStrongEmphasis
 import org.commonmark.node.Text as CMText
-import org.jetbrains.annotations.VisibleForTesting
 import org.jetbrains.jewel.markdown.InlineMarkdown
 import org.jetbrains.jewel.markdown.WithInlineMarkdown
 import org.jetbrains.jewel.markdown.WithTextContent
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 
-@VisibleForTesting
-internal fun Node.readInlineContent(
+public fun Node.readInlineContent(
     markdownProcessor: MarkdownProcessor,
     extensions: List<MarkdownProcessorExtension>,
 ): List<InlineMarkdown> = buildList {
@@ -31,11 +29,10 @@ internal fun Node.readInlineContent(
     }
 }
 
-@VisibleForTesting
-internal fun Node.toInlineMarkdownOrNull(
+public fun Node.toInlineMarkdownOrNull(
     markdownProcessor: MarkdownProcessor,
     extensions: List<MarkdownProcessorExtension>,
-) =
+): InlineMarkdown? =
     when (this) {
         is CMText -> InlineMarkdown.Text(literal)
         is CMLink ->

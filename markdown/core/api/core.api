@@ -305,6 +305,11 @@ public final class org/jetbrains/jewel/markdown/processing/MarkdownProcessor {
 	public final fun processMarkdownDocument (Ljava/lang/String;)Ljava/util/List;
 }
 
+public final class org/jetbrains/jewel/markdown/processing/ProcessingUtilKt {
+	public static final fun readInlineContent (Lorg/commonmark/node/Node;Lorg/jetbrains/jewel/markdown/processing/MarkdownProcessor;Ljava/util/List;)Ljava/util/List;
+	public static final fun toInlineMarkdownOrNull (Lorg/commonmark/node/Node;Lorg/jetbrains/jewel/markdown/processing/MarkdownProcessor;Ljava/util/List;)Lorg/jetbrains/jewel/markdown/InlineMarkdown;
+}
+
 public class org/jetbrains/jewel/markdown/rendering/DefaultInlineMarkdownRenderer : org/jetbrains/jewel/markdown/rendering/InlineMarkdownRenderer {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/markdown/rendering/DefaultInlineMarkdownRenderer$Companion;
