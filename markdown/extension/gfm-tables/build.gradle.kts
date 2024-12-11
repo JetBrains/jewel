@@ -5,16 +5,19 @@ plugins {
     `jewel-publish`
     `jewel-check-public-api`
     `jewel-compose`
+    kotlin("jvm")
 }
 
 dependencies {
     implementation(projects.markdown.core)
+    implementation(libs.commonmark.ext.gfm.tables)
 
     testImplementation(compose.desktop.uiTestJUnit4)
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 publicApiValidation {
-    excludedClassRegexes = setOf("org.jetbrains.jewel.markdown.extensions.github.alerts.*")
+    excludedClassRegexes = setOf("org.jetbrains.jewel.markdown.extensions.github.tables.*")
 }
 
 publishing.publications.named<MavenPublication>("main") {

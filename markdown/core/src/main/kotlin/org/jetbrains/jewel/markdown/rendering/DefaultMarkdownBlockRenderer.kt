@@ -62,9 +62,9 @@ import org.jetbrains.jewel.ui.component.Text
 
 @ExperimentalJewelApi
 public open class DefaultMarkdownBlockRenderer(
-    private val rootStyling: MarkdownStyling,
-    private val rendererExtensions: List<MarkdownRendererExtension> = emptyList(),
-    private val inlineRenderer: InlineMarkdownRenderer = DefaultInlineMarkdownRenderer(rendererExtensions),
+    override val rootStyling: MarkdownStyling,
+    override val rendererExtensions: List<MarkdownRendererExtension> = emptyList(),
+    override val inlineRenderer: InlineMarkdownRenderer = DefaultInlineMarkdownRenderer(rendererExtensions),
 ) : MarkdownBlockRenderer {
     @Composable
     override fun render(
@@ -455,4 +455,15 @@ public open class DefaultMarkdownBlockRenderer(
             content()
         }
     }
+
+    public override fun copy(
+        rootStyling: MarkdownStyling?,
+        rendererExtensions: List<MarkdownRendererExtension>?,
+        inlineRenderer: InlineMarkdownRenderer?,
+    ): MarkdownBlockRenderer =
+        DefaultMarkdownBlockRenderer(
+            rootStyling ?: this.rootStyling,
+            rendererExtensions ?: this.rendererExtensions,
+            inlineRenderer ?: this.inlineRenderer,
+        )
 }

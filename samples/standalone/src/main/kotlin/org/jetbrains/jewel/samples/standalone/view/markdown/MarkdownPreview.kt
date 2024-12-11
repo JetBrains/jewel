@@ -31,6 +31,8 @@ import org.jetbrains.jewel.markdown.extension.autolink.AutolinkProcessorExtensio
 import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertProcessorExtension
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
+import org.jetbrains.jewel.markdown.extensions.github.tables.GitHubTableProcessorExtension
+import org.jetbrains.jewel.markdown.extensions.github.tables.GitHubTableRendererExtension
 import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
@@ -44,7 +46,14 @@ internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSeq
     val markdownStyling = remember(isDark) { if (isDark) MarkdownStyling.dark() else MarkdownStyling.light() }
 
     var markdownBlocks by remember { mutableStateOf(emptyList<MarkdownBlock>()) }
-    val extensions = remember { listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension) }
+    val shitProcessor = remember { MarkdownProcessor() }
+    val extensions = remember {
+        listOf(
+            GitHubAlertProcessorExtension,
+            AutolinkProcessorExtension,
+            GitHubTableProcessorExtension(shitProcessor, emptyList()),
+        )
+    }
 
     // We are doing this here for the sake of simplicity.
     // In a real-world scenario you would be doing this outside your Composables,
@@ -64,12 +73,20 @@ internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSeq
             if (isDark) {
                 MarkdownBlockRenderer.dark(
                     styling = markdownStyling,
-                    rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.dark(), markdownStyling)),
+                    rendererExtensions =
+                        listOf(
+                            GitHubAlertRendererExtension(AlertStyling.dark(), markdownStyling),
+                            GitHubTableRendererExtension(markdownStyling),
+                        ),
                 )
             } else {
                 MarkdownBlockRenderer.light(
                     styling = markdownStyling,
-                    rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.light(), markdownStyling)),
+                    rendererExtensions =
+                        listOf(
+                            GitHubAlertRendererExtension(AlertStyling.light(), markdownStyling),
+                            GitHubTableRendererExtension(markdownStyling),
+                        ),
                 )
             }
         }

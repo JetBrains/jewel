@@ -13,6 +13,9 @@ pluginManagement {
         mavenCentral()
         maven("https://packages.jetbrains.team/maven/p/firework/dev")
     }
+    plugins {
+        kotlin("jvm") version "2.1.0"
+    }
 }
 
 dependencyResolutionManagement {
@@ -43,6 +46,7 @@ include(
     ":markdown:core",
     ":markdown:extension:autolink",
     ":markdown:extension:gfm-alerts",
+    ":markdown:extension:gfm-tables",
     ":markdown:int-ui-standalone-styling",
     ":markdown:ide-laf-bridge-styling",
     ":samples:ide-plugin",

@@ -13,9 +13,15 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock.OrderedList
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock.UnorderedList
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListItem
 import org.jetbrains.jewel.markdown.MarkdownBlock.Paragraph
+import org.jetbrains.jewel.markdown.extensions.MarkdownRendererExtension
 
+@Suppress("ComposableNaming")
 @ExperimentalJewelApi
 public interface MarkdownBlockRenderer {
+    public val rootStyling: MarkdownStyling
+    public val rendererExtensions: List<MarkdownRendererExtension>
+    public val inlineRenderer: InlineMarkdownRenderer
+
     @Composable
     public fun render(
         blocks: List<MarkdownBlock>,
@@ -102,6 +108,15 @@ public interface MarkdownBlockRenderer {
     @Composable public fun renderThematicBreak(styling: MarkdownStyling.ThematicBreak)
 
     @Composable public fun render(block: HtmlBlock, styling: MarkdownStyling.HtmlBlock)
+
+    /**
+     * Creates a copy of this instance, using the provided non-null parameters, or the current values for the null ones.
+     */
+    public fun copy(
+        rootStyling: MarkdownStyling? = null,
+        rendererExtensions: List<MarkdownRendererExtension>? = null,
+        inlineRenderer: InlineMarkdownRenderer? = null,
+    ): MarkdownBlockRenderer
 
     public companion object
 }
