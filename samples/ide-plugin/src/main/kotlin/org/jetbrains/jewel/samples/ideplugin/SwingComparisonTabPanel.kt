@@ -105,6 +105,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
         row("SplitButtons - Swing:") {
             val options = arrayOf(action("Action 1"), action("Action 2"), action("Action 3"))
             cell(JBOptionButton(action("Split button").apply { isEnabled = true }, options))
+            cell(JBOptionButton(action("Split button").apply { isEnabled = false }, options))
             cell(JBOptionButton(action("Split button").apply { isEnabled = true }, options)).applyToComponent {
                 putClientProperty(DarculaButtonUI.DEFAULT_STYLE_KEY, true)
             }
@@ -114,6 +115,15 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             compose {
                 Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     OutlinedSplitButton(
+                        onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
+                        secondaryOnClick = {
+                            JewelLogger.getInstance("Jewel")
+                                .warn("Outlined split button chevron clicked")
+                        },
+                        mainComponent = { Text("Split button") }
+                    )
+                    OutlinedSplitButton(
+                        enabled = false,
                         onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
                         secondaryOnClick = {
                             JewelLogger.getInstance("Jewel")

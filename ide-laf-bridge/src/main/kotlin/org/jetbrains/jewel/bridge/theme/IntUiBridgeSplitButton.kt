@@ -33,10 +33,10 @@ public fun readDefaultSplitButtonStyle(): SplitButtonStyle = SplitButtonStyle(
 
 public fun readOutlinedSplitButtonStyle(): SplitButtonStyle {
     return SplitButtonStyle(
-        button = readDefaultStyle(),
-        dividerMetrics = DividerMetrics.defaults(),
-        dividerColor = retrieveColorOrUnspecified("Button.Split.default.separatorColor"),
-        dividerDisabledColor = retrieveColorOrUnspecified("Button.Split.default.separatorColor.disabled"),
+        button = readOutlinedStyle(),
+        dividerMetrics = DividerMetrics(thickness = 1.dp, startIndent = LW.float.dp),
+        dividerColor = JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+        dividerDisabledColor = JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
         chevronColor = JBUI.CurrentTheme.Button.Split.Default.ICON_COLOR.toComposeColor()
     )
 }
