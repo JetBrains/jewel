@@ -4,6 +4,7 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import org.jetbrains.jewel.foundation.GenerateDataFunctions
 
 @Stable
@@ -13,6 +14,7 @@ public class SplitButtonStyle(
     public val dividerMetrics: DividerMetrics,
     public val dividerColor: Color,
     public val dividerDisabledColor: Color,
+    public val dividerPadding: Dp,
     public val chevronColor: Color,
 ) {
     public companion object

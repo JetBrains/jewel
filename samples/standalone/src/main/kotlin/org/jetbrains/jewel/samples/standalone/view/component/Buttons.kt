@@ -173,7 +173,7 @@ private fun SplitButtons() {
                 JewelLogger.getInstance("Jewel")
                     .warn("Outlined split button chevron clicked")
             },
-            mainComponent = { Text("Split button") }
+            content = { Text("Split button") }
         )
         OutlinedSplitButton(
             enabled = false,
@@ -182,7 +182,7 @@ private fun SplitButtons() {
                 JewelLogger.getInstance("Jewel")
                     .warn("Outlined split button chevron clicked")
             },
-            mainComponent = { Text("Split button") }
+            content = { Text("Split button") }
         )
         DefaultSplitButton(
             onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
@@ -190,7 +190,7 @@ private fun SplitButtons() {
                 JewelLogger.getInstance("Jewel")
                     .warn("Outlined split button chevron clicked")
             },
-            mainComponent = { Text("Split button") }
+            content = { Text("Split button") }
         )
     }
 }

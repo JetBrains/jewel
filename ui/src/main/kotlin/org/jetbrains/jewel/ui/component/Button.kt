@@ -8,13 +8,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -29,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -50,6 +48,7 @@ import org.jetbrains.jewel.ui.theme.defaultButtonStyle
 import org.jetbrains.jewel.ui.theme.defaultSplitButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
+import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 
 @Composable
 public fun DefaultButton(
@@ -59,7 +58,7 @@ public fun DefaultButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ButtonStyle = JewelTheme.defaultButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
-    content: @Composable RowScope.() -> Unit,
+    content: @Composable () -> Unit,
 ) {
     ButtonImpl(
         onClick = onClick,
@@ -80,7 +79,7 @@ public fun OutlinedButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: ButtonStyle = JewelTheme.outlinedButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
-    content: @Composable RowScope.() -> Unit,
+    content: @Composable () -> Unit,
 ) {
     ButtonImpl(
         onClick = onClick,
@@ -113,7 +112,7 @@ public fun OutlinedButton(
  *    current interaction state
  * @param style the [ButtonStyle] to be applied to the button
  * @param textStyle the [TextStyle] to be applied to the button's text
- * @param mainComponent the content of the button
+ * @param content the content of the button
  * @see com.intellij.ui.components.JBOptionButton
  */
 @Composable
@@ -125,9 +124,19 @@ public fun OutlinedSplitButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: SplitButtonStyle = JewelTheme.outlinedSplitButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
-    mainComponent: @Composable () -> Unit,
+    content: @Composable () -> Unit,
 ) {
-    SplitButtonImpl(onClick, modifier, enabled, interactionSource, style, textStyle, mainComponent, secondaryOnClick)
+    SplitButtonImpl(
+        onClick,
+        secondaryOnClick,
+        modifier,
+        enabled,
+        interactionSource,
+        style,
+        textStyle,
+        isDefault = false,
+        content
+    )
 }
 
 /**
@@ -150,7 +159,7 @@ public fun OutlinedSplitButton(
  *    current interaction state
  * @param style the [ButtonStyle] to be applied to the button
  * @param textStyle the [TextStyle] to be applied to the button's text
- * @param mainComponent the content of the button
+ * @param content the content of the button
  * @see com.intellij.ui.components.JBOptionButton
  */
 @Composable
@@ -162,21 +171,32 @@ public fun DefaultSplitButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: SplitButtonStyle = JewelTheme.defaultSplitButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
-    mainComponent: @Composable () -> Unit,
+    content: @Composable () -> Unit,
 ) {
-    SplitButtonImpl(onClick, modifier, enabled, interactionSource, style, textStyle, mainComponent, secondaryOnClick)
+    SplitButtonImpl(
+        onClick,
+        secondaryOnClick,
+        modifier,
+        enabled,
+        interactionSource,
+        style,
+        textStyle,
+        isDefault = true,
+        content
+    )
 }
 
 @Composable
 private fun SplitButtonImpl(
     onClick: () -> Unit,
+    secondaryOnClick: () -> Unit,
     modifier: Modifier,
     enabled: Boolean,
     interactionSource: MutableInteractionSource,
     style: SplitButtonStyle,
     textStyle: TextStyle,
-    mainComponent: @Composable () -> Unit,
-    secondaryOnClick: () -> Unit,
+    isDefault: Boolean,
+    content: @Composable () -> Unit,
 ) {
     ButtonImpl(
         onClick = onClick,
@@ -185,38 +205,34 @@ private fun SplitButtonImpl(
         interactionSource = interactionSource,
         style = style.button,
         textStyle = textStyle,
-        content = {
-            Row(
-                Modifier.height(IntrinsicSize.Max),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                mainComponent()
-                Row(
+        content = content,
+        secondaryContent = {
+            Box(Modifier.size(style.button.metrics.minSize.height)) {
+                Divider(
+                    orientation = Orientation.Vertical,
+                    thickness = style.dividerMetrics.thickness,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .padding(start = 8.dp)
+                        .padding(vertical = style.dividerPadding)
+                        .align(Alignment.CenterStart),
+                    color = style.dividerColor,
+                )
+                Icon(
+                    key = AllIconsKeys.General.ChevronDown,
+                    contentDescription = "Chevron",
+                    modifier = Modifier
+                        .align(Alignment.Center)
                         .clickable(
                             onClick = secondaryOnClick,
                             interactionSource = MutableInteractionSource(),
                             indication = null
                         ),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Divider(
-                        orientation = Orientation.Vertical,
-                        thickness = style.dividerMetrics.thickness,
-                        modifier = Modifier.fillMaxHeight(),
-                        color = style.dividerColor,
-                    )
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            key = AllIconsKeys.General.ChevronDown,
-                            contentDescription = "Chevron",
-                            tint = style.chevronColor,
-                        )
+                    hints = if (isDefault) {
+                        arrayOf(PainterHintStroke(style.chevronColor))
+                    } else {
+                        emptyArray()
                     }
-                }
+                )
             }
         }
     )
@@ -230,7 +246,8 @@ private fun ButtonImpl(
     interactionSource: MutableInteractionSource,
     style: ButtonStyle,
     textStyle: TextStyle,
-    content: @Composable (RowScope.() -> Unit),
+    content: @Composable () -> Unit,
+    secondaryContent: @Composable (() -> Unit)? = null,
 ) {
     var buttonState by remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled)) }
 
@@ -284,12 +301,16 @@ private fun ButtonImpl(
         ) {
             Row(
                 Modifier
-                    .defaultMinSize(style.metrics.minSize.width, style.metrics.minSize.height)
-                    .padding(style.metrics.padding),
+                    .defaultMinSize(style.metrics.minSize.width)
+                    .height(style.metrics.minSize.height),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
-                content = content,
-            )
+            ) {
+                Box(Modifier.padding(style.metrics.padding)) {
+                    content()
+                }
+                secondaryContent?.invoke()
+            }
         }
     }
 }

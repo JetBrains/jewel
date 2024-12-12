@@ -120,7 +120,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                             JewelLogger.getInstance("Jewel")
                                 .warn("Outlined split button chevron clicked")
                         },
-                        mainComponent = { Text("Split button") }
+                        content = { Text("Split button") }
                     )
                     OutlinedSplitButton(
                         enabled = false,
@@ -129,7 +129,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                             JewelLogger.getInstance("Jewel")
                                 .warn("Outlined split button chevron clicked")
                         },
-                        mainComponent = { Text("Split button") }
+                        content = { Text("Split button") }
                     )
                     DefaultSplitButton(
                         onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
@@ -137,7 +137,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                             JewelLogger.getInstance("Jewel")
                                 .warn("Outlined split button chevron clicked")
                         },
-                        mainComponent = { Text("Split button") }
+                        content = { Text("Split button") }
                     )
                 }
             }
