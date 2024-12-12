@@ -1,4 +1,5 @@
 import org.jetbrains.compose.ComposeBuildConfig
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 import org.jmailen.gradle.kotlinter.tasks.FormatTask
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 
@@ -7,13 +8,9 @@ plugins {
     `jewel-publish`
     `jewel-check-public-api`
     `icon-keys-generator`
-    alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlinx.serialization)
+    `jewel-compose`
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
-
-private val composeVersion
-    get() = ComposeBuildConfig.composeVersion
 
 dependencies {
     api(projects.foundation)
@@ -38,3 +35,5 @@ tasks.withType<LintTask> {
 tasks.withType<FormatTask> {
     include("src/**") // Excluding build/ doesn't work for some reason
 }
+
+composeCompiler { featureFlags.add(ComposeFeatureFlag.OptimizeNonSkippingGroups) }

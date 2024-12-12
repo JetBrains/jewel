@@ -5,9 +5,8 @@ plugins {
     `jewel-publish`
     `jewel-check-public-api`
     `ide-version-checker`
-    alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ideaPluginBase)
+    `jewel-compose`
+    id("org.jetbrains.intellij.platform.base")
 }
 
 // Because we need to define IJP dependencies, the dependencyResolutionManagement
@@ -16,6 +15,7 @@ repositories {
     google()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     mavenCentral()
+    maven("https://packages.jetbrains.team/maven/p/firework/dev")
 
     intellijPlatform {
         ivy {
