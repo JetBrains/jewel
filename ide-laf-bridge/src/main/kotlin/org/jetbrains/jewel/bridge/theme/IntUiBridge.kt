@@ -5,7 +5,6 @@ import androidx.compose.ui.text.TextStyle
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.DirProvider
-import javax.swing.UIManager
 import org.jetbrains.jewel.bridge.dp
 import org.jetbrains.jewel.bridge.lafName
 import org.jetbrains.jewel.bridge.readFromLaF
@@ -18,6 +17,7 @@ import org.jetbrains.jewel.foundation.theme.ThemeIconData
 import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.ui.DefaultComponentStyling
+import javax.swing.UIManager
 
 private val logger = JewelLogger.getInstance("JewelIntUiBridge")
 
@@ -72,6 +72,7 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         defaultBannerStyle = readDefaultBannerStyle(),
         defaultButtonStyle = readDefaultButtonStyle(),
         defaultDropdownStyle = readDefaultDropdownStyle(menuStyle),
+        defaultSplitButtonStyle = readDefaultSplitButtonStyle(),
         defaultTabStyle = readDefaultTabStyle(),
         dividerStyle = readDividerStyle(),
         editorTabStyle = readEditorTabStyle(),
@@ -82,6 +83,7 @@ internal fun createBridgeComponentStyling(theme: ThemeDefinition): ComponentStyl
         linkStyle = readLinkStyle(),
         menuStyle = menuStyle,
         outlinedButtonStyle = readOutlinedButtonStyle(),
+        outlinedSplitButtonStyle = readOutlinedSplitButtonStyle(),
         popupContainerStyle = readPopupContainerStyle(),
         radioButtonStyle = readRadioButtonStyle(),
         scrollbarStyle = readScrollbarStyle(theme.isDark),

@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,6 +46,7 @@ import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.theme.defaultButtonStyle
+import org.jetbrains.jewel.ui.theme.defaultSplitButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
 
@@ -111,7 +112,7 @@ public fun OutlinedButton(
  *    current interaction state
  * @param style the [ButtonStyle] to be applied to the button
  * @param textStyle the [TextStyle] to be applied to the button's text
- * @param content the content of the button
+ * @param mainComponent the content of the button
  * @see com.intellij.ui.components.JBOptionButton
  */
 @Composable
@@ -125,6 +126,57 @@ public fun OutlinedSplitButton(
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     mainComponent: @Composable () -> Unit,
 ) {
+    SplitButtonImpl(onClick, modifier, enabled, interactionSource, style, textStyle, mainComponent, secondaryOnClick)
+}
+
+/**
+ * A split button is a combination of a regular button and a drop-down
+ * button.
+ *
+ * **Guidelines:**
+ * [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
+ *
+ * **Usage example:**
+ * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
+ *
+ * **Swing equivalent:**
+ * [`JBOptionButton`](https://github.com/JetBrains/intellij-community/tree/idea/243.22562.145/platform/platform-api/src/com/intellij/ui/components/JBOptionButton.kt)
+ *
+ * @param onClick the action to perform when the button is clicked
+ * @param modifier the [Modifier] to be applied to the button
+ * @param enabled whether the button is enabled
+ * @param interactionSource the [MutableInteractionSource] representing the
+ *    current interaction state
+ * @param style the [ButtonStyle] to be applied to the button
+ * @param textStyle the [TextStyle] to be applied to the button's text
+ * @param mainComponent the content of the button
+ * @see com.intellij.ui.components.JBOptionButton
+ */
+@Composable
+public fun DefaultSplitButton(
+    onClick: () -> Unit,
+    secondaryOnClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    style: SplitButtonStyle = JewelTheme.defaultSplitButtonStyle,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    mainComponent: @Composable () -> Unit,
+) {
+    SplitButtonImpl(onClick, modifier, enabled, interactionSource, style, textStyle, mainComponent, secondaryOnClick)
+}
+
+@Composable
+private fun SplitButtonImpl(
+    onClick: () -> Unit,
+    modifier: Modifier,
+    enabled: Boolean,
+    interactionSource: MutableInteractionSource,
+    style: SplitButtonStyle,
+    textStyle: TextStyle,
+    mainComponent: @Composable () -> Unit,
+    secondaryOnClick: () -> Unit,
+) {
     ButtonImpl(
         onClick = onClick,
         modifier = modifier,
@@ -135,28 +187,34 @@ public fun OutlinedSplitButton(
         content = {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 mainComponent()
-                Divider(
-                    orientation = Orientation.Vertical,
-                    thickness = style.divider.metrics.thickness,
-                    style = style.divider,
-                    modifier = Modifier.height(20.dp)
-                )
-                Box(
-                    modifier = Modifier.size(28.dp),
-                )
-                Icon(
-                    key = AllIconsKeys.General.ChevronDown,
-                    contentDescription = "Chevron",
+                Row(
                     modifier = Modifier
-                        .size(16.dp)
+                        .padding(start = 8.dp)
+                        .size(22.dp) // TODO: make it configurable
                         .clickable(
                             onClick = secondaryOnClick,
                             interactionSource = MutableInteractionSource(),
                             indication = null
                         ),
-                )
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Divider(
+                        orientation = Orientation.Vertical,
+                        thickness = style.dividerMetrics.thickness,
+                        color = style.dividerColor,
+                        modifier = Modifier.fillMaxHeight().padding(vertical = style.dividerMetrics.startIndent)
+                    )
+                    Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                        Icon(
+                            key = AllIconsKeys.General.ChevronDown,
+                            contentDescription = "Chevron",
+                            tint = style.chevronColor,
+                        )
+                    }
+                }
             }
-        })
+        }
+    )
 }
 
 @Composable
@@ -195,22 +253,22 @@ private fun ButtonImpl(
 
     Box(
         modifier =
-            modifier
-                .clickable(
-                    onClick = onClick,
-                    enabled = enabled,
-                    role = Role.Button,
-                    interactionSource = interactionSource,
-                    indication = null,
-                )
-                .background(colors.backgroundFor(buttonState).value, shape)
-                .focusOutline(
-                    state = buttonState,
-                    outlineShape = shape,
-                    alignment = style.focusOutlineAlignment,
-                    expand = style.metrics.focusOutlineExpand,
-                )
-                .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
+        modifier
+            .clickable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            )
+            .background(colors.backgroundFor(buttonState).value, shape)
+            .focusOutline(
+                state = buttonState,
+                outlineShape = shape,
+                alignment = style.focusOutlineAlignment,
+                expand = style.metrics.focusOutlineExpand,
+            )
+            .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
         propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)

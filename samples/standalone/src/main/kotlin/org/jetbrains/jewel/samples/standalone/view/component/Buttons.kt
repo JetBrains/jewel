@@ -162,12 +162,15 @@ private fun ActionButtons() {
     }
 }
 
-
 @Composable
 private fun SplitButtons() {
-    OutlinedSplitButton(
-        onClick = {},
-        secondaryOnClick = {},
-        mainComponent = { Text("Split button") }
-    )
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        var label by remember { mutableStateOf("") }
+        Text("Outlined split button: $label")
+        OutlinedSplitButton(
+            onClick = { label = "button"  },
+            secondaryOnClick = { label = "chevron" },
+            mainComponent = { Text("Split button") }
+        )
+    }
 }

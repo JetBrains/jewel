@@ -1,9 +1,11 @@
 package org.jetbrains.jewel.samples.ideplugin
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
@@ -39,15 +41,16 @@ import icons.JewelIcons
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.component.DefaultButton
+import org.jetbrains.jewel.ui.component.DefaultSplitButton
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.OutlinedButton
-import org.jetbrains.jewel.ui.component.SplitButton
+import org.jetbrains.jewel.ui.component.OutlinedSplitButton
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
-import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 import java.awt.event.ActionEvent
 import javax.swing.AbstractAction
@@ -91,25 +94,44 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             button("Default Button") {}
                 .align(AlignY.CENTER)
                 .applyToComponent { putClientProperty(DarculaButtonUI.DEFAULT_STYLE_KEY, true) }
-
-            val options = arrayOf(action("Action 1"), action("Action 2"), action("Action 3"))
-            cell(JBOptionButton(action("Splittolo").apply { isEnabled = true }, options))
-            cell(JBOptionButton(action("Default Splittolo").apply { isEnabled = true }, options)).applyToComponent {
-                putClientProperty(DarculaButtonUI.DEFAULT_STYLE_KEY, true)
-            }
         }
             .layout(RowLayout.PARENT_GRID)
 
         row("Buttons - Compose:") {
             compose { OutlinedButton({}) { Text("Button") } }
             compose { DefaultButton({}) { Text("Default Button") } }
-            compose {
-                SplitButton(
-                    mainComponent = { Text("Split button") },
-                    menuComponent = { Icon(AllIconsKeys.General.ChevronDown, "Chevron") })
+        }.layout(RowLayout.PARENT_GRID)
+
+        row("SplitButtons - Swing:") {
+            val options = arrayOf(action("Action 1"), action("Action 2"), action("Action 3"))
+            cell(JBOptionButton(action("Split button").apply { isEnabled = true }, options))
+            cell(JBOptionButton(action("Split button").apply { isEnabled = true }, options)).applyToComponent {
+                putClientProperty(DarculaButtonUI.DEFAULT_STYLE_KEY, true)
             }
         }
             .layout(RowLayout.PARENT_GRID)
+        row("SplitButtons - Compose:") {
+            compose {
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    OutlinedSplitButton(
+                        onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
+                        secondaryOnClick = {
+                            JewelLogger.getInstance("Jewel")
+                                .warn("Outlined split button chevron clicked")
+                        },
+                        mainComponent = { Text("Split button") }
+                    )
+                    DefaultSplitButton(
+                        onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
+                        secondaryOnClick = {
+                            JewelLogger.getInstance("Jewel")
+                                .warn("Outlined split button chevron clicked")
+                        },
+                        mainComponent = { Text("Split button") }
+                    )
+                }
+            }
+        }.layout(RowLayout.PARENT_GRID)
     }
 
     private fun action(text: String): Action {
