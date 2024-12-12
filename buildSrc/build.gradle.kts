@@ -37,8 +37,4 @@ dependencies {
     // version catalogs.
     // Context: https://github.com/gradle/gradle/issues/15383#issuecomment-779893192
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
-
-    // Work around Kotlinter bringing in an old kotlin-compiler-embeddable
-    // See https://youtrack.jetbrains.com/issue/KT-73761/
-    implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:${libs.versions.kotlin.get()}")
 }
