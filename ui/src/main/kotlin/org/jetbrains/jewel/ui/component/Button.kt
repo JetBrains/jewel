@@ -8,12 +8,13 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -185,12 +186,16 @@ private fun SplitButtonImpl(
         style = style.button,
         textStyle = textStyle,
         content = {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                Modifier.height(IntrinsicSize.Max),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 mainComponent()
                 Row(
                     modifier = Modifier
+                        .fillMaxHeight()
                         .padding(start = 8.dp)
-                        .size(22.dp) // TODO: make it configurable
                         .clickable(
                             onClick = secondaryOnClick,
                             interactionSource = MutableInteractionSource(),
@@ -201,10 +206,10 @@ private fun SplitButtonImpl(
                     Divider(
                         orientation = Orientation.Vertical,
                         thickness = style.dividerMetrics.thickness,
+                        modifier = Modifier.fillMaxHeight(),
                         color = style.dividerColor,
-                        modifier = Modifier.fillMaxHeight().padding(vertical = style.dividerMetrics.startIndent)
                     )
-                    Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                    Box(contentAlignment = Alignment.Center) {
                         Icon(
                             key = AllIconsKeys.General.ChevronDown,
                             contentDescription = "Chevron",

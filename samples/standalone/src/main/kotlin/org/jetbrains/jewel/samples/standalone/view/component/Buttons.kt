@@ -13,8 +13,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.component.ActionButton
 import org.jetbrains.jewel.ui.component.DefaultButton
+import org.jetbrains.jewel.ui.component.DefaultSplitButton
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconActionButton
 import org.jetbrains.jewel.ui.component.IconButton
@@ -164,12 +166,30 @@ private fun ActionButtons() {
 
 @Composable
 private fun SplitButtons() {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        var label by remember { mutableStateOf("") }
-        Text("Outlined split button: $label")
+    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         OutlinedSplitButton(
-            onClick = { label = "button"  },
-            secondaryOnClick = { label = "chevron" },
+            onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
+            secondaryOnClick = {
+                JewelLogger.getInstance("Jewel")
+                    .warn("Outlined split button chevron clicked")
+            },
+            mainComponent = { Text("Split button") }
+        )
+        OutlinedSplitButton(
+            enabled = false,
+            onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
+            secondaryOnClick = {
+                JewelLogger.getInstance("Jewel")
+                    .warn("Outlined split button chevron clicked")
+            },
+            mainComponent = { Text("Split button") }
+        )
+        DefaultSplitButton(
+            onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
+            secondaryOnClick = {
+                JewelLogger.getInstance("Jewel")
+                    .warn("Outlined split button chevron clicked")
+            },
             mainComponent = { Text("Split button") }
         )
     }

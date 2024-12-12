@@ -8,7 +8,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.intellij.ide.ui.laf.darcula.DarculaUIUtil
-import com.intellij.ide.ui.laf.darcula.DarculaUIUtil.LW
 import com.intellij.util.ui.JBUI
 import org.jetbrains.jewel.bridge.createVerticalBrush
 import org.jetbrains.jewel.bridge.dp
@@ -25,7 +24,7 @@ import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
 
 public fun readDefaultSplitButtonStyle(): SplitButtonStyle = SplitButtonStyle(
     button = readDefaultStyle(),
-    dividerMetrics = DividerMetrics(thickness = 1.dp, startIndent = LW.float.dp),
+    dividerMetrics = DividerMetrics(thickness = 1.dp, startIndent = 0.dp),
     dividerColor = retrieveColorOrUnspecified("Button.Split.default.separatorColor"),
     dividerDisabledColor = retrieveColorOrUnspecified("Button.Split.default.separatorColor.disabled"),
     chevronColor = JBUI.CurrentTheme.Button.Split.Default.ICON_COLOR.toComposeColor()
@@ -34,7 +33,7 @@ public fun readDefaultSplitButtonStyle(): SplitButtonStyle = SplitButtonStyle(
 public fun readOutlinedSplitButtonStyle(): SplitButtonStyle {
     return SplitButtonStyle(
         button = readOutlinedStyle(),
-        dividerMetrics = DividerMetrics(thickness = 1.dp, startIndent = LW.float.dp),
+        dividerMetrics = DividerMetrics(thickness = 1.dp, startIndent = 0.dp),
         dividerColor = JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
         dividerDisabledColor = JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
         chevronColor = JBUI.CurrentTheme.Button.Split.Default.ICON_COLOR.toComposeColor()
@@ -82,7 +81,7 @@ private fun readDefaultStyle(): ButtonStyle {
         metrics =
         ButtonMetrics(
             cornerSize = retrieveArcAsCornerSizeWithFallbacks("Button.default.arc", "Button.arc"),
-            padding = PaddingValues(start = 14.dp, end = 4.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
+            padding = PaddingValues(start = 14.dp, end = 4.dp),
             minSize = DpSize(minimumSize.width, minimumSize.height),
             borderWidth = 1.dp,
             focusOutlineExpand = 1.5.dp, // From DarculaButtonPainter.getBorderInsets
@@ -132,7 +131,7 @@ private fun readOutlinedStyle(): ButtonStyle {
         metrics =
         ButtonMetrics(
             cornerSize = CornerSize(DarculaUIUtil.BUTTON_ARC.dp / 2),
-            padding = PaddingValues(horizontal = 14.dp), // see DarculaButtonUI.HORIZONTAL_PADDING
+            padding = PaddingValues(start = 14.dp, end = 4.dp),
             minSize = DpSize(minimumSize.width, minimumSize.height),
             borderWidth = DarculaUIUtil.LW.dp,
             focusOutlineExpand = Dp.Unspecified,

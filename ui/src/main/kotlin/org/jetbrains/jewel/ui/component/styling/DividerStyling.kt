@@ -20,9 +20,6 @@ public class DividerMetrics(public val thickness: Dp, public val startIndent: Dp
     public companion object {
         public fun defaults(thickness: Dp = 1.dp, startIndent: Dp = 0.dp): DividerMetrics =
             DividerMetrics(thickness, startIndent)
-
-        public fun defaultSplitButton(thickness: Dp = 1.dp, startIndent: Dp = 4.dp): DividerMetrics =
-            DividerMetrics(thickness, startIndent)
     }
 }
 
