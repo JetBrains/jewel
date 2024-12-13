@@ -3,8 +3,7 @@ import org.jetbrains.compose.ComposeBuildConfig
 
 plugins {
     jewel
-    alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.compose.compiler)
+    `jewel-compose`
 }
 
 private val composeVersion
@@ -16,4 +15,3 @@ dependencies {
     testImplementation(compose.desktop.uiTestJUnit4)
     testImplementation(compose.desktop.currentOs) { exclude(group = "org.jetbrains.compose.material") }
 }
-

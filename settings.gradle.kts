@@ -11,6 +11,7 @@ pluginManagement {
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
         gradlePluginPortal()
         mavenCentral()
+        maven("https://packages.jetbrains.team/maven/p/firework/dev")
     }
 }
 
@@ -22,12 +23,13 @@ dependencyResolutionManagement {
         maven("https://www.jetbrains.com/intellij-repository/snapshots")
         maven("https://cache-redirector.jetbrains.com/intellij-dependencies")
         mavenCentral()
+        maven("https://packages.jetbrains.team/maven/p/firework/dev")
     }
 }
 
 plugins {
     id("com.gradle.enterprise") version "3.15.1"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
     id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.0.9"
 }
 
@@ -46,7 +48,7 @@ include(
     ":samples:ide-plugin",
     ":samples:standalone",
     ":ui",
-    ":ui-test",
+    ":ui-tests",
 )
 
 gradleEnterprise {
@@ -100,4 +102,3 @@ gitHooks {
 
     createHooks(overwriteExisting = true)
 }
-include("ui-tests")
