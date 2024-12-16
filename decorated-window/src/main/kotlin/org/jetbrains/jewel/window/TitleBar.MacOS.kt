@@ -1,6 +1,8 @@
 package org.jetbrains.jewel.window
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -64,22 +66,30 @@ internal fun DecoratedWindowScope.TitleBarOnMacOs(
             }
         }
 
+    // These properties also have a typoed name, so just in case, we set them both.
     if (newFullscreenControls) {
-        System.setProperty("apple.awt.newFullScreeControls", true.toString())
+        System.setProperty("apple.awt.newFullScreeControls", "true")
+        System.setProperty("apple.awt.newFullScreenControls", "true")
         System.setProperty(
             "apple.awt.newFullScreeControls.background",
+            "${style.colors.fullscreenControlButtonsBackground.toArgb()}",
+        )
+        System.setProperty(
+            "apple.awt.newFullScreenControls.background",
             "${style.colors.fullscreenControlButtonsBackground.toArgb()}",
         )
         MacUtil.updateColors(window)
     } else {
         System.clearProperty("apple.awt.newFullScreeControls")
+        System.clearProperty("apple.awt.newFullScreenControls")
         System.clearProperty("apple.awt.newFullScreeControls.background")
+        System.clearProperty("apple.awt.newFullScreenControls.background")
     }
 
     val titleBar = remember { JBR.getWindowDecorations().createCustomTitleBar() }
 
     TitleBarImpl(
-        modifier = modifier.customTitleBarMouseEventHandler(titleBar),
+        modifier = modifier,
         gradientStartColor = gradientStartColor,
         style = style,
         applyTitleBar = { height, state ->
@@ -95,6 +105,7 @@ internal fun DecoratedWindowScope.TitleBarOnMacOs(
                 PaddingValues(start = titleBar.leftInset.dp, end = titleBar.rightInset.dp)
             }
         },
+        backgroundContent = { Spacer(modifier = modifier.fillMaxSize().customTitleBarMouseEventHandler(titleBar)) },
         content = content,
     )
 }

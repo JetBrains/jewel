@@ -20,6 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasurePolicy
@@ -40,8 +43,12 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import com.jetbrains.WindowDecorations.CustomTitleBar
 import java.awt.Window
+import kotlin.collections.forEach
 import kotlin.math.max
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.isActive
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.OverrideDarkMode
@@ -106,13 +113,14 @@ internal fun DecoratedWindowScope.TitleBarImpl(
         }
 
     Box(
-        modifier = modifier
-            .background(backgroundBrush)
-            .focusProperties { canFocus = false }
-            .layoutId(TITLE_BAR_LAYOUT_ID)
-            .height(style.metrics.height)
-            .onSizeChanged { with(density) { applyTitleBar(it.height.toDp(), state) } }
-            .fillMaxWidth()
+        modifier =
+            modifier
+                .background(backgroundBrush)
+                .focusProperties { canFocus = false }
+                .layoutId(TITLE_BAR_LAYOUT_ID)
+                .height(style.metrics.height)
+                .onSizeChanged { with(density) { applyTitleBar(it.height.toDp(), state) } }
+                .fillMaxWidth()
     ) {
         backgroundContent()
         Layout(
@@ -280,3 +288,28 @@ private class TitleBarChildDataNode(var horizontalAlignment: Alignment.Horizonta
     ParentDataModifierNode, Modifier.Node() {
     override fun Density.modifyParentData(parentData: Any?) = this@TitleBarChildDataNode
 }
+
+internal fun Modifier.customTitleBarMouseEventHandler(titleBar: CustomTitleBar): Modifier =
+    pointerInput(Unit) {
+        val currentContext = currentCoroutineContext()
+        awaitPointerEventScope {
+            var inUserControl = false
+            while (currentContext.isActive) {
+                val event = awaitPointerEvent(PointerEventPass.Main)
+                event.changes.forEach { change ->
+                    if (!change.isConsumed && !inUserControl) {
+                        titleBar.forceHitTest(false)
+                    } else {
+                        if (event.type == PointerEventType.Press) {
+                            inUserControl = true
+                        } else if (event.type == PointerEventType.Release) {
+                            inUserControl = false
+                        }
+
+                        titleBar.forceHitTest(true)
+                    }
+                    change.toString()
+                }
+            }
+        }
+    }
