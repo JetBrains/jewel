@@ -50,6 +50,18 @@ import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
 import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 
+/**
+ * A composable function that creates a customizable default-styled button. The button's behavior,
+ * appearance, and content can be modified using the provided parameters.
+ *
+ * @param onClick A lambda that is invoked when the button is clicked.
+ * @param modifier The modifier for adjusting the layout or adding various behaviors to the button.
+ * @param enabled Specifies whether the button is clickable. Defaults to true.
+ * @param interactionSource The [MutableInteractionSource] representing the interactions for this button, such as clicks, presses, or hovers.
+ * @param style The [ButtonStyle] defining the visual styling of the button, such as colors and metrics.
+ * @param textStyle The [TextStyle] used to style the text content of the button.
+ * @param content A composable lambda that defines the content inside the button.
+ */
 @Composable
 public fun DefaultButton(
     onClick: () -> Unit,
