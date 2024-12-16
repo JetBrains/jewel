@@ -83,6 +83,17 @@ public fun DefaultButton(
     )
 }
 
+/**
+ * A composable function to create an outlined button with customizable appearance and interaction behavior.
+ *
+ * @param onClick Lambda function that will be invoked when the button is clicked.
+ * @param modifier Modifier to be applied to the button layout.
+ * @param enabled Boolean to control whether the button is enabled or disabled. Defaults to true.
+ * @param interactionSource Used for managing and observing interaction states for the button.
+ * @param style Defines the look and feel of the button such as colors, metrics, and focus outline alignment.
+ * @param textStyle TextStyle to be applied to the content inside the button.
+ * @param content Composable block that defines the content of the button.
+ */
 @Composable
 public fun OutlinedButton(
     onClick: () -> Unit,
