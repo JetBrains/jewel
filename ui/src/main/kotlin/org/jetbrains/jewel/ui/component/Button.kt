@@ -1,13 +1,13 @@
 /**
  * TODO
  * On lost focus, close the popup
- *
  * Remove this TODO
  */
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -33,6 +33,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
@@ -60,6 +62,7 @@ import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
+import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
@@ -254,6 +257,10 @@ private fun SplitButtonImpl(
 
     Box(
         modifier.onSizeChanged { buttonWidth = with(density) { it.width.toDp() } }
+            .onFocusChanged {
+                JewelLogger.getInstance("Jewel").warn("Focus changed: $it")
+                if (!it.isFocused) popupExpanded = false
+            }
             .thenIf(enabled) {
                 onPreviewKeyEvent { keyEvent ->
                     splitButtonKeys(
@@ -323,6 +330,8 @@ private fun Chevron(
 ) {
     Box(
         Modifier.size(style.button.metrics.minSize.height)
+            .focusable(false)
+            .focusProperties { canFocus = false }
             .thenIf(enabled) {
                 clickable(
                     onClick = { onChevronClicked() },
