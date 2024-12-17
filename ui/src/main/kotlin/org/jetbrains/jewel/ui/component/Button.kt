@@ -1,7 +1,9 @@
 /**
  * TODO
- * On lost focus, close the popup
- * Remove this TODO
+ * On lost focus, close the popup. Related to https://youtrack.jetbrains.com/issue/CMP-7269/Popup-is-not-dismissed-by-clicking-or-moving-focus-outside-ComposePanel.
+ * Clicking the chevron container should focus the button.
+ *
+ * Remove this list
  */
 package org.jetbrains.jewel.ui.component
 
@@ -44,13 +46,9 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.window.PopupProperties
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -62,7 +60,6 @@ import org.jetbrains.jewel.foundation.state.FocusableComponentState
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
-import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
@@ -255,20 +252,26 @@ private fun SplitButtonImpl(
     var buttonWidth by remember { mutableStateOf(Dp.Unspecified) }
     val density = LocalDensity.current
 
+    fun setPopupExpanded(expanded: Boolean) {
+        popupExpanded = expanded
+    }
+
+    fun togglePopup() {
+        setPopupExpanded(!popupExpanded)
+    }
+
     Box(
-        modifier.onSizeChanged { buttonWidth = with(density) { it.width.toDp() } }
-            .onFocusChanged {
-                JewelLogger.getInstance("Jewel").warn("Focus changed: $it")
-                if (!it.isFocused) popupExpanded = false
-            }
+        modifier
+            .onSizeChanged { buttonWidth = with(density) { it.width.toDp() } }
+            .onFocusChanged { if (!it.isFocused) setPopupExpanded(false) }
             .thenIf(enabled) {
                 onPreviewKeyEvent { keyEvent ->
                     splitButtonKeys(
                         keyEvent = keyEvent,
                         popupExpanded = popupExpanded,
                         clickMainButton = onClick,
-                        collapsePopup = { popupExpanded = false },
-                        expandPopup = { popupExpanded = true },
+                        collapsePopup = { setPopupExpanded(false) },
+                        expandPopup = { setPopupExpanded(true) },
                     )
                 }
             }
@@ -288,34 +291,23 @@ private fun SplitButtonImpl(
                     isDefault = isDefault,
                     onChevronClicked = {
                         secondaryOnClick()
-                        popupExpanded = !popupExpanded
+                        togglePopup()
                     }
                 )
             }
         )
 
         if (popupExpanded) {
-            PopupContainer(
-                onDismissRequest = { popupExpanded = false },
-                modifier =
-                modifier
-                    .testTag("Jewel.SplitButton.PopupMenu")
-                    .semantics { contentDescription = "Jewel.SplitButton.PopupMenu" }
+            PopupMenu(
+                modifier = Modifier
                     .width(buttonWidth)
-                    .onClick { popupExpanded = false },
+                    .onClick { setPopupExpanded(false) },
+                onDismissRequest = {
+                    setPopupExpanded(false)
+                    true
+                },
                 horizontalAlignment = Alignment.Start,
-                popupProperties = PopupProperties(focusable = false),
-                content = {
-                    PopupMenu(
-                        modifier = Modifier.width(buttonWidth),
-                        onDismissRequest = {
-                            popupExpanded = false
-                            true
-                        },
-                        horizontalAlignment = Alignment.Start,
-                        content = secondaryContent,
-                    )
-                }
+                content = secondaryContent,
             )
         }
     }
@@ -329,16 +321,16 @@ private fun Chevron(
     onChevronClicked: () -> Unit,
 ) {
     Box(
-        Modifier.size(style.button.metrics.minSize.height)
+        Modifier
+            .size(style.button.metrics.minSize.height)
             .focusable(false)
             .focusProperties { canFocus = false }
-            .thenIf(enabled) {
-                clickable(
-                    onClick = { onChevronClicked() },
-                    interactionSource = MutableInteractionSource(),
-                    indication = null
-                )
-            }
+            .clickable(
+                enabled = enabled,
+                onClick = { onChevronClicked() },
+                interactionSource = MutableInteractionSource(),
+                indication = null
+            )
     ) {
         Divider(
             orientation = Orientation.Vertical,
