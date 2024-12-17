@@ -1,3 +1,9 @@
+/**
+ * TODO
+ * On lost focus, close the popup
+ *
+ * Remove this TODO
+ */
 package org.jetbrains.jewel.ui.component
 
 import androidx.compose.foundation.background
@@ -14,6 +20,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.onClick
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -26,8 +34,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.window.PopupProperties
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.state.CommonStateBitMask.Active
@@ -48,6 +69,7 @@ import org.jetbrains.jewel.ui.theme.defaultButtonStyle
 import org.jetbrains.jewel.ui.theme.defaultSplitButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
+import org.jetbrains.jewel.ui.util.thenIf
 import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 
 /**
@@ -148,17 +170,19 @@ public fun OutlinedSplitButton(
     style: SplitButtonStyle = JewelTheme.outlinedSplitButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     content: @Composable () -> Unit,
+    menuContent: MenuScope.() -> Unit,
 ) {
     SplitButtonImpl(
-        onClick,
-        secondaryOnClick,
-        modifier,
-        enabled,
-        interactionSource,
-        style,
-        textStyle,
+        onClick = onClick,
+        secondaryOnClick = secondaryOnClick,
+        modifier = modifier,
+        enabled = enabled,
+        interactionSource = interactionSource,
+        style = style,
+        textStyle = textStyle,
         isDefault = false,
-        content
+        content = content,
+        secondaryContent = menuContent
     )
 }
 
@@ -195,17 +219,19 @@ public fun DefaultSplitButton(
     style: SplitButtonStyle = JewelTheme.defaultSplitButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
     content: @Composable () -> Unit,
+    menuContent: MenuScope.() -> Unit,
 ) {
     SplitButtonImpl(
-        onClick,
-        secondaryOnClick,
-        modifier,
-        enabled,
-        interactionSource,
-        style,
-        textStyle,
+        onClick = onClick,
+        secondaryOnClick = secondaryOnClick,
+        modifier = modifier,
+        enabled = enabled,
+        interactionSource = interactionSource,
+        style = style,
+        textStyle = textStyle,
         isDefault = true,
-        content
+        content = content,
+        secondaryContent = menuContent
     )
 }
 
@@ -220,45 +246,151 @@ private fun SplitButtonImpl(
     textStyle: TextStyle,
     isDefault: Boolean,
     content: @Composable () -> Unit,
+    secondaryContent: MenuScope.() -> Unit,
 ) {
-    ButtonImpl(
-        onClick = onClick,
-        modifier = modifier,
-        enabled = enabled,
-        interactionSource = interactionSource,
-        style = style.button,
-        textStyle = textStyle,
-        content = content,
-        secondaryContent = {
-            Box(Modifier.size(style.button.metrics.minSize.height)) {
-                Divider(
-                    orientation = Orientation.Vertical,
-                    thickness = style.dividerMetrics.thickness,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(vertical = style.dividerPadding)
-                        .align(Alignment.CenterStart),
-                    color = style.dividerColor,
-                )
-                Icon(
-                    key = AllIconsKeys.General.ChevronDown,
-                    contentDescription = "Chevron",
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .clickable(
-                            onClick = secondaryOnClick,
-                            interactionSource = MutableInteractionSource(),
-                            indication = null
-                        ),
-                    hints = if (isDefault) {
-                        arrayOf(PainterHintStroke(style.chevronColor))
-                    } else {
-                        emptyArray()
+    var popupExpanded by remember { mutableStateOf(false) }
+    var buttonWidth by remember { mutableStateOf(Dp.Unspecified) }
+    val density = LocalDensity.current
+
+    Box(
+        modifier.onSizeChanged { buttonWidth = with(density) { it.width.toDp() } }
+            .thenIf(enabled) {
+                onPreviewKeyEvent { keyEvent ->
+                    splitButtonKeys(
+                        keyEvent = keyEvent,
+                        popupExpanded = popupExpanded,
+                        clickMainButton = onClick,
+                        collapsePopup = { popupExpanded = false },
+                        expandPopup = { popupExpanded = true },
+                    )
+                }
+            }
+    ) {
+        ButtonImpl(
+            onClick = { if (enabled) onClick() },
+            modifier = Modifier,
+            enabled = enabled,
+            interactionSource = interactionSource,
+            style = style.button,
+            textStyle = textStyle,
+            content = content,
+            secondaryContent = {
+                Chevron(
+                    style = style,
+                    enabled = enabled,
+                    isDefault = isDefault,
+                    onChevronClicked = {
+                        secondaryOnClick()
+                        popupExpanded = !popupExpanded
                     }
                 )
             }
+        )
+
+        if (popupExpanded) {
+            PopupContainer(
+                onDismissRequest = { popupExpanded = false },
+                modifier =
+                modifier
+                    .testTag("Jewel.SplitButton.PopupMenu")
+                    .semantics { contentDescription = "Jewel.SplitButton.PopupMenu" }
+                    .width(buttonWidth)
+                    .onClick { popupExpanded = false },
+                horizontalAlignment = Alignment.Start,
+                popupProperties = PopupProperties(focusable = false),
+                content = {
+                    PopupMenu(
+                        modifier = Modifier.width(buttonWidth),
+                        onDismissRequest = {
+                            popupExpanded = false
+                            true
+                        },
+                        horizontalAlignment = Alignment.Start,
+                        content = secondaryContent,
+                    )
+                }
+            )
         }
-    )
+    }
+}
+
+@Composable
+private fun Chevron(
+    style: SplitButtonStyle,
+    enabled: Boolean,
+    isDefault: Boolean,
+    onChevronClicked: () -> Unit,
+) {
+    Box(
+        Modifier.size(style.button.metrics.minSize.height)
+            .thenIf(enabled) {
+                clickable(
+                    onClick = { onChevronClicked() },
+                    interactionSource = MutableInteractionSource(),
+                    indication = null
+                )
+            }
+    ) {
+        Divider(
+            orientation = Orientation.Vertical,
+            thickness = style.dividerMetrics.thickness,
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(vertical = style.dividerPadding)
+                .align(Alignment.CenterStart),
+            color = style.dividerColor,
+        )
+        Icon(
+            key = AllIconsKeys.General.ChevronDown,
+            contentDescription = "Chevron",
+            modifier = Modifier.align(Alignment.Center),
+            hints = if (isDefault) {
+                arrayOf(PainterHintStroke(style.chevronColor))
+            } else {
+                emptyArray()
+            }
+        )
+    }
+}
+
+private fun splitButtonKeys(
+    keyEvent: KeyEvent,
+    popupExpanded: Boolean,
+    clickMainButton: () -> Unit,
+    collapsePopup: () -> Unit,
+    expandPopup: () -> Unit,
+): Boolean {
+    if (keyEvent.type != KeyEventType.KeyDown) return false
+    when {
+        keyEvent.key == Key.DirectionDown && !popupExpanded -> {
+            expandPopup()
+            return true
+        }
+
+        keyEvent.key == Key.Spacebar -> {
+            if (!popupExpanded) {
+                clickMainButton()
+            }
+            return true
+        }
+
+        keyEvent.key == Key.Enter -> {
+            if (popupExpanded) {
+                collapsePopup()
+                // TODO: Trigger selected item in the popup menu
+            } else {
+                clickMainButton()
+            }
+            return true
+        }
+
+        keyEvent.key == Key.Escape && popupExpanded -> {
+            collapsePopup()
+            return true
+        }
+
+        else -> return false
+    }
 }
 
 @Composable

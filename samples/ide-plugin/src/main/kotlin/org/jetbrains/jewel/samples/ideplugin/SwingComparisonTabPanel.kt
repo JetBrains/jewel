@@ -8,12 +8,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -51,6 +55,8 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
+import org.jetbrains.jewel.ui.component.items
+import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 import java.awt.event.ActionEvent
 import javax.swing.AbstractAction
@@ -113,14 +119,32 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             .layout(RowLayout.PARENT_GRID)
         row("SplitButtons - Compose:") {
             compose {
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                val items = remember { listOf("Item 1", "---", "Item 2", "---", "Item 3") }
+                var selected by remember { mutableStateOf(items.first()) }
+
+                Row(Modifier.height(150.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     OutlinedSplitButton(
                         onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
                         secondaryOnClick = {
                             JewelLogger.getInstance("Jewel")
                                 .warn("Outlined split button chevron clicked")
                         },
-                        content = { Text("Split button") }
+                        content = { Text("Split button") },
+                        menuContent = {
+                            items.forEach {
+                                if (it == "---") {
+                                    separator()
+                                } else {
+                                    selectableItem(
+                                        selected = selected == it,
+                                        onClick = {
+                                            selected = it
+                                            JewelLogger.getInstance("Jewel").warn("Item clicked: $it")
+                                        }
+                                    ) { Text(it) }
+                                }
+                            }
+                        }
                     )
                     OutlinedSplitButton(
                         enabled = false,
@@ -129,7 +153,15 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                             JewelLogger.getInstance("Jewel")
                                 .warn("Outlined split button chevron clicked")
                         },
-                        content = { Text("Split button") }
+                        content = { Text("Split button") },
+                        menuContent = {
+                            items(
+                                items = listOf("Item 1", "Item 2", "Item 3"),
+                                isSelected = { false },
+                                onItemClick = { JewelLogger.getInstance("Jewel").warn("Item clicked: $it") },
+                                content = { Text(it) }
+                            )
+                        }
                     )
                     DefaultSplitButton(
                         onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
@@ -137,7 +169,15 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                             JewelLogger.getInstance("Jewel")
                                 .warn("Outlined split button chevron clicked")
                         },
-                        content = { Text("Split button") }
+                        content = { Text("Split button") },
+                        menuContent = {
+                            items(
+                                items = listOf("Item 1", "Item 2", "Item 3"),
+                                isSelected = { false },
+                                onItemClick = { JewelLogger.getInstance("Jewel").warn("Item clicked: $it") },
+                                content = { Text(it) }
+                            )
+                        }
                     )
                 }
             }
@@ -175,13 +215,13 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                     Text(
                         longText,
                         modifier =
-                            Modifier.width(
-                                with(LocalDensity.current) {
-                                    // Guesstimate how wide this should be — we can't tell it to be
-                                    // "fill", as it crashes natively
-                                    JewelTheme.defaultTextStyle.fontSize.toDp() * 60
-                                }
-                            ),
+                        Modifier.width(
+                            with(LocalDensity.current) {
+                                // Guesstimate how wide this should be — we can't tell it to be
+                                // "fill", as it crashes natively
+                                JewelTheme.defaultTextStyle.fontSize.toDp() * 60
+                            }
+                        ),
                     )
                 }
             }
@@ -197,13 +237,13 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                     Text(
                         "This will wrap over a couple rows",
                         modifier =
-                            Modifier.width(
-                                with(LocalDensity.current) {
-                                    // Guesstimate how wide this should be — we can't tell it to be
-                                    // "fill", as it crashes natively
-                                    style.fontSize.toDp() * 10
-                                }
-                            ),
+                        Modifier.width(
+                            with(LocalDensity.current) {
+                                // Guesstimate how wide this should be — we can't tell it to be
+                                // "fill", as it crashes natively
+                                style.fontSize.toDp() * 10
+                            }
+                        ),
                         style = style,
                     )
                 }
@@ -260,10 +300,10 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                 TextArea(
                     state = state,
                     modifier =
-                        Modifier.size(
-                            width = width.dp + contentPadding.horizontal(LocalLayoutDirection.current),
-                            height = height.dp + contentPadding.vertical(),
-                        ),
+                    Modifier.size(
+                        width = width.dp + contentPadding.horizontal(LocalLayoutDirection.current),
+                        height = height.dp + contentPadding.vertical(),
+                    ),
                 )
             }
         }
