@@ -106,13 +106,14 @@ internal fun DecoratedWindowScope.TitleBarImpl(
         }
 
     Box(
-        modifier = modifier
-            .background(backgroundBrush)
-            .focusProperties { canFocus = false }
-            .layoutId(TITLE_BAR_LAYOUT_ID)
-            .height(style.metrics.height)
-            .onSizeChanged { with(density) { applyTitleBar(it.height.toDp(), state) } }
-            .fillMaxWidth()
+        modifier =
+            modifier
+                .background(backgroundBrush)
+                .focusProperties { canFocus = false }
+                .layoutId(TITLE_BAR_LAYOUT_ID)
+                .height(style.metrics.height)
+                .onSizeChanged { with(density) { applyTitleBar(it.height.toDp(), state) } }
+                .fillMaxWidth()
     ) {
         backgroundContent()
         Layout(
