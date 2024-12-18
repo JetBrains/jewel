@@ -55,46 +55,44 @@ public class GitHubTableProcessorExtension(
 
             return try {
                 TableBlock(
-                    header =
-                        TableHeader(
-                            // The header contains only one CommonMarkTableRow
-                            (header.firstChild as CommonMarkTableRow).mapCellsIndexed { columnIndex, cell ->
-                                TableCell(
-                                    rowIndex = 0,
-                                    columnIndex = columnIndex,
-                                    content = cell.readInlineContent(markdownProcessor, extensions),
-                                    alignment = getAlignment(cell, default = Alignment.CenterHorizontally),
-                                )
-                            }
-                        ),
-                    rows =
-                        body
-                            ?.mapRowsIndexed { rowIndex, row ->
-                                TableRow(
-                                    rowIndex = rowIndex,
-                                    row.mapCellsIndexed { columnIndex, cell ->
-                                        TableCell(
-                                            rowIndex = rowIndex + 1, // The header is row zero
-                                            columnIndex = columnIndex,
-                                            content = cell.readInlineContent(markdownProcessor, extensions),
-                                            alignment = getAlignment(cell, default = Alignment.Start),
-                                        )
-                                    },
-                                )
-                            }
-                            .orEmpty(),
+                    TableHeader(
+                        // The header contains only one CommonMarkTableRow
+                        (header.firstChild as CommonMarkTableRow).mapCellsIndexed { columnIndex, cell ->
+                            TableCell(
+                                rowIndex = 0,
+                                columnIndex = columnIndex,
+                                content = cell.readInlineContent(markdownProcessor, extensions),
+                                alignment = getAlignment(cell),
+                            )
+                        }
+                    ),
+                    body
+                        ?.mapRowsIndexed { rowIndex, row ->
+                            TableRow(
+                                rowIndex = rowIndex,
+                                row.mapCellsIndexed { columnIndex, cell ->
+                                    TableCell(
+                                        rowIndex = rowIndex + 1, // The header is row zero
+                                        columnIndex = columnIndex,
+                                        content = cell.readInlineContent(markdownProcessor, extensions),
+                                        alignment = getAlignment(cell),
+                                    )
+                                },
+                            )
+                        }
+                        .orEmpty(),
                 )
             } catch (_: IllegalArgumentException) {
                 null
             }
         }
 
-        private fun getAlignment(cell: CommonMarkTableCell, default: Alignment.Horizontal) =
+        private fun getAlignment(cell: CommonMarkTableCell) =
             when (cell.alignment) {
                 LEFT -> Alignment.Start
                 CENTER -> Alignment.CenterHorizontally
                 RIGHT -> Alignment.End
-                null -> default
+                null -> null
             }
 
         private inline fun CommonMarkTableRow.mapCellsIndexed(
@@ -133,8 +131,9 @@ private object GitHubTablesCommonMarkExtension : ParserExtension, TextContentRen
 }
 
 @OptIn(ExperimentalJewelApi::class)
-public class GitHubTableRendererExtension(rootStyling: MarkdownStyling) : MarkdownRendererExtension {
-    override val blockRenderer: MarkdownBlockRendererExtension = GitHubTableBlockRenderer(rootStyling)
+public class GitHubTableRendererExtension(tableStyling: GfmTableStyling, rootStyling: MarkdownStyling) :
+    MarkdownRendererExtension {
+    override val blockRenderer: MarkdownBlockRendererExtension = GitHubTableBlockRenderer(rootStyling, tableStyling)
 }
 
 internal data class TableBlock(val header: TableHeader, val rows: List<TableRow>) : MarkdownBlock.CustomBlock {
@@ -163,5 +162,5 @@ internal data class TableCell(
     val rowIndex: Int,
     val columnIndex: Int,
     val content: List<InlineMarkdown>,
-    val alignment: Alignment.Horizontal,
+    val alignment: Alignment.Horizontal?,
 ) : CustomBlock()

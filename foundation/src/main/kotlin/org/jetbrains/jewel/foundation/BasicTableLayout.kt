@@ -75,7 +75,8 @@ public fun BasicTableLayout(
             }
 
         // The available width we can assign to cells is equal to the max width from the incoming
-        // constraints, minus the vertical borders applied between columns and to the sides of the table
+        // constraints, minus the vertical borders applied between columns and to the sides of the
+        // table
         val cellBorderWidthPx = cellBorderWidth.roundToPx()
         val totalHorizontalBordersWidth = cellBorderWidthPx * (columnCount + 1)
         val minTableIntrinsicWidth = intrinsicColumnWidths.sum() + totalHorizontalBordersWidth

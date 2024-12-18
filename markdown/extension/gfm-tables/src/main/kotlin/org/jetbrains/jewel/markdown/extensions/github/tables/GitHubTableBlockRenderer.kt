@@ -1,13 +1,15 @@
 package org.jetbrains.jewel.markdown.extensions.github.tables
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.BasicTableLayout
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -20,7 +22,10 @@ import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 
 @OptIn(ExperimentalJewelApi::class)
-public class GitHubTableBlockRenderer(private val rootStyling: MarkdownStyling) : MarkdownBlockRendererExtension {
+public class GitHubTableBlockRenderer(
+    private val rootStyling: MarkdownStyling,
+    private val tableStyling: GfmTableStyling,
+) : MarkdownBlockRendererExtension {
     override fun canRender(block: CustomBlock): Boolean = block is TableBlock
 
     @Composable
@@ -34,18 +39,15 @@ public class GitHubTableBlockRenderer(private val rootStyling: MarkdownStyling) 
     ) {
         val tableBlock = block as TableBlock
 
-        // Headers have a semibold font weight applied throughout; we need a copy of the block
-        // renderer
-        // with a tweaked root styling, using semibold everywhere (except strong emphasis, which is
-        // >= 600)
+        // Headers usually have a tweaked font weight
         val headerRootStyling =
-            remember(JewelTheme.name, blockRenderer) {
+            remember(JewelTheme.name, blockRenderer, tableStyling.headerBaseFontWeight) {
                 val rootStyling = blockRenderer.rootStyling
-                val semiboldInlinesStyling = rootStyling.paragraph.inlinesStyling.withFontWeight(FontWeight.Bold)
+                val semiboldInlinesStyling =
+                    rootStyling.paragraph.inlinesStyling.withFontWeight(tableStyling.headerBaseFontWeight)
 
                 // Given cells can only contain inlines, and not block-level nodes, we are ok with
-                // only
-                // overriding the Paragraph styling.
+                // only overriding the Paragraph styling.
                 MarkdownStyling(
                     rootStyling.blockVerticalSpacing,
                     MarkdownStyling.Paragraph(semiboldInlinesStyling),
@@ -59,20 +61,52 @@ public class GitHubTableBlockRenderer(private val rootStyling: MarkdownStyling) 
                 )
             }
 
-        // TODO figure out why this is not making header text bold
         val headerRenderer = remember(headerRootStyling) { blockRenderer.copy(rootStyling = headerRootStyling) }
 
         val rows =
-            remember(block, blockRenderer, inlineRenderer) {
+            remember(block, blockRenderer, inlineRenderer, tableStyling) {
                 val headerCells =
-                    tableBlock.header.cells.map<TableCell, @Composable () -> Unit> {
-                        { HeaderCell(it, headerRenderer, enabled, onUrlClick, onTextClick) }
+                    tableBlock.header.cells.map<TableCell, @Composable () -> Unit> { cell ->
+                        {
+                            HeaderCell(
+                                cell = cell,
+                                backgroundColor = tableStyling.colors.rowBackgroundColor,
+                                padding = tableStyling.metrics.cellPadding,
+                                defaultAlignment = tableStyling.metrics.headerDefaultCellContentAlignment,
+                                blockRenderer = headerRenderer,
+                                enabled = enabled,
+                                onUrlClick = onUrlClick,
+                                onTextClick = onTextClick,
+                            )
+                        }
                     }
 
                 val rowsCells =
                     tableBlock.rows.map<TableRow, List<@Composable () -> Unit>> { row ->
-                        row.cells.map<TableCell, @Composable () -> Unit> {
-                            { Cell(it, blockRenderer, enabled, onUrlClick, onTextClick) }
+                        row.cells.map<TableCell, @Composable () -> Unit> { cell ->
+                            {
+                                val backgroundColor =
+                                    if (tableStyling.colors.rowBackgroundStyle == RowBackgroundStyle.Striped) {
+                                        if (cell.rowIndex % 2 == 0) {
+                                            tableStyling.colors.alternateRowBackgroundColor
+                                        } else {
+                                            tableStyling.colors.rowBackgroundColor
+                                        }
+                                    } else {
+                                        tableStyling.colors.rowBackgroundColor
+                                    }
+
+                                Cell(
+                                    cell = cell,
+                                    backgroundColor = backgroundColor,
+                                    padding = tableStyling.metrics.cellPadding,
+                                    defaultAlignment = tableStyling.metrics.defaultCellContentAlignment,
+                                    blockRenderer = blockRenderer,
+                                    enabled = enabled,
+                                    onUrlClick = onUrlClick,
+                                    onTextClick = onTextClick,
+                                )
+                            }
                         }
                     }
 
@@ -82,7 +116,8 @@ public class GitHubTableBlockRenderer(private val rootStyling: MarkdownStyling) 
         BasicTableLayout(
             rowCount = tableBlock.rowCount,
             columnCount = tableBlock.columnCount,
-            cellBorderColor = JewelTheme.globalColors.borders.normal,
+            cellBorderColor = tableStyling.colors.borderColor,
+            cellBorderWidth = tableStyling.metrics.borderWidth,
             rows = rows,
         )
     }
@@ -98,7 +133,7 @@ public class GitHubTableBlockRenderer(private val rootStyling: MarkdownStyling) 
             linkPressed = linkPressed.copy(fontWeight = newFontWeight),
             linkVisited = linkVisited.copy(fontWeight = newFontWeight),
             emphasis = emphasis.copy(fontWeight = newFontWeight),
-            strongEmphasis = strongEmphasis,
+            strongEmphasis = strongEmphasis.copy(fontWeight = newFontWeight),
             inlineHtml = inlineHtml.copy(fontWeight = newFontWeight),
             renderInlineHtml = renderInlineHtml,
         )
@@ -106,18 +141,21 @@ public class GitHubTableBlockRenderer(private val rootStyling: MarkdownStyling) 
     @Composable
     private fun HeaderCell(
         cell: TableCell,
+        backgroundColor: Color,
+        padding: PaddingValues,
+        defaultAlignment: Alignment.Horizontal,
         blockRenderer: MarkdownBlockRenderer,
         enabled: Boolean,
         onUrlClick: (String) -> Unit,
         onTextClick: () -> Unit,
     ) {
         Box(
-            modifier = Modifier.padding(horizontal = 13.dp, vertical = 6.dp),
-            contentAlignment = cell.alignment.asContentAlignment(),
+            modifier = Modifier.background(backgroundColor).padding(padding),
+            contentAlignment = (cell.alignment ?: defaultAlignment).asContentAlignment(),
         ) {
             blockRenderer.render(
                 MarkdownBlock.Paragraph(cell.content),
-                rootStyling.paragraph,
+                blockRenderer.rootStyling.paragraph,
                 enabled,
                 onUrlClick,
                 onTextClick,
@@ -128,15 +166,17 @@ public class GitHubTableBlockRenderer(private val rootStyling: MarkdownStyling) 
     @Composable
     private fun Cell(
         cell: TableCell,
+        backgroundColor: Color,
+        padding: PaddingValues,
+        defaultAlignment: Alignment.Horizontal,
         blockRenderer: MarkdownBlockRenderer,
         enabled: Boolean,
         onUrlClick: (String) -> Unit,
         onTextClick: () -> Unit,
     ) {
-        // TODO striped rows, extract padding
         Box(
-            modifier = Modifier.padding(horizontal = 13.dp, vertical = 6.dp),
-            contentAlignment = cell.alignment.asContentAlignment(),
+            modifier = Modifier.background(backgroundColor).padding(padding),
+            contentAlignment = (cell.alignment ?: defaultAlignment).asContentAlignment(),
         ) {
             blockRenderer.render(
                 MarkdownBlock.Paragraph(cell.content),
