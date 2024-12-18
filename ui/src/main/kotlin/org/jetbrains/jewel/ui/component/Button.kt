@@ -261,25 +261,21 @@ private fun SplitButtonImpl(
     var buttonWidth by remember { mutableStateOf(Dp.Unspecified) }
     val density = LocalDensity.current
 
-    fun setPopupExpanded(expanded: Boolean) {
-        popupVisible = expanded
-    }
-
-    fun togglePopup() {
-        setPopupExpanded(!popupVisible)
-    }
-
     Box(
         modifier
             .onSizeChanged { buttonWidth = with(density) { it.width.toDp() } }
-            .onFocusChanged { if (!it.isFocused) setPopupExpanded(false) }
+            .onFocusChanged {
+                if (!it.isFocused) {
+                    popupVisible = false
+                }
+            }
             .thenIf(enabled) {
                 onPreviewKeyEvent { keyEvent ->
                     splitButtonKeys(
                         keyEvent = keyEvent,
                         popupVisible = popupVisible,
-                        collapsePopup = { setPopupExpanded(false) },
-                        expandPopup = { setPopupExpanded(true) },
+                        collapsePopup = { popupVisible = false },
+                        expandPopup = { popupVisible = true },
                     )
                 }
             }
@@ -300,19 +296,19 @@ private fun SplitButtonImpl(
                     isDefault = isDefault,
                     onChevronClicked = {
                         secondaryOnClick()
-                        togglePopup()
+                        popupVisible = !popupVisible
                     }
                 )
             }
         )
 
-        if (popupVisible) {
+        if (popupVisible && enabled) {
             PopupMenu(
                 modifier = Modifier
                     .width(buttonWidth)
-                    .onClick { setPopupExpanded(false) },
+                    .onClick { popupVisible = false },
                 onDismissRequest = {
-                    setPopupExpanded(false)
+                    popupVisible = false
                     true
                 },
                 horizontalAlignment = Alignment.Start,
@@ -337,8 +333,8 @@ private fun SplitButtonChevron(
             .focusProperties { canFocus = false }
             .clickable(
                 enabled = enabled,
-                onClick = { onChevronClicked() },
-                interactionSource = MutableInteractionSource(),
+                onClick = onChevronClicked,
+                interactionSource = remember { MutableInteractionSource() },
                 indication = null
             )
     ) {
@@ -398,9 +394,18 @@ private fun ButtonImpl(
     content: @Composable () -> Unit,
     secondaryContent: @Composable (() -> Unit)? = null,
 ) {
-    var buttonState by remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled)) }
+    var buttonState by remember(interactionSource) {
+        mutableStateOf(
+            ButtonState.of(
+                enabled = enabled,
+                focused = forceFocused
+            )
+        )
+    }
 
     remember(enabled) { buttonState = buttonState.copy(enabled = enabled) }
+    var actuallyFocused by remember { mutableStateOf(false) }
+    remember(forceFocused) { buttonState = buttonState.copy(focused = if (forceFocused) true else actuallyFocused) }
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
@@ -412,8 +417,15 @@ private fun ButtonImpl(
 
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
-                is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
-                is FocusInteraction.Unfocus -> buttonState = buttonState.copy(focused = forceFocused)
+                is FocusInteraction.Focus -> {
+                    actuallyFocused = true
+                    buttonState = buttonState.copy(focused = true)
+                }
+
+                is FocusInteraction.Unfocus -> {
+                    actuallyFocused = false
+                    buttonState = buttonState.copy(focused = forceFocused)
+                }
             }
         }
     }
