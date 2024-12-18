@@ -45,7 +45,6 @@ import icons.IdeSampleIconKeys
 import icons.JewelIcons
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
-import org.jetbrains.jewel.foundation.enableNewSwingCompositing
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.component.DefaultButton
@@ -60,7 +59,6 @@ import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.items
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.theme.textAreaStyle
-import java.awt.Component
 import java.awt.event.ActionEvent
 import javax.swing.AbstractAction
 import javax.swing.Action
@@ -74,8 +72,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private val scrollingContainer: JComponent
 
     init {
-        enableNewSwingCompositing()
-        System.setProperty("compose.layers.type", "COMPONENT")
+       // System.setProperty("compose.layers.type", "COMPONENT")
 
         mainContent = panel {
             buttonsRow()
@@ -99,22 +96,22 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
         )
 
         addToCenter(scrollingContainer)
-
-        mainContent.setWindowContainer()
-
         scrollingContainer.border = null
         scrollingContainer.isOpaque = false
         isOpaque = false
     }
 
-    private fun Component.setWindowContainer() {
-        if (this is ComposePanel) {
-            windowContainer = (this@SwingComparisonTabPanel.topLevelAncestor as JFrame).layeredPane
+    override fun addNotify() {
+        super.addNotify()
+        // setWindowContainer(mainContent)
+    }
+
+    private fun setWindowContainer(component: JComponent) {
+        if (component is ComposePanel) {
+            component.windowContainer = (component.topLevelAncestor as JFrame).layeredPane
         } else {
-            components.forEach {
-                if (it is JPanel) {
-                    it.setWindowContainer()
-                }
+            component.components.forEach { child ->
+                setWindowContainer(child as JComponent)
             }
         }
     }

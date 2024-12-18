@@ -1,7 +1,6 @@
 /**
  * TODO
  * On lost focus, close the popup. Related to https://youtrack.jetbrains.com/issue/CMP-7269/Popup-is-not-dismissed-by-clicking-or-moving-focus-outside-ComposePanel.
- * Clicking the chevron container should focus the button.
  *
  * Remove this list
  */
