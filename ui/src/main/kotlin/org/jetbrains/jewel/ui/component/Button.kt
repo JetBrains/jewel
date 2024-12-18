@@ -62,11 +62,13 @@ import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.foundation.theme.LocalTextStyle
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.styling.ButtonStyle
+import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.theme.defaultButtonStyle
 import org.jetbrains.jewel.ui.theme.defaultSplitButtonStyle
+import org.jetbrains.jewel.ui.theme.menuStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
 import org.jetbrains.jewel.ui.util.thenIf
@@ -98,6 +100,7 @@ public fun DefaultButton(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
+        forceFocused = false,
         interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
@@ -130,6 +133,7 @@ public fun OutlinedButton(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
+        forceFocused = false,
         interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
@@ -169,6 +173,7 @@ public fun OutlinedSplitButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: SplitButtonStyle = JewelTheme.outlinedSplitButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    menuStyle: MenuStyle = JewelTheme.menuStyle,
     content: @Composable () -> Unit,
     menuContent: MenuScope.() -> Unit,
 ) {
@@ -180,6 +185,7 @@ public fun OutlinedSplitButton(
         interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
+        menuStyle = menuStyle,
         isDefault = false,
         content = content,
         secondaryContent = menuContent
@@ -218,6 +224,7 @@ public fun DefaultSplitButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     style: SplitButtonStyle = JewelTheme.defaultSplitButtonStyle,
     textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    menuStyle: MenuStyle = JewelTheme.menuStyle,
     content: @Composable () -> Unit,
     menuContent: MenuScope.() -> Unit,
 ) {
@@ -229,6 +236,7 @@ public fun DefaultSplitButton(
         interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
+        menuStyle = menuStyle,
         isDefault = true,
         content = content,
         secondaryContent = menuContent
@@ -244,20 +252,21 @@ private fun SplitButtonImpl(
     interactionSource: MutableInteractionSource,
     style: SplitButtonStyle,
     textStyle: TextStyle,
+    menuStyle: MenuStyle,
     isDefault: Boolean,
     content: @Composable () -> Unit,
     secondaryContent: MenuScope.() -> Unit,
 ) {
-    var popupExpanded by remember { mutableStateOf(false) }
+    var popupVisible by remember { mutableStateOf(false) }
     var buttonWidth by remember { mutableStateOf(Dp.Unspecified) }
     val density = LocalDensity.current
 
     fun setPopupExpanded(expanded: Boolean) {
-        popupExpanded = expanded
+        popupVisible = expanded
     }
 
     fun togglePopup() {
-        setPopupExpanded(!popupExpanded)
+        setPopupExpanded(!popupVisible)
     }
 
     Box(
@@ -268,8 +277,7 @@ private fun SplitButtonImpl(
                 onPreviewKeyEvent { keyEvent ->
                     splitButtonKeys(
                         keyEvent = keyEvent,
-                        popupExpanded = popupExpanded,
-                        clickMainButton = onClick,
+                        popupVisible = popupVisible,
                         collapsePopup = { setPopupExpanded(false) },
                         expandPopup = { setPopupExpanded(true) },
                     )
@@ -280,12 +288,13 @@ private fun SplitButtonImpl(
             onClick = { if (enabled) onClick() },
             modifier = Modifier,
             enabled = enabled,
+            forceFocused = popupVisible,
             interactionSource = interactionSource,
             style = style.button,
             textStyle = textStyle,
             content = content,
             secondaryContent = {
-                Chevron(
+                SplitButtonChevron(
                     style = style,
                     enabled = enabled,
                     isDefault = isDefault,
@@ -297,7 +306,7 @@ private fun SplitButtonImpl(
             }
         )
 
-        if (popupExpanded) {
+        if (popupVisible) {
             PopupMenu(
                 modifier = Modifier
                     .width(buttonWidth)
@@ -307,6 +316,7 @@ private fun SplitButtonImpl(
                     true
                 },
                 horizontalAlignment = Alignment.Start,
+                style = menuStyle,
                 content = secondaryContent,
             )
         }
@@ -314,7 +324,7 @@ private fun SplitButtonImpl(
 }
 
 @Composable
-private fun Chevron(
+private fun SplitButtonChevron(
     style: SplitButtonStyle,
     enabled: Boolean,
     isDefault: Boolean,
@@ -356,36 +366,18 @@ private fun Chevron(
 
 private fun splitButtonKeys(
     keyEvent: KeyEvent,
-    popupExpanded: Boolean,
-    clickMainButton: () -> Unit,
+    popupVisible: Boolean,
     collapsePopup: () -> Unit,
     expandPopup: () -> Unit,
 ): Boolean {
     if (keyEvent.type != KeyEventType.KeyDown) return false
     when {
-        keyEvent.key == Key.DirectionDown && !popupExpanded -> {
+        keyEvent.key == Key.DirectionDown && !popupVisible -> {
             expandPopup()
             return true
         }
 
-        keyEvent.key == Key.Spacebar -> {
-            if (!popupExpanded) {
-                clickMainButton()
-            }
-            return true
-        }
-
-        keyEvent.key == Key.Enter -> {
-            if (popupExpanded) {
-                collapsePopup()
-                // TODO: Trigger selected item in the popup menu
-            } else {
-                clickMainButton()
-            }
-            return true
-        }
-
-        keyEvent.key == Key.Escape && popupExpanded -> {
+        keyEvent.key == Key.Escape && popupVisible -> {
             collapsePopup()
             return true
         }
@@ -399,6 +391,7 @@ private fun ButtonImpl(
     onClick: () -> Unit,
     modifier: Modifier,
     enabled: Boolean,
+    forceFocused: Boolean,
     interactionSource: MutableInteractionSource,
     style: ButtonStyle,
     textStyle: TextStyle,
@@ -420,7 +413,7 @@ private fun ButtonImpl(
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
                 is FocusInteraction.Focus -> buttonState = buttonState.copy(focused = true)
-                is FocusInteraction.Unfocus -> buttonState = buttonState.copy(focused = false)
+                is FocusInteraction.Unfocus -> buttonState = buttonState.copy(focused = forceFocused)
             }
         }
     }

@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.ComposePanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -44,6 +45,7 @@ import icons.IdeSampleIconKeys
 import icons.JewelIcons
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
+import org.jetbrains.jewel.foundation.enableNewSwingCompositing
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.util.JewelLogger
 import org.jetbrains.jewel.ui.component.DefaultButton
@@ -58,13 +60,24 @@ import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.items
 import org.jetbrains.jewel.ui.component.separator
 import org.jetbrains.jewel.ui.theme.textAreaStyle
+import java.awt.Component
 import java.awt.event.ActionEvent
 import javax.swing.AbstractAction
 import javax.swing.Action
+import javax.swing.JComponent
+import javax.swing.JFrame
+import javax.swing.JPanel
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
-    private val mainContent =
-        panel {
+    private val mainContent: JPanel
+
+    private val scrollingContainer: JComponent
+
+    init {
+        enableNewSwingCompositing()
+        System.setProperty("compose.layers.type", "COMPONENT")
+
+        mainContent = panel {
             buttonsRow()
             separator()
             labelsRows()
@@ -74,24 +87,36 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             textFieldsRow()
             separator()
             textAreasRow()
+        }.apply {
+            border = JBUI.Borders.empty(0, 10)
+            isOpaque = false
         }
-            .apply {
-                border = JBUI.Borders.empty(0, 10)
-                isOpaque = false
-            }
 
-    private val scrollingContainer =
-        JBScrollPane(
+        scrollingContainer = JBScrollPane(
             mainContent,
             JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
         )
 
-    init {
         addToCenter(scrollingContainer)
+
+        mainContent.setWindowContainer()
+
         scrollingContainer.border = null
         scrollingContainer.isOpaque = false
         isOpaque = false
+    }
+
+    private fun Component.setWindowContainer() {
+        if (this is ComposePanel) {
+            windowContainer = (this@SwingComparisonTabPanel.topLevelAncestor as JFrame).layeredPane
+        } else {
+            components.forEach {
+                if (it is JPanel) {
+                    it.setWindowContainer()
+                }
+            }
+        }
     }
 
     private fun Panel.buttonsRow() {
