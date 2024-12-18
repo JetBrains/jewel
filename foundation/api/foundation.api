@@ -1,3 +1,7 @@
+public final class org/jetbrains/jewel/foundation/BasicTableLayoutKt {
+	public static final fun BasicTableLayout-yE4rkUQ (IIJLandroidx/compose/ui/Modifier;FLjava/util/List;Landroidx/compose/runtime/Composer;II)V
+}
+
 public final class org/jetbrains/jewel/foundation/BorderColors {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/foundation/BorderColors$Companion;

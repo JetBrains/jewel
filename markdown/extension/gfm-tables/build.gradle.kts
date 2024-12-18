@@ -5,7 +5,6 @@ plugins {
     `jewel-publish`
     `jewel-check-public-api`
     `jewel-compose`
-    kotlin("jvm")
 }
 
 dependencies {
@@ -13,7 +12,6 @@ dependencies {
     implementation(libs.commonmark.ext.gfm.tables)
 
     testImplementation(compose.desktop.uiTestJUnit4)
-    implementation(kotlin("stdlib-jdk8"))
 }
 
 publicApiValidation {
