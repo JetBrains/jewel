@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.jewel.foundation.BorderColors
 import org.jetbrains.jewel.intui.standalone.theme.dark
 import org.jetbrains.jewel.intui.standalone.theme.light
 import org.jetbrains.jewel.markdown.extensions.github.tables.GfmTableColors

@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.intui.standalone.theme
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.foundation.BorderColors
 import org.jetbrains.jewel.foundation.GlobalColors
