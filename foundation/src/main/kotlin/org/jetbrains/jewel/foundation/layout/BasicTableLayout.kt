@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.foundation
+package org.jetbrains.jewel.foundation.layout
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
  * the available width.
  *
  * Cells **must** only contain one top-level component. If you need your cells to contain more than one, wrap your cell
- * content in a [`Box`][androidx.compose.foundation.layout.Box], [`Column`][androidx.compose.foundation.layout.Column],
+ * content in a [`Box`][Box], [`Column`][androidx.compose.foundation.layout.Column],
  * [`Row`][androidx.compose.foundation.layout.Row], etc.
  *
  * Incoming height constraints are ignored. The table will always take up as much vertical room as it needs. If you want
@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
  * @param rowCount The number of rows this table has.
  * @param columnCount The number of columns this table has.
  * @param cellBorderColor The color of the cell borders. Set to
- *   [`Color.Unspecified`][androidx.compose.ui.graphics.Color.Companion.Unspecified] to avoid drawing the borders — in
+ *   [`Color.Unspecified`][Color.Companion.Unspecified] to avoid drawing the borders — in
  *   which case, the [cellBorderWidth] acts as a padding.
  * @param modifier Modifier to apply to the table.
  * @param cellBorderWidth The width of the table's borders.
