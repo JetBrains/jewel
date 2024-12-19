@@ -65,13 +65,13 @@ import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
-import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 import org.jetbrains.jewel.ui.theme.defaultButtonStyle
 import org.jetbrains.jewel.ui.theme.defaultSplitButtonStyle
 import org.jetbrains.jewel.ui.theme.menuStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
 import org.jetbrains.jewel.ui.util.thenIf
+import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 
 /**
  * A composable function that creates a customizable default-styled button. The button's behavior, appearance, and
@@ -442,9 +442,9 @@ private fun SplitButtonChevron(
     ) {
         Divider(
             orientation = Orientation.Vertical,
-            thickness = style.dividerMetrics.thickness,
-            modifier = Modifier.fillMaxHeight().padding(vertical = style.dividerPadding).align(Alignment.CenterStart),
-            color = style.dividerColor,
+            thickness = style.metrics.dividerMetrics.thickness,
+            modifier = Modifier.fillMaxHeight().padding(vertical = style.metrics.dividerPadding).align(Alignment.CenterStart),
+            color = style.colors.dividerColor,
         )
         Icon(
             key = AllIconsKeys.General.ChevronDown,
@@ -452,7 +452,7 @@ private fun SplitButtonChevron(
             modifier = Modifier.align(Alignment.Center),
             hints =
                 if (isDefault) {
-                    arrayOf(PainterHintStroke(style.chevronColor))
+                    arrayOf(PainterHintStroke(style.colors.chevronColor))
                 } else {
                     emptyArray()
                 },

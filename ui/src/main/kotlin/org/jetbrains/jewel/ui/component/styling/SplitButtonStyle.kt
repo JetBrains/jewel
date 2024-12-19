@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.ui.component.styling
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -11,11 +12,27 @@ import org.jetbrains.jewel.foundation.GenerateDataFunctions
 @GenerateDataFunctions
 public class SplitButtonStyle(
     public val button: ButtonStyle,
-    public val dividerMetrics: DividerMetrics,
+    public val colors: SplitButtonColors,
+    public val metrics: SplitButtonMetrics,
+) {
+    public companion object
+}
+
+@Immutable
+@GenerateDataFunctions
+public class SplitButtonColors(
     public val dividerColor: Color,
     public val dividerDisabledColor: Color,
-    public val dividerPadding: Dp,
     public val chevronColor: Color,
+) {
+    public companion object
+}
+
+@Stable
+@GenerateDataFunctions
+public class SplitButtonMetrics(
+    public val dividerMetrics: DividerMetrics,
+    public val dividerPadding: Dp,
 ) {
     public companion object
 }
