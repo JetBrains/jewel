@@ -44,11 +44,6 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import icons.IdeSampleIconKeys
 import icons.JewelIcons
-import java.awt.event.ActionEvent
-import javax.swing.AbstractAction
-import javax.swing.Action
-import javax.swing.JComponent
-import javax.swing.JPanel
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -68,6 +63,11 @@ import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.badge.DotBadgeShape
 import org.jetbrains.jewel.ui.painter.hints.Badge
 import org.jetbrains.jewel.ui.theme.textAreaStyle
+import java.awt.event.ActionEvent
+import javax.swing.AbstractAction
+import javax.swing.Action
+import javax.swing.JComponent
+import javax.swing.JPanel
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private val mainContent: JPanel
@@ -75,8 +75,6 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private val scrollingContainer: JComponent
 
     init {
-        // System.setProperty("compose.layers.type", "COMPONENT")
-
         mainContent =
             panel {
                     buttonsRow()
@@ -106,21 +104,6 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
         scrollingContainer.isOpaque = false
         isOpaque = false
     }
-
-    //    override fun addNotify() {
-    //        super.addNotify()
-    //        setWindowContainer(mainContent)
-    //    }
-    //
-    //    private fun setWindowContainer(component: JComponent) {
-    //        if (component is ComposePanel) {
-    //            component.windowContainer = (component.topLevelAncestor as JFrame).layeredPane
-    //        } else {
-    //            component.components.forEach { child ->
-    //                setWindowContainer(child as JComponent)
-    //            }
-    //        }
-    //    }
 
     private fun Panel.buttonsRow() {
         row("Buttons - Swing:") {
