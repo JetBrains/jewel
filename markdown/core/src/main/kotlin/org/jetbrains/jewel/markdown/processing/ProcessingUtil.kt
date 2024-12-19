@@ -14,47 +14,36 @@ import org.commonmark.node.Text as CMText
 import org.jetbrains.jewel.markdown.InlineMarkdown
 import org.jetbrains.jewel.markdown.WithInlineMarkdown
 import org.jetbrains.jewel.markdown.WithTextContent
-import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 
-public fun Node.readInlineContent(
-    markdownProcessor: MarkdownProcessor,
-    extensions: List<MarkdownProcessorExtension>,
-): List<InlineMarkdown> = buildList {
+public fun Node.readInlineContent(markdownProcessor: MarkdownProcessor): List<InlineMarkdown> = buildList {
     var current = this@readInlineContent.firstChild
     while (current != null) {
-        val inline = current.toInlineMarkdownOrNull(markdownProcessor, extensions)
+        val inline = current.toInlineMarkdownOrNull(markdownProcessor)
         if (inline != null) add(inline)
 
         current = current.next
     }
 }
 
-public fun Node.toInlineMarkdownOrNull(
-    markdownProcessor: MarkdownProcessor,
-    extensions: List<MarkdownProcessorExtension>,
-): InlineMarkdown? =
+public fun Node.toInlineMarkdownOrNull(markdownProcessor: MarkdownProcessor): InlineMarkdown? =
     when (this) {
         is CMText -> InlineMarkdown.Text(literal)
         is CMLink ->
             InlineMarkdown.Link(
                 destination = destination,
                 title = title,
-                inlineContent = readInlineContent(markdownProcessor, extensions),
+                inlineContent = readInlineContent(markdownProcessor),
             )
 
         is CMEmphasis ->
-            InlineMarkdown.Emphasis(
-                delimiter = openingDelimiter,
-                inlineContent = readInlineContent(markdownProcessor, extensions),
-            )
+            InlineMarkdown.Emphasis(delimiter = openingDelimiter, inlineContent = readInlineContent(markdownProcessor))
 
-        is CMStrongEmphasis ->
-            InlineMarkdown.StrongEmphasis(openingDelimiter, readInlineContent(markdownProcessor, extensions))
+        is CMStrongEmphasis -> InlineMarkdown.StrongEmphasis(openingDelimiter, readInlineContent(markdownProcessor))
 
         is CMCode -> InlineMarkdown.Code(literal)
         is CMHtmlInline -> InlineMarkdown.HtmlInline(literal)
         is CMImage -> {
-            val inlineContent = readInlineContent(markdownProcessor, extensions)
+            val inlineContent = readInlineContent(markdownProcessor)
             InlineMarkdown.Image(
                 source = destination,
                 alt = inlineContent.renderAsSimpleText().trim(),
@@ -66,7 +55,7 @@ public fun Node.toInlineMarkdownOrNull(
         is CMHardLineBreak -> InlineMarkdown.HardLineBreak
         is CMSoftLineBreak -> InlineMarkdown.SoftLineBreak
         is CMCustomNode ->
-            extensions
+            markdownProcessor.extensions
                 .find { it.inlineProcessorExtension?.canProcess(this) == true }
                 ?.inlineProcessorExtension
                 ?.processInlineMarkdown(this, markdownProcessor)

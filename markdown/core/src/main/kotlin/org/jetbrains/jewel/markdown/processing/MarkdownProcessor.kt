@@ -52,9 +52,9 @@ import org.jetbrains.jewel.markdown.rendering.DefaultInlineMarkdownRenderer
  */
 @ExperimentalJewelApi
 public class MarkdownProcessor(
-    private val extensions: List<MarkdownProcessorExtension> = emptyList(),
+    public val extensions: List<MarkdownProcessorExtension> = emptyList(),
     private val editorMode: Boolean = false,
-    private val commonMarkParser: Parser = MarkdownParserFactory.create(editorMode, extensions),
+    public val commonMarkParser: Parser = MarkdownParserFactory.create(editorMode, extensions),
 ) {
     private var currentState = State(emptyList(), emptyList(), emptyList())
 
@@ -189,14 +189,14 @@ public class MarkdownProcessor(
         }
 
     private fun Paragraph.toMarkdownParagraph(): MarkdownBlock.Paragraph =
-        MarkdownBlock.Paragraph(readInlineContent().toList())
+        MarkdownBlock.Paragraph(readInlineContent(this@MarkdownProcessor).toList())
 
     private fun BlockQuote.toMarkdownBlockQuote(): MarkdownBlock.BlockQuote =
         MarkdownBlock.BlockQuote(processChildren(this))
 
     private fun Heading.toMarkdownHeadingOrNull(): MarkdownBlock.Heading? {
         if (level < 1 || level > 6) return null
-        return MarkdownBlock.Heading(inlineContent = readInlineContent().toList(), level = level)
+        return MarkdownBlock.Heading(inlineContent = readInlineContent(this@MarkdownProcessor).toList(), level = level)
     }
 
     private fun FencedCodeBlock.toMarkdownCodeBlockOrNull(): CodeBlock.FencedCodeBlock =
@@ -262,7 +262,6 @@ public class MarkdownProcessor(
         return MarkdownBlock.HtmlBlock(literal.trimEnd('\n'))
     }
 
-    private fun Block.readInlineContent() = readInlineContent(this@MarkdownProcessor, extensions)
 
     private data class State(val lines: List<String>, val blocks: List<Block>, val indexes: List<Pair<Int, Int>>)
 }

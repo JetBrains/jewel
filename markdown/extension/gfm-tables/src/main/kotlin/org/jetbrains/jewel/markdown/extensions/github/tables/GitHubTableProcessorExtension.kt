@@ -1,14 +1,9 @@
 package org.jetbrains.jewel.markdown.extensions.github.tables
 
 import androidx.compose.ui.Alignment
-import org.commonmark.ext.gfm.tables.TableBlock as CommonMarkTableBlock
-import org.commonmark.ext.gfm.tables.TableBody as CommonMarkTableBody
-import org.commonmark.ext.gfm.tables.TableCell as CommonMarkTableCell
 import org.commonmark.ext.gfm.tables.TableCell.Alignment.CENTER
 import org.commonmark.ext.gfm.tables.TableCell.Alignment.LEFT
 import org.commonmark.ext.gfm.tables.TableCell.Alignment.RIGHT
-import org.commonmark.ext.gfm.tables.TableHead as CommonMarkTableHeader
-import org.commonmark.ext.gfm.tables.TableRow as CommonMarkTableRow
 import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.node.CustomBlock
 import org.commonmark.node.Node
@@ -26,23 +21,21 @@ import org.jetbrains.jewel.markdown.extensions.MarkdownRendererExtension
 import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
 import org.jetbrains.jewel.markdown.processing.readInlineContent
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
+import org.commonmark.ext.gfm.tables.TableBlock as CommonMarkTableBlock
+import org.commonmark.ext.gfm.tables.TableBody as CommonMarkTableBody
+import org.commonmark.ext.gfm.tables.TableCell as CommonMarkTableCell
+import org.commonmark.ext.gfm.tables.TableHead as CommonMarkTableHeader
+import org.commonmark.ext.gfm.tables.TableRow as CommonMarkTableRow
 
 @OptIn(ExperimentalJewelApi::class)
-public class GitHubTableProcessorExtension(
-    markdownProcessor: MarkdownProcessor,
-    extensions: List<MarkdownProcessorExtension>,
-) : MarkdownProcessorExtension {
+public object GitHubTableProcessorExtension : MarkdownProcessorExtension {
     override val parserExtension: ParserExtension = GitHubTablesCommonMarkExtension
     override val textRendererExtension: TextContentRendererExtension = GitHubTablesCommonMarkExtension
 
-    override val blockProcessorExtension: MarkdownBlockProcessorExtension =
-        GitHubTablesProcessorExtension(markdownProcessor, extensions)
+    override val blockProcessorExtension: MarkdownBlockProcessorExtension = GitHubTablesProcessorExtension
 
-    private class GitHubTablesProcessorExtension(
-        private val markdownProcessor: MarkdownProcessor,
-        private val extensions: List<MarkdownProcessorExtension>,
-    ) : MarkdownBlockProcessorExtension {
-        override fun canProcess(block: CustomBlock): Boolean = processMarkdownBlock(block, markdownProcessor) != null
+    private object GitHubTablesProcessorExtension : MarkdownBlockProcessorExtension {
+        override fun canProcess(block: CustomBlock): Boolean = block is CommonMarkTableBlock
 
         override fun processMarkdownBlock(
             block: CustomBlock,
@@ -61,7 +54,7 @@ public class GitHubTableProcessorExtension(
                             TableCell(
                                 rowIndex = 0,
                                 columnIndex = columnIndex,
-                                content = cell.readInlineContent(markdownProcessor, extensions),
+                                content = cell.readInlineContent(processor),
                                 alignment = getAlignment(cell),
                             )
                         }
@@ -74,7 +67,7 @@ public class GitHubTableProcessorExtension(
                                     TableCell(
                                         rowIndex = rowIndex + 1, // The header is row zero
                                         columnIndex = columnIndex,
-                                        content = cell.readInlineContent(markdownProcessor, extensions),
+                                        content = cell.readInlineContent(processor),
                                         alignment = getAlignment(cell),
                                     )
                                 },

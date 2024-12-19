@@ -49,19 +49,16 @@ internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSeq
     val markdownStyling = remember(isDark) { if (isDark) MarkdownStyling.dark() else MarkdownStyling.light() }
 
     var markdownBlocks by remember { mutableStateOf(emptyList<MarkdownBlock>()) }
-    val shitProcessor = remember { MarkdownProcessor() }
-    val extensions = remember {
-        listOf(
-            GitHubAlertProcessorExtension,
-            AutolinkProcessorExtension,
-            GitHubTableProcessorExtension(shitProcessor, emptyList()),
-        )
-    }
 
     // We are doing this here for the sake of simplicity.
     // In a real-world scenario you would be doing this outside your Composables,
     // potentially involving ViewModels, dependency injection, etc.
-    val processor = remember { MarkdownProcessor(extensions, editorMode = true) }
+    val processor = remember {
+        MarkdownProcessor(
+            listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension, GitHubTableProcessorExtension),
+            editorMode = true,
+        )
+    }
 
     LaunchedEffect(rawMarkdown) {
         // TODO you may want to debounce or drop on backpressure, in real usages. You should also
@@ -72,7 +69,7 @@ internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSeq
     }
 
     val blockRenderer =
-        remember(markdownStyling, extensions) {
+        remember(markdownStyling) {
             if (isDark) {
                 MarkdownBlockRenderer.dark(
                     styling = markdownStyling,
