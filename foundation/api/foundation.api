@@ -254,6 +254,10 @@ public final class org/jetbrains/jewel/foundation/code/highlighting/NoOpCodeHigh
 	public fun highlight-C7ITchA (Ljava/lang/String;Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
 }
 
+public final class org/jetbrains/jewel/foundation/layout/BasicTableLayoutKt {
+	public static final fun BasicTableLayout-yE4rkUQ (IIJLandroidx/compose/ui/Modifier;FLjava/util/List;Landroidx/compose/runtime/Composer;II)V
+}
+
 public class org/jetbrains/jewel/foundation/lazy/DefaultMacOsSelectableColumnKeybindings : org/jetbrains/jewel/foundation/lazy/DefaultSelectableColumnKeybindings {
 	public static final field $stable I
 	public static final field Companion Lorg/jetbrains/jewel/foundation/lazy/DefaultMacOsSelectableColumnKeybindings$Companion;

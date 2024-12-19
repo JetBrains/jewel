@@ -15,7 +15,6 @@ dependencies {
 }
 
 publicApiValidation {
-    // TODO Oleg remove this once migrated to value classes
     excludedClassRegexes = setOf("org.jetbrains.jewel.markdown.MarkdownBlock.*")
 }
 
