@@ -9,7 +9,6 @@ import org.commonmark.node.FencedCodeBlock
 import org.commonmark.node.Heading
 import org.commonmark.node.HtmlBlock
 import org.commonmark.node.IndentedCodeBlock
-import org.commonmark.node.ListBlock as CMListBlock
 import org.commonmark.node.ListItem
 import org.commonmark.node.Node
 import org.commonmark.node.OrderedList
@@ -28,6 +27,7 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 import org.jetbrains.jewel.markdown.rendering.DefaultInlineMarkdownRenderer
+import org.commonmark.node.ListBlock as CMListBlock
 
 /**
  * Reads raw Markdown strings and processes them into a list of [MarkdownBlock].
@@ -47,8 +47,8 @@ import org.jetbrains.jewel.markdown.rendering.DefaultInlineMarkdownRenderer
  *
  * @param commonMarkParser The CommonMark [Parser] used to parse the Markdown. By default it's a vanilla instance
  *   provided by the [MarkdownParserFactory], but you can provide your own if you need to customize the parser — e.g.,
- *   to ignore certain tags. If [optimizeEdits] is `true`, make sure you set
- *   `includeSourceSpans(IncludeSourceSpans.BLOCKS)` on the parser.
+ *   to ignore certain tags. If [editorMode] is `true`, make sure you set
+ *   `includeSourceSpans(IncludeSourceSpans.BLOCKS)` on the [commonMarkParser].
  */
 @ExperimentalJewelApi
 public class MarkdownProcessor(
@@ -262,6 +262,10 @@ public class MarkdownProcessor(
         return MarkdownBlock.HtmlBlock(literal.trimEnd('\n'))
     }
 
+    /** Creates a copy of this [MarkdownProcessor] with the same properties, plus the provided [extension]. */
+    @ExperimentalJewelApi
+    public operator fun plus(extension: MarkdownProcessorExtension): MarkdownProcessor =
+        MarkdownProcessor(extensions + extension, editorMode, commonMarkParser)
 
     private data class State(val lines: List<String>, val blocks: List<Block>, val indexes: List<Pair<Int, Int>>)
 }

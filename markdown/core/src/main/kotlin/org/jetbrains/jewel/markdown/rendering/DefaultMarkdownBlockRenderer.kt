@@ -60,6 +60,10 @@ import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.HorizontallyScrollableContainer
 import org.jetbrains.jewel.ui.component.Text
 
+/**
+ * Default implementation of [MarkdownBlockRenderer] that uses the provided styling, extensions, and inline renderer to
+ * render [MarkdownBlock]s into Compose UI elements.
+ */
 @ExperimentalJewelApi
 public open class DefaultMarkdownBlockRenderer(
     override val rootStyling: MarkdownStyling,
@@ -466,4 +470,8 @@ public open class DefaultMarkdownBlockRenderer(
             rendererExtensions ?: this.rendererExtensions,
             inlineRenderer ?: this.inlineRenderer,
         )
+
+    @ExperimentalJewelApi
+    override operator fun plus(extension: MarkdownRendererExtension): MarkdownBlockRenderer =
+        DefaultMarkdownBlockRenderer(rootStyling, rendererExtensions = rendererExtensions + extension, inlineRenderer)
 }

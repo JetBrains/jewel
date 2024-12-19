@@ -15,6 +15,11 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.ListItem
 import org.jetbrains.jewel.markdown.MarkdownBlock.Paragraph
 import org.jetbrains.jewel.markdown.extensions.MarkdownRendererExtension
 
+/**
+ * Renders one or more [MarkdownBlock]s into a Compose UI.
+ *
+ * @see render
+ */
 @Suppress("ComposableNaming")
 @ExperimentalJewelApi
 public interface MarkdownBlockRenderer {
@@ -117,6 +122,9 @@ public interface MarkdownBlockRenderer {
         rendererExtensions: List<MarkdownRendererExtension>? = null,
         inlineRenderer: InlineMarkdownRenderer? = null,
     ): MarkdownBlockRenderer
+
+    /** Creates a copy of this [MarkdownBlockRenderer] with the same properties, plus the provided [extension]. */
+    @ExperimentalJewelApi public operator fun plus(extension: MarkdownRendererExtension): MarkdownBlockRenderer
 
     public companion object
 }
