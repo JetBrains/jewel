@@ -4,7 +4,8 @@ plugins {
     jewel
     `jewel-publish`
     `jewel-check-public-api`
-    `jewel-compose`
+    alias(libs.plugins.composeDesktop)
+    alias(libs.plugins.compose.compiler)
 }
 
 dependencies {

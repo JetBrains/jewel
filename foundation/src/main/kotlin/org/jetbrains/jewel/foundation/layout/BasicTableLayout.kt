@@ -28,9 +28,8 @@ import androidx.compose.ui.unit.dp
  *
  * @param rowCount The number of rows this table has.
  * @param columnCount The number of columns this table has.
- * @param cellBorderColor The color of the cell borders. Set to
- *   [`Color.Unspecified`][Color.Companion.Unspecified] to avoid drawing the borders — in
- *   which case, the [cellBorderWidth] acts as a padding.
+ * @param cellBorderColor The color of the cell borders. Set to [`Color.Unspecified`][Color.Companion.Unspecified] to
+ *   avoid drawing the borders — in which case, the [cellBorderWidth] acts as a padding.
  * @param modifier Modifier to apply to the table.
  * @param cellBorderWidth The width of the table's borders.
  * @param rows The rows that make up the table. Each row is a list of composables, one per row cell.

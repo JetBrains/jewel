@@ -9,6 +9,7 @@ import org.commonmark.node.FencedCodeBlock
 import org.commonmark.node.Heading
 import org.commonmark.node.HtmlBlock
 import org.commonmark.node.IndentedCodeBlock
+import org.commonmark.node.ListBlock as CMListBlock
 import org.commonmark.node.ListItem
 import org.commonmark.node.Node
 import org.commonmark.node.OrderedList
@@ -27,7 +28,6 @@ import org.jetbrains.jewel.markdown.MarkdownBlock.CodeBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.ListBlock
 import org.jetbrains.jewel.markdown.extensions.MarkdownProcessorExtension
 import org.jetbrains.jewel.markdown.rendering.DefaultInlineMarkdownRenderer
-import org.commonmark.node.ListBlock as CMListBlock
 
 /**
  * Reads raw Markdown strings and processes them into a list of [MarkdownBlock].

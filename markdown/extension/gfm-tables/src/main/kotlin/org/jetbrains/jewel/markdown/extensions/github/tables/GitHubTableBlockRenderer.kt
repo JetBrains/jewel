@@ -10,8 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import org.jetbrains.jewel.foundation.layout.BasicTableLayout
 import org.jetbrains.jewel.foundation.ExperimentalJewelApi
+import org.jetbrains.jewel.foundation.layout.BasicTableLayout
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.MarkdownBlock.CustomBlock
@@ -61,7 +61,7 @@ public class GitHubTableBlockRenderer(
                 )
             }
 
-        val headerRenderer = remember(headerRootStyling) { blockRenderer.copy(rootStyling = headerRootStyling) }
+        val headerRenderer = remember(headerRootStyling) { blockRenderer.createCopy(rootStyling = headerRootStyling) }
 
         val rows =
             remember(block, blockRenderer, inlineRenderer, tableStyling) {

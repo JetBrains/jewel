@@ -55,7 +55,7 @@ public final class org/jetbrains/jewel/markdown/extensions/github/tables/GitHubT
 
 public final class org/jetbrains/jewel/markdown/extensions/github/tables/GitHubTableProcessorExtension : org/jetbrains/jewel/markdown/extensions/MarkdownProcessorExtension {
 	public static final field $stable I
-	public fun <init> (Lorg/jetbrains/jewel/markdown/processing/MarkdownProcessor;Ljava/util/List;)V
+	public static final field INSTANCE Lorg/jetbrains/jewel/markdown/extensions/github/tables/GitHubTableProcessorExtension;
 	public fun getBlockProcessorExtension ()Lorg/jetbrains/jewel/markdown/extensions/MarkdownBlockProcessorExtension;
 	public fun getInlineProcessorExtension ()Lorg/jetbrains/jewel/markdown/extensions/MarkdownInlineProcessorExtension;
 	public fun getParserExtension ()Lorg/commonmark/parser/Parser$ParserExtension;

@@ -1,9 +1,14 @@
 package org.jetbrains.jewel.markdown.extensions.github.tables
 
 import androidx.compose.ui.Alignment
+import org.commonmark.ext.gfm.tables.TableBlock as CommonMarkTableBlock
+import org.commonmark.ext.gfm.tables.TableBody as CommonMarkTableBody
+import org.commonmark.ext.gfm.tables.TableCell as CommonMarkTableCell
 import org.commonmark.ext.gfm.tables.TableCell.Alignment.CENTER
 import org.commonmark.ext.gfm.tables.TableCell.Alignment.LEFT
 import org.commonmark.ext.gfm.tables.TableCell.Alignment.RIGHT
+import org.commonmark.ext.gfm.tables.TableHead as CommonMarkTableHeader
+import org.commonmark.ext.gfm.tables.TableRow as CommonMarkTableRow
 import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.node.CustomBlock
 import org.commonmark.node.Node
@@ -21,11 +26,6 @@ import org.jetbrains.jewel.markdown.extensions.MarkdownRendererExtension
 import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
 import org.jetbrains.jewel.markdown.processing.readInlineContent
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
-import org.commonmark.ext.gfm.tables.TableBlock as CommonMarkTableBlock
-import org.commonmark.ext.gfm.tables.TableBody as CommonMarkTableBody
-import org.commonmark.ext.gfm.tables.TableCell as CommonMarkTableCell
-import org.commonmark.ext.gfm.tables.TableHead as CommonMarkTableHeader
-import org.commonmark.ext.gfm.tables.TableRow as CommonMarkTableRow
 
 @OptIn(ExperimentalJewelApi::class)
 public object GitHubTableProcessorExtension : MarkdownProcessorExtension {

@@ -117,7 +117,7 @@ public interface MarkdownBlockRenderer {
     /**
      * Creates a copy of this instance, using the provided non-null parameters, or the current values for the null ones.
      */
-    public fun copy(
+    public fun createCopy(
         rootStyling: MarkdownStyling? = null,
         rendererExtensions: List<MarkdownRendererExtension>? = null,
         inlineRenderer: InlineMarkdownRenderer? = null,

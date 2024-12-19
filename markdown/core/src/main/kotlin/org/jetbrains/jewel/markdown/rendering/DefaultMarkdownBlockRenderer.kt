@@ -460,7 +460,7 @@ public open class DefaultMarkdownBlockRenderer(
         }
     }
 
-    public override fun copy(
+    public override fun createCopy(
         rootStyling: MarkdownStyling?,
         rendererExtensions: List<MarkdownRendererExtension>?,
         inlineRenderer: InlineMarkdownRenderer?,
