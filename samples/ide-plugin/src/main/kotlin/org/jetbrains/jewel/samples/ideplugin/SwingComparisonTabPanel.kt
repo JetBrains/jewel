@@ -19,7 +19,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.awt.ComposePanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -63,7 +62,6 @@ import java.awt.event.ActionEvent
 import javax.swing.AbstractAction
 import javax.swing.Action
 import javax.swing.JComponent
-import javax.swing.JFrame
 import javax.swing.JPanel
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
@@ -101,20 +99,20 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
         isOpaque = false
     }
 
-    override fun addNotify() {
-        super.addNotify()
-        // setWindowContainer(mainContent)
-    }
-
-    private fun setWindowContainer(component: JComponent) {
-        if (component is ComposePanel) {
-            component.windowContainer = (component.topLevelAncestor as JFrame).layeredPane
-        } else {
-            component.components.forEach { child ->
-                setWindowContainer(child as JComponent)
-            }
-        }
-    }
+//    override fun addNotify() {
+//        super.addNotify()
+//        setWindowContainer(mainContent)
+//    }
+//
+//    private fun setWindowContainer(component: JComponent) {
+//        if (component is ComposePanel) {
+//            component.windowContainer = (component.topLevelAncestor as JFrame).layeredPane
+//        } else {
+//            component.components.forEach { child ->
+//                setWindowContainer(child as JComponent)
+//            }
+//        }
+//    }
 
     private fun Panel.buttonsRow() {
         row("Buttons - Swing:") {
