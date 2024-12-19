@@ -1,6 +1,6 @@
 /**
- * TODO
- * On lost focus, close the popup. Related to https://youtrack.jetbrains.com/issue/CMP-7269/Popup-is-not-dismissed-by-clicking-or-moving-focus-outside-ComposePanel.
+ * TODO On lost focus, close the popup. Related to
+ * https://youtrack.jetbrains.com/issue/CMP-7269/Popup-is-not-dismissed-by-clicking-or-moving-focus-outside-ComposePanel.
  *
  * Remove this list
  */
@@ -65,22 +65,23 @@ import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 import org.jetbrains.jewel.ui.theme.defaultButtonStyle
 import org.jetbrains.jewel.ui.theme.defaultSplitButtonStyle
 import org.jetbrains.jewel.ui.theme.menuStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
 import org.jetbrains.jewel.ui.util.thenIf
-import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 
 /**
- * A composable function that creates a customizable default-styled button. The button's behavior,
- * appearance, and content can be modified using the provided parameters.
+ * A composable function that creates a customizable default-styled button. The button's behavior, appearance, and
+ * content can be modified using the provided parameters.
  *
  * @param onClick A lambda that is invoked when the button is clicked.
  * @param modifier The modifier for adjusting the layout or adding various behaviors to the button.
  * @param enabled Specifies whether the button is clickable. Defaults to true.
- * @param interactionSource The [MutableInteractionSource] representing the interactions for this button, such as clicks, presses, or hovers.
+ * @param interactionSource The [MutableInteractionSource] representing the interactions for this button, such as
+ *   clicks, presses, or hovers.
  * @param style The [ButtonStyle] defining the visual styling of the button, such as colors and metrics.
  * @param textStyle The [TextStyle] used to style the text content of the button.
  * @param content A composable lambda that defines the content inside the button.
@@ -141,11 +142,9 @@ public fun OutlinedButton(
 }
 
 /**
- * A split button is a combination of a regular button and a drop-down
- * button.
+ * A split button is a combination of a regular button and a drop-down button.
  *
- * **Guidelines:**
- * [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
+ * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
  * **Usage example:**
  * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
@@ -156,8 +155,7 @@ public fun OutlinedButton(
  * @param onClick the action to perform when the button is clicked
  * @param modifier the [Modifier] to be applied to the button
  * @param enabled whether the button is enabled
- * @param interactionSource the [MutableInteractionSource] representing the
- *    current interaction state
+ * @param interactionSource the [MutableInteractionSource] representing the current interaction state
  * @param style the [ButtonStyle] to be applied to the button
  * @param textStyle the [TextStyle] to be applied to the button's text
  * @param content the content of the button
@@ -188,16 +186,14 @@ public fun OutlinedSplitButton(
         menuStyle = menuStyle,
         isDefault = false,
         content = content,
-        secondaryContentMenu = menuContent
+        secondaryContentMenu = menuContent,
     )
 }
 
 /**
- * A split button is a combination of a regular button and a drop-down
- * button.
+ * A split button is a combination of a regular button and a drop-down button.
  *
- * **Guidelines:**
- * [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
+ * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
  * **Usage example:**
  * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
@@ -208,8 +204,7 @@ public fun OutlinedSplitButton(
  * @param onClick the action to perform when the button is clicked
  * @param modifier the [Modifier] to be applied to the button
  * @param enabled whether the button is enabled
- * @param interactionSource the [MutableInteractionSource] representing the
- *    current interaction state
+ * @param interactionSource the [MutableInteractionSource] representing the current interaction state
  * @param style the [ButtonStyle] to be applied to the button
  * @param textStyle the [TextStyle] to be applied to the button's text
  * @param content the content of the button
@@ -240,16 +235,14 @@ public fun OutlinedSplitButton(
         menuStyle = menuStyle,
         isDefault = false,
         content = content,
-        secondaryContent = popupContainer
+        secondaryContent = popupContainer,
     )
 }
 
 /**
- * A split button is a combination of a regular button and a drop-down
- * button.
+ * A split button is a combination of a regular button and a drop-down button.
  *
- * **Guidelines:**
- * [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
+ * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
  * **Usage example:**
  * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
@@ -260,8 +253,7 @@ public fun OutlinedSplitButton(
  * @param onClick the action to perform when the button is clicked
  * @param modifier the [Modifier] to be applied to the button
  * @param enabled whether the button is enabled
- * @param interactionSource the [MutableInteractionSource] representing the
- *    current interaction state
+ * @param interactionSource the [MutableInteractionSource] representing the current interaction state
  * @param style the [ButtonStyle] to be applied to the button
  * @param textStyle the [TextStyle] to be applied to the button's text
  * @param content the content of the button
@@ -297,11 +289,9 @@ public fun DefaultSplitButton(
 }
 
 /**
- * A split button is a combination of a regular button and a drop-down
- * button.
+ * A split button is a combination of a regular button and a drop-down button.
  *
- * **Guidelines:**
- * [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
+ * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
  * **Usage example:**
  * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
@@ -312,8 +302,7 @@ public fun DefaultSplitButton(
  * @param onClick the action to perform when the button is clicked
  * @param modifier the [Modifier] to be applied to the button
  * @param enabled whether the button is enabled
- * @param interactionSource the [MutableInteractionSource] representing the
- *    current interaction state
+ * @param interactionSource the [MutableInteractionSource] representing the current interaction state
  * @param style the [ButtonStyle] to be applied to the button
  * @param textStyle the [TextStyle] to be applied to the button's text
  * @param content the content of the button
@@ -344,7 +333,7 @@ public fun DefaultSplitButton(
         menuStyle = menuStyle,
         isDefault = true,
         content = content,
-        secondaryContent = popupContainer
+        secondaryContent = popupContainer,
     )
 }
 
@@ -403,17 +392,15 @@ private fun SplitButtonImpl(
                     onChevronClicked = {
                         secondaryOnClick()
                         popupVisible = !popupVisible
-                    }
+                    },
                 )
-            }
+            },
         )
 
         if (popupVisible && enabled) {
             if (secondaryContentMenu != null) {
                 PopupMenu(
-                    modifier = Modifier
-                        .width(buttonWidth)
-                        .onClick { popupVisible = false },
+                    modifier = Modifier.width(buttonWidth).onClick { popupVisible = false },
                     onDismissRequest = {
                         popupVisible = false
                         true
@@ -425,9 +412,7 @@ private fun SplitButtonImpl(
             }
             if (secondaryContent != null) {
                 PopupContainer(
-                    modifier = Modifier
-                        .width(buttonWidth)
-                        .onClick { popupVisible = false },
+                    modifier = Modifier.width(buttonWidth).onClick { popupVisible = false },
                     onDismissRequest = { popupVisible = false },
                     horizontalAlignment = Alignment.Start,
                     content = secondaryContent,
@@ -445,35 +430,32 @@ private fun SplitButtonChevron(
     onChevronClicked: () -> Unit,
 ) {
     Box(
-        Modifier
-            .size(style.button.metrics.minSize.height)
+        Modifier.size(style.button.metrics.minSize.height)
             .focusable(false)
             .focusProperties { canFocus = false }
             .clickable(
                 enabled = enabled,
                 onClick = onChevronClicked,
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
+                indication = null,
             )
     ) {
         Divider(
             orientation = Orientation.Vertical,
             thickness = style.dividerMetrics.thickness,
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(vertical = style.dividerPadding)
-                .align(Alignment.CenterStart),
+            modifier = Modifier.fillMaxHeight().padding(vertical = style.dividerPadding).align(Alignment.CenterStart),
             color = style.dividerColor,
         )
         Icon(
             key = AllIconsKeys.General.ChevronDown,
             contentDescription = "Chevron",
             modifier = Modifier.align(Alignment.Center),
-            hints = if (isDefault) {
-                arrayOf(PainterHintStroke(style.chevronColor))
-            } else {
-                emptyArray()
-            }
+            hints =
+                if (isDefault) {
+                    arrayOf(PainterHintStroke(style.chevronColor))
+                } else {
+                    emptyArray()
+                },
         )
     }
 }
@@ -512,14 +494,8 @@ private fun ButtonImpl(
     content: @Composable () -> Unit,
     secondaryContent: @Composable (() -> Unit)? = null,
 ) {
-    var buttonState by remember(interactionSource) {
-        mutableStateOf(
-            ButtonState.of(
-                enabled = enabled,
-                focused = forceFocused
-            )
-        )
-    }
+    var buttonState by
+        remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled, focused = forceFocused)) }
 
     remember(enabled) { buttonState = buttonState.copy(enabled = enabled) }
     var actuallyFocused by remember { mutableStateOf(false) }
@@ -530,8 +506,7 @@ private fun ButtonImpl(
             when (interaction) {
                 is PressInteraction.Press -> buttonState = buttonState.copy(pressed = true)
                 is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                    -> buttonState = buttonState.copy(pressed = false)
+                is PressInteraction.Release -> buttonState = buttonState.copy(pressed = false)
 
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
@@ -554,22 +529,22 @@ private fun ButtonImpl(
 
     Box(
         modifier =
-        modifier
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = null,
-            )
-            .background(colors.backgroundFor(buttonState).value, shape)
-            .focusOutline(
-                state = buttonState,
-                outlineShape = shape,
-                alignment = style.focusOutlineAlignment,
-                expand = style.metrics.focusOutlineExpand,
-            )
-            .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
+            modifier
+                .clickable(
+                    onClick = onClick,
+                    enabled = enabled,
+                    role = Role.Button,
+                    interactionSource = interactionSource,
+                    indication = null,
+                )
+                .background(colors.backgroundFor(buttonState).value, shape)
+                .focusOutline(
+                    state = buttonState,
+                    outlineShape = shape,
+                    alignment = style.focusOutlineAlignment,
+                    expand = style.metrics.focusOutlineExpand,
+                )
+                .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
         propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)
@@ -579,15 +554,11 @@ private fun ButtonImpl(
             LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
         ) {
             Row(
-                Modifier
-                    .defaultMinSize(style.metrics.minSize.width)
-                    .height(style.metrics.minSize.height),
+                Modifier.defaultMinSize(style.metrics.minSize.width).height(style.metrics.minSize.height),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(Modifier.padding(style.metrics.padding)) {
-                    content()
-                }
+                Box(Modifier.padding(style.metrics.padding)) { content() }
                 secondaryContent?.invoke()
             }
         }

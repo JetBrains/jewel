@@ -181,10 +181,7 @@ private fun SplitButtons() {
     Row(Modifier.height(150.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         OutlinedSplitButton(
             onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
-            secondaryOnClick = {
-                JewelLogger.getInstance("Jewel")
-                    .warn("Outlined split button chevron clicked")
-            },
+            secondaryOnClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button chevron clicked") },
             content = { Text("Split button") },
             menuContent = {
                 items.forEach {
@@ -196,18 +193,17 @@ private fun SplitButtons() {
                             onClick = {
                                 selected = it
                                 JewelLogger.getInstance("Jewel").warn("Item clicked: $it")
-                            }
-                        ) { Text(it) }
+                            },
+                        ) {
+                            Text(it)
+                        }
                     }
                 }
-            }
+            },
         )
         OutlinedSplitButton(
             onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
-            secondaryOnClick = {
-                JewelLogger.getInstance("Jewel")
-                    .warn("Outlined split button chevron clicked")
-            },
+            secondaryOnClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button chevron clicked") },
             content = { Text("Split button") },
             popupContainer = {
                 Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -220,30 +216,27 @@ private fun SplitButtons() {
                         )
                     }
                 }
-            }
+            },
         )
         OutlinedSplitButton(
             enabled = false,
-            onClick = { },
+            onClick = {},
             secondaryOnClick = {},
             content = { Text("Split button") },
-            menuContent = {}
+            menuContent = {},
         )
         DefaultSplitButton(
             onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
-            secondaryOnClick = {
-                JewelLogger.getInstance("Jewel")
-                    .warn("Outlined split button chevron clicked")
-            },
+            secondaryOnClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button chevron clicked") },
             content = { Text("Split button") },
             menuContent = {
                 items(
                     items = listOf("Item 1", "Item 2", "Item 3"),
                     isSelected = { false },
                     onItemClick = { JewelLogger.getInstance("Jewel").warn("Item clicked: $it") },
-                    content = { Text(it) }
+                    content = { Text(it) },
                 )
-            }
+            },
         )
     }
 }

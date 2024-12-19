@@ -41,8 +41,8 @@ import org.jetbrains.jewel.ui.component.styling.LocalLazyTreeStyle
 import org.jetbrains.jewel.ui.component.styling.LocalLinkStyle
 import org.jetbrains.jewel.ui.component.styling.LocalMenuStyle
 import org.jetbrains.jewel.ui.component.styling.LocalOutlinedButtonStyle
-import org.jetbrains.jewel.ui.component.styling.LocalPopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.LocalOutlinedSplitButtonStyle
+import org.jetbrains.jewel.ui.component.styling.LocalPopupContainerStyle
 import org.jetbrains.jewel.ui.component.styling.LocalRadioButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSegmentedControlButtonStyle

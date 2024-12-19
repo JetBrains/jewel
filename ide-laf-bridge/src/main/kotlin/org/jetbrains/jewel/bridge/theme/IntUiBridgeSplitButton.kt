@@ -17,7 +17,7 @@ public fun readDefaultSplitButtonStyle(): SplitButtonStyle {
         dividerColor = retrieveColorOrUnspecified("Button.Split.default.separatorColor"),
         dividerDisabledColor = retrieveColorOrUnspecified("Button.Split.default.separatorColor.disabled"),
         dividerPadding = dividerPadding.dp,
-        chevronColor = JBUI.CurrentTheme.Button.Split.Default.ICON_COLOR.toComposeColor()
+        chevronColor = JBUI.CurrentTheme.Button.Split.Default.ICON_COLOR.toComposeColor(),
     )
 }
 
@@ -28,6 +28,6 @@ public fun readOutlinedSplitButtonStyle(): SplitButtonStyle {
         dividerColor = JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
         dividerDisabledColor = JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
         dividerPadding = dividerPadding.dp,
-        chevronColor = JBUI.CurrentTheme.Button.Split.Default.ICON_COLOR.toComposeColor()
+        chevronColor = JBUI.CurrentTheme.Button.Split.Default.ICON_COLOR.toComposeColor(),
     )
 }
