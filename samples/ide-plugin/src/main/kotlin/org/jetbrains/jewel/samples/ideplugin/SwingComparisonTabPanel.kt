@@ -4,6 +4,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.calculateEndPadding
@@ -18,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -57,6 +59,9 @@ import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.component.items
 import org.jetbrains.jewel.ui.component.separator
+import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import org.jetbrains.jewel.ui.painter.badge.DotBadgeShape
+import org.jetbrains.jewel.ui.painter.hints.Badge
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 import java.awt.event.ActionEvent
 import javax.swing.AbstractAction
@@ -70,7 +75,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
     private val scrollingContainer: JComponent
 
     init {
-       // System.setProperty("compose.layers.type", "COMPONENT")
+        // System.setProperty("compose.layers.type", "COMPONENT")
 
         mainContent = panel {
             buttonsRow()
@@ -139,7 +144,7 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             .layout(RowLayout.PARENT_GRID)
         row("SplitButtons - Compose:") {
             compose {
-                val items = remember { listOf("Item 1", "---", "Item 2", "---", "Item 3") }
+                val items = remember { listOf("This is", "---", "A menu", "---", "Item 3") }
                 var selected by remember { mutableStateOf(items.first()) }
 
                 Row(Modifier.height(150.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -167,21 +172,31 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                         }
                     )
                     OutlinedSplitButton(
-                        enabled = false,
                         onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },
                         secondaryOnClick = {
                             JewelLogger.getInstance("Jewel")
                                 .warn("Outlined split button chevron clicked")
                         },
                         content = { Text("Split button") },
-                        menuContent = {
-                            items(
-                                items = listOf("Item 1", "Item 2", "Item 3"),
-                                isSelected = { false },
-                                onItemClick = { JewelLogger.getInstance("Jewel").warn("Item clicked: $it") },
-                                content = { Text(it) }
-                            )
+                        popupContainer = {
+                            Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Text("Generic popup content")
+                                Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
+                                    Icon(
+                                        key = AllIconsKeys.Nodes.ConfigFolder,
+                                        contentDescription = "taskGroup",
+                                        hint = Badge(Color.Red, DotBadgeShape.Default),
+                                    )
+                                }
+                            }
                         }
+                    )
+                    OutlinedSplitButton(
+                        enabled = false,
+                        onClick = { },
+                        secondaryOnClick = {},
+                        content = { Text("Split button") },
+                        menuContent = {}
                     )
                     DefaultSplitButton(
                         onClick = { JewelLogger.getInstance("Jewel").warn("Outlined split button clicked") },

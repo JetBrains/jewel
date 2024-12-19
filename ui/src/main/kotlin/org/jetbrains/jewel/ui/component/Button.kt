@@ -161,6 +161,7 @@ public fun OutlinedButton(
  * @param style the [ButtonStyle] to be applied to the button
  * @param textStyle the [TextStyle] to be applied to the button's text
  * @param content the content of the button
+ * @param menuContent the menu to be displayed when the button is clicked
  * @see com.intellij.ui.components.JBOptionButton
  */
 @Composable
@@ -187,7 +188,7 @@ public fun OutlinedSplitButton(
         menuStyle = menuStyle,
         isDefault = false,
         content = content,
-        secondaryContent = menuContent
+        secondaryContentMenu = menuContent
     )
 }
 
@@ -212,6 +213,59 @@ public fun OutlinedSplitButton(
  * @param style the [ButtonStyle] to be applied to the button
  * @param textStyle the [TextStyle] to be applied to the button's text
  * @param content the content of the button
+ * @param popupContainer the content of the popup container (the drop-down)
+ * @see com.intellij.ui.components.JBOptionButton
+ */
+@Composable
+public fun OutlinedSplitButton(
+    onClick: () -> Unit,
+    secondaryOnClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    style: SplitButtonStyle = JewelTheme.outlinedSplitButtonStyle,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    menuStyle: MenuStyle = JewelTheme.menuStyle,
+    content: @Composable () -> Unit,
+    popupContainer: @Composable () -> Unit,
+) {
+    SplitButtonImpl(
+        onClick = onClick,
+        secondaryOnClick = secondaryOnClick,
+        modifier = modifier,
+        enabled = enabled,
+        interactionSource = interactionSource,
+        style = style,
+        textStyle = textStyle,
+        menuStyle = menuStyle,
+        isDefault = false,
+        content = content,
+        secondaryContent = popupContainer
+    )
+}
+
+/**
+ * A split button is a combination of a regular button and a drop-down
+ * button.
+ *
+ * **Guidelines:**
+ * [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
+ *
+ * **Usage example:**
+ * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
+ *
+ * **Swing equivalent:**
+ * [`JBOptionButton`](https://github.com/JetBrains/intellij-community/tree/idea/243.22562.145/platform/platform-api/src/com/intellij/ui/components/JBOptionButton.kt)
+ *
+ * @param onClick the action to perform when the button is clicked
+ * @param modifier the [Modifier] to be applied to the button
+ * @param enabled whether the button is enabled
+ * @param interactionSource the [MutableInteractionSource] representing the
+ *    current interaction state
+ * @param style the [ButtonStyle] to be applied to the button
+ * @param textStyle the [TextStyle] to be applied to the button's text
+ * @param content the content of the button
+ * @param menuContent the menu to be displayed when the button is clicked
  * @see com.intellij.ui.components.JBOptionButton
  */
 @Composable
@@ -238,7 +292,59 @@ public fun DefaultSplitButton(
         menuStyle = menuStyle,
         isDefault = true,
         content = content,
-        secondaryContent = menuContent
+        secondaryContentMenu = menuContent,
+    )
+}
+
+/**
+ * A split button is a combination of a regular button and a drop-down
+ * button.
+ *
+ * **Guidelines:**
+ * [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
+ *
+ * **Usage example:**
+ * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
+ *
+ * **Swing equivalent:**
+ * [`JBOptionButton`](https://github.com/JetBrains/intellij-community/tree/idea/243.22562.145/platform/platform-api/src/com/intellij/ui/components/JBOptionButton.kt)
+ *
+ * @param onClick the action to perform when the button is clicked
+ * @param modifier the [Modifier] to be applied to the button
+ * @param enabled whether the button is enabled
+ * @param interactionSource the [MutableInteractionSource] representing the
+ *    current interaction state
+ * @param style the [ButtonStyle] to be applied to the button
+ * @param textStyle the [TextStyle] to be applied to the button's text
+ * @param content the content of the button
+ * @param popupContainer the content of the popup container (the drop-down)
+ * @see com.intellij.ui.components.JBOptionButton
+ */
+@Composable
+public fun DefaultSplitButton(
+    onClick: () -> Unit,
+    secondaryOnClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    style: SplitButtonStyle = JewelTheme.defaultSplitButtonStyle,
+    textStyle: TextStyle = JewelTheme.defaultTextStyle,
+    menuStyle: MenuStyle = JewelTheme.menuStyle,
+    content: @Composable () -> Unit,
+    popupContainer: @Composable () -> Unit,
+) {
+    SplitButtonImpl(
+        onClick = onClick,
+        secondaryOnClick = secondaryOnClick,
+        modifier = modifier,
+        enabled = enabled,
+        interactionSource = interactionSource,
+        style = style,
+        textStyle = textStyle,
+        menuStyle = menuStyle,
+        isDefault = true,
+        content = content,
+        secondaryContent = popupContainer
     )
 }
 
@@ -254,7 +360,8 @@ private fun SplitButtonImpl(
     menuStyle: MenuStyle,
     isDefault: Boolean,
     content: @Composable () -> Unit,
-    secondaryContent: MenuScope.() -> Unit,
+    secondaryContent: @Composable (() -> Unit)? = null,
+    secondaryContentMenu: (MenuScope.() -> Unit)? = null,
 ) {
     var popupVisible by remember { mutableStateOf(false) }
     var buttonWidth by remember { mutableStateOf(Dp.Unspecified) }
@@ -302,18 +409,30 @@ private fun SplitButtonImpl(
         )
 
         if (popupVisible && enabled) {
-            PopupMenu(
-                modifier = Modifier
-                    .width(buttonWidth)
-                    .onClick { popupVisible = false },
-                onDismissRequest = {
-                    popupVisible = false
-                    true
-                },
-                horizontalAlignment = Alignment.Start,
-                style = menuStyle,
-                content = secondaryContent,
-            )
+            if (secondaryContentMenu != null) {
+                PopupMenu(
+                    modifier = Modifier
+                        .width(buttonWidth)
+                        .onClick { popupVisible = false },
+                    onDismissRequest = {
+                        popupVisible = false
+                        true
+                    },
+                    horizontalAlignment = Alignment.Start,
+                    style = menuStyle,
+                    content = secondaryContentMenu,
+                )
+            }
+            if (secondaryContent != null) {
+                PopupContainer(
+                    modifier = Modifier
+                        .width(buttonWidth)
+                        .onClick { popupVisible = false },
+                    onDismissRequest = { popupVisible = false },
+                    horizontalAlignment = Alignment.Start,
+                    content = secondaryContent,
+                )
+            }
         }
     }
 }
