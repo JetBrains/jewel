@@ -400,7 +400,9 @@ private fun SplitButtonImpl(
         if (popupVisible && enabled) {
             if (secondaryContentMenu != null) {
                 PopupMenu(
-                    modifier = Modifier.width(buttonWidth).onClick { popupVisible = false },
+                    modifier = Modifier
+                        .width(buttonWidth)
+                        .onClick { popupVisible = false },
                     onDismissRequest = {
                         popupVisible = false
                         true
@@ -412,7 +414,9 @@ private fun SplitButtonImpl(
             }
             if (secondaryContent != null) {
                 PopupContainer(
-                    modifier = Modifier.width(buttonWidth).onClick { popupVisible = false },
+                    modifier = Modifier
+                        .width(buttonWidth)
+                        .onClick { popupVisible = false },
                     onDismissRequest = { popupVisible = false },
                     horizontalAlignment = Alignment.Start,
                     content = secondaryContent,
@@ -430,7 +434,8 @@ private fun SplitButtonChevron(
     onChevronClicked: () -> Unit,
 ) {
     Box(
-        Modifier.size(style.button.metrics.minSize.height)
+        Modifier
+            .size(style.button.metrics.minSize.height)
             .focusable(false)
             .focusProperties { canFocus = false }
             .clickable(
@@ -443,15 +448,18 @@ private fun SplitButtonChevron(
         Divider(
             orientation = Orientation.Vertical,
             thickness = style.metrics.dividerMetrics.thickness,
-            modifier = Modifier.fillMaxHeight().padding(vertical = style.metrics.dividerPadding).align(Alignment.CenterStart),
-            color = style.colors.dividerColor,
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(vertical = style.metrics.dividerPadding)
+                .align(Alignment.CenterStart),
+            color = if (enabled) style.colors.dividerColor else style.colors.dividerDisabledColor,
         )
         Icon(
             key = AllIconsKeys.General.ChevronDown,
             contentDescription = "Chevron",
             modifier = Modifier.align(Alignment.Center),
             hints =
-                if (isDefault) {
+                if (isDefault && enabled) {
                     arrayOf(PainterHintStroke(style.colors.chevronColor))
                 } else {
                     emptyArray()
@@ -495,7 +503,7 @@ private fun ButtonImpl(
     secondaryContent: @Composable (() -> Unit)? = null,
 ) {
     var buttonState by
-        remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled, focused = forceFocused)) }
+    remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled, focused = forceFocused)) }
 
     remember(enabled) { buttonState = buttonState.copy(enabled = enabled) }
     var actuallyFocused by remember { mutableStateOf(false) }
@@ -506,7 +514,8 @@ private fun ButtonImpl(
             when (interaction) {
                 is PressInteraction.Press -> buttonState = buttonState.copy(pressed = true)
                 is PressInteraction.Cancel,
-                is PressInteraction.Release -> buttonState = buttonState.copy(pressed = false)
+                is PressInteraction.Release,
+                    -> buttonState = buttonState.copy(pressed = false)
 
                 is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
                 is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
@@ -529,22 +538,22 @@ private fun ButtonImpl(
 
     Box(
         modifier =
-            modifier
-                .clickable(
-                    onClick = onClick,
-                    enabled = enabled,
-                    role = Role.Button,
-                    interactionSource = interactionSource,
-                    indication = null,
-                )
-                .background(colors.backgroundFor(buttonState).value, shape)
-                .focusOutline(
-                    state = buttonState,
-                    outlineShape = shape,
-                    alignment = style.focusOutlineAlignment,
-                    expand = style.metrics.focusOutlineExpand,
-                )
-                .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
+        modifier
+            .clickable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            )
+            .background(colors.backgroundFor(buttonState).value, shape)
+            .focusOutline(
+                state = buttonState,
+                outlineShape = shape,
+                alignment = style.focusOutlineAlignment,
+                expand = style.metrics.focusOutlineExpand,
+            )
+            .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
         propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)
@@ -554,7 +563,9 @@ private fun ButtonImpl(
             LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
         ) {
             Row(
-                Modifier.defaultMinSize(style.metrics.minSize.width).height(style.metrics.minSize.height),
+                Modifier
+                    .defaultMinSize(style.metrics.minSize.width)
+                    .height(style.metrics.minSize.height),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {

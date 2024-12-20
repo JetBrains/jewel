@@ -20,7 +20,7 @@ public object IntUiDefaultSplitButtonStyleFactory {
         buttonStyle: ButtonStyle = ButtonStyle.Default.light(),
         dividerMetrics: DividerMetrics = DividerMetrics.defaults(),
         dividerColor: Color = IntUiLightTheme.colors.blue(8),
-        dividerDisabledColor: Color = IntUiLightTheme.colors.gray(4),
+        dividerDisabledColor: Color = IntUiLightTheme.colors.gray(12),
         dividerPadding: Dp = 4.dp,
         chevronColor: Color = Color.White,
     ): SplitButtonStyle =
@@ -35,7 +35,7 @@ public object IntUiDefaultSplitButtonStyleFactory {
         buttonStyle: ButtonStyle = ButtonStyle.Default.dark(),
         dividerMetrics: DividerMetrics = DividerMetrics.defaults(),
         dividerColor: Color = IntUiLightTheme.colors.blue(9),
-        dividerDisabledColor: Color = IntUiLightTheme.colors.gray(4),
+        dividerDisabledColor: Color = IntUiLightTheme.colors.gray(5),
         dividerPadding: Dp = 4.dp,
         chevronColor: Color = Color.White,
     ): SplitButtonStyle =

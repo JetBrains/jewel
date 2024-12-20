@@ -131,6 +131,9 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
             cell(JBOptionButton(action("Split button").apply { isEnabled = true }, options)).applyToComponent {
                 putClientProperty(DarculaButtonUI.DEFAULT_STYLE_KEY, true)
             }
+            cell(JBOptionButton(action("Split button").apply { isEnabled = false }, options)).applyToComponent {
+                putClientProperty(DarculaButtonUI.DEFAULT_STYLE_KEY, true)
+            }
         }
             .layout(RowLayout.PARENT_GRID)
         row("SplitButtons - Compose:") {
@@ -203,6 +206,13 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
                                 content = { Text(it) },
                             )
                         },
+                    )
+                    DefaultSplitButton(
+                        enabled = false,
+                        onClick = {},
+                        secondaryOnClick = {},
+                        content = { Text("Disabled button") },
+                        menuContent = {},
                     )
                 }
             }

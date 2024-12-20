@@ -12,11 +12,11 @@ import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
 private val dividerPadding: Int
     get() = if (isNewUiTheme()) 4 else 1
 
-public fun readDefaultSplitButtonStyle(): SplitButtonStyle = SplitButtonStyle(
-    button = readDefaultButtonStyle(),
+public fun readOutlinedSplitButtonStyle(): SplitButtonStyle = SplitButtonStyle(
+    button = readOutlinedButtonStyle(),
     colors = SplitButtonColors(
-        dividerColor = retrieveColorOrUnspecified("Button.Split.default.separatorColor"),
-        dividerDisabledColor = retrieveColorOrUnspecified("Button.Split.default.separatorColor.disabled"),
+        dividerColor = JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+        dividerDisabledColor = JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor(),
         chevronColor = JBUI.CurrentTheme.Button.Split.Default.ICON_COLOR.toComposeColor(),
     ),
     metrics = SplitButtonMetrics(
@@ -25,11 +25,11 @@ public fun readDefaultSplitButtonStyle(): SplitButtonStyle = SplitButtonStyle(
     )
 )
 
-public fun readOutlinedSplitButtonStyle(): SplitButtonStyle = SplitButtonStyle(
-    button = readOutlinedButtonStyle(),
+public fun readDefaultSplitButtonStyle(): SplitButtonStyle = SplitButtonStyle(
+    button = readDefaultButtonStyle(),
     colors = SplitButtonColors(
-        dividerColor = JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
-        dividerDisabledColor = JBUI.CurrentTheme.Button.buttonOutlineColorStart(false).toComposeColor(),
+        dividerColor = retrieveColorOrUnspecified("Button.Split.default.separatorColor"),
+        dividerDisabledColor = JBUI.CurrentTheme.Button.disabledOutlineColor().toComposeColor(),
         chevronColor = JBUI.CurrentTheme.Button.Split.Default.ICON_COLOR.toComposeColor(),
     ),
     metrics = SplitButtonMetrics(

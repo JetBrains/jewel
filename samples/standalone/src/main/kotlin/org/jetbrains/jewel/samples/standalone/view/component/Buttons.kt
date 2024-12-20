@@ -222,7 +222,7 @@ private fun SplitButtons() {
             enabled = false,
             onClick = {},
             secondaryOnClick = {},
-            content = { Text("Split button") },
+            content = { Text("Disabled button") },
             menuContent = {},
         )
         DefaultSplitButton(
@@ -237,6 +237,13 @@ private fun SplitButtons() {
                     content = { Text(it) },
                 )
             },
+        )
+        DefaultSplitButton(
+            enabled = false,
+            onClick = {},
+            secondaryOnClick = {},
+            content = { Text("Disabled button") },
+            menuContent = {},
         )
     }
 }
