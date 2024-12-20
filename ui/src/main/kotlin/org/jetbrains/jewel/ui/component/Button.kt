@@ -66,19 +66,19 @@ import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 import org.jetbrains.jewel.ui.theme.defaultButtonStyle
 import org.jetbrains.jewel.ui.theme.defaultSplitButtonStyle
 import org.jetbrains.jewel.ui.theme.menuStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
 import org.jetbrains.jewel.ui.util.thenIf
-import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 
 /**
  * A button that follows the default visual styling with customizable content and behavior.
  *
- * Provides a clickable component that follows the standard button interactions including hover, press, and focus states.
- * The button adapts its appearance based on the enabled/disabled state and supports custom styling.
+ * Provides a clickable component that follows the standard button interactions including hover, press, and focus
+ * states. The button adapts its appearance based on the enabled/disabled state and supports custom styling.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/button.html)
  *
@@ -90,8 +90,8 @@ import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
  * @param onClick Will be called when the user clicks the button
  * @param modifier Modifier to be applied to the button
  * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
- * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button.
- *   Use this to observe state changes or customize interaction handling
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this
+ *   button. Use this to observe state changes or customize interaction handling
  * @param style The visual styling configuration for the button including colors, metrics and layout parameters
  * @param textStyle The typography style to be applied to the button's text content
  * @param content The content to be displayed inside the button
@@ -123,8 +123,8 @@ public fun DefaultButton(
 /**
  * A button with an outlined visual style and customizable appearance.
  *
- * Similar to [DefaultButton] but with a different visual treatment that emphasizes the button boundary.
- * Useful for secondary actions or when you want to reduce visual weight.
+ * Similar to [DefaultButton] but with a different visual treatment that emphasizes the button boundary. Useful for
+ * secondary actions or when you want to reduce visual weight.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/button.html)
  *
@@ -136,8 +136,8 @@ public fun DefaultButton(
  * @param onClick Will be called when the user clicks the button
  * @param modifier Modifier to be applied to the button
  * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
- * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button.
- *   Use this to observe state changes or customize interaction handling
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this
+ *   button. Use this to observe state changes or customize interaction handling
  * @param style The visual styling configuration for the button including colors, metrics and layout parameters
  * @param textStyle The typography style to be applied to the button's text content
  * @param content The content to be displayed inside the button
@@ -169,8 +169,8 @@ public fun OutlinedButton(
 /**
  * A split button combining a primary action with a dropdown menu, using an outlined visual style.
  *
- * Similar to [DefaultSplitButton] but with an outlined visual treatment. Provides two interactive areas:
- * the main button area for the primary action and a chevron section that opens a dropdown menu.
+ * Similar to [DefaultSplitButton] but with an outlined visual treatment. Provides two interactive areas: the main
+ * button area for the primary action and a chevron section that opens a dropdown menu.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
@@ -184,7 +184,8 @@ public fun OutlinedButton(
  * @param secondaryOnClick Will be called when the user clicks the dropdown/chevron section
  * @param modifier Modifier to be applied to the button
  * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
- * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this
+ *   button
  * @param style The visual styling configuration for the split button including colors, metrics and layout parameters
  * @param textStyle The typography style to be applied to the button's text content
  * @param menuStyle The visual styling configuration for the dropdown menu
@@ -223,8 +224,8 @@ public fun OutlinedSplitButton(
 /**
  * A split button combining a primary action with a dropdown menu, using an outlined visual style.
  *
- * Similar to [DefaultSplitButton] but with an outlined visual treatment. Provides two interactive areas:
- * the main button area for the primary action and a chevron section that opens a dropdown menu.
+ * Similar to [DefaultSplitButton] but with an outlined visual treatment. Provides two interactive areas: the main
+ * button area for the primary action and a chevron section that opens a dropdown menu.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
@@ -238,7 +239,8 @@ public fun OutlinedSplitButton(
  * @param secondaryOnClick Will be called when the user clicks the dropdown/chevron section
  * @param modifier Modifier to be applied to the button
  * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
- * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this
+ *   button
  * @param style The visual styling configuration for the split button including colors, metrics and layout parameters
  * @param textStyle The typography style to be applied to the button's text content
  * @param menuStyle The visual styling configuration for the dropdown menu
@@ -277,8 +279,8 @@ public fun OutlinedSplitButton(
 /**
  * A split button combining a primary action with a dropdown menu, using the default visual style.
  *
- * Provides two interactive areas: the main button area for the primary action and a chevron section that opens
- * a dropdown menu with additional options.
+ * Provides two interactive areas: the main button area for the primary action and a chevron section that opens a
+ * dropdown menu with additional options.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
@@ -292,7 +294,8 @@ public fun OutlinedSplitButton(
  * @param secondaryOnClick Will be called when the user clicks the dropdown/chevron section
  * @param modifier Modifier to be applied to the button
  * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
- * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this
+ *   button
  * @param style The visual styling configuration for the split button including colors, metrics and layout parameters
  * @param textStyle The typography style to be applied to the button's text content
  * @param menuStyle The visual styling configuration for the dropdown menu
@@ -331,8 +334,8 @@ public fun DefaultSplitButton(
 /**
  * A split button combining a primary action with a dropdown menu, using the default visual style.
  *
- * Provides two interactive areas: the main button area for the primary action and a chevron section that opens
- * a dropdown menu with additional options.
+ * Provides two interactive areas: the main button area for the primary action and a chevron section that opens a
+ * dropdown menu with additional options.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
@@ -346,7 +349,8 @@ public fun DefaultSplitButton(
  * @param secondaryOnClick Will be called when the user clicks the dropdown/chevron section
  * @param modifier Modifier to be applied to the button
  * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
- * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this
+ *   button
  * @param style The visual styling configuration for the split button including colors, metrics and layout parameters
  * @param textStyle The typography style to be applied to the button's text content
  * @param menuStyle The visual styling configuration for the dropdown menu
@@ -497,7 +501,7 @@ private fun SplitButtonChevron(
             orientation = Orientation.Vertical,
             thickness = style.metrics.dividerMetrics.thickness,
             modifier =
-            Modifier.fillMaxHeight().padding(vertical = style.metrics.dividerPadding).align(Alignment.CenterStart),
+                Modifier.fillMaxHeight().padding(vertical = style.metrics.dividerPadding).align(Alignment.CenterStart),
             color = if (enabled) style.colors.dividerColor else style.colors.dividerDisabledColor,
         )
         Icon(
@@ -505,11 +509,11 @@ private fun SplitButtonChevron(
             contentDescription = "Chevron",
             modifier = Modifier.align(Alignment.Center),
             hints =
-            if (isDefault && enabled) {
-                arrayOf(PainterHintStroke(style.colors.chevronColor))
-            } else {
-                emptyArray()
-            },
+                if (isDefault && enabled) {
+                    arrayOf(PainterHintStroke(style.colors.chevronColor))
+                } else {
+                    emptyArray()
+                },
         )
     }
 }
@@ -528,7 +532,7 @@ private fun ButtonImpl(
     secondaryContent: @Composable (() -> Unit)? = null,
 ) {
     var buttonState by
-    remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled, focused = forceFocused)) }
+        remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled, focused = forceFocused)) }
 
     remember(enabled) { buttonState = buttonState.copy(enabled = enabled) }
     // This helps with managing and keeping the button focus state in sync
@@ -544,8 +548,7 @@ private fun ButtonImpl(
                 when (interaction) {
                     is PressInteraction.Press -> buttonState.copy(pressed = true)
                     is PressInteraction.Cancel,
-                    is PressInteraction.Release,
-                        -> buttonState.copy(pressed = false)
+                    is PressInteraction.Release -> buttonState.copy(pressed = false)
 
                     is HoverInteraction.Enter -> buttonState.copy(hovered = true)
                     is HoverInteraction.Exit -> buttonState.copy(hovered = false)
@@ -571,22 +574,22 @@ private fun ButtonImpl(
 
     Box(
         modifier =
-        modifier
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = null,
-            )
-            .background(colors.backgroundFor(buttonState).value, shape)
-            .focusOutline(
-                state = buttonState,
-                outlineShape = shape,
-                alignment = style.focusOutlineAlignment,
-                expand = style.metrics.focusOutlineExpand,
-            )
-            .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
+            modifier
+                .clickable(
+                    onClick = onClick,
+                    enabled = enabled,
+                    role = Role.Button,
+                    interactionSource = interactionSource,
+                    indication = null,
+                )
+                .background(colors.backgroundFor(buttonState).value, shape)
+                .focusOutline(
+                    state = buttonState,
+                    outlineShape = shape,
+                    alignment = style.focusOutlineAlignment,
+                    expand = style.metrics.focusOutlineExpand,
+                )
+                .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
         propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)
