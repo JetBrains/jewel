@@ -75,8 +75,10 @@ import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
 import org.jetbrains.jewel.ui.util.thenIf
 
 /**
- * A composable function that creates a customizable default-styled button. The button's behavior, appearance, and
- * content can be modified using the provided parameters.
+ * A button that follows the default visual styling with customizable content and behavior.
+ *
+ * Provides a clickable component that follows the standard button interactions including hover, press, and focus states.
+ * The button adapts its appearance based on the enabled/disabled state and supports custom styling.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/button.html)
  *
@@ -85,14 +87,14 @@ import org.jetbrains.jewel.ui.util.thenIf
  *
  * **Swing equivalent:** [`JButton`](https://docs.oracle.com/javase/tutorial/uiswing/components/button.html)
  *
- * @param onClick A lambda that is invoked when the button is clicked.
- * @param modifier The modifier for adjusting the layout or adding various behaviors to the button.
- * @param enabled Specifies whether the button is clickable. Defaults to true.
- * @param interactionSource The [MutableInteractionSource] representing the interactions for this button, such as
- *   clicks, presses, or hovers.
- * @param style The [ButtonStyle] defining the visual styling of the button, such as colors and metrics.
- * @param textStyle The [TextStyle] used to style the text content of the button.
- * @param content A composable lambda that defines the content inside the button.
+ * @param onClick Will be called when the user clicks the button
+ * @param modifier Modifier to be applied to the button
+ * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button.
+ *   Use this to observe state changes or customize interaction handling
+ * @param style The visual styling configuration for the button including colors, metrics and layout parameters
+ * @param textStyle The typography style to be applied to the button's text content
+ * @param content The content to be displayed inside the button
  * @see javax.swing.JButton
  */
 @Composable
@@ -119,7 +121,10 @@ public fun DefaultButton(
 }
 
 /**
- * A composable function to create an outlined button with customizable appearance and interaction behavior.
+ * A button with an outlined visual style and customizable appearance.
+ *
+ * Similar to [DefaultButton] but with a different visual treatment that emphasizes the button boundary.
+ * Useful for secondary actions or when you want to reduce visual weight.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/button.html)
  *
@@ -128,13 +133,14 @@ public fun DefaultButton(
  *
  * **Swing equivalent:** [`JButton`](https://docs.oracle.com/javase/tutorial/uiswing/components/button.html)
  *
- * @param onClick Lambda function that will be invoked when the button is clicked.
- * @param modifier Modifier to be applied to the button.
- * @param enabled Boolean to control whether the button is enabled or disabled. Defaults to true.
- * @param interactionSource Used for managing and observing interaction states for the button.
- * @param style Defines the look and feel of the button such as colors, metrics, and focus outline alignment.
- * @param textStyle TextStyle to be applied to the content inside the button.
- * @param content Composable block that defines the content of the button.
+ * @param onClick Will be called when the user clicks the button
+ * @param modifier Modifier to be applied to the button
+ * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button.
+ *   Use this to observe state changes or customize interaction handling
+ * @param style The visual styling configuration for the button including colors, metrics and layout parameters
+ * @param textStyle The typography style to be applied to the button's text content
+ * @param content The content to be displayed inside the button
  * @see javax.swing.JButton
  */
 @Composable
@@ -161,7 +167,10 @@ public fun OutlinedButton(
 }
 
 /**
- * A split button is a combination of a regular button and a drop-down button.
+ * A split button combining a primary action with a dropdown menu, using an outlined visual style.
+ *
+ * Similar to [DefaultSplitButton] but with an outlined visual treatment. Provides two interactive areas:
+ * the main button area for the primary action and a chevron section that opens a dropdown menu.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
@@ -171,14 +180,16 @@ public fun OutlinedButton(
  * **Swing equivalent:**
  * [`JBOptionButton`](https://github.com/JetBrains/intellij-community/tree/idea/243.22562.145/platform/platform-api/src/com/intellij/ui/components/JBOptionButton.kt)
  *
- * @param onClick the action to perform when the button is clicked
- * @param modifier the [Modifier] to be applied to the button
- * @param enabled whether the button is enabled
- * @param interactionSource the [MutableInteractionSource] representing the current interaction state
- * @param style the [ButtonStyle] to be applied to the button
- * @param textStyle the [TextStyle] to be applied to the button's text
- * @param content the content of the button
- * @param menuContent the menu to be displayed when the button is clicked
+ * @param onClick Will be called when the user clicks the main button area
+ * @param secondaryOnClick Will be called when the user clicks the dropdown/chevron section
+ * @param modifier Modifier to be applied to the button
+ * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button
+ * @param style The visual styling configuration for the split button including colors, metrics and layout parameters
+ * @param textStyle The typography style to be applied to the button's text content
+ * @param menuStyle The visual styling configuration for the dropdown menu
+ * @param content The content to be displayed in the main button area
+ * @param menuContent The content builder for defining menu items in the dropdown
  * @see com.intellij.ui.components.JBOptionButton
  */
 @Composable
@@ -210,7 +221,10 @@ public fun OutlinedSplitButton(
 }
 
 /**
- * A split button is a combination of a regular button and a drop-down button.
+ * A split button combining a primary action with a dropdown menu, using an outlined visual style.
+ *
+ * Similar to [DefaultSplitButton] but with an outlined visual treatment. Provides two interactive areas:
+ * the main button area for the primary action and a chevron section that opens a dropdown menu.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
@@ -220,14 +234,16 @@ public fun OutlinedSplitButton(
  * **Swing equivalent:**
  * [`JBOptionButton`](https://github.com/JetBrains/intellij-community/tree/idea/243.22562.145/platform/platform-api/src/com/intellij/ui/components/JBOptionButton.kt)
  *
- * @param onClick the action to perform when the button is clicked
- * @param modifier the [Modifier] to be applied to the button
- * @param enabled whether the button is enabled
- * @param interactionSource the [MutableInteractionSource] representing the current interaction state
- * @param style the [ButtonStyle] to be applied to the button
- * @param textStyle the [TextStyle] to be applied to the button's text
- * @param content the content of the button
- * @param popupContainer the content of the popup container (the drop-down)
+ * @param onClick Will be called when the user clicks the main button area
+ * @param secondaryOnClick Will be called when the user clicks the dropdown/chevron section
+ * @param modifier Modifier to be applied to the button
+ * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button
+ * @param style The visual styling configuration for the split button including colors, metrics and layout parameters
+ * @param textStyle The typography style to be applied to the button's text content
+ * @param menuStyle The visual styling configuration for the dropdown menu
+ * @param content The content to be displayed in the main button area
+ * @param popupContainer A generic container for the popup content
  * @see com.intellij.ui.components.JBOptionButton
  */
 @Composable
@@ -259,7 +275,10 @@ public fun OutlinedSplitButton(
 }
 
 /**
- * A split button is a combination of a regular button and a drop-down button.
+ * A split button combining a primary action with a dropdown menu, using the default visual style.
+ *
+ * Provides two interactive areas: the main button area for the primary action and a chevron section that opens
+ * a dropdown menu with additional options.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
@@ -269,14 +288,16 @@ public fun OutlinedSplitButton(
  * **Swing equivalent:**
  * [`JBOptionButton`](https://github.com/JetBrains/intellij-community/tree/idea/243.22562.145/platform/platform-api/src/com/intellij/ui/components/JBOptionButton.kt)
  *
- * @param onClick the action to perform when the button is clicked
- * @param modifier the [Modifier] to be applied to the button
- * @param enabled whether the button is enabled
- * @param interactionSource the [MutableInteractionSource] representing the current interaction state
- * @param style the [ButtonStyle] to be applied to the button
- * @param textStyle the [TextStyle] to be applied to the button's text
- * @param content the content of the button
- * @param menuContent the menu to be displayed when the button is clicked
+ * @param onClick Will be called when the user clicks the main button area
+ * @param secondaryOnClick Will be called when the user clicks the dropdown/chevron section
+ * @param modifier Modifier to be applied to the button
+ * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button
+ * @param style The visual styling configuration for the split button including colors, metrics and layout parameters
+ * @param textStyle The typography style to be applied to the button's text content
+ * @param menuStyle The visual styling configuration for the dropdown menu
+ * @param content The content to be displayed in the main button area
+ * @param menuContent The content builder for defining menu items in the dropdown
  * @see com.intellij.ui.components.JBOptionButton
  */
 @Composable
@@ -308,7 +329,10 @@ public fun DefaultSplitButton(
 }
 
 /**
- * A split button is a combination of a regular button and a drop-down button.
+ * A split button combining a primary action with a dropdown menu, using the default visual style.
+ *
+ * Provides two interactive areas: the main button area for the primary action and a chevron section that opens
+ * a dropdown menu with additional options.
  *
  * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/split-button.html)
  *
@@ -318,14 +342,16 @@ public fun DefaultSplitButton(
  * **Swing equivalent:**
  * [`JBOptionButton`](https://github.com/JetBrains/intellij-community/tree/idea/243.22562.145/platform/platform-api/src/com/intellij/ui/components/JBOptionButton.kt)
  *
- * @param onClick the action to perform when the button is clicked
- * @param modifier the [Modifier] to be applied to the button
- * @param enabled whether the button is enabled
- * @param interactionSource the [MutableInteractionSource] representing the current interaction state
- * @param style the [ButtonStyle] to be applied to the button
- * @param textStyle the [TextStyle] to be applied to the button's text
- * @param content the content of the button
- * @param popupContainer the content of the popup container (the drop-down)
+ * @param onClick Will be called when the user clicks the main button area
+ * @param secondaryOnClick Will be called when the user clicks the dropdown/chevron section
+ * @param modifier Modifier to be applied to the button
+ * @param enabled Controls the enabled state of the button. When false, the button will not be clickable
+ * @param interactionSource An optional [MutableInteractionSource] for observing and emitting [Interaction]s for this button
+ * @param style The visual styling configuration for the split button including colors, metrics and layout parameters
+ * @param textStyle The typography style to be applied to the button's text content
+ * @param menuStyle The visual styling configuration for the dropdown menu
+ * @param content The content to be displayed in the main button area
+ * @param popupContainer A generic container for the popup content
  * @see com.intellij.ui.components.JBOptionButton
  */
 @Composable
