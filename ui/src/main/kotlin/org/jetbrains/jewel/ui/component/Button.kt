@@ -78,6 +78,14 @@ import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
  * A composable function that creates a customizable default-styled button. The button's behavior, appearance, and
  * content can be modified using the provided parameters.
  *
+ * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/button.html)
+ *
+ * **Usage example:**
+ * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
+ *
+ * **Swing equivalent:**
+ * [`JButton`](https://docs.oracle.com/javase/tutorial/uiswing/components/button.html)
+ *
  * @param onClick A lambda that is invoked when the button is clicked.
  * @param modifier The modifier for adjusting the layout or adding various behaviors to the button.
  * @param enabled Specifies whether the button is clickable. Defaults to true.
@@ -86,6 +94,7 @@ import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
  * @param style The [ButtonStyle] defining the visual styling of the button, such as colors and metrics.
  * @param textStyle The [TextStyle] used to style the text content of the button.
  * @param content A composable lambda that defines the content inside the button.
+ * @see javax.swing.JButton
  */
 @Composable
 public fun DefaultButton(
@@ -113,13 +122,22 @@ public fun DefaultButton(
 /**
  * A composable function to create an outlined button with customizable appearance and interaction behavior.
  *
+ * **Guidelines:** [on IJP SDK webhelp](https://plugins.jetbrains.com/docs/intellij/button.html)
+ *
+ * **Usage example:**
+ * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
+ *
+ * **Swing equivalent:**
+ * [`JButton`](https://docs.oracle.com/javase/tutorial/uiswing/components/button.html)
+ *
  * @param onClick Lambda function that will be invoked when the button is clicked.
- * @param modifier Modifier to be applied to the button layout.
+ * @param modifier Modifier to be applied to the button.
  * @param enabled Boolean to control whether the button is enabled or disabled. Defaults to true.
  * @param interactionSource Used for managing and observing interaction states for the button.
  * @param style Defines the look and feel of the button such as colors, metrics, and focus outline alignment.
  * @param textStyle TextStyle to be applied to the content inside the button.
  * @param content Composable block that defines the content of the button.
+ * @see javax.swing.JButton
  */
 @Composable
 public fun OutlinedButton(
