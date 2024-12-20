@@ -66,13 +66,13 @@ import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
-import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 import org.jetbrains.jewel.ui.theme.defaultButtonStyle
 import org.jetbrains.jewel.ui.theme.defaultSplitButtonStyle
 import org.jetbrains.jewel.ui.theme.menuStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
 import org.jetbrains.jewel.ui.util.thenIf
+import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 
 /**
  * A button that follows the default visual styling with customizable content and behavior.
@@ -497,7 +497,7 @@ private fun SplitButtonChevron(
             orientation = Orientation.Vertical,
             thickness = style.metrics.dividerMetrics.thickness,
             modifier =
-                Modifier.fillMaxHeight().padding(vertical = style.metrics.dividerPadding).align(Alignment.CenterStart),
+            Modifier.fillMaxHeight().padding(vertical = style.metrics.dividerPadding).align(Alignment.CenterStart),
             color = if (enabled) style.colors.dividerColor else style.colors.dividerDisabledColor,
         )
         Icon(
@@ -505,11 +505,11 @@ private fun SplitButtonChevron(
             contentDescription = "Chevron",
             modifier = Modifier.align(Alignment.Center),
             hints =
-                if (isDefault && enabled) {
-                    arrayOf(PainterHintStroke(style.colors.chevronColor))
-                } else {
-                    emptyArray()
-                },
+            if (isDefault && enabled) {
+                arrayOf(PainterHintStroke(style.colors.chevronColor))
+            } else {
+                emptyArray()
+            },
         )
     }
 }
@@ -528,9 +528,13 @@ private fun ButtonImpl(
     secondaryContent: @Composable (() -> Unit)? = null,
 ) {
     var buttonState by
-        remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled, focused = forceFocused)) }
+    remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled, focused = forceFocused)) }
 
     remember(enabled) { buttonState = buttonState.copy(enabled = enabled) }
+    // This helps with managing and keeping the button focus state in sync
+    // when the Composable is used for the SplitButton variant.
+    // This variant is the only one that overrides the default focus state
+    // according to the popup visibility.
     var actuallyFocused by remember { mutableStateOf(false) }
     remember(forceFocused) { buttonState = buttonState.copy(focused = if (forceFocused) true else actuallyFocused) }
 
@@ -540,7 +544,8 @@ private fun ButtonImpl(
                 when (interaction) {
                     is PressInteraction.Press -> buttonState.copy(pressed = true)
                     is PressInteraction.Cancel,
-                    is PressInteraction.Release -> buttonState.copy(pressed = false)
+                    is PressInteraction.Release,
+                        -> buttonState.copy(pressed = false)
 
                     is HoverInteraction.Enter -> buttonState.copy(hovered = true)
                     is HoverInteraction.Exit -> buttonState.copy(hovered = false)
@@ -566,22 +571,22 @@ private fun ButtonImpl(
 
     Box(
         modifier =
-            modifier
-                .clickable(
-                    onClick = onClick,
-                    enabled = enabled,
-                    role = Role.Button,
-                    interactionSource = interactionSource,
-                    indication = null,
-                )
-                .background(colors.backgroundFor(buttonState).value, shape)
-                .focusOutline(
-                    state = buttonState,
-                    outlineShape = shape,
-                    alignment = style.focusOutlineAlignment,
-                    expand = style.metrics.focusOutlineExpand,
-                )
-                .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
+        modifier
+            .clickable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            )
+            .background(colors.backgroundFor(buttonState).value, shape)
+            .focusOutline(
+                state = buttonState,
+                outlineShape = shape,
+                alignment = style.focusOutlineAlignment,
+                expand = style.metrics.focusOutlineExpand,
+            )
+            .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
         propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)
