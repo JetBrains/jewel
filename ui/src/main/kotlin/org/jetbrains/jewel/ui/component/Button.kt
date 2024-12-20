@@ -2,7 +2,6 @@
  * TODO On lost focus, close the popup. Related to
  * https://youtrack.jetbrains.com/issue/CMP-7269/Popup-is-not-dismissed-by-clicking-or-moving-focus-outside-ComposePanel.
  *
- * Add if (!state.isFocused) focusRequester.requestFocus() to focus the button when clicking the chevron
  * Remove this list
  */
 package org.jetbrains.jewel.ui.component
@@ -35,7 +34,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.key.Key
@@ -101,6 +102,7 @@ public fun DefaultButton(
         modifier = modifier,
         enabled = enabled,
         forceFocused = false,
+        onStateChange = {},
         interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
@@ -134,6 +136,7 @@ public fun OutlinedButton(
         modifier = modifier,
         enabled = enabled,
         forceFocused = false,
+        onStateChange = {},
         interactionSource = interactionSource,
         style = style,
         textStyle = textStyle,
@@ -352,9 +355,14 @@ private fun SplitButtonImpl(
     secondaryContent: @Composable (() -> Unit)? = null,
     secondaryContentMenu: (MenuScope.() -> Unit)? = null,
 ) {
-    var popupVisible by remember { mutableStateOf(false) }
-    var buttonWidth by remember { mutableStateOf(Dp.Unspecified) }
     val density = LocalDensity.current
+    var popupVisible by remember { mutableStateOf(false) }
+
+    var buttonWidth by remember { mutableStateOf(Dp.Unspecified) }
+    var buttonState by remember(interactionSource) {
+        mutableStateOf(ButtonState.of(enabled = enabled))
+    }
+    val focusRequester = remember { FocusRequester() }
 
     Box(
         modifier
@@ -372,6 +380,7 @@ private fun SplitButtonImpl(
                             popupVisible = true
                             true
                         }
+
                         else -> false
                     }
                 }
@@ -379,9 +388,10 @@ private fun SplitButtonImpl(
     ) {
         ButtonImpl(
             onClick = { if (enabled) onClick() },
-            modifier = Modifier,
+            modifier = Modifier.focusRequester(focusRequester),
             enabled = enabled,
             forceFocused = popupVisible,
+            onStateChange = { state -> buttonState = state },
             interactionSource = interactionSource,
             style = style.button,
             textStyle = textStyle,
@@ -394,6 +404,7 @@ private fun SplitButtonImpl(
                     onChevronClicked = {
                         secondaryOnClick()
                         popupVisible = !popupVisible
+                        if (!buttonState.isFocused) focusRequester.requestFocus()
                     },
                 )
             },
@@ -461,11 +472,11 @@ private fun SplitButtonChevron(
             contentDescription = "Chevron",
             modifier = Modifier.align(Alignment.Center),
             hints =
-                if (isDefault && enabled) {
-                    arrayOf(PainterHintStroke(style.colors.chevronColor))
-                } else {
-                    emptyArray()
-                },
+            if (isDefault && enabled) {
+                arrayOf(PainterHintStroke(style.colors.chevronColor))
+            } else {
+                emptyArray()
+            },
         )
     }
 }
@@ -476,14 +487,21 @@ private fun ButtonImpl(
     modifier: Modifier,
     enabled: Boolean,
     forceFocused: Boolean,
+    onStateChange: (ButtonState) -> Unit,
     interactionSource: MutableInteractionSource,
     style: ButtonStyle,
     textStyle: TextStyle,
     content: @Composable () -> Unit,
     secondaryContent: @Composable (() -> Unit)? = null,
 ) {
-    var buttonState by
-    remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled, focused = forceFocused)) }
+    var buttonState by remember(interactionSource) {
+        mutableStateOf(
+            ButtonState.of(
+                enabled = enabled,
+                focused = forceFocused
+            )
+        )
+    }
 
     remember(enabled) { buttonState = buttonState.copy(enabled = enabled) }
     var actuallyFocused by remember { mutableStateOf(false) }
@@ -491,24 +509,27 @@ private fun ButtonImpl(
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
-            when (interaction) {
-                is PressInteraction.Press -> buttonState = buttonState.copy(pressed = true)
+            buttonState = when (interaction) {
+                is PressInteraction.Press -> buttonState.copy(pressed = true)
                 is PressInteraction.Cancel,
                 is PressInteraction.Release,
-                    -> buttonState = buttonState.copy(pressed = false)
+                    -> buttonState.copy(pressed = false)
 
-                is HoverInteraction.Enter -> buttonState = buttonState.copy(hovered = true)
-                is HoverInteraction.Exit -> buttonState = buttonState.copy(hovered = false)
+                is HoverInteraction.Enter -> buttonState.copy(hovered = true)
+                is HoverInteraction.Exit -> buttonState.copy(hovered = false)
                 is FocusInteraction.Focus -> {
                     actuallyFocused = true
-                    buttonState = buttonState.copy(focused = true)
+                    buttonState.copy(focused = true)
                 }
 
                 is FocusInteraction.Unfocus -> {
                     actuallyFocused = false
-                    buttonState = buttonState.copy(focused = forceFocused)
+                    buttonState.copy(focused = forceFocused)
                 }
+
+                else -> buttonState
             }
+            onStateChange(buttonState)
         }
     }
 
