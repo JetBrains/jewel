@@ -1,7 +1,8 @@
-/**
+/*
  * TODO On lost focus, close the popup. Related to
  * https://youtrack.jetbrains.com/issue/CMP-7269/Popup-is-not-dismissed-by-clicking-or-moving-focus-outside-ComposePanel.
  *
+ * Add if (!state.isFocused) focusRequester.requestFocus() to focus the button when clicking the chevron
  * Remove this list
  */
 package org.jetbrains.jewel.ui.component
@@ -38,7 +39,6 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
@@ -366,12 +366,14 @@ private fun SplitButtonImpl(
             }
             .thenIf(enabled) {
                 onPreviewKeyEvent { keyEvent ->
-                    splitButtonKeys(
-                        keyEvent = keyEvent,
-                        popupVisible = popupVisible,
-                        collapsePopup = { popupVisible = false },
-                        expandPopup = { popupVisible = true },
-                    )
+                    if (keyEvent.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
+                    when {
+                        keyEvent.key == Key.DirectionDown -> {
+                            popupVisible = true
+                            true
+                        }
+                        else -> false
+                    }
                 }
             }
     ) {
@@ -465,28 +467,6 @@ private fun SplitButtonChevron(
                     emptyArray()
                 },
         )
-    }
-}
-
-private fun splitButtonKeys(
-    keyEvent: KeyEvent,
-    popupVisible: Boolean,
-    collapsePopup: () -> Unit,
-    expandPopup: () -> Unit,
-): Boolean {
-    if (keyEvent.type != KeyEventType.KeyDown) return false
-    when {
-        keyEvent.key == Key.DirectionDown && !popupVisible -> {
-            expandPopup()
-            return true
-        }
-
-        keyEvent.key == Key.Escape && popupVisible -> {
-            collapsePopup()
-            return true
-        }
-
-        else -> return false
     }
 }
 
