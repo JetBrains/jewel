@@ -30,10 +30,7 @@ public class SplitButtonColors(
 
 @Stable
 @GenerateDataFunctions
-public class SplitButtonMetrics(
-    public val dividerMetrics: DividerMetrics,
-    public val dividerPadding: Dp,
-) {
+public class SplitButtonMetrics(public val dividerMetrics: DividerMetrics, public val dividerPadding: Dp) {
     public companion object
 }
 

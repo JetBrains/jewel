@@ -27,7 +27,7 @@ public object IntUiDefaultSplitButtonStyleFactory {
         SplitButtonStyle(
             button = buttonStyle,
             metrics = SplitButtonMetrics(dividerMetrics, dividerPadding),
-            colors = SplitButtonColors(dividerColor, dividerDisabledColor, chevronColor)
+            colors = SplitButtonColors(dividerColor, dividerDisabledColor, chevronColor),
         )
 
     @Composable
@@ -42,7 +42,7 @@ public object IntUiDefaultSplitButtonStyleFactory {
         SplitButtonStyle(
             button = buttonStyle,
             metrics = SplitButtonMetrics(dividerMetrics, dividerPadding),
-            colors = SplitButtonColors(dividerColor, dividerDisabledColor, chevronColor)
+            colors = SplitButtonColors(dividerColor, dividerDisabledColor, chevronColor),
         )
 }
 
@@ -62,7 +62,7 @@ public object IntUiOutlinedSplitButtonStyleFactory {
         SplitButtonStyle(
             button = buttonStyle,
             metrics = SplitButtonMetrics(dividerMetrics, dividerPadding),
-            colors = SplitButtonColors(dividerColor, dividerDisabledColor, chevronColor)
+            colors = SplitButtonColors(dividerColor, dividerDisabledColor, chevronColor),
         )
 
     @Composable
@@ -77,6 +77,6 @@ public object IntUiOutlinedSplitButtonStyleFactory {
         SplitButtonStyle(
             button = buttonStyle,
             metrics = SplitButtonMetrics(dividerMetrics, dividerPadding),
-            colors = SplitButtonColors(dividerColor, dividerDisabledColor, chevronColor)
+            colors = SplitButtonColors(dividerColor, dividerDisabledColor, chevronColor),
         )
 }

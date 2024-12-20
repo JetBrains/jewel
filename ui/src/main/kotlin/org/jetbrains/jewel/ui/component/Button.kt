@@ -66,13 +66,13 @@ import org.jetbrains.jewel.ui.component.styling.MenuStyle
 import org.jetbrains.jewel.ui.component.styling.SplitButtonStyle
 import org.jetbrains.jewel.ui.focusOutline
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
+import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 import org.jetbrains.jewel.ui.theme.defaultButtonStyle
 import org.jetbrains.jewel.ui.theme.defaultSplitButtonStyle
 import org.jetbrains.jewel.ui.theme.menuStyle
 import org.jetbrains.jewel.ui.theme.outlinedButtonStyle
 import org.jetbrains.jewel.ui.theme.outlinedSplitButtonStyle
 import org.jetbrains.jewel.ui.util.thenIf
-import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
 
 /**
  * A composable function that creates a customizable default-styled button. The button's behavior, appearance, and
@@ -83,8 +83,7 @@ import org.jetbrains.jewel.ui.painter.hints.Stroke as PainterHintStroke
  * **Usage example:**
  * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
  *
- * **Swing equivalent:**
- * [`JButton`](https://docs.oracle.com/javase/tutorial/uiswing/components/button.html)
+ * **Swing equivalent:** [`JButton`](https://docs.oracle.com/javase/tutorial/uiswing/components/button.html)
  *
  * @param onClick A lambda that is invoked when the button is clicked.
  * @param modifier The modifier for adjusting the layout or adding various behaviors to the button.
@@ -127,8 +126,7 @@ public fun DefaultButton(
  * **Usage example:**
  * [`Buttons.kt`](https://github.com/JetBrains/intellij-community/blob/master/platform/jewel/samples/standalone/src/main/kotlin/org/jetbrains/jewel/samples/standalone/view/component/Buttons.kt)
  *
- * **Swing equivalent:**
- * [`JButton`](https://docs.oracle.com/javase/tutorial/uiswing/components/button.html)
+ * **Swing equivalent:** [`JButton`](https://docs.oracle.com/javase/tutorial/uiswing/components/button.html)
  *
  * @param onClick Lambda function that will be invoked when the button is clicked.
  * @param modifier Modifier to be applied to the button.
@@ -377,9 +375,7 @@ private fun SplitButtonImpl(
     var popupVisible by remember { mutableStateOf(false) }
 
     var buttonWidth by remember { mutableStateOf(Dp.Unspecified) }
-    var buttonState by remember(interactionSource) {
-        mutableStateOf(ButtonState.of(enabled = enabled))
-    }
+    var buttonState by remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled)) }
     val focusRequester = remember { FocusRequester() }
 
     Box(
@@ -431,9 +427,7 @@ private fun SplitButtonImpl(
         if (popupVisible && enabled) {
             if (secondaryContentMenu != null) {
                 PopupMenu(
-                    modifier = Modifier
-                        .width(buttonWidth)
-                        .onClick { popupVisible = false },
+                    modifier = Modifier.width(buttonWidth).onClick { popupVisible = false },
                     onDismissRequest = {
                         popupVisible = false
                         true
@@ -445,9 +439,7 @@ private fun SplitButtonImpl(
             }
             if (secondaryContent != null) {
                 PopupContainer(
-                    modifier = Modifier
-                        .width(buttonWidth)
-                        .onClick { popupVisible = false },
+                    modifier = Modifier.width(buttonWidth).onClick { popupVisible = false },
                     onDismissRequest = { popupVisible = false },
                     horizontalAlignment = Alignment.Start,
                     content = secondaryContent,
@@ -465,8 +457,7 @@ private fun SplitButtonChevron(
     onChevronClicked: () -> Unit,
 ) {
     Box(
-        Modifier
-            .size(style.button.metrics.minSize.height)
+        Modifier.size(style.button.metrics.minSize.height)
             .focusable(false)
             .focusProperties { canFocus = false }
             .clickable(
@@ -479,10 +470,8 @@ private fun SplitButtonChevron(
         Divider(
             orientation = Orientation.Vertical,
             thickness = style.metrics.dividerMetrics.thickness,
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(vertical = style.metrics.dividerPadding)
-                .align(Alignment.CenterStart),
+            modifier =
+                Modifier.fillMaxHeight().padding(vertical = style.metrics.dividerPadding).align(Alignment.CenterStart),
             color = if (enabled) style.colors.dividerColor else style.colors.dividerDisabledColor,
         )
         Icon(
@@ -490,11 +479,11 @@ private fun SplitButtonChevron(
             contentDescription = "Chevron",
             modifier = Modifier.align(Alignment.Center),
             hints =
-            if (isDefault && enabled) {
-                arrayOf(PainterHintStroke(style.colors.chevronColor))
-            } else {
-                emptyArray()
-            },
+                if (isDefault && enabled) {
+                    arrayOf(PainterHintStroke(style.colors.chevronColor))
+                } else {
+                    emptyArray()
+                },
         )
     }
 }
@@ -512,14 +501,8 @@ private fun ButtonImpl(
     content: @Composable () -> Unit,
     secondaryContent: @Composable (() -> Unit)? = null,
 ) {
-    var buttonState by remember(interactionSource) {
-        mutableStateOf(
-            ButtonState.of(
-                enabled = enabled,
-                focused = forceFocused
-            )
-        )
-    }
+    var buttonState by
+        remember(interactionSource) { mutableStateOf(ButtonState.of(enabled = enabled, focused = forceFocused)) }
 
     remember(enabled) { buttonState = buttonState.copy(enabled = enabled) }
     var actuallyFocused by remember { mutableStateOf(false) }
@@ -527,26 +510,26 @@ private fun ButtonImpl(
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collect { interaction ->
-            buttonState = when (interaction) {
-                is PressInteraction.Press -> buttonState.copy(pressed = true)
-                is PressInteraction.Cancel,
-                is PressInteraction.Release,
-                    -> buttonState.copy(pressed = false)
+            buttonState =
+                when (interaction) {
+                    is PressInteraction.Press -> buttonState.copy(pressed = true)
+                    is PressInteraction.Cancel,
+                    is PressInteraction.Release -> buttonState.copy(pressed = false)
 
-                is HoverInteraction.Enter -> buttonState.copy(hovered = true)
-                is HoverInteraction.Exit -> buttonState.copy(hovered = false)
-                is FocusInteraction.Focus -> {
-                    actuallyFocused = true
-                    buttonState.copy(focused = true)
+                    is HoverInteraction.Enter -> buttonState.copy(hovered = true)
+                    is HoverInteraction.Exit -> buttonState.copy(hovered = false)
+                    is FocusInteraction.Focus -> {
+                        actuallyFocused = true
+                        buttonState.copy(focused = true)
+                    }
+
+                    is FocusInteraction.Unfocus -> {
+                        actuallyFocused = false
+                        buttonState.copy(focused = forceFocused)
+                    }
+
+                    else -> buttonState
                 }
-
-                is FocusInteraction.Unfocus -> {
-                    actuallyFocused = false
-                    buttonState.copy(focused = forceFocused)
-                }
-
-                else -> buttonState
-            }
             onStateChange(buttonState)
         }
     }
@@ -557,22 +540,22 @@ private fun ButtonImpl(
 
     Box(
         modifier =
-        modifier
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = null,
-            )
-            .background(colors.backgroundFor(buttonState).value, shape)
-            .focusOutline(
-                state = buttonState,
-                outlineShape = shape,
-                alignment = style.focusOutlineAlignment,
-                expand = style.metrics.focusOutlineExpand,
-            )
-            .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
+            modifier
+                .clickable(
+                    onClick = onClick,
+                    enabled = enabled,
+                    role = Role.Button,
+                    interactionSource = interactionSource,
+                    indication = null,
+                )
+                .background(colors.backgroundFor(buttonState).value, shape)
+                .focusOutline(
+                    state = buttonState,
+                    outlineShape = shape,
+                    alignment = style.focusOutlineAlignment,
+                    expand = style.metrics.focusOutlineExpand,
+                )
+                .border(Stroke.Alignment.Inside, style.metrics.borderWidth, borderColor, shape),
         propagateMinConstraints = true,
     ) {
         val contentColor by colors.contentFor(buttonState)
@@ -582,9 +565,7 @@ private fun ButtonImpl(
             LocalTextStyle provides textStyle.copy(color = contentColor.takeOrElse { textStyle.color }),
         ) {
             Row(
-                Modifier
-                    .defaultMinSize(style.metrics.minSize.width)
-                    .height(style.metrics.minSize.height),
+                Modifier.defaultMinSize(style.metrics.minSize.width).height(style.metrics.minSize.height),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {

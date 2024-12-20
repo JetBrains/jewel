@@ -2529,17 +2529,43 @@ public final class org/jetbrains/jewel/ui/component/styling/SliderStylingKt {
 	public static final fun getLocalSliderStyle ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
-public final class org/jetbrains/jewel/ui/component/styling/SplitButtonStyle {
+public final class org/jetbrains/jewel/ui/component/styling/SplitButtonColors {
 	public static final field $stable I
-	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/SplitButtonStyle$Companion;
-	public synthetic fun <init> (Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/DividerMetrics;JJFJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/SplitButtonColors$Companion;
+	public synthetic fun <init> (JJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getButton ()Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;
 	public final fun getChevronColor-0d7_KjU ()J
 	public final fun getDividerColor-0d7_KjU ()J
 	public final fun getDividerDisabledColor-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/SplitButtonColors$Companion {
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/SplitButtonMetrics {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/SplitButtonMetrics$Companion;
+	public synthetic fun <init> (Lorg/jetbrains/jewel/ui/component/styling/DividerMetrics;FLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDividerMetrics ()Lorg/jetbrains/jewel/ui/component/styling/DividerMetrics;
 	public final fun getDividerPadding-D9Ej5fM ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/SplitButtonMetrics$Companion {
+}
+
+public final class org/jetbrains/jewel/ui/component/styling/SplitButtonStyle {
+	public static final field $stable I
+	public static final field Companion Lorg/jetbrains/jewel/ui/component/styling/SplitButtonStyle$Companion;
+	public fun <init> (Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;Lorg/jetbrains/jewel/ui/component/styling/SplitButtonColors;Lorg/jetbrains/jewel/ui/component/styling/SplitButtonMetrics;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getButton ()Lorg/jetbrains/jewel/ui/component/styling/ButtonStyle;
+	public final fun getColors ()Lorg/jetbrains/jewel/ui/component/styling/SplitButtonColors;
+	public final fun getMetrics ()Lorg/jetbrains/jewel/ui/component/styling/SplitButtonMetrics;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
