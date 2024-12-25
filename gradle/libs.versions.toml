@@ -1,7 +1,7 @@
 [versions]
 commonmark = "0.24.0"
 composeDesktop = "1.7.1"
-construo = "1.5.1"
+construo = "1.6.0"
 detekt = "1.23.6"
 dokka = "1.9.20"
 idea = "243.21155.17"
