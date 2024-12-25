@@ -77,6 +77,7 @@ construo {
     // main class, it wouldn't be required if compose used the application plugin
     mainClass.set("org.jetbrains.jewel.samples.standalone.MainKt")
     roast {
+        runOnFirstThread.set(false)
         // required to get around compose using context class loader
         useMainAsContextClassLoader.set(true)
     }
