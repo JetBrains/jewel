@@ -6,8 +6,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.intui.standalone.styling.dark
 import org.jetbrains.jewel.intui.standalone.styling.default
+import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.samples.showcase.components.Banners
 import org.jetbrains.jewel.samples.showcase.components.Borders
@@ -21,13 +23,15 @@ import org.jetbrains.jewel.samples.showcase.components.ProgressBar
 import org.jetbrains.jewel.samples.showcase.components.RadioButtons
 import org.jetbrains.jewel.samples.showcase.components.Scrollbars
 import org.jetbrains.jewel.samples.showcase.components.SegmentedControls
-import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
 import org.jetbrains.jewel.samples.showcase.components.Sliders
+import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
 import org.jetbrains.jewel.samples.showcase.components.Tabs
 import org.jetbrains.jewel.samples.showcase.components.TextAreas
-import org.jetbrains.jewel.samples.standalone.view.component.TextFields
+import org.jetbrains.jewel.samples.showcase.components.TextFields
 import org.jetbrains.jewel.samples.standalone.view.component.Tooltips
 import org.jetbrains.jewel.ui.component.SplitLayoutState
+import org.jetbrains.jewel.ui.component.styling.IconButtonColors
+import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
@@ -93,7 +97,30 @@ object ComponentsViewModel {
             ViewInfo(
                 title = "TextFields",
                 iconKey = StandaloneSampleIcons.Components.textField,
-                content = { TextFields() },
+                content = {
+                    val iconMetrics = IconButtonMetrics.defaults()
+                    val iconColorsDark =
+                        IconButtonColors.dark(
+                            background = Color.Unspecified,
+                            backgroundDisabled = Color.Unspecified,
+                            backgroundSelected = Color.Unspecified,
+                            backgroundSelectedActivated = Color.Unspecified,
+                            backgroundFocused = Color.Unspecified,
+                            backgroundPressed = Color.Unspecified,
+                            backgroundHovered = Color.Unspecified,
+                        )
+                    val iconColorsLight =
+                        IconButtonColors.light(
+                            background = Color.Unspecified,
+                            backgroundDisabled = Color.Unspecified,
+                            backgroundSelected = Color.Unspecified,
+                            backgroundSelectedActivated = Color.Unspecified,
+                            backgroundFocused = Color.Unspecified,
+                            backgroundPressed = Color.Unspecified,
+                            backgroundHovered = Color.Unspecified,
+                        )
+                    TextFields(iconMetrics, iconColorsDark, iconColorsLight)
+                },
             ),
             ViewInfo(
                 title = "Scrollbars",
