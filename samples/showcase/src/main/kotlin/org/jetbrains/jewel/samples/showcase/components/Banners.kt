@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.standalone.view.component
+package org.jetbrains.jewel.samples.showcase.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,7 @@ import org.jetbrains.jewel.ui.component.WarningBanner
 import org.jetbrains.jewel.ui.theme.defaultBannerStyle
 
 @Composable
-internal fun Banners() {
+public fun Banners() {
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         GroupHeader("Default banner (aka editor banners)")
 
