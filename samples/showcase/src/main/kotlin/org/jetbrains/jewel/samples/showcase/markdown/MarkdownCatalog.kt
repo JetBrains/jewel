@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.standalone.view.markdown
+package org.jetbrains.jewel.samples.showcase.markdown
 
 import org.intellij.lang.annotations.Language
 

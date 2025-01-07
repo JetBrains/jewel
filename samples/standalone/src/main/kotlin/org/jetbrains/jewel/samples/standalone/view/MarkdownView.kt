@@ -9,9 +9,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.jewel.foundation.modifier.trackActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.samples.standalone.view.markdown.JewelReadme
-import org.jetbrains.jewel.samples.standalone.view.markdown.MarkdownEditor
-import org.jetbrains.jewel.samples.standalone.view.markdown.MarkdownPreview
+import org.jetbrains.jewel.intui.markdown.standalone.dark
+import org.jetbrains.jewel.intui.markdown.standalone.light
+import org.jetbrains.jewel.intui.markdown.standalone.styling.dark
+import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.dark
+import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.light
+import org.jetbrains.jewel.intui.markdown.standalone.styling.light
+import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
+import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
+import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
+import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
+import org.jetbrains.jewel.samples.showcase.markdown.JewelReadme
+import org.jetbrains.jewel.samples.showcase.markdown.MarkdownEditor
+import org.jetbrains.jewel.samples.showcase.markdown.MarkdownPreview
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.Divider
 
@@ -23,6 +33,21 @@ fun MarkdownDemo() {
 
         Divider(Orientation.Vertical, Modifier.fillMaxHeight())
 
-        MarkdownPreview(modifier = Modifier.fillMaxHeight().weight(1f), rawMarkdown = editorState.text)
+        MarkdownPreview(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f),
+            rawMarkdown = editorState.text,
+            darkStyling = MarkdownStyling.dark(),
+            darkRenderer = MarkdownBlockRenderer.dark(
+                styling = MarkdownStyling.dark(),
+                rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.dark(), MarkdownStyling.dark())),
+            ),
+            lightStyling = MarkdownStyling.light(),
+            lightRenderer = MarkdownBlockRenderer.light(
+                styling = MarkdownStyling.light(),
+                rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.light(), MarkdownStyling.light())),
+            )
+        )
     }
 }

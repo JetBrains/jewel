@@ -1,9 +1,10 @@
-package org.jetbrains.jewel.samples.standalone.view.markdown
+package org.jetbrains.jewel.samples.showcase.markdown
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,36 +13,40 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import java.awt.Desktop
-import java.net.URI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.jetbrains.jewel.foundation.ExperimentalJewelApi
+import org.jetbrains.jewel.foundation.code.highlighting.CodeHighlighter
+import org.jetbrains.jewel.foundation.code.highlighting.LocalCodeHighlighter
 import org.jetbrains.jewel.foundation.code.highlighting.NoOpCodeHighlighter
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.intui.markdown.standalone.ProvideMarkdownStyling
-import org.jetbrains.jewel.intui.markdown.standalone.dark
-import org.jetbrains.jewel.intui.markdown.standalone.light
-import org.jetbrains.jewel.intui.markdown.standalone.styling.dark
-import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.dark
-import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.light
-import org.jetbrains.jewel.intui.markdown.standalone.styling.light
 import org.jetbrains.jewel.markdown.LazyMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.extension.autolink.AutolinkProcessorExtension
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
+import org.jetbrains.jewel.markdown.extensions.LocalMarkdownBlockRenderer
+import org.jetbrains.jewel.markdown.extensions.LocalMarkdownProcessor
+import org.jetbrains.jewel.markdown.extensions.LocalMarkdownStyling
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertProcessorExtension
-import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
 import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
 import org.jetbrains.jewel.ui.component.scrollbarContentSafePadding
+import java.awt.Desktop
+import java.net.URI
 
 @Composable
-internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSequence) {
+public fun MarkdownPreview(
+    modifier: Modifier = Modifier,
+    rawMarkdown: CharSequence,
+    darkStyling: MarkdownStyling,
+    lightStyling: MarkdownStyling,
+    darkRenderer: MarkdownBlockRenderer,
+    lightRenderer: MarkdownBlockRenderer,
+) {
     val isDark = JewelTheme.isDark
 
-    val markdownStyling = remember(isDark) { if (isDark) MarkdownStyling.dark() else MarkdownStyling.light() }
+    val markdownStyling = remember(isDark) { if (isDark) darkStyling else lightStyling }
 
     var markdownBlocks by remember { mutableStateOf(emptyList<MarkdownBlock>()) }
     val extensions = remember { listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension) }
@@ -62,15 +67,9 @@ internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSeq
     val blockRenderer =
         remember(markdownStyling, extensions) {
             if (isDark) {
-                MarkdownBlockRenderer.dark(
-                    styling = markdownStyling,
-                    rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.dark(), markdownStyling)),
-                )
+                darkRenderer
             } else {
-                MarkdownBlockRenderer.light(
-                    styling = markdownStyling,
-                    rendererExtensions = listOf(GitHubAlertRendererExtension(AlertStyling.light(), markdownStyling)),
-                )
+                lightRenderer
             }
         }
 
@@ -90,5 +89,24 @@ internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSeq
                 onUrlClick = { url -> Desktop.getDesktop().browse(URI.create(url)) },
             )
         }
+    }
+}
+
+@ExperimentalJewelApi
+@Composable
+public fun ProvideMarkdownStyling(
+    markdownStyling: MarkdownStyling,
+    markdownBlockRenderer: MarkdownBlockRenderer,
+    codeHighlighter: CodeHighlighter,
+    markdownProcessor: MarkdownProcessor = remember { MarkdownProcessor() },
+    content: @Composable () -> Unit,
+) {
+    CompositionLocalProvider(
+        LocalMarkdownStyling provides markdownStyling,
+        LocalMarkdownProcessor provides markdownProcessor,
+        LocalMarkdownBlockRenderer provides markdownBlockRenderer,
+        LocalCodeHighlighter provides codeHighlighter,
+    ) {
+        content()
     }
 }
