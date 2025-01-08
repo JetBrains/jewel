@@ -1,5 +1,6 @@
 package org.jetbrains.jewel.samples.standalone
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
@@ -13,6 +14,9 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.util.JewelLogger
+import org.jetbrains.jewel.intui.standalone.styling.dark
+import org.jetbrains.jewel.intui.standalone.styling.default
+import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.theme.createDefaultTextStyle
 import org.jetbrains.jewel.intui.standalone.theme.createEditorTextStyle
@@ -26,8 +30,12 @@ import org.jetbrains.jewel.intui.window.styling.lightWithLightHeader
 import org.jetbrains.jewel.samples.showcase.IntUiThemes
 import org.jetbrains.jewel.samples.standalone.view.TitleBarView
 import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel
-import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel.currentView
 import org.jetbrains.jewel.ui.ComponentStyling
+import org.jetbrains.jewel.ui.component.styling.IconButtonColors
+import org.jetbrains.jewel.ui.component.styling.LinkStyle
+import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior
+import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
+import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 
@@ -35,13 +43,42 @@ fun main() {
     JewelLogger.getInstance("StandaloneSample").info("Starting Jewel Standalone sample")
 
     val icon = svgResource("icons/jewel-logo.svg")
+    val mainViewModel =
+        MainViewModel(
+            scrollbarDark = ScrollbarStyle.dark(),
+            scrollbarLight = ScrollbarStyle.light(),
+            alwaysVisibleScrollbarVisibility = ScrollbarVisibility.AlwaysVisible.default(),
+            whenScrollingScrollbarVisibility = ScrollbarVisibility.WhenScrolling.default(),
+            textFieldIconColorsDark =
+                IconButtonColors.dark(
+                    background = Color.Unspecified,
+                    backgroundDisabled = Color.Unspecified,
+                    backgroundSelected = Color.Unspecified,
+                    backgroundSelectedActivated = Color.Unspecified,
+                    backgroundFocused = Color.Unspecified,
+                    backgroundPressed = Color.Unspecified,
+                    backgroundHovered = Color.Unspecified,
+                ),
+            textFieldIconColorsLight =
+                IconButtonColors.light(
+                    background = Color.Unspecified,
+                    backgroundDisabled = Color.Unspecified,
+                    backgroundSelected = Color.Unspecified,
+                    backgroundSelectedActivated = Color.Unspecified,
+                    backgroundFocused = Color.Unspecified,
+                    backgroundPressed = Color.Unspecified,
+                    backgroundHovered = Color.Unspecified,
+                ),
+            darkLinkStyle = LinkStyle.dark(underlineBehavior = LinkUnderlineBehavior.ShowAlways),
+            linkStyleLight = LinkStyle.light(underlineBehavior = LinkUnderlineBehavior.ShowAlways),
+        )
 
     application {
         val textStyle = JewelTheme.createDefaultTextStyle()
         val editorStyle = JewelTheme.createEditorTextStyle()
 
         val themeDefinition =
-            if (MainViewModel.theme.isDark()) {
+            if (mainViewModel.theme.isDark()) {
                 JewelTheme.darkThemeDefinition(defaultTextStyle = textStyle, editorTextStyle = editorStyle)
             } else {
                 JewelTheme.lightThemeDefinition(defaultTextStyle = textStyle, editorTextStyle = editorStyle)
@@ -53,30 +90,30 @@ fun main() {
                 ComponentStyling.default()
                     .decoratedWindow(
                         titleBarStyle =
-                            when (MainViewModel.theme) {
+                            when (mainViewModel.theme) {
                                 IntUiThemes.Light -> TitleBarStyle.light()
                                 IntUiThemes.LightWithLightHeader -> TitleBarStyle.lightWithLightHeader()
                                 IntUiThemes.Dark -> TitleBarStyle.dark()
                                 IntUiThemes.System ->
-                                    if (MainViewModel.theme.isDark()) {
+                                    if (mainViewModel.theme.isDark()) {
                                         TitleBarStyle.dark()
                                     } else {
                                         TitleBarStyle.light()
                                     }
                             }
                     ),
-            swingCompatMode = MainViewModel.swingCompat,
+            swingCompatMode = mainViewModel.swingCompat,
         ) {
             DecoratedWindow(
                 onCloseRequest = { exitApplication() },
                 title = "Jewel standalone sample",
                 icon = icon,
                 onKeyEvent = { keyEvent ->
-                    processKeyShortcuts(keyEvent = keyEvent, onNavigateTo = MainViewModel::onNavigateTo)
+                    processKeyShortcuts(keyEvent = keyEvent, onNavigateTo = mainViewModel::onNavigateTo)
                 },
                 content = {
-                    TitleBarView()
-                    currentView.content()
+                    TitleBarView(mainViewModel)
+                    mainViewModel.currentView.content()
                 },
             )
         }

@@ -9,8 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import java.awt.Desktop
-import java.net.URI
 import org.jetbrains.jewel.samples.showcase.IntUiThemes
 import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
 import org.jetbrains.jewel.samples.showcase.views.forCurrentOs
@@ -24,18 +22,20 @@ import org.jetbrains.jewel.ui.painter.hints.Size
 import org.jetbrains.jewel.window.DecoratedWindowScope
 import org.jetbrains.jewel.window.TitleBar
 import org.jetbrains.jewel.window.newFullscreenControls
+import java.awt.Desktop
+import java.net.URI
 
 @Composable
-fun DecoratedWindowScope.TitleBarView() {
-    TitleBar(Modifier.newFullscreenControls(), gradientStartColor = MainViewModel.projectColor) {
+fun DecoratedWindowScope.TitleBarView(mainViewModel: MainViewModel) {
+    TitleBar(Modifier.newFullscreenControls(), gradientStartColor = mainViewModel.projectColor) {
         Row(Modifier.align(Alignment.Start)) {
             Dropdown(
                 Modifier.height(30.dp),
                 menuContent = {
-                    MainViewModel.views.forEach {
+                    mainViewModel.views.forEach {
                         selectableItem(
-                            selected = MainViewModel.currentView == it,
-                            onClick = { MainViewModel.currentView = it },
+                            selected = mainViewModel.currentView == it,
+                            onClick = { mainViewModel.currentView = it },
                             keybinding = it.keyboardShortcut?.forCurrentOs(),
                         ) {
                             Row(
@@ -57,8 +57,8 @@ fun DecoratedWindowScope.TitleBarView() {
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Icon(MainViewModel.currentView.iconKey, null, hint = Size(20))
-                        Text(MainViewModel.currentView.title)
+                        Icon(mainViewModel.currentView.iconKey, null, hint = Size(20))
+                        Text(mainViewModel.currentView.title)
                     }
                 }
             }
@@ -77,7 +77,7 @@ fun DecoratedWindowScope.TitleBarView() {
             }
 
             Tooltip({
-                when (MainViewModel.theme) {
+                when (mainViewModel.theme) {
                     IntUiThemes.Light -> Text("Switch to light theme with light header")
                     IntUiThemes.LightWithLightHeader -> Text("Switch to dark theme")
                     IntUiThemes.Dark,
@@ -86,8 +86,8 @@ fun DecoratedWindowScope.TitleBarView() {
             }) {
                 IconButton(
                     {
-                        MainViewModel.theme =
-                            when (MainViewModel.theme) {
+                        mainViewModel.theme =
+                            when (mainViewModel.theme) {
                                 IntUiThemes.Light -> IntUiThemes.LightWithLightHeader
                                 IntUiThemes.LightWithLightHeader -> IntUiThemes.Dark
                                 IntUiThemes.Dark,
@@ -96,7 +96,7 @@ fun DecoratedWindowScope.TitleBarView() {
                     },
                     Modifier.size(40.dp).padding(5.dp),
                 ) {
-                    when (MainViewModel.theme) {
+                    when (mainViewModel.theme) {
                         IntUiThemes.Light ->
                             Icon(
                                 key = StandaloneSampleIcons.themeLight,
