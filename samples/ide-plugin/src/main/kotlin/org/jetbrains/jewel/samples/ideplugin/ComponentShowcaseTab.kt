@@ -45,6 +45,7 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.theme.LocalContentColor
 import org.jetbrains.jewel.intui.markdown.bridge.ProvideMarkdownStyling
 import org.jetbrains.jewel.markdown.Markdown
+import org.jetbrains.jewel.samples.showcase.components.Buttons
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.Outline
 import org.jetbrains.jewel.ui.component.CheckboxRow
@@ -223,6 +224,8 @@ private fun RowScope.ColumnOne() {
                 else -> InformationBanner("This is an information banner in Compose")
             }
         }
+
+        Buttons()
     }
 }
 
