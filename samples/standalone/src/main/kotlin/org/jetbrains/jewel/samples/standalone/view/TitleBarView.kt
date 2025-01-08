@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.samples.showcase.IntUiThemes
 import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
+import org.jetbrains.jewel.samples.showcase.views.MainViewModel
 import org.jetbrains.jewel.samples.showcase.views.forCurrentOs
-import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel
 import org.jetbrains.jewel.ui.component.Dropdown
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.IconButton

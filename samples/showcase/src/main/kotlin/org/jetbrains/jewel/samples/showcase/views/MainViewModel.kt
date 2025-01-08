@@ -1,36 +1,22 @@
-package org.jetbrains.jewel.samples.standalone.viewmodel
+package org.jetbrains.jewel.samples.showcase.views
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.jewel.intui.markdown.standalone.dark
-import org.jetbrains.jewel.intui.markdown.standalone.light
-import org.jetbrains.jewel.intui.markdown.standalone.styling.dark
-import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.dark
-import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.light
-import org.jetbrains.jewel.intui.markdown.standalone.styling.light
-import org.jetbrains.jewel.intui.standalone.styling.defaults
-import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
-import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 import org.jetbrains.jewel.samples.showcase.IntUiThemes
 import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
-import org.jetbrains.jewel.samples.showcase.views.ComponentsView
-import org.jetbrains.jewel.samples.showcase.views.ComponentsViewModel
-import org.jetbrains.jewel.samples.showcase.views.KeyBinding
-import org.jetbrains.jewel.samples.showcase.views.MarkdownDemo
-import org.jetbrains.jewel.samples.showcase.views.ViewInfo
-import org.jetbrains.jewel.samples.showcase.views.WelcomeView
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 
-class MainViewModel(
+public class MainViewModel(
     scrollbarDark: ScrollbarStyle,
     scrollbarLight: ScrollbarStyle,
     alwaysVisibleScrollbarVisibility: ScrollbarVisibility.AlwaysVisible,
@@ -39,12 +25,17 @@ class MainViewModel(
     textFieldIconColorsLight: IconButtonColors,
     darkLinkStyle: LinkStyle,
     linkStyleLight: LinkStyle,
+    iconButtonMetrics: IconButtonMetrics,
+    markdownStylingDark: MarkdownStyling,
+    markdownDarkRenderer: MarkdownBlockRenderer,
+    markdownStylingLight: MarkdownStyling,
+    markdownLightRenderer: MarkdownBlockRenderer,
 ) {
     private val componentsViewModel: ComponentsViewModel =
         ComponentsViewModel(
             darkLinkStyle = darkLinkStyle,
             linkStyleLight = linkStyleLight,
-            iconButtonMetrics = IconButtonMetrics.defaults(),
+            iconButtonMetrics = iconButtonMetrics,
             scrollbarDark = scrollbarDark,
             scrollbarLight = scrollbarLight,
             alwaysVisibleScrollbarVisibility = alwaysVisibleScrollbarVisibility,
@@ -53,15 +44,15 @@ class MainViewModel(
             textFieldIconColorsLight = textFieldIconColorsLight,
         )
 
-    fun onNavigateTo(destination: String) {
+    public fun onNavigateTo(destination: String) {
         currentView = views.first { viewInfo -> viewInfo.title == destination }
     }
 
-    var theme: IntUiThemes by mutableStateOf(IntUiThemes.Light)
+    public var theme: IntUiThemes by mutableStateOf(IntUiThemes.Light)
 
-    var swingCompat: Boolean by mutableStateOf(false)
+    public var swingCompat: Boolean by mutableStateOf(false)
 
-    val projectColor
+    public val projectColor: Color
         get() = if (theme.isLightHeader()) Color(0xFFF5D4C1) else Color(0xFF654B40)
 
     private val mainMenuItems =
@@ -92,24 +83,14 @@ class MainViewModel(
                     KeyBinding(macOs = setOf("⌥", "M"), windows = setOf("Alt", "M"), linux = setOf("Alt", "M")),
                 content = {
                     MarkdownDemo(
-                        darkStyling = MarkdownStyling.dark(),
-                        darkRenderer =
-                            MarkdownBlockRenderer.dark(
-                                styling = MarkdownStyling.dark(),
-                                rendererExtensions =
-                                    listOf(GitHubAlertRendererExtension(AlertStyling.dark(), MarkdownStyling.dark())),
-                            ),
-                        lightStyling = MarkdownStyling.light(),
-                        lightRenderer =
-                            MarkdownBlockRenderer.light(
-                                styling = MarkdownStyling.light(),
-                                rendererExtensions =
-                                    listOf(GitHubAlertRendererExtension(AlertStyling.light(), MarkdownStyling.light())),
-                            ),
+                        darkStyling = markdownStylingDark,
+                        darkRenderer = markdownDarkRenderer,
+                        lightStyling = markdownStylingLight,
+                        lightRenderer = markdownLightRenderer,
                     )
                 },
             ),
         )
-    val views = mainMenuItems
-    var currentView by mutableStateOf(views.first())
+    public val views: SnapshotStateList<ViewInfo> = mainMenuItems
+    public var currentView: ViewInfo by mutableStateOf(views.first())
 }

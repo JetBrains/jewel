@@ -14,8 +14,15 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.foundation.util.JewelLogger
+import org.jetbrains.jewel.intui.markdown.standalone.dark
+import org.jetbrains.jewel.intui.markdown.standalone.light
+import org.jetbrains.jewel.intui.markdown.standalone.styling.dark
+import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.dark
+import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.light
+import org.jetbrains.jewel.intui.markdown.standalone.styling.light
 import org.jetbrains.jewel.intui.standalone.styling.dark
 import org.jetbrains.jewel.intui.standalone.styling.default
+import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.theme.createDefaultTextStyle
@@ -27,11 +34,16 @@ import org.jetbrains.jewel.intui.window.decoratedWindow
 import org.jetbrains.jewel.intui.window.styling.dark
 import org.jetbrains.jewel.intui.window.styling.light
 import org.jetbrains.jewel.intui.window.styling.lightWithLightHeader
+import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
+import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
+import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
+import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 import org.jetbrains.jewel.samples.showcase.IntUiThemes
+import org.jetbrains.jewel.samples.showcase.views.MainViewModel
 import org.jetbrains.jewel.samples.standalone.view.TitleBarView
-import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel
 import org.jetbrains.jewel.ui.ComponentStyling
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
+import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
@@ -71,6 +83,19 @@ fun main() {
                 ),
             darkLinkStyle = LinkStyle.dark(underlineBehavior = LinkUnderlineBehavior.ShowAlways),
             linkStyleLight = LinkStyle.light(underlineBehavior = LinkUnderlineBehavior.ShowAlways),
+            iconButtonMetrics = IconButtonMetrics.defaults(),
+            markdownStylingDark = MarkdownStyling.dark(),
+            markdownDarkRenderer = MarkdownBlockRenderer.dark(
+                styling = MarkdownStyling.dark(),
+                rendererExtensions =
+                listOf(GitHubAlertRendererExtension(AlertStyling.dark(), MarkdownStyling.dark())),
+            ),
+            markdownStylingLight = MarkdownStyling.light(),
+            markdownLightRenderer = MarkdownBlockRenderer.light(
+                styling = MarkdownStyling.light(),
+                rendererExtensions =
+                listOf(GitHubAlertRendererExtension(AlertStyling.light(), MarkdownStyling.light())),
+            )
         )
 
     application {
