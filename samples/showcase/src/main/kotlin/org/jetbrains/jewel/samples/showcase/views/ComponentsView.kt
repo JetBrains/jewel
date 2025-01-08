@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.standalone.view
+package org.jetbrains.jewel.samples.showcase.views
 
 import androidx.compose.foundation.TooltipPlacement
 import androidx.compose.foundation.background
@@ -16,11 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.foundation.modifier.trackActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.samples.standalone.viewmodel.ComponentsViewModel
-import org.jetbrains.jewel.samples.standalone.viewmodel.ViewInfo
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.SelectableIconActionButton
@@ -30,25 +27,26 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.painter.hints.Size
 import org.jetbrains.jewel.ui.theme.tooltipStyle
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun ComponentsView() {
+public fun ComponentsView(viewModel: ComponentsViewModel) {
     Row(Modifier.trackActivation().fillMaxSize().background(JewelTheme.globalColors.panelBackground)) {
-        ComponentsToolBar()
+        ComponentsToolBar(viewModel)
         Divider(Orientation.Vertical, Modifier.fillMaxHeight())
-        ComponentView(ComponentsViewModel.currentView)
+        ComponentView(viewModel.currentView)
     }
 }
 
 @Composable
-fun ComponentsToolBar() {
+public fun ComponentsToolBar(viewModel: ComponentsViewModel) {
     Column(Modifier.fillMaxHeight().width(40.dp).verticalScroll(rememberScrollState())) {
-        ComponentsViewModel.views.forEach {
+        viewModel.views.forEach {
             SelectableIconActionButton(
                 key = it.iconKey,
                 contentDescription = "Show ${it.title}",
-                selected = ComponentsViewModel.currentView == it,
-                onClick = { ComponentsViewModel.currentView = it },
+                selected = viewModel.currentView == it,
+                onClick = { viewModel.currentView = it },
                 modifier = Modifier.size(40.dp).padding(5.dp),
                 tooltip = { Text(it.title) },
                 tooltipStyle =
@@ -61,7 +59,7 @@ fun ComponentsToolBar() {
 }
 
 @Composable
-fun ComponentView(view: ViewInfo) {
+public fun ComponentView(view: ViewInfo) {
     Column(Modifier.fillMaxSize().padding(24.dp), verticalArrangement = Arrangement.spacedBy(24.dp)) {
         Text(view.title, style = Typography.h1TextStyle())
         view.content()

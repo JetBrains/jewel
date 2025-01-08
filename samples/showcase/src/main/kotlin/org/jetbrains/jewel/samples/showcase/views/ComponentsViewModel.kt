@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.standalone.viewmodel
+package org.jetbrains.jewel.samples.showcase.views
 
 import SplitLayouts
 import androidx.compose.runtime.getValue
@@ -6,11 +6,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.graphics.Color
-import org.jetbrains.jewel.intui.standalone.styling.dark
-import org.jetbrains.jewel.intui.standalone.styling.default
-import org.jetbrains.jewel.intui.standalone.styling.defaults
-import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.samples.showcase.components.Banners
 import org.jetbrains.jewel.samples.showcase.components.Borders
 import org.jetbrains.jewel.samples.showcase.components.Buttons
@@ -33,16 +28,25 @@ import org.jetbrains.jewel.ui.component.SplitLayoutState
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
-import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 
-object ComponentsViewModel {
+public class ComponentsViewModel(
+    darkLinkStyle: LinkStyle,
+    linkStyleLight: LinkStyle,
+    iconButtonMetrics: IconButtonMetrics,
+    scrollbarDark: ScrollbarStyle,
+    scrollbarLight: ScrollbarStyle,
+    alwaysVisibleScrollbarVisibility: ScrollbarVisibility.AlwaysVisible,
+    whenScrollingScrollbarVisibility: ScrollbarVisibility.WhenScrolling,
+    textFieldIconColorsDark: IconButtonColors,
+    textFieldIconColorsLight: IconButtonColors,
+) {
     private var outerSplitState by mutableStateOf(SplitLayoutState(0.5f))
     private var verticalSplitState by mutableStateOf(SplitLayoutState(0.5f))
     private var innerSplitState by mutableStateOf(SplitLayoutState(0.5f))
 
-    val views: SnapshotStateList<ViewInfo> =
+    public val views: SnapshotStateList<ViewInfo> =
         mutableStateListOf(
             ViewInfo(title = "Buttons", iconKey = StandaloneSampleIcons.Components.button, content = { Buttons() }),
             ViewInfo(
@@ -74,11 +78,7 @@ object ComponentsViewModel {
             ViewInfo(
                 title = "Links",
                 iconKey = StandaloneSampleIcons.Components.links,
-                content = {
-                    val dark = LinkStyle.dark(underlineBehavior = LinkUnderlineBehavior.ShowAlways)
-                    val light = LinkStyle.light(underlineBehavior = LinkUnderlineBehavior.ShowAlways)
-                    Links(dark, light)
-                },
+                content = { Links(darkLinkStyle, linkStyleLight) },
             ),
             ViewInfo(title = "Borders", iconKey = StandaloneSampleIcons.Components.borders, content = { Borders() }),
             ViewInfo(
@@ -98,41 +98,16 @@ object ComponentsViewModel {
                 title = "TextFields",
                 iconKey = StandaloneSampleIcons.Components.textField,
                 content = {
-                    val iconMetrics = IconButtonMetrics.defaults()
-                    val iconColorsDark =
-                        IconButtonColors.dark(
-                            background = Color.Unspecified,
-                            backgroundDisabled = Color.Unspecified,
-                            backgroundSelected = Color.Unspecified,
-                            backgroundSelectedActivated = Color.Unspecified,
-                            backgroundFocused = Color.Unspecified,
-                            backgroundPressed = Color.Unspecified,
-                            backgroundHovered = Color.Unspecified,
-                        )
-                    val iconColorsLight =
-                        IconButtonColors.light(
-                            background = Color.Unspecified,
-                            backgroundDisabled = Color.Unspecified,
-                            backgroundSelected = Color.Unspecified,
-                            backgroundSelectedActivated = Color.Unspecified,
-                            backgroundFocused = Color.Unspecified,
-                            backgroundPressed = Color.Unspecified,
-                            backgroundHovered = Color.Unspecified,
-                        )
-                    TextFields(iconMetrics, iconColorsDark, iconColorsLight)
+                    TextFields(iconButtonMetrics, textFieldIconColorsDark, textFieldIconColorsLight)
                 },
             ),
             ViewInfo(
                 title = "Scrollbars",
                 iconKey = StandaloneSampleIcons.Components.scrollbar,
                 content = {
-                    val dark = ScrollbarStyle.dark()
-                    val light = ScrollbarStyle.light()
-                    val alwaysVisibleScrollbarVisibility = ScrollbarVisibility.AlwaysVisible.default()
-                    val whenScrollingScrollbarVisibility = ScrollbarVisibility.WhenScrolling.default()
                     Scrollbars(
-                        dark = dark,
-                        light = light,
+                        dark = scrollbarDark,
+                        light = scrollbarLight,
                         alwaysVisibleScrollbarVisibility = alwaysVisibleScrollbarVisibility,
                         whenScrollingScrollbarVisibility = whenScrollingScrollbarVisibility,
                     )
@@ -151,5 +126,5 @@ object ComponentsViewModel {
             ),
             ViewInfo(title = "Banners", iconKey = StandaloneSampleIcons.Components.banners, content = { Banners() }),
         )
-    var currentView by mutableStateOf(views.first())
+    public var currentView: ViewInfo by mutableStateOf(views.first())
 }
