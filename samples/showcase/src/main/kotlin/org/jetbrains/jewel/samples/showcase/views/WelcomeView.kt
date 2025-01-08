@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.standalone.view
+package org.jetbrains.jewel.samples.showcase.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,9 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.foundation.modifier.trackActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.samples.showcase.IntUiThemes
 import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
-import org.jetbrains.jewel.samples.standalone.IntUiThemes
-import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel
 import org.jetbrains.jewel.ui.component.CheckboxRow
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.RadioButtonChip
@@ -28,7 +27,12 @@ import org.jetbrains.jewel.ui.painter.hints.Selected
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun WelcomeView() {
+public fun WelcomeView(
+    isSwingCompat: Boolean,
+    swingCompatChecked: (Boolean) -> Unit,
+    mainTheme: IntUiThemes,
+    onThemeChange: (IntUiThemes) -> Unit,
+) {
     Column(
         modifier =
             Modifier.trackActivation().fillMaxSize().background(JewelTheme.globalColors.panelBackground).padding(24.dp),
@@ -45,25 +49,45 @@ fun WelcomeView() {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                ThemeSelectionChip(IntUiThemes.Dark, "Dark", StandaloneSampleIcons.themeDark)
-
-                ThemeSelectionChip(IntUiThemes.Light, "Light", StandaloneSampleIcons.themeLight)
-
                 ThemeSelectionChip(
-                    IntUiThemes.LightWithLightHeader,
-                    "Light with Light Header",
-                    StandaloneSampleIcons.themeLightWithLightHeader,
+                    mainTheme = mainTheme,
+                    theme = IntUiThemes.Dark,
+                    name = "Dark",
+                    iconKey = StandaloneSampleIcons.themeDark,
+                    onThemeChange = onThemeChange
                 )
 
-                ThemeSelectionChip(IntUiThemes.System, "System", StandaloneSampleIcons.themeSystem)
+                ThemeSelectionChip(
+                    mainTheme,
+                    IntUiThemes.Light,
+                    "Light",
+                    StandaloneSampleIcons.themeLight,
+                    onThemeChange,
+                )
+
+                ThemeSelectionChip(
+                    mainTheme = mainTheme,
+                    theme = IntUiThemes.LightWithLightHeader,
+                    name = "Light with Light Header",
+                    iconKey = StandaloneSampleIcons.themeLightWithLightHeader,
+                    onThemeChange = { onThemeChange(it) },
+                )
+
+                ThemeSelectionChip(
+                    mainTheme = mainTheme,
+                    theme = IntUiThemes.System,
+                    name = "System",
+                    iconKey = StandaloneSampleIcons.themeSystem,
+                    onThemeChange = onThemeChange,
+                )
             }
         }
 
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             CheckboxRow(
                 text = "Swing compatibility",
-                checked = MainViewModel.swingCompat,
-                onCheckedChange = { MainViewModel.swingCompat = it },
+                checked = isSwingCompat,
+                onCheckedChange = { swingCompatChecked(it) },
                 colors = LocalCheckboxStyle.current.colors,
                 metrics = LocalCheckboxStyle.current.metrics,
                 icons = LocalCheckboxStyle.current.icons,
@@ -73,17 +97,19 @@ fun WelcomeView() {
 }
 
 @Composable
-fun ThemeSelectionChip(theme: IntUiThemes, name: String, iconKey: IconKey) {
-    RadioButtonChip(
-        selected = MainViewModel.theme == theme,
-        onClick = { MainViewModel.theme = theme },
-        enabled = true,
-    ) {
+public fun ThemeSelectionChip(
+    mainTheme: IntUiThemes,
+    theme: IntUiThemes,
+    name: String,
+    iconKey: IconKey,
+    onThemeChange: (IntUiThemes) -> Unit,
+) {
+    RadioButtonChip(selected = mainTheme == theme, onClick = { onThemeChange(theme) }, enabled = true) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(5.dp),
             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
         ) {
-            Icon(iconKey, name, hint = Selected(MainViewModel.theme == theme))
+            Icon(iconKey, name, hint = Selected(mainTheme == theme))
             Text(name)
         }
     }

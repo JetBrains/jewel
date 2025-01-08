@@ -19,15 +19,17 @@ import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
+import org.jetbrains.jewel.samples.showcase.IntUiThemes
 import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
 import org.jetbrains.jewel.samples.showcase.views.ComponentsView
 import org.jetbrains.jewel.samples.showcase.views.ComponentsViewModel
 import org.jetbrains.jewel.samples.showcase.views.KeyBinding
 import org.jetbrains.jewel.samples.showcase.views.MarkdownDemo
 import org.jetbrains.jewel.samples.showcase.views.ViewInfo
-import org.jetbrains.jewel.samples.standalone.IntUiThemes
-import org.jetbrains.jewel.samples.standalone.view.WelcomeView
+import org.jetbrains.jewel.samples.showcase.views.WelcomeView
 import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel.componentsViewModel
+import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel.swingCompat
+import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel.theme
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
@@ -102,7 +104,14 @@ private val mainMenuItems =
             title = "Welcome",
             iconKey = StandaloneSampleIcons.welcome,
             keyboardShortcut = KeyBinding(macOs = setOf("⌥", "W"), windows = setOf("Alt", "W")),
-            content = { WelcomeView() },
+            content = {
+                WelcomeView(
+                    isSwingCompat = swingCompat,
+                    swingCompatChecked = { swingCompat = it },
+                    mainTheme = theme,
+                    onThemeChange = { theme = it },
+                )
+            },
         ),
         ViewInfo(
             title = "Components",
