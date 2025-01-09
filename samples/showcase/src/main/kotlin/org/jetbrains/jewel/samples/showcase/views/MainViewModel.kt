@@ -35,8 +35,6 @@ public class MainViewModel(
 ) {
     private val componentsViewModel: ComponentsViewModel =
         ComponentsViewModel(
-            darkLinkStyle = darkLinkStyle,
-            linkStyleLight = linkStyleLight,
             iconButtonMetrics = iconButtonMetrics,
             scrollbarDark = scrollbarDark,
             scrollbarLight = scrollbarLight,
@@ -78,7 +76,7 @@ public class MainViewModel(
                 title = "Components",
                 iconKey = StandaloneSampleIcons.componentsMenu,
                 keyboardShortcut = KeyBinding(macOs = setOf("⌥", "C"), windows = setOf("Alt", "C")),
-                content = { ComponentsView(viewModel = componentsViewModel) },
+                content = { componentsViewModel.ComponentsView() },
             ),
             ViewInfo(
                 title = "Markdown",

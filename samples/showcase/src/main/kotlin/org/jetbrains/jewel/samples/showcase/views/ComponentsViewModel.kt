@@ -27,13 +27,10 @@ import org.jetbrains.jewel.samples.showcase.components.Tooltips
 import org.jetbrains.jewel.ui.component.SplitLayoutState
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
-import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 
 public class ComponentsViewModel(
-    darkLinkStyle: LinkStyle,
-    linkStyleLight: LinkStyle,
     iconButtonMetrics: IconButtonMetrics,
     scrollbarDark: ScrollbarStyle,
     scrollbarLight: ScrollbarStyle,
@@ -78,7 +75,7 @@ public class ComponentsViewModel(
             ViewInfo(
                 title = "Links",
                 iconKey = StandaloneSampleIcons.Components.links,
-                content = { Links(darkLinkStyle, linkStyleLight) },
+                content = { Links() },
             ),
             ViewInfo(title = "Borders", iconKey = StandaloneSampleIcons.Components.borders, content = { Borders() }),
             ViewInfo(
