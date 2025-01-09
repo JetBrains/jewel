@@ -19,6 +19,8 @@ dependencies {
     implementation(compose.components.resources)
     implementation(project(":samples:showcase"))
     implementation(libs.intellijPlatform.icons)
+    implementation("io.github.vinceglb:filekit-compose:0.8.8")
+
     testImplementation(compose.desktop.uiTestJUnit4)
     testImplementation(compose.desktop.currentOs) { exclude(group = "org.jetbrains.compose.material") }
 }

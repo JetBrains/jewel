@@ -8,6 +8,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
+import org.jetbrains.jewel.samples.showcase.FileChooser
 import org.jetbrains.jewel.samples.showcase.IntUiThemes
 import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
@@ -30,6 +31,7 @@ public class MainViewModel(
     markdownDarkRenderer: MarkdownBlockRenderer,
     markdownStylingLight: MarkdownStyling,
     markdownLightRenderer: MarkdownBlockRenderer,
+    fileChooser: FileChooser,
 ) {
     private val componentsViewModel: ComponentsViewModel =
         ComponentsViewModel(
@@ -51,6 +53,8 @@ public class MainViewModel(
     public var theme: IntUiThemes by mutableStateOf(IntUiThemes.Light)
 
     public var swingCompat: Boolean by mutableStateOf(false)
+
+    public var fileContent: String by mutableStateOf("")
 
     public val projectColor: Color
         get() = if (theme.isLightHeader()) Color(0xFFF5D4C1) else Color(0xFF654B40)
@@ -87,6 +91,7 @@ public class MainViewModel(
                         darkRenderer = markdownDarkRenderer,
                         lightStyling = markdownStylingLight,
                         lightRenderer = markdownLightRenderer,
+                        fileChooser = fileChooser,
                     )
                 },
             ),

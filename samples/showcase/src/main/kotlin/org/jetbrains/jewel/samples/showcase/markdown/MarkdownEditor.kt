@@ -20,9 +20,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.darkrockstudios.libraries.mpfilepicker.FilePicker
-import com.darkrockstudios.libraries.mpfilepicker.JvmFile
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.samples.showcase.FileChooser
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.ListComboBox
@@ -33,11 +32,13 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.theme.simpleListItemStyle
 
-@Composable public fun MarkdownEditor(state: TextFieldState, modifier: Modifier = Modifier) {
+@Composable
+public fun MarkdownEditor(state: TextFieldState, modifier: Modifier = Modifier, fileChooser: FileChooser) {
     Column(modifier) {
         ControlsRow(
             modifier = Modifier.fillMaxWidth().background(JewelTheme.globalColors.panelBackground).padding(8.dp),
             onLoadMarkdown = { state.edit { replace(0, length, it) } },
+            fileChooser = fileChooser,
         )
         Divider(orientation = Orientation.Horizontal, Modifier.fillMaxWidth())
         Editor(state = state, modifier = Modifier.fillMaxWidth().weight(1f))
@@ -45,26 +46,17 @@ import org.jetbrains.jewel.ui.theme.simpleListItemStyle
 }
 
 @Composable
-private fun ControlsRow(modifier: Modifier = Modifier, onLoadMarkdown: (String) -> Unit) {
+private fun ControlsRow(fileChooser: FileChooser, modifier: Modifier = Modifier, onLoadMarkdown: (String) -> Unit) {
     Row(
         modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        var showFilePicker by remember { mutableStateOf(false) }
-        OutlinedButton(onClick = { showFilePicker = true }, modifier = Modifier.padding(start = 2.dp)) {
+        OutlinedButton(
+            onClick = { onLoadMarkdown(fileChooser.readFileAsText()) },
+            modifier = Modifier.padding(start = 2.dp),
+        ) {
             Text("Load file...")
-        }
-
-        FilePicker(show = showFilePicker, fileExtensions = listOf("md")) { platformFile ->
-            showFilePicker = false
-
-            if (platformFile != null) {
-                val jvmFile = platformFile as JvmFile
-                val contents = jvmFile.platformFile.readText()
-
-                onLoadMarkdown(contents)
-            }
         }
 
         OutlinedButton(onClick = { onLoadMarkdown("") }) { Text("Clear") }

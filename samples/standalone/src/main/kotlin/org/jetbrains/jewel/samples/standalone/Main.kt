@@ -10,6 +10,10 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.window.application
+import io.github.vinceglb.filekit.core.FileKit
+import io.github.vinceglb.filekit.core.PickerMode
+import io.github.vinceglb.filekit.core.PickerType
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -38,6 +42,7 @@ import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
+import org.jetbrains.jewel.samples.showcase.FileChooser
 import org.jetbrains.jewel.samples.showcase.IntUiThemes
 import org.jetbrains.jewel.samples.showcase.views.MainViewModel
 import org.jetbrains.jewel.samples.standalone.view.TitleBarView
@@ -51,9 +56,8 @@ import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 
-fun main() {
+suspend fun main() {
     JewelLogger.getInstance("StandaloneSample").info("Starting Jewel Standalone sample")
-
     val icon = svgResource("icons/jewel-logo.svg")
     val mainViewModel =
         MainViewModel(
@@ -85,17 +89,28 @@ fun main() {
             linkStyleLight = LinkStyle.light(underlineBehavior = LinkUnderlineBehavior.ShowAlways),
             iconButtonMetrics = IconButtonMetrics.defaults(),
             markdownStylingDark = MarkdownStyling.dark(),
-            markdownDarkRenderer = MarkdownBlockRenderer.dark(
-                styling = MarkdownStyling.dark(),
-                rendererExtensions =
-                listOf(GitHubAlertRendererExtension(AlertStyling.dark(), MarkdownStyling.dark())),
-            ),
+            markdownDarkRenderer =
+                MarkdownBlockRenderer.dark(
+                    styling = MarkdownStyling.dark(),
+                    rendererExtensions =
+                        listOf(GitHubAlertRendererExtension(AlertStyling.dark(), MarkdownStyling.dark())),
+                ),
             markdownStylingLight = MarkdownStyling.light(),
-            markdownLightRenderer = MarkdownBlockRenderer.light(
-                styling = MarkdownStyling.light(),
-                rendererExtensions =
-                listOf(GitHubAlertRendererExtension(AlertStyling.light(), MarkdownStyling.light())),
-            )
+            markdownLightRenderer =
+                MarkdownBlockRenderer.light(
+                    styling = MarkdownStyling.light(),
+                    rendererExtensions =
+                        listOf(GitHubAlertRendererExtension(AlertStyling.light(), MarkdownStyling.light())),
+                ),
+            fileChooser =
+                object : FileChooser {
+                    override fun readFileAsText(): String = runBlocking {
+                        FileKit.pickFile(type = PickerType.File(extensions = listOf("md")), mode = PickerMode.Single)
+                            ?.file
+                            ?.readText()
+                            .toString()
+                    }
+                },
         )
 
     application {

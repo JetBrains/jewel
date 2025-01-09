@@ -17,7 +17,6 @@ dependencies {
     implementation(projects.markdown.core)
     implementation(projects.markdown.extension.gfmAlerts)
     implementation(projects.markdown.extension.autolink)
-    implementation("com.darkrockstudios:mpfilepicker:3.1.0")
 
     testImplementation(compose.desktop.uiTestJUnit4)
     testImplementation(compose.desktop.currentOs) { exclude(group = "org.jetbrains.compose.material") }

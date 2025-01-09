@@ -11,6 +11,7 @@ import org.jetbrains.jewel.foundation.modifier.trackActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
+import org.jetbrains.jewel.samples.showcase.FileChooser
 import org.jetbrains.jewel.samples.showcase.markdown.JewelReadme
 import org.jetbrains.jewel.samples.showcase.markdown.MarkdownEditor
 import org.jetbrains.jewel.samples.showcase.markdown.MarkdownPreview
@@ -23,10 +24,15 @@ public fun MarkdownDemo(
     darkRenderer: MarkdownBlockRenderer,
     lightStyling: MarkdownStyling,
     lightRenderer: MarkdownBlockRenderer,
+    fileChooser: FileChooser,
 ) {
     Row(Modifier.trackActivation().fillMaxSize().background(JewelTheme.globalColors.panelBackground)) {
         val editorState = rememberTextFieldState(JewelReadme)
-        MarkdownEditor(state = editorState, modifier = Modifier.fillMaxHeight().weight(1f))
+        MarkdownEditor(
+            state = editorState,
+            modifier = Modifier.fillMaxHeight().weight(1f),
+            fileChooser = fileChooser,
+        )
 
         Divider(Orientation.Vertical, Modifier.fillMaxHeight())
 
