@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.intellij.ide.ui.laf.darcula.ui.DarculaButtonUI
 import com.intellij.openapi.ui.ComboBox
+import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.JBColor
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBScrollPane
@@ -42,10 +43,6 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
 import icons.IdeSampleIconKeys
 import icons.JewelIcons
-import javax.swing.BoxLayout
-import javax.swing.DefaultComboBoxModel
-import javax.swing.JLabel
-import javax.swing.JPanel
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -61,10 +58,28 @@ import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
 import org.jetbrains.jewel.ui.theme.simpleListItemStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
+import java.awt.BorderLayout
+import java.awt.Dimension
+import javax.swing.BoxLayout
+import javax.swing.DefaultComboBoxModel
+import javax.swing.JButton
+import javax.swing.JComponent
+import javax.swing.JLabel
+import javax.swing.JPanel
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
+    private val testButton =
+        JButton("Open Dialog").apply {
+            addActionListener {
+                if (ComponentShowcaseDialog().showAndGet()) {
+                    // user pressed OK
+                }
+            }
+        }
     private val mainContent =
         panel {
+                row { cell(testButton) }
+                separator()
                 buttonsRow()
                 separator()
                 labelsRows()
@@ -399,4 +414,19 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
 
     private fun Row.compose(modifier: Modifier = Modifier.padding(8.dp), content: @Composable () -> Unit) =
         cell(JewelComposePanel { Box(modifier) { content() } }.apply { isOpaque = false })
+}
+
+private class ComponentShowcaseDialog : DialogWrapper(true) {
+    init {
+        title = "Component Showcase"
+        init()
+    }
+
+    override fun createCenterPanel(): JComponent {
+        val dialogPanel = JPanel(BorderLayout())
+        val label = JLabel("Component Showcase")
+        label.preferredSize = Dimension(600, 600)
+        dialogPanel.add(label, BorderLayout.CENTER)
+        return dialogPanel
+    }
 }
