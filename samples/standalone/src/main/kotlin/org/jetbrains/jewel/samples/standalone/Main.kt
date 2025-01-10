@@ -1,6 +1,5 @@
 package org.jetbrains.jewel.samples.standalone
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
@@ -26,7 +25,6 @@ import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.a
 import org.jetbrains.jewel.intui.markdown.standalone.styling.light
 import org.jetbrains.jewel.intui.standalone.styling.dark
 import org.jetbrains.jewel.intui.standalone.styling.default
-import org.jetbrains.jewel.intui.standalone.styling.defaults
 import org.jetbrains.jewel.intui.standalone.styling.light
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
 import org.jetbrains.jewel.intui.standalone.theme.createDefaultTextStyle
@@ -47,47 +45,18 @@ import org.jetbrains.jewel.samples.showcase.IntUiThemes
 import org.jetbrains.jewel.samples.showcase.views.MainViewModel
 import org.jetbrains.jewel.samples.standalone.view.TitleBarView
 import org.jetbrains.jewel.ui.ComponentStyling
-import org.jetbrains.jewel.ui.component.styling.IconButtonColors
-import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
-import org.jetbrains.jewel.ui.component.styling.LinkStyle
-import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.window.DecoratedWindow
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 
-suspend fun main() {
+fun main() {
     JewelLogger.getInstance("StandaloneSample").info("Starting Jewel Standalone sample")
     val icon = svgResource("icons/jewel-logo.svg")
     val mainViewModel =
         MainViewModel(
-            scrollbarDark = ScrollbarStyle.dark(),
-            scrollbarLight = ScrollbarStyle.light(),
             alwaysVisibleScrollbarVisibility = ScrollbarVisibility.AlwaysVisible.default(),
             whenScrollingScrollbarVisibility = ScrollbarVisibility.WhenScrolling.default(),
-            textFieldIconColorsDark =
-                IconButtonColors.dark(
-                    background = Color.Unspecified,
-                    backgroundDisabled = Color.Unspecified,
-                    backgroundSelected = Color.Unspecified,
-                    backgroundSelectedActivated = Color.Unspecified,
-                    backgroundFocused = Color.Unspecified,
-                    backgroundPressed = Color.Unspecified,
-                    backgroundHovered = Color.Unspecified,
-                ),
-            textFieldIconColorsLight =
-                IconButtonColors.light(
-                    background = Color.Unspecified,
-                    backgroundDisabled = Color.Unspecified,
-                    backgroundSelected = Color.Unspecified,
-                    backgroundSelectedActivated = Color.Unspecified,
-                    backgroundFocused = Color.Unspecified,
-                    backgroundPressed = Color.Unspecified,
-                    backgroundHovered = Color.Unspecified,
-                ),
-            darkLinkStyle = LinkStyle.dark(underlineBehavior = LinkUnderlineBehavior.ShowAlways),
-            linkStyleLight = LinkStyle.light(underlineBehavior = LinkUnderlineBehavior.ShowAlways),
-            iconButtonMetrics = IconButtonMetrics.defaults(),
             markdownStylingDark = MarkdownStyling.dark(),
             markdownDarkRenderer =
                 MarkdownBlockRenderer.dark(

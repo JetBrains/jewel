@@ -25,19 +25,12 @@ import org.jetbrains.jewel.samples.showcase.components.TextAreas
 import org.jetbrains.jewel.samples.showcase.components.TextFields
 import org.jetbrains.jewel.samples.showcase.components.Tooltips
 import org.jetbrains.jewel.ui.component.SplitLayoutState
-import org.jetbrains.jewel.ui.component.styling.IconButtonColors
-import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 
 public class ComponentsViewModel(
-    iconButtonMetrics: IconButtonMetrics,
-    scrollbarDark: ScrollbarStyle,
-    scrollbarLight: ScrollbarStyle,
     alwaysVisibleScrollbarVisibility: ScrollbarVisibility.AlwaysVisible,
     whenScrollingScrollbarVisibility: ScrollbarVisibility.WhenScrolling,
-    textFieldIconColorsDark: IconButtonColors,
-    textFieldIconColorsLight: IconButtonColors,
 ) {
     private var outerSplitState by mutableStateOf(SplitLayoutState(0.5f))
     private var verticalSplitState by mutableStateOf(SplitLayoutState(0.5f))
@@ -94,17 +87,13 @@ public class ComponentsViewModel(
             ViewInfo(
                 title = "TextFields",
                 iconKey = StandaloneSampleIcons.Components.textField,
-                content = {
-                    TextFields(iconButtonMetrics, textFieldIconColorsDark, textFieldIconColorsLight)
-                },
+                content = { TextFields() },
             ),
             ViewInfo(
                 title = "Scrollbars",
                 iconKey = StandaloneSampleIcons.Components.scrollbar,
                 content = {
                     Scrollbars(
-                        dark = scrollbarDark,
-                        light = scrollbarLight,
                         alwaysVisibleScrollbarVisibility = alwaysVisibleScrollbarVisibility,
                         whenScrollingScrollbarVisibility = whenScrollingScrollbarVisibility,
                     )

@@ -11,22 +11,12 @@ import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
 import org.jetbrains.jewel.samples.showcase.FileChooser
 import org.jetbrains.jewel.samples.showcase.IntUiThemes
 import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
-import org.jetbrains.jewel.ui.component.styling.IconButtonColors
-import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
-import org.jetbrains.jewel.ui.component.styling.LinkStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 
 public class MainViewModel(
-    scrollbarDark: ScrollbarStyle,
-    scrollbarLight: ScrollbarStyle,
     alwaysVisibleScrollbarVisibility: ScrollbarVisibility.AlwaysVisible,
     whenScrollingScrollbarVisibility: ScrollbarVisibility.WhenScrolling,
-    textFieldIconColorsDark: IconButtonColors,
-    textFieldIconColorsLight: IconButtonColors,
-    darkLinkStyle: LinkStyle,
-    linkStyleLight: LinkStyle,
-    iconButtonMetrics: IconButtonMetrics,
     markdownStylingDark: MarkdownStyling,
     markdownDarkRenderer: MarkdownBlockRenderer,
     markdownStylingLight: MarkdownStyling,
@@ -35,13 +25,8 @@ public class MainViewModel(
 ) {
     private val componentsViewModel: ComponentsViewModel =
         ComponentsViewModel(
-            iconButtonMetrics = iconButtonMetrics,
-            scrollbarDark = scrollbarDark,
-            scrollbarLight = scrollbarLight,
             alwaysVisibleScrollbarVisibility = alwaysVisibleScrollbarVisibility,
             whenScrollingScrollbarVisibility = whenScrollingScrollbarVisibility,
-            textFieldIconColorsDark = textFieldIconColorsDark,
-            textFieldIconColorsLight = textFieldIconColorsLight,
         )
 
     public fun onNavigateTo(destination: String) {
@@ -76,7 +61,7 @@ public class MainViewModel(
                 title = "Components",
                 iconKey = StandaloneSampleIcons.componentsMenu,
                 keyboardShortcut = KeyBinding(macOs = setOf("⌥", "C"), windows = setOf("Alt", "C")),
-                content = { componentsViewModel.ComponentsView() },
+                content = { ComponentsView(componentsViewModel) },
             ),
             ViewInfo(
                 title = "Markdown",

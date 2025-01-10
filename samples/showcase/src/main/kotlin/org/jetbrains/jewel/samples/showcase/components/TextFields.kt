@@ -37,20 +37,17 @@ import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.hints.Stateful
+import org.jetbrains.jewel.ui.theme.iconButtonStyle
+import org.jetbrains.jewel.ui.theme.textFieldIconButtonStyle
 
 @Composable
-public fun TextFields(
-    iconMetrics: IconButtonMetrics,
-    iconColorsDark: IconButtonColors,
-    iconColorsLight: IconButtonColors,
-) {
+public fun TextFields() {
     VerticallyScrollableContainer(Modifier.fillMaxSize()) {
         Column {
             TextFieldsRows(
                 readOnly = false,
-                iconMetrics = iconMetrics,
-                iconColorsDark = iconColorsDark,
-                iconColorsLight = iconColorsLight,
+                iconMetrics = JewelTheme.iconButtonStyle.metrics,
+                iconColors = JewelTheme.textFieldIconButtonStyle.colors,
             )
 
             Spacer(Modifier.height(16.dp))
@@ -61,9 +58,8 @@ public fun TextFields(
 
             TextFieldsRows(
                 readOnly = true,
-                iconMetrics = iconMetrics,
-                iconColorsDark = iconColorsDark,
-                iconColorsLight = iconColorsLight,
+                iconMetrics = JewelTheme.iconButtonStyle.metrics,
+                iconColors = JewelTheme.textFieldIconButtonStyle.colors,
             )
         }
     }
@@ -73,8 +69,7 @@ public fun TextFields(
 private fun TextFieldsRows(
     readOnly: Boolean,
     iconMetrics: IconButtonMetrics,
-    iconColorsDark: IconButtonColors,
-    iconColorsLight: IconButtonColors,
+    iconColors: IconButtonColors,
 ) {
     Column(modifier = Modifier.padding(vertical = 4.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -140,8 +135,7 @@ private fun TextFieldsRows(
                         isVisible = state2.text.isNotEmpty(),
                         onClick = { state2.setTextAndPlaceCursorAtEnd("") },
                         metrics = iconMetrics,
-                        iconColorsDark = iconColorsDark,
-                        iconColorsLight = iconColorsLight,
+                        iconColors = iconColors,
                     )
                 },
                 readOnly = readOnly,
@@ -155,8 +149,7 @@ private fun CloseIconButton(
     isVisible: Boolean,
     onClick: () -> Unit,
     metrics: IconButtonMetrics,
-    iconColorsDark: IconButtonColors,
-    iconColorsLight: IconButtonColors,
+    iconColors: IconButtonColors,
 ) {
     Box(Modifier.size(16.dp)) {
         AnimatedVisibility(
@@ -167,8 +160,7 @@ private fun CloseIconButton(
             // TODO replace when IconButton supports no-background style
             val isDark = JewelTheme.isDark
 
-            val colors = noBackgroundIconButtonColors(isDark, iconColorsDark, iconColorsLight)
-            val style = remember(isDark, colors) { IconButtonStyle(colors, metrics) }
+            val style = remember(isDark, iconColors) { IconButtonStyle(iconColors, metrics) }
 
             IconButton(onClick, style = style, modifier = Modifier.pointerHoverIcon(PointerIcon.Default)) { state ->
                 Icon(AllIconsKeys.General.Close, contentDescription = "Clear", hint = Stateful(state))
@@ -176,10 +168,3 @@ private fun CloseIconButton(
         }
     }
 }
-
-@Composable
-private fun noBackgroundIconButtonColors(
-    isDark: Boolean,
-    iconColorsDark: IconButtonColors,
-    iconColorsLight: IconButtonColors,
-) = if (isDark) iconColorsDark else iconColorsLight
