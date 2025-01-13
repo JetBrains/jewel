@@ -25,7 +25,6 @@ import org.jetbrains.jewel.samples.showcase.components.TextAreas
 import org.jetbrains.jewel.samples.showcase.components.TextFields
 import org.jetbrains.jewel.samples.showcase.components.Tooltips
 import org.jetbrains.jewel.ui.component.SplitLayoutState
-import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 
 public class ComponentsViewModel(

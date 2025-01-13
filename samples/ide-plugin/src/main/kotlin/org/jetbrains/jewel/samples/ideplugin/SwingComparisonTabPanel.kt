@@ -45,7 +45,10 @@ import icons.IdeSampleIconKeys
 import icons.JewelIcons
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
+import org.jetbrains.jewel.bridge.theme.macOs
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.samples.showcase.views.ComponentsView
+import org.jetbrains.jewel.samples.showcase.views.ComponentsViewModel
 import org.jetbrains.jewel.ui.component.DefaultButton
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.ListComboBox
@@ -56,9 +59,9 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
+import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.ui.theme.simpleListItemStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
-import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.BoxLayout
 import javax.swing.DefaultComboBoxModel
@@ -68,17 +71,13 @@ import javax.swing.JLabel
 import javax.swing.JPanel
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
-    private val testButton =
-        JButton("Open Dialog").apply {
-            addActionListener {
-                if (ComponentShowcaseDialog().showAndGet()) {
-                    // user pressed OK
-                }
-            }
+    private val openComponentsShowcaseButton =
+        JButton("Components Showcase").apply {
+            addActionListener { ComponentShowcaseDialog().show() }
         }
     private val mainContent =
         panel {
-                row { cell(testButton) }
+                row { cell(openComponentsShowcaseButton) }
                 separator()
                 buttonsRow()
                 separator()
@@ -423,10 +422,15 @@ private class ComponentShowcaseDialog : DialogWrapper(true) {
     }
 
     override fun createCenterPanel(): JComponent {
-        val dialogPanel = JPanel(BorderLayout())
-        val label = JLabel("Component Showcase")
-        label.preferredSize = Dimension(600, 600)
-        dialogPanel.add(label, BorderLayout.CENTER)
+        val dialogPanel = JewelComposePanel {
+            ComponentsView(
+                ComponentsViewModel(
+                    alwaysVisibleScrollbarVisibility = ScrollbarVisibility.AlwaysVisible.macOs(),
+                    whenScrollingScrollbarVisibility = ScrollbarVisibility.WhenScrolling.macOs(),
+                )
+            )
+        }
+        dialogPanel.preferredSize = Dimension(800, 600)
         return dialogPanel
     }
 }
