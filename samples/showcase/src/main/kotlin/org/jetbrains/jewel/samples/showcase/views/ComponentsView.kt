@@ -47,7 +47,7 @@ public fun ComponentsToolBar(viewModel: ComponentsViewModel) {
                 contentDescription = "Show ${it.title}",
                 selected = viewModel.getCurrentView() == it,
                 onClick = { viewModel.setCurrentView(it) },
-                modifier = Modifier.size(40.dp).padding(5.dp),
+                modifier = Modifier.size(40.dp).padding(start = 0.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
                 tooltip = { Text(it.title) },
                 tooltipStyle =
                     TooltipStyle(JewelTheme.tooltipStyle.colors, TooltipMetrics.defaults(showDelay = 150.milliseconds)),
