@@ -34,19 +34,19 @@ public fun ComponentsView(viewModel: ComponentsViewModel) {
     Row(Modifier.trackActivation().fillMaxSize().background(JewelTheme.globalColors.panelBackground)) {
         ComponentsToolBar(viewModel)
         Divider(Orientation.Vertical, Modifier.fillMaxHeight())
-        ComponentView(viewModel.currentView)
+        ComponentView(viewModel.getCurrentView())
     }
 }
 
 @Composable
 public fun ComponentsToolBar(viewModel: ComponentsViewModel) {
     Column(Modifier.fillMaxHeight().width(40.dp).verticalScroll(rememberScrollState())) {
-        viewModel.views.forEach {
+        viewModel.getViews().forEach {
             SelectableIconActionButton(
                 key = it.iconKey,
                 contentDescription = "Show ${it.title}",
-                selected = viewModel.currentView == it,
-                onClick = { viewModel.currentView = it },
+                selected = viewModel.getCurrentView() == it,
+                onClick = { viewModel.setCurrentView(it) },
                 modifier = Modifier.size(40.dp).padding(5.dp),
                 tooltip = { Text(it.title) },
                 tooltipStyle =

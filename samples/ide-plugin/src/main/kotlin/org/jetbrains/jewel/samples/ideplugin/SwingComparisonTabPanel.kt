@@ -45,6 +45,7 @@ import icons.IdeSampleIconKeys
 import icons.JewelIcons
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
+import org.jetbrains.jewel.bridge.theme.default
 import org.jetbrains.jewel.bridge.theme.macOs
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.samples.showcase.views.ComponentsView
@@ -423,12 +424,11 @@ private class ComponentShowcaseDialog : DialogWrapper(true) {
 
     override fun createCenterPanel(): JComponent {
         val dialogPanel = JewelComposePanel {
-            ComponentsView(
-                ComponentsViewModel(
-                    alwaysVisibleScrollbarVisibility = ScrollbarVisibility.AlwaysVisible.macOs(),
-                    whenScrollingScrollbarVisibility = ScrollbarVisibility.WhenScrolling.macOs(),
-                )
+            val viewModel = ComponentsViewModel(
+                alwaysVisibleScrollbarVisibility = ScrollbarVisibility.AlwaysVisible.default(),
+                whenScrollingScrollbarVisibility = ScrollbarVisibility.WhenScrolling.macOs(),
             )
+            ComponentsView(viewModel)
         }
         dialogPanel.preferredSize = Dimension(800, 600)
         return dialogPanel

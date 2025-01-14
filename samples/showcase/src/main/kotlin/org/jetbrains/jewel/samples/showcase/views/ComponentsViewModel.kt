@@ -31,11 +31,13 @@ public class ComponentsViewModel(
     alwaysVisibleScrollbarVisibility: ScrollbarVisibility.AlwaysVisible,
     whenScrollingScrollbarVisibility: ScrollbarVisibility.WhenScrolling,
 ) {
+
     private var outerSplitState by mutableStateOf(SplitLayoutState(0.5f))
     private var verticalSplitState by mutableStateOf(SplitLayoutState(0.5f))
     private var innerSplitState by mutableStateOf(SplitLayoutState(0.5f))
 
-    public val views: SnapshotStateList<ViewInfo> =
+    public fun getViews(): SnapshotStateList<ViewInfo> = views
+    private val views: SnapshotStateList<ViewInfo> =
         mutableStateListOf(
             ViewInfo(title = "Buttons", iconKey = StandaloneSampleIcons.Components.button, content = { Buttons() }),
             ViewInfo(
@@ -111,5 +113,10 @@ public class ComponentsViewModel(
             ),
             ViewInfo(title = "Banners", iconKey = StandaloneSampleIcons.Components.banners, content = { Banners() }),
         )
-    public var currentView: ViewInfo by mutableStateOf(views.first())
+
+    private var _currentView: ViewInfo by mutableStateOf(views.first())
+    public fun getCurrentView(): ViewInfo = _currentView
+    public fun setCurrentView(view: ViewInfo) {
+        _currentView = view
+    }
 }
