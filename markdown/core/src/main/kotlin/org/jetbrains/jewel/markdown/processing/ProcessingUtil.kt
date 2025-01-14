@@ -1,7 +1,7 @@
 package org.jetbrains.jewel.markdown.processing
 
 import org.commonmark.node.Code as CMCode
-import org.commonmark.node.CustomNode as CMCustomNode
+import org.commonmark.node.Delimited
 import org.commonmark.node.Emphasis as CMEmphasis
 import org.commonmark.node.HardLineBreak as CMHardLineBreak
 import org.commonmark.node.HtmlInline as CMHtmlInline
@@ -11,12 +11,17 @@ import org.commonmark.node.Node
 import org.commonmark.node.SoftLineBreak as CMSoftLineBreak
 import org.commonmark.node.StrongEmphasis as CMStrongEmphasis
 import org.commonmark.node.Text as CMText
+import org.commonmark.parser.beta.ParsedInline
 import org.jetbrains.jewel.markdown.InlineMarkdown
 import org.jetbrains.jewel.markdown.WithInlineMarkdown
 import org.jetbrains.jewel.markdown.WithTextContent
 
-public fun Node.readInlineContent(markdownProcessor: MarkdownProcessor): List<InlineMarkdown> = buildList {
-    var current = this@readInlineContent.firstChild
+/**
+ * Reads all supported child inline nodes into a list of [InlineMarkdown] nodes, using the provided [markdownProcessor]
+ * (and its registered extensions).
+ */
+public fun Node.readInlineMarkdown(markdownProcessor: MarkdownProcessor): List<InlineMarkdown> = buildList {
+    var current = this@readInlineMarkdown.firstChild
     while (current != null) {
         val inline = current.toInlineMarkdownOrNull(markdownProcessor)
         if (inline != null) add(inline)
@@ -25,6 +30,10 @@ public fun Node.readInlineContent(markdownProcessor: MarkdownProcessor): List<In
     }
 }
 
+/**
+ * Converts this node to an [InlineMarkdown] node if possible, using the provided [markdownProcessor] (and its
+ * registered extensions).
+ */
 public fun Node.toInlineMarkdownOrNull(markdownProcessor: MarkdownProcessor): InlineMarkdown? =
     when (this) {
         is CMText -> InlineMarkdown.Text(literal)
@@ -32,18 +41,18 @@ public fun Node.toInlineMarkdownOrNull(markdownProcessor: MarkdownProcessor): In
             InlineMarkdown.Link(
                 destination = destination,
                 title = title,
-                inlineContent = readInlineContent(markdownProcessor),
+                inlineContent = readInlineMarkdown(markdownProcessor),
             )
 
         is CMEmphasis ->
-            InlineMarkdown.Emphasis(delimiter = openingDelimiter, inlineContent = readInlineContent(markdownProcessor))
+            InlineMarkdown.Emphasis(delimiter = openingDelimiter, inlineContent = readInlineMarkdown(markdownProcessor))
 
-        is CMStrongEmphasis -> InlineMarkdown.StrongEmphasis(openingDelimiter, readInlineContent(markdownProcessor))
+        is CMStrongEmphasis -> InlineMarkdown.StrongEmphasis(openingDelimiter, readInlineMarkdown(markdownProcessor))
 
         is CMCode -> InlineMarkdown.Code(literal)
         is CMHtmlInline -> InlineMarkdown.HtmlInline(literal)
         is CMImage -> {
-            val inlineContent = readInlineContent(markdownProcessor)
+            val inlineContent = readInlineMarkdown(markdownProcessor)
             InlineMarkdown.Image(
                 source = destination,
                 alt = inlineContent.renderAsSimpleText().trim(),
@@ -54,11 +63,11 @@ public fun Node.toInlineMarkdownOrNull(markdownProcessor: MarkdownProcessor): In
 
         is CMHardLineBreak -> InlineMarkdown.HardLineBreak
         is CMSoftLineBreak -> InlineMarkdown.SoftLineBreak
-        is CMCustomNode ->
-            markdownProcessor.extensions
-                .find { it.inlineProcessorExtension?.canProcess(this) == true }
-                ?.inlineProcessorExtension
-                ?.processInlineMarkdown(this, markdownProcessor)
+        is Delimited ->
+            markdownProcessor.delimitedInlineExtensions
+                .find { it.canProcess(this) }
+                ?.processDelimitedInline(this, markdownProcessor)
+        is ParsedInline -> null // Unsupported — see JEWEL-747
 
         else -> error("Unexpected block $this")
     }
@@ -69,15 +78,6 @@ internal fun List<InlineMarkdown>.renderAsSimpleText(): String = buildString {
         when (node) {
             is WithInlineMarkdown -> append(node.inlineContent.renderAsSimpleText())
             is WithTextContent -> append(node.content)
-
-            is InlineMarkdown.CustomNode -> {
-                val textContent = node.contentOrNull()
-                if (textContent != null) {
-                    append(' ')
-                    append(textContent)
-                }
-            }
-
             is InlineMarkdown.HardLineBreak -> append('\n')
             is InlineMarkdown.SoftLineBreak -> append(' ')
             else -> {

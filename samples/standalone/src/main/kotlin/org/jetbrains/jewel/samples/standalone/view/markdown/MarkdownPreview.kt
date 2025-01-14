@@ -33,6 +33,8 @@ import org.jetbrains.jewel.markdown.extension.autolink.AutolinkProcessorExtensio
 import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertProcessorExtension
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
+import org.jetbrains.jewel.markdown.extensions.github.strikethrough.GitHubStrikethroughProcessorExtension
+import org.jetbrains.jewel.markdown.extensions.github.strikethrough.GitHubStrikethroughRendererExtension
 import org.jetbrains.jewel.markdown.extensions.github.tables.GfmTableStyling
 import org.jetbrains.jewel.markdown.extensions.github.tables.GitHubTableProcessorExtension
 import org.jetbrains.jewel.markdown.extensions.github.tables.GitHubTableRendererExtension
@@ -55,7 +57,12 @@ internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSeq
     // potentially involving ViewModels, dependency injection, etc.
     val processor = remember {
         MarkdownProcessor(
-            listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension, GitHubTableProcessorExtension),
+            listOf(
+                GitHubAlertProcessorExtension,
+                AutolinkProcessorExtension,
+                GitHubTableProcessorExtension,
+                GitHubStrikethroughProcessorExtension(),
+            ),
             editorMode = true,
         )
     }
@@ -77,6 +84,7 @@ internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSeq
                         listOf(
                             GitHubAlertRendererExtension(AlertStyling.dark(), markdownStyling),
                             GitHubTableRendererExtension(GfmTableStyling.dark(), markdownStyling),
+                            GitHubStrikethroughRendererExtension,
                         ),
                 )
             } else {
@@ -86,6 +94,7 @@ internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSeq
                         listOf(
                             GitHubAlertRendererExtension(AlertStyling.light(), markdownStyling),
                             GitHubTableRendererExtension(GfmTableStyling.light(), markdownStyling),
+                            GitHubStrikethroughRendererExtension,
                         ),
                 )
             }
@@ -104,8 +113,10 @@ internal fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSeq
                     PaddingValues(start = 8.dp, top = 8.dp, end = 8.dp + scrollbarContentSafePadding(), bottom = 8.dp),
                 state = lazyListState,
                 selectable = true,
-                onUrlClick = { url -> Desktop.getDesktop().browse(URI.create(url)) },
+                onUrlClick = onUrlClick(),
             )
         }
     }
 }
+
+private fun onUrlClick(): (String) -> Unit = { url -> Desktop.getDesktop().browse(URI.create(url)) }
