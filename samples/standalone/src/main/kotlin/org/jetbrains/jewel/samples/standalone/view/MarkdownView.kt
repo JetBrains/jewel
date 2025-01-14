@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.showcase.views
+package org.jetbrains.jewel.samples.standalone.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -11,9 +11,9 @@ import org.jetbrains.jewel.foundation.modifier.trackActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
-import org.jetbrains.jewel.samples.showcase.markdown.JewelReadme
-import org.jetbrains.jewel.samples.showcase.markdown.MarkdownEditor
-import org.jetbrains.jewel.samples.showcase.markdown.MarkdownPreview
+import org.jetbrains.jewel.samples.standalone.markdown.JewelReadme
+import org.jetbrains.jewel.samples.standalone.markdown.MarkdownEditor
+import org.jetbrains.jewel.samples.standalone.markdown.MarkdownPreview
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.Divider
 

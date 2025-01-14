@@ -1,4 +1,4 @@
-package org.jetbrains.jewel.samples.showcase.markdown
+package org.jetbrains.jewel.samples.standalone.markdown
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll

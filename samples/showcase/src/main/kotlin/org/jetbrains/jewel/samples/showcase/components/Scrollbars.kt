@@ -43,6 +43,7 @@ import org.jetbrains.jewel.ui.component.scrollbarContentSafePadding
 import org.jetbrains.jewel.ui.component.styling.ScrollbarStyle
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.ui.component.styling.TrackClickBehavior
+import org.jetbrains.jewel.ui.theme.scrollbarStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 import org.jetbrains.skiko.OS
 import org.jetbrains.skiko.hostOs
@@ -50,15 +51,11 @@ import java.util.Locale
 
 @Composable
 public fun Scrollbars(
-    dark: ScrollbarStyle,
-    light: ScrollbarStyle,
     alwaysVisibleScrollbarVisibility: ScrollbarVisibility,
     whenScrollingScrollbarVisibility: ScrollbarVisibility
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        val isDark = JewelTheme.isDark
-        val baseStyle = remember(isDark) { if (isDark) dark else light }
-
+        val baseStyle = JewelTheme.scrollbarStyle
         var alwaysVisible by remember { mutableStateOf(hostOs != OS.MacOS) }
         var clickBehavior by remember { mutableStateOf(baseStyle.trackClickBehavior) }
         SettingsRow(alwaysVisible, clickBehavior, { alwaysVisible = it }, { clickBehavior = it })

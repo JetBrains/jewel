@@ -15,17 +15,19 @@ import org.jetbrains.jewel.ui.component.ExternalLink
 import org.jetbrains.jewel.ui.component.Link
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.separator
+import org.jetbrains.jewel.ui.component.styling.LinkColors
+import org.jetbrains.jewel.ui.component.styling.LinkIcons
+import org.jetbrains.jewel.ui.component.styling.LinkMetrics
 import org.jetbrains.jewel.ui.component.styling.LinkStyle
+import org.jetbrains.jewel.ui.component.styling.LinkUnderlineBehavior
+import org.jetbrains.jewel.ui.theme.linkStyle
 
 @Composable
-public fun Links(dark: LinkStyle, light: LinkStyle) {
-    val isDark = JewelTheme.isDark
-    val alwaysUnderlinedStyle = remember(isDark) { if (isDark) dark else light }
-
+public fun Links() {
     Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
         Link("Link", {})
 
-        Link("Always underlined", {}, style = alwaysUnderlinedStyle)
+        Link("Always underlined", {}, style = JewelTheme.linkStyle.copy(underlineBehavior = LinkUnderlineBehavior.ShowAlways))
 
         ExternalLink("ExternalLink", {})
 
@@ -44,10 +46,17 @@ public fun Links(dark: LinkStyle, light: LinkStyle) {
     Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
         Link("Link", {}, enabled = false)
 
-        Link("Always underlined", {}, style = alwaysUnderlinedStyle, enabled = false)
+        Link("Always underlined", {}, style = JewelTheme.linkStyle, enabled = false)
 
         ExternalLink("ExternalLink", {}, enabled = false)
 
         DropdownLink("DropdownLink", enabled = false) {}
     }
 }
+
+private fun LinkStyle.copy(
+    colors: LinkColors = this.colors,
+    metrics: LinkMetrics = this.metrics,
+    icons: LinkIcons = this.icons,
+    underlineBehavior: LinkUnderlineBehavior = this.underlineBehavior,
+): LinkStyle = LinkStyle(colors, metrics, icons, underlineBehavior)
