@@ -1,13 +1,15 @@
 package org.jetbrains.jewel.samples.showcase.views
 
 import androidx.compose.runtime.Composable
+import org.jetbrains.jewel.foundation.GenerateDataFunctions
 import org.jetbrains.jewel.ui.icon.IconKey
 import org.jetbrains.skiko.hostOs
 
-public data class KeyBinding(
-    val macOs: Set<String> = emptySet(),
-    val windows: Set<String> = emptySet(),
-    val linux: Set<String> = emptySet(),
+@GenerateDataFunctions
+public class KeyBinding(
+    public val macOs: Set<String> = emptySet(),
+    public val windows: Set<String> = emptySet(),
+    public val linux: Set<String> = emptySet(),
 )
 
 public fun KeyBinding.forCurrentOs(): Set<String> =
@@ -17,9 +19,10 @@ public fun KeyBinding.forCurrentOs(): Set<String> =
         else -> windows
     }
 
-public data class ViewInfo(
-    val title: String,
-    val iconKey: IconKey,
-    val keyboardShortcut: KeyBinding? = null,
-    val content: @Composable () -> Unit,
+@GenerateDataFunctions
+public class ViewInfo(
+    public val title: String,
+    public val iconKey: IconKey,
+    public val keyboardShortcut: KeyBinding? = null,
+    public val content: @Composable () -> Unit,
 )

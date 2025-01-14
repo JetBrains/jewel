@@ -58,8 +58,7 @@ public fun ComponentsToolBar(viewModel: ComponentsViewModel) {
     }
 }
 
-@Composable
-public fun ComponentView(view: ViewInfo) {
+@Composable internal fun ComponentView(view: ViewInfo) {
     Column(Modifier.fillMaxSize().padding(24.dp), verticalArrangement = Arrangement.spacedBy(24.dp)) {
         Text(view.title, style = Typography.h1TextStyle())
         view.content()
