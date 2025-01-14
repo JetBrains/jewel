@@ -2,7 +2,8 @@ package org.jetbrains.jewel.samples.standalone.markdown
 
 import org.intellij.lang.annotations.Language
 
-@Language("Markdown") public val JewelReadme: String =
+@Language("Markdown")
+public val JewelReadme: String =
     """
 # Jewel: a Compose for Desktop theme
 

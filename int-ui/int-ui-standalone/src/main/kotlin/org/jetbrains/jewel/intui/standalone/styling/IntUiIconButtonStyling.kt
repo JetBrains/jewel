@@ -28,28 +28,30 @@ public fun IconButtonStyle.Companion.dark(
 
 @Composable
 public fun TextFieldIconButtonStyle.Companion.light(
-    colors: IconButtonColors = IconButtonColors.light(
-        background = Color.Unspecified,
-        backgroundDisabled = Color.Unspecified,
-        backgroundSelected = Color.Unspecified,
-        backgroundSelectedActivated = Color.Unspecified,
-        backgroundFocused = Color.Unspecified,
-        backgroundPressed = Color.Unspecified,
-        backgroundHovered = Color.Unspecified,
-    ),
+    colors: IconButtonColors =
+        IconButtonColors.light(
+            background = Color.Unspecified,
+            backgroundDisabled = Color.Unspecified,
+            backgroundSelected = Color.Unspecified,
+            backgroundSelectedActivated = Color.Unspecified,
+            backgroundFocused = Color.Unspecified,
+            backgroundPressed = Color.Unspecified,
+            backgroundHovered = Color.Unspecified,
+        )
 ): TextFieldIconButtonStyle = TextFieldIconButtonStyle(colors)
 
 @Composable
 public fun TextFieldIconButtonStyle.Companion.dark(
-    colors: IconButtonColors = IconButtonColors.dark(
-        background = Color.Unspecified,
-        backgroundDisabled = Color.Unspecified,
-        backgroundSelected = Color.Unspecified,
-        backgroundSelectedActivated = Color.Unspecified,
-        backgroundFocused = Color.Unspecified,
-        backgroundPressed = Color.Unspecified,
-        backgroundHovered = Color.Unspecified,
-    ),
+    colors: IconButtonColors =
+        IconButtonColors.dark(
+            background = Color.Unspecified,
+            backgroundDisabled = Color.Unspecified,
+            backgroundSelected = Color.Unspecified,
+            backgroundSelectedActivated = Color.Unspecified,
+            backgroundFocused = Color.Unspecified,
+            backgroundPressed = Color.Unspecified,
+            backgroundHovered = Color.Unspecified,
+        )
 ): TextFieldIconButtonStyle = TextFieldIconButtonStyle(colors)
 
 public fun IconButtonColors.Companion.light(

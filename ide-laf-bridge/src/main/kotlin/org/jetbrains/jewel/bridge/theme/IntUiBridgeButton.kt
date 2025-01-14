@@ -223,5 +223,5 @@ internal fun readTextFieldIconButtonStyle(): TextFieldIconButtonStyle =
                 borderFocused = Color.Unspecified,
                 borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
                 borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
-            ),
+            )
     )

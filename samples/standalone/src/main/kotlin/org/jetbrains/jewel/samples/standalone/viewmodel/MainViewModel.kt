@@ -20,9 +20,9 @@ import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
 import org.jetbrains.jewel.samples.showcase.views.ComponentsView
 import org.jetbrains.jewel.samples.showcase.views.ComponentsViewModel
 import org.jetbrains.jewel.samples.showcase.views.KeyBinding
-import org.jetbrains.jewel.samples.standalone.view.MarkdownDemo
 import org.jetbrains.jewel.samples.showcase.views.ViewInfo
 import org.jetbrains.jewel.samples.standalone.IntUiThemes
+import org.jetbrains.jewel.samples.standalone.view.MarkdownDemo
 import org.jetbrains.jewel.samples.standalone.view.WelcomeView
 import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel.componentsViewModel
 import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility

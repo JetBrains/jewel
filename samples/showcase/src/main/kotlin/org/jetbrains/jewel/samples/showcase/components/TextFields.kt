@@ -66,11 +66,7 @@ public fun TextFields() {
 }
 
 @Composable
-private fun TextFieldsRows(
-    readOnly: Boolean,
-    iconMetrics: IconButtonMetrics,
-    iconColors: IconButtonColors,
-) {
+private fun TextFieldsRows(readOnly: Boolean, iconMetrics: IconButtonMetrics, iconColors: IconButtonColors) {
     Column(modifier = Modifier.padding(vertical = 4.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
             val state1 = rememberTextFieldState("TextField")

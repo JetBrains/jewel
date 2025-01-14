@@ -31,12 +31,12 @@ public class ComponentsViewModel(
     alwaysVisibleScrollbarVisibility: ScrollbarVisibility.AlwaysVisible,
     whenScrollingScrollbarVisibility: ScrollbarVisibility.WhenScrolling,
 ) {
-
     private var outerSplitState by mutableStateOf(SplitLayoutState(0.5f))
     private var verticalSplitState by mutableStateOf(SplitLayoutState(0.5f))
     private var innerSplitState by mutableStateOf(SplitLayoutState(0.5f))
 
     public fun getViews(): SnapshotStateList<ViewInfo> = views
+
     private val views: SnapshotStateList<ViewInfo> =
         mutableStateListOf(
             ViewInfo(title = "Buttons", iconKey = StandaloneSampleIcons.Components.button, content = { Buttons() }),
@@ -66,11 +66,7 @@ public class ComponentsViewModel(
                 content = { ProgressBar() },
             ),
             ViewInfo(title = "Icons", iconKey = StandaloneSampleIcons.Components.toolbar, content = { Icons() }),
-            ViewInfo(
-                title = "Links",
-                iconKey = StandaloneSampleIcons.Components.links,
-                content = { Links() },
-            ),
+            ViewInfo(title = "Links", iconKey = StandaloneSampleIcons.Components.links, content = { Links() }),
             ViewInfo(title = "Borders", iconKey = StandaloneSampleIcons.Components.borders, content = { Borders() }),
             ViewInfo(
                 title = "Segmented Controls",
@@ -115,7 +111,9 @@ public class ComponentsViewModel(
         )
 
     private var _currentView: ViewInfo by mutableStateOf(views.first())
+
     public fun getCurrentView(): ViewInfo = _currentView
+
     public fun setCurrentView(view: ViewInfo) {
         _currentView = view
     }

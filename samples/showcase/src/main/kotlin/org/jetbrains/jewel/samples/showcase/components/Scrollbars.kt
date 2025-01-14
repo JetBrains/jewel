@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.util.Locale
 import org.jetbrains.jewel.foundation.Stroke
 import org.jetbrains.jewel.foundation.modifier.border
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -47,12 +48,11 @@ import org.jetbrains.jewel.ui.theme.scrollbarStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
 import org.jetbrains.skiko.OS
 import org.jetbrains.skiko.hostOs
-import java.util.Locale
 
 @Composable
 public fun Scrollbars(
     alwaysVisibleScrollbarVisibility: ScrollbarVisibility,
-    whenScrollingScrollbarVisibility: ScrollbarVisibility
+    whenScrollingScrollbarVisibility: ScrollbarVisibility,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         val baseStyle = JewelTheme.scrollbarStyle

@@ -27,7 +27,11 @@ public fun Links() {
     Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
         Link("Link", {})
 
-        Link("Always underlined", {}, style = JewelTheme.linkStyle.copy(underlineBehavior = LinkUnderlineBehavior.ShowAlways))
+        Link(
+            "Always underlined",
+            {},
+            style = JewelTheme.linkStyle.copy(underlineBehavior = LinkUnderlineBehavior.ShowAlways),
+        )
 
         ExternalLink("ExternalLink", {})
 

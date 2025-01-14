@@ -106,11 +106,7 @@ private fun RowScope.ColumnOne() {
             Modifier.onActivated { activated = it },
             style = Typography.h3TextStyle(),
         )
-        DefaultButton(onClick = {
-            ComponentShowcaseDialog().show()
-        }) {
-            Text("Open Component Showcase")
-        }
+        DefaultButton(onClick = { ComponentShowcaseDialog().show() }) { Text("Open Component Showcase") }
 
         var selectedItem by remember { mutableIntStateOf(-1) }
         Dropdown(
