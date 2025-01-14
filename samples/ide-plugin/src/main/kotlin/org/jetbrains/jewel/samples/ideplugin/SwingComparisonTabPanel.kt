@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.intellij.ide.ui.laf.darcula.ui.DarculaButtonUI
 import com.intellij.openapi.ui.ComboBox
-import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.JBColor
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBScrollPane
@@ -45,11 +44,7 @@ import icons.IdeSampleIconKeys
 import icons.JewelIcons
 import org.jetbrains.jewel.bridge.JewelComposePanel
 import org.jetbrains.jewel.bridge.medium
-import org.jetbrains.jewel.bridge.theme.default
-import org.jetbrains.jewel.bridge.theme.macOs
 import org.jetbrains.jewel.foundation.theme.JewelTheme
-import org.jetbrains.jewel.samples.showcase.views.ComponentsView
-import org.jetbrains.jewel.samples.showcase.views.ComponentsViewModel
 import org.jetbrains.jewel.ui.component.DefaultButton
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.ListComboBox
@@ -60,25 +55,16 @@ import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextArea
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.Typography
-import org.jetbrains.jewel.ui.component.styling.ScrollbarVisibility
 import org.jetbrains.jewel.ui.theme.simpleListItemStyle
 import org.jetbrains.jewel.ui.theme.textAreaStyle
-import java.awt.Dimension
 import javax.swing.BoxLayout
 import javax.swing.DefaultComboBoxModel
-import javax.swing.JButton
-import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
 
 internal class SwingComparisonTabPanel : BorderLayoutPanel() {
-    private val openComponentsShowcaseButton =
-        JButton("Components Showcase").apply {
-            addActionListener { ComponentShowcaseDialog().show() }
-        }
     private val mainContent =
         panel {
-                row { cell(openComponentsShowcaseButton) }
                 separator()
                 buttonsRow()
                 separator()
@@ -414,23 +400,4 @@ internal class SwingComparisonTabPanel : BorderLayoutPanel() {
 
     private fun Row.compose(modifier: Modifier = Modifier.padding(8.dp), content: @Composable () -> Unit) =
         cell(JewelComposePanel { Box(modifier) { content() } }.apply { isOpaque = false })
-}
-
-private class ComponentShowcaseDialog : DialogWrapper(true) {
-    init {
-        title = "Component Showcase"
-        init()
-    }
-
-    override fun createCenterPanel(): JComponent {
-        val dialogPanel = JewelComposePanel {
-            val viewModel = ComponentsViewModel(
-                alwaysVisibleScrollbarVisibility = ScrollbarVisibility.AlwaysVisible.default(),
-                whenScrollingScrollbarVisibility = ScrollbarVisibility.WhenScrolling.macOs(),
-            )
-            ComponentsView(viewModel)
-        }
-        dialogPanel.preferredSize = Dimension(800, 600)
-        return dialogPanel
-    }
 }
