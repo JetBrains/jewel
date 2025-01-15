@@ -16,3 +16,7 @@ publishing.publications.named<MavenPublication>("main") {
     val ijpTarget = project.property("ijp.target") as String
     artifactId = "jewel-markdown-extension-${project.name}-$ijpTarget"
 }
+
+publicApiValidation {
+    excludedClassRegexes = setOf("org.jetbrains.jewel.markdown.extensions.github.strikethrough.*")
+}
