@@ -20,13 +20,21 @@ import org.jetbrains.jewel.foundation.code.highlighting.CodeHighlighter
 import org.jetbrains.jewel.foundation.code.highlighting.LocalCodeHighlighter
 import org.jetbrains.jewel.foundation.code.highlighting.NoOpCodeHighlighter
 import org.jetbrains.jewel.foundation.theme.JewelTheme
+import org.jetbrains.jewel.intui.markdown.standalone.dark
+import org.jetbrains.jewel.intui.markdown.standalone.light
+import org.jetbrains.jewel.intui.markdown.standalone.styling.dark
+import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.dark
+import org.jetbrains.jewel.intui.markdown.standalone.styling.extensions.github.alerts.light
+import org.jetbrains.jewel.intui.markdown.standalone.styling.light
 import org.jetbrains.jewel.markdown.LazyMarkdown
 import org.jetbrains.jewel.markdown.MarkdownBlock
 import org.jetbrains.jewel.markdown.extension.autolink.AutolinkProcessorExtension
 import org.jetbrains.jewel.markdown.extensions.LocalMarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.extensions.LocalMarkdownProcessor
 import org.jetbrains.jewel.markdown.extensions.LocalMarkdownStyling
+import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertProcessorExtension
+import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
 import org.jetbrains.jewel.markdown.processing.MarkdownProcessor
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
@@ -36,17 +44,10 @@ import java.awt.Desktop
 import java.net.URI
 
 @Composable
-fun MarkdownPreview(
-    modifier: Modifier = Modifier,
-    rawMarkdown: CharSequence,
-    darkStyling: MarkdownStyling,
-    lightStyling: MarkdownStyling,
-    darkRenderer: MarkdownBlockRenderer,
-    lightRenderer: MarkdownBlockRenderer,
-) {
+fun MarkdownPreview(modifier: Modifier = Modifier, rawMarkdown: CharSequence) {
     val isDark = JewelTheme.isDark
 
-    val markdownStyling = remember(isDark) { if (isDark) darkStyling else lightStyling }
+    val markdownStyling = remember(isDark) { if (isDark) MarkdownStyling.dark() else MarkdownStyling.light() }
 
     var markdownBlocks by remember { mutableStateOf(emptyList<MarkdownBlock>()) }
     val extensions = remember { listOf(GitHubAlertProcessorExtension, AutolinkProcessorExtension) }
@@ -67,9 +68,17 @@ fun MarkdownPreview(
     val blockRenderer =
         remember(markdownStyling, extensions) {
             if (isDark) {
-                darkRenderer
+                MarkdownBlockRenderer.dark(
+                    styling = MarkdownStyling.dark(),
+                    rendererExtensions =
+                        listOf(GitHubAlertRendererExtension(AlertStyling.dark(), MarkdownStyling.dark())),
+                )
             } else {
-                lightRenderer
+                MarkdownBlockRenderer.light(
+                    styling = MarkdownStyling.light(),
+                    rendererExtensions =
+                        listOf(GitHubAlertRendererExtension(AlertStyling.light(), MarkdownStyling.light())),
+                )
             }
         }
 
