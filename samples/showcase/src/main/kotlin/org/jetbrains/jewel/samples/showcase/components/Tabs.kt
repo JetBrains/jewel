@@ -106,7 +106,7 @@ private fun EditorTabShowcase() {
                                 Icon(
                                     key = AllIconsKeys.Actions.Find,
                                     contentDescription = null,
-                                    iconClass = StandaloneSampleIcons::class.java,
+                                    iconClass = ShowcaseIcons::class.java,
                                     modifier = Modifier.size(16.dp).tabContentAlpha(state = tabState),
                                     tint = Color.Magenta,
                                 )

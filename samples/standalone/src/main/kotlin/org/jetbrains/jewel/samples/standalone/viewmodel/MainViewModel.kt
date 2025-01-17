@@ -16,7 +16,7 @@ import org.jetbrains.jewel.markdown.extensions.github.alerts.AlertStyling
 import org.jetbrains.jewel.markdown.extensions.github.alerts.GitHubAlertRendererExtension
 import org.jetbrains.jewel.markdown.rendering.MarkdownBlockRenderer
 import org.jetbrains.jewel.markdown.rendering.MarkdownStyling
-import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
+import org.jetbrains.jewel.samples.showcase.components.ShowcaseIcons
 import org.jetbrains.jewel.samples.showcase.views.ComponentsView
 import org.jetbrains.jewel.samples.showcase.views.ComponentsViewModel
 import org.jetbrains.jewel.samples.showcase.views.KeyBinding
@@ -63,19 +63,19 @@ private val mainMenuItems =
     mutableStateListOf(
         ViewInfo(
             title = "Welcome",
-            iconKey = StandaloneSampleIcons.welcome,
+            iconKey = ShowcaseIcons.welcome,
             keyboardShortcut = KeyBinding(macOs = setOf("⌥", "W"), windows = setOf("Alt", "W")),
             content = { WelcomeView() },
         ),
         ViewInfo(
             title = "Components",
-            iconKey = StandaloneSampleIcons.componentsMenu,
+            iconKey = ShowcaseIcons.componentsMenu,
             keyboardShortcut = KeyBinding(macOs = setOf("⌥", "C"), windows = setOf("Alt", "C")),
             content = { ComponentsView(viewModel = componentsViewModel) },
         ),
         ViewInfo(
             title = "Markdown",
-            iconKey = StandaloneSampleIcons.markdown,
+            iconKey = ShowcaseIcons.markdown,
             keyboardShortcut =
                 KeyBinding(macOs = setOf("⌥", "M"), windows = setOf("Alt", "M"), linux = setOf("Alt", "M")),
             content = {

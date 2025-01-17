@@ -19,7 +19,7 @@ import org.jetbrains.jewel.samples.showcase.components.RadioButtons
 import org.jetbrains.jewel.samples.showcase.components.Scrollbars
 import org.jetbrains.jewel.samples.showcase.components.SegmentedControls
 import org.jetbrains.jewel.samples.showcase.components.Sliders
-import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
+import org.jetbrains.jewel.samples.showcase.components.ShowcaseIcons
 import org.jetbrains.jewel.samples.showcase.components.Tabs
 import org.jetbrains.jewel.samples.showcase.components.TextAreas
 import org.jetbrains.jewel.samples.showcase.components.TextFields
@@ -39,56 +39,56 @@ public class ComponentsViewModel(
 
     private val views: SnapshotStateList<ViewInfo> =
         mutableStateListOf(
-            ViewInfo(title = "Buttons", iconKey = StandaloneSampleIcons.Components.button, content = { Buttons() }),
+            ViewInfo(title = "Buttons", iconKey = ShowcaseIcons.Components.button, content = { Buttons() }),
             ViewInfo(
                 title = "Radio Buttons",
-                iconKey = StandaloneSampleIcons.Components.radioButton,
+                iconKey = ShowcaseIcons.Components.radioButton,
                 content = { RadioButtons() },
             ),
             ViewInfo(
                 title = "Checkboxes",
-                iconKey = StandaloneSampleIcons.Components.checkbox,
+                iconKey = ShowcaseIcons.Components.checkbox,
                 content = { Checkboxes() },
             ),
             ViewInfo(
                 title = "Dropdowns",
-                iconKey = StandaloneSampleIcons.Components.comboBox,
+                iconKey = ShowcaseIcons.Components.comboBox,
                 content = { Dropdowns() },
             ),
             ViewInfo(
                 title = "Chips and trees",
-                iconKey = StandaloneSampleIcons.Components.tree,
+                iconKey = ShowcaseIcons.Components.tree,
                 content = { ChipsAndTrees() },
             ),
             ViewInfo(
                 title = "Progressbar",
-                iconKey = StandaloneSampleIcons.Components.progressBar,
+                iconKey = ShowcaseIcons.Components.progressBar,
                 content = { ProgressBar() },
             ),
-            ViewInfo(title = "Icons", iconKey = StandaloneSampleIcons.Components.toolbar, content = { Icons() }),
-            ViewInfo(title = "Links", iconKey = StandaloneSampleIcons.Components.links, content = { Links() }),
-            ViewInfo(title = "Borders", iconKey = StandaloneSampleIcons.Components.borders, content = { Borders() }),
+            ViewInfo(title = "Icons", iconKey = ShowcaseIcons.Components.toolbar, content = { Icons() }),
+            ViewInfo(title = "Links", iconKey = ShowcaseIcons.Components.links, content = { Links() }),
+            ViewInfo(title = "Borders", iconKey = ShowcaseIcons.Components.borders, content = { Borders() }),
             ViewInfo(
                 title = "Segmented Controls",
-                iconKey = StandaloneSampleIcons.Components.segmentedControls,
+                iconKey = ShowcaseIcons.Components.segmentedControls,
                 content = { SegmentedControls() },
             ),
-            ViewInfo(title = "Sliders", iconKey = StandaloneSampleIcons.Components.slider, content = { Sliders() }),
-            ViewInfo(title = "Tabs", iconKey = StandaloneSampleIcons.Components.tabs, content = { Tabs() }),
-            ViewInfo(title = "Tooltips", iconKey = StandaloneSampleIcons.Components.tooltip, content = { Tooltips() }),
+            ViewInfo(title = "Sliders", iconKey = ShowcaseIcons.Components.slider, content = { Sliders() }),
+            ViewInfo(title = "Tabs", iconKey = ShowcaseIcons.Components.tabs, content = { Tabs() }),
+            ViewInfo(title = "Tooltips", iconKey = ShowcaseIcons.Components.tooltip, content = { Tooltips() }),
             ViewInfo(
                 title = "TextAreas",
-                iconKey = StandaloneSampleIcons.Components.textArea,
+                iconKey = ShowcaseIcons.Components.textArea,
                 content = { TextAreas() },
             ),
             ViewInfo(
                 title = "TextFields",
-                iconKey = StandaloneSampleIcons.Components.textField,
+                iconKey = ShowcaseIcons.Components.textField,
                 content = { TextFields() },
             ),
             ViewInfo(
                 title = "Scrollbars",
-                iconKey = StandaloneSampleIcons.Components.scrollbar,
+                iconKey = ShowcaseIcons.Components.scrollbar,
                 content = {
                     Scrollbars(
                         alwaysVisibleScrollbarVisibility = alwaysVisibleScrollbarVisibility,
@@ -98,7 +98,7 @@ public class ComponentsViewModel(
             ),
             ViewInfo(
                 title = "SplitLayout",
-                iconKey = StandaloneSampleIcons.Components.splitlayout,
+                iconKey = ShowcaseIcons.Components.splitlayout,
                 content = {
                     SplitLayouts(outerSplitState, verticalSplitState, innerSplitState) {
                         outerSplitState = SplitLayoutState(0.5f)
@@ -107,7 +107,7 @@ public class ComponentsViewModel(
                     }
                 },
             ),
-            ViewInfo(title = "Banners", iconKey = StandaloneSampleIcons.Components.banners, content = { Banners() }),
+            ViewInfo(title = "Banners", iconKey = ShowcaseIcons.Components.banners, content = { Banners() }),
         )
 
     private var _currentView: ViewInfo by mutableStateOf(views.first())

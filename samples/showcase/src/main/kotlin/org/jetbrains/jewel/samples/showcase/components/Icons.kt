@@ -31,12 +31,12 @@ public fun Icons() {
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Icon(StandaloneSampleIcons.jewelLogo, "Jewel Logo", Modifier.size(16.dp))
-        Icon(StandaloneSampleIcons.jewelLogo, "Jewel Logo", Modifier.size(32.dp))
-        Icon(StandaloneSampleIcons.jewelLogo, "Jewel Logo", Modifier.size(64.dp))
-        Icon(StandaloneSampleIcons.jewelLogo, "Jewel Logo", Modifier.size(128.dp))
+        Icon(ShowcaseIcons.jewelLogo, "Jewel Logo", Modifier.size(16.dp))
+        Icon(ShowcaseIcons.jewelLogo, "Jewel Logo", Modifier.size(32.dp))
+        Icon(ShowcaseIcons.jewelLogo, "Jewel Logo", Modifier.size(64.dp))
+        Icon(ShowcaseIcons.jewelLogo, "Jewel Logo", Modifier.size(128.dp))
         Icon(
-            key = StandaloneSampleIcons.jewelLogo,
+            key = ShowcaseIcons.jewelLogo,
             contentDescription = "Jewel Logo",
             modifier = Modifier.size(128.dp),
             colorFilter = ColorFilter.tint(Color.Magenta, BlendMode.Multiply),

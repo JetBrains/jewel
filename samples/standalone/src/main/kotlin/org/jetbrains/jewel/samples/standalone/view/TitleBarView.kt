@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import java.awt.Desktop
 import java.net.URI
-import org.jetbrains.jewel.samples.showcase.components.StandaloneSampleIcons
+import org.jetbrains.jewel.samples.showcase.components.ShowcaseIcons
 import org.jetbrains.jewel.samples.showcase.views.forCurrentOs
 import org.jetbrains.jewel.samples.standalone.IntUiThemes
 import org.jetbrains.jewel.samples.standalone.viewmodel.MainViewModel
@@ -72,7 +72,7 @@ fun DecoratedWindowScope.TitleBarView() {
                     { Desktop.getDesktop().browse(URI.create("https://github.com/JetBrains/jewel")) },
                     Modifier.size(40.dp).padding(5.dp),
                 ) {
-                    Icon(StandaloneSampleIcons.gitHub, "Github")
+                    Icon(ShowcaseIcons.gitHub, "Github")
                 }
             }
 
@@ -99,28 +99,28 @@ fun DecoratedWindowScope.TitleBarView() {
                     when (MainViewModel.theme) {
                         IntUiThemes.Light ->
                             Icon(
-                                key = StandaloneSampleIcons.themeLight,
+                                key = ShowcaseIcons.themeLight,
                                 contentDescription = "Light",
                                 hints = arrayOf(Size(20)),
                             )
 
                         IntUiThemes.LightWithLightHeader ->
                             Icon(
-                                key = StandaloneSampleIcons.themeLightWithLightHeader,
+                                key = ShowcaseIcons.themeLightWithLightHeader,
                                 contentDescription = "Light with light header",
                                 hints = arrayOf(Size(20)),
                             )
 
                         IntUiThemes.Dark ->
                             Icon(
-                                key = StandaloneSampleIcons.themeDark,
+                                key = ShowcaseIcons.themeDark,
                                 contentDescription = "Dark",
                                 hints = arrayOf(Size(20)),
                             )
 
                         IntUiThemes.System ->
                             Icon(
-                                key = StandaloneSampleIcons.themeSystem,
+                                key = ShowcaseIcons.themeSystem,
                                 contentDescription = "System",
                                 hints = arrayOf(Size(20)),
                             )
