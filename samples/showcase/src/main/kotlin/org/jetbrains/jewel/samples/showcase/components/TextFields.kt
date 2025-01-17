@@ -114,7 +114,7 @@ private fun TextFieldsRows(readOnly: Boolean, iconMetrics: IconButtonMetrics, ic
                     Icon(
                         key = AllIconsKeys.Actions.Find,
                         contentDescription = "SearchIcon",
-                        iconClass = StandaloneSampleIcons::class.java,
+                        iconClass = ShowcaseIcons::class.java,
                         modifier = Modifier.size(16.dp),
                     )
                 },

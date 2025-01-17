@@ -24,14 +24,11 @@ import org.jetbrains.jewel.ui.theme.linkStyle
 
 @Composable
 public fun Links() {
+    val alwaysUnderline = JewelTheme.linkStyle.copy(underlineBehavior = LinkUnderlineBehavior.ShowAlways)
     Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
-        Link("Link", {})
+        Link(text = "Link", onClick = {})
 
-        Link(
-            "Always underlined",
-            {},
-            style = JewelTheme.linkStyle.copy(underlineBehavior = LinkUnderlineBehavior.ShowAlways),
-        )
+        Link(text = "Always underlined", onClick = {}, style = alwaysUnderline)
 
         ExternalLink("ExternalLink", {})
 
@@ -48,13 +45,13 @@ public fun Links() {
         }
     }
     Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
-        Link("Link", {}, enabled = false)
+        Link(text = "Link", onClick = {}, enabled = false)
 
-        Link("Always underlined", {}, style = JewelTheme.linkStyle, enabled = false)
+        Link(text = "Always underlined", onClick = {}, style = alwaysUnderline, enabled = false)
 
-        ExternalLink("ExternalLink", {}, enabled = false)
+        ExternalLink(text = "ExternalLink", onClick = {}, enabled = false)
 
-        DropdownLink("DropdownLink", enabled = false) {}
+        DropdownLink(text = "DropdownLink", enabled = false) {}
     }
 }
 
