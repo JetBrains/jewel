@@ -44,11 +44,7 @@ import org.jetbrains.jewel.ui.theme.textFieldIconButtonStyle
 public fun TextFields() {
     VerticallyScrollableContainer(Modifier.fillMaxSize()) {
         Column {
-            TextFieldsRows(
-                readOnly = false,
-                iconMetrics = JewelTheme.iconButtonStyle.metrics,
-                iconColors = JewelTheme.textFieldIconButtonStyle.colors,
-            )
+            TextFieldsRows(readOnly = false)
 
             Spacer(Modifier.height(16.dp))
 
@@ -56,17 +52,13 @@ public fun TextFields() {
 
             Spacer(Modifier.height(16.dp))
 
-            TextFieldsRows(
-                readOnly = true,
-                iconMetrics = JewelTheme.iconButtonStyle.metrics,
-                iconColors = JewelTheme.textFieldIconButtonStyle.colors,
-            )
+            TextFieldsRows(readOnly = true)
         }
     }
 }
 
 @Composable
-private fun TextFieldsRows(readOnly: Boolean, iconMetrics: IconButtonMetrics, iconColors: IconButtonColors) {
+private fun TextFieldsRows(readOnly: Boolean) {
     Column(modifier = Modifier.padding(vertical = 4.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
             val state1 = rememberTextFieldState("TextField")
@@ -130,8 +122,8 @@ private fun TextFieldsRows(readOnly: Boolean, iconMetrics: IconButtonMetrics, ic
                     CloseIconButton(
                         isVisible = state2.text.isNotEmpty(),
                         onClick = { state2.setTextAndPlaceCursorAtEnd("") },
-                        metrics = iconMetrics,
-                        iconColors = iconColors,
+                        metrics = JewelTheme.iconButtonStyle.metrics,
+                        iconColors = JewelTheme.textFieldIconButtonStyle.colors,
                     )
                 },
                 readOnly = readOnly,
