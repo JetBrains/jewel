@@ -49,7 +49,6 @@ import org.jetbrains.jewel.ui.component.styling.LocalSelectableLazyColumnStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSimpleListItemStyleStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSliderStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextAreaStyle
-import org.jetbrains.jewel.ui.component.styling.LocalTextFieldIconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTooltipStyle
 import org.jetbrains.jewel.ui.component.styling.MenuStyle
@@ -63,7 +62,6 @@ import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
-import org.jetbrains.jewel.ui.component.styling.TextFieldIconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 
@@ -157,9 +155,6 @@ public val JewelTheme.Companion.tooltipStyle: TooltipStyle
 
 public val JewelTheme.Companion.iconButtonStyle: IconButtonStyle
     @Composable @ReadOnlyComposable get() = LocalIconButtonStyle.current
-
-public val JewelTheme.Companion.textFieldIconButtonStyle: TextFieldIconButtonStyle
-    @Composable @ReadOnlyComposable get() = LocalTextFieldIconButtonStyle.current
 
 public val JewelTheme.Companion.sliderStyle: SliderStyle
     @Composable @ReadOnlyComposable get() = LocalSliderStyle.current

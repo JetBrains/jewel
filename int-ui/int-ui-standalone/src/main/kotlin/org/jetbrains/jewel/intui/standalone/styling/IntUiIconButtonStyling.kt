@@ -12,7 +12,6 @@ import org.jetbrains.jewel.intui.core.theme.IntUiLightTheme
 import org.jetbrains.jewel.ui.component.styling.IconButtonColors
 import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
-import org.jetbrains.jewel.ui.component.styling.TextFieldIconButtonStyle
 
 @Composable
 public fun IconButtonStyle.Companion.light(
@@ -25,34 +24,6 @@ public fun IconButtonStyle.Companion.dark(
     colors: IconButtonColors = IconButtonColors.dark(),
     metrics: IconButtonMetrics = IconButtonMetrics.defaults(),
 ): IconButtonStyle = IconButtonStyle(colors, metrics)
-
-@Composable
-public fun TextFieldIconButtonStyle.Companion.light(
-    colors: IconButtonColors =
-        IconButtonColors.light(
-            background = Color.Unspecified,
-            backgroundDisabled = Color.Unspecified,
-            backgroundSelected = Color.Unspecified,
-            backgroundSelectedActivated = Color.Unspecified,
-            backgroundFocused = Color.Unspecified,
-            backgroundPressed = Color.Unspecified,
-            backgroundHovered = Color.Unspecified,
-        )
-): TextFieldIconButtonStyle = TextFieldIconButtonStyle(colors)
-
-@Composable
-public fun TextFieldIconButtonStyle.Companion.dark(
-    colors: IconButtonColors =
-        IconButtonColors.dark(
-            background = Color.Unspecified,
-            backgroundDisabled = Color.Unspecified,
-            backgroundSelected = Color.Unspecified,
-            backgroundSelectedActivated = Color.Unspecified,
-            backgroundFocused = Color.Unspecified,
-            backgroundPressed = Color.Unspecified,
-            backgroundHovered = Color.Unspecified,
-        )
-): TextFieldIconButtonStyle = TextFieldIconButtonStyle(colors)
 
 public fun IconButtonColors.Companion.light(
     foregroundSelectedActivated: Color = IntUiLightTheme.colors.gray(14),

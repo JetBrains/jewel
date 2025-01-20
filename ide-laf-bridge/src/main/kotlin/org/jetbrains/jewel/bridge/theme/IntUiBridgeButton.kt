@@ -25,7 +25,6 @@ import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonColors
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonMetrics
 import org.jetbrains.jewel.ui.component.styling.SegmentedControlButtonStyle
-import org.jetbrains.jewel.ui.component.styling.TextFieldIconButtonStyle
 
 internal fun readDefaultButtonStyle(): ButtonStyle {
     val normalBackground =
@@ -202,26 +201,4 @@ internal fun readIconButtonStyle(): IconButtonStyle =
                 borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
                 borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
             ),
-    )
-
-internal fun readTextFieldIconButtonStyle(): TextFieldIconButtonStyle =
-    TextFieldIconButtonStyle(
-        colors =
-            IconButtonColors(
-                foregroundSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedForeground"),
-                background = Color.Unspecified,
-                backgroundDisabled = Color.Unspecified,
-                backgroundSelected = Color.Unspecified,
-                backgroundSelectedActivated = Color.Unspecified,
-                backgroundFocused = Color.Unspecified,
-                backgroundPressed = Color.Unspecified,
-                backgroundHovered = Color.Unspecified,
-                border = Color.Unspecified,
-                borderDisabled = Color.Unspecified,
-                borderSelected = retrieveColorOrUnspecified("ActionButton.pressedBackground"),
-                borderSelectedActivated = retrieveColorOrUnspecified("ToolWindow.Button.selectedBackground"),
-                borderFocused = Color.Unspecified,
-                borderPressed = retrieveColorOrUnspecified("ActionButton.pressedBorderColor"),
-                borderHovered = retrieveColorOrUnspecified("ActionButton.hoverBorderColor"),
-            )
     )

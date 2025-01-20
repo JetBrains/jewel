@@ -24,12 +24,6 @@ public class IconButtonStyle(public val colors: IconButtonColors, public val met
     public companion object
 }
 
-@Stable
-@GenerateDataFunctions
-public class TextFieldIconButtonStyle(public val colors: IconButtonColors) {
-    public companion object
-}
-
 @Immutable
 @GenerateDataFunctions
 public class IconButtonColors(
@@ -164,8 +158,3 @@ public class IconButtonMetrics(
 public val LocalIconButtonStyle: ProvidableCompositionLocal<IconButtonStyle> = staticCompositionLocalOf {
     error("No IconButtonStyle provided. Have you forgotten the theme?")
 }
-
-public val LocalTextFieldIconButtonStyle: ProvidableCompositionLocal<TextFieldIconButtonStyle> =
-    staticCompositionLocalOf {
-        error("No TextFieldIconButtonStyle provided. Have you forgotten the theme?")
-    }

@@ -46,7 +46,6 @@ import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
-import org.jetbrains.jewel.ui.component.styling.TextFieldIconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.icon.LocalNewUiChecker
@@ -136,7 +135,6 @@ public fun ComponentStyling.dark(
     simpleListItemStyle: SimpleListItemStyle = SimpleListItemStyle.dark(),
     textAreaStyle: TextAreaStyle = TextAreaStyle.dark(),
     textFieldStyle: TextFieldStyle = TextFieldStyle.dark(),
-    textFieldIconButtonStyle: TextFieldIconButtonStyle = TextFieldIconButtonStyle.dark(),
     tooltipStyle: TooltipStyle = TooltipStyle.dark(),
     undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.dark(),
 ): ComponentStyling =
@@ -169,7 +167,6 @@ public fun ComponentStyling.dark(
             sliderStyle = sliderStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
-            textFieldIconButtonStyle = textFieldIconButtonStyle,
             tooltipStyle = tooltipStyle,
             undecoratedDropdownStyle = undecoratedDropdownStyle,
         )
@@ -204,7 +201,6 @@ public fun ComponentStyling.light(
     simpleListItemStyle: SimpleListItemStyle = SimpleListItemStyle.light(),
     textAreaStyle: TextAreaStyle = TextAreaStyle.light(),
     textFieldStyle: TextFieldStyle = TextFieldStyle.light(),
-    textFieldIconButtonStyle: TextFieldIconButtonStyle = TextFieldIconButtonStyle.light(),
     tooltipStyle: TooltipStyle = TooltipStyle.light(),
     undecoratedDropdownStyle: DropdownStyle = DropdownStyle.Undecorated.light(),
 ): ComponentStyling =
@@ -237,7 +233,6 @@ public fun ComponentStyling.light(
             simpleListItemStyle = simpleListItemStyle,
             textAreaStyle = textAreaStyle,
             textFieldStyle = textFieldStyle,
-            textFieldIconButtonStyle = textFieldIconButtonStyle,
             tooltipStyle = tooltipStyle,
             undecoratedDropdownStyle = undecoratedDropdownStyle,
         )

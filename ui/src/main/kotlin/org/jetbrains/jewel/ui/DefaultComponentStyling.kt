@@ -45,7 +45,6 @@ import org.jetbrains.jewel.ui.component.styling.LocalSelectableLazyColumnStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSimpleListItemStyleStyle
 import org.jetbrains.jewel.ui.component.styling.LocalSliderStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextAreaStyle
-import org.jetbrains.jewel.ui.component.styling.LocalTextFieldIconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.LocalTooltipStyle
 import org.jetbrains.jewel.ui.component.styling.LocalUndecoratedDropdownStyle
@@ -60,7 +59,6 @@ import org.jetbrains.jewel.ui.component.styling.SimpleListItemStyle
 import org.jetbrains.jewel.ui.component.styling.SliderStyle
 import org.jetbrains.jewel.ui.component.styling.TabStyle
 import org.jetbrains.jewel.ui.component.styling.TextAreaStyle
-import org.jetbrains.jewel.ui.component.styling.TextFieldIconButtonStyle
 import org.jetbrains.jewel.ui.component.styling.TextFieldStyle
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 
@@ -94,7 +92,6 @@ public class DefaultComponentStyling(
     public val sliderStyle: SliderStyle,
     public val textAreaStyle: TextAreaStyle,
     public val textFieldStyle: TextFieldStyle,
-    public val textFieldIconButtonStyle: TextFieldIconButtonStyle,
     public val tooltipStyle: TooltipStyle,
     public val undecoratedDropdownStyle: DropdownStyle,
 ) : ComponentStyling {
@@ -128,7 +125,6 @@ public class DefaultComponentStyling(
             LocalSimpleListItemStyleStyle provides simpleListItemStyle,
             LocalSliderStyle provides sliderStyle,
             LocalTextAreaStyle provides textAreaStyle,
-            LocalTextFieldIconButtonStyle provides textFieldIconButtonStyle,
             LocalTextFieldStyle provides textFieldStyle,
             LocalTooltipStyle provides tooltipStyle,
             LocalUndecoratedDropdownStyle provides undecoratedDropdownStyle,

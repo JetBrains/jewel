@@ -38,7 +38,7 @@ import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.hints.Stateful
 import org.jetbrains.jewel.ui.theme.iconButtonStyle
-import org.jetbrains.jewel.ui.theme.textFieldIconButtonStyle
+import org.jetbrains.jewel.ui.theme.textFieldStyle
 
 @Composable
 public fun TextFields() {
@@ -123,7 +123,7 @@ private fun TextFieldsRows(readOnly: Boolean) {
                         isVisible = state2.text.isNotEmpty(),
                         onClick = { state2.setTextAndPlaceCursorAtEnd("") },
                         metrics = JewelTheme.iconButtonStyle.metrics,
-                        iconColors = JewelTheme.textFieldIconButtonStyle.colors,
+                        iconColors = JewelTheme.textFieldStyle.iconButtonStyle.colors,
                     )
                 },
                 readOnly = readOnly,
