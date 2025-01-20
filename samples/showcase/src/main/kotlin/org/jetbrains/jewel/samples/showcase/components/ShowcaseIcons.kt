@@ -18,27 +18,19 @@ public object ShowcaseIcons {
         public val banners: PathIconKey = PathIconKey("icons/components/banners.svg", ShowcaseIcons::class.java)
         public val borders: PathIconKey = PathIconKey("icons/components/borders.svg", ShowcaseIcons::class.java)
         public val button: PathIconKey = PathIconKey("icons/components/button.svg", ShowcaseIcons::class.java)
-        public val checkbox: PathIconKey =
-            PathIconKey("icons/components/checkBox.svg", ShowcaseIcons::class.java)
-        public val comboBox: PathIconKey =
-            PathIconKey("icons/components/comboBox.svg", ShowcaseIcons::class.java)
+        public val checkbox: PathIconKey = PathIconKey("icons/components/checkBox.svg", ShowcaseIcons::class.java)
+        public val comboBox: PathIconKey = PathIconKey("icons/components/comboBox.svg", ShowcaseIcons::class.java)
         public val links: PathIconKey = PathIconKey("icons/components/links.svg", ShowcaseIcons::class.java)
-        public val progressBar: PathIconKey =
-            PathIconKey("icons/components/progressbar.svg", ShowcaseIcons::class.java)
-        public val radioButton: PathIconKey =
-            PathIconKey("icons/components/radioButton.svg", ShowcaseIcons::class.java)
-        public val scrollbar: PathIconKey =
-            PathIconKey("icons/components/scrollbar.svg", ShowcaseIcons::class.java)
+        public val progressBar: PathIconKey = PathIconKey("icons/components/progressbar.svg", ShowcaseIcons::class.java)
+        public val radioButton: PathIconKey = PathIconKey("icons/components/radioButton.svg", ShowcaseIcons::class.java)
+        public val scrollbar: PathIconKey = PathIconKey("icons/components/scrollbar.svg", ShowcaseIcons::class.java)
         public val segmentedControls: PathIconKey =
             PathIconKey("icons/components/segmentedControl.svg", ShowcaseIcons::class.java)
         public val slider: PathIconKey = PathIconKey("icons/components/slider.svg", ShowcaseIcons::class.java)
-        public val splitlayout: PathIconKey =
-            PathIconKey("icons/components/splitLayout.svg", ShowcaseIcons::class.java)
+        public val splitlayout: PathIconKey = PathIconKey("icons/components/splitLayout.svg", ShowcaseIcons::class.java)
         public val tabs: PathIconKey = PathIconKey("icons/components/tabs.svg", ShowcaseIcons::class.java)
-        public val textArea: PathIconKey =
-            PathIconKey("icons/components/textArea.svg", ShowcaseIcons::class.java)
-        public val textField: PathIconKey =
-            PathIconKey("icons/components/textField.svg", ShowcaseIcons::class.java)
+        public val textArea: PathIconKey = PathIconKey("icons/components/textArea.svg", ShowcaseIcons::class.java)
+        public val textField: PathIconKey = PathIconKey("icons/components/textField.svg", ShowcaseIcons::class.java)
         public val toolbar: PathIconKey = PathIconKey("icons/components/toolbar.svg", ShowcaseIcons::class.java)
         public val tooltip: PathIconKey = PathIconKey("icons/components/tooltip.svg", ShowcaseIcons::class.java)
         public val tree: PathIconKey = PathIconKey("icons/components/tree.svg", ShowcaseIcons::class.java)

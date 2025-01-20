@@ -18,8 +18,8 @@ import org.jetbrains.jewel.samples.showcase.components.ProgressBar
 import org.jetbrains.jewel.samples.showcase.components.RadioButtons
 import org.jetbrains.jewel.samples.showcase.components.Scrollbars
 import org.jetbrains.jewel.samples.showcase.components.SegmentedControls
-import org.jetbrains.jewel.samples.showcase.components.Sliders
 import org.jetbrains.jewel.samples.showcase.components.ShowcaseIcons
+import org.jetbrains.jewel.samples.showcase.components.Sliders
 import org.jetbrains.jewel.samples.showcase.components.Tabs
 import org.jetbrains.jewel.samples.showcase.components.TextAreas
 import org.jetbrains.jewel.samples.showcase.components.TextFields
@@ -45,21 +45,9 @@ public class ComponentsViewModel(
                 iconKey = ShowcaseIcons.Components.radioButton,
                 content = { RadioButtons() },
             ),
-            ViewInfo(
-                title = "Checkboxes",
-                iconKey = ShowcaseIcons.Components.checkbox,
-                content = { Checkboxes() },
-            ),
-            ViewInfo(
-                title = "Dropdowns",
-                iconKey = ShowcaseIcons.Components.comboBox,
-                content = { Dropdowns() },
-            ),
-            ViewInfo(
-                title = "Chips and trees",
-                iconKey = ShowcaseIcons.Components.tree,
-                content = { ChipsAndTrees() },
-            ),
+            ViewInfo(title = "Checkboxes", iconKey = ShowcaseIcons.Components.checkbox, content = { Checkboxes() }),
+            ViewInfo(title = "Dropdowns", iconKey = ShowcaseIcons.Components.comboBox, content = { Dropdowns() }),
+            ViewInfo(title = "Chips and trees", iconKey = ShowcaseIcons.Components.tree, content = { ChipsAndTrees() }),
             ViewInfo(
                 title = "Progressbar",
                 iconKey = ShowcaseIcons.Components.progressBar,
@@ -76,16 +64,8 @@ public class ComponentsViewModel(
             ViewInfo(title = "Sliders", iconKey = ShowcaseIcons.Components.slider, content = { Sliders() }),
             ViewInfo(title = "Tabs", iconKey = ShowcaseIcons.Components.tabs, content = { Tabs() }),
             ViewInfo(title = "Tooltips", iconKey = ShowcaseIcons.Components.tooltip, content = { Tooltips() }),
-            ViewInfo(
-                title = "TextAreas",
-                iconKey = ShowcaseIcons.Components.textArea,
-                content = { TextAreas() },
-            ),
-            ViewInfo(
-                title = "TextFields",
-                iconKey = ShowcaseIcons.Components.textField,
-                content = { TextFields() },
-            ),
+            ViewInfo(title = "TextAreas", iconKey = ShowcaseIcons.Components.textArea, content = { TextAreas() }),
+            ViewInfo(title = "TextFields", iconKey = ShowcaseIcons.Components.textField, content = { TextFields() }),
             ViewInfo(
                 title = "Scrollbars",
                 iconKey = ShowcaseIcons.Components.scrollbar,

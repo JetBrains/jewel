@@ -206,13 +206,9 @@ public final class org/jetbrains/jewel/samples/showcase/components/SegmentedCont
 	public static final fun SegmentedControls (Landroidx/compose/runtime/Composer;I)V
 }
 
-public final class org/jetbrains/jewel/samples/showcase/components/SliderKt {
-	public static final fun Sliders (Landroidx/compose/runtime/Composer;I)V
-}
-
-public final class org/jetbrains/jewel/samples/showcase/components/StandaloneSampleIcons {
+public final class org/jetbrains/jewel/samples/showcase/components/ShowcaseIcons {
 	public static final field $stable I
-	public static final field INSTANCE Lorg/jetbrains/jewel/samples/showcase/components/StandaloneSampleIcons;
+	public static final field INSTANCE Lorg/jetbrains/jewel/samples/showcase/components/ShowcaseIcons;
 	public final fun getComponentsMenu ()Lorg/jetbrains/jewel/ui/icon/PathIconKey;
 	public final fun getGitHub ()Lorg/jetbrains/jewel/ui/icon/PathIconKey;
 	public final fun getJewelLogo ()Lorg/jetbrains/jewel/ui/icon/PathIconKey;
@@ -224,9 +220,9 @@ public final class org/jetbrains/jewel/samples/showcase/components/StandaloneSam
 	public final fun getWelcome ()Lorg/jetbrains/jewel/ui/icon/PathIconKey;
 }
 
-public final class org/jetbrains/jewel/samples/showcase/components/StandaloneSampleIcons$Components {
+public final class org/jetbrains/jewel/samples/showcase/components/ShowcaseIcons$Components {
 	public static final field $stable I
-	public static final field INSTANCE Lorg/jetbrains/jewel/samples/showcase/components/StandaloneSampleIcons$Components;
+	public static final field INSTANCE Lorg/jetbrains/jewel/samples/showcase/components/ShowcaseIcons$Components;
 	public final fun getBanners ()Lorg/jetbrains/jewel/ui/icon/PathIconKey;
 	public final fun getBorders ()Lorg/jetbrains/jewel/ui/icon/PathIconKey;
 	public final fun getButton ()Lorg/jetbrains/jewel/ui/icon/PathIconKey;
@@ -247,6 +243,10 @@ public final class org/jetbrains/jewel/samples/showcase/components/StandaloneSam
 	public final fun getTree ()Lorg/jetbrains/jewel/ui/icon/PathIconKey;
 }
 
+public final class org/jetbrains/jewel/samples/showcase/components/SliderKt {
+	public static final fun Sliders (Landroidx/compose/runtime/Composer;I)V
+}
+
 public final class org/jetbrains/jewel/samples/showcase/components/TabsKt {
 	public static final fun Tabs (Landroidx/compose/runtime/Composer;I)V
 }
@@ -264,8 +264,8 @@ public final class org/jetbrains/jewel/samples/showcase/components/TooltipsKt {
 }
 
 public final class org/jetbrains/jewel/samples/showcase/views/ComponentsViewKt {
-	public static final fun ComponentsToolBar (Lorg/jetbrains/jewel/samples/showcase/views/ComponentsViewModel;Landroidx/compose/runtime/Composer;I)V
-	public static final fun ComponentsView (Lorg/jetbrains/jewel/samples/showcase/views/ComponentsViewModel;Landroidx/compose/runtime/Composer;I)V
+	public static final fun ComponentsToolBar (Lorg/jetbrains/jewel/samples/showcase/views/ComponentsViewModel;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)V
+	public static final fun ComponentsView (Lorg/jetbrains/jewel/samples/showcase/views/ComponentsViewModel;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)V
 }
 
 public final class org/jetbrains/jewel/samples/showcase/views/ComponentsViewModel {

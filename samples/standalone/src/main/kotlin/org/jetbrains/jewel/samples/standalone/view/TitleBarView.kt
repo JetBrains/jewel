@@ -112,11 +112,7 @@ fun DecoratedWindowScope.TitleBarView() {
                             )
 
                         IntUiThemes.Dark ->
-                            Icon(
-                                key = ShowcaseIcons.themeDark,
-                                contentDescription = "Dark",
-                                hints = arrayOf(Size(20)),
-                            )
+                            Icon(key = ShowcaseIcons.themeDark, contentDescription = "Dark", hints = arrayOf(Size(20)))
 
                         IntUiThemes.System ->
                             Icon(
