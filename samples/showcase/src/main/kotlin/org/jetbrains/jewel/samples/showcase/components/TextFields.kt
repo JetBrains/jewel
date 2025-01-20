@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerIcon
@@ -32,12 +31,8 @@ import org.jetbrains.jewel.ui.component.IconButton
 import org.jetbrains.jewel.ui.component.Text
 import org.jetbrains.jewel.ui.component.TextField
 import org.jetbrains.jewel.ui.component.VerticallyScrollableContainer
-import org.jetbrains.jewel.ui.component.styling.IconButtonColors
-import org.jetbrains.jewel.ui.component.styling.IconButtonMetrics
-import org.jetbrains.jewel.ui.component.styling.IconButtonStyle
 import org.jetbrains.jewel.ui.icons.AllIconsKeys
 import org.jetbrains.jewel.ui.painter.hints.Stateful
-import org.jetbrains.jewel.ui.theme.iconButtonStyle
 import org.jetbrains.jewel.ui.theme.textFieldStyle
 
 @Composable
@@ -122,8 +117,6 @@ private fun TextFieldsRows(readOnly: Boolean) {
                     CloseIconButton(
                         isVisible = state2.text.isNotEmpty(),
                         onClick = { state2.setTextAndPlaceCursorAtEnd("") },
-                        metrics = JewelTheme.iconButtonStyle.metrics,
-                        iconColors = JewelTheme.textFieldStyle.iconButtonStyle.colors,
                     )
                 },
                 readOnly = readOnly,
@@ -136,8 +129,6 @@ private fun TextFieldsRows(readOnly: Boolean) {
 private fun CloseIconButton(
     isVisible: Boolean,
     onClick: () -> Unit,
-    metrics: IconButtonMetrics,
-    iconColors: IconButtonColors,
 ) {
     Box(Modifier.size(16.dp)) {
         AnimatedVisibility(
@@ -145,12 +136,11 @@ private fun CloseIconButton(
             enter = fadeIn() + slideInHorizontally { it / 2 },
             exit = fadeOut() + slideOutHorizontally { it / 2 },
         ) {
-            // TODO replace when IconButton supports no-background style
-            val isDark = JewelTheme.isDark
-
-            val style = remember(isDark, iconColors) { IconButtonStyle(iconColors, metrics) }
-
-            IconButton(onClick, style = style, modifier = Modifier.pointerHoverIcon(PointerIcon.Default)) { state ->
+            IconButton(
+                onClick,
+                style = JewelTheme.textFieldStyle.iconButtonStyle,
+                modifier = Modifier.pointerHoverIcon(PointerIcon.Default),
+            ) { state ->
                 Icon(AllIconsKeys.General.Close, contentDescription = "Clear", hint = Stateful(state))
             }
         }
