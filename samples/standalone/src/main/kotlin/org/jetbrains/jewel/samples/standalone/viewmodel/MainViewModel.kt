@@ -1,10 +1,14 @@
 package org.jetbrains.jewel.samples.standalone.viewmodel
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import org.jetbrains.jewel.intui.standalone.styling.default
 import org.jetbrains.jewel.samples.showcase.components.ShowcaseIcons
 import org.jetbrains.jewel.samples.showcase.views.ComponentsView
@@ -61,7 +65,7 @@ private val mainMenuItems =
             title = "Components",
             iconKey = ShowcaseIcons.componentsMenu,
             keyboardShortcut = KeyBinding(macOs = setOf("⌥", "C"), windows = setOf("Alt", "C")),
-            content = { ComponentsView(viewModel = componentsViewModel) },
+            content = { ComponentsView(viewModel = componentsViewModel, Modifier.size(40.dp).padding(4.dp)) },
         ),
         ViewInfo(
             title = "Markdown",

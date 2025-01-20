@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -16,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlin.time.Duration.Companion.milliseconds
 import org.jetbrains.jewel.foundation.modifier.trackActivation
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Orientation
@@ -28,18 +26,19 @@ import org.jetbrains.jewel.ui.component.styling.TooltipMetrics
 import org.jetbrains.jewel.ui.component.styling.TooltipStyle
 import org.jetbrains.jewel.ui.painter.hints.Size
 import org.jetbrains.jewel.ui.theme.tooltipStyle
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-public fun ComponentsView(viewModel: ComponentsViewModel) {
+public fun ComponentsView(viewModel: ComponentsViewModel, railNavigationModifier: Modifier) {
     Row(Modifier.trackActivation().fillMaxSize().background(JewelTheme.globalColors.panelBackground)) {
-        ComponentsToolBar(viewModel)
+        ComponentsToolBar(viewModel, railNavigationModifier)
         Divider(Orientation.Vertical, Modifier.fillMaxHeight())
         ComponentView(viewModel.getCurrentView())
     }
 }
 
 @Composable
-public fun ComponentsToolBar(viewModel: ComponentsViewModel) {
+public fun ComponentsToolBar(viewModel: ComponentsViewModel, railNavigationModifier: Modifier) {
     Column(Modifier.fillMaxHeight().width(40.dp).verticalScroll(rememberScrollState())) {
         viewModel.getViews().forEach {
             SelectableIconActionButton(
@@ -47,7 +46,7 @@ public fun ComponentsToolBar(viewModel: ComponentsViewModel) {
                 contentDescription = "Show ${it.title}",
                 selected = viewModel.getCurrentView() == it,
                 onClick = { viewModel.setCurrentView(it) },
-                modifier = Modifier.size(40.dp).padding(start = 0.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
+                modifier = railNavigationModifier,
                 tooltip = { Text(it.title) },
                 tooltipStyle =
                     TooltipStyle(JewelTheme.tooltipStyle.colors, TooltipMetrics.defaults(showDelay = 150.milliseconds)),
