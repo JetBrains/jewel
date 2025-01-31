@@ -364,6 +364,8 @@ private fun MarkdownExample(project: Project) {
                 | * Tables
                 | * And more — I am running out of random things to say 😆
                 |
+                |![logo](https://avatars.githubusercontent.com/u/878437?s=48)
+                |
                 |```kotlin
                 |fun hello() = "World"
                 |```
