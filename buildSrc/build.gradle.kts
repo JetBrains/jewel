@@ -5,11 +5,10 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
 }
 
-val properties = Properties()
+val myProperties = Properties()
+project.file("../gradle.properties").inputStream().use { myProperties.load(it) }
 
-project.file("../gradle.properties").inputStream().use { properties.load(it) }
-
-val jdkLevel = properties.getProperty("jdk.level") as String
+val jdkLevel = myProperties.getProperty("jdk.level") as String
 
 kotlin {
     jvmToolchain { languageVersion = JavaLanguageVersion.of(jdkLevel) }
