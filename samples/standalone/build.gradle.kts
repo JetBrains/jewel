@@ -1,11 +1,12 @@
 @file:Suppress("UnstableApiUsage")
 
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.compose.reload.ComposeHotRun
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 
 plugins {
     jewel
-    alias(libs.plugins.composeDesktop)
-    alias(libs.plugins.compose.compiler)
+    `jewel-compose`
 }
 
 dependencies {
@@ -31,6 +32,8 @@ kotlin {
         vendor = JvmVendorSpec.JETBRAINS
     }
 }
+
+composeCompiler { featureFlags.add(ComposeFeatureFlag.OptimizeNonSkippingGroups) }
 
 compose.desktop {
     application {
@@ -61,5 +64,9 @@ tasks {
             javaLauncher = project.javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(jdkLevel) }
             setExecutable(javaLauncher.map { it.executablePath.asFile.absolutePath }.get())
         }
+    }
+
+    register<ComposeHotRun>("runHot") {
+        mainClass.set("org.jetbrains.jewel.samples.standalone.MainKt")
     }
 }

@@ -4,9 +4,21 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "buildSrc"
 
+pluginManagement {
+    repositories {
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://packages.jetbrains.team/maven/p/firework/dev")
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 dependencyResolutionManagement {
     repositories {
         google()
+        maven("https://packages.jetbrains.team/maven/p/firework/dev")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://www.jetbrains.com/intellij-repository/releases")
         maven("https://www.jetbrains.com/intellij-repository/snapshots")

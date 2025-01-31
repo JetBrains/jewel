@@ -9,6 +9,7 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.window.application
+import org.jetbrains.compose.reload.DevelopmentEntryPoint
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.jetbrains.jewel.foundation.theme.JewelTheme
@@ -74,8 +75,10 @@ fun main() {
                     processKeyShortcuts(keyEvent = keyEvent, onNavigateTo = MainViewModel::onNavigateTo)
                 },
                 content = {
-                    TitleBarView()
-                    currentView.content()
+                    DevelopmentEntryPoint {
+                        TitleBarView()
+                        currentView.content()
+                    }
                 },
             )
         }
