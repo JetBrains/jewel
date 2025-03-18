@@ -35,13 +35,13 @@ public open class DefaultInlineMarkdownRenderer(private val rendererExtensions: 
 
                 is InlineMarkdown.Emphasis -> {
                     withStyles(styling.emphasis.withEnabled(enabled), child) {
-                        appendInlineMarkdownFrom(it.inlineContent, styling, enabled)
+                        appendInlineMarkdownFrom(it.inlineContent, styling, enabled, onUrlClicked)
                     }
                 }
 
                 is InlineMarkdown.StrongEmphasis -> {
                     withStyles(styling.strongEmphasis.withEnabled(enabled), child) {
-                        appendInlineMarkdownFrom(it.inlineContent, styling, enabled)
+                        appendInlineMarkdownFrom(it.inlineContent, styling, enabled, onUrlClicked)
                     }
                 }
 
