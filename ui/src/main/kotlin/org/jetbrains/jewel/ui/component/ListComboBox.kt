@@ -35,7 +35,7 @@ import org.jetbrains.jewel.ui.theme.comboBoxStyle
 @Composable
 public fun ListComboBox(
     items: List<String>,
-    initialSelectedIndex: Int,
+    initialSelectedIndex: Int = 0,
     modifier: Modifier = Modifier,
     isEditable: Boolean = true,
     isEnabled: Boolean = true,
