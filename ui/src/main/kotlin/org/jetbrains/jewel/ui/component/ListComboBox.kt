@@ -35,6 +35,7 @@ import org.jetbrains.jewel.ui.theme.comboBoxStyle
 @Composable
 public fun ListComboBox(
     items: List<String>,
+    initialSelectedIndex: Int,
     modifier: Modifier = Modifier,
     isEditable: Boolean = true,
     isEnabled: Boolean = true,
@@ -48,7 +49,7 @@ public fun ListComboBox(
     val initialTextFieldContent = items.firstOrNull().orEmpty()
     val inputTextFieldState = rememberTextFieldState(initialTextFieldContent)
     val scrollState = rememberSelectableLazyListState()
-    var selectedItem by remember { mutableIntStateOf(0) }
+    var selectedItem by remember { mutableIntStateOf(initialSelectedIndex) }
     var isListHovered by remember { mutableStateOf(false) }
     var hoverItemIndex: Int? by remember { mutableStateOf(null) }
     val scope = rememberCoroutineScope()
